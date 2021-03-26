@@ -31,7 +31,6 @@
     "type": "git",
     "url": "https://github.com/solana-labs/wallet"
   },
-  "homepage": ".",
   "devDependencies": {
     "@types/ledgerhq__hw-transport": "^4.21.3",
     "@types/ledgerhq__hw-transport-webusb": "^4.70.1",
