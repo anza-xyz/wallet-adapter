@@ -13,13 +13,12 @@
   "scripts": {
     "bootstrap": "lerna link && lerna bootstrap",
     "build": "lerna run build",
+    "npm-publish:latest": "lerna exec -- npm publish --access public",
     "start": "CI=true lerna run start --scope @oyster/common --stream --parallel --scope ",
     "lint": "eslint 'packages/*/{src,test}/**/*.ts' && prettier -c 'packages/*/{src,test}/**/*.ts'",
     "lint:fix": "eslint --fix 'packages/*/{src,test}/**/*.ts' && prettier --write 'packages/*/{src,test}/**/*.ts'",
-    "deploy": "run-s deploy:docs build deploy:apps && gh-pages -d docs",
-    "deploy:docs": "lerna run docs",
-    "deploy:apps": "lerna run deploy:app",
-    "test": "lerna run test --concurrency 1 --stream"
+    "pre-publish": "run-s new-version reset commit-version",
+    "publish:latest": "run-s pre-publish npm-publish:latest"
   },
   "lint-staged": {
     "packages/*/{src,test}/**/*.ts": [
