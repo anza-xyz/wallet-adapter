@@ -30,13 +30,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/solana-labs/wallet"
+    "url": "https://github.com/solana-labs/wallet-provider"
   },
   "main": "dist/lib/index.js",
   "types": "dist/lib/index.d.ts",
   "exports": {
     ".": "./dist/lib/"
   },
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
     "@types/bn.js": "^5.1.0",
     "@types/bs58": "^4.0.1",
