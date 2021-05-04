@@ -13,5 +13,5 @@ export interface WalletProvider {
   name: string;
   url: string;
   icon: string;
-  adapter: WalletAdapter;
+  adapter: () => WalletAdapter;
 }

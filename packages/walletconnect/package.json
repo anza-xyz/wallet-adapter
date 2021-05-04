@@ -1,5 +1,5 @@
 {
-  "name": "@civic/solana-walletconnect-provider",
+  "name": "@solana/walletconnect",
   "version": "1.0.0",
   "description": "Solana wallet-connect RPC methods",
   "main": "dist/index",

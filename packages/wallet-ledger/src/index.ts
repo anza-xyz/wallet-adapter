@@ -84,5 +84,5 @@ export const LedgerProvider: WalletProvider = {
   name: 'Ledger',
   url: 'https://www.ledger.com',
   icon: `${ASSETS_URL}ledger.svg`,
-  adapter: new LedgerWalletAdapter(),
+  adapter: () => new LedgerWalletAdapter(),
 };

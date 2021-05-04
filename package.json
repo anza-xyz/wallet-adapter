@@ -11,7 +11,7 @@
     "node": ">=6.0.0"
   },
   "scripts": {
-    "prepublish": "run-s build:*",
+    "prepublish": "yarn build",
     "bootstrap": "lerna link && lerna bootstrap",
     "build": "lerna run build",
     "npm-publish:latest": "lerna exec -- npm publish --access public",
