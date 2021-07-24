@@ -1,0 +1,1 @@
+{"mappings":"AAAA,KACA,QACA,CAEA,KACA,wBACA","sources":["src/index.css"],"sourcesContent":["html {\n    margin: 0;\n}\n\nbody {\n    background-color: #303030;\n}\n"],"names":[],"version":3,"file":"index.ac972701.css.map"}
