@@ -17,7 +17,7 @@
     "scripts": {
         "deploy": "yarn deploy:docs && yarn deploy:example",
         "deploy:docs": "yarn docs && gh-pages -d docs",
-        "deploy:example": "(cd packages/example && yarn build) && gh-pages -e example -d packages/example/build",
+        "deploy:example": "cd packages/example && yarn build && cd ../.. && gh-pages -e example -d packages/example/build",
         "docs": "rm -rf docs/* && typedoc --packages .",
         "fmt": "prettier --write '{*,**/*}.{js,ts,jsx,tsx,json}'",
         "lint": "eslint . --ext .ts && prettier --check '{*,**/*}.{js,ts,jsx,tsx,json}'",
