@@ -1,0 +1,21 @@
+{
+    "name": "@solana/wallet-adapter-sollet",
+    "version": "0.1.0",
+    "author": "Solana Maintainers <maintainers@solana.foundation>",
+    "repository": "https://github.com/solana-labs/wallet-adapter",
+    "license": "Apache-2.0",
+    "main": "src/index.ts",
+    "files": [
+        "src"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "peerDependencies": {
+        "@solana/web3.js": "^1.20.0"
+    },
+    "dependencies": {
+        "@project-serum/sol-wallet-adapter": "^0.2.5",
+        "@solana/wallet-adapter-base": "0.1.0"
+    }
+}

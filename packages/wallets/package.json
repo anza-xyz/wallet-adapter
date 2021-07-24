@@ -1,0 +1,26 @@
+{
+    "name": "@solana/wallet-adapter-wallets",
+    "version": "0.1.0",
+    "author": "Solana Maintainers <maintainers@solana.foundation>",
+    "repository": "https://github.com/solana-labs/wallet-adapter",
+    "license": "MIT",
+    "main": "src/index.ts",
+    "files": [
+        "src"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "peerDependencies": {
+        "@solana/web3.js": "^1.20.0"
+    },
+    "dependencies": {
+        "@solana/wallet-adapter-ledger": "0.1.0",
+        "@solana/wallet-adapter-mathwallet": "0.1.0",
+        "@solana/wallet-adapter-phantom": "0.1.0",
+        "@solana/wallet-adapter-react": "0.1.0",
+        "@solana/wallet-adapter-sollet": "0.1.0",
+        "@solana/wallet-adapter-solong": "0.1.0",
+        "@solana/wallet-adapter-torus": "0.1.0"
+    }
+}
