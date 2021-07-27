@@ -2,6 +2,7 @@
     "compilerOptions": {
         "noEmit": true,
         "declaration": true,
+        "noEmitOnError": true,
         "stripInternal": true,
         "target": "esnext",
         "module": "esnext",

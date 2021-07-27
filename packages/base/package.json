@@ -1,17 +1,29 @@
 {
     "name": "@solana/wallet-adapter-base",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
-    "main": "src/index.ts",
+    "main": "lib/index.cjs.js",
+    "module": "lib/index.esm.js",
+    "types": "lib/index.d.ts",
     "files": [
+        "lib",
         "src"
     ],
     "publishConfig": {
         "access": "public"
     },
+    "scripts": {
+        "build": "rm -rf lib/* && tsc && rollup -c"
+    },
     "peerDependencies": {
+        "@solana/web3.js": "^1.20.0"
+    },
+    "dependencies": {
+        "eventemitter3": "^4.0.7"
+    },
+    "devDependencies": {
         "@solana/web3.js": "^1.20.0"
     }
 }

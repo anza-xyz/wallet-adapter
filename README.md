@@ -19,15 +19,18 @@ Install these peer dependencies (or skip this if you have them already):
 yarn add @material-ui/core \
          @material-ui/icons \
          @solana/web3.js \
-         react \
-         react-dom
+         react
 ```
 
 Install these dependencies:
 ```shell
-yarn add @solana/wallet-adapter-react \     # React hooks and context for wallets
-         @solana/wallet-adapter-wallets \   # Wallets to use
-         @solana/wallet-adapter-material-ui # Simple components for connecting a wallet
+yarn add \
+         # Wallets to use
+         @solana/wallet-adapter-wallets \
+         # React hooks and context for wallets
+         @solana/wallet-adapter-react \
+         # Simple components for connecting a wallet
+         @solana/wallet-adapter-material-ui
 ```
 
 ### Code

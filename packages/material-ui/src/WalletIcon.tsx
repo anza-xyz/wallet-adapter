@@ -1,5 +1,5 @@
 import { makeStyles, Theme } from '@material-ui/core';
-import { Wallet } from '@solana/wallet-adapter-react';
+import { Wallet } from '@solana/wallet-adapter-wallets';
 import React, { DetailedHTMLProps, FC, ImgHTMLAttributes } from 'react';
 
 const useStyles = makeStyles((theme: Theme) => ({

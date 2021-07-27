@@ -1,6 +1,6 @@
+import { Wallet, WalletName } from '@solana/wallet-adapter-wallets';
 import { PublicKey, Transaction } from '@solana/web3.js';
 import { createContext, useContext } from 'react';
-import { Wallet, WalletName } from './wallet';
 
 export interface WalletContextState {
     wallets: Wallet[];
