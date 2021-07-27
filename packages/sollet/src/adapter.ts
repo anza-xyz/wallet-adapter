@@ -1,5 +1,6 @@
 import Wallet from '@project-serum/sol-wallet-adapter';
 import {
+    EventEmitter,
     WalletAdapter,
     WalletAdapterEvents,
     WalletAdapterNetwork,
@@ -11,7 +12,6 @@ import {
     WalletWindowClosedError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
-import EventEmitter from 'eventemitter3';
 
 export interface SolletWalletAdapterConfig {
     provider?: string | { postMessage: (...args: unknown[]) => unknown };

@@ -1,4 +1,5 @@
 import {
+    EventEmitter,
     pollUntilReady,
     WalletAccountError,
     WalletAdapter,
@@ -10,7 +11,6 @@ import {
     WalletSignatureError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
-import EventEmitter from 'eventemitter3';
 
 interface MathWalletProvider {
     isMathWallet?: boolean;

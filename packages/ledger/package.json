@@ -1,25 +1,33 @@
 {
     "name": "@solana/wallet-adapter-ledger",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
-    "license": "MIT",
-    "main": "src/index.ts",
+    "license": "Apache-2.0",
+    "main": "lib/index.cjs.js",
+    "module": "lib/index.esm.js",
+    "types": "lib/index.d.ts",
     "files": [
+        "lib",
         "src"
     ],
     "publishConfig": {
         "access": "public"
     },
+    "scripts": {
+        "build": "rm -rf lib/* && tsc && rollup -c"
+    },
     "peerDependencies": {
+        "@solana/wallet-adapter-base": "0.2.0",
         "@solana/web3.js": "^1.20.0"
     },
     "dependencies": {
         "@ledgerhq/hw-transport": "^6.2.0",
-        "@ledgerhq/hw-transport-webhid": "^6.2.0",
-        "@solana/wallet-adapter-base": "0.1.0"
+        "@ledgerhq/hw-transport-webhid": "^6.2.0"
     },
     "devDependencies": {
+        "@solana/wallet-adapter-base": "0.2.0",
+        "@solana/web3.js": "^1.20.0",
         "@types/w3c-web-hid": "^1.0.1"
     }
 }

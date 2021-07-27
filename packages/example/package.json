@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-example",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -11,22 +11,23 @@
         "access": "public"
     },
     "scripts": {
-        "clean": "rm -rf .parcel-cache build",
+        "clean": "rm -rf .parcel-cache build/*",
         "build": "yarn clean && parcel build --dist-dir build --public-url https://solana-labs.github.io/wallet-adapter/example/ src/index.html",
         "start": "yarn clean && parcel serve --dist-dir build src/index.html"
     },
     "dependencies": {
         "@material-ui/core": "^4.12.1",
-        "@material-ui/icons": "^4.11.2",
-        "@solana/wallet-adapter-material-ui": "^0.1.0",
-        "@solana/wallet-adapter-react": "^0.1.0",
-        "@solana/wallet-adapter-wallets": "^0.1.0",
+        "@solana/wallet-adapter-base": "^0.2.0",
+        "@solana/wallet-adapter-material-ui": "^0.2.0",
+        "@solana/wallet-adapter-react": "^0.2.0",
+        "@solana/wallet-adapter-wallets": "^0.2.0",
         "@solana/web3.js": "^1.20.0",
         "notistack": "^1.0.9",
         "react": "^17.0.2",
         "react-dom": "^17.0.2"
     },
     "devDependencies": {
+        "@parcel/transformer-typescript-tsc": "^2.0.0-beta.3.1",
         "@types/react": "^17.0.0",
         "@types/react-dom": "^17.0.0",
         "parcel": "^2.0.0-beta.3.1"

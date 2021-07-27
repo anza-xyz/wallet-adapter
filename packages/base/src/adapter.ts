@@ -1,6 +1,8 @@
 import { PublicKey, Transaction } from '@solana/web3.js';
 import EventEmitter from 'eventemitter3';
 
+export { EventEmitter };
+
 export interface WalletAdapterEvents {
     ready: () => void;
     connect: () => void;

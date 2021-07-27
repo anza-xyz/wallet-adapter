@@ -1,6 +1,7 @@
 import Transport from '@ledgerhq/hw-transport';
 import TransportWebHid from '@ledgerhq/hw-transport-webhid';
 import {
+    EventEmitter,
     WalletAdapter,
     WalletAdapterEvents,
     WalletConnectionError,
@@ -9,7 +10,6 @@ import {
     WalletSignatureError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
-import EventEmitter from 'eventemitter3';
 import { getDerivationPath, getPublicKey, signTransaction } from './util';
 
 export interface LedgerWalletAdapterConfig {

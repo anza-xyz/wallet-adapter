@@ -1,10 +1,27 @@
+import { WalletAdapter } from '@solana/wallet-adapter-base';
 import { LedgerWalletAdapter, LedgerWalletAdapterConfig } from '@solana/wallet-adapter-ledger';
 import { MathWalletWalletAdapter, MathWalletWalletAdapterConfig } from '@solana/wallet-adapter-mathwallet';
 import { PhantomWalletAdapter, PhantomWalletAdapterConfig } from '@solana/wallet-adapter-phantom';
-import { Wallet, WalletName } from '@solana/wallet-adapter-react';
 import { SolletWalletAdapter, SolletWalletAdapterConfig } from '@solana/wallet-adapter-sollet';
 import { SolongWalletAdapter, SolongWalletAdapterConfig } from '@solana/wallet-adapter-solong';
 import { TorusWalletAdapter, TorusWalletAdapterConfig } from '@solana/wallet-adapter-torus';
+
+export enum WalletName {
+    Phantom = 'Phantom',
+    Ledger = 'Ledger',
+    Torus = 'Torus',
+    Solong = 'Solong',
+    // WalletConnect = 'WalletConnect',
+    MathWallet = 'MathWallet',
+    Sollet = 'Sollet',
+}
+
+export interface Wallet {
+    name: WalletName;
+    url: string;
+    icon: string;
+    adapter: () => WalletAdapter;
+}
 
 export const ICONS_URL = 'https://raw.githubusercontent.com/solana-labs/wallet-adapter/master/packages/wallets/icons';
 

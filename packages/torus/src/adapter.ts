@@ -1,4 +1,5 @@
 import {
+    EventEmitter,
     WalletAdapter,
     WalletAdapterEvents,
     WalletConnectionError,
@@ -12,7 +13,6 @@ import {
 import { Keypair, PublicKey, Transaction } from '@solana/web3.js';
 import OpenLogin, { OPENLOGIN_NETWORK, OPENLOGIN_NETWORK_TYPE } from '@toruslabs/openlogin';
 import { getED25519Key } from '@toruslabs/openlogin-ed25519';
-import EventEmitter from 'eventemitter3';
 
 export interface TorusWalletAdapterConfig {
     clientId: string;

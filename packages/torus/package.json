@@ -1,23 +1,33 @@
 {
     "name": "@solana/wallet-adapter-torus",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
-    "main": "src/index.ts",
+    "main": "lib/index.cjs.js",
+    "module": "lib/index.esm.js",
+    "types": "lib/index.d.ts",
     "files": [
+        "lib",
         "src"
     ],
     "publishConfig": {
         "access": "public"
     },
+    "scripts": {
+        "build": "rm -rf lib/* && tsc && rollup -c"
+    },
     "peerDependencies": {
+        "@solana/wallet-adapter-base": "0.2.0",
         "@solana/web3.js": "^1.20.0"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "0.1.0",
         "@toruslabs/openlogin": "^0.9.2",
         "@toruslabs/openlogin-ed25519": "^0.9.2",
         "@types/keccak": "^3.0.1"
+    },
+    "devDependencies": {
+        "@solana/wallet-adapter-base": "0.2.0",
+        "@solana/web3.js": "^1.20.0"
     }
 }
