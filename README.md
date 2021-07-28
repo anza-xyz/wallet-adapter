@@ -24,13 +24,14 @@ yarn add @material-ui/core \
 
 Install these dependencies:
 ```shell
-yarn add \
          # Wallets to use
-         @solana/wallet-adapter-wallets \
+yarn add @solana/wallet-adapter-wallets \
          # React hooks and context for wallets
          @solana/wallet-adapter-react \
          # Simple components for connecting a wallet
-         @solana/wallet-adapter-material-ui
+         @solana/wallet-adapter-material-ui \
+         # Utilities and error types
+         @solana/wallet-adapter-base
 ```
 
 ### Code
@@ -54,6 +55,8 @@ import {
 } from '@solana/wallet-adapter-material-ui';
 
 export const Wallet: FC = () => {
+    // @solana/wallet-adapter-wallets imports all the adapters but supports tree shaking --
+    // Only the wallets you want to support will be compiled into your application
     const wallets = useMemo(() => [
         getPhantomWallet(),
         getLedgerWallet(),
