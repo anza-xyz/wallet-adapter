@@ -1,11 +1,11 @@
 {
     "name": "@solana/wallet-adapter-wallets",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
-    "main": "lib/index.cjs.js",
-    "module": "lib/index.esm.js",
+    "main": "lib/index.js",
+    "esnext": "lib/index.js",
     "types": "lib/index.d.ts",
     "files": [
         "lib",
@@ -15,21 +15,22 @@
         "access": "public"
     },
     "scripts": {
-        "build": "rm -rf lib/* && tsc && rollup -c"
+        "clean": "rm -rf lib/*",
+        "build": "yarn clean && tsc"
     },
     "peerDependencies": {
-        "@solana/wallet-adapter-base": "0.2.0",
+        "@solana/wallet-adapter-base": "0.3.0",
         "@solana/web3.js": "^1.20.0"
     },
     "dependencies": {
-        "@solana/wallet-adapter-ledger": "0.2.0",
-        "@solana/wallet-adapter-mathwallet": "0.2.0",
-        "@solana/wallet-adapter-phantom": "0.2.0",
-        "@solana/wallet-adapter-sollet": "0.2.0",
-        "@solana/wallet-adapter-solong": "0.2.0",
-        "@solana/wallet-adapter-torus": "0.2.0"
+        "@solana/wallet-adapter-ledger": "0.3.0",
+        "@solana/wallet-adapter-mathwallet": "0.3.0",
+        "@solana/wallet-adapter-phantom": "0.3.0",
+        "@solana/wallet-adapter-sollet": "0.3.0",
+        "@solana/wallet-adapter-solong": "0.3.0",
+        "@solana/wallet-adapter-torus": "0.3.0"
     },
     "devDependencies": {
-        "@solana/wallet-adapter-base": "0.2.0"
+        "@solana/wallet-adapter-base": "0.3.0"
     }
 }
