@@ -83,13 +83,14 @@
 <span style="color: #000000">         react</span>
 </code></pre>
 				<p>Install these dependencies:</p>
-				<pre><code class="language-shell"><span style="color: #000000">yarn add \</span>
-<span style="color: #000000">         </span><span style="color: #008000"># Wallets to use</span>
-<span style="color: #000000">         @solana/wallet-adapter-wallets \</span>
+				<pre><code class="language-shell"><span style="color: #000000">         </span><span style="color: #008000"># Wallets to use</span>
+<span style="color: #000000">yarn add @solana/wallet-adapter-wallets \</span>
 <span style="color: #000000">         </span><span style="color: #008000"># React hooks and context for wallets</span>
 <span style="color: #000000">         @solana/wallet-adapter-react \</span>
 <span style="color: #000000">         </span><span style="color: #008000"># Simple components for connecting a wallet</span>
-<span style="color: #000000">         @solana/wallet-adapter-material-ui</span>
+<span style="color: #000000">         @solana/wallet-adapter-material-ui \</span>
+<span style="color: #000000">         </span><span style="color: #008000"># Utilities and error types</span>
+<span style="color: #000000">         @solana/wallet-adapter-base</span>
 </code></pre>
 				<a href="#code" id="code" style="color: inherit; text-decoration: none;">
 					<h3>Code</h3>
@@ -112,6 +113,8 @@
 <span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@solana/wallet-adapter-material-ui&#039;</span><span style="color: #000000">;</span>
 
 <span style="color: #AF00DB">export</span><span style="color: #000000"> </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #795E26">Wallet</span><span style="color: #000000">: </span><span style="color: #267F99">FC</span><span style="color: #000000"> = () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #008000">// @solana/wallet-adapter-wallets imports all the adapters but supports tree shaking --</span>
+<span style="color: #000000">    </span><span style="color: #008000">// Only the wallets you want to support will be compiled into your application</span>
 <span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">wallets</span><span style="color: #000000"> = </span><span style="color: #795E26">useMemo</span><span style="color: #000000">(() </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> [</span>
 <span style="color: #000000">        </span><span style="color: #795E26">getPhantomWallet</span><span style="color: #000000">(),</span>
 <span style="color: #000000">        </span><span style="color: #795E26">getLedgerWallet</span><span style="color: #000000">(),</span>
