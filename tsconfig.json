@@ -5,7 +5,7 @@
         "sourceMap": true,
         "noEmitOnError": true,
         "stripInternal": true,
-        "target": "esnext",
+        "target": "es6",
         "module": "esnext",
         "moduleResolution": "node",
         "jsx": "react",
