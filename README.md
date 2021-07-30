@@ -1,8 +1,8 @@
 # `@solana/wallet-adapter`
 
-TypeScript wallet adapters and components for Solana applications.
+Modular TypeScript wallet adapters and components for Solana applications.
 
-<!-- TODO -->
+<!-- @TODO -->
 
 ## Quick Links
 
@@ -72,8 +72,8 @@ export const Wallet: FC = () => {
     // Only the wallets you want to support will be compiled into your application
     const wallets = useMemo(() => [
         getPhantomWallet(),
-        getLedgerWallet(),
         getTorusWallet({ clientId: 'Go to https://developer.tor.us and create a client ID' }),
+        getLedgerWallet(),
         getSolongWallet(),
         getMathWallet(),
         getSolletWallet(),
