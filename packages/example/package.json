@@ -5,32 +5,63 @@
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
     "files": [
-        "build",
-        "src"
+        "public",
+        "src",
+        ".env",
+        "package.json",
+        "README.md",
+        "tsconfig.json",
+        "yarn.lock"
     ],
     "publishConfig": {
         "access": "public"
     },
     "scripts": {
-        "clean": "rm -rf .parcel-cache build/*",
-        "build": "yarn clean && parcel build --dist-dir build --public-url https://solana-labs.github.io/wallet-adapter/example/ src/index.html",
-        "start": "yarn clean && parcel serve --dist-dir build src/index.html"
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
     },
     "dependencies": {
-        "@material-ui/core": "^4.12.1",
+        "@material-ui/core": "^4.12.3",
+        "@material-ui/icons": "^4.11.2",
         "@solana/wallet-adapter-base": "^0.4.0",
         "@solana/wallet-adapter-material-ui": "^0.4.0",
         "@solana/wallet-adapter-react": "^0.4.0",
         "@solana/wallet-adapter-wallets": "^0.4.0",
-        "@solana/web3.js": "^1.20.0",
-        "notistack": "^1.0.9",
-        "react": "^17.0.2",
-        "react-dom": "^17.0.2"
-    },
-    "devDependencies": {
-        "@parcel/transformer-typescript-tsc": "^2.0.0-beta.3.1",
+        "@solana/web3.js": "^1.22.0",
+        "@testing-library/jest-dom": "^5.11.4",
+        "@testing-library/react": "^11.1.0",
+        "@testing-library/user-event": "^12.1.10",
+        "@types/jest": "^26.0.15",
+        "@types/node": "^12.0.0",
         "@types/react": "^17.0.0",
         "@types/react-dom": "^17.0.0",
-        "parcel": "^2.0.0-beta.3.1"
+        "add": "^2.0.6",
+        "notistack": "^1.0.9",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-scripts": "4.0.3",
+        "typescript": "^4.1.2",
+        "web-vitals": "^1.0.1",
+        "yarn": "^1.22.11"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
     }
 }

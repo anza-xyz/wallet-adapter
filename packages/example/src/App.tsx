@@ -2,7 +2,8 @@ import { createTheme, ThemeProvider } from '@material-ui/core';
 import { deepPurple } from '@material-ui/core/colors';
 import { SnackbarProvider } from 'notistack';
 import React, { FC } from 'react';
-import { WalletExample } from './WalletExample';
+import './App.css';
+import Wallet from './Wallet';
 
 const theme = createTheme({
     palette: {
@@ -32,12 +33,14 @@ const theme = createTheme({
     },
 });
 
-export const App: FC = () => {
+const App: FC = () => {
     return (
         <ThemeProvider theme={theme}>
             <SnackbarProvider>
-                <WalletExample />
+                <Wallet />
             </SnackbarProvider>
         </ThemeProvider>
     );
 };
+
+export default App;

@@ -1,4 +1,5 @@
 import { FormControlLabel, Switch, Table, TableBody, TableCell, TableHead, TableRow, Tooltip } from '@material-ui/core';
+import { WalletError } from '@solana/wallet-adapter-base';
 import {
     WalletConnectButton,
     WalletDialogButton,
@@ -18,8 +19,7 @@ import {
 import { useSnackbar } from 'notistack';
 import React, { FC, useCallback, useMemo } from 'react';
 
-export const WalletExample: FC = () => {
-    const { enqueueSnackbar } = useSnackbar();
+const Wallet: FC = () => {
     const [autoConnect, setAutoConnect] = useLocalStorage('autoConnect', false);
 
     const wallets = useMemo(
@@ -37,8 +37,9 @@ export const WalletExample: FC = () => {
         []
     );
 
+    const { enqueueSnackbar } = useSnackbar();
     const onError = useCallback(
-        (error: Error) => {
+        (error: WalletError) => {
             enqueueSnackbar(error.message ? `${error.name}: ${error.message}` : error.name, { variant: 'error' });
             console.error(error);
         },
@@ -46,7 +47,7 @@ export const WalletExample: FC = () => {
     );
 
     return (
-        <WalletProvider wallets={wallets} onError={onError} autoConnect={autoConnect}>
+        <WalletProvider wallets={wallets} onError={onError} autoConnect>
             <WalletDialogProvider>
                 <Table>
                     <TableHead>
@@ -104,3 +105,5 @@ export const WalletExample: FC = () => {
         </WalletProvider>
     );
 };
+
+export default Wallet;
