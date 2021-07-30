@@ -5,6 +5,7 @@ import {
     WalletAdapter,
     WalletAdapterEvents,
     WalletConnectionError,
+    WalletDisconnectionError,
     WalletError,
     WalletNotConnectedError,
     WalletNotFoundError,
@@ -153,7 +154,7 @@ export class PhantomWalletAdapter extends EventEmitter<WalletAdapterEvents> impl
             try {
                 await provider.disconnect();
             } catch (error) {
-                this.emit('error', error);
+                this.emit('error', new WalletDisconnectionError(error.message, error));
             }
 
             this.emit('disconnect');

@@ -1,4 +1,4 @@
-import { WalletAdapter, WalletNotConnectedError, WalletNotReadyError } from '@solana/wallet-adapter-base';
+import { WalletAdapter, WalletError, WalletNotConnectedError, WalletNotReadyError } from '@solana/wallet-adapter-base';
 import { Wallet, WalletName } from '@solana/wallet-adapter-wallets';
 import { PublicKey, Transaction } from '@solana/web3.js';
 import React, { FC, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
@@ -10,14 +10,14 @@ export interface WalletProviderProps {
     children: ReactNode;
     wallets: Wallet[];
     autoConnect?: boolean;
-    onError?: (error: Error) => void;
+    onError?: (error: WalletError) => void;
     localStorageKey?: string;
 }
 
 export const WalletProvider: FC<WalletProviderProps> = ({
     wallets,
     autoConnect = false,
-    onError = (error: Error) => console.error(error),
+    onError = (error: WalletError) => console.error(error),
     localStorageKey = 'walletName',
     children,
 }) => {
