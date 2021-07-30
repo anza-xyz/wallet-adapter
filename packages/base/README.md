@@ -1,5 +1,5 @@
-# `@solana/wallet-adapter`
+# `@solana/wallet-adapter-base`
 
-<!-- TODO -->
+<!-- @TODO -->
 
 Coming soon.
