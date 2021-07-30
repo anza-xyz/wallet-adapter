@@ -9,8 +9,8 @@ import {
     MenuItem,
     Theme,
 } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
 import CopyIcon from '@material-ui/icons/FileCopy';
+import DisconnectIcon from '@material-ui/icons/LinkOff';
 import SwitchIcon from '@material-ui/icons/SwapHoriz';
 import { useWallet } from '@solana/wallet-adapter-react';
 import React, { FC, useMemo, useState } from 'react';
@@ -145,7 +145,7 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                         }}
                     >
                         <ListItemIcon>
-                            <CloseIcon />
+                            <DisconnectIcon />
                         </ListItemIcon>
                         Disconnect
                     </MenuItem>

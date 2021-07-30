@@ -5,6 +5,7 @@ import {
     WalletAdapterEvents,
     WalletAdapterNetwork,
     WalletConnectionError,
+    WalletDisconnectionError,
     WalletError,
     WalletNotConnectedError,
     WalletSignatureError,
@@ -107,7 +108,7 @@ export class SolletWalletAdapter extends EventEmitter<WalletAdapterEvents> imple
             try {
                 await wallet.disconnect();
             } catch (error) {
-                this.emit('error', error);
+                this.emit('error', new WalletDisconnectionError(error.message, error));
             }
 
             this.emit('disconnect');

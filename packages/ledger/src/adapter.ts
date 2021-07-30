@@ -5,6 +5,7 @@ import {
     WalletAdapter,
     WalletAdapterEvents,
     WalletConnectionError,
+    WalletDisconnectionError,
     WalletNotConnectedError,
     WalletPublicKeyError,
     WalletSignatureError,
@@ -95,7 +96,7 @@ export class LedgerWalletAdapter extends EventEmitter<WalletAdapterEvents> imple
             try {
                 await provider.close();
             } catch (error) {
-                this.emit('error', error);
+                this.emit('error', new WalletDisconnectionError(error.message, error));
             }
 
             this.emit('disconnect');

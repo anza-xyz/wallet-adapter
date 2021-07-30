@@ -1,5 +1,6 @@
 import { PublicKey, Transaction } from '@solana/web3.js';
 import EventEmitter from 'eventemitter3';
+import { WalletError } from './errors';
 
 export { EventEmitter };
 
@@ -7,7 +8,7 @@ export interface WalletAdapterEvents {
     ready: () => void;
     connect: () => void;
     disconnect: () => void;
-    error: (error: Error) => void;
+    error: (error: WalletError) => void;
 }
 
 export interface WalletAdapter extends EventEmitter<WalletAdapterEvents> {

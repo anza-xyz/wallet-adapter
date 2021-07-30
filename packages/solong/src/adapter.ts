@@ -95,6 +95,7 @@ export class SolongWalletAdapter extends EventEmitter<WalletAdapterEvents> imple
     }
 
     async disconnect(): Promise<void> {
+        // @TODO: check if this should disconnect from the provider
         if (this._provider) {
             this._publicKey = null;
             this._provider = undefined;

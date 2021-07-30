@@ -3,6 +3,7 @@ import {
     WalletAdapter,
     WalletAdapterEvents,
     WalletConnectionError,
+    WalletDisconnectionError,
     WalletError,
     WalletKeypairError,
     WalletNotConnectedError,
@@ -131,7 +132,7 @@ export class TorusWalletAdapter extends EventEmitter<WalletAdapterEvents> implem
                 await provider.logout();
                 await provider._cleanup();
             } catch (error) {
-                this.emit('error', error);
+                this.emit('error', new WalletDisconnectionError(error.message, error));
             }
 
             this.emit('disconnect');
