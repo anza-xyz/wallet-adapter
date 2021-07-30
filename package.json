@@ -26,7 +26,7 @@
         "lint": "eslint . --ext .ts && prettier --check '{*,**/*}.{js,ts,jsx,tsx,json}'",
         "lint:fix": "eslint . --ext .ts --fix && prettier --write '{*,**/*}.{js,ts,jsx,tsx,json}'",
         "nuke": "rm -rf {.,packages/*}/{node_modules,yarn.lock}",
-        "reset": "yarn nuke && yarn"
+        "reset": "yarn nuke && yarn install"
     },
     "devDependencies": {
         "@types/eslint": "^7.2.13",
