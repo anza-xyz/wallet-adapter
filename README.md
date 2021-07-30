@@ -48,7 +48,6 @@ import {
     getTorusWallet,
 } from '@solana/wallet-adapter-wallets';
 import {
-    WalletConnectButton,
     WalletDialogProvider,
     WalletDisconnectButton,
     WalletMultiButton,
