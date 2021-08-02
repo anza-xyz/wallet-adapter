@@ -20,7 +20,7 @@
         "publish": "lerna publish from-package",
         "deploy": "yarn deploy:docs && yarn deploy:example",
         "deploy:docs": "yarn docs && gh-pages --dist docs --dotfiles",
-        "deploy:example": "gh-pages --dist packages/example/build --dest example",
+        "deploy:example": "gh-pages --dist packages/example/build --dest example --dotfiles",
         "docs": "rm -rf docs && typedoc && cp .nojekyll docs/",
         "fmt": "prettier --write '{*,**/*}.{js,ts,jsx,tsx,json}'",
         "lint": "eslint . --ext .ts && prettier --check '{*,**/*}.{js,ts,jsx,tsx,json}'",
