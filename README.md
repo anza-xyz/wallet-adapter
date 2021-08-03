@@ -16,6 +16,7 @@ Modular TypeScript wallet adapters and components for Solana applications.
 | [wallets](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets)                         | All wallets with icons                                                      | [`@solana/wallet-adapter-wallets`](https://www.npmjs.com/package/@solana/wallet-adapter-wallets)                         | `0.4.0` |
 | [react](https://github.com/solana-labs/wallet-adapter/tree/master/packages/react)                             | React hooks and context for dApps                                           | [`@solana/wallet-adapter-react`](https://www.npmjs.com/package/@solana/wallet-adapter-react)                             | `0.4.0` |
 | [base](https://github.com/solana-labs/wallet-adapter/tree/master/packages/base)                               | Adapter interface, errors, and utilities                                    | [`@solana/wallet-adapter-base`](https://www.npmjs.com/package/@solana/wallet-adapter-base)                               | `0.4.0` |
+| [solflare-extension](https://github.com/solana-labs/wallet-adapter/tree/master/packages/solflare-extension)   | Adapter for [Solflare Extension](https://solflare.com)                      | [`@solana/wallet-adapter-solflare-extension`](https://www.npmjs.com/package/@solana/wallet-adapter-solflare-extension)   | `0.1.0` |
 | [phantom](https://github.com/solana-labs/wallet-adapter/tree/master/packages/phantom)                         | Adapter for [Phantom](https://www.phantom.app)                              | [`@solana/wallet-adapter-phantom`](https://www.npmjs.com/package/@solana/wallet-adapter-phantom)                         | `0.4.0` |
 | [torus](https://github.com/solana-labs/wallet-adapter/tree/master/packages/torus)                             | Adapter for [Torus](https://tor.us)                                         | [`@solana/wallet-adapter-torus`](https://www.npmjs.com/package/@solana/wallet-adapter-torus)                             | `0.4.0` |
 | [ledger](https://github.com/solana-labs/wallet-adapter/tree/master/packages/ledger)                           | Adapter for [Ledger](https://www.ledger.com)                                | [`@solana/wallet-adapter-ledger`](https://www.npmjs.com/package/@solana/wallet-adapter-ledger)                           | `0.4.0` |
@@ -55,6 +56,8 @@ yarn add @solana/wallet-adapter-wallets \
 import React, { FC, useMemo } from 'react';
 import { WalletProvider } from '@solana/wallet-adapter-react';
 import {
+    getSolflareWallet,
+    getSolflareExtensionWallet,
     getLedgerWallet,
     getMathWallet,
     getPhantomWallet,
@@ -72,6 +75,8 @@ export const Wallet: FC = () => {
     // @solana/wallet-adapter-wallets imports all the adapters but supports tree shaking --
     // Only the wallets you want to support will be compiled into your application
     const wallets = useMemo(() => [
+        getSolflareWallet(),
+        getSolflareExtensionWallet(),
         getPhantomWallet(),
         getTorusWallet({ clientId: 'Go to https://developer.tor.us and create a client ID' }),
         getLedgerWallet(),
