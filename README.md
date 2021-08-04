@@ -55,6 +55,7 @@ yarn add @solana/wallet-adapter-wallets \
 import React, { FC, useMemo } from 'react';
 import { WalletProvider } from '@solana/wallet-adapter-react';
 import {
+    getSolflareWallet,
     getLedgerWallet,
     getMathWallet,
     getPhantomWallet,
@@ -72,6 +73,7 @@ export const Wallet: FC = () => {
     // @solana/wallet-adapter-wallets imports all the adapters but supports tree shaking --
     // Only the wallets you want to support will be compiled into your application
     const wallets = useMemo(() => [
+        getSolflareWallet(),
         getPhantomWallet(),
         getTorusWallet({ clientId: 'Go to https://developer.tor.us and create a client ID' }),
         getLedgerWallet(),
