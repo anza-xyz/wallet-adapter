@@ -12,10 +12,10 @@ import {
     getLedgerWallet,
     getMathWallet,
     getPhantomWallet,
+    getSolflareWallet,
     getSolletWallet,
     getSolongWallet,
     getTorusWallet,
-    getSolflareWallet,
 } from '@solana/wallet-adapter-wallets';
 import { useSnackbar } from 'notistack';
 import React, { FC, useCallback, useMemo } from 'react';
@@ -25,7 +25,6 @@ const Wallet: FC = () => {
 
     const wallets = useMemo(
         () => [
-            getSolflareWallet(),
             getPhantomWallet(),
             getTorusWallet({
                 clientId: 'BOM5Cl7PXgE9Ylq1Z1tqzhpydY0RVr8k90QQ85N7AKI5QGSrr9iDC-3rvmy0K_hF0JfpLMiXoDhta68JwcxS1LQ',
@@ -34,7 +33,7 @@ const Wallet: FC = () => {
             getSolongWallet(),
             getMathWallet(),
             getSolletWallet(),
-            // getWalletConnectWallet(), // @FIXME
+            getSolflareWallet(),
         ],
         []
     );

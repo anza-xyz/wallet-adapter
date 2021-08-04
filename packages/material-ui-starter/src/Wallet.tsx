@@ -5,6 +5,7 @@ import {
     getLedgerWallet,
     getMathWallet,
     getPhantomWallet,
+    getSolflareWallet,
     getSolletWallet,
     getSolongWallet,
     getTorusWallet,
@@ -26,7 +27,7 @@ const Wallet: FC = () => {
             getSolongWallet(),
             getMathWallet(),
             getSolletWallet(),
-            // getWalletConnectWallet(), // @FIXME
+            getSolflareWallet(),
         ],
         []
     );
