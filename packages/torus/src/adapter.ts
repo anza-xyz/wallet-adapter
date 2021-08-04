@@ -23,7 +23,7 @@ export interface TorusWalletAdapterConfig {
 export class TorusWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
     private _keypair: Keypair | undefined;
     private _connecting: boolean;
-    private _provider: OpenLogin | undefined;
+    private _openLogin: OpenLogin | undefined;
     private _clientId: string;
     private _network: OPENLOGIN_NETWORK_TYPE;
 
@@ -59,18 +59,18 @@ export class TorusWalletAdapter extends EventEmitter<WalletAdapterEvents> implem
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            let provider: OpenLogin;
+            let openLogin: OpenLogin;
             let privateKey: string;
             try {
-                provider = new OpenLogin({
+                openLogin = new OpenLogin({
                     clientId: this._clientId,
                     network: this._network,
                     uxMode: 'popup',
                 });
 
-                await provider.init();
+                await openLogin.init();
 
-                privateKey = provider.privKey;
+                privateKey = openLogin.privKey;
                 if (!privateKey) {
                     let listener: (event: { reason: any }) => void;
                     try {
@@ -89,9 +89,9 @@ export class TorusWalletAdapter extends EventEmitter<WalletAdapterEvents> implem
 
                             window.addEventListener('unhandledrejection', listener);
 
-                            provider.login().then(
+                            openLogin.login().then(
                                 // HACK: result.privKey is incorrect, use provider.privKey
-                                (result) => resolve(provider.privKey),
+                                (result) => resolve(openLogin.privKey),
                                 (reason) => listener({ reason })
                             );
                         });
@@ -112,7 +112,7 @@ export class TorusWalletAdapter extends EventEmitter<WalletAdapterEvents> implem
             }
 
             this._keypair = keypair;
-            this._provider = provider;
+            this._openLogin = openLogin;
             this.emit('connect');
         } catch (error) {
             this.emit('error', error);
@@ -123,14 +123,14 @@ export class TorusWalletAdapter extends EventEmitter<WalletAdapterEvents> implem
     }
 
     async disconnect(): Promise<void> {
-        const provider = this._provider;
-        if (provider) {
+        const openLogin = this._openLogin;
+        if (openLogin) {
             this._keypair = undefined;
-            this._provider = undefined;
+            this._openLogin = undefined;
 
             try {
-                await provider.logout();
-                await provider._cleanup();
+                await openLogin.logout();
+                await openLogin._cleanup();
             } catch (error) {
                 this.emit('error', new WalletDisconnectionError(error.message, error));
             }
