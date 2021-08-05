@@ -100,11 +100,10 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_solana_wallet_adapter_torus.TorusWalletAdapter.html#_clientId" class="tsd-kind-icon">_client<wbr>Id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_solana_wallet_adapter_torus.TorusWalletAdapter.html#_connecting" class="tsd-kind-icon">_connecting</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_solana_wallet_adapter_torus.TorusWalletAdapter.html#_keypair" class="tsd-kind-icon">_keypair</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_solana_wallet_adapter_torus.TorusWalletAdapter.html#_network" class="tsd-kind-icon">_network</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_solana_wallet_adapter_torus.TorusWalletAdapter.html#_provider" class="tsd-kind-icon">_provider</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_solana_wallet_adapter_torus.TorusWalletAdapter.html#_openLogin" class="tsd-kind-icon">_open<wbr>Login</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_solana_wallet_adapter_torus.TorusWalletAdapter.html#_options" class="tsd-kind-icon">_options</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-external"><a href="_solana_wallet_adapter_torus.TorusWalletAdapter.html#prefixed" class="tsd-kind-icon">prefixed</a></li>
 							</ul>
 						</section>
@@ -153,7 +152,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides EventEmitter&lt;WalletAdapterEvents&gt;.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/torus/src/adapter.ts#L30">packages/torus/src/adapter.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/torus/src/adapter.ts#L28">packages/torus/src/adapter.ts:28</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -170,52 +169,42 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="_clientId" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _client<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">_client<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/torus/src/adapter.ts#L27">packages/torus/src/adapter.ts:27</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_connecting" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _connecting</h3>
 					<div class="tsd-signature tsd-kind-icon">_connecting<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/torus/src/adapter.ts#L25">packages/torus/src/adapter.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/torus/src/adapter.ts#L24">packages/torus/src/adapter.ts:24</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_keypair" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _keypair</h3>
-					<div class="tsd-signature tsd-kind-icon">_keypair<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Keypair</span></div>
+					<div class="tsd-signature tsd-kind-icon">_keypair<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Keypair</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/torus/src/adapter.ts#L24">packages/torus/src/adapter.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/torus/src/adapter.ts#L26">packages/torus/src/adapter.ts:26</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="_network" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _network</h3>
-					<div class="tsd-signature tsd-kind-icon">_network<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">OPENLOGIN_NETWORK_TYPE</span></div>
+					<a name="_openLogin" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _open<wbr>Login</h3>
+					<div class="tsd-signature tsd-kind-icon">_open<wbr>Login<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">OpenLogin</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/torus/src/adapter.ts#L28">packages/torus/src/adapter.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/torus/src/adapter.ts#L25">packages/torus/src/adapter.ts:25</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="_provider" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _provider</h3>
-					<div class="tsd-signature tsd-kind-icon">_provider<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">OpenLogin</span></div>
+					<a name="_options" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _options</h3>
+					<div class="tsd-signature tsd-kind-icon">_options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">OpenLoginOptions</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/torus/src/adapter.ts#L26">packages/torus/src/adapter.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/torus/src/adapter.ts#L23">packages/torus/src/adapter.ts:23</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -243,7 +232,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/torus/src/adapter.ts#L53">packages/torus/src/adapter.ts:53</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/torus/src/adapter.ts#L52">packages/torus/src/adapter.ts:52</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -260,7 +249,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/torus/src/adapter.ts#L49">packages/torus/src/adapter.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/torus/src/adapter.ts#L48">packages/torus/src/adapter.ts:48</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -277,7 +266,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/torus/src/adapter.ts#L45">packages/torus/src/adapter.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/torus/src/adapter.ts#L44">packages/torus/src/adapter.ts:44</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -294,7 +283,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/torus/src/adapter.ts#L37">packages/torus/src/adapter.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/torus/src/adapter.ts#L36">packages/torus/src/adapter.ts:36</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PublicKey</span></h4>
@@ -311,7 +300,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/torus/src/adapter.ts#L41">packages/torus/src/adapter.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/torus/src/adapter.ts#L40">packages/torus/src/adapter.ts:40</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -387,7 +376,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of WalletAdapter.connect</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/torus/src/adapter.ts#L57">packages/torus/src/adapter.ts:57</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/torus/src/adapter.ts#L56">packages/torus/src/adapter.ts:56</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -405,7 +394,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of WalletAdapter.disconnect</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/torus/src/adapter.ts#L125">packages/torus/src/adapter.ts:125</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/torus/src/adapter.ts#L121">packages/torus/src/adapter.ts:121</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -824,7 +813,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of WalletAdapter.signAllTransactions</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/torus/src/adapter.ts#L160">packages/torus/src/adapter.ts:160</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/torus/src/adapter.ts#L156">packages/torus/src/adapter.ts:156</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -848,7 +837,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of WalletAdapter.signTransaction</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/torus/src/adapter.ts#L142">packages/torus/src/adapter.ts:142</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/torus/src/adapter.ts#L138">packages/torus/src/adapter.ts:138</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -912,19 +901,16 @@
 								<a href="_solana_wallet_adapter_torus.TorusWalletAdapter.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="_solana_wallet_adapter_torus.TorusWalletAdapter.html#_clientId" class="tsd-kind-icon">_client<wbr>Id</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_solana_wallet_adapter_torus.TorusWalletAdapter.html#_connecting" class="tsd-kind-icon">_connecting</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_solana_wallet_adapter_torus.TorusWalletAdapter.html#_keypair" class="tsd-kind-icon">_keypair</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="_solana_wallet_adapter_torus.TorusWalletAdapter.html#_network" class="tsd-kind-icon">_network</a>
+								<a href="_solana_wallet_adapter_torus.TorusWalletAdapter.html#_openLogin" class="tsd-kind-icon">_open<wbr>Login</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="_solana_wallet_adapter_torus.TorusWalletAdapter.html#_provider" class="tsd-kind-icon">_provider</a>
+								<a href="_solana_wallet_adapter_torus.TorusWalletAdapter.html#_options" class="tsd-kind-icon">_options</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-external">
 								<a href="_solana_wallet_adapter_torus.TorusWalletAdapter.html#prefixed" class="tsd-kind-icon">prefixed</a>

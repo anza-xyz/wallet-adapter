@@ -101,8 +101,8 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_solana_wallet_adapter_phantom.PhantomWalletAdapter.html#_connecting" class="tsd-kind-icon">_connecting</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_solana_wallet_adapter_phantom.PhantomWalletAdapter.html#_provider" class="tsd-kind-icon">_provider</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_solana_wallet_adapter_phantom.PhantomWalletAdapter.html#_publicKey" class="tsd-kind-icon">_public<wbr>Key</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_solana_wallet_adapter_phantom.PhantomWalletAdapter.html#_wallet" class="tsd-kind-icon">_wallet</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-external"><a href="_solana_wallet_adapter_phantom.PhantomWalletAdapter.html#prefixed" class="tsd-kind-icon">prefixed</a></li>
 							</ul>
 						</section>
@@ -119,6 +119,7 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_solana_wallet_adapter_phantom.PhantomWalletAdapter.html#_disconnected" class="tsd-kind-icon">_disconnected</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-external"><a href="_solana_wallet_adapter_phantom.PhantomWalletAdapter.html#addListener" class="tsd-kind-icon">add<wbr>Listener</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_solana_wallet_adapter_phantom.PhantomWalletAdapter.html#connect" class="tsd-kind-icon">connect</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_solana_wallet_adapter_phantom.PhantomWalletAdapter.html#disconnect" class="tsd-kind-icon">disconnect</a></li>
@@ -151,7 +152,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides EventEmitter&lt;WalletAdapterEvents&gt;.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/phantom/src/adapter.ts#L53">packages/phantom/src/adapter.ts:53</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/phantom/src/adapter.ts#L54">packages/phantom/src/adapter.ts:54</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -173,17 +174,7 @@
 					<div class="tsd-signature tsd-kind-icon">_connecting<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/phantom/src/adapter.ts#L50">packages/phantom/src/adapter.ts:50</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="_provider" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _provider</h3>
-					<div class="tsd-signature tsd-kind-icon">_provider<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PhantomProvider</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/phantom/src/adapter.ts#L51">packages/phantom/src/adapter.ts:51</a></li>
+							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/phantom/src/adapter.ts#L50">packages/phantom/src/adapter.ts:50</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -193,7 +184,17 @@
 					<div class="tsd-signature tsd-kind-icon">_public<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PublicKey</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/phantom/src/adapter.ts#L49">packages/phantom/src/adapter.ts:49</a></li>
+							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/phantom/src/adapter.ts#L52">packages/phantom/src/adapter.ts:52</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="_wallet" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _wallet</h3>
+					<div class="tsd-signature tsd-kind-icon">_wallet<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PhantomWallet</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/phantom/src/adapter.ts#L51">packages/phantom/src/adapter.ts:51</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -221,7 +222,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/phantom/src/adapter.ts#L77">packages/phantom/src/adapter.ts:77</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/phantom/src/adapter.ts#L79">packages/phantom/src/adapter.ts:79</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -238,7 +239,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/phantom/src/adapter.ts#L73">packages/phantom/src/adapter.ts:73</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/phantom/src/adapter.ts#L75">packages/phantom/src/adapter.ts:75</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -255,7 +256,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/phantom/src/adapter.ts#L69">packages/phantom/src/adapter.ts:69</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/phantom/src/adapter.ts#L71">packages/phantom/src/adapter.ts:71</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -272,7 +273,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/phantom/src/adapter.ts#L61">packages/phantom/src/adapter.ts:61</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/phantom/src/adapter.ts#L63">packages/phantom/src/adapter.ts:63</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PublicKey</span></h4>
@@ -289,7 +290,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/phantom/src/adapter.ts#L65">packages/phantom/src/adapter.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/phantom/src/adapter.ts#L67">packages/phantom/src/adapter.ts:67</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -299,6 +300,23 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="_disconnected" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _disconnected</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">_disconnected<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/phantom/src/adapter.ts#L201">packages/phantom/src/adapter.ts:201</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-external">
 					<a name="addListener" class="tsd-anchor"></a>
 					<h3>add<wbr>Listener</h3>
@@ -365,7 +383,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of WalletAdapter.connect</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/phantom/src/adapter.ts#L81">packages/phantom/src/adapter.ts:81</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/phantom/src/adapter.ts#L83">packages/phantom/src/adapter.ts:83</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -383,7 +401,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of WalletAdapter.disconnect</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/phantom/src/adapter.ts#L148">packages/phantom/src/adapter.ts:148</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/phantom/src/adapter.ts#L151">packages/phantom/src/adapter.ts:151</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -802,7 +820,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of WalletAdapter.signAllTransactions</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/phantom/src/adapter.ts#L180">packages/phantom/src/adapter.ts:180</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/phantom/src/adapter.ts#L185">packages/phantom/src/adapter.ts:185</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -826,7 +844,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of WalletAdapter.signTransaction</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/441ac60/packages/phantom/src/adapter.ts#L164">packages/phantom/src/adapter.ts:164</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/e51c342/packages/phantom/src/adapter.ts#L169">packages/phantom/src/adapter.ts:169</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -893,10 +911,10 @@
 								<a href="_solana_wallet_adapter_phantom.PhantomWalletAdapter.html#_connecting" class="tsd-kind-icon">_connecting</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="_solana_wallet_adapter_phantom.PhantomWalletAdapter.html#_provider" class="tsd-kind-icon">_provider</a>
+								<a href="_solana_wallet_adapter_phantom.PhantomWalletAdapter.html#_publicKey" class="tsd-kind-icon">_public<wbr>Key</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="_solana_wallet_adapter_phantom.PhantomWalletAdapter.html#_publicKey" class="tsd-kind-icon">_public<wbr>Key</a>
+								<a href="_solana_wallet_adapter_phantom.PhantomWalletAdapter.html#_wallet" class="tsd-kind-icon">_wallet</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static tsd-is-external">
 								<a href="_solana_wallet_adapter_phantom.PhantomWalletAdapter.html#prefixed" class="tsd-kind-icon">prefixed</a>
@@ -915,6 +933,9 @@
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 								<a href="_solana_wallet_adapter_phantom.PhantomWalletAdapter.html#ready" class="tsd-kind-icon">ready</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="_solana_wallet_adapter_phantom.PhantomWalletAdapter.html#_disconnected" class="tsd-kind-icon">_disconnected</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-external">
 								<a href="_solana_wallet_adapter_phantom.PhantomWalletAdapter.html#addListener" class="tsd-kind-icon">add<wbr>Listener</a>
@@ -985,13 +1006,14 @@
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
 			</ul>
 		</div>
 	</div>
