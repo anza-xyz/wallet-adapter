@@ -71,11 +71,11 @@ export class TorusWalletAdapter extends EventEmitter<WalletAdapterEvents> implem
                     try {
                         privateKey = await new Promise((resolve, reject) => {
                             listener = ({ reason }) => {
-                                switch (reason?.message) {
+                                switch (reason?.message.toLowerCase()) {
                                     case 'user closed popup':
                                         reason = new WalletWindowClosedError(reason.message, reason);
                                         break;
-                                    case 'Unable to open window':
+                                    case 'unable to open window':
                                         reason = new WalletWindowBlockedError(reason.message, reason);
                                         break;
                                 }
@@ -85,7 +85,7 @@ export class TorusWalletAdapter extends EventEmitter<WalletAdapterEvents> implem
                             window.addEventListener('unhandledrejection', listener);
 
                             openLogin.login().then(
-                                // HACK: result.privKey is incorrect, use provider.privKey
+                                // HACK: result.privKey is not padded to 64 bytes, use provider.privKey
                                 (result) => resolve(openLogin.privKey),
                                 (reason) => listener({ reason })
                             );

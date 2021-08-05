@@ -5,6 +5,7 @@ import {
     WalletAdapterEvents,
     WalletAdapterNetwork,
     WalletConnectionError,
+    WalletDisconnectedError,
     WalletDisconnectionError,
     WalletError,
     WalletNotConnectedError,
@@ -20,17 +21,17 @@ export interface SolletWalletAdapterConfig {
 }
 
 export class SolletWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
-    private _connecting: boolean;
-    private _wallet: Wallet | null;
     private _provider: string | { postMessage: (...args: unknown[]) => unknown };
     private _network: WalletAdapterNetwork;
+    private _connecting: boolean;
+    private _wallet: Wallet | null;
 
     constructor(config?: SolletWalletAdapterConfig) {
         super();
-        this._connecting = false;
-        this._wallet = null;
         this._provider = config?.provider || 'https://www.sollet.io';
         this._network = config?.network || WalletAdapterNetwork.Mainnet;
+        this._connecting = false;
+        this._wallet = null;
     }
 
     get publicKey(): PublicKey | null {
@@ -90,7 +91,10 @@ export class SolletWalletAdapter extends EventEmitter<WalletAdapterEvents> imple
                 if (interval) clearInterval(interval);
             }
 
+            wallet.on('disconnect', this._disconnected);
+
             this._wallet = wallet;
+
             this.emit('connect');
         } catch (error) {
             this.emit('error', error);
@@ -103,6 +107,8 @@ export class SolletWalletAdapter extends EventEmitter<WalletAdapterEvents> imple
     async disconnect(): Promise<void> {
         const wallet = this._wallet;
         if (wallet) {
+            wallet.off('disconnect', this._disconnected);
+
             this._wallet = null;
 
             try {
@@ -146,4 +152,16 @@ export class SolletWalletAdapter extends EventEmitter<WalletAdapterEvents> imple
             throw error;
         }
     }
+
+    private _disconnected = () => {
+        const wallet = this._wallet;
+        if (wallet) {
+            wallet.off('disconnect', this._disconnected);
+
+            this._wallet = null;
+
+            this.emit('error', new WalletDisconnectedError());
+            this.emit('disconnect');
+        }
+    };
 }

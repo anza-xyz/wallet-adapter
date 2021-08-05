@@ -5,6 +5,7 @@ import {
     WalletAdapter,
     WalletAdapterEvents,
     WalletConnectionError,
+    WalletDisconnectedError,
     WalletDisconnectionError,
     WalletNotConnectedError,
     WalletPublicKeyError,
@@ -18,16 +19,17 @@ export interface LedgerWalletAdapterConfig {
 }
 
 export class LedgerWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
-    private _publicKey: PublicKey | null;
-    private _transport: Transport | undefined;
-    private _connecting: boolean;
     private _derivationPath: Buffer;
+    private _connecting: boolean;
+    private _transport: Transport | null;
+    private _publicKey: PublicKey | null;
 
     constructor(config: LedgerWalletAdapterConfig = {}) {
         super();
-        this._publicKey = null;
-        this._connecting = false;
         this._derivationPath = config.derivationPath || getDerivationPath(0, 0);
+        this._connecting = false;
+        this._transport = null;
+        this._publicKey = null;
     }
 
     get publicKey(): PublicKey | null {
@@ -70,14 +72,11 @@ export class LedgerWalletAdapter extends EventEmitter<WalletAdapterEvents> imple
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
-            const disconnect = () => {
-                transport.off('disconnect', disconnect);
-                this.disconnect();
-            };
-            transport.on('disconnect', disconnect);
+            transport.on('disconnect', this._disconnected);
 
-            this._publicKey = publicKey;
             this._transport = transport;
+            this._publicKey = publicKey;
+
             this.emit('connect');
         } catch (error) {
             this.emit('error', error);
@@ -90,8 +89,10 @@ export class LedgerWalletAdapter extends EventEmitter<WalletAdapterEvents> imple
     async disconnect(): Promise<void> {
         const transport = this._transport;
         if (transport) {
+            transport.off('disconnect', this._disconnected);
+
+            this._transport = null;
             this._publicKey = null;
-            this._transport = undefined;
 
             try {
                 await transport.close();
@@ -129,8 +130,8 @@ export class LedgerWalletAdapter extends EventEmitter<WalletAdapterEvents> imple
             const publicKey = this._publicKey;
             if (!transport || !publicKey) throw new WalletNotConnectedError();
 
-            const derivationPath = this._derivationPath;
             try {
+                const derivationPath = this._derivationPath;
                 for (const transaction of transactions) {
                     const signature = await signTransaction(transport, transaction, derivationPath);
                     transaction.addSignature(publicKey, signature);
@@ -145,4 +146,17 @@ export class LedgerWalletAdapter extends EventEmitter<WalletAdapterEvents> imple
             throw error;
         }
     }
+
+    private _disconnected = () => {
+        const transport = this._transport;
+        if (transport) {
+            transport.off('disconnect', this._disconnected);
+
+            this._transport = null;
+            this._publicKey = null;
+
+            this.emit('error', new WalletDisconnectedError());
+            this.emit('disconnect');
+        }
+    };
 }
