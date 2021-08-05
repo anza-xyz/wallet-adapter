@@ -12,29 +12,31 @@ import {
     getLedgerWallet,
     getMathWallet,
     getPhantomWallet,
+    getSolflareWallet,
     getSolletWallet,
     getSolongWallet,
     getTorusWallet,
-    getSolflareWallet,
 } from '@solana/wallet-adapter-wallets';
 import { useSnackbar } from 'notistack';
 import React, { FC, useCallback, useMemo } from 'react';
+import { version } from '../package.json';
 
 const Wallet: FC = () => {
     const [autoConnect, setAutoConnect] = useLocalStorage('autoConnect', false);
 
     const wallets = useMemo(
         () => [
-            getSolflareWallet(),
             getPhantomWallet(),
             getTorusWallet({
-                clientId: 'BOM5Cl7PXgE9Ylq1Z1tqzhpydY0RVr8k90QQ85N7AKI5QGSrr9iDC-3rvmy0K_hF0JfpLMiXoDhta68JwcxS1LQ',
+                options: {
+                    clientId: 'BOM5Cl7PXgE9Ylq1Z1tqzhpydY0RVr8k90QQ85N7AKI5QGSrr9iDC-3rvmy0K_hF0JfpLMiXoDhta68JwcxS1LQ',
+                },
             }),
             getLedgerWallet(),
             getSolongWallet(),
             getMathWallet(),
             getSolletWallet(),
-            // getWalletConnectWallet(), // @FIXME
+            getSolflareWallet(),
         ],
         []
     );
@@ -55,37 +57,38 @@ const Wallet: FC = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell width={200}>Component</TableCell>
-                            <TableCell>Demo</TableCell>
+                            <TableCell width={200}>Demo</TableCell>
+                            <TableCell>Example v{version}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         <TableRow>
                             <TableCell>WalletConnectButton</TableCell>
-                            <TableCell>
+                            <TableCell colSpan={2}>
                                 <WalletConnectButton />
                             </TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>WalletDisconnectButton</TableCell>
-                            <TableCell>
+                            <TableCell colSpan={2}>
                                 <WalletDisconnectButton />
                             </TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>WalletDialogButton</TableCell>
-                            <TableCell>
+                            <TableCell colSpan={2}>
                                 <WalletDialogButton />
                             </TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>WalletMultiButton</TableCell>
-                            <TableCell>
+                            <TableCell colSpan={2}>
                                 <WalletMultiButton />
                             </TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell></TableCell>
-                            <TableCell>
+                            <TableCell colSpan={2}>
                                 <Tooltip title="Only runs if the wallet is ready to connect" placement="left">
                                     <FormControlLabel
                                         control={
