@@ -57,6 +57,7 @@ import React, { FC, useMemo } from 'react';
 import { WalletProvider } from '@solana/wallet-adapter-react';
 import {
     getSolflareWallet,
+    getSolflareExtensionWallet,
     getLedgerWallet,
     getMathWallet,
     getPhantomWallet,
@@ -76,6 +77,7 @@ export const Wallet: FC = () => {
     // Only the wallets you want to support will be compiled into your application
     const wallets = useMemo(() => [
         getSolflareWallet(),
+        getSolflareExtensionWallet(),
         getPhantomWallet(),
         getTorusWallet({
             options: { clientId: 'Go to https://developer.tor.us and create a client ID' }
