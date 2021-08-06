@@ -5,6 +5,7 @@ import { PhantomWalletAdapter, PhantomWalletAdapterConfig } from '@solana/wallet
 import { SolletWalletAdapter, SolletWalletAdapterConfig } from '@solana/wallet-adapter-sollet';
 import { SolongWalletAdapter, SolongWalletAdapterConfig } from '@solana/wallet-adapter-solong';
 import { TorusWalletAdapter, TorusWalletAdapterConfig } from '@solana/wallet-adapter-torus';
+import { SolflareExtensionWalletAdapter, SolflareExtensionWalletAdapterConfig } from '@solana/wallet-adapter-solflare-extension';
 
 export enum WalletName {
     Phantom = 'Phantom',
@@ -14,6 +15,7 @@ export enum WalletName {
     MathWallet = 'MathWallet',
     Sollet = 'Sollet',
     Solflare = 'Solflare',
+    SolflareExtension = 'Solflare Extension',
 }
 
 export interface Wallet {
@@ -73,4 +75,11 @@ export const getSolflareWallet = (config?: SolletWalletAdapterConfig): Wallet =>
     icon: `${ICONS_URL}/solflare.svg`,
     adapter: () =>
         new SolletWalletAdapter({ ...config, provider: config?.provider || 'https://solflare.com/access-wallet' }),
+});
+
+export const getSolflareExtensionWallet = (config?: SolflareExtensionWalletAdapterConfig): Wallet => ({
+    name: WalletName.SolflareExtension,
+    url: 'https://solflare.com/',
+    icon: `${ICONS_URL}/solflare.svg`,
+    adapter: () => new SolflareExtensionWalletAdapter(config),
 });
