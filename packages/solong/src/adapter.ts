@@ -11,14 +11,14 @@ import {
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 
-interface SolongProvider {
+interface SolongWallet {
     currentAccount?: string | null;
     selectAccount: () => Promise<string>;
     signTransaction: (transaction: Transaction) => Promise<Transaction>;
 }
 
 interface SolongWindow extends Window {
-    solong?: SolongProvider;
+    solong?: SolongWallet;
 }
 
 declare const window: SolongWindow;
@@ -29,14 +29,15 @@ export interface SolongWalletAdapterConfig {
 }
 
 export class SolongWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
-    private _publicKey: PublicKey | null;
     private _connecting: boolean;
-    private _provider: SolongProvider | undefined;
+    private _wallet: SolongWallet | null;
+    private _publicKey: PublicKey | null;
 
     constructor(config: SolongWalletAdapterConfig = {}) {
         super();
-        this._publicKey = null;
         this._connecting = false;
+        this._wallet = null;
+        this._publicKey = null;
 
         if (!this.ready) pollUntilReady(this, config.pollInterval || 1000, config.pollCount || 3);
     }
@@ -54,7 +55,7 @@ export class SolongWalletAdapter extends EventEmitter<WalletAdapterEvents> imple
     }
 
     get connected(): boolean {
-        return !!this._provider?.currentAccount;
+        return !!this._wallet?.currentAccount;
     }
 
     get autoApprove(): boolean {
@@ -66,12 +67,12 @@ export class SolongWalletAdapter extends EventEmitter<WalletAdapterEvents> imple
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const provider = window.solong;
-            if (!provider) throw new WalletNotFoundError();
+            const wallet = window.solong;
+            if (!wallet) throw new WalletNotFoundError();
 
             let account: string;
             try {
-                account = await provider.selectAccount();
+                account = await wallet.selectAccount();
             } catch (error) {
                 throw new WalletAccountError(error?.message, error);
             }
@@ -83,8 +84,9 @@ export class SolongWalletAdapter extends EventEmitter<WalletAdapterEvents> imple
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
+            this._wallet = wallet;
             this._publicKey = publicKey;
-            this._provider = provider;
+
             this.emit('connect');
         } catch (error) {
             this.emit('error', error);
@@ -95,21 +97,21 @@ export class SolongWalletAdapter extends EventEmitter<WalletAdapterEvents> imple
     }
 
     async disconnect(): Promise<void> {
-        // @TODO: check if this should disconnect from the provider
-        if (this._provider) {
+        if (this._wallet) {
+            this._wallet = null;
             this._publicKey = null;
-            this._provider = undefined;
+
             this.emit('disconnect');
         }
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {
         try {
-            const provider = this._provider;
-            if (!provider) throw new WalletNotConnectedError();
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return await provider.signTransaction(transaction);
+                return await wallet.signTransaction(transaction);
             } catch (error) {
                 throw new WalletSignatureError(error?.message, error);
             }
@@ -121,11 +123,11 @@ export class SolongWalletAdapter extends EventEmitter<WalletAdapterEvents> imple
 
     async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
         try {
-            const provider = this._provider;
-            if (!provider) throw new WalletNotConnectedError();
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return await Promise.all(transactions.map((transaction) => provider.signTransaction(transaction)));
+                return await Promise.all(transactions.map((transaction) => wallet.signTransaction(transaction)));
             } catch (error) {
                 throw new WalletSignatureError(error?.message, error);
             }

@@ -4,6 +4,7 @@ import {
     WalletAccountError,
     WalletAdapter,
     WalletAdapterEvents,
+    WalletDisconnectedError,
     WalletNotConnectedError,
     WalletNotFoundError,
     WalletNotInstalledError,
@@ -12,7 +13,7 @@ import {
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 
-interface MathWalletProvider {
+interface MathWallet {
     isMathWallet?: boolean;
     getAccount: () => Promise<string>;
     signTransaction: (transaction: Transaction) => Promise<Transaction>;
@@ -20,7 +21,7 @@ interface MathWalletProvider {
 }
 
 interface MathWalletWindow extends Window {
-    solana?: MathWalletProvider;
+    solana?: MathWallet;
 }
 
 declare const window: MathWalletWindow;
@@ -31,14 +32,15 @@ export interface MathWalletWalletAdapterConfig {
 }
 
 export class MathWalletWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
-    private _publicKey: PublicKey | null;
     private _connecting: boolean;
-    private _provider: MathWalletProvider | undefined;
+    private _wallet: MathWallet | null;
+    private _publicKey: PublicKey | null;
 
     constructor(config: MathWalletWalletAdapterConfig = {}) {
         super();
-        this._publicKey = null;
         this._connecting = false;
+        this._wallet = null;
+        this._publicKey = null;
 
         if (!this.ready) pollUntilReady(this, config.pollInterval || 1000, config.pollCount || 3);
     }
@@ -56,7 +58,7 @@ export class MathWalletWalletAdapter extends EventEmitter<WalletAdapterEvents> i
     }
 
     get connected(): boolean {
-        return !!this._provider;
+        return !!this._wallet;
     }
 
     get autoApprove(): boolean {
@@ -68,14 +70,15 @@ export class MathWalletWalletAdapter extends EventEmitter<WalletAdapterEvents> i
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const provider = window.solana;
-            if (!provider) throw new WalletNotFoundError();
-            if (!provider.isMathWallet) throw new WalletNotInstalledError();
+            const wallet = window.solana;
+            if (!wallet) throw new WalletNotFoundError();
+            if (!wallet.isMathWallet) throw new WalletNotInstalledError();
 
-            // @FIXME: handle popup issues
+            // @TODO: handle if popup is blocked
+
             let account: string;
             try {
-                account = await provider.getAccount();
+                account = await wallet.getAccount();
             } catch (error) {
                 throw new WalletAccountError(error?.message, error);
             }
@@ -87,8 +90,11 @@ export class MathWalletWalletAdapter extends EventEmitter<WalletAdapterEvents> i
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
+            window.addEventListener('message', this._messaged);
+
+            this._wallet = wallet;
             this._publicKey = publicKey;
-            this._provider = provider;
+
             this.emit('connect');
         } catch (error) {
             this.emit('error', error);
@@ -99,21 +105,23 @@ export class MathWalletWalletAdapter extends EventEmitter<WalletAdapterEvents> i
     }
 
     async disconnect(): Promise<void> {
-        // @FIXME: add logout
-        if (this._provider) {
+        if (this._wallet) {
+            window.removeEventListener('message', this._messaged);
+
+            this._wallet = null;
             this._publicKey = null;
-            this._provider = undefined;
+
             this.emit('disconnect');
         }
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {
         try {
-            const provider = this._provider;
-            if (!provider) throw new WalletNotConnectedError();
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return provider.signTransaction(transaction);
+                return wallet.signTransaction(transaction);
             } catch (error) {
                 throw new WalletSignatureError(error?.message, error);
             }
@@ -125,11 +133,11 @@ export class MathWalletWalletAdapter extends EventEmitter<WalletAdapterEvents> i
 
     async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
         try {
-            const provider = this._provider;
-            if (!provider) throw new WalletNotConnectedError();
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return provider.signAllTransactions(transactions);
+                return wallet.signAllTransactions(transactions);
             } catch (error) {
                 throw new WalletSignatureError(error?.message, error);
             }
@@ -138,4 +146,23 @@ export class MathWalletWalletAdapter extends EventEmitter<WalletAdapterEvents> i
             throw error;
         }
     }
+
+    private _messaged = (event: MessageEvent) => {
+        const data = event.data;
+        if (data && data.origin === 'mathwallet_internal' && data.type === 'lockStatusChanged' && !data.payload) {
+            this._disconnected();
+        }
+    };
+
+    private _disconnected = () => {
+        if (this._wallet) {
+            window.removeEventListener('message', this._messaged);
+
+            this._wallet = null;
+            this._publicKey = null;
+
+            this.emit('error', new WalletDisconnectedError());
+            this.emit('disconnect');
+        }
+    };
 }

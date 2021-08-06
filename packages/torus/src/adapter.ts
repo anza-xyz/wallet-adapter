@@ -12,26 +12,25 @@ import {
     WalletWindowClosedError,
 } from '@solana/wallet-adapter-base';
 import { Keypair, PublicKey, Transaction } from '@solana/web3.js';
-import OpenLogin, { OPENLOGIN_NETWORK, OPENLOGIN_NETWORK_TYPE } from '@toruslabs/openlogin';
+import OpenLogin, { OPENLOGIN_NETWORK, OpenLoginOptions } from '@toruslabs/openlogin';
 import { getED25519Key } from '@toruslabs/openlogin-ed25519';
 
 export interface TorusWalletAdapterConfig {
-    clientId: string;
-    network?: OPENLOGIN_NETWORK_TYPE;
+    options: Partial<OpenLoginOptions> & Omit<OpenLoginOptions, 'network'>;
 }
 
 export class TorusWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
-    private _keypair: Keypair | undefined;
+    private _options: OpenLoginOptions;
     private _connecting: boolean;
-    private _provider: OpenLogin | undefined;
-    private _clientId: string;
-    private _network: OPENLOGIN_NETWORK_TYPE;
+    private _openLogin: OpenLogin | null;
+    private _keypair: Keypair | null;
 
     constructor(config: TorusWalletAdapterConfig) {
         super();
+        this._options = { uxMode: 'popup', network: OPENLOGIN_NETWORK.MAINNET, ...config.options };
         this._connecting = false;
-        this._clientId = config.clientId;
-        this._network = config.network || OPENLOGIN_NETWORK.MAINNET;
+        this._openLogin = null;
+        this._keypair = null;
     }
 
     get publicKey(): PublicKey | null {
@@ -59,28 +58,24 @@ export class TorusWalletAdapter extends EventEmitter<WalletAdapterEvents> implem
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            let provider: OpenLogin;
+            let openLogin: OpenLogin;
             let privateKey: string;
             try {
-                provider = new OpenLogin({
-                    clientId: this._clientId,
-                    network: this._network,
-                    uxMode: 'popup',
-                });
+                openLogin = new OpenLogin(this._options);
 
-                await provider.init();
+                await openLogin.init();
 
-                privateKey = provider.privKey;
+                privateKey = openLogin.privKey;
                 if (!privateKey) {
                     let listener: (event: { reason: any }) => void;
                     try {
                         privateKey = await new Promise((resolve, reject) => {
                             listener = ({ reason }) => {
-                                switch (reason?.message) {
+                                switch (reason?.message.toLowerCase()) {
                                     case 'user closed popup':
                                         reason = new WalletWindowClosedError(reason.message, reason);
                                         break;
-                                    case 'Unable to open window':
+                                    case 'unable to open window':
                                         reason = new WalletWindowBlockedError(reason.message, reason);
                                         break;
                                 }
@@ -89,9 +84,9 @@ export class TorusWalletAdapter extends EventEmitter<WalletAdapterEvents> implem
 
                             window.addEventListener('unhandledrejection', listener);
 
-                            provider.login().then(
-                                // HACK: result.privKey is incorrect, use provider.privKey
-                                (result) => resolve(provider.privKey),
+                            openLogin.login().then(
+                                // HACK: result.privKey is not padded to 64 bytes, use provider.privKey
+                                (result) => resolve(openLogin.privKey),
                                 (reason) => listener({ reason })
                             );
                         });
@@ -111,8 +106,9 @@ export class TorusWalletAdapter extends EventEmitter<WalletAdapterEvents> implem
                 throw new WalletKeypairError(error?.message, error);
             }
 
+            this._openLogin = openLogin;
             this._keypair = keypair;
-            this._provider = provider;
+
             this.emit('connect');
         } catch (error) {
             this.emit('error', error);
@@ -123,14 +119,14 @@ export class TorusWalletAdapter extends EventEmitter<WalletAdapterEvents> implem
     }
 
     async disconnect(): Promise<void> {
-        const provider = this._provider;
-        if (provider) {
-            this._keypair = undefined;
-            this._provider = undefined;
+        const openLogin = this._openLogin;
+        if (openLogin) {
+            this._openLogin = null;
+            this._keypair = null;
 
             try {
-                await provider.logout();
-                await provider._cleanup();
+                await openLogin.logout();
+                await openLogin._cleanup();
             } catch (error) {
                 this.emit('error', new WalletDisconnectionError(error.message, error));
             }

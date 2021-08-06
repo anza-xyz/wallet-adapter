@@ -14,7 +14,6 @@ export enum WalletName {
     MathWallet = 'MathWallet',
     Sollet = 'Sollet',
     Solflare = 'Solflare',
-    // WalletConnect = 'WalletConnect',
 }
 
 export interface Wallet {
@@ -72,13 +71,6 @@ export const getSolflareWallet = (config?: SolletWalletAdapterConfig): Wallet =>
     name: WalletName.Solflare,
     url: 'https://solflare.com/',
     icon: `${ICONS_URL}/solflare.svg`,
-    adapter: () => new SolletWalletAdapter({ ...config, provider: config?.provider || 'https://solflare.com/access-wallet' }),
+    adapter: () =>
+        new SolletWalletAdapter({ ...config, provider: config?.provider || 'https://solflare.com/access-wallet' }),
 });
-
-// @FIXME:
-// export const getWalletConnectWallet = (config?: WalletConnectWalletAdapterConfig): Wallet => ({
-//     name: WalletName.WalletConnect,
-//     url: 'https://walletconnect.org',
-//     icon: `${ASSETS_URL}/walletconnect.svg`,
-//     adapter: () => new WalletConnectWalletAdapter(config),
-// });
