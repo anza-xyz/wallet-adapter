@@ -61,7 +61,6 @@ import {
     getLedgerWallet,
     getMathWallet,
     getPhantomWallet,
-    getSolflareWallet,
     getSolletWallet,
     getSolongWallet,
     getTorusWallet,
@@ -86,7 +85,6 @@ export const Wallet: FC = () => {
         getSolongWallet(),
         getMathWallet(),
         getSolletWallet(),
-        getSolflareWallet(),
     ], []);
 
     return (
