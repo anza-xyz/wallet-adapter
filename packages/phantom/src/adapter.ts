@@ -153,8 +153,8 @@ export class PhantomWalletAdapter extends EventEmitter<WalletAdapterEvents> impl
         if (wallet) {
             wallet.off('disconnect', this._disconnected);
 
-            this._publicKey = null;
             this._wallet = null;
+            this._publicKey = null;
 
             try {
                 await wallet.disconnect();
