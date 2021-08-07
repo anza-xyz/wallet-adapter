@@ -1,9 +1,11 @@
 import {
     EventEmitter,
     pollUntilReady,
+    WalletAccountError,
     WalletAdapter,
     WalletAdapterEvents,
     WalletConnectionError,
+    WalletDisconnectedError,
     WalletDisconnectionError,
     WalletError,
     WalletNotConnectedError,
@@ -14,14 +16,14 @@ import {
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 
-interface SolflareExtensionProviderEvents {
+interface SolflareWalletEvents {
     connect: (...args: unknown[]) => unknown;
     disconnect: (...args: unknown[]) => unknown;
 }
 
-interface SolflareExtensionProvider extends EventEmitter<SolflareExtensionProviderEvents> {
+interface SolflareWallet extends EventEmitter<SolflareWalletEvents> {
     isSolflare?: boolean;
-    publicKey?: PublicKey;
+    publicKey?: { toBuffer(): Buffer };
     isConnected: boolean;
     autoApprove: boolean;
     signTransaction: (transaction: Transaction) => Promise<Transaction>;
@@ -30,26 +32,27 @@ interface SolflareExtensionProvider extends EventEmitter<SolflareExtensionProvid
     disconnect: () => Promise<boolean>;
 }
 
-interface SolflareExtensionWindow extends Window {
-    solflare?: SolflareExtensionProvider;
+interface SolflareWindow extends Window {
+    solflare?: SolflareWallet;
 }
 
-declare const window: SolflareExtensionWindow;
+declare const window: SolflareWindow;
 
-export interface SolflareExtensionWalletAdapterConfig {
+export interface SolflareWalletAdapterConfig {
     pollInterval?: number;
     pollCount?: number;
 }
 
-export class SolflareExtensionWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
-    private _publicKey: PublicKey | null;
+export class SolflareWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
     private _connecting: boolean;
-    private _provider: SolflareExtensionProvider | undefined;
+    private _wallet: SolflareWallet | null;
+    private _publicKey: PublicKey | null;
 
-    constructor(config: SolflareExtensionWalletAdapterConfig = {}) {
+    constructor(config: SolflareWalletAdapterConfig = {}) {
         super();
-        this._publicKey = null;
         this._connecting = false;
+        this._wallet = null;
+        this._publicKey = null;
 
         if (!this.ready) pollUntilReady(this, config.pollInterval || 1000, config.pollCount || 3);
     }
@@ -67,11 +70,11 @@ export class SolflareExtensionWalletAdapter extends EventEmitter<WalletAdapterEv
     }
 
     get connected(): boolean {
-        return !!this._provider?.isConnected;
+        return !!this._wallet?.isConnected;
     }
 
     get autoApprove(): boolean {
-        return !!this._provider?.autoApprove;
+        return !!this._wallet?.autoApprove;
     }
 
     async connect(): Promise<void> {
@@ -79,30 +82,38 @@ export class SolflareExtensionWalletAdapter extends EventEmitter<WalletAdapterEv
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const provider = window.solflare;
-            if (!provider) throw new WalletNotFoundError();
-            if (!provider.isSolflare) throw new WalletNotInstalledError();
+            const wallet = window.solflare;
+            if (!wallet) throw new WalletNotFoundError();
+            if (!wallet.isSolflare) throw new WalletNotInstalledError();
 
-            if (!provider.isConnected) {
+            if (!wallet.isConnected) {
                 try {
-                    if (!await provider.connect()) {
-                        throw new Error('Connection rejected')
-                    }
+                    await wallet.connect();
                 } catch (error) {
                     if (error instanceof WalletError) throw error;
                     throw new WalletConnectionError(error?.message, error);
                 }
             }
 
+            let buffer: Buffer;
+            try {
+                buffer = wallet.publicKey!.toBuffer();
+            } catch (error) {
+                throw new WalletAccountError(error?.message, error);
+            }
+
             let publicKey: PublicKey;
             try {
-                publicKey = new PublicKey(provider.publicKey!.toString());
+                publicKey = new PublicKey(buffer);
             } catch (error) {
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
+            wallet.on('disconnect', this._disconnected);
+
+            this._wallet = wallet;
             this._publicKey = publicKey;
-            this._provider = provider;
+
             this.emit('connect');
         } catch (error) {
             this.emit('error', error);
@@ -113,15 +124,15 @@ export class SolflareExtensionWalletAdapter extends EventEmitter<WalletAdapterEv
     }
 
     async disconnect(): Promise<void> {
-        const provider = this._provider;
-        if (provider) {
+        const wallet = this._wallet;
+        if (wallet) {
+            wallet.off('disconnect', this._disconnected);
+
+            this._wallet = null;
             this._publicKey = null;
-            this._provider = undefined;
 
             try {
-                if (!await provider.disconnect()) {
-                    throw new Error('Failed to disconnect');
-                }
+                await wallet.disconnect();
             } catch (error) {
                 this.emit('error', new WalletDisconnectionError(error.message, error));
             }
@@ -132,11 +143,11 @@ export class SolflareExtensionWalletAdapter extends EventEmitter<WalletAdapterEv
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {
         try {
-            const provider = this._provider;
-            if (!provider) throw new WalletNotConnectedError();
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return provider.signTransaction(transaction);
+                return wallet.signTransaction(transaction);
             } catch (error) {
                 throw new WalletSignatureError(error?.message, error);
             }
@@ -148,11 +159,11 @@ export class SolflareExtensionWalletAdapter extends EventEmitter<WalletAdapterEv
 
     async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
         try {
-            const provider = this._provider;
-            if (!provider) throw new WalletNotConnectedError();
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return provider.signAllTransactions(transactions);
+                return wallet.signAllTransactions(transactions);
             } catch (error) {
                 throw new WalletSignatureError(error?.message, error);
             }
@@ -161,4 +172,17 @@ export class SolflareExtensionWalletAdapter extends EventEmitter<WalletAdapterEv
             throw error;
         }
     }
+
+    private _disconnected = () => {
+        const wallet = this._wallet;
+        if (wallet) {
+            wallet.off('disconnect', this._disconnected);
+
+            this._wallet = null;
+            this._publicKey = null;
+
+            this.emit('error', new WalletDisconnectedError());
+            this.emit('disconnect');
+        }
+    };
 }
