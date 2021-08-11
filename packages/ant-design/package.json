@@ -1,6 +1,6 @@
 {
-    "name": "@solana/wallet-adapter-material-ui",
-    "version": "0.6.1",
+    "name": "@solana/wallet-adapter-ant-design",
+    "version": "0.1.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -19,8 +19,8 @@
         "build": "yarn clean && tsc"
     },
     "peerDependencies": {
-        "@material-ui/core": "^4.12.1",
-        "@material-ui/icons": "^4.11.2",
+        "antd": "^4.16.11",
+        "@ant-design/icons": "^4.6.2",
         "@solana/wallet-adapter-base": "^0.4.1",
         "@solana/wallet-adapter-react": "^0.6.0",
         "@solana/wallet-adapter-wallets": "^0.6.0",
@@ -28,8 +28,8 @@
         "react": "^17.0.2"
     },
     "devDependencies": {
-        "@material-ui/core": "^4.12.1",
-        "@material-ui/icons": "^4.11.2",
+        "antd": "^4.16.11",
+        "@ant-design/icons": "^4.6.2",
         "@solana/wallet-adapter-base": "^0.4.1",
         "@solana/wallet-adapter-react": "^0.6.0",
         "@solana/wallet-adapter-wallets": "^0.6.0",
