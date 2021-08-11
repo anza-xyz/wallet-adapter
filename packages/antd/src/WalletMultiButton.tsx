@@ -1,4 +1,8 @@
-import { CopyOutlined as CopyIcon, DisconnectOutlined as DisconnectIcon } from '@ant-design/icons';
+import {
+    CopyOutlined as CopyIcon,
+    DisconnectOutlined as DisconnectIcon,
+    SwapOutlined as SwitchIcon,
+} from '@ant-design/icons';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { Button, ButtonProps, Dropdown, Menu } from 'antd';
 import React, { FC, useMemo } from 'react';
@@ -7,7 +11,14 @@ import { WalletConnectButton } from './WalletConnectButton';
 import { WalletIcon } from './WalletIcon';
 import { WalletModalButton } from './WalletModalButton';
 
-export const WalletMultiButton: FC<ButtonProps> = ({ children, disabled, onClick, ...props }) => {
+export const WalletMultiButton: FC<ButtonProps> = ({
+    type = 'primary',
+    size = 'large',
+    children,
+    disabled,
+    onClick,
+    ...props
+}) => {
     const { publicKey, wallet, disconnect } = useWallet();
     const { setVisible } = useWalletModal();
 
@@ -29,31 +40,42 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, disabled, onClick
     return (
         <Dropdown
             overlay={
-                <Menu>
-                    <Menu.Item key={0}>
-                        <Button icon={<WalletIcon wallet={wallet} />} {...props}>
+                <Menu style={{ padding: 0, marginTop: -44 }}>
+                    <Menu.Item style={{ padding: 0 }}>
+                        <Button
+                            icon={<WalletIcon wallet={wallet} />}
+                            type={type}
+                            size={size}
+                            style={{ textAlign: 'left' }}
+                            block
+                            {...props}
+                        >
                             {wallet.name}
                         </Button>
                     </Menu.Item>
                     <Menu.Item
-                        key={1}
                         onClick={async () => {
                             await navigator.clipboard.writeText(base58);
                         }}
-                        icon={<CopyIcon />}
+                        icon={<CopyIcon style={{ fontSize: 20, marginRight: 12 }} />}
+                        style={{ padding: 0, paddingLeft: 12, paddingRight: 16, paddingTop: 8, paddingBottom: 8 }}
                     >
                         Copy address
                     </Menu.Item>
-                    <Menu.Item key={2} onClick={() => setVisible(true)} icon={<CopyIcon />}>
+                    <Menu.Item
+                        onClick={() => setTimeout(() => setVisible(true), 100)}
+                        icon={<SwitchIcon style={{ fontSize: 20, marginRight: 12 }} />}
+                        style={{ padding: 0, paddingLeft: 12, paddingRight: 16, paddingTop: 8, paddingBottom: 8 }}
+                    >
                         Connect a different wallet
                     </Menu.Item>
                     <Menu.Item
-                        key={3}
                         onClick={() => {
                             // eslint-disable-next-line @typescript-eslint/no-empty-function
                             disconnect().catch(() => {});
                         }}
-                        icon={<DisconnectIcon />}
+                        icon={<DisconnectIcon style={{ fontSize: 20, marginRight: 12 }} />}
+                        style={{ padding: 0, paddingLeft: 12, paddingRight: 16, paddingTop: 8, paddingBottom: 8 }}
                     >
                         Disconnect
                     </Menu.Item>
@@ -61,7 +83,7 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, disabled, onClick
             }
             trigger={['click']}
         >
-            <Button icon={<WalletIcon wallet={wallet} />} {...props}>
+            <Button icon={<WalletIcon wallet={wallet} />} type={type} size={size} {...props}>
                 {content}
             </Button>
         </Dropdown>

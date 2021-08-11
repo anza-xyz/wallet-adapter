@@ -2,7 +2,13 @@ import { Button, ButtonProps } from 'antd';
 import React, { FC, MouseEventHandler, useCallback } from 'react';
 import { useWalletModal } from './useWalletModal';
 
-export const WalletModalButton: FC<ButtonProps> = ({ children = 'Select Wallet', onClick, ...props }) => {
+export const WalletModalButton: FC<ButtonProps> = ({
+    children = 'Select Wallet',
+    type = 'primary',
+    size = 'large',
+    onClick,
+    ...props
+}) => {
     const { setVisible } = useWalletModal();
 
     const handleClick: MouseEventHandler<HTMLButtonElement> = useCallback(
@@ -14,7 +20,7 @@ export const WalletModalButton: FC<ButtonProps> = ({ children = 'Select Wallet',
     );
 
     return (
-        <Button onClick={handleClick} {...props}>
+        <Button onClick={handleClick} type={type} size={size} {...props}>
             {children}
         </Button>
     );

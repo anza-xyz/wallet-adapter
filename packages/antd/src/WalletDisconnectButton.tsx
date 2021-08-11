@@ -3,7 +3,14 @@ import { Button, ButtonProps } from 'antd';
 import React, { FC, MouseEventHandler, useCallback, useMemo } from 'react';
 import { WalletIcon } from './WalletIcon';
 
-export const WalletDisconnectButton: FC<ButtonProps> = ({ children, disabled, onClick, ...props }) => {
+export const WalletDisconnectButton: FC<ButtonProps> = ({
+    type = 'primary',
+    size = 'large',
+    children,
+    disabled,
+    onClick,
+    ...props
+}) => {
     const { wallet, disconnect, disconnecting } = useWallet();
 
     const handleClick: MouseEventHandler<HTMLButtonElement> = useCallback(
@@ -23,7 +30,14 @@ export const WalletDisconnectButton: FC<ButtonProps> = ({ children, disabled, on
     }, [children, disconnecting, wallet]);
 
     return (
-        <Button onClick={handleClick} disabled={disabled || !wallet} icon={<WalletIcon wallet={wallet} />} {...props}>
+        <Button
+            onClick={handleClick}
+            disabled={disabled || !wallet}
+            icon={<WalletIcon wallet={wallet} />}
+            type={type}
+            size={size}
+            {...props}
+        >
             {content}
         </Button>
     );
