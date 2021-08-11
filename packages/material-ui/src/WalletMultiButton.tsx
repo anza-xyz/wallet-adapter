@@ -59,13 +59,11 @@ export const WalletMultiButton: FC<ButtonProps> = ({
     ...props
 }) => {
     const styles = useStyles();
-    const { publicKey, wallet, autoConnect, disconnect } = useWallet();
+    const { publicKey, wallet, disconnect } = useWallet();
     const { setOpen } = useWalletDialog();
-
     const [anchor, setAnchor] = useState<HTMLElement>();
 
     const base58 = useMemo(() => publicKey?.toBase58(), [publicKey]);
-
     const content = useMemo(() => {
         if (children) return children;
         if (!wallet || !base58) return null;
