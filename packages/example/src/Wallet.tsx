@@ -13,7 +13,7 @@ import {
     WalletModalProvider as AntDesignWalletModalProvider,
     WalletDisconnectButton as AntDesignWalletDisconnectButton,
     WalletMultiButton as AntDesignWalletMultiButton,
-} from '@solana/wallet-adapter-antd';
+} from '@solana/wallet-adapter-ant-design';
 import { useLocalStorage, WalletProvider } from '@solana/wallet-adapter-react';
 import {
     getLedgerWallet,
