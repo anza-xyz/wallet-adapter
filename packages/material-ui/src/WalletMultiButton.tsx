@@ -42,6 +42,10 @@ const useStyles = makeStyles((theme: Theme) => ({
         '& .MuiListItemIcon-root': {
             marginRight: theme.spacing(),
             minWidth: 'unset',
+            '& .MuiSvgIcon-root': {
+                width: 20,
+                height: 20,
+            },
         },
     },
 }));
