@@ -3,13 +3,13 @@ import { WalletModalContext } from './useWalletModal';
 import { WalletModal } from './WalletModal';
 
 export const WalletModalProvider: FC<{ children: ReactNode }> = ({ children }) => {
-    const [open, setOpen] = useState(false);
+    const [visible, setVisible] = useState(false);
 
     return (
         <WalletModalContext.Provider
             value={{
-                visible: open,
-                setVisible: setOpen,
+                visible,
+                setVisible,
             }}
         >
             {children}
