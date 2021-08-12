@@ -10,6 +10,9 @@ export interface WalletProviderProps {
     children: ReactNode;
     wallets: Wallet[];
     autoConnect?: boolean;
+    onReady?: () => void;
+    onConnect?: () => void;
+    onDisconnect?: () => void;
     onError?: (error: WalletError) => void;
     localStorageKey?: string;
 }
@@ -17,7 +20,10 @@ export interface WalletProviderProps {
 export const WalletProvider: FC<WalletProviderProps> = ({
     wallets,
     autoConnect = false,
-    onError = (error: WalletError) => console.error(error),
+    onReady,
+    onConnect,
+    onDisconnect,
+    onError,
     localStorageKey = 'walletName',
     children,
 }) => {
@@ -58,31 +64,40 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         setPublicKey(null);
     }, [setReady, setConnecting, setDisconnecting, setConnected, setAutoApprove, setPublicKey]);
 
-    const onReady = useCallback(() => setReady(true), [setReady]);
+    const handleReady = useCallback(() => {
+        setReady(true);
+        onReady?.();
+    }, [setReady, onReady]);
 
-    const onConnect = useCallback(() => {
+    const handleConnect = useCallback(() => {
         if (!adapter) return;
 
         setConnected(true);
         setAutoApprove(adapter.autoApprove);
         setPublicKey(adapter.publicKey);
-    }, [adapter, setConnected, setAutoApprove, setPublicKey]);
+        onConnect?.();
+    }, [adapter, setConnected, setAutoApprove, setPublicKey, onConnect]);
 
-    const onDisconnect = useCallback(() => reset(), [reset]);
+    const handleDisconnect = useCallback(() => {
+        reset();
+        onDisconnect?.();
+    }, [reset, onDisconnect]);
+
+    const handleError = useMemo(() => onError || ((error: WalletError) => console.error(error)), [onError]);
 
     const connect = useCallback(async () => {
         if (connecting || disconnecting || connected) return;
 
         if (!wallet || !adapter) {
             const error = new WalletNotSelectedError();
-            onError(error);
+            handleError(error);
             throw error;
         }
         if (!ready) {
             window.open(wallet.url, '_blank');
 
             const error = new WalletNotReadyError();
-            onError(error);
+            handleError(error);
             throw error;
         }
 
@@ -92,7 +107,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         } finally {
             setConnecting(false);
         }
-    }, [connecting, disconnecting, connected, adapter, onError, ready, wallet, setConnecting]);
+    }, [connecting, disconnecting, connected, adapter, handleError, ready, wallet, setConnecting]);
 
     const disconnect = useCallback(async () => {
         if (disconnecting) return;
@@ -115,36 +130,36 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         async (transaction: Transaction) => {
             if (!adapter) {
                 const error = new WalletNotSelectedError();
-                onError(error);
+                handleError(error);
                 throw error;
             }
             if (!connected) {
                 const error = new WalletNotConnectedError();
-                onError(error);
+                handleError(error);
                 throw error;
             }
 
             return await adapter.signTransaction(transaction);
         },
-        [adapter, onError, connected]
+        [adapter, handleError, connected]
     );
 
     const signAllTransactions = useCallback(
         async (transactions: Transaction[]) => {
             if (!adapter) {
                 const error = new WalletNotSelectedError();
-                onError(error);
+                handleError(error);
                 throw error;
             }
             if (!connected) {
                 const error = new WalletNotConnectedError();
-                onError(error);
+                handleError(error);
                 throw error;
             }
 
             return await adapter.signAllTransactions(transactions);
         },
-        [adapter, onError, connected]
+        [adapter, handleError, connected]
     );
 
     // Reset state and set the wallet, adapter, and ready state when the name changes
@@ -162,18 +177,18 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     // Setup and teardown event listeners when the adapter changes
     useEffect(() => {
         if (adapter) {
-            adapter.on('ready', onReady);
-            adapter.on('connect', onConnect);
-            adapter.on('disconnect', onDisconnect);
-            adapter.on('error', onError);
+            adapter.on('ready', handleReady);
+            adapter.on('connect', handleConnect);
+            adapter.on('disconnect', handleDisconnect);
+            adapter.on('error', handleError);
             return () => {
-                adapter.off('ready', onReady);
-                adapter.off('connect', onConnect);
-                adapter.off('disconnect', onDisconnect);
-                adapter.off('error', onError);
+                adapter.off('ready', handleReady);
+                adapter.off('connect', handleConnect);
+                adapter.off('disconnect', handleDisconnect);
+                adapter.off('error', handleError);
             };
         }
-    }, [adapter, onReady, onConnect, onDisconnect, onError]);
+    }, [adapter, handleReady, handleConnect, handleDisconnect, handleError]);
 
     // If autoConnect is enabled, try to connect when the adapter changes and is ready
     useEffect(() => {
