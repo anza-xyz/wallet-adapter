@@ -44,7 +44,7 @@ export const getMathWallet = (config?: MathWalletWalletAdapterConfig): Wallet =>
 export const getPhantomWallet = (config?: PhantomWalletAdapterConfig): Wallet => ({
     name: WalletName.Phantom,
     url: 'https://www.phantom.app',
-    icon: `${ICONS_URL}/phantom.png`,
+    icon: `${ICONS_URL}/phantom.svg`,
     adapter: () => new PhantomWalletAdapter(config),
 });
 
