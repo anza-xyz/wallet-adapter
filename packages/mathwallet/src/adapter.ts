@@ -1,23 +1,21 @@
 import {
-    EventEmitter,
+    BaseSignerWalletAdapter,
     pollUntilReady,
     WalletAccountError,
-    WalletAdapter,
-    WalletAdapterEvents,
     WalletDisconnectedError,
     WalletNotConnectedError,
     WalletNotFoundError,
     WalletNotInstalledError,
     WalletPublicKeyError,
-    WalletSignatureError,
+    WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 
 interface MathWallet {
     isMathWallet?: boolean;
-    getAccount: () => Promise<string>;
-    signTransaction: (transaction: Transaction) => Promise<Transaction>;
-    signAllTransactions: (transactions: Transaction[]) => Promise<Transaction[]>;
+    getAccount(): Promise<string>;
+    signTransaction(transaction: Transaction): Promise<Transaction>;
+    signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
 }
 
 interface MathWalletWindow extends Window {
@@ -31,7 +29,7 @@ export interface MathWalletWalletAdapterConfig {
     pollCount?: number;
 }
 
-export class MathWalletWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
+export class MathWalletWalletAdapter extends BaseSignerWalletAdapter {
     private _connecting: boolean;
     private _wallet: MathWallet | null;
     private _publicKey: PublicKey | null;
@@ -123,7 +121,7 @@ export class MathWalletWalletAdapter extends EventEmitter<WalletAdapterEvents> i
             try {
                 return wallet.signTransaction(transaction);
             } catch (error) {
-                throw new WalletSignatureError(error?.message, error);
+                throw new WalletSignTransactionError(error?.message, error);
             }
         } catch (error) {
             this.emit('error', error);
@@ -139,7 +137,7 @@ export class MathWalletWalletAdapter extends EventEmitter<WalletAdapterEvents> i
             try {
                 return wallet.signAllTransactions(transactions);
             } catch (error) {
-                throw new WalletSignatureError(error?.message, error);
+                throw new WalletSignTransactionError(error?.message, error);
             }
         } catch (error) {
             this.emit('error', error);

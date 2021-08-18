@@ -1,6 +1,12 @@
-import { WalletAdapter, WalletError, WalletNotConnectedError, WalletNotReadyError } from '@solana/wallet-adapter-base';
+import {
+    SignerWalletAdapter,
+    WalletAdapter,
+    WalletError,
+    WalletNotConnectedError,
+    WalletNotReadyError,
+} from '@solana/wallet-adapter-base';
 import { Wallet, WalletName } from '@solana/wallet-adapter-wallets';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import { Connection, PublicKey, SendOptions, Transaction } from '@solana/web3.js';
 import React, { FC, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { WalletNotSelectedError } from './errors';
 import { useLocalStorage } from './useLocalStorage';
@@ -23,7 +29,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
 }) => {
     const [name, setName] = useLocalStorage<WalletName | null>(localStorageKey, null);
     const [wallet, setWallet] = useState<Wallet>();
-    const [adapter, setAdapter] = useState<WalletAdapter>();
+    const [adapter, setAdapter] = useState<WalletAdapter | SignerWalletAdapter>();
     const [ready, setReady] = useState(false);
     const [connecting, setConnecting] = useState(false);
     const [disconnecting, setDisconnecting] = useState(false);
@@ -111,8 +117,8 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         }
     }, [disconnecting, adapter, select, setDisconnecting]);
 
-    const signTransaction = useCallback(
-        async (transaction: Transaction) => {
+    const sendTransaction = useCallback(
+        async (transaction: Transaction, connection: Connection, options?: SendOptions) => {
             if (!adapter) {
                 const error = new WalletNotSelectedError();
                 onError(error);
@@ -124,26 +130,40 @@ export const WalletProvider: FC<WalletProviderProps> = ({
                 throw error;
             }
 
-            return await adapter.signTransaction(transaction);
+            return await adapter.sendTransaction(transaction, connection, options);
         },
         [adapter, onError, connected]
     );
 
-    const signAllTransactions = useCallback(
-        async (transactions: Transaction[]) => {
-            if (!adapter) {
-                const error = new WalletNotSelectedError();
-                onError(error);
-                throw error;
-            }
-            if (!connected) {
-                const error = new WalletNotConnectedError();
-                onError(error);
-                throw error;
-            }
+    const signTransaction = useMemo(
+        () =>
+            adapter && 'signTransaction' in adapter
+                ? async (transaction: Transaction) => {
+                      if (!connected) {
+                          const error = new WalletNotConnectedError();
+                          onError(error);
+                          throw error;
+                      }
 
-            return await adapter.signAllTransactions(transactions);
-        },
+                      return await adapter.signTransaction(transaction);
+                  }
+                : undefined,
+        [adapter, onError, connected]
+    );
+
+    const signAllTransactions = useMemo(
+        () =>
+            adapter && 'signAllTransactions' in adapter
+                ? async (transactions: Transaction[]) => {
+                      if (!connected) {
+                          const error = new WalletNotConnectedError();
+                          onError(error);
+                          throw error;
+                      }
+
+                      return await adapter.signAllTransactions(transactions);
+                  }
+                : undefined,
         [adapter, onError, connected]
     );
 
@@ -196,8 +216,9 @@ export const WalletProvider: FC<WalletProviderProps> = ({
             value={{
                 wallets,
                 autoConnect,
-                wallet,
                 select,
+                wallet,
+                adapter,
                 publicKey,
                 ready,
                 connecting,
@@ -206,6 +227,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
                 autoApprove,
                 connect,
                 disconnect,
+                sendTransaction,
                 signTransaction,
                 signAllTransactions,
             }}

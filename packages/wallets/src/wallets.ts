@@ -1,4 +1,4 @@
-import { WalletAdapter } from '@solana/wallet-adapter-base';
+import { SignerWalletAdapter, WalletAdapter } from '@solana/wallet-adapter-base';
 import { LedgerWalletAdapter, LedgerWalletAdapterConfig } from '@solana/wallet-adapter-ledger';
 import { MathWalletWalletAdapter, MathWalletWalletAdapterConfig } from '@solana/wallet-adapter-mathwallet';
 import { PhantomWalletAdapter, PhantomWalletAdapterConfig } from '@solana/wallet-adapter-phantom';
@@ -22,7 +22,7 @@ export interface Wallet {
     name: WalletName;
     url: string;
     icon: string;
-    adapter: () => WalletAdapter;
+    adapter: () => WalletAdapter | SignerWalletAdapter;
 }
 
 export const ICONS_URL = 'https://raw.githubusercontent.com/solana-labs/wallet-adapter/master/packages/wallets/icons';
