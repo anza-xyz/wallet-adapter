@@ -35,8 +35,7 @@ export class LedgerWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get ready(): boolean {
-        // @FIXME: could return !!navigator.hid
-        return true;
+        return !!navigator.hid;
     }
 
     get connecting(): boolean {
