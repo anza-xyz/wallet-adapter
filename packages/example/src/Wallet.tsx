@@ -1,4 +1,11 @@
 import { FormControlLabel, Switch, Table, TableBody, TableCell, TableHead, TableRow, Tooltip } from '@material-ui/core';
+import {
+    WalletConnectButton as AntDesignWalletConnectButton,
+    WalletDisconnectButton as AntDesignWalletDisconnectButton,
+    WalletModalButton as AntDesignWalletModalButton,
+    WalletModalProvider as AntDesignWalletModalProvider,
+    WalletMultiButton as AntDesignWalletMultiButton,
+} from '@solana/wallet-adapter-ant-design';
 import { WalletError } from '@solana/wallet-adapter-base';
 import {
     WalletConnectButton as MaterialUIWalletConnectButton,
@@ -7,13 +14,6 @@ import {
     WalletDisconnectButton as MaterialUIWalletDisconnectButton,
     WalletMultiButton as MaterialUIWalletMultiButton,
 } from '@solana/wallet-adapter-material-ui';
-import {
-    WalletConnectButton as AntDesignWalletConnectButton,
-    WalletModalButton as AntDesignWalletModalButton,
-    WalletModalProvider as AntDesignWalletModalProvider,
-    WalletDisconnectButton as AntDesignWalletDisconnectButton,
-    WalletMultiButton as AntDesignWalletMultiButton,
-} from '@solana/wallet-adapter-ant-design';
 import { useLocalStorage, WalletProvider } from '@solana/wallet-adapter-react';
 import {
     getLedgerWallet,
