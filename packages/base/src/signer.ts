@@ -16,13 +16,8 @@ export abstract class BaseSignerWalletAdapter extends BaseWalletAdapter implemen
         options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         try {
-            const publicKey = this.publicKey;
-            if (!publicKey) throw new WalletNotConnectedError();
-
-            const { blockhash } = await connection.getRecentBlockhash('max');
-
-            transaction.feePayer = publicKey;
-            transaction.recentBlockhash = blockhash;
+            transaction.feePayer ||= this.publicKey || undefined;
+            transaction.recentBlockhash ||= (await connection.getRecentBlockhash('max')).blockhash;
 
             const { signers, ...sendOptions } = options;
 
