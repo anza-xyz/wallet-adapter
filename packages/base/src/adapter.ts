@@ -1,4 +1,4 @@
-import { Connection, PublicKey, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
+import { Connection, PublicKey, SendOptions, Signer, Transaction, TransactionSignature } from '@solana/web3.js';
 import EventEmitter from 'eventemitter3';
 import { WalletError } from './errors';
 
@@ -9,6 +9,10 @@ export interface WalletAdapterEvents {
     connect(): void;
     disconnect(): void;
     error(error: WalletError): void;
+}
+
+export interface SendTransactionOptions extends SendOptions {
+    signers?: Signer[];
 }
 
 export interface WalletAdapterProps {
@@ -23,7 +27,7 @@ export interface WalletAdapterProps {
     sendTransaction(
         transaction: Transaction,
         connection: Connection,
-        options?: SendOptions
+        options?: SendTransactionOptions
     ): Promise<TransactionSignature>;
 }
 
@@ -41,7 +45,7 @@ export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents
     abstract sendTransaction(
         transaction: Transaction,
         connection: Connection,
-        options?: SendOptions
+        options?: SendTransactionOptions
     ): Promise<TransactionSignature>;
 }
 

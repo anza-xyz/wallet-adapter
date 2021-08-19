@@ -1,5 +1,5 @@
-import { Connection, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
-import { BaseWalletAdapter, WalletAdapter } from './adapter';
+import { Connection, Transaction, TransactionSignature } from '@solana/web3.js';
+import { BaseWalletAdapter, SendTransactionOptions, WalletAdapter } from './adapter';
 import { WalletError, WalletNotConnectedError, WalletSendTransactionError } from './errors';
 
 export interface SignerWalletAdapterProps {
@@ -13,7 +13,7 @@ export abstract class BaseSignerWalletAdapter extends BaseWalletAdapter implemen
     async sendTransaction(
         transaction: Transaction,
         connection: Connection,
-        options?: SendOptions
+        options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         try {
             const publicKey = this.publicKey;
@@ -24,11 +24,15 @@ export abstract class BaseSignerWalletAdapter extends BaseWalletAdapter implemen
             transaction.feePayer = publicKey;
             transaction.recentBlockhash = blockhash;
 
+            const { signers, ...sendOptions } = options;
+
+            signers?.length && transaction.partialSign(...signers);
+
             transaction = await this.signTransaction(transaction);
 
             const rawTransaction = transaction.serialize();
 
-            return await connection.sendRawTransaction(rawTransaction, options);
+            return await connection.sendRawTransaction(rawTransaction, sendOptions);
         } catch (error) {
             if (!(error instanceof WalletError)) {
                 error = new WalletSendTransactionError(error.message, error);
