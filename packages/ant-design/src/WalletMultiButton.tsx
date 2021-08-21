@@ -40,13 +40,13 @@ export const WalletMultiButton: FC<ButtonProps> = ({
     return (
         <Dropdown
             overlay={
-                <Menu style={{ padding: 0, marginTop: -44 }}>
-                    <Menu.Item style={{ padding: 0 }}>
+                <Menu className="wallet-adapter-multi-button-menu">
+                    <Menu.Item className="wallet-adapter-multi-button-menu-item">
                         <Button
                             icon={<WalletIcon wallet={wallet} />}
                             type={type}
                             size={size}
-                            style={{ textAlign: 'left' }}
+                            className="wallet-adapter-multi-button-menu-button"
                             block
                             {...props}
                         >
@@ -57,15 +57,15 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                         onClick={async () => {
                             await navigator.clipboard.writeText(base58);
                         }}
-                        icon={<CopyIcon style={{ fontSize: 20, marginRight: 12 }} />}
-                        style={{ padding: 0, paddingLeft: 12, paddingRight: 16, paddingTop: 8, paddingBottom: 8 }}
+                        icon={<CopyIcon className=".wallet-adapter-multi-button-icon" />}
+                        className="wallet-adapter-multi-button-item"
                     >
                         Copy address
                     </Menu.Item>
                     <Menu.Item
                         onClick={() => setTimeout(() => setVisible(true), 100)}
-                        icon={<SwitchIcon style={{ fontSize: 20, marginRight: 12 }} />}
-                        style={{ padding: 0, paddingLeft: 12, paddingRight: 16, paddingTop: 8, paddingBottom: 8 }}
+                        icon={<SwitchIcon className=".wallet-adapter-multi-button-icon" />}
+                        className="wallet-adapter-multi-button-item"
                     >
                         Connect a different wallet
                     </Menu.Item>
@@ -74,8 +74,8 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                             // eslint-disable-next-line @typescript-eslint/no-empty-function
                             disconnect().catch(() => {});
                         }}
-                        icon={<DisconnectIcon style={{ fontSize: 20, marginRight: 12 }} />}
-                        style={{ padding: 0, paddingLeft: 12, paddingRight: 16, paddingTop: 8, paddingBottom: 8 }}
+                        icon={<DisconnectIcon className=".wallet-adapter-multi-button-icon" />}
+                        className="wallet-adapter-multi-button-item"
                     >
                         Disconnect
                     </Menu.Item>

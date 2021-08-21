@@ -16,25 +16,28 @@
     },
     "scripts": {
         "clean": "rm -rf lib/*",
-        "build": "yarn clean && tsc"
+        "build": "yarn clean && tsc",
+        "postbuild": "copyfiles -f src/styles.less lib/"
     },
     "peerDependencies": {
-        "antd": "^4.16.11",
         "@ant-design/icons": "^4.6.2",
         "@solana/wallet-adapter-base": "^0.4.1",
         "@solana/wallet-adapter-react": "^0.7.1",
         "@solana/wallet-adapter-wallets": "^0.6.1",
         "@solana/web3.js": "^1.20.0",
+        "antd": "^4.16.11",
+        "craco-less": "^1.18.0",
         "react": "^17.0.2"
     },
     "devDependencies": {
-        "antd": "^4.16.11",
         "@ant-design/icons": "^4.6.2",
         "@solana/wallet-adapter-base": "^0.4.1",
         "@solana/wallet-adapter-react": "^0.7.1",
         "@solana/wallet-adapter-wallets": "^0.6.1",
         "@solana/web3.js": "^1.20.0",
         "@types/react": "^17.0.16",
+        "antd": "^4.16.11",
+        "copyfiles": "^2.4.1",
         "react": "^17.0.2"
     }
 }
