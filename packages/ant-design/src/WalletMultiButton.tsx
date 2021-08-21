@@ -40,13 +40,13 @@ export const WalletMultiButton: FC<ButtonProps> = ({
     return (
         <Dropdown
             overlay={
-                <Menu className="ant-design-wallet-multi-button-menu">
-                    <Menu.Item className="ant-design-wallet-multi-button-menu-wallet-name-item">
+                <Menu className="wallet-adapter-multi-button-menu">
+                    <Menu.Item className="wallet-adapter-multi-button-menu-item">
                         <Button
                             icon={<WalletIcon wallet={wallet} />}
                             type={type}
                             size={size}
-                            className="ant-design-wallet-multi-button-menu-wallet-name-button"
+                            className="wallet-adapter-multi-button-menu-button"
                             block
                             {...props}
                         >
@@ -57,15 +57,15 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                         onClick={async () => {
                             await navigator.clipboard.writeText(base58);
                         }}
-                        icon={<CopyIcon className=".ant-design-wallet-multi-button-icon" />}
-                        className="ant-design-wallet-multi-button-menu-item"
+                        icon={<CopyIcon className=".wallet-adapter-multi-button-icon" />}
+                        className="wallet-adapter-multi-button-item"
                     >
                         Copy address
                     </Menu.Item>
                     <Menu.Item
                         onClick={() => setTimeout(() => setVisible(true), 100)}
-                        icon={<SwitchIcon className=".ant-design-wallet-multi-button-icon" />}
-                        className="ant-design-wallet-multi-button-menu-item"
+                        icon={<SwitchIcon className=".wallet-adapter-multi-button-icon" />}
+                        className="wallet-adapter-multi-button-item"
                     >
                         Connect a different wallet
                     </Menu.Item>
@@ -74,8 +74,8 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                             // eslint-disable-next-line @typescript-eslint/no-empty-function
                             disconnect().catch(() => {});
                         }}
-                        icon={<DisconnectIcon className=".ant-design-wallet-multi-button-icon" />}
-                        className="ant-design-wallet-multi-button-menu-item"
+                        icon={<DisconnectIcon className=".wallet-adapter-multi-button-icon" />}
+                        className="wallet-adapter-multi-button-item"
                     >
                         Disconnect
                     </Menu.Item>

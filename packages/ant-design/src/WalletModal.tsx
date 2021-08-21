@@ -23,17 +23,17 @@ export const WalletModal: FC<WalletModalProps> = ({ title = 'Select your wallet'
             bodyStyle={{ padding: 0 }}
             {...props}
         >
-            <Menu className="ant-design-wallet-modal-menu">
+            <Menu className="wallet-adapter-modal-menu">
                 {wallets.map((wallet) => (
-                    <Menu.Item key={wallet.name} className="ant-design-wallet-modal-menu-item">
+                    <Menu.Item key={wallet.name} className="wallet-adapter-modal-menu-item">
                         <Button
                             onClick={() => {
                                 select(wallet.name);
                                 setVisible(false);
                             }}
-                            icon={<WalletIcon wallet={wallet} className="ant-design-wallet-modal-menu-button-icon" />}
+                            icon={<WalletIcon wallet={wallet} className="wallet-adapter-modal-menu-button-icon" />}
                             type="text"
-                            className="ant-design-wallet-modal-menu-button"
+                            className="wallet-adapter-modal-menu-button"
                             block
                         >
                             {wallet.name}

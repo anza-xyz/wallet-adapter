@@ -52,14 +52,14 @@ Check out usage in the [example](https://github.com/solana-labs/wallet-adapter/t
 You can override the following elements from the stylesheet:
 
 ```
-.ant-design-wallet-icon
-.ant-design-wallet-modal-menu
-.ant-design-wallet-modal-menu-item
-.ant-design-wallet-modal-menu-button
-.ant-design-wallet-modal-menu-button-icon
-.ant-design-wallet-multi-button-menu
-.ant-design-wallet-multi-button-menu-wallet-name-item
-.ant-design-wallet-multi-button-menu-wallet-name-button
-.ant-design-wallet-multi-button-icon
-.ant-design-wallet-multi-button-menu-item 
+.wallet-adapter-icon
+.wallet-adapter-modal-menu
+.wallet-adapter-modal-menu-item
+.wallet-adapter-modal-menu-button
+.wallet-adapter-modal-menu-button-icon
+.wallet-adapter-multi-button-menu
+.wallet-adapter-multi-button-menu-item
+.wallet-adapter-multi-button-menu-button
+.wallet-adapter-multi-button-icon
+.wallet-adapter-multi-button-item
 ```
