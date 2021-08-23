@@ -23,39 +23,17 @@ export const WalletModal: FC<WalletModalProps> = ({ title = 'Select your wallet'
             bodyStyle={{ padding: 0 }}
             {...props}
         >
-            <Menu
-                style={{
-                    borderRight: 0,
-                }}
-            >
+            <Menu className="wallet-adapter-modal-menu">
                 {wallets.map((wallet) => (
-                    <Menu.Item
-                        key={wallet.name}
-                        style={{
-                            margin: 0,
-                            padding: 0,
-                            paddingLeft: 0,
-                            paddingRight: 0,
-                            height: 44,
-                            lineHeight: '44px',
-                            boxShadow: 'inset 0 -1px 0 0 ' + 'rgba(255, 255, 255, 0.1)',
-                        }}
-                    >
+                    <Menu.Item key={wallet.name} className="wallet-adapter-modal-menu-item">
                         <Button
-                            onClick={(event) => {
+                            onClick={() => {
                                 select(wallet.name);
                                 setVisible(false);
                             }}
-                            icon={<WalletIcon wallet={wallet} style={{ width: 24, height: 24, marginLeft: 8 }} />}
+                            icon={<WalletIcon wallet={wallet} className="wallet-adapter-modal-menu-button-icon" />}
                             type="text"
-                            style={{
-                                height: 44,
-                                paddingLeft: 24,
-                                display: 'flex',
-                                flexDirection: 'row-reverse',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                            }}
+                            className="wallet-adapter-modal-menu-button"
                             block
                         >
                             {wallet.name}

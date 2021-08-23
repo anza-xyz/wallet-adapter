@@ -10,7 +10,7 @@ export const WalletIcon: FC<WalletIconProps> = ({ wallet, ...props }) => {
         <img
             src={wallet.icon}
             alt={`${wallet.name} icon`}
-            style={{ width: 24, height: 24, marginRight: 8, marginLeft: -4 }}
+            className="wallet-adapter-icon"
             {...props}
         />
     ) : null;
