@@ -1,5 +1,6 @@
 import {
     Button,
+    Collapse,
     Dialog,
     DialogContent,
     DialogProps,
@@ -11,10 +12,13 @@ import {
     Theme,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 import { useWallet } from '@solana/wallet-adapter-react';
-import React, { FC, ReactElement, SyntheticEvent, useCallback } from 'react';
+import { WalletName } from '@solana/wallet-adapter-wallets';
+import React, { FC, ReactElement, SyntheticEvent, useCallback, useState } from 'react';
 import { useWalletDialog } from './useWalletDialog';
-import { WalletIcon } from './WalletIcon';
+import { WalletListItem } from './WalletListItem';
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
@@ -57,7 +61,10 @@ const useStyles = makeStyles((theme: Theme) => ({
                     padding: theme.spacing(1, 3),
                     borderRadius: undefined,
                     fontSize: '1rem',
-                    fontWeight: 300,
+                    fontWeight: 500,
+                },
+                '& .MuiSvgIcon-root': {
+                    color: theme.palette.grey[500],
                 },
             },
         },
@@ -72,6 +79,14 @@ export const WalletDialog: FC<WalletDialogProps> = ({ title = 'Select your walle
     const styles = useStyles();
     const { wallets, select } = useWallet();
     const { open, setOpen } = useWalletDialog();
+    const [expanded, setExpanded] = useState(false);
+
+    const featuredWallets = wallets.slice(0, 2);
+    const otherWallets = wallets.slice(2);
+
+    const handleClick = () => {
+        setExpanded(!expanded);
+    };
 
     const handleClose = useCallback(
         (event: SyntheticEvent, reason?: 'backdropClick' | 'escapeKeyDown') => {
@@ -80,6 +95,11 @@ export const WalletDialog: FC<WalletDialogProps> = ({ title = 'Select your walle
         },
         [setOpen, onClose]
     );
+
+    const handleWalletClick = (event: SyntheticEvent, walletName: WalletName) => {
+        select(walletName);
+        handleClose(event);
+    };
 
     return (
         <Dialog open={open} onClose={handleClose} className={styles.root} {...props}>
@@ -91,20 +111,31 @@ export const WalletDialog: FC<WalletDialogProps> = ({ title = 'Select your walle
             </DialogTitle>
             <DialogContent>
                 <List>
-                    {wallets.map((wallet) => (
-                        <ListItem key={wallet.name}>
-                            <Button
-                                onClick={(event) => {
-                                    select(wallet.name);
-                                    handleClose(event);
-                                }}
-                                endIcon={<WalletIcon wallet={wallet} />}
-                            >
-                                {wallet.name}
-                            </Button>
-                        </ListItem>
+                    {featuredWallets.map((wallet) => (
+                        <WalletListItem
+                            key={wallet.name}
+                            handleClick={(event) => handleWalletClick(event, wallet.name)}
+                            wallet={wallet}
+                        />
                     ))}
                 </List>
+                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                    <List>
+                        {otherWallets.map((wallet) => (
+                            <WalletListItem
+                                key={wallet.name}
+                                handleClick={(event) => handleWalletClick(event, wallet.name)}
+                                wallet={wallet}
+                            />
+                        ))}
+                    </List>
+                </Collapse>
+                <ListItem>
+                    <Button onClick={handleClick}>
+                        {expanded ? 'Less' : 'More'} options
+                        {expanded ? <ExpandLess /> : <ExpandMore />}
+                    </Button>
+                </ListItem>
             </DialogContent>
         </Dialog>
     );
