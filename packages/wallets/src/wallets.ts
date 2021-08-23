@@ -1,6 +1,7 @@
 import { WalletAdapter } from '@solana/wallet-adapter-base';
 import { LedgerWalletAdapter, LedgerWalletAdapterConfig } from '@solana/wallet-adapter-ledger';
 import { MathWalletWalletAdapter, MathWalletWalletAdapterConfig } from '@solana/wallet-adapter-mathwallet';
+import { BitpieWalletWalletAdapter, BitpieWalletWalletAdapterConfig } from '@solana/wallet-adapter-bitpiewallet';
 import { PhantomWalletAdapter, PhantomWalletAdapterConfig } from '@solana/wallet-adapter-phantom';
 import { SolflareWalletAdapter, SolflareWalletAdapterConfig } from '@solana/wallet-adapter-solflare';
 import { SolletWalletAdapter, SolletWalletAdapterConfig } from '@solana/wallet-adapter-sollet';
@@ -10,6 +11,7 @@ import { TorusWalletAdapter, TorusWalletAdapterConfig } from '@solana/wallet-ada
 export enum WalletName {
     Ledger = 'Ledger',
     MathWallet = 'MathWallet',
+    BitpieWallet = 'BitpieWallet',
     Phantom = 'Phantom',
     Solflare = 'Solflare',
     SolflareWeb = 'Solflare (Web)',
@@ -39,6 +41,13 @@ export const getMathWallet = (config?: MathWalletWalletAdapterConfig): Wallet =>
     url: 'https://mathwallet.org',
     icon: `${ICONS_URL}/mathwallet.svg`,
     adapter: () => new MathWalletWalletAdapter(config),
+});
+
+export const getBitpieWallet = (config?: BitpieWalletWalletAdapterConfig): Wallet => ({
+    name: WalletName.BitpieWallet,
+    url: 'https://bitpiecn.com',
+    icon: `${ICONS_URL}/bitpiewallet.svg`,
+    adapter: () => new BitpieWalletWalletAdapter(config),
 });
 
 export const getPhantomWallet = (config?: PhantomWalletAdapterConfig): Wallet => ({
