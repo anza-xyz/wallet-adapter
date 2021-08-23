@@ -95,8 +95,7 @@ export class Coin98WalletAdapter extends EventEmitter<WalletAdapterEvents> imple
 
           let account: string;
           try {
-              const [address] = await wallet.connect();
-              account = address
+              ([account] = await wallet.connect());
           } catch (error) {
               throw new WalletAccountError(error?.message, error);
           }
