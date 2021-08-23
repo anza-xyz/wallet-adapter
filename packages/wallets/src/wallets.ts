@@ -31,7 +31,7 @@ export const ICONS_URL = 'https://raw.githubusercontent.com/solana-labs/wallet-a
 
 export const getBitpieWallet = (config?: Coin98WalletAdapterConfig): Wallet => ({
     name: WalletName.Coin98,
-    url: 'https://coin98.com/',
+    url: 'https://coin98.com',
     icon: `${ICONS_URL}/coin98.svg`,
     adapter: () => new Coin98WalletAdapter(config),
 });
