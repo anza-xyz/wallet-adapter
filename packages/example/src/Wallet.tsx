@@ -18,6 +18,7 @@ import { useLocalStorage, WalletProvider } from '@solana/wallet-adapter-react';
 import {
     getLedgerWallet,
     getMathWallet,
+    getBitpieWallet,
     getPhantomWallet,
     getSolflareWallet,
     getSolflareWebWallet,
@@ -44,6 +45,7 @@ const Wallet: FC = () => {
             getLedgerWallet(),
             getSolongWallet(),
             getMathWallet(),
+            getBitpieWallet(),
             getSolletWallet(),
             getSolflareWebWallet(),
         ],
