@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap');
+
+.phantom-wallet {
+    font-family: 'Inter', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
+}
+
 .phantom-wallet-button {
     border: none;
     border-radius: 6px;
@@ -5,13 +12,18 @@
     cursor: pointer;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    font-family: 'Inter', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 600;
     outline: none;
+    height: 50px;
+    line-height: 50px;
     width: 100%;
+    padding: 0 20px;
 }
 
 .phantom-wallet-button[disabled] {
     background: #404144;
     color: #999999;
+    cursor: not-allowed;
 }
