@@ -34,7 +34,6 @@ interface Coin98SolProvider {
 
 interface Coin98Wallet {
     sol?: Coin98SolProvider;
-    provider: unknown;
 }
 
 interface Coin98Window extends Window {
@@ -58,8 +57,6 @@ export class Coin98WalletAdapter extends EventEmitter<WalletAdapterEvents> imple
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
-        this.signTransaction = this.signTransaction.bind(this);
-        this.signAllTransactions = this.signAllTransactions.bind(this);
         if (!this.ready) pollUntilReady(this, config.pollInterval || 1000, config.pollCount || 3);
     }
 
