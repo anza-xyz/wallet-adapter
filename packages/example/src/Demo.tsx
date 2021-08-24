@@ -16,11 +16,12 @@ import {
 } from '@solana/wallet-adapter-material-ui';
 import { ConnectionProvider, useLocalStorage, WalletProvider } from '@solana/wallet-adapter-react';
 import {
+    getBitpieWallet,
+    getCoin98Wallet,
     getLedgerWallet,
     getMathWallet,
     getPhantomWallet,
     getSolflareWallet,
-    getSolflareWebWallet,
     getSolletWallet,
     getSolongWallet,
     getTorusWallet,
@@ -48,7 +49,8 @@ export const Demo: FC = () => {
             getSolongWallet(),
             getMathWallet(),
             getSolletWallet(),
-            getSolflareWebWallet(),
+            getCoin98Wallet(),
+            getBitpieWallet(),
         ],
         []
     );

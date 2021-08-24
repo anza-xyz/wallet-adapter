@@ -1,4 +1,6 @@
 import { SignerWalletAdapter, WalletAdapter } from '@solana/wallet-adapter-base';
+import { BitpieWalletAdapter, BitpieWalletAdapterConfig } from '@solana/wallet-adapter-bitpie';
+import { Coin98WalletAdapter, Coin98WalletAdapterConfig } from '@solana/wallet-adapter-coin98';
 import { LedgerWalletAdapter, LedgerWalletAdapterConfig } from '@solana/wallet-adapter-ledger';
 import { MathWalletWalletAdapter, MathWalletWalletAdapterConfig } from '@solana/wallet-adapter-mathwallet';
 import { PhantomWalletAdapter, PhantomWalletAdapterConfig } from '@solana/wallet-adapter-phantom';
@@ -8,6 +10,8 @@ import { SolongWalletAdapter, SolongWalletAdapterConfig } from '@solana/wallet-a
 import { TorusWalletAdapter, TorusWalletAdapterConfig } from '@solana/wallet-adapter-torus';
 
 export enum WalletName {
+    Bitpie = 'Bitpie',
+    Coin98 = 'Coin98',
     Ledger = 'Ledger',
     MathWallet = 'MathWallet',
     Phantom = 'Phantom',
@@ -26,6 +30,20 @@ export interface Wallet {
 }
 
 export const ICONS_URL = 'https://raw.githubusercontent.com/solana-labs/wallet-adapter/master/packages/wallets/icons';
+
+export const getBitpieWallet = (config?: BitpieWalletAdapterConfig): Wallet => ({
+    name: WalletName.Bitpie,
+    url: 'https://bitpiecn.com',
+    icon: `${ICONS_URL}/bitpie.svg`,
+    adapter: () => new BitpieWalletAdapter(config),
+});
+
+export const getCoin98Wallet = (config?: Coin98WalletAdapterConfig): Wallet => ({
+    name: WalletName.Coin98,
+    url: 'https://coin98.com',
+    icon: `${ICONS_URL}/coin98.svg`,
+    adapter: () => new Coin98WalletAdapter(config),
+});
 
 export const getLedgerWallet = (config?: LedgerWalletAdapterConfig): Wallet => ({
     name: WalletName.Ledger,

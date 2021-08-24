@@ -2,6 +2,8 @@ import { WalletError } from '@solana/wallet-adapter-base';
 import { WalletDialogProvider } from '@solana/wallet-adapter-material-ui';
 import { WalletProvider } from '@solana/wallet-adapter-react';
 import {
+    getBitpieWallet,
+    getCoin98Wallet,
     getLedgerWallet,
     getMathWallet,
     getPhantomWallet,
@@ -27,9 +29,11 @@ const Wallet: FC = () => {
                 },
             }),
             getLedgerWallet(),
+            getSolletWallet(),
             getSolongWallet(),
             getMathWallet(),
-            getSolletWallet(),
+            getCoin98Wallet(),
+            getBitpieWallet(),
         ],
         []
     );
