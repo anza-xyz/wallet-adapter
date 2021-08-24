@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-coin98",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -22,13 +22,12 @@
         "@solana/wallet-adapter-base": "^0.4.1",
         "@solana/web3.js": "^1.20.0"
     },
-    "devDependencies": {
-        "@solana/wallet-adapter-base": "^0.4.1",
-        "@solana/web3.js": "^1.20.0",
-        "@types/bs58": "^4.0.1"
-    },
     "dependencies": {
         "bs58": "^4.0.1",
         "@types/bs58": "^4.0.1"
+    },
+    "devDependencies": {
+        "@solana/wallet-adapter-base": "^0.4.1",
+        "@solana/web3.js": "^1.20.0"
     }
 }

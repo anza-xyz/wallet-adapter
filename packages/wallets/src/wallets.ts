@@ -1,8 +1,8 @@
 import { WalletAdapter } from '@solana/wallet-adapter-base';
+import { BitpieWalletAdapter, BitpieWalletAdapterConfig } from '@solana/wallet-adapter-bitpie';
 import { Coin98WalletAdapter, Coin98WalletAdapterConfig } from '@solana/wallet-adapter-coin98';
 import { LedgerWalletAdapter, LedgerWalletAdapterConfig } from '@solana/wallet-adapter-ledger';
 import { MathWalletWalletAdapter, MathWalletWalletAdapterConfig } from '@solana/wallet-adapter-mathwallet';
-import { BitpieWalletWalletAdapter, BitpieWalletWalletAdapterConfig } from '@solana/wallet-adapter-bitpiewallet';
 import { PhantomWalletAdapter, PhantomWalletAdapterConfig } from '@solana/wallet-adapter-phantom';
 import { SolflareWalletAdapter, SolflareWalletAdapterConfig } from '@solana/wallet-adapter-solflare';
 import { SolletWalletAdapter, SolletWalletAdapterConfig } from '@solana/wallet-adapter-sollet';
@@ -10,10 +10,10 @@ import { SolongWalletAdapter, SolongWalletAdapterConfig } from '@solana/wallet-a
 import { TorusWalletAdapter, TorusWalletAdapterConfig } from '@solana/wallet-adapter-torus';
 
 export enum WalletName {
+    Bitpie = 'Bitpie',
     Coin98 = 'Coin98',
     Ledger = 'Ledger',
     MathWallet = 'MathWallet',
-    BitpieWallet = 'BitpieWallet',
     Phantom = 'Phantom',
     Solflare = 'Solflare',
     SolflareWeb = 'Solflare (Web)',
@@ -31,7 +31,14 @@ export interface Wallet {
 
 export const ICONS_URL = 'https://raw.githubusercontent.com/solana-labs/wallet-adapter/master/packages/wallets/icons';
 
-export const getBitpieWallet = (config?: Coin98WalletAdapterConfig): Wallet => ({
+export const getBitpieWallet = (config?: BitpieWalletAdapterConfig): Wallet => ({
+    name: WalletName.Bitpie,
+    url: 'https://bitpiecn.com',
+    icon: `${ICONS_URL}/bitpie.svg`,
+    adapter: () => new BitpieWalletAdapter(config),
+});
+
+export const getCoin98Wallet = (config?: Coin98WalletAdapterConfig): Wallet => ({
     name: WalletName.Coin98,
     url: 'https://coin98.com',
     icon: `${ICONS_URL}/coin98.svg`,
@@ -50,13 +57,6 @@ export const getMathWallet = (config?: MathWalletWalletAdapterConfig): Wallet =>
     url: 'https://mathwallet.org',
     icon: `${ICONS_URL}/mathwallet.svg`,
     adapter: () => new MathWalletWalletAdapter(config),
-});
-
-export const getBitpieWallet = (config?: BitpieWalletWalletAdapterConfig): Wallet => ({
-    name: WalletName.BitpieWallet,
-    url: 'https://bitpiecn.com',
-    icon: `${ICONS_URL}/bitpiewallet.svg`,
-    adapter: () => new BitpieWalletWalletAdapter(config),
 });
 
 export const getPhantomWallet = (config?: PhantomWalletAdapterConfig): Wallet => ({

@@ -1,6 +1,6 @@
 {
-    "name": "@solana/wallet-adapter-bitpiewallet",
-    "version": "0.4.1",
+    "name": "@solana/wallet-adapter-bitpie",
+    "version": "0.1.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",

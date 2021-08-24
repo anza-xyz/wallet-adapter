@@ -1,8 +1,8 @@
 import { createTheme, ThemeProvider } from '@material-ui/core';
 import { deepPurple } from '@material-ui/core/colors';
+import 'antd/dist/antd.dark.less';
 import { SnackbarProvider } from 'notistack';
 import React, { FC } from 'react';
-import 'antd/dist/antd.dark.less';
 import './App.css';
 import Wallet from './Wallet';
 

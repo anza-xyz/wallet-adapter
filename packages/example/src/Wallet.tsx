@@ -1,4 +1,11 @@
 import { FormControlLabel, Switch, Table, TableBody, TableCell, TableHead, TableRow, Tooltip } from '@material-ui/core';
+import {
+    WalletConnectButton as AntDesignWalletConnectButton,
+    WalletDisconnectButton as AntDesignWalletDisconnectButton,
+    WalletModalButton as AntDesignWalletModalButton,
+    WalletModalProvider as AntDesignWalletModalProvider,
+    WalletMultiButton as AntDesignWalletMultiButton,
+} from '@solana/wallet-adapter-ant-design';
 import { WalletError } from '@solana/wallet-adapter-base';
 import {
     WalletConnectButton as MaterialUIWalletConnectButton,
@@ -7,22 +14,14 @@ import {
     WalletDisconnectButton as MaterialUIWalletDisconnectButton,
     WalletMultiButton as MaterialUIWalletMultiButton,
 } from '@solana/wallet-adapter-material-ui';
-import {
-    WalletConnectButton as AntDesignWalletConnectButton,
-    WalletModalButton as AntDesignWalletModalButton,
-    WalletModalProvider as AntDesignWalletModalProvider,
-    WalletDisconnectButton as AntDesignWalletDisconnectButton,
-    WalletMultiButton as AntDesignWalletMultiButton,
-} from '@solana/wallet-adapter-ant-design';
 import { useLocalStorage, WalletProvider } from '@solana/wallet-adapter-react';
 import {
+    getBitpieWallet,
     getCoin98Wallet,
     getLedgerWallet,
     getMathWallet,
-    getBitpieWallet,
     getPhantomWallet,
     getSolflareWallet,
-    getSolflareWebWallet,
     getSolletWallet,
     getSolongWallet,
     getTorusWallet,
@@ -43,13 +42,12 @@ const Wallet: FC = () => {
                     clientId: 'BOM5Cl7PXgE9Ylq1Z1tqzhpydY0RVr8k90QQ85N7AKI5QGSrr9iDC-3rvmy0K_hF0JfpLMiXoDhta68JwcxS1LQ',
                 },
             }),
-            getCoin98Wallet(),
             getLedgerWallet(),
+            getSolletWallet(),
             getSolongWallet(),
             getMathWallet(),
+            getCoin98Wallet(),
             getBitpieWallet(),
-            getSolletWallet(),
-            getSolflareWebWallet(),
         ],
         []
     );

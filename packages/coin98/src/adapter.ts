@@ -6,38 +6,29 @@ import {
     WalletAdapterEvents,
     WalletNotConnectedError,
     WalletNotFoundError,
+    WalletNotInstalledError,
     WalletPublicKeyError,
     WalletSignatureError,
-    WalletNotInstalledError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 import bs58 from 'bs58';
 
-interface SignTransactionResponse {
-    signature: string;
-    publicKey: string;
-}
-
-interface RequestParams {
-    method: string;
-    params: string | string[] | unknown;
-}
-
-interface Coin98SolProvider {
-    isCoin98?: boolean;
-    signTransaction: (transaction: Transaction) => Promise<Transaction>;
-    isConnected: () => boolean;
-    connect: () => Promise<string[]>;
-    disconnect: () => Promise<void>;
-    request: (params: RequestParams) => Promise<SignTransactionResponse>;
-}
-
 interface Coin98Wallet {
-    sol?: Coin98SolProvider;
+    isCoin98?: boolean;
+    signTransaction(transaction: Transaction): Promise<Transaction>;
+    isConnected(): boolean;
+    connect(): Promise<string[]>;
+    disconnect(): Promise<void>;
+    request(params: { method: string; params: string | string[] | unknown }): Promise<{
+        signature: string;
+        publicKey: string;
+    }>;
 }
 
 interface Coin98Window extends Window {
-    coin98?: Coin98Wallet;
+    coin98?: {
+        sol?: Coin98Wallet;
+    };
 }
 
 declare const window: Coin98Window;
@@ -49,7 +40,7 @@ export interface Coin98WalletAdapterConfig {
 
 export class Coin98WalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
     private _connecting: boolean;
-    private _wallet: Coin98SolProvider | null;
+    private _wallet: Coin98Wallet | null;
     private _publicKey: PublicKey | null;
 
     constructor(config: Coin98WalletAdapterConfig = {}) {
@@ -57,6 +48,7 @@ export class Coin98WalletAdapter extends EventEmitter<WalletAdapterEvents> imple
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
+
         if (!this.ready) pollUntilReady(this, config.pollInterval || 1000, config.pollCount || 3);
     }
 
@@ -130,10 +122,12 @@ export class Coin98WalletAdapter extends EventEmitter<WalletAdapterEvents> imple
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                const signedTransaction = await wallet.request({ method: 'sol_sign', params: [transaction] });
-                const sig = bs58.decode(signedTransaction.signature);
-                const publicKey = new PublicKey(signedTransaction.publicKey);
-                transaction.addSignature(publicKey, sig);
+                const response = await wallet.request({ method: 'sol_sign', params: [transaction] });
+
+                const publicKey = new PublicKey(response.publicKey);
+                const signature = bs58.decode(response.signature);
+
+                transaction.addSignature(publicKey, signature);
                 return transaction;
             } catch (error) {
                 throw new WalletSignatureError(error?.message, error);

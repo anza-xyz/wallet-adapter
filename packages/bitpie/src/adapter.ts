@@ -12,10 +12,9 @@ import {
 import { PublicKey, Transaction } from '@solana/web3.js';
 
 interface BitpieWallet {
-    isBitpieWallet?: boolean;
-    getAccount: () => Promise<string>;
-    signTransaction: (transaction: Transaction) => Promise<Transaction>;
-    signAllTransactions: (transactions: Transaction[]) => Promise<Transaction[]>;
+    getAccount(): Promise<string>;
+    signTransaction(transaction: Transaction): Promise<Transaction>;
+    signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
 }
 
 interface BitpieWalletWindow extends Window {
@@ -24,17 +23,17 @@ interface BitpieWalletWindow extends Window {
 
 declare const window: BitpieWalletWindow;
 
-export interface BitpieWalletWalletAdapterConfig {
+export interface BitpieWalletAdapterConfig {
     pollInterval?: number;
     pollCount?: number;
 }
 
-export class BitpieWalletWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
+export class BitpieWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
     private _connecting: boolean;
     private _wallet: BitpieWallet | null;
     private _publicKey: PublicKey | null;
 
-    constructor(config: BitpieWalletWalletAdapterConfig = {}) {
+    constructor(config: BitpieWalletAdapterConfig = {}) {
         super();
         this._connecting = false;
         this._wallet = null;
@@ -48,7 +47,7 @@ export class BitpieWalletWalletAdapter extends EventEmitter<WalletAdapterEvents>
     }
 
     get ready(): boolean {
-        return !!window.bitpie
+        return !!window.bitpie;
     }
 
     get connecting(): boolean {
@@ -99,7 +98,6 @@ export class BitpieWalletWalletAdapter extends EventEmitter<WalletAdapterEvents>
 
     async disconnect(): Promise<void> {
         if (this._wallet) {
-
             this._wallet = null;
             this._publicKey = null;
 
