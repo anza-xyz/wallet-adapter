@@ -105,7 +105,7 @@
 					<div class="tsd-signature tsd-kind-icon">icon<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/9757499/packages/wallets/src/wallets.ts#L24">packages/wallets/src/wallets.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/f0f5fbf/packages/wallets/src/wallets.ts#L28">packages/wallets/src/wallets.ts:28</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -115,7 +115,7 @@
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <a href="../enums/_solana_wallet_adapter_wallets.WalletName.html" class="tsd-signature-type" data-tsd-kind="Enumeration">WalletName</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/9757499/packages/wallets/src/wallets.ts#L22">packages/wallets/src/wallets.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/f0f5fbf/packages/wallets/src/wallets.ts#L26">packages/wallets/src/wallets.ts:26</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -125,7 +125,7 @@
 					<div class="tsd-signature tsd-kind-icon">url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/9757499/packages/wallets/src/wallets.ts#L23">packages/wallets/src/wallets.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/f0f5fbf/packages/wallets/src/wallets.ts#L27">packages/wallets/src/wallets.ts:27</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -136,16 +136,16 @@
 					<a name="adapter" class="tsd-anchor"></a>
 					<h3>adapter</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">adapter<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">WalletAdapter</span></li>
+						<li class="tsd-signature tsd-kind-icon">adapter<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">WalletAdapter</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SignerWalletAdapter</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/9757499/packages/wallets/src/wallets.ts#L25">packages/wallets/src/wallets.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/f0f5fbf/packages/wallets/src/wallets.ts#L29">packages/wallets/src/wallets.ts:29</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">WalletAdapter</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">WalletAdapter</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SignerWalletAdapter</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -162,6 +162,12 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/_solana_wallet_adapter_base.html">@solana/wallet-<wbr>adapter-<wbr>base</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_solana_wallet_adapter_bitpie.html">@solana/wallet-<wbr>adapter-<wbr>bitpie</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_solana_wallet_adapter_coin98.html">@solana/wallet-<wbr>adapter-<wbr>coin98</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/_solana_wallet_adapter_ledger.html">@solana/wallet-<wbr>adapter-<wbr>ledger</a>
@@ -225,6 +231,12 @@
 						<a href="../modules/_solana_wallet_adapter_wallets.html#ICONS_URL" class="tsd-kind-icon">ICONS_<wbr>URL</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/_solana_wallet_adapter_wallets.html#getBitpieWallet" class="tsd-kind-icon">get<wbr>Bitpie<wbr>Wallet</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/_solana_wallet_adapter_wallets.html#getCoin98Wallet" class="tsd-kind-icon">get<wbr>Coin98<wbr>Wallet</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="../modules/_solana_wallet_adapter_wallets.html#getLedgerWallet" class="tsd-kind-icon">get<wbr>Ledger<wbr>Wallet</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
@@ -261,6 +273,7 @@
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>

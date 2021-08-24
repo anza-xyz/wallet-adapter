@@ -72,19 +72,13 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="tsd-signature-type">EventEmitter</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">WalletAdapterEvents</span><span class="tsd-signature-symbol">&gt;</span>
+						<span class="tsd-signature-type">BaseSignerWalletAdapter</span>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">SolflareWalletAdapter</span>
 							</li>
 						</ul>
 					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel">
-				<h3>Implements</h3>
-				<ul class="tsd-hierarchy">
-					<li><span class="tsd-signature-type">WalletAdapter</span></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -121,8 +115,8 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_solana_wallet_adapter_solflare.SolflareWalletAdapter.html#_disconnected" class="tsd-kind-icon">_disconnected</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-external"><a href="_solana_wallet_adapter_solflare.SolflareWalletAdapter.html#addListener" class="tsd-kind-icon">add<wbr>Listener</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_solana_wallet_adapter_solflare.SolflareWalletAdapter.html#connect" class="tsd-kind-icon">connect</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_solana_wallet_adapter_solflare.SolflareWalletAdapter.html#disconnect" class="tsd-kind-icon">disconnect</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_solana_wallet_adapter_solflare.SolflareWalletAdapter.html#connect" class="tsd-kind-icon">connect</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_solana_wallet_adapter_solflare.SolflareWalletAdapter.html#disconnect" class="tsd-kind-icon">disconnect</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-external"><a href="_solana_wallet_adapter_solflare.SolflareWalletAdapter.html#emit" class="tsd-kind-icon">emit</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_solana_wallet_adapter_solflare.SolflareWalletAdapter.html#eventNames" class="tsd-kind-icon">event<wbr>Names</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_solana_wallet_adapter_solflare.SolflareWalletAdapter.html#listenerCount" class="tsd-kind-icon">listener<wbr>Count</a></li>
@@ -132,8 +126,9 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-external"><a href="_solana_wallet_adapter_solflare.SolflareWalletAdapter.html#once" class="tsd-kind-icon">once</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_solana_wallet_adapter_solflare.SolflareWalletAdapter.html#removeAllListeners" class="tsd-kind-icon">remove<wbr>All<wbr>Listeners</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-external"><a href="_solana_wallet_adapter_solflare.SolflareWalletAdapter.html#removeListener" class="tsd-kind-icon">remove<wbr>Listener</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_solana_wallet_adapter_solflare.SolflareWalletAdapter.html#signAllTransactions" class="tsd-kind-icon">sign<wbr>All<wbr>Transactions</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_solana_wallet_adapter_solflare.SolflareWalletAdapter.html#signTransaction" class="tsd-kind-icon">sign<wbr>Transaction</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_solana_wallet_adapter_solflare.SolflareWalletAdapter.html#sendTransaction" class="tsd-kind-icon">send<wbr>Transaction</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_solana_wallet_adapter_solflare.SolflareWalletAdapter.html#signAllTransactions" class="tsd-kind-icon">sign<wbr>All<wbr>Transactions</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_solana_wallet_adapter_solflare.SolflareWalletAdapter.html#signTransaction" class="tsd-kind-icon">sign<wbr>Transaction</a></li>
 							</ul>
 						</section>
 					</div>
@@ -150,9 +145,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides EventEmitter&lt;WalletAdapterEvents&gt;.constructor</p>
+								<p>Overrides BaseSignerWalletAdapter.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/9757499/packages/solflare/src/adapter.ts#L51">packages/solflare/src/adapter.ts:51</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/f0f5fbf/packages/solflare/src/adapter.ts#L50">packages/solflare/src/adapter.ts:50</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -174,7 +169,7 @@
 					<div class="tsd-signature tsd-kind-icon">_connecting<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/9757499/packages/solflare/src/adapter.ts#L47">packages/solflare/src/adapter.ts:47</a></li>
+							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/f0f5fbf/packages/solflare/src/adapter.ts#L46">packages/solflare/src/adapter.ts:46</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -184,7 +179,7 @@
 					<div class="tsd-signature tsd-kind-icon">_public<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PublicKey</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/9757499/packages/solflare/src/adapter.ts#L49">packages/solflare/src/adapter.ts:49</a></li>
+							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/f0f5fbf/packages/solflare/src/adapter.ts#L48">packages/solflare/src/adapter.ts:48</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -194,7 +189,7 @@
 					<div class="tsd-signature tsd-kind-icon">_wallet<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SolflareWallet</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/9757499/packages/solflare/src/adapter.ts#L48">packages/solflare/src/adapter.ts:48</a></li>
+							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/f0f5fbf/packages/solflare/src/adapter.ts#L47">packages/solflare/src/adapter.ts:47</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -203,7 +198,7 @@
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> prefixed</h3>
 					<div class="tsd-signature tsd-kind-icon">prefixed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from EventEmitter.prefixed</p>
+						<p>Inherited from BaseSignerWalletAdapter.prefixed</p>
 						<ul>
 							<li>Defined in node_modules/eventemitter3/index.d.ts:9</li>
 						</ul>
@@ -222,7 +217,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/9757499/packages/solflare/src/adapter.ts#L76">packages/solflare/src/adapter.ts:76</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/f0f5fbf/packages/solflare/src/adapter.ts#L75">packages/solflare/src/adapter.ts:75</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -239,7 +234,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/9757499/packages/solflare/src/adapter.ts#L72">packages/solflare/src/adapter.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/f0f5fbf/packages/solflare/src/adapter.ts#L71">packages/solflare/src/adapter.ts:71</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -256,7 +251,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/9757499/packages/solflare/src/adapter.ts#L68">packages/solflare/src/adapter.ts:68</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/f0f5fbf/packages/solflare/src/adapter.ts#L67">packages/solflare/src/adapter.ts:67</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -273,7 +268,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/9757499/packages/solflare/src/adapter.ts#L60">packages/solflare/src/adapter.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/f0f5fbf/packages/solflare/src/adapter.ts#L59">packages/solflare/src/adapter.ts:59</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PublicKey</span></h4>
@@ -290,7 +285,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/9757499/packages/solflare/src/adapter.ts#L64">packages/solflare/src/adapter.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/f0f5fbf/packages/solflare/src/adapter.ts#L63">packages/solflare/src/adapter.ts:63</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -310,7 +305,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/9757499/packages/solflare/src/adapter.ts#L176">packages/solflare/src/adapter.ts:176</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/f0f5fbf/packages/solflare/src/adapter.ts#L175">packages/solflare/src/adapter.ts:175</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -326,8 +321,7 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of WalletAdapter.addListener</p>
-								<p>Inherited from EventEmitter.addListener</p>
+								<p>Inherited from BaseSignerWalletAdapter.addListener</p>
 								<ul>
 									<li>Defined in node_modules/eventemitter3/index.d.ts:45</li>
 								</ul>
@@ -372,36 +366,36 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="connect" class="tsd-anchor"></a>
 					<h3>connect</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon">connect<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of WalletAdapter.connect</p>
+								<p>Overrides BaseSignerWalletAdapter.connect</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/9757499/packages/solflare/src/adapter.ts#L80">packages/solflare/src/adapter.ts:80</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/f0f5fbf/packages/solflare/src/adapter.ts#L79">packages/solflare/src/adapter.ts:79</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="disconnect" class="tsd-anchor"></a>
 					<h3>disconnect</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon">disconnect<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of WalletAdapter.disconnect</p>
+								<p>Overrides BaseSignerWalletAdapter.disconnect</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/9757499/packages/solflare/src/adapter.ts#L126">packages/solflare/src/adapter.ts:126</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/f0f5fbf/packages/solflare/src/adapter.ts#L125">packages/solflare/src/adapter.ts:125</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -417,8 +411,7 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of WalletAdapter.emit</p>
-								<p>Inherited from EventEmitter.emit</p>
+								<p>Inherited from BaseSignerWalletAdapter.emit</p>
 								<ul>
 									<li>Defined in node_modules/eventemitter3/index.d.ts:32</li>
 								</ul>
@@ -456,8 +449,7 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of WalletAdapter.eventNames</p>
-								<p>Inherited from EventEmitter.eventNames</p>
+								<p>Inherited from BaseSignerWalletAdapter.eventNames</p>
 								<ul>
 									<li>Defined in node_modules/eventemitter3/index.d.ts:15</li>
 								</ul>
@@ -481,8 +473,7 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of WalletAdapter.listenerCount</p>
-								<p>Inherited from EventEmitter.listenerCount</p>
+								<p>Inherited from BaseSignerWalletAdapter.listenerCount</p>
 								<ul>
 									<li>Defined in node_modules/eventemitter3/index.d.ts:27</li>
 								</ul>
@@ -511,8 +502,7 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of WalletAdapter.listeners</p>
-								<p>Inherited from EventEmitter.listeners</p>
+								<p>Inherited from BaseSignerWalletAdapter.listeners</p>
 								<ul>
 									<li>Defined in node_modules/eventemitter3/index.d.ts:20</li>
 								</ul>
@@ -547,8 +537,7 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of WalletAdapter.off</p>
-								<p>Inherited from EventEmitter.off</p>
+								<p>Inherited from BaseSignerWalletAdapter.off</p>
 								<ul>
 									<li>Defined in node_modules/eventemitter3/index.d.ts:69</li>
 								</ul>
@@ -605,8 +594,7 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of WalletAdapter.on</p>
-								<p>Inherited from EventEmitter.on</p>
+								<p>Inherited from BaseSignerWalletAdapter.on</p>
 								<ul>
 									<li>Defined in node_modules/eventemitter3/index.d.ts:40</li>
 								</ul>
@@ -665,8 +653,7 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of WalletAdapter.once</p>
-								<p>Inherited from EventEmitter.once</p>
+								<p>Inherited from BaseSignerWalletAdapter.once</p>
 								<ul>
 									<li>Defined in node_modules/eventemitter3/index.d.ts:54</li>
 								</ul>
@@ -725,8 +712,7 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of WalletAdapter.removeAllListeners</p>
-								<p>Inherited from EventEmitter.removeAllListeners</p>
+								<p>Inherited from BaseSignerWalletAdapter.removeAllListeners</p>
 								<ul>
 									<li>Defined in node_modules/eventemitter3/index.d.ts:79</li>
 								</ul>
@@ -755,8 +741,7 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of WalletAdapter.removeListener</p>
-								<p>Inherited from EventEmitter.removeListener</p>
+								<p>Inherited from BaseSignerWalletAdapter.removeListener</p>
 								<ul>
 									<li>Defined in node_modules/eventemitter3/index.d.ts:63</li>
 								</ul>
@@ -809,18 +794,48 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="sendTransaction" class="tsd-anchor"></a>
+					<h3>send<wbr>Transaction</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">send<wbr>Transaction<span class="tsd-signature-symbol">(</span>transaction<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Transaction</span>, connection<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Connection</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">SendTransactionOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from BaseSignerWalletAdapter.sendTransaction</p>
+								<ul>
+									<li>Defined in packages/base/lib/signer.d.ts:9</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>transaction: <span class="tsd-signature-type">Transaction</span></h5>
+								</li>
+								<li>
+									<h5>connection: <span class="tsd-signature-type">Connection</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">SendTransactionOptions</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="signAllTransactions" class="tsd-anchor"></a>
 					<h3>sign<wbr>All<wbr>Transactions</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon">sign<wbr>All<wbr>Transactions<span class="tsd-signature-symbol">(</span>transactions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Transaction</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Transaction</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of WalletAdapter.signAllTransactions</p>
+								<p>Overrides BaseSignerWalletAdapter.signAllTransactions</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/9757499/packages/solflare/src/adapter.ts#L160">packages/solflare/src/adapter.ts:160</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/f0f5fbf/packages/solflare/src/adapter.ts#L159">packages/solflare/src/adapter.ts:159</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -833,18 +848,18 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="signTransaction" class="tsd-anchor"></a>
 					<h3>sign<wbr>Transaction</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon">sign<wbr>Transaction<span class="tsd-signature-symbol">(</span>transaction<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Transaction</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Transaction</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of WalletAdapter.signTransaction</p>
+								<p>Overrides BaseSignerWalletAdapter.signTransaction</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/9757499/packages/solflare/src/adapter.ts#L144">packages/solflare/src/adapter.ts:144</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/f0f5fbf/packages/solflare/src/adapter.ts#L143">packages/solflare/src/adapter.ts:143</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -870,6 +885,12 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/_solana_wallet_adapter_base.html">@solana/wallet-<wbr>adapter-<wbr>base</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_solana_wallet_adapter_bitpie.html">@solana/wallet-<wbr>adapter-<wbr>bitpie</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_solana_wallet_adapter_coin98.html">@solana/wallet-<wbr>adapter-<wbr>coin98</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/_solana_wallet_adapter_ledger.html">@solana/wallet-<wbr>adapter-<wbr>ledger</a>
@@ -946,10 +967,10 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-external">
 								<a href="_solana_wallet_adapter_solflare.SolflareWalletAdapter.html#addListener" class="tsd-kind-icon">add<wbr>Listener</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_solana_wallet_adapter_solflare.SolflareWalletAdapter.html#connect" class="tsd-kind-icon">connect</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_solana_wallet_adapter_solflare.SolflareWalletAdapter.html#disconnect" class="tsd-kind-icon">disconnect</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-external">
@@ -979,10 +1000,13 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-external">
 								<a href="_solana_wallet_adapter_solflare.SolflareWalletAdapter.html#removeListener" class="tsd-kind-icon">remove<wbr>Listener</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_solana_wallet_adapter_solflare.SolflareWalletAdapter.html#sendTransaction" class="tsd-kind-icon">send<wbr>Transaction</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_solana_wallet_adapter_solflare.SolflareWalletAdapter.html#signAllTransactions" class="tsd-kind-icon">sign<wbr>All<wbr>Transactions</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_solana_wallet_adapter_solflare.SolflareWalletAdapter.html#signTransaction" class="tsd-kind-icon">sign<wbr>Transaction</a>
 							</li>
 						</ul>
@@ -1005,6 +1029,7 @@
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
@@ -1020,6 +1045,9 @@
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
 			</ul>
 		</div>
 	</div>
