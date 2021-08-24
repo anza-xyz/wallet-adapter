@@ -4,10 +4,8 @@ import {
     WalletAccountError,
     WalletAdapter,
     WalletAdapterEvents,
-    WalletDisconnectedError,
     WalletNotConnectedError,
     WalletNotFoundError,
-    WalletNotInstalledError,
     WalletPublicKeyError,
     WalletSignatureError,
 } from '@solana/wallet-adapter-base';
@@ -21,7 +19,7 @@ interface BitpieWallet {
 }
 
 interface BitpieWalletWindow extends Window {
-    solana?: BitpieWallet;
+    bitpie?: BitpieWallet;
 }
 
 declare const window: BitpieWalletWindow;
@@ -50,7 +48,7 @@ export class BitpieWalletWalletAdapter extends EventEmitter<WalletAdapterEvents>
     }
 
     get ready(): boolean {
-        return !!window.solana?.isBitpieWallet;
+        return !!window.bitpie
     }
 
     get connecting(): boolean {
@@ -70,11 +68,8 @@ export class BitpieWalletWalletAdapter extends EventEmitter<WalletAdapterEvents>
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const wallet = window.solana;
+            const wallet = window.bitpie;
             if (!wallet) throw new WalletNotFoundError();
-            if (!wallet.isBitpieWallet) throw new WalletNotInstalledError();
-
-            // @TODO: handle if popup is blocked
 
             let account: string;
             try {
