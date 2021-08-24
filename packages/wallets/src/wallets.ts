@@ -1,4 +1,5 @@
 import { WalletAdapter } from '@solana/wallet-adapter-base';
+import { Coin98WalletAdapter, Coin98WalletAdapterConfig } from '@solana/wallet-adapter-coin98';
 import { LedgerWalletAdapter, LedgerWalletAdapterConfig } from '@solana/wallet-adapter-ledger';
 import { MathWalletWalletAdapter, MathWalletWalletAdapterConfig } from '@solana/wallet-adapter-mathwallet';
 import { BitpieWalletWalletAdapter, BitpieWalletWalletAdapterConfig } from '@solana/wallet-adapter-bitpiewallet';
@@ -9,6 +10,7 @@ import { SolongWalletAdapter, SolongWalletAdapterConfig } from '@solana/wallet-a
 import { TorusWalletAdapter, TorusWalletAdapterConfig } from '@solana/wallet-adapter-torus';
 
 export enum WalletName {
+    Coin98 = 'Coin98',
     Ledger = 'Ledger',
     MathWallet = 'MathWallet',
     BitpieWallet = 'BitpieWallet',
@@ -28,6 +30,13 @@ export interface Wallet {
 }
 
 export const ICONS_URL = 'https://raw.githubusercontent.com/solana-labs/wallet-adapter/master/packages/wallets/icons';
+
+export const getBitpieWallet = (config?: Coin98WalletAdapterConfig): Wallet => ({
+    name: WalletName.Coin98,
+    url: 'https://coin98.com',
+    icon: `${ICONS_URL}/coin98.svg`,
+    adapter: () => new Coin98WalletAdapter(config),
+});
 
 export const getLedgerWallet = (config?: LedgerWalletAdapterConfig): Wallet => ({
     name: WalletName.Ledger,
