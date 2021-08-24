@@ -1,0 +1,17 @@
+.phantom-wallet-button {
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    outline: none;
+    width: 100%;
+}
+
+.phantom-wallet-button[disabled] {
+    background: #404144;
+    color: #999999;
+}
