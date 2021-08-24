@@ -30,7 +30,8 @@
         "@solana/wallet-adapter-solflare": "^0.2.0",
         "@solana/wallet-adapter-sollet": "^0.5.0",
         "@solana/wallet-adapter-solong": "^0.5.0",
-        "@solana/wallet-adapter-torus": "^0.6.0"
+        "@solana/wallet-adapter-torus": "^0.6.0",
+        "@solana/wallet-adapter-blocto": "^0.0.0"
     },
     "devDependencies": {
         "@solana/wallet-adapter-base": "^0.5.0"
