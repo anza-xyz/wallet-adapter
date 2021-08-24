@@ -20,7 +20,7 @@
         "postbuild": "copyfiles -f src/styles.less lib/"
     },
     "peerDependencies": {
-        "@ant-design/icons": "^4.6.2",
+        "@ant-design/icons": "^4.6.3",
         "@solana/wallet-adapter-base": "^0.5.0",
         "@solana/wallet-adapter-react": "^0.8.0",
         "@solana/wallet-adapter-wallets": "^0.7.0",
@@ -33,7 +33,7 @@
         "@types/react": "^17.0.16"
     },
     "devDependencies": {
-        "@ant-design/icons": "^4.6.2",
+        "@ant-design/icons": "^4.6.3",
         "@solana/wallet-adapter-base": "^0.5.0",
         "@solana/wallet-adapter-react": "^0.8.0",
         "@solana/wallet-adapter-wallets": "^0.7.0",
