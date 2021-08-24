@@ -8,9 +8,11 @@ import {
     WalletNotInstalledError,
     WalletPublicKeyError,
     WalletSignTransactionError,
+    WalletSendTransactionError,
+    SendTransactionOptions,
 } from '@solana/wallet-adapter-base';
 import BloctoSDK from '@blocto/sdk';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
 
 interface BloctoWalletEvents {
     connect(...args: unknown[]): unknown;
@@ -23,6 +25,7 @@ interface BloctoWallet extends EventEmitter<BloctoWalletEvents> {
     connected: boolean;
     signAndSendTransaction(transaction: Transaction): Promise<string>;
     convertToProgramWalletTransaction(transaction: Transaction): Promise<Transaction>;
+    request(params: { method: string }): Promise<any>;
     connect(): Promise<void>;
 }
 
@@ -78,7 +81,8 @@ export class BloctoWalletAdapter extends BaseSignerWalletAdapter {
             if (!wallet.connected) {
                 try {
                     await new Promise<void>((resolve, reject) => {
-                        wallet.connect()
+                        wallet
+                            .connect()
                             .then(() => resolve())
                             .catch((reason: any) => reject(reason));
                     });
@@ -89,7 +93,7 @@ export class BloctoWalletAdapter extends BaseSignerWalletAdapter {
             }
 
             if (!wallet.accounts || !wallet.accounts[0]) {
-                throw new WalletAccountError("Account not found");
+                throw new WalletAccountError('Account not found');
             }
 
             let publicKey: PublicKey;
@@ -127,4 +131,37 @@ export class BloctoWalletAdapter extends BaseSignerWalletAdapter {
         );
     }
 
+    async sendTransaction(
+        transaction: Transaction,
+        connection: Connection,
+        options: SendTransactionOptions = {}
+    ): Promise<TransactionSignature> {
+        try {
+            if (!this._wallet) {
+                throw new WalletNotFoundError();
+            }
+            transaction.feePayer ||= this.publicKey || undefined;
+            const {
+                value: { blockhash },
+            } = await this._wallet.request({ method: 'getRecentBlockhash' });
+            transaction.recentBlockhash ||= blockhash;
+
+            const { signers } = options;
+
+            let actualTransaction: Transaction = transaction;
+            if (signers?.length) {
+                actualTransaction = await this._wallet.convertToProgramWalletTransaction(transaction);
+                actualTransaction.partialSign(...signers);
+            }
+
+            return this._wallet.signAndSendTransaction(actualTransaction);
+        } catch (_error) {
+            let error: WalletError = _error;
+            if (!(_error instanceof WalletError)) {
+                error = new WalletSendTransactionError(_error.message, _error);
+            }
+            this.emit('error', error);
+            throw error;
+        }
+    }
 }
