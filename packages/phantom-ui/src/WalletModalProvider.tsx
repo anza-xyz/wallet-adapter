@@ -13,7 +13,7 @@ export const WalletModalProvider: FC<{ children: ReactNode }> = ({ children }) =
             }}
         >
             {children}
-            {/* <WalletModal /> */}
+            {visible && <WalletModal />}
         </WalletModalContext.Provider>
     );
 };

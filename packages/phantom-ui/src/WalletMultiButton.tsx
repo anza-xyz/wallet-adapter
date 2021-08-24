@@ -1,67 +1,26 @@
 // import {
-//     Button,
-//     ButtonProps,
-//     Collapse,
-//     Fade,
-//     ListItemIcon,
-//     makeStyles,
-//     Menu,
-//     MenuItem,
-//     Theme,
-// } from '@material-ui/core';
-// import CopyIcon from '@material-ui/icons/FileCopy';
-// import DisconnectIcon from '@material-ui/icons/LinkOff';
-// import SwitchIcon from '@material-ui/icons/SwapHoriz';
+//     CopyOutlined as CopyIcon,
+//     DisconnectOutlined as DisconnectIcon,
+//     SwapOutlined as SwitchIcon,
+// } from '@ant-design/icons';
 // import { useWallet } from '@solana/wallet-adapter-react';
-import React, { FC, useMemo, useState } from 'react';
-// import { useWalletDialog } from './useWalletDialog';
+// import { Button, ButtonProps, Dropdown, Menu } from 'antd';
+import React, { FC, useMemo } from 'react';
+// import { useWalletModal } from './useWalletModal';
 // import { WalletConnectButton } from './WalletConnectButton';
-// import { WalletDialogButton } from './WalletDialogButton';
 // import { WalletIcon } from './WalletIcon';
-
-// const useStyles = makeStyles((theme: Theme) => ({
-//     root: {},
-//     menu: {
-//         '& .MuiList-root': {
-//             padding: 0,
-//         },
-//         '& .MuiMenuItem-root': {
-//             padding: theme.spacing(1, 2),
-//             boxShadow: 'inset 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.1)',
-//             '&:not(.MuiButtonBase-root)': {
-//                 padding: 0,
-//                 '& .MuiButton-root': {
-//                     borderRadius: 0,
-//                 },
-//             },
-//             '&:hover': {
-//                 boxShadow:
-//                     'inset 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.1)' + ', 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.05)',
-//             },
-//         },
-//         '& .MuiListItemIcon-root': {
-//             marginRight: theme.spacing(),
-//             minWidth: 'unset',
-//             '& .MuiSvgIcon-root': {
-//                 width: 20,
-//                 height: 20,
-//             },
-//         },
-//     },
-// }));
+// import { WalletModalButton } from './WalletModalButton';
 
 // export const WalletMultiButton: FC<ButtonProps> = ({
-//     color = 'primary',
-//     variant = 'contained',
+//     type = 'primary',
+//     size = 'large',
 //     children,
 //     disabled,
 //     onClick,
 //     ...props
 // }) => {
-//     const styles = useStyles();
 //     const { publicKey, wallet, disconnect } = useWallet();
-//     const { setOpen } = useWalletDialog();
-//     const [anchor, setAnchor] = useState<HTMLElement>();
+//     const { setVisible } = useWalletModal();
 
 //     const base58 = useMemo(() => publicKey?.toBase58(), [publicKey]);
 //     const content = useMemo(() => {
@@ -71,88 +30,62 @@ import React, { FC, useMemo, useState } from 'react';
 //     }, [children, wallet, base58]);
 
 //     if (!wallet) {
-//         return <WalletDialogButton color={color} variant={variant} {...props} />;
+//         return <WalletModalButton {...props} />;
 //     }
 
 //     if (!base58) {
-//         return <WalletConnectButton color={color} variant={variant} {...props} />;
+//         return <WalletConnectButton {...props} />;
 //     }
 
 //     return (
-//         <>
-//             <Button
-//                 color={color}
-//                 variant={variant}
-//                 startIcon={<WalletIcon wallet={wallet} />}
-//                 onClick={(event) => setAnchor(event.currentTarget)}
-//                 aria-controls="wallet-menu"
-//                 aria-haspopup="true"
-//                 className={styles.root}
-//                 {...props}
-//             >
-//                 {content}
-//             </Button>
-//             <Menu
-//                 id="wallet-menu"
-//                 anchorEl={anchor}
-//                 open={!!anchor}
-//                 onClose={() => setAnchor(undefined)}
-//                 className={styles.menu}
-//                 marginThreshold={0}
-//                 TransitionComponent={Fade}
-//                 transitionDuration={250}
-//                 keepMounted
-//             >
-//                 <MenuItem onClick={() => setAnchor(undefined)} button={false}>
-//                     <Button
-//                         color={color}
-//                         variant={variant}
-//                         startIcon={<WalletIcon wallet={wallet} />}
-//                         className={styles.root}
-//                         onClick={(event) => setAnchor(undefined)}
-//                         fullWidth
-//                         {...props}
-//                     >
-//                         {wallet.name}
-//                     </Button>
-//                 </MenuItem>
-//                 <Collapse in={!!anchor}>
-//                     <MenuItem
+//         <Dropdown
+//             overlay={
+//                 <Menu className="wallet-adapter-multi-button-menu">
+//                     <Menu.Item className="wallet-adapter-multi-button-menu-item">
+//                         <Button
+//                             icon={<WalletIcon wallet={wallet} />}
+//                             type={type}
+//                             size={size}
+//                             className="wallet-adapter-multi-button-menu-button"
+//                             block
+//                             {...props}
+//                         >
+//                             {wallet.name}
+//                         </Button>
+//                     </Menu.Item>
+//                     <Menu.Item
 //                         onClick={async () => {
-//                             setAnchor(undefined);
 //                             await navigator.clipboard.writeText(base58);
 //                         }}
+//                         icon={<CopyIcon className=".wallet-adapter-multi-button-icon" />}
+//                         className="wallet-adapter-multi-button-item"
 //                     >
-//                         <ListItemIcon>
-//                             <CopyIcon />
-//                         </ListItemIcon>
 //                         Copy address
-//                     </MenuItem>
-//                     <MenuItem
-//                         onClick={() => {
-//                             setAnchor(undefined);
-//                             setOpen(true);
-//                         }}
+//                     </Menu.Item>
+//                     <Menu.Item
+//                         onClick={() => setTimeout(() => setVisible(true), 100)}
+//                         icon={<SwitchIcon className=".wallet-adapter-multi-button-icon" />}
+//                         className="wallet-adapter-multi-button-item"
 //                     >
-//                         <ListItemIcon>
-//                             <SwitchIcon />
-//                         </ListItemIcon>
 //                         Connect a different wallet
-//                     </MenuItem>
-//                     <MenuItem
+//                     </Menu.Item>
+//                     <Menu.Item
 //                         onClick={() => {
-//                             setAnchor(undefined);
 //                             // eslint-disable-next-line @typescript-eslint/no-empty-function
 //                             disconnect().catch(() => {});
 //                         }}
+//                         icon={<DisconnectIcon className=".wallet-adapter-multi-button-icon" />}
+//                         className="wallet-adapter-multi-button-item"
 //                     >
-//                         <ListItemIcon>
-//                             <DisconnectIcon />
-//                         </ListItemIcon>
 //                         Disconnect
-//                     </MenuItem>
-//                 </Collapse>
-//             </Menu>
-//         </>
+//                     </Menu.Item>
+//                 </Menu>
+//             }
+//             trigger={['click']}
+//         >
+//             <Button icon={<WalletIcon wallet={wallet} />} type={type} size={size} {...props}>
+//                 {content}
+//             </Button>
+//         </Dropdown>
 //     );
 // };

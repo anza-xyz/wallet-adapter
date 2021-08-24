@@ -1,19 +1,15 @@
 import React, { FC, useEffect, useRef } from 'react';
-// import { createPortal } from 'react-dom';
+import { createPortal } from 'react-dom';
 import { useWalletModal } from './useWalletModal';
-
-// const modalRoot = document.querySelector('body');
 
 interface ModalProps {
     className?: string;
-    id: string;
-    onClose: () => void;
-    isOpen: boolean;
     size?: string;
 }
 
+const modalRoot = document.getElementById('root');
+
 export const WalletModal: FC<ModalProps> = (props) => {
-    const { visible, setVisible } = useWalletModal();
     // static defaultProps = {
     //     id: '',
     //     modalClass: '',
@@ -22,11 +18,11 @@ export const WalletModal: FC<ModalProps> = (props) => {
 
     const [fadeType, setFadeType] = React.useState<null | 'in' | 'out'>(null);
 
-    useEffect(() => {
-        window.addEventListener('keydown', onEscKeyDown, false);
-        setTimeout(() => setFadeType('in'), 0);
-        return () => window.removeEventListener('keydown', onEscKeyDown, false);
-    }, []);
+    // useEffect(() => {
+    //     window.addEventListener('keydown', onEscKeyDown, false);
+    //     setTimeout(() => setFadeType('in'), 0);
+    //     return () => window.removeEventListener('keydown', onEscKeyDown, false);
+    // }, []);
     // componentDidUpdate(prevProps, prevState) {
     //     if (!this.props.isOpen && prevProps.isOpen) {
     //         setFadeType('out');
@@ -48,7 +44,7 @@ export const WalletModal: FC<ModalProps> = (props) => {
         setFadeType('out');
     };
 
-    return (
+    return createPortal(
         <div
             id={props.id}
             className={`wrapper ${props.className}`}
@@ -72,7 +68,9 @@ export const WalletModal: FC<ModalProps> = (props) => {
                 </div>
             </div>
             <div className={`background`} onMouseDown={handleClick} />
-        </div>
+        </div>,
+        // @ts-ignore
+        modalRoot
     );
 };
 
