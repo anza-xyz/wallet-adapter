@@ -2,7 +2,7 @@
 
 Modular TypeScript wallet adapters and components for Solana applications.
 
-![Wallets](wallets.png)
+![Wallets](wallets.png) ![Wallets expanded](wallets_expanded.png)
 
 <!-- @TODO -->
 
