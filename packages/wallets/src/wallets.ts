@@ -12,6 +12,7 @@ import { BloctoWalletAdapter, BloctoWalletAdapterConfig } from '@solana/wallet-a
 
 export enum WalletName {
     Bitpie = 'Bitpie',
+    Blocto = 'Blocto',
     Coin98 = 'Coin98',
     Ledger = 'Ledger',
     MathWallet = 'MathWallet',
@@ -21,7 +22,6 @@ export enum WalletName {
     Sollet = 'Sollet',
     Solong = 'Solong',
     Torus = 'Torus',
-    Blocto = 'Blocto',
 }
 
 export interface Wallet {
@@ -38,6 +38,13 @@ export const getBitpieWallet = (config?: BitpieWalletAdapterConfig): Wallet => (
     url: 'https://bitpiecn.com',
     icon: `${ICONS_URL}/bitpie.svg`,
     adapter: () => new BitpieWalletAdapter(config),
+});
+
+export const getBloctoWallet = (config: BloctoWalletAdapterConfig): Wallet => ({
+    name: WalletName.Blocto,
+    url: 'https://wallet.bolcto.app',
+    icon: `${ICONS_URL}/blocto.svg`,
+    adapter: () => new BloctoWalletAdapter(config),
 });
 
 export const getCoin98Wallet = (config?: Coin98WalletAdapterConfig): Wallet => ({
@@ -102,11 +109,4 @@ export const getTorusWallet = (config: TorusWalletAdapterConfig): Wallet => ({
     url: 'https://tor.us',
     icon: `${ICONS_URL}/torus.svg`,
     adapter: () => new TorusWalletAdapter(config),
-});
-
-export const getBloctoWallet = (config: BloctoWalletAdapterConfig): Wallet => ({
-    name: WalletName.Blocto,
-    url: 'https://wallet.bolcto.app',
-    icon: `${ICONS_URL}/blocto.svg`,
-    adapter: () => new BloctoWalletAdapter(config),
 });

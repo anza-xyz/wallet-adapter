@@ -1,14 +1,11 @@
 import {
-    BaseSignerWalletAdapter,
+    BaseWalletAdapter,
     EventEmitter,
     WalletAccountError,
     WalletConnectionError,
-    WalletError,
     WalletNotFoundError,
-    WalletNotInstalledError,
     WalletPublicKeyError,
-    WalletSignTransactionError,
-    WalletSendTransactionError,
+    WalletNotConnectedError,
     SendTransactionOptions,
 } from '@solana/wallet-adapter-base';
 import BloctoSDK from '@blocto/sdk';
@@ -32,21 +29,21 @@ interface BloctoWallet extends EventEmitter<BloctoWalletEvents> {
 export interface BloctoWalletAdapterConfig {
     pollInterval?: number;
     pollCount?: number;
-    net?: string;
+    network: 'mainnet-beta' | 'testnet';
 }
 
-export class BloctoWalletAdapter extends BaseSignerWalletAdapter {
+export class BloctoWalletAdapter extends BaseWalletAdapter {
     private _connecting: boolean;
     private _wallet: BloctoWallet | null;
     private _publicKey: PublicKey | null;
-    private net: string | null;
+    private _network: string;
 
-    constructor(config: BloctoWalletAdapterConfig = {}) {
+    constructor(config: BloctoWalletAdapterConfig) {
         super();
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
-        this.net = config.net || null;
+        this._network = config.network;
     }
 
     get publicKey(): PublicKey | null {
@@ -73,26 +70,19 @@ export class BloctoWalletAdapter extends BaseSignerWalletAdapter {
         try {
             if (this.connected || this.connecting) return;
             this._connecting = true;
-            const sdk = new BloctoSDK({ solana: { net: this.net } });
+            const sdk = new BloctoSDK({ solana: { net: this._network } });
             const wallet = sdk.solana;
             if (!wallet) throw new WalletNotFoundError();
-            if (!wallet.isBlocto) throw new WalletNotInstalledError();
 
             if (!wallet.connected) {
                 try {
-                    await new Promise<void>((resolve, reject) => {
-                        wallet
-                            .connect()
-                            .then(() => resolve())
-                            .catch((reason: any) => reject(reason));
-                    });
+                    await wallet.connect();
                 } catch (error) {
-                    if (error instanceof WalletError) throw error;
                     throw new WalletConnectionError(error?.message, error);
                 }
             }
 
-            if (!wallet.accounts || !wallet.accounts[0]) {
+            if (!wallet.accounts[0]) {
                 throw new WalletAccountError('Account not found');
             }
 
@@ -119,32 +109,17 @@ export class BloctoWalletAdapter extends BaseSignerWalletAdapter {
         return;
     }
 
-    async signTransaction(): Promise<Transaction> {
-        throw new WalletSignTransactionError(
-            'Blocto is a contract wallet and doesn\'t support "signTransaction", please use "sendTransaction" instead.'
-        );
-    }
-
-    async signAllTransactions(): Promise<Transaction[]> {
-        throw new WalletSignTransactionError(
-            'Blocto is a contract wallet and doesn\'t support "signAllTransactions", please use "sendTransaction" instead.'
-        );
-    }
-
     async sendTransaction(
         transaction: Transaction,
         connection: Connection,
         options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         try {
-            if (!this._wallet) {
-                throw new WalletNotFoundError();
+            if (!this._wallet?.connected) {
+                throw new WalletNotConnectedError();
             }
             transaction.feePayer ||= this.publicKey || undefined;
-            const {
-                value: { blockhash },
-            } = await this._wallet.request({ method: 'getRecentBlockhash' });
-            transaction.recentBlockhash ||= blockhash;
+            transaction.recentBlockhash ||= (await connection.getRecentBlockhash('max')).blockhash;
 
             const { signers } = options;
 
@@ -155,11 +130,7 @@ export class BloctoWalletAdapter extends BaseSignerWalletAdapter {
             }
 
             return this._wallet.signAndSendTransaction(actualTransaction);
-        } catch (_error) {
-            let error: WalletError = _error;
-            if (!(_error instanceof WalletError)) {
-                error = new WalletSendTransactionError(_error.message, _error);
-            }
+        } catch (error) {
             this.emit('error', error);
             throw error;
         }
