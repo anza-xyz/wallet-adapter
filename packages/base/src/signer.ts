@@ -17,7 +17,7 @@ export abstract class BaseSignerWalletAdapter extends BaseWalletAdapter implemen
     ): Promise<TransactionSignature> {
         try {
             transaction.feePayer ||= this.publicKey || undefined;
-            transaction.recentBlockhash ||= (await connection.getRecentBlockhash('max')).blockhash;
+            transaction.recentBlockhash ||= (await connection.getRecentBlockhash('finalized')).blockhash;
 
             const { signers, ...sendOptions } = options;
 
