@@ -16,7 +16,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletName } from '@solana/wallet-adapter-wallets';
-import React, { FC, ReactElement, SyntheticEvent, useCallback, useState } from 'react';
+import React, { FC, ReactElement, SyntheticEvent, useCallback, useMemo, useState } from 'react';
 import { useWalletDialog } from './useWalletDialog';
 import { WalletListItem } from './WalletListItem';
 
@@ -93,14 +93,14 @@ export const WalletDialog: FC<WalletDialogProps> = ({
     const { open, setOpen } = useWalletDialog();
     const [expanded, setExpanded] = useState(false);
 
-    const featuredWallets = wallets.slice(0, featuredWalletsNumber);
-    const otherWallets = wallets.slice(featuredWalletsNumber);
-
-    const showCollapse = featuredWalletsNumber < wallets.length;
-
-    const handleClick = () => {
-        setExpanded(!expanded);
-    };
+    const [featuredWallets, otherWallets, expands] = useMemo(
+        () => [
+            wallets.slice(0, featuredWalletsNumber),
+            wallets.slice(featuredWalletsNumber),
+            wallets.length > featuredWalletsNumber,
+        ],
+        [wallets, featuredWalletsNumber]
+    );
 
     const handleClose = useCallback(
         (event: SyntheticEvent, reason?: 'backdropClick' | 'escapeKeyDown') => {
@@ -110,10 +110,15 @@ export const WalletDialog: FC<WalletDialogProps> = ({
         [setOpen, onClose]
     );
 
-    const handleWalletClick = (event: SyntheticEvent, walletName: WalletName) => {
-        select(walletName);
-        handleClose(event);
-    };
+    const handleWalletClick = useCallback(
+        (event: SyntheticEvent, walletName: WalletName) => {
+            select(walletName);
+            handleClose(event);
+        },
+        [select, handleClose]
+    );
+
+    const handleExpandClick = useCallback(() => setExpanded(!expanded), [setExpanded, expanded]);
 
     return (
         <Dialog open={open} onClose={handleClose} className={styles.root} {...props}>
@@ -132,8 +137,7 @@ export const WalletDialog: FC<WalletDialogProps> = ({
                             wallet={wallet}
                         />
                     ))}
-
-                    {showCollapse && (
+                    {expands && (
                         <>
                             <Collapse in={expanded} timeout="auto" unmountOnExit>
                                 <List>
@@ -146,9 +150,8 @@ export const WalletDialog: FC<WalletDialogProps> = ({
                                     ))}
                                 </List>
                             </Collapse>
-
                             <ListItem>
-                                <Button onClick={handleClick}>
+                                <Button onClick={handleExpandClick}>
                                     {expanded ? 'Less' : 'More'} options
                                     {expanded ? <ExpandLess /> : <ExpandMore />}
                                 </Button>
