@@ -17,7 +17,10 @@ export const WalletDisconnectButton: FC<ButtonProps> = ({
         (event) => {
             if (onClick) onClick(event);
             // eslint-disable-next-line @typescript-eslint/no-empty-function
-            if (!event.defaultPrevented) disconnect().catch(() => {});
+            if (!event.defaultPrevented)
+                disconnect().catch(() => {
+                    // Silently catch because any errors are caught by the context `onError` handler
+                });
         },
         [onClick, disconnect]
     );
