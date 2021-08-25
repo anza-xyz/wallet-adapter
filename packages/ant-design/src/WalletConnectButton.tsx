@@ -17,7 +17,10 @@ export const WalletConnectButton: FC<ButtonProps> = ({
         (event) => {
             if (onClick) onClick(event);
             // eslint-disable-next-line @typescript-eslint/no-empty-function
-            if (!event.defaultPrevented) connect().catch(() => {});
+            if (!event.defaultPrevented)
+                connect().catch(() => {
+                    // Silently catch because any errors are caught by the context `onError` handler
+                });
         },
         [onClick, connect]
     );

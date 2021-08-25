@@ -143,7 +143,9 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                         onClick={() => {
                             setAnchor(undefined);
                             // eslint-disable-next-line @typescript-eslint/no-empty-function
-                            disconnect().catch(() => {});
+                            disconnect().catch(() => {
+                                // Silently catch because any errors are caught by the context `onError` handler
+                            });
                         }}
                     >
                         <ListItemIcon>
