@@ -1,19 +1,25 @@
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletName } from '@solana/wallet-adapter-wallets';
-import { Collapse, Menu, Modal, ModalProps } from 'antd';
+import { Menu, Modal, ModalProps } from 'antd';
 import React, { FC, useCallback, useState } from 'react';
 import { useWalletModal } from './useWalletModal';
 import { WalletListItem } from './WalletListItem';
 
-export interface WalletModalProps extends Omit<ModalProps, 'visible'> {}
+export interface WalletModalProps extends Omit<ModalProps, 'visible'> {
+    featuredWalletsNumber?: number;
+}
 
-export const WalletModal: FC<WalletModalProps> = ({ title = 'Select your wallet', ...props }) => {
+export const WalletModal: FC<WalletModalProps> = ({
+    title = 'Select your wallet',
+    featuredWalletsNumber = 2,
+    ...props
+}) => {
     const { wallets, select } = useWallet();
     const { visible, setVisible } = useWalletModal();
     const [expanded, setExpanded] = useState(false);
 
-    const featuredWallets = wallets.slice(0, 2);
-    const otherWallets = wallets.slice(2);
+    const featuredWallets = wallets.slice(0, featuredWalletsNumber);
+    const otherWallets = wallets.slice(featuredWalletsNumber);
 
     const handleWalletClick = (walletName: WalletName) => {
         select(walletName);
@@ -45,17 +51,6 @@ export const WalletModal: FC<WalletModalProps> = ({ title = 'Select your wallet'
                         wallet={wallet}
                     />
                 ))}
-
-                {/* <Collapse
-                    className="wallet-adapter-modal-collapse"
-                    expandIconPosition="right"
-                    ghost
-                    onChange={handleChange}
-                >
-                    <Collapse.Panel
-                        key="wallet-adapter-modal-collapse-panel"
-                        header={expanded ? 'Less options' : 'More options'}
-                    > */}
                 <Menu.SubMenu key="wallet-adapter-modal-submenu" title={`${expanded ? 'Less' : 'More'} options`}>
                     {otherWallets.map((wallet) => (
                         <WalletListItem
@@ -65,9 +60,6 @@ export const WalletModal: FC<WalletModalProps> = ({ title = 'Select your wallet'
                         />
                     ))}
                 </Menu.SubMenu>
-
-                {/* </Collapse.Panel>
-                </Collapse> */}
             </Menu>
         </Modal>
     );
