@@ -21,6 +21,8 @@ export const WalletModal: FC<WalletModalProps> = ({
     const featuredWallets = wallets.slice(0, featuredWalletsNumber);
     const otherWallets = wallets.slice(featuredWalletsNumber);
 
+    const showCollapse = featuredWalletsNumber < wallets.length;
+
     const handleWalletClick = (walletName: WalletName) => {
         select(walletName);
         setVisible(false);
@@ -51,15 +53,18 @@ export const WalletModal: FC<WalletModalProps> = ({
                         wallet={wallet}
                     />
                 ))}
-                <Menu.SubMenu key="wallet-adapter-modal-submenu" title={`${expanded ? 'Less' : 'More'} options`}>
-                    {otherWallets.map((wallet) => (
-                        <WalletListItem
-                            key={wallet.name}
-                            handleClick={() => handleWalletClick(wallet.name)}
-                            wallet={wallet}
-                        />
-                    ))}
-                </Menu.SubMenu>
+
+                {showCollapse && (
+                    <Menu.SubMenu key="wallet-adapter-modal-submenu" title={`${expanded ? 'Less' : 'More'} options`}>
+                        {otherWallets.map((wallet) => (
+                            <WalletListItem
+                                key={wallet.name}
+                                handleClick={() => handleWalletClick(wallet.name)}
+                                wallet={wallet}
+                            />
+                        ))}
+                    </Menu.SubMenu>
+                )}
             </Menu>
         </Modal>
     );
