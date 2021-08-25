@@ -82,12 +82,14 @@ export const Wallet: FC = () => {
         getPhantomWallet(),
         getSolflareWallet(),
         getTorusWallet({
-            options: { clientId: 'Go to https://developer.tor.us and create a client ID' }
+            options: { clientId: 'Get a client ID @ https://developer.tor.us' }
         }),
         getLedgerWallet(),
         getSolongWallet(),
         getMathWallet(),
         getSolletWallet(),
+        getCoin98Wallet(),
+        getBitpieWallet(),
     ], []);
 
     return (
