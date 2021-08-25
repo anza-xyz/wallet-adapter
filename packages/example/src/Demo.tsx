@@ -30,6 +30,7 @@ import { clusterApiUrl } from '@solana/web3.js';
 import { useSnackbar } from 'notistack';
 import React, { FC, useCallback, useMemo } from 'react';
 import { version } from '../package.json';
+import RequestAirdrop from './RequestAirdrop';
 import SendTransaction from './SendTransaction';
 
 export const Demo: FC = () => {
@@ -136,7 +137,10 @@ export const Demo: FC = () => {
                                             />
                                         </Tooltip>
                                     </TableCell>
-                                    <TableCell colSpan={2}>
+                                    <TableCell>
+                                        <RequestAirdrop />
+                                    </TableCell>
+                                    <TableCell>
                                         <SendTransaction />
                                     </TableCell>
                                 </TableRow>
