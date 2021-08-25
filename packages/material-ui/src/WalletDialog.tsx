@@ -42,7 +42,13 @@ const useStyles = makeStyles((theme: Theme) => ({
         },
         '& .MuiDialogContent-root': {
             padding: 0,
+            '& .MuiCollapse-root': {
+                '& .MuiList-root': {
+                    background: theme.palette.grey[900],
+                },
+            },
             '& .MuiList-root': {
+                background: theme.palette.grey[900],
                 padding: 0,
             },
             '& .MuiListItem-root': {
@@ -126,29 +132,30 @@ export const WalletDialog: FC<WalletDialogProps> = ({
                             wallet={wallet}
                         />
                     ))}
-                </List>
-                {showCollapse && (
-                    <>
-                        <Collapse in={expanded} timeout="auto" unmountOnExit>
-                            <List>
-                                {otherWallets.map((wallet) => (
-                                    <WalletListItem
-                                        key={wallet.name}
-                                        handleClick={(event) => handleWalletClick(event, wallet.name)}
-                                        wallet={wallet}
-                                    />
-                                ))}
-                            </List>
-                        </Collapse>
 
-                        <ListItem>
-                            <Button onClick={handleClick}>
-                                {expanded ? 'Less' : 'More'} options
-                                {expanded ? <ExpandLess /> : <ExpandMore />}
-                            </Button>
-                        </ListItem>
-                    </>
-                )}
+                    {showCollapse && (
+                        <>
+                            <Collapse in={expanded} timeout="auto" unmountOnExit>
+                                <List>
+                                    {otherWallets.map((wallet) => (
+                                        <WalletListItem
+                                            key={wallet.name}
+                                            handleClick={(event) => handleWalletClick(event, wallet.name)}
+                                            wallet={wallet}
+                                        />
+                                    ))}
+                                </List>
+                            </Collapse>
+
+                            <ListItem>
+                                <Button onClick={handleClick}>
+                                    {expanded ? 'Less' : 'More'} options
+                                    {expanded ? <ExpandLess /> : <ExpandMore />}
+                                </Button>
+                            </ListItem>
+                        </>
+                    )}
+                </List>
             </DialogContent>
         </Dialog>
     );
