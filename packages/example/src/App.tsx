@@ -1,16 +1,19 @@
 import { createTheme, ThemeProvider } from '@material-ui/core';
-import { deepPurple } from '@material-ui/core/colors';
+import { deepPurple, pink } from '@material-ui/core/colors';
 import 'antd/dist/antd.dark.less';
 import { SnackbarProvider } from 'notistack';
 import React, { FC } from 'react';
 import './App.css';
-import Wallet from './Wallet';
+import { Demo } from './Demo';
 
 const theme = createTheme({
     palette: {
         type: 'dark',
         primary: {
             main: deepPurple[700],
+        },
+        secondary: {
+            main: pink[700],
         },
     },
     overrides: {
@@ -38,7 +41,7 @@ const App: FC = () => {
     return (
         <ThemeProvider theme={theme}>
             <SnackbarProvider>
-                <Wallet />
+                <Demo />
             </SnackbarProvider>
         </ThemeProvider>
     );

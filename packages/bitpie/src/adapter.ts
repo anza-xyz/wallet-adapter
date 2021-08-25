@@ -1,13 +1,11 @@
 import {
-    EventEmitter,
+    BaseSignerWalletAdapter,
     pollUntilReady,
     WalletAccountError,
-    WalletAdapter,
-    WalletAdapterEvents,
     WalletNotConnectedError,
     WalletNotFoundError,
     WalletPublicKeyError,
-    WalletSignatureError,
+    WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 
@@ -28,7 +26,7 @@ export interface BitpieWalletAdapterConfig {
     pollCount?: number;
 }
 
-export class BitpieWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
+export class BitpieWalletAdapter extends BaseSignerWalletAdapter {
     private _connecting: boolean;
     private _wallet: BitpieWallet | null;
     private _publicKey: PublicKey | null;
@@ -113,7 +111,7 @@ export class BitpieWalletAdapter extends EventEmitter<WalletAdapterEvents> imple
             try {
                 return wallet.signTransaction(transaction);
             } catch (error) {
-                throw new WalletSignatureError(error?.message, error);
+                throw new WalletSignTransactionError(error?.message, error);
             }
         } catch (error) {
             this.emit('error', error);
@@ -129,7 +127,7 @@ export class BitpieWalletAdapter extends EventEmitter<WalletAdapterEvents> imple
             try {
                 return wallet.signAllTransactions(transactions);
             } catch (error) {
-                throw new WalletSignatureError(error?.message, error);
+                throw new WalletSignTransactionError(error?.message, error);
             }
         } catch (error) {
             this.emit('error', error);

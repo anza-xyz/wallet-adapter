@@ -1,14 +1,12 @@
 import {
-    EventEmitter,
+    BaseSignerWalletAdapter,
     pollUntilReady,
     WalletAccountError,
-    WalletAdapter,
-    WalletAdapterEvents,
     WalletNotConnectedError,
     WalletNotFoundError,
     WalletNotInstalledError,
     WalletPublicKeyError,
-    WalletSignatureError,
+    WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 import bs58 from 'bs58';
@@ -38,7 +36,7 @@ export interface Coin98WalletAdapterConfig {
     pollCount?: number;
 }
 
-export class Coin98WalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
+export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
     private _connecting: boolean;
     private _wallet: Coin98Wallet | null;
     private _publicKey: PublicKey | null;
@@ -130,7 +128,7 @@ export class Coin98WalletAdapter extends EventEmitter<WalletAdapterEvents> imple
                 transaction.addSignature(publicKey, signature);
                 return transaction;
             } catch (error) {
-                throw new WalletSignatureError(error?.message, error);
+                throw new WalletSignTransactionError(error?.message, error);
             }
         } catch (error) {
             this.emit('error', error);
@@ -146,7 +144,7 @@ export class Coin98WalletAdapter extends EventEmitter<WalletAdapterEvents> imple
             try {
                 return await Promise.all(transactions.map((transaction) => this.signTransaction(transaction)));
             } catch (error) {
-                throw new WalletSignatureError(error?.message, error);
+                throw new WalletSignTransactionError(error?.message, error);
             }
         } catch (error) {
             this.emit('error', error);
