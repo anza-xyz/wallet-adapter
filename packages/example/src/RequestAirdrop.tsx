@@ -20,7 +20,7 @@ const RequestAirdrop: FC = () => {
             signature = await connection.requestAirdrop(publicKey, LAMPORTS_PER_SOL);
             notify('info', 'Airdrop requested:', signature);
 
-            await connection.confirmTransaction(signature, 'confirmed');
+            await connection.confirmTransaction(signature, 'processed');
             notify('success', 'Airdrop successful!', signature);
         } catch (error) {
             notify('error', `Airdrop failed! ${error.message}`, signature);

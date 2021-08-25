@@ -30,7 +30,7 @@ const SendTransaction: FC = () => {
             signature = await sendTransaction(transaction, connection);
             notify('info', 'Transaction sent:', signature);
 
-            await connection.confirmTransaction(signature, 'confirmed');
+            await connection.confirmTransaction(signature, 'processed');
             notify('success', 'Transaction successful!', signature);
         } catch (error) {
             notify('error', `Transaction failed! ${error.message}`, signature);
