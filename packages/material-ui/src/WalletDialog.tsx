@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) => ({
                     padding: theme.spacing(1, 3),
                     borderRadius: undefined,
                     fontSize: '1rem',
-                    fontWeight: 500,
+                    fontWeight: 400,
                 },
                 '& .MuiSvgIcon-root': {
                     color: theme.palette.grey[500],
@@ -72,17 +72,25 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export interface WalletDialogProps extends Omit<DialogProps, 'title' | 'open'> {
+    featuredWalletsNumber?: number;
     title?: ReactElement;
 }
 
-export const WalletDialog: FC<WalletDialogProps> = ({ title = 'Select your wallet', onClose, ...props }) => {
+export const WalletDialog: FC<WalletDialogProps> = ({
+    title = 'Select your wallet',
+    featuredWalletsNumber = 2,
+    onClose,
+    ...props
+}) => {
     const styles = useStyles();
     const { wallets, select } = useWallet();
     const { open, setOpen } = useWalletDialog();
     const [expanded, setExpanded] = useState(false);
 
-    const featuredWallets = wallets.slice(0, 2);
-    const otherWallets = wallets.slice(2);
+    const featuredWallets = wallets.slice(0, featuredWalletsNumber);
+    const otherWallets = wallets.slice(featuredWalletsNumber);
+
+    const showCollapse = featuredWalletsNumber < wallets.length;
 
     const handleClick = () => {
         setExpanded(!expanded);
@@ -119,23 +127,28 @@ export const WalletDialog: FC<WalletDialogProps> = ({ title = 'Select your walle
                         />
                     ))}
                 </List>
-                <Collapse in={expanded} timeout="auto" unmountOnExit>
-                    <List>
-                        {otherWallets.map((wallet) => (
-                            <WalletListItem
-                                key={wallet.name}
-                                handleClick={(event) => handleWalletClick(event, wallet.name)}
-                                wallet={wallet}
-                            />
-                        ))}
-                    </List>
-                </Collapse>
-                <ListItem>
-                    <Button onClick={handleClick}>
-                        {expanded ? 'Less' : 'More'} options
-                        {expanded ? <ExpandLess /> : <ExpandMore />}
-                    </Button>
-                </ListItem>
+                {showCollapse && (
+                    <>
+                        <Collapse in={expanded} timeout="auto" unmountOnExit>
+                            <List>
+                                {otherWallets.map((wallet) => (
+                                    <WalletListItem
+                                        key={wallet.name}
+                                        handleClick={(event) => handleWalletClick(event, wallet.name)}
+                                        wallet={wallet}
+                                    />
+                                ))}
+                            </List>
+                        </Collapse>
+
+                        <ListItem>
+                            <Button onClick={handleClick}>
+                                {expanded ? 'Less' : 'More'} options
+                                {expanded ? <ExpandLess /> : <ExpandMore />}
+                            </Button>
+                        </ListItem>
+                    </>
+                )}
             </DialogContent>
         </Dialog>
     );
