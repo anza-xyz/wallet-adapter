@@ -15,7 +15,7 @@
     },
     "scripts": {
         "clean": "lerna run clean",
-        "build": "lerna run build",
+        "build": "yarn clean && lerna run build",
         "test": "lerna run test",
         "publish": "lerna publish from-package",
         "deploy": "yarn deploy:docs && yarn deploy:example",

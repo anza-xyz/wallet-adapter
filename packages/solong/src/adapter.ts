@@ -1,20 +1,18 @@
 import {
-    EventEmitter,
+    BaseSignerWalletAdapter,
     pollUntilReady,
     WalletAccountError,
-    WalletAdapter,
-    WalletAdapterEvents,
     WalletNotConnectedError,
     WalletNotFoundError,
     WalletPublicKeyError,
-    WalletSignatureError,
+    WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 
 interface SolongWallet {
     currentAccount?: string | null;
-    selectAccount: () => Promise<string>;
-    signTransaction: (transaction: Transaction) => Promise<Transaction>;
+    selectAccount(): Promise<string>;
+    signTransaction(transaction: Transaction): Promise<Transaction>;
 }
 
 interface SolongWindow extends Window {
@@ -28,7 +26,7 @@ export interface SolongWalletAdapterConfig {
     pollCount?: number;
 }
 
-export class SolongWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
+export class SolongWalletAdapter extends BaseSignerWalletAdapter {
     private _connecting: boolean;
     private _wallet: SolongWallet | null;
     private _publicKey: PublicKey | null;
@@ -113,7 +111,7 @@ export class SolongWalletAdapter extends EventEmitter<WalletAdapterEvents> imple
             try {
                 return await wallet.signTransaction(transaction);
             } catch (error) {
-                throw new WalletSignatureError(error?.message, error);
+                throw new WalletSignTransactionError(error?.message, error);
             }
         } catch (error) {
             this.emit('error', error);
@@ -129,7 +127,7 @@ export class SolongWalletAdapter extends EventEmitter<WalletAdapterEvents> imple
             try {
                 return await Promise.all(transactions.map((transaction) => wallet.signTransaction(transaction)));
             } catch (error) {
-                throw new WalletSignatureError(error?.message, error);
+                throw new WalletSignTransactionError(error?.message, error);
             }
         } catch (error) {
             this.emit('error', error);
