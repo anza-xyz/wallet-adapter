@@ -2,6 +2,7 @@ import { WalletError } from '@solana/wallet-adapter-base';
 import { WalletDialogProvider } from '@solana/wallet-adapter-material-ui';
 import { WalletProvider } from '@solana/wallet-adapter-react';
 import {
+    getSafePalWallet
     getBitpieWallet,
     getCoin98Wallet,
     getLedgerWallet,
@@ -21,6 +22,7 @@ const Wallet: FC = () => {
     // Only the wallets you want to support will be compiled into your application
     const wallets = useMemo(
         () => [
+            getSafePalWallet(),
             getPhantomWallet(),
             getSolflareWallet(),
             getTorusWallet({

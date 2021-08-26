@@ -1,0 +1,6 @@
+{
+    "extends": ["../../.eslintrc.json"],
+    "rules": {
+        "no-useless-concat": "off"
+    }
+}
