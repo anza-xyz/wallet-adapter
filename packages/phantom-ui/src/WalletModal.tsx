@@ -1,165 +1,139 @@
-import React, { FC, useEffect, useRef } from 'react';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { WalletName } from '@solana/wallet-adapter-wallets';
+import React, { FC, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useWalletModal } from './useWalletModal';
+import { Button } from './Button';
+import { Collapse } from './Collapse';
+import { WalletListItem } from './WalletListItem';
+import './styles/modal.css';
 
 interface ModalProps {
     className?: string;
+    featuredWalletsNumber?: number;
+    id?: string;
+    logo?: string;
+    root?: string;
     size?: string;
 }
 
-const modalRoot = document.getElementById('root');
+export const WalletModal: FC<ModalProps> = ({ featuredWalletsNumber = 2, logo, root = 'body', ...props }) => {
+    const rootElement = document.querySelector(root);
+    const { wallets, select } = useWallet();
+    const { setVisible } = useWalletModal();
+    const [expanded, setExpanded] = React.useState(false);
+    const [fadeIn, setFadeIn] = React.useState(false);
 
-export const WalletModal: FC<ModalProps> = (props) => {
-    // static defaultProps = {
-    //     id: '',
-    //     modalClass: '',
-    //     modalSize: 'md',
-    // };
-
-    const [fadeType, setFadeType] = React.useState<null | 'in' | 'out'>(null);
-
-    // useEffect(() => {
-    //     window.addEventListener('keydown', onEscKeyDown, false);
-    //     setTimeout(() => setFadeType('in'), 0);
-    //     return () => window.removeEventListener('keydown', onEscKeyDown, false);
-    // }, []);
-    // componentDidUpdate(prevProps, prevState) {
-    //     if (!this.props.isOpen && prevProps.isOpen) {
-    //         setFadeType('out');
-    //     }
-    // }
-
-    const transitionEnd = (e: any) => {
-        if (e.propertyName !== 'opacity' || fadeType === 'in') return;
-        if (fadeType === 'out') {
-            // this.props.onClose();
-        }
+    const hideModal = () => {
+        setFadeIn(false);
+        setTimeout(() => setVisible(false), 150);
     };
-    const onEscKeyDown = (e: KeyboardEvent) => {
-        if (e.key !== 'Escape') return;
-        setFadeType('out');
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') hideModal();
     };
-    const handleClick = (e: React.MouseEvent) => {
+
+    const handleClose = (e: React.MouseEvent) => {
         e.preventDefault();
-        setFadeType('out');
+        hideModal();
     };
+
+    const featuredWallets = wallets.slice(0, featuredWalletsNumber);
+    const otherWallets = wallets.slice(featuredWalletsNumber);
+
+    const showCollapse = featuredWalletsNumber < wallets.length;
+
+    const handleCollapseClick = () => {
+        setExpanded(!expanded);
+    };
+
+    const handleWalletClick = (event: React.MouseEvent, walletName: WalletName) => {
+        select(walletName);
+        handleClose(event);
+    };
+
+    useLayoutEffect(() => {
+        const originalStyle = window.getComputedStyle(document.body).overflow;
+        // Hack to enable fade in animation after mount
+        setTimeout(() => setFadeIn(true), 0);
+        // Prevent scrolling on mount
+        document.body.style.overflow = 'hidden';
+        // Listen for keydown events
+        window.addEventListener('keydown', handleKeyDown, false);
+
+        return () => {
+            // Re-enable scrolling when component unmounts
+            document.body.style.overflow = originalStyle;
+            window.removeEventListener('keydown', handleKeyDown, false);
+        };
+    }, []);
+
+    if (!rootElement) return null;
 
     return createPortal(
         <div
+            aria-labelledby="wallet-adapter-modal-title"
+            aria-modal="true"
+            className={`wallet-adapter-modal ${fadeIn && 'wallet-adapter-modal-fade-in'}`}
             id={props.id}
-            className={`wrapper ${props.className}`}
             role="dialog"
-            // modalSize={props.size}
-            onTransitionEnd={transitionEnd}
-            // fadeType={fadeType}
         >
-            <div className="box-dialog">
-                <div className="box-header">
-                    <h4 className="box-title">Title Of Modal</h4>
-                    <button onClick={handleClick} className="close">
-                        ×
-                    </button>
-                </div>
-                <div className="box-content">{props.children}</div>
-                <div className="box-footer">
-                    <button onClick={handleClick} className="close">
-                        Close
-                    </button>
-                </div>
+            <div className={`wallet-adapter-modal-wrapper ${!logo && 'wallet-adapter-modal-wrapper-no-logo'}`}>
+                {logo && (
+                    <div className="wallet-adapter-modal-logo-wrapper">
+                        <img className="wallet-adapter-modal-logo" src={logo} />
+                    </div>
+                )}
+                <h1 className="wallet-adapter-modal-title" id="wallet-adapter-modal-title">
+                    Connect Wallet
+                </h1>
+                <button onClick={handleClose} className="wallet-adapter-modal-button-close">
+                    <svg width="14" height="14">
+                        <path d="M14 12.461 8.3 6.772l5.234-5.233L12.006 0 6.772 5.234 1.54 0 0 1.539l5.234 5.233L0 12.006l1.539 1.528L6.772 8.3l5.69 5.7L14 12.461z" />
+                    </svg>
+                </button>
+                <ul className="wallet-adapter-modal-list">
+                    {featuredWallets.map((wallet) => (
+                        <WalletListItem
+                            key={wallet.name}
+                            handleClick={(event) => handleWalletClick(event, wallet.name)}
+                            wallet={wallet}
+                        />
+                    ))}
+                </ul>
+                {showCollapse && (
+                    <>
+                        <Collapse expanded={expanded} id="wallet-adapter-modal-collapse">
+                            <ul className="wallet-adapter-modal-list">
+                                {otherWallets.map((wallet) => (
+                                    <WalletListItem
+                                        key={wallet.name}
+                                        handleClick={(event) => handleWalletClick(event, wallet.name)}
+                                        wallet={wallet}
+                                    />
+                                ))}
+                            </ul>
+                        </Collapse>
+                        <Button
+                            aria-controls="wallet-adapter-modal-collapse"
+                            aria-expanded={expanded}
+                            className={`wallet-adapter-modal-collapse-button ${
+                                expanded && 'wallet-adapter-modal-collapse-button-active'
+                            }`}
+                            endIcon={
+                                <svg width="11" height="6" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="m5.938 5.73 4.28-4.126a.915.915 0 0 0 0-1.322 1 1 0 0 0-1.371 0L5.253 3.736 1.659.272a1 1 0 0 0-1.371 0A.93.93 0 0 0 0 .932c0 .246.1.48.288.662l4.28 4.125a.99.99 0 0 0 1.37.01z" />
+                                </svg>
+                            }
+                            onClick={handleCollapseClick}
+                        >
+                            {expanded ? 'Less' : 'More'} options
+                        </Button>
+                    </>
+                )}
             </div>
-            <div className={`background`} onMouseDown={handleClick} />
+            <div className="wallet-adapter-modal-overlay" onMouseDown={handleClose} />
         </div>,
-        // @ts-ignore
-        modalRoot
+        rootElement
     );
 };
-
-// const StyledModal = styled.div`
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-//     right: 0;
-//     bottom: 0;
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     opacity: 0;
-//     transition: opacity linear 0.15s;
-//     z-index: 2000;
-//     width: ${(props) => {
-//         switch (props.modalSize) {
-//             case 'lg':
-//                 return '800';
-//             default:
-//                 return '480';
-//         }
-//     }}px;
-//     margin: 40px auto;
-//     &.fade-in {
-//         opacity: 1;
-//         transition: opacity linear 0.15s;
-//     }
-//     &.fade-out {
-//         opacity: 0;
-//         transition: opacity linear 0.15s;
-//     }
-//     .background {
-//         background: rgba(0, 0, 0, 0.5);
-//         position: fixed;
-//         z-index: 1040;
-//         display: block;
-//         top: 0;
-//         left: 0;
-//         bottom: 0;
-//         right: 0;
-//         outline: 0;
-//     }
-//     .box-dialog {
-//         z-index: 1050;
-//         width: 100%;
-//         background-color: #fefefe;
-//         box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
-//         .box-content {
-//             padding: 24px;
-//             width: 100%;
-//         }
-//         .box-header {
-//             height: 48px;
-//             padding: 8px 24px;
-//             display: flex;
-//             justify-content: space-between;
-//             align-items: center;
-//             border-bottom: 1px solid #c7c7c7;
-//             .box-title {
-//                 font-size: 24px;
-//                 font-weight: 400;
-//                 margin: 0 0 0 0;
-//             }
-//             .x-close {
-//                 font-size: 35px;
-//                 line-height: 35px;
-//                 font-weight: 400;
-//                 text-shadow: none;
-//                 color: black;
-//                 cursor: pointer;
-//                 &:hover {
-//                     opacity: 0.5;
-//                 }
-//             }
-//         }
-//         .box-body {
-//             font-size: 14px;
-//             padding: 0px;
-//             width: auto;
-//             height: auto;
-//         }
-//         .box-footer {
-//             height: 48px;
-//             padding: 0px 24px;
-//             display: flex;
-//             align-items: center;
-//             justify-content: flex-end;
-//             border-top: 1px solid #c7c7c7;
-//         }
-//     }
-// `;

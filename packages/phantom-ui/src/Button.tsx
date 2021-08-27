@@ -2,37 +2,30 @@ import React from 'react';
 import './styles/button.css';
 
 export interface ButtonProps {
+    buttonStyle?: React.CSSProperties;
+    className?: string;
     color?: string;
     disabled?: boolean;
-    icon?: React.ReactElement;
+    endIcon?: React.ReactElement;
+    startIcon?: React.ReactElement;
     onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-    style?: React.CSSProperties;
 }
-
-const buttonStyle = {
-    // border: 'none',
-    // borderRadius: '6px',
-    // color: 'white',
-    // cursor: 'pointer',
-    // display: 'flex',
-    // alignItems: 'center',
-    // justifyContent: 'space-between',
-    // fontWeight: 600,
-    // outlineColor: 'transparent',
-    // outlineStyle: 'none',
-    // width: '100%',
-};
 
 export const Button: React.FC<ButtonProps> = (props) => {
     return (
         <button
-            className="phantom-wallet-button"
+            className={`wallet-adapter-button ${props.className}`}
             disabled={props.disabled}
             onClick={props.onClick}
-            style={{ ...buttonStyle, ...props.style }}
+            style={{
+                backgroundColor: props.color && !props.disabled ? props.color : undefined,
+                justifyContent: props.endIcon || props.startIcon ? 'space-between' : 'center',
+                ...props.buttonStyle,
+            }}
         >
+            {props.startIcon && <i className="wallet-adapter-button-start-icon">{props.startIcon}</i>}
             {props.children}
-            {props.icon && <i>{props.icon}</i>}
+            {props.endIcon && <i className="wallet-adapter-button-end-icon">{props.endIcon}</i>}
         </button>
     );
 };

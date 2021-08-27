@@ -1,29 +1,96 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap');
 
-.phantom-wallet {
-    font-family: 'Inter', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-weight: 600;
-}
-
-.phantom-wallet-button {
+.wallet-adapter-button {
+    background-color: #404144;
     border: none;
     border-radius: 6px;
     color: #fff;
     cursor: pointer;
     display: flex;
     align-items: center;
-    justify-content: center;
     font-family: 'Inter', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 16px;
     font-weight: 600;
     outline: none;
     height: 50px;
     line-height: 50px;
-    width: 100%;
     padding: 0 20px;
 }
 
-.phantom-wallet-button[disabled] {
+.wallet-adapter-button:not([disabled]):hover {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.15) 0 0);
+}
+
+.wallet-adapter-button[disabled] {
     background: #404144;
-    color: #999999;
+    color: #999;
     cursor: not-allowed;
+}
+
+.wallet-adapter-button .wallet-adapter-button-end-icon {
+    margin-left: 8px;
+}
+
+.wallet-adapter-button .wallet-adapter-button-start-icon {
+    margin-right: 8px;
+}
+
+.wallet-adapter-modal-collapse-button svg {
+    fill: #999;
+}
+
+.wallet-adapter-modal-collapse-button.wallet-adapter-modal-collapse-button-active svg {
+    transform: rotate(180deg);
+    transition: transform ease-in 150ms;
+}
+
+.wallet-adapter-dropdown {
+    position: relative;
+}
+
+.wallet-adapter-dropdown-list {
+    position: absolute;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-row-gap: 10px;
+    padding: 10px;
+    top: 100%;
+    right: 0;
+    margin: 0;
+    list-style: none;
+    background: #2c2d30;
+    border-radius: 10px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 200ms ease, transform 200ms ease, visibility 200ms;
+}
+
+.wallet-adapter-dropdown-list-active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(10px);
+}
+
+.wallet-adapter-multi-button-item {
+    background: #404144;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    white-space: nowrap;
+    padding: 0 20px;
+    width: 100%;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    height: 37px;
+    color: white;
+}
+
+.wallet-adapter-multi-button-item:not([disabled]):hover {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.15) 0 0);
 }
