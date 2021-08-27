@@ -1,8 +1,5 @@
 import {
-    MessageSignerWalletAdapter,
     SendTransactionOptions,
-    SignerWalletAdapter,
-    WalletAdapter,
     WalletError,
     WalletNotConnectedError,
     WalletNotReadyError,
@@ -31,7 +28,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
 }) => {
     const [name, setName] = useLocalStorage<WalletName | null>(localStorageKey, null);
     const [wallet, setWallet] = useState<Wallet>();
-    const [adapter, setAdapter] = useState<WalletAdapter | SignerWalletAdapter | MessageSignerWalletAdapter>();
+    const [adapter, setAdapter] = useState<ReturnType<Wallet['adapter']>>();
     const [ready, setReady] = useState(false);
     const [connecting, setConnecting] = useState(false);
     const [disconnecting, setDisconnecting] = useState(false);

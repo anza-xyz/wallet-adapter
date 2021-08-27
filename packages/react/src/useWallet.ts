@@ -1,9 +1,6 @@
 import {
-    MessageSignerWalletAdapter,
     MessageSignerWalletAdapterProps,
-    SignerWalletAdapter,
     SignerWalletAdapterProps,
-    WalletAdapter,
     WalletAdapterProps,
 } from '@solana/wallet-adapter-base';
 import { Wallet, WalletName } from '@solana/wallet-adapter-wallets';
@@ -14,7 +11,7 @@ export interface WalletContextState extends WalletAdapterProps {
     autoConnect: boolean;
 
     wallet: Wallet | undefined;
-    adapter: WalletAdapter | SignerWalletAdapter | MessageSignerWalletAdapter | undefined;
+    adapter: ReturnType<Wallet['adapter']> | undefined;
     disconnecting: boolean;
 
     select(walletName: WalletName): void;
