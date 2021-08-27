@@ -1,4 +1,5 @@
 import {
+    MessageSignerWalletAdapter,
     SendTransactionOptions,
     SignerWalletAdapter,
     WalletAdapter,
@@ -30,7 +31,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
 }) => {
     const [name, setName] = useLocalStorage<WalletName | null>(localStorageKey, null);
     const [wallet, setWallet] = useState<Wallet>();
-    const [adapter, setAdapter] = useState<WalletAdapter | SignerWalletAdapter>();
+    const [adapter, setAdapter] = useState<WalletAdapter | SignerWalletAdapter | MessageSignerWalletAdapter>();
     const [ready, setReady] = useState(false);
     const [connecting, setConnecting] = useState(false);
     const [disconnecting, setDisconnecting] = useState(false);
@@ -168,6 +169,22 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         [adapter, onError, connected]
     );
 
+    const signMessage = useMemo(
+        () =>
+            adapter && 'signMessage' in adapter
+                ? async <T extends Uint8Array | string>(message: T) => {
+                      if (!connected) {
+                          const error = new WalletNotConnectedError();
+                          onError(error);
+                          throw error;
+                      }
+
+                      return await adapter.signMessage(message);
+                  }
+                : undefined,
+        [adapter, onError, connected]
+    );
+
     // Reset state and set the wallet, adapter, and ready state when the name changes
     useEffect(() => {
         reset();
@@ -231,6 +248,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
                 sendTransaction,
                 signTransaction,
                 signAllTransactions,
+                signMessage,
             }}
         >
             {children}

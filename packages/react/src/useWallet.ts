@@ -1,4 +1,6 @@
 import {
+    MessageSignerWalletAdapter,
+    MessageSignerWalletAdapterProps,
     SignerWalletAdapter,
     SignerWalletAdapterProps,
     WalletAdapter,
@@ -12,13 +14,15 @@ export interface WalletContextState extends WalletAdapterProps {
     autoConnect: boolean;
 
     wallet: Wallet | undefined;
-    adapter: WalletAdapter | SignerWalletAdapter | undefined;
+    adapter: WalletAdapter | SignerWalletAdapter | MessageSignerWalletAdapter | undefined;
     disconnecting: boolean;
 
     select(walletName: WalletName): void;
 
     signTransaction: SignerWalletAdapterProps['signTransaction'] | undefined;
     signAllTransactions: SignerWalletAdapterProps['signAllTransactions'] | undefined;
+
+    signMessage: MessageSignerWalletAdapterProps['signMessage'] | undefined;
 }
 
 export const WalletContext = createContext<WalletContextState>({} as WalletContextState);
