@@ -1,6 +1,6 @@
 import { Connection, Transaction, TransactionSignature } from '@solana/web3.js';
 import { BaseWalletAdapter, SendTransactionOptions, WalletAdapter } from './adapter';
-import { WalletError, WalletNotConnectedError, WalletSendTransactionError } from './errors';
+import { WalletError, WalletSendTransactionError } from './errors';
 
 export interface SignerWalletAdapterProps {
     signTransaction(transaction: Transaction): Promise<Transaction>;
@@ -39,4 +39,17 @@ export abstract class BaseSignerWalletAdapter extends BaseWalletAdapter implemen
 
     abstract signTransaction(transaction: Transaction): Promise<Transaction>;
     abstract signAllTransactions(transaction: Transaction[]): Promise<Transaction[]>;
+}
+
+export interface MessageSignerWalletAdapterProps {
+    signMessage<T extends Uint8Array | string>(message: T): Promise<T>;
+}
+
+export type MessageSignerWalletAdapter = WalletAdapter & MessageSignerWalletAdapterProps;
+
+export abstract class BaseMessageSignerWalletAdapter
+    extends BaseSignerWalletAdapter
+    implements MessageSignerWalletAdapter
+{
+    abstract signMessage<T extends Uint8Array | string>(message: T): Promise<T>;
 }
