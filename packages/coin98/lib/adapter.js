@@ -7,10 +7,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { EventEmitter, pollUntilReady, WalletAccountError, WalletNotConnectedError, WalletNotFoundError, WalletNotInstalledError, WalletPublicKeyError, WalletSignatureError, } from '@solana/wallet-adapter-base';
+import { BaseSignerWalletAdapter, pollUntilReady, WalletAccountError, WalletNotConnectedError, WalletNotFoundError, WalletNotInstalledError, WalletPublicKeyError, WalletSignTransactionError, } from '@solana/wallet-adapter-base';
 import { PublicKey } from '@solana/web3.js';
 import bs58 from 'bs58';
-export class Coin98WalletAdapter extends EventEmitter {
+export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
     constructor(config = {}) {
         super();
         this._connecting = false;
@@ -98,7 +98,7 @@ export class Coin98WalletAdapter extends EventEmitter {
                     return transaction;
                 }
                 catch (error) {
-                    throw new WalletSignatureError(error === null || error === void 0 ? void 0 : error.message, error);
+                    throw new WalletSignTransactionError(error === null || error === void 0 ? void 0 : error.message, error);
                 }
             }
             catch (error) {
@@ -117,7 +117,7 @@ export class Coin98WalletAdapter extends EventEmitter {
                     return yield Promise.all(transactions.map((transaction) => this.signTransaction(transaction)));
                 }
                 catch (error) {
-                    throw new WalletSignatureError(error === null || error === void 0 ? void 0 : error.message, error);
+                    throw new WalletSignTransactionError(error === null || error === void 0 ? void 0 : error.message, error);
                 }
             }
             catch (error) {

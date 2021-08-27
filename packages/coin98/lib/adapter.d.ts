@@ -1,10 +1,10 @@
-import { EventEmitter, WalletAdapter, WalletAdapterEvents } from '@solana/wallet-adapter-base';
+import { BaseSignerWalletAdapter } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 export interface Coin98WalletAdapterConfig {
     pollInterval?: number;
     pollCount?: number;
 }
-export declare class Coin98WalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
+export declare class Coin98WalletAdapter extends BaseSignerWalletAdapter {
     private _connecting;
     private _wallet;
     private _publicKey;

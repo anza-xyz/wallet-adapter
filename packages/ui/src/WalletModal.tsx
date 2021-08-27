@@ -1,6 +1,6 @@
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletName } from '@solana/wallet-adapter-wallets';
-import React, { FC, useLayoutEffect } from 'react';
+import React, { FC, useLayoutEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { useWalletModal } from './useWalletModal';
 import { Button } from './Button';
@@ -20,11 +20,21 @@ export const WalletModal: FC<WalletModalProps> = ({
     logo,
     root = 'body',
 }) => {
-    const rootElement = document.querySelector(root);
     const { wallets, select } = useWallet();
     const { setVisible } = useWalletModal();
     const [expanded, setExpanded] = React.useState(false);
     const [fadeIn, setFadeIn] = React.useState(false);
+
+    const rootElement = useMemo(() => document.querySelector(root), [root]);
+
+    const [featuredWallets, otherWallets, expands] = useMemo(
+        () => [
+            wallets.slice(0, featuredWalletsNumber),
+            wallets.slice(featuredWalletsNumber),
+            wallets.length > featuredWalletsNumber,
+        ],
+        [wallets, featuredWalletsNumber]
+    );
 
     const hideModal = () => {
         setFadeIn(false);
@@ -39,11 +49,6 @@ export const WalletModal: FC<WalletModalProps> = ({
         e.preventDefault();
         hideModal();
     };
-
-    const featuredWallets = wallets.slice(0, featuredWalletsNumber);
-    const otherWallets = wallets.slice(featuredWalletsNumber);
-
-    const showCollapse = featuredWalletsNumber < wallets.length;
 
     const handleCollapseClick = () => {
         setExpanded(!expanded);
@@ -102,7 +107,7 @@ export const WalletModal: FC<WalletModalProps> = ({
                         />
                     ))}
                 </ul>
-                {showCollapse && (
+                {expands && (
                     <>
                         <Collapse expanded={expanded} id="wallet-adapter-modal-collapse">
                             <ul className="wallet-adapter-modal-list" role="list">

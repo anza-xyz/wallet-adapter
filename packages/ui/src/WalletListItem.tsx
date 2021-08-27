@@ -1,6 +1,6 @@
-import { Button } from './Button';
 import { Wallet } from '@solana/wallet-adapter-wallets';
 import React, { FC, MouseEventHandler } from 'react';
+import { Button } from './Button';
 import { WalletIcon } from './WalletIcon';
 
 interface WalletListItemProps {

@@ -7,9 +7,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { EventEmitter, pollUntilReady, WalletAccountError, WalletNotConnectedError, WalletNotFoundError, WalletPublicKeyError, WalletSignatureError, } from '@solana/wallet-adapter-base';
+import { BaseSignerWalletAdapter, pollUntilReady, WalletAccountError, WalletNotConnectedError, WalletNotFoundError, WalletPublicKeyError, WalletSignTransactionError, } from '@solana/wallet-adapter-base';
 import { PublicKey } from '@solana/web3.js';
-export class BitpieWalletAdapter extends EventEmitter {
+export class BitpieWalletAdapter extends BaseSignerWalletAdapter {
     constructor(config = {}) {
         super();
         this._connecting = false;
@@ -88,7 +88,7 @@ export class BitpieWalletAdapter extends EventEmitter {
                     return wallet.signTransaction(transaction);
                 }
                 catch (error) {
-                    throw new WalletSignatureError(error === null || error === void 0 ? void 0 : error.message, error);
+                    throw new WalletSignTransactionError(error === null || error === void 0 ? void 0 : error.message, error);
                 }
             }
             catch (error) {
@@ -107,7 +107,7 @@ export class BitpieWalletAdapter extends EventEmitter {
                     return wallet.signAllTransactions(transactions);
                 }
                 catch (error) {
-                    throw new WalletSignatureError(error === null || error === void 0 ? void 0 : error.message, error);
+                    throw new WalletSignTransactionError(error === null || error === void 0 ? void 0 : error.message, error);
                 }
             }
             catch (error) {
