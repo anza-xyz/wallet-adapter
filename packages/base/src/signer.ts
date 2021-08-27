@@ -42,7 +42,7 @@ export abstract class BaseSignerWalletAdapter extends BaseWalletAdapter implemen
 }
 
 export interface MessageSignerWalletAdapterProps {
-    signMessage<T extends Uint8Array | string>(message: T): Promise<T>;
+    signMessage(message: Uint8Array | string): Promise<string>;
 }
 
 export type MessageSignerWalletAdapter = WalletAdapter & MessageSignerWalletAdapterProps;
@@ -51,5 +51,5 @@ export abstract class BaseMessageSignerWalletAdapter
     extends BaseSignerWalletAdapter
     implements MessageSignerWalletAdapter
 {
-    abstract signMessage<T extends Uint8Array | string>(message: T): Promise<T>;
+    abstract signMessage(message: Uint8Array | string): Promise<string>;
 }
