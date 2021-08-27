@@ -1,6 +1,5 @@
 import {
     BaseWalletAdapter,
-    EventEmitter,
     WalletAccountError,
     WalletConnectionError,
     WalletNotFoundError,
@@ -8,33 +7,18 @@ import {
     WalletNotConnectedError,
     SendTransactionOptions,
 } from '@solana/wallet-adapter-base';
-import BloctoSDK from '@blocto/sdk';
+import BloctoSDK, { SolanaProviderInterface } from '@blocto/sdk';
 import { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
-
-interface BloctoWalletEvents {
-    connect(...args: unknown[]): unknown;
-    disconnect(...args: unknown[]): unknown;
-}
-
-interface BloctoWallet extends EventEmitter<BloctoWalletEvents> {
-    isBlocto?: boolean;
-    accounts: Array<string>;
-    connected: boolean;
-    signAndSendTransaction(transaction: Transaction): Promise<string>;
-    convertToProgramWalletTransaction(transaction: Transaction): Promise<Transaction>;
-    request(params: { method: string }): Promise<any>;
-    connect(): Promise<void>;
-}
+import { WalletDisconnectionError } from '@solana/wallet-adapter-base';
+import { connected } from 'process';
 
 export interface BloctoWalletAdapterConfig {
-    pollInterval?: number;
-    pollCount?: number;
     network: 'mainnet-beta' | 'testnet';
 }
 
 export class BloctoWalletAdapter extends BaseWalletAdapter {
     private _connecting: boolean;
-    private _wallet: BloctoWallet | null;
+    private _wallet: SolanaProviderInterface | null;
     private _publicKey: PublicKey | null;
     private _network: string;
 
@@ -106,7 +90,19 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
     }
 
     async disconnect(): Promise<void> {
-        return;
+        if (this._wallet?.connected) {
+            this._publicKey = null;
+
+            try {
+                this._wallet.disconnect();
+            } catch (error) {
+                this.emit('error', new WalletDisconnectionError(error.message, error));
+            } finally {
+                this._wallet = null;
+            }
+
+            this.emit('disconnect');
+        }
     }
 
     async sendTransaction(
@@ -118,6 +114,7 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
             if (!this._wallet?.connected) {
                 throw new WalletNotConnectedError();
             }
+
             transaction.feePayer ||= this.publicKey || undefined;
             transaction.recentBlockhash ||= (await connection.getRecentBlockhash('max')).blockhash;
 
