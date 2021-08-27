@@ -6,7 +6,6 @@ import { useWalletModal } from './useWalletModal';
 import { Button } from './Button';
 import { Collapse } from './Collapse';
 import { WalletListItem } from './WalletListItem';
-import './styles/modal.css';
 
 interface ModalProps {
     className?: string;
@@ -20,7 +19,7 @@ interface ModalProps {
 export const WalletModal: FC<ModalProps> = ({ featuredWalletsNumber = 2, logo, root = 'body', ...props }) => {
     const rootElement = document.querySelector(root);
     const { wallets, select } = useWallet();
-    const { setVisible } = useWalletModal();
+    const { visible, setVisible } = useWalletModal();
     const [expanded, setExpanded] = React.useState(false);
     const [fadeIn, setFadeIn] = React.useState(false);
 

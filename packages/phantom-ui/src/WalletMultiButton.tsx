@@ -25,7 +25,7 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, color = '#4E44CE'
         if (typeof base58 === 'string') {
             await navigator.clipboard.writeText(base58);
             setIsCopied(true);
-            setTimeout(() => setIsCopied(false), 200);
+            setTimeout(() => setIsCopied(false), 400);
         }
     };
 
@@ -55,6 +55,7 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, color = '#4E44CE'
     return (
         <div className="wallet-adapter-dropdown">
             <Button
+                aria-expanded={active}
                 buttonStyle={{ pointerEvents: active ? 'none' : 'auto', ...props.buttonStyle }}
                 color={color}
                 onClick={openDropdown}
@@ -64,16 +65,18 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, color = '#4E44CE'
                 {content}
             </Button>
             <ul
+                aria-label="dropdown-list"
                 className={`wallet-adapter-dropdown-list ${active && 'wallet-adapter-dropdown-list-active'}`}
                 ref={dropdownRef}
+                role="menu"
             >
-                <li onClick={copyAddress} className="wallet-adapter-multi-button-item">
+                <li onClick={copyAddress} className="wallet-adapter-multi-button-item" role="menuitem" tabIndex={-1}>
                     {isCopied ? 'Copied' : 'Copy address'}
                 </li>
-                <li onClick={openModal} className="wallet-adapter-multi-button-item">
+                <li onClick={openModal} className="wallet-adapter-multi-button-item" role="menuitem" tabIndex={-1}>
                     Connect a different wallet
                 </li>
-                <li onClick={disconnect} className="wallet-adapter-multi-button-item">
+                <li onClick={disconnect} className="wallet-adapter-multi-button-item" role="menuitem" tabIndex={-1}>
                     Disconnect
                 </li>
             </ul>
