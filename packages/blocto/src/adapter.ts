@@ -115,6 +115,11 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
                 throw new WalletNotConnectedError();
             }
 
+            // @TODO: remove this when blocto-sdk implements connection injection
+            if (this._wallet.rpc !== (connection as any)?._rpcEndpoint || connection.commitment) {
+                console.warn("@solana/wallet-adapter-blocto: Blocto SDK has not yet supported commitment nor switching network dynamically, your settings on connection object will be ignored.")
+            }
+            
             transaction.feePayer ||= this.publicKey || undefined;
             transaction.recentBlockhash ||= (await connection.getRecentBlockhash('max')).blockhash;
 
