@@ -110,8 +110,7 @@ export class PhantomWalletAdapter extends BaseSignerWalletAdapter {
                             reject(reason);
                         });
                     });
-                } catch (error) {
-                    if (error instanceof WalletError) throw error;
+                } catch (error: any) {
                     throw new WalletConnectionError(error?.message, error);
                 } finally {
                     wallet._handleDisconnect = disconnect;
@@ -121,14 +120,14 @@ export class PhantomWalletAdapter extends BaseSignerWalletAdapter {
             let buffer: Buffer;
             try {
                 buffer = wallet.publicKey!.toBuffer();
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletAccountError(error?.message, error);
             }
 
             let publicKey: PublicKey;
             try {
                 publicKey = new PublicKey(buffer);
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
@@ -138,7 +137,7 @@ export class PhantomWalletAdapter extends BaseSignerWalletAdapter {
             this._publicKey = publicKey;
 
             this.emit('connect');
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         } finally {
@@ -156,8 +155,8 @@ export class PhantomWalletAdapter extends BaseSignerWalletAdapter {
 
             try {
                 await wallet.disconnect();
-            } catch (error) {
-                this.emit('error', new WalletDisconnectionError(error.message, error));
+            } catch (error: any) {
+                this.emit('error', new WalletDisconnectionError(error?.message, error));
             }
 
             this.emit('disconnect');
@@ -171,10 +170,10 @@ export class PhantomWalletAdapter extends BaseSignerWalletAdapter {
 
             try {
                 return wallet.signTransaction(transaction);
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         }
@@ -187,10 +186,10 @@ export class PhantomWalletAdapter extends BaseSignerWalletAdapter {
 
             try {
                 return wallet.signAllTransactions(transactions);
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         }

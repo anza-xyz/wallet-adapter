@@ -22,8 +22,8 @@ const RequestAirdrop: FC = () => {
 
             await connection.confirmTransaction(signature, 'processed');
             notify('success', 'Airdrop successful!', signature);
-        } catch (error) {
-            notify('error', `Airdrop failed! ${error.message}`, signature);
+        } catch (error: any) {
+            notify('error', `Airdrop failed! ${error?.message}`, signature);
         }
     }, [publicKey, notify, connection, sendTransaction]);
 

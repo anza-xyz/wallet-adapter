@@ -92,15 +92,14 @@ export class TorusWalletAdapter extends BaseSignerWalletAdapter {
                         window.removeEventListener('unhandledrejection', listener!);
                     }
                 }
-            } catch (error) {
-                if (error instanceof WalletError) throw error;
+            } catch (error: any) {
                 throw new WalletConnectionError(error?.message, error);
             }
 
             let keypair: Keypair;
             try {
                 keypair = Keypair.fromSecretKey(getED25519Key(privateKey).sk);
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletKeypairError(error?.message, error);
             }
 
@@ -108,7 +107,7 @@ export class TorusWalletAdapter extends BaseSignerWalletAdapter {
             this._keypair = keypair;
 
             this.emit('connect');
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         } finally {
@@ -125,8 +124,8 @@ export class TorusWalletAdapter extends BaseSignerWalletAdapter {
             try {
                 await openLogin.logout();
                 await openLogin._cleanup();
-            } catch (error) {
-                this.emit('error', new WalletDisconnectionError(error.message, error));
+            } catch (error: any) {
+                this.emit('error', new WalletDisconnectionError(error?.message, error));
             }
 
             this.emit('disconnect');
@@ -140,12 +139,12 @@ export class TorusWalletAdapter extends BaseSignerWalletAdapter {
 
             try {
                 transaction.partialSign(keypair);
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
 
             return transaction;
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         }
@@ -160,12 +159,12 @@ export class TorusWalletAdapter extends BaseSignerWalletAdapter {
                 for (const transaction of transactions) {
                     transaction.partialSign(keypair);
                 }
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
 
             return transactions;
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         }
