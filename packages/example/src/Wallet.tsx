@@ -15,12 +15,12 @@ import {
     WalletMultiButton as AntDesignWalletMultiButton,
 } from '@solana/wallet-adapter-ant-design';
 import {
-    WalletConnectButton as PhantomUIWalletConnectButton,
-    WalletModalButton as PhantomUIWalletModalButton,
-    WalletModalProvider as PhantomUIWalletModalProvider,
-    WalletDisconnectButton as PhantomUIWalletDisconnectButton,
-    WalletMultiButton as PhantomUIWalletMultiButton,
-} from '@solana/wallet-adapter-phantom-ui';
+    WalletConnectButton as UIWalletConnectButton,
+    WalletModalButton as UIWalletModalButton,
+    WalletModalProvider as UIWalletModalProvider,
+    WalletDisconnectButton as UIWalletDisconnectButton,
+    WalletMultiButton as UIWalletMultiButton,
+} from '@solana/wallet-adapter-ui';
 import { useLocalStorage, WalletProvider } from '@solana/wallet-adapter-react';
 import {
     getLedgerWallet,
@@ -70,7 +70,7 @@ const Wallet: FC = () => {
         <WalletProvider wallets={wallets} onError={onError} autoConnect={autoConnect}>
             <MaterialUIWalletDialogProvider>
                 <AntDesignWalletModalProvider>
-                    <PhantomUIWalletModalProvider>
+                    <UIWalletModalProvider>
                         <Table>
                             <TableHead>
                                 <TableRow>
@@ -91,7 +91,7 @@ const Wallet: FC = () => {
                                         <AntDesignWalletConnectButton />
                                     </TableCell>
                                     <TableCell>
-                                        <PhantomUIWalletConnectButton />
+                                        <UIWalletConnectButton />
                                     </TableCell>
                                     <TableCell></TableCell>
                                 </TableRow>
@@ -104,7 +104,7 @@ const Wallet: FC = () => {
                                         <AntDesignWalletDisconnectButton />
                                     </TableCell>
                                     <TableCell>
-                                        <PhantomUIWalletDisconnectButton />
+                                        <UIWalletDisconnectButton />
                                     </TableCell>
                                     <TableCell></TableCell>
                                 </TableRow>
@@ -117,7 +117,7 @@ const Wallet: FC = () => {
                                         <AntDesignWalletModalButton />
                                     </TableCell>
                                     <TableCell>
-                                        <PhantomUIWalletModalButton />
+                                        <UIWalletModalButton />
                                     </TableCell>
                                     <TableCell></TableCell>
                                 </TableRow>
@@ -130,7 +130,7 @@ const Wallet: FC = () => {
                                         <AntDesignWalletMultiButton />
                                     </TableCell>
                                     <TableCell>
-                                        <PhantomUIWalletMultiButton />
+                                        <UIWalletMultiButton />
                                     </TableCell>
                                     <TableCell></TableCell>
                                 </TableRow>
@@ -154,7 +154,7 @@ const Wallet: FC = () => {
                                 </TableRow>
                             </TableBody>
                         </Table>
-                    </PhantomUIWalletModalProvider>
+                    </UIWalletModalProvider>
                 </AntDesignWalletModalProvider>
             </MaterialUIWalletDialogProvider>
         </WalletProvider>

@@ -1,5 +1,5 @@
 {
-    "name": "@solana/wallet-adapter-phantom-ui-starter",
+    "name": "@solana/wallet-adapter-ui-starter",
     "version": "0.0.1",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
@@ -24,7 +24,7 @@
     },
     "dependencies": {
         "@solana/wallet-adapter-base": "^0.4.1",
-        "@solana/wallet-adapter-phantom-ui": "^0.7.1",
+        "@solana/wallet-adapter-ui": "^0.7.1",
         "@solana/wallet-adapter-react": "^0.7.1",
         "@solana/wallet-adapter-wallets": "^0.6.1",
         "@solana/web3.js": "^1.22.0",

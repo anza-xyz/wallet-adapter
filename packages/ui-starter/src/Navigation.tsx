@@ -1,4 +1,4 @@
-import { WalletDisconnectButton, WalletMultiButton } from '@solana/wallet-adapter-phantom-ui';
+import { WalletDisconnectButton, WalletMultiButton } from '@solana/wallet-adapter-ui';
 import { useWallet } from '@solana/wallet-adapter-react';
 import React, { FC } from 'react';
 
