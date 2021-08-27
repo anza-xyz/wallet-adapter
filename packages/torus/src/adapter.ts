@@ -1,13 +1,11 @@
 import {
-    EventEmitter,
-    WalletAdapter,
-    WalletAdapterEvents,
+    BaseSignerWalletAdapter,
     WalletConnectionError,
     WalletDisconnectionError,
     WalletError,
     WalletKeypairError,
     WalletNotConnectedError,
-    WalletSignatureError,
+    WalletSignTransactionError,
     WalletWindowBlockedError,
     WalletWindowClosedError,
 } from '@solana/wallet-adapter-base';
@@ -19,7 +17,7 @@ export interface TorusWalletAdapterConfig {
     options: Partial<OpenLoginOptions> & Omit<OpenLoginOptions, 'network'>;
 }
 
-export class TorusWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
+export class TorusWalletAdapter extends BaseSignerWalletAdapter {
     private _options: OpenLoginOptions;
     private _connecting: boolean;
     private _openLogin: OpenLogin | null;
@@ -143,7 +141,7 @@ export class TorusWalletAdapter extends EventEmitter<WalletAdapterEvents> implem
             try {
                 transaction.partialSign(keypair);
             } catch (error) {
-                throw new WalletSignatureError(error?.message, error);
+                throw new WalletSignTransactionError(error?.message, error);
             }
 
             return transaction;
@@ -163,7 +161,7 @@ export class TorusWalletAdapter extends EventEmitter<WalletAdapterEvents> implem
                     transaction.partialSign(keypair);
                 }
             } catch (error) {
-                throw new WalletSignatureError(error?.message, error);
+                throw new WalletSignTransactionError(error?.message, error);
             }
 
             return transactions;

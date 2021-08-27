@@ -1,27 +1,27 @@
 import Wallet from '@project-serum/sol-wallet-adapter';
 import {
-    EventEmitter,
-    WalletAdapter,
-    WalletAdapterEvents,
+    BaseSignerWalletAdapter,
     WalletAdapterNetwork,
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
     WalletError,
     WalletNotConnectedError,
-    WalletSignatureError,
+    WalletSignTransactionError,
     WalletWindowBlockedError,
     WalletWindowClosedError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 
+type SolletProvider = string | { postMessage(...args: unknown[]): unknown };
+
 export interface SolletWalletAdapterConfig {
-    provider?: string | { postMessage: (...args: unknown[]) => unknown };
+    provider?: SolletProvider;
     network?: WalletAdapterNetwork;
 }
 
-export class SolletWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
-    private _provider: string | { postMessage: (...args: unknown[]) => unknown };
+export class SolletWalletAdapter extends BaseSignerWalletAdapter {
+    private _provider: SolletProvider;
     private _network: WalletAdapterNetwork;
     private _connecting: boolean;
     private _wallet: Wallet | null;
@@ -129,7 +129,7 @@ export class SolletWalletAdapter extends EventEmitter<WalletAdapterEvents> imple
             try {
                 return wallet.signTransaction(transaction);
             } catch (error) {
-                throw new WalletSignatureError(error?.message, error);
+                throw new WalletSignTransactionError(error?.message, error);
             }
         } catch (error) {
             this.emit('error', error);
@@ -145,7 +145,7 @@ export class SolletWalletAdapter extends EventEmitter<WalletAdapterEvents> imple
             try {
                 return wallet.signAllTransactions(transactions);
             } catch (error) {
-                throw new WalletSignatureError(error?.message, error);
+                throw new WalletSignTransactionError(error?.message, error);
             }
         } catch (error) {
             this.emit('error', error);

@@ -1,9 +1,8 @@
 import {
+    BaseSignerWalletAdapter,
     EventEmitter,
     pollUntilReady,
     WalletAccountError,
-    WalletAdapter,
-    WalletAdapterEvents,
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
@@ -12,27 +11,26 @@ import {
     WalletNotFoundError,
     WalletNotInstalledError,
     WalletPublicKeyError,
-    WalletSignatureError,
+    WalletSignTransactionError,
     WalletWindowClosedError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 
 interface PhantomWalletEvents {
-    connect: (...args: unknown[]) => unknown;
-    disconnect: (...args: unknown[]) => unknown;
+    connect(...args: unknown[]): unknown;
+    disconnect(...args: unknown[]): unknown;
 }
 
 interface PhantomWallet extends EventEmitter<PhantomWalletEvents> {
     isPhantom?: boolean;
-    // HACK: Phantom's PublicKey isn't quite like ours
     publicKey?: { toBuffer(): Buffer };
     isConnected: boolean;
     autoApprove: boolean;
-    signTransaction: (transaction: Transaction) => Promise<Transaction>;
-    signAllTransactions: (transactions: Transaction[]) => Promise<Transaction[]>;
-    connect: () => Promise<void>;
-    disconnect: () => Promise<void>;
-    _handleDisconnect: (...args: unknown[]) => unknown;
+    signTransaction(transaction: Transaction): Promise<Transaction>;
+    signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
+    connect(): Promise<void>;
+    disconnect(): Promise<void>;
+    _handleDisconnect(...args: unknown[]): unknown;
 }
 
 interface PhantomWindow extends Window {
@@ -46,7 +44,7 @@ export interface PhantomWalletAdapterConfig {
     pollCount?: number;
 }
 
-export class PhantomWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
+export class PhantomWalletAdapter extends BaseSignerWalletAdapter {
     private _connecting: boolean;
     private _wallet: PhantomWallet | null;
     private _publicKey: PublicKey | null;
@@ -174,7 +172,7 @@ export class PhantomWalletAdapter extends EventEmitter<WalletAdapterEvents> impl
             try {
                 return wallet.signTransaction(transaction);
             } catch (error) {
-                throw new WalletSignatureError(error?.message, error);
+                throw new WalletSignTransactionError(error?.message, error);
             }
         } catch (error) {
             this.emit('error', error);
@@ -190,7 +188,7 @@ export class PhantomWalletAdapter extends EventEmitter<WalletAdapterEvents> impl
             try {
                 return wallet.signAllTransactions(transactions);
             } catch (error) {
-                throw new WalletSignatureError(error?.message, error);
+                throw new WalletSignTransactionError(error?.message, error);
             }
         } catch (error) {
             this.emit('error', error);

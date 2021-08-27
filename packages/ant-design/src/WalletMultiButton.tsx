@@ -72,7 +72,9 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                     <Menu.Item
                         onClick={() => {
                             // eslint-disable-next-line @typescript-eslint/no-empty-function
-                            disconnect().catch(() => {});
+                            disconnect().catch(() => {
+                                // Silently catch because any errors are caught by the context `onError` handler
+                            });
                         }}
                         icon={<DisconnectIcon className=".wallet-adapter-multi-button-icon" />}
                         className="wallet-adapter-multi-button-item"

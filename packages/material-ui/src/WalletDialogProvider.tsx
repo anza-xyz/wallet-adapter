@@ -1,8 +1,8 @@
-import React, { FC, ReactNode, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { WalletDialogContext } from './useWalletDialog';
-import { WalletDialog } from './WalletDialog';
+import { WalletDialog, WalletDialogProps } from './WalletDialog';
 
-export const WalletDialogProvider: FC<{ children: ReactNode }> = ({ children }) => {
+export const WalletDialogProvider: FC<WalletDialogProps> = ({ children, ...props }) => {
     const [open, setOpen] = useState(false);
 
     return (
@@ -13,7 +13,7 @@ export const WalletDialogProvider: FC<{ children: ReactNode }> = ({ children }) 
             }}
         >
             {children}
-            <WalletDialog />
+            <WalletDialog {...props} />
         </WalletDialogContext.Provider>
     );
 };

@@ -1,9 +1,8 @@
 import {
+    BaseSignerWalletAdapter,
     EventEmitter,
     pollUntilReady,
     WalletAccountError,
-    WalletAdapter,
-    WalletAdapterEvents,
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
@@ -12,13 +11,13 @@ import {
     WalletNotFoundError,
     WalletNotInstalledError,
     WalletPublicKeyError,
-    WalletSignatureError,
+    WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 
 interface SolflareWalletEvents {
-    connect: (...args: unknown[]) => unknown;
-    disconnect: (...args: unknown[]) => unknown;
+    connect(...args: unknown[]): unknown;
+    disconnect(...args: unknown[]): unknown;
 }
 
 interface SolflareWallet extends EventEmitter<SolflareWalletEvents> {
@@ -26,10 +25,10 @@ interface SolflareWallet extends EventEmitter<SolflareWalletEvents> {
     publicKey?: { toBuffer(): Buffer };
     isConnected: boolean;
     autoApprove: boolean;
-    signTransaction: (transaction: Transaction) => Promise<Transaction>;
-    signAllTransactions: (transactions: Transaction[]) => Promise<Transaction[]>;
-    connect: () => Promise<boolean>;
-    disconnect: () => Promise<boolean>;
+    signTransaction(transaction: Transaction): Promise<Transaction>;
+    signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
+    connect(): Promise<boolean>;
+    disconnect(): Promise<boolean>;
 }
 
 interface SolflareWindow extends Window {
@@ -43,7 +42,7 @@ export interface SolflareWalletAdapterConfig {
     pollCount?: number;
 }
 
-export class SolflareWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
+export class SolflareWalletAdapter extends BaseSignerWalletAdapter {
     private _connecting: boolean;
     private _wallet: SolflareWallet | null;
     private _publicKey: PublicKey | null;
@@ -149,7 +148,7 @@ export class SolflareWalletAdapter extends EventEmitter<WalletAdapterEvents> imp
             try {
                 return wallet.signTransaction(transaction);
             } catch (error) {
-                throw new WalletSignatureError(error?.message, error);
+                throw new WalletSignTransactionError(error?.message, error);
             }
         } catch (error) {
             this.emit('error', error);
@@ -165,7 +164,7 @@ export class SolflareWalletAdapter extends EventEmitter<WalletAdapterEvents> imp
             try {
                 return wallet.signAllTransactions(transactions);
             } catch (error) {
-                throw new WalletSignatureError(error?.message, error);
+                throw new WalletSignTransactionError(error?.message, error);
             }
         } catch (error) {
             this.emit('error', error);

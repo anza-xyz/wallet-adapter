@@ -1,15 +1,13 @@
 import Transport from '@ledgerhq/hw-transport';
 import TransportWebHid from '@ledgerhq/hw-transport-webhid';
 import {
-    EventEmitter,
-    WalletAdapter,
-    WalletAdapterEvents,
+    BaseSignerWalletAdapter,
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
     WalletNotConnectedError,
     WalletPublicKeyError,
-    WalletSignatureError,
+    WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 import { getDerivationPath, getPublicKey, signTransaction } from './util';
@@ -18,7 +16,7 @@ export interface LedgerWalletAdapterConfig {
     derivationPath?: Buffer;
 }
 
-export class LedgerWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
+export class LedgerWalletAdapter extends BaseSignerWalletAdapter {
     private _derivationPath: Buffer;
     private _connecting: boolean;
     private _transport: Transport | null;
@@ -37,8 +35,7 @@ export class LedgerWalletAdapter extends EventEmitter<WalletAdapterEvents> imple
     }
 
     get ready(): boolean {
-        // @FIXME: could return !!navigator.hid
-        return true;
+        return !!navigator.hid;
     }
 
     get connecting(): boolean {
@@ -114,7 +111,7 @@ export class LedgerWalletAdapter extends EventEmitter<WalletAdapterEvents> imple
                 const signature = await signTransaction(transport, transaction, this._derivationPath);
                 transaction.addSignature(publicKey, signature);
             } catch (error) {
-                throw new WalletSignatureError(error?.message, error);
+                throw new WalletSignTransactionError(error?.message, error);
             }
 
             return transaction;
@@ -137,7 +134,7 @@ export class LedgerWalletAdapter extends EventEmitter<WalletAdapterEvents> imple
                     transaction.addSignature(publicKey, signature);
                 }
             } catch (error) {
-                throw new WalletSignatureError(error?.message, error);
+                throw new WalletSignTransactionError(error?.message, error);
             }
 
             return transactions;
