@@ -30,7 +30,6 @@ export const WalletDisconnectButton: FC<ButtonProps> = ({
 
     return (
         <Button
-            buttonStyle={{}}
             color={color}
             disabled={disabled || !wallet}
             startIcon={wallet ? <WalletIcon wallet={wallet} /> : undefined}

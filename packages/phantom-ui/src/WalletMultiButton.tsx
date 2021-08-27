@@ -56,7 +56,7 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, color = '#4E44CE'
         <div className="wallet-adapter-dropdown">
             <Button
                 aria-expanded={active}
-                buttonStyle={{ pointerEvents: active ? 'none' : 'auto', ...props.buttonStyle }}
+                style={{ pointerEvents: active ? 'none' : 'auto', ...props.style }}
                 color={color}
                 onClick={openDropdown}
                 startIcon={<WalletIcon wallet={wallet} />}
@@ -70,13 +70,13 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, color = '#4E44CE'
                 ref={dropdownRef}
                 role="menu"
             >
-                <li onClick={copyAddress} className="wallet-adapter-multi-button-item" role="menuitem" tabIndex={-1}>
+                <li onClick={copyAddress} className="wallet-adapter-dropdown-list-item" role="menuitem">
                     {isCopied ? 'Copied' : 'Copy address'}
                 </li>
-                <li onClick={openModal} className="wallet-adapter-multi-button-item" role="menuitem" tabIndex={-1}>
+                <li onClick={openModal} className="wallet-adapter-dropdown-list-item" role="menuitem">
                     Connect a different wallet
                 </li>
-                <li onClick={disconnect} className="wallet-adapter-multi-button-item" role="menuitem" tabIndex={-1}>
+                <li onClick={disconnect} className="wallet-adapter-dropdown-list-item" role="menuitem">
                     Disconnect
                 </li>
             </ul>

@@ -19,7 +19,7 @@ import {
     WalletModalButton as PhantomUIWalletModalButton,
     WalletModalProvider as PhantomUIWalletModalProvider,
     WalletDisconnectButton as PhantomUIWalletDisconnectButton,
-    // WalletMultiButton as PhantomUIWalletMultiButton,
+    WalletMultiButton as PhantomUIWalletMultiButton,
 } from '@solana/wallet-adapter-phantom-ui';
 import { useLocalStorage, WalletProvider } from '@solana/wallet-adapter-react';
 import {
@@ -74,10 +74,10 @@ const Wallet: FC = () => {
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell width={200}>Component</TableCell>
-                                    <TableCell width={200}>Material UI</TableCell>
-                                    <TableCell width={200}>Ant Design</TableCell>
-                                    <TableCell width={200}>Phantom</TableCell>
+                                    <TableCell width={240}>Component</TableCell>
+                                    <TableCell width={240}>Material UI</TableCell>
+                                    <TableCell width={240}>Ant Design</TableCell>
+                                    <TableCell width={240}>Phantom</TableCell>
                                     <TableCell>Example v{version}</TableCell>
                                 </TableRow>
                             </TableHead>
@@ -128,6 +128,9 @@ const Wallet: FC = () => {
                                     </TableCell>
                                     <TableCell>
                                         <AntDesignWalletMultiButton />
+                                    </TableCell>
+                                    <TableCell>
+                                        <PhantomUIWalletMultiButton />
                                     </TableCell>
                                     <TableCell></TableCell>
                                 </TableRow>

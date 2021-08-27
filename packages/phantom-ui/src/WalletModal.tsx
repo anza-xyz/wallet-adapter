@@ -7,19 +7,22 @@ import { Button } from './Button';
 import { Collapse } from './Collapse';
 import { WalletListItem } from './WalletListItem';
 
-interface ModalProps {
+export interface WalletModalProps {
     className?: string;
     featuredWalletsNumber?: number;
-    id?: string;
     logo?: string;
     root?: string;
-    size?: string;
 }
 
-export const WalletModal: FC<ModalProps> = ({ featuredWalletsNumber = 2, logo, root = 'body', ...props }) => {
+export const WalletModal: FC<WalletModalProps> = ({
+    className = '',
+    featuredWalletsNumber = 2,
+    logo,
+    root = 'body',
+}) => {
     const rootElement = document.querySelector(root);
     const { wallets, select } = useWallet();
-    const { visible, setVisible } = useWalletModal();
+    const { setVisible } = useWalletModal();
     const [expanded, setExpanded] = React.useState(false);
     const [fadeIn, setFadeIn] = React.useState(false);
 
@@ -73,8 +76,7 @@ export const WalletModal: FC<ModalProps> = ({ featuredWalletsNumber = 2, logo, r
         <div
             aria-labelledby="wallet-adapter-modal-title"
             aria-modal="true"
-            className={`wallet-adapter-modal ${fadeIn && 'wallet-adapter-modal-fade-in'}`}
-            id={props.id}
+            className={`wallet-adapter-modal ${fadeIn && 'wallet-adapter-modal-fade-in'} ${className}`}
             role="dialog"
         >
             <div className={`wallet-adapter-modal-wrapper ${!logo && 'wallet-adapter-modal-wrapper-no-logo'}`}>
@@ -91,7 +93,7 @@ export const WalletModal: FC<ModalProps> = ({ featuredWalletsNumber = 2, logo, r
                         <path d="M14 12.461 8.3 6.772l5.234-5.233L12.006 0 6.772 5.234 1.54 0 0 1.539l5.234 5.233L0 12.006l1.539 1.528L6.772 8.3l5.69 5.7L14 12.461z" />
                     </svg>
                 </button>
-                <ul className="wallet-adapter-modal-list">
+                <ul className="wallet-adapter-modal-list" role="list">
                     {featuredWallets.map((wallet) => (
                         <WalletListItem
                             key={wallet.name}
@@ -103,7 +105,7 @@ export const WalletModal: FC<ModalProps> = ({ featuredWalletsNumber = 2, logo, r
                 {showCollapse && (
                     <>
                         <Collapse expanded={expanded} id="wallet-adapter-modal-collapse">
-                            <ul className="wallet-adapter-modal-list">
+                            <ul className="wallet-adapter-modal-list" role="list">
                                 {otherWallets.map((wallet) => (
                                     <WalletListItem
                                         key={wallet.name}

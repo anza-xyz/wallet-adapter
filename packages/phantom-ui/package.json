@@ -17,7 +17,7 @@
     "scripts": {
         "clean": "rm -rf lib/*",
         "build": "yarn clean && tsc",
-        "postbuild": "rm -rf lib/styles && mkdir lib/styles && cp -r src/styles/ lib/styles/"
+        "postbuild": "rm -rf lib/styles.css && cp -r src/styles.css lib/styles.css"
     },
     "peerDependencies": {
         "@solana/wallet-adapter-base": "^0.4.1",

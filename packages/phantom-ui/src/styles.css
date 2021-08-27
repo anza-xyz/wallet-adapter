@@ -74,7 +74,7 @@
     transform: translateY(10px);
 }
 
-.wallet-adapter-multi-button-item {
+.wallet-adapter-dropdown-list-item {
     background: #404144;
     display: flex;
     flex-direction: row;
@@ -94,7 +94,7 @@
     color: white;
 }
 
-.wallet-adapter-multi-button-item:not([disabled]):hover {
+.wallet-adapter-dropdown-list-item:not([disabled]):hover {
     background-image: linear-gradient(rgba(0, 0, 0, 0.15) 0 0);
 }
 

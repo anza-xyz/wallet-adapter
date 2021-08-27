@@ -67,7 +67,6 @@ export const Collapse: FC<CollapseProps> = ({ children, expanded = false, id }) 
             ref={ref}
             role="region"
             style={{ height: 0, transition: instant.current ? undefined : transition }}
-            tabIndex={-1}
         />
     );
 };
