@@ -27,13 +27,18 @@
     cursor: not-allowed;
 }
 
-.wallet-adapter-button .wallet-adapter-button-end-icon {
+.wallet-adapter-button-end-icon,
+.wallet-adapter-button-start-icon {
     display: flex;
+    width: 24px;
+    height: 24px;
+}
+
+.wallet-adapter-button-end-icon {
     margin-left: 8px;
 }
 
-.wallet-adapter-button .wallet-adapter-button-start-icon {
-    display: flex;
+.wallet-adapter-button-start-icon {
     margin-right: 8px;
 }
 
