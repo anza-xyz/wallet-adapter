@@ -137,7 +137,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     const signTransaction = useMemo(
         () =>
             adapter && 'signTransaction' in adapter
-                ? async (transaction: Transaction) => {
+                ? async (transaction: Transaction): Promise<Transaction> => {
                       if (!connected) {
                           const error = new WalletNotConnectedError();
                           onError(error);
@@ -153,7 +153,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     const signAllTransactions = useMemo(
         () =>
             adapter && 'signAllTransactions' in adapter
-                ? async (transactions: Transaction[]) => {
+                ? async (transactions: Transaction[]): Promise<Transaction[]> => {
                       if (!connected) {
                           const error = new WalletNotConnectedError();
                           onError(error);
@@ -169,7 +169,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     const signMessage = useMemo(
         () =>
             adapter && 'signMessage' in adapter
-                ? async <T extends Uint8Array | string>(message: T) => {
+                ? async (message: Uint8Array | string): Promise<string> => {
                       if (!connected) {
                           const error = new WalletNotConnectedError();
                           onError(error);
