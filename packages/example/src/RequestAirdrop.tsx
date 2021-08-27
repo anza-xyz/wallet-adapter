@@ -6,7 +6,7 @@ import { useNotify } from './notify';
 
 const RequestAirdrop: FC = () => {
     const { connection } = useConnection();
-    const { publicKey, sendTransaction } = useWallet();
+    const { publicKey } = useWallet();
     const notify = useNotify();
 
     const onClick = useCallback(async () => {
@@ -25,7 +25,7 @@ const RequestAirdrop: FC = () => {
         } catch (error: any) {
             notify('error', `Airdrop failed! ${error?.message}`, signature);
         }
-    }, [publicKey, notify, connection, sendTransaction]);
+    }, [publicKey, notify, connection]);
 
     return (
         <Button variant="contained" color="secondary" onClick={onClick} disabled={!publicKey}>
