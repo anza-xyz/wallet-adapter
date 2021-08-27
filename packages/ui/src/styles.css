@@ -30,7 +30,7 @@
 .wallet-adapter-button-end-icon,
 .wallet-adapter-button-start-icon {
     display: flex;
-    width: 24px;
+    max-width: 24px;
     height: 24px;
 }
 
@@ -43,6 +43,7 @@
 }
 
 .wallet-adapter-modal-collapse-button svg {
+    align-self: center;
     fill: #999;
 }
 
