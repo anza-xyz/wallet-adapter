@@ -27,6 +27,6 @@
         "@solana/web3.js": "^1.20.0"
     },
     "dependencies": {
-        "@blocto/sdk": "^0.2.6"
+        "@blocto/sdk": "^0.2.7"
     }
 }
