@@ -21,6 +21,7 @@ import {
     getLedgerWallet,
     getMathWallet,
     getPhantomWallet,
+    getSlopeWallet,
     getSolflareWallet,
     getSolletWallet,
     getSolongWallet,
@@ -52,6 +53,7 @@ export const Demo: FC = () => {
             getSolletWallet(),
             getCoin98Wallet(),
             getBitpieWallet(),
+            getSlopeWallet(),
         ],
         []
     );
