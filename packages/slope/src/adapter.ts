@@ -97,7 +97,7 @@ export class SlopeWalletAdapter extends BaseSignerWalletAdapter {
             try {
                const { msg, data } = await wallet.connect();
 
-               if (msg !== 'ok') throw new WalletAccountError(msg);
+               if (!data.publicKey) throw new WalletAccountError(msg);
 
                account = data.publicKey;
             } catch (error) {
