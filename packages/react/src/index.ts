@@ -1,3 +1,4 @@
+export * from './anchor';
 export * from './ConnectionProvider';
 export * from './errors';
 export * from './useConnection';
