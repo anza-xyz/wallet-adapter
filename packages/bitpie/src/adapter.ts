@@ -45,7 +45,7 @@ export class BitpieWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get ready(): boolean {
-        return !!window.bitpie;
+        return typeof window !== 'undefined' && !!window.bitpie;
     }
 
     get connecting(): boolean {
@@ -65,7 +65,7 @@ export class BitpieWalletAdapter extends BaseSignerWalletAdapter {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const wallet = window.bitpie;
+            const wallet = typeof window !== 'undefined' && window.bitpie;
             if (!wallet) throw new WalletNotFoundError();
 
             let account: string;
