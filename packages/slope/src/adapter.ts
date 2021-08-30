@@ -3,6 +3,7 @@ import {
     pollUntilReady,
     WalletAccountError,
     WalletNotConnectedError,
+    WalletDisconnectionError,
     WalletNotFoundError,
     WalletNotInstalledError,
     WalletPublicKeyError,
@@ -124,10 +125,18 @@ export class SlopeWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     async disconnect(): Promise<void> {
-        if (this._wallet) {
-            this._wallet.disconnect();
+        const wallet = this._wallet;
+        if (wallet) {
             this._wallet = null;
             this._publicKey = null;
+
+            try {
+                const { msg } = await wallet.disconnect();
+                if (msg !== 'ok') this.emit('error', new WalletDisconnectionError(msg));
+            } catch (error) {
+                this.emit('error', new WalletDisconnectionError(error.message, error));
+            }
+
             this.emit('disconnect');
         }
     }
