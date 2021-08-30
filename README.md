@@ -2,11 +2,7 @@
 
 Modular TypeScript wallet adapters and components for Solana applications.
 
-![Wallets](wallets.png)![Wallets expanded](wallets_expanded.png)
-_React components_
-
-![Wallets](wallets_mui.png)![Wallets expanded](wallets_mui_expanded.png)
-_React material-ui components_
+![Wallets expanded](wallets_expanded.png)![Wallets expanded](wallets_mui_expanded.png)
 
 <!-- @TODO -->
 
