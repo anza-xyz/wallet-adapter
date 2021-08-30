@@ -1,4 +1,4 @@
-export * from './anchor';
+export * from './useAnchorWallet';
 export * from './ConnectionProvider';
 export * from './errors';
 export * from './useConnection';
