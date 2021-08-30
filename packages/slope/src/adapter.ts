@@ -141,9 +141,7 @@ export class SlopeWalletAdapter extends BaseSignerWalletAdapter {
                 const message = bs58.encode(transaction.serializeMessage());
                 const { msg, data } = await wallet.signTransaction(message);
 
-                if (msg !== 'ok') {
-                    throw new WalletSignTransactionError(msg);
-                }
+                if (msg !== 'ok') throw new WalletSignTransactionError(msg);
 
                 const publicKey = new PublicKey(data.publicKey);
                 const signature = bs58.decode(data.signature);
