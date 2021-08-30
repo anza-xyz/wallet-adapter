@@ -55,7 +55,7 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get ready(): boolean {
-        return !!window.coin98;
+        return typeof window !== 'undefined' && !!window.coin98;
     }
 
     get connecting(): boolean {
@@ -75,7 +75,7 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const wallet = window.coin98?.sol;
+            const wallet = typeof window !== 'undefined' && window.coin98?.sol;
             if (!wallet) throw new WalletNotFoundError();
             if (!wallet.isCoin98) throw new WalletNotInstalledError();
 

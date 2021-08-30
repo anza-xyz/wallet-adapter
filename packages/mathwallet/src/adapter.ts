@@ -48,7 +48,7 @@ export class MathWalletWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get ready(): boolean {
-        return !!window.solana?.isMathWallet;
+        return typeof window !== 'undefined' && !!window.solana?.isMathWallet;
     }
 
     get connecting(): boolean {
@@ -68,7 +68,7 @@ export class MathWalletWalletAdapter extends BaseSignerWalletAdapter {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const wallet = window.solana;
+            const wallet = typeof window !== 'undefined' && window.solana;
             if (!wallet) throw new WalletNotFoundError();
             if (!wallet.isMathWallet) throw new WalletNotInstalledError();
 

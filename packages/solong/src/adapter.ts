@@ -45,7 +45,7 @@ export class SolongWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get ready(): boolean {
-        return !!window.solong;
+        return typeof window !== 'undefined' && !!window.solong;
     }
 
     get connecting(): boolean {
@@ -65,7 +65,7 @@ export class SolongWalletAdapter extends BaseSignerWalletAdapter {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const wallet = window.solong;
+            const wallet = typeof window !== 'undefined' && window.solong;
             if (!wallet) throw new WalletNotFoundError();
 
             let account: string;

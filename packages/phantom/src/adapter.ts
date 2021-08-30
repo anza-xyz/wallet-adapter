@@ -63,7 +63,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
     }
 
     get ready(): boolean {
-        return !!window.solana?.isPhantom;
+        return typeof window !== 'undefined' && !!window.solana?.isPhantom;
     }
 
     get connecting(): boolean {
@@ -83,7 +83,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const wallet = window.solana;
+            const wallet = typeof window !== 'undefined' && window.solana;
             if (!wallet) throw new WalletNotFoundError();
             if (!wallet.isPhantom) throw new WalletNotInstalledError();
 
