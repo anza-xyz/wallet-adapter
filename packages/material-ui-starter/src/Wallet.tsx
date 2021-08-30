@@ -1,6 +1,6 @@
 import { WalletError } from '@solana/wallet-adapter-base';
 import { WalletDialogProvider } from '@solana/wallet-adapter-material-ui';
-import { WalletProvider } from '@solana/wallet-adapter-react';
+import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import {
     getBitpieWallet,
     getCoin98Wallet,
@@ -12,6 +12,7 @@ import {
     getSolongWallet,
     getTorusWallet,
 } from '@solana/wallet-adapter-wallets';
+import { clusterApiUrl } from '@solana/web3.js';
 import { useSnackbar } from 'notistack';
 import React, { FC, useCallback, useMemo } from 'react';
 import Navigation from './Navigation';
@@ -38,6 +39,8 @@ const Wallet: FC = () => {
         []
     );
 
+    const endpoint = useMemo(() => clusterApiUrl('devnet'), []);
+
     const { enqueueSnackbar } = useSnackbar();
     const onError = useCallback(
         (error: WalletError) => {
@@ -48,11 +51,13 @@ const Wallet: FC = () => {
     );
 
     return (
-        <WalletProvider wallets={wallets} onError={onError} autoConnect>
-            <WalletDialogProvider>
-                <Navigation />
-            </WalletDialogProvider>
-        </WalletProvider>
+        <ConnectionProvider endpoint={endpoint}>
+            <WalletProvider wallets={wallets} onError={onError} autoConnect>
+                <WalletDialogProvider>
+                    <Navigation />
+                </WalletDialogProvider>
+            </WalletProvider>
+        </ConnectionProvider>
     );
 };
 
