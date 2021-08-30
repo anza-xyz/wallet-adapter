@@ -6,7 +6,6 @@ import {
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
-    WalletError,
     WalletNotConnectedError,
     WalletNotFoundError,
     WalletNotInstalledError,
@@ -22,7 +21,7 @@ interface SolflareWalletEvents {
 
 interface SolflareWallet extends EventEmitter<SolflareWalletEvents> {
     isSolflare?: boolean;
-    publicKey?: { toBuffer(): Buffer };
+    publicKey?: { toBytes(): Uint8Array };
     isConnected: boolean;
     autoApprove: boolean;
     signTransaction(transaction: Transaction): Promise<Transaction>;
@@ -93,16 +92,16 @@ export class SolflareWalletAdapter extends BaseSignerWalletAdapter {
                 }
             }
 
-            let buffer: Buffer;
+            let bytes: Uint8Array;
             try {
-                buffer = wallet.publicKey!.toBuffer();
+                bytes = wallet.publicKey!.toBytes();
             } catch (error: any) {
                 throw new WalletAccountError(error?.message, error);
             }
 
             let publicKey: PublicKey;
             try {
-                publicKey = new PublicKey(buffer);
+                publicKey = new PublicKey(bytes);
             } catch (error: any) {
                 throw new WalletPublicKeyError(error?.message, error);
             }
@@ -145,7 +144,7 @@ export class SolflareWalletAdapter extends BaseSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return wallet.signTransaction(transaction);
+                return await wallet.signTransaction(transaction);
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -161,7 +160,7 @@ export class SolflareWalletAdapter extends BaseSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return wallet.signAllTransactions(transactions);
+                return await wallet.signAllTransactions(transactions);
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }

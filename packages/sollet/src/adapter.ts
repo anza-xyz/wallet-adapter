@@ -5,7 +5,6 @@ import {
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
-    WalletError,
     WalletNotConnectedError,
     WalletSignTransactionError,
     WalletWindowBlockedError,
@@ -126,7 +125,7 @@ export class SolletWalletAdapter extends BaseSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return wallet.signTransaction(transaction);
+                return await wallet.signTransaction(transaction);
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -142,7 +141,7 @@ export class SolletWalletAdapter extends BaseSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return wallet.signAllTransactions(transactions);
+                return await wallet.signAllTransactions(transactions);
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }

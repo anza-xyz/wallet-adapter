@@ -2,7 +2,6 @@ import {
     BaseSignerWalletAdapter,
     WalletConnectionError,
     WalletDisconnectionError,
-    WalletError,
     WalletKeypairError,
     WalletNotConnectedError,
     WalletSignTransactionError,

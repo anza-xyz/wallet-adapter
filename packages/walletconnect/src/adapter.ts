@@ -9,9 +9,9 @@ import {
     WalletSignTransactionError,
     WalletWindowClosedError,
 } from '@solana/wallet-adapter-base';
-import QRCodeModal from '@walletconnect/qrcode-modal';
 import { PublicKey, Transaction } from '@solana/web3.js';
 import WalletConnectClient, { CLIENT_EVENTS } from '@walletconnect/client';
+import QRCodeModal from '@walletconnect/qrcode-modal';
 import { ClientOptions, ClientTypes, PairingTypes, SessionTypes } from '@walletconnect/types';
 
 export enum WalletConnectChainID {
