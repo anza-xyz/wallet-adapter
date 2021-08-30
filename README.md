@@ -112,7 +112,6 @@ export const Wallet: FC = () => {
 ### Usage
 
 ```tsx
-import { Button } from '@material-ui/core';
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { Keypair, SystemProgram, Transaction } from '@solana/web3.js';
