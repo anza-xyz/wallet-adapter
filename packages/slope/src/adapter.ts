@@ -67,7 +67,7 @@ export class SlopeWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get ready(): boolean {
-        return !!window.Slope;
+        return typeof window !== 'undefined' && !!window.Slope;
     }
 
     get connecting(): boolean {
