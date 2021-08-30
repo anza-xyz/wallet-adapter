@@ -198,7 +198,7 @@ export const Wallet: FC = () => {
 };
 ```
 
-### Usage
+## Usage
 
 ```tsx
 import { WalletNotConnectedError } from '@solana/wallet-adapter-base';
