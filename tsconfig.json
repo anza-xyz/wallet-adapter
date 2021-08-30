@@ -6,7 +6,7 @@
         "noEmitOnError": true,
         "stripInternal": true,
         "target": "es6",
-        "module": "esnext",
+        "module": "commonjs",
         "moduleResolution": "node",
         "jsx": "react",
         "strict": true,

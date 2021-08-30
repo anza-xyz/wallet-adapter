@@ -36,7 +36,7 @@ export class TorusWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get ready(): boolean {
-        return true;
+        return typeof window !== 'undefined';
     }
 
     get connecting(): boolean {
