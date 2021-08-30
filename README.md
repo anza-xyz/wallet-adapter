@@ -35,7 +35,7 @@ Modular TypeScript wallet adapters and components for Solana applications.
 
 ## Quick Setup (using React with Material UI)
 
-See the [material-ui-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/material-ui-starter) package for a more complete example.
+See the [example](https://github.com/solana-labs/wallet-adapter/tree/master/packages/example) package for a more complete example.
 
 ### Install
 
