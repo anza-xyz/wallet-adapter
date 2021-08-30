@@ -86,7 +86,9 @@ export const WalletProvider: FC<WalletProviderProps> = ({
             throw error;
         }
         if (!ready) {
-            window.open(wallet.url, '_blank');
+            if (typeof window !== 'undefined') {
+                window.open(wallet.url, '_blank');
+            }
 
             const error = new WalletNotReadyError();
             onError(error);

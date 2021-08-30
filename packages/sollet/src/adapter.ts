@@ -40,7 +40,7 @@ export class SolletWalletAdapter extends BaseSignerWalletAdapter {
 
     get ready(): boolean {
         // @FIXME
-        return true;
+        return typeof window !== 'undefined';
     }
 
     get connecting(): boolean {

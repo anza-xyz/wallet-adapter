@@ -61,7 +61,7 @@ export class SolflareWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get ready(): boolean {
-        return !!window.solflare?.isSolflare;
+        return typeof window !== 'undefined' && !!window.solflare?.isSolflare;
     }
 
     get connecting(): boolean {
@@ -81,7 +81,7 @@ export class SolflareWalletAdapter extends BaseSignerWalletAdapter {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const wallet = window.solflare;
+            const wallet = typeof window !== 'undefined' && window.solflare;
             if (!wallet) throw new WalletNotFoundError();
             if (!wallet.isSolflare) throw new WalletNotInstalledError();
 
