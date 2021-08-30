@@ -16,7 +16,7 @@ interface SlopeWallet {
     connect(): Promise<{
         msg: string;
         data: {
-            publicKey: string;
+            publicKey?: string;
         };
     }>;
     disconnect(): Promise<{
@@ -25,15 +25,15 @@ interface SlopeWallet {
     signTransaction(message: string): Promise<{
         msg: string;
         data: {
-            publicKey: string;
-            signature: string;
+            publicKey?: string;
+            signature?: string;
         }
     }>;
     signAllTransactions(messages: string[]): Promise<{
         msg: string;
         data: {
-            publicKey: string;
-            signatures: string[];
+            publicKey?: string;
+            signatures?: string[];
         }
     }>;
 }
@@ -149,7 +149,7 @@ export class SlopeWalletAdapter extends BaseSignerWalletAdapter {
                 const message = bs58.encode(transaction.serializeMessage());
                 const { msg, data } = await wallet.signTransaction(message);
 
-                if (msg !== 'ok') throw new WalletSignTransactionError(msg);
+                if (!data.publicKey || !data.signature) throw new WalletSignTransactionError(msg);
 
                 const publicKey = new PublicKey(data.publicKey);
                 const signature = bs58.decode(data.signature);
@@ -174,11 +174,12 @@ export class SlopeWalletAdapter extends BaseSignerWalletAdapter {
                 const messages = transactions.map(tx => bs58.encode(tx.serializeMessage()));
                 const { msg, data } = await wallet.signAllTransactions(messages);
 
-                if (msg !== 'ok') throw new WalletSignTransactionError(msg);
+                if (!data.publicKey || !data.signatures?.length) throw new WalletSignTransactionError(msg);
 
                 const publicKey = new PublicKey(data.publicKey);
 
                 transactions.forEach((tx, idx) => {
+                    // @ts-ignore
                     tx.addSignature(publicKey, bs58.decode(data.signatures[idx]))
                 })
                 return transactions;
