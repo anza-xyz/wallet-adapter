@@ -2,10 +2,10 @@ import {
     BaseSignerWalletAdapter,
     pollUntilReady,
     WalletAccountError,
-    WalletNotConnectedError,
     WalletDisconnectionError,
+    WalletError,
+    WalletNotConnectedError,
     WalletNotFoundError,
-    WalletNotInstalledError,
     WalletPublicKeyError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
@@ -19,27 +19,27 @@ interface SlopeWallet {
             publicKey?: string;
         };
     }>;
-    disconnect(): Promise<{
-        msg: string;
-    }>;
+    disconnect(): Promise<{ msg: string }>;
     signTransaction(message: string): Promise<{
         msg: string;
         data: {
             publicKey?: string;
             signature?: string;
-        }
+        };
     }>;
     signAllTransactions(messages: string[]): Promise<{
         msg: string;
         data: {
             publicKey?: string;
             signatures?: string[];
-        }
+        };
     }>;
 }
 
 interface SlopeWindow extends Window {
-    Slope?: any;
+    Slope?: {
+        new (): SlopeWallet;
+    };
 }
 
 declare const window: SlopeWindow;
@@ -90,17 +90,17 @@ export class SlopeWalletAdapter extends BaseSignerWalletAdapter {
 
             if (!window.Slope) throw new WalletNotFoundError();
 
-            const wallet = this._wallet || new window.Slope();
-            if (!wallet.connect) throw new WalletNotInstalledError()
+            const wallet = new window.Slope();
 
             let account: string;
             try {
-               const { data } = await wallet.connect();
+                const { msg, data } = await wallet.connect();
 
-               if (!data.publicKey) throw new WalletAccountError(msg);
+                if (!data.publicKey) throw new WalletAccountError(msg);
 
-               account = data.publicKey;
+                account = data.publicKey;
             } catch (error) {
+                if (error instanceof WalletError) throw error;
                 throw new WalletAccountError(error?.message, error);
             }
 
@@ -131,9 +131,12 @@ export class SlopeWalletAdapter extends BaseSignerWalletAdapter {
 
             try {
                 const { msg } = await wallet.disconnect();
-                if (msg !== 'ok') this.emit('error', new WalletDisconnectionError(msg));
-            } catch (error) {
-                this.emit('error', new WalletDisconnectionError(error.message, error));
+                if (msg !== 'ok') throw new WalletDisconnectionError(msg);
+            } catch (error: any) {
+                if (!(error instanceof WalletError)) {
+                    error = new WalletDisconnectionError(error?.message, error);
+                }
+                this.emit('error', error);
             }
 
             this.emit('disconnect');
@@ -156,10 +159,11 @@ export class SlopeWalletAdapter extends BaseSignerWalletAdapter {
 
                 transaction.addSignature(publicKey, signature);
                 return transaction;
-            } catch (error) {
+            } catch (error: any) {
+                if (error instanceof WalletError) throw error;
                 throw new WalletSignTransactionError(error?.message, error);
             }
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         }
@@ -171,19 +175,21 @@ export class SlopeWalletAdapter extends BaseSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                const messages = transactions.map(tx => bs58.encode(tx.serializeMessage()));
+                const messages = transactions.map((transaction) => bs58.encode(transaction.serializeMessage()));
                 const { msg, data } = await wallet.signAllTransactions(messages);
 
-                if (!data.publicKey || !data.signatures?.length) throw new WalletSignTransactionError(msg);
+                const length = transactions.length;
+                if (!data.publicKey || data.signatures?.length !== length) throw new WalletSignTransactionError(msg);
 
                 const publicKey = new PublicKey(data.publicKey);
 
-                transactions.forEach((tx, idx) => {
-                    // @ts-ignore
-                    tx.addSignature(publicKey, bs58.decode(data.signatures[idx]))
-                })
+                for (let i = 0; i < length; i++) {
+                    transactions[i].addSignature(publicKey, bs58.decode(data.signatures[i]));
+                }
+
                 return transactions;
-            } catch (error) {
+            } catch (error: any) {
+                if (error instanceof WalletError) throw error;
                 throw new WalletSignTransactionError(error?.message, error);
             }
         } catch (error) {
