@@ -3,9 +3,11 @@
 Modular TypeScript wallet adapters and components for Solana applications.
 
 ![Wallets expanded](wallets_expanded.png)
+
 _React components_
 
 ![Wallets expanded](wallets_mui_expanded.png)
+
 _React material-ui components_
 
 <!-- @TODO -->
@@ -116,6 +118,7 @@ You can pass in a logo url `string` to `WalletModalProvider` to display your dap
 ```
 
 ![dapp logo example](dapp_logo.png)
+
 _dapp logo example_
 
 ## Quick Setup (using React with Material UI)
