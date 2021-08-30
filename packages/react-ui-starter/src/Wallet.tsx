@@ -15,7 +15,6 @@ import {
 import { useSnackbar } from 'notistack';
 import React, { FC, useCallback, useMemo } from 'react';
 import Navigation from './Navigation';
-import '@solana/wallet-adapter-react-ui/lib/styles.css'; // Import styles or write your own
 
 const Wallet: FC = () => {
     // @solana/wallet-adapter-wallets imports all the adapters but supports tree shaking --
