@@ -111,7 +111,6 @@ export class SlopeWalletAdapter extends BaseSignerWalletAdapter {
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
-            wallet.isConnected = true;
             this._wallet = wallet;
             this._publicKey = publicKey;
 
