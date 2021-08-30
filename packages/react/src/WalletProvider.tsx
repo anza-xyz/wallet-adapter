@@ -171,7 +171,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     const signMessage = useMemo(
         () =>
             adapter && 'signMessage' in adapter
-                ? async (message: Uint8Array | string): Promise<string> => {
+                ? async (message: Uint8Array): Promise<Uint8Array> => {
                       if (!connected) {
                           const error = new WalletNotConnectedError();
                           onError(error);
