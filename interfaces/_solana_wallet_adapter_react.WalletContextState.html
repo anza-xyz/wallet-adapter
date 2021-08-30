@@ -97,6 +97,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_solana_wallet_adapter_react.WalletContextState.html#publicKey" class="tsd-kind-icon">public<wbr>Key</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_solana_wallet_adapter_react.WalletContextState.html#ready" class="tsd-kind-icon">ready</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_solana_wallet_adapter_react.WalletContextState.html#signAllTransactions" class="tsd-kind-icon">sign<wbr>All<wbr>Transactions</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_solana_wallet_adapter_react.WalletContextState.html#signMessage" class="tsd-kind-icon">sign<wbr>Message</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_solana_wallet_adapter_react.WalletContextState.html#signTransaction" class="tsd-kind-icon">sign<wbr>Transaction</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_solana_wallet_adapter_react.WalletContextState.html#wallet" class="tsd-kind-icon">wallet</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_solana_wallet_adapter_react.WalletContextState.html#wallets" class="tsd-kind-icon">wallets</a></li>
@@ -119,10 +120,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="adapter" class="tsd-anchor"></a>
 					<h3>adapter</h3>
-					<div class="tsd-signature tsd-kind-icon">adapter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">WalletAdapter</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SignerWalletAdapter</span></div>
+					<div class="tsd-signature tsd-kind-icon">adapter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">WalletAdapter</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SignerWalletAdapter</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">MessageSignerWalletAdapter</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/6d1617f/packages/react/src/useWallet.ts#L15">packages/react/src/useWallet.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/4e46f44/packages/react/src/useWallet.ts#L14">packages/react/src/useWallet.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -143,7 +144,7 @@
 					<div class="tsd-signature tsd-kind-icon">auto<wbr>Connect<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/6d1617f/packages/react/src/useWallet.ts#L12">packages/react/src/useWallet.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/4e46f44/packages/react/src/useWallet.ts#L11">packages/react/src/useWallet.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -175,7 +176,7 @@
 					<div class="tsd-signature tsd-kind-icon">disconnecting<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/6d1617f/packages/react/src/useWallet.ts#L16">packages/react/src/useWallet.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/4e46f44/packages/react/src/useWallet.ts#L15">packages/react/src/useWallet.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -207,7 +208,17 @@
 					<div class="tsd-signature tsd-kind-icon">sign<wbr>All<wbr>Transactions<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>transaction<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Transaction</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Transaction</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/6d1617f/packages/react/src/useWallet.ts#L21">packages/react/src/useWallet.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/4e46f44/packages/react/src/useWallet.ts#L20">packages/react/src/useWallet.ts:20</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="signMessage" class="tsd-anchor"></a>
+					<h3>sign<wbr>Message</h3>
+					<div class="tsd-signature tsd-kind-icon">sign<wbr>Message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/4e46f44/packages/react/src/useWallet.ts#L22">packages/react/src/useWallet.ts:22</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -217,7 +228,7 @@
 					<div class="tsd-signature tsd-kind-icon">sign<wbr>Transaction<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>transaction<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Transaction</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Transaction</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/6d1617f/packages/react/src/useWallet.ts#L20">packages/react/src/useWallet.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/4e46f44/packages/react/src/useWallet.ts#L19">packages/react/src/useWallet.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -227,7 +238,7 @@
 					<div class="tsd-signature tsd-kind-icon">wallet<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Wallet</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/6d1617f/packages/react/src/useWallet.ts#L14">packages/react/src/useWallet.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/4e46f44/packages/react/src/useWallet.ts#L13">packages/react/src/useWallet.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -237,7 +248,7 @@
 					<div class="tsd-signature tsd-kind-icon">wallets<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Wallet</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/6d1617f/packages/react/src/useWallet.ts#L11">packages/react/src/useWallet.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/4e46f44/packages/react/src/useWallet.ts#L10">packages/react/src/useWallet.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -290,7 +301,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/6d1617f/packages/react/src/useWallet.ts#L18">packages/react/src/useWallet.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/4e46f44/packages/react/src/useWallet.ts#L17">packages/react/src/useWallet.ts:17</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -432,6 +443,9 @@
 								<a href="_solana_wallet_adapter_react.WalletContextState.html#signAllTransactions" class="tsd-kind-icon">sign<wbr>All<wbr>Transactions</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_solana_wallet_adapter_react.WalletContextState.html#signMessage" class="tsd-kind-icon">sign<wbr>Message</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_solana_wallet_adapter_react.WalletContextState.html#signTransaction" class="tsd-kind-icon">sign<wbr>Transaction</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
@@ -470,6 +484,9 @@
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-module">
 						<a href="../modules/_solana_wallet_adapter_react.html#WalletProvider" class="tsd-kind-icon">Wallet<wbr>Provider</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/_solana_wallet_adapter_react.html#useAnchorWallet" class="tsd-kind-icon">use<wbr>Anchor<wbr>Wallet</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="../modules/_solana_wallet_adapter_react.html#useConnection" class="tsd-kind-icon">use<wbr>Connection</a>
