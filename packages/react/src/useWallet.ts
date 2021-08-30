@@ -1,7 +1,6 @@
 import {
-    SignerWalletAdapter,
+    MessageSignerWalletAdapterProps,
     SignerWalletAdapterProps,
-    WalletAdapter,
     WalletAdapterProps,
 } from '@solana/wallet-adapter-base';
 import { Wallet, WalletName } from '@solana/wallet-adapter-wallets';
@@ -12,13 +11,15 @@ export interface WalletContextState extends WalletAdapterProps {
     autoConnect: boolean;
 
     wallet: Wallet | undefined;
-    adapter: WalletAdapter | SignerWalletAdapter | undefined;
+    adapter: ReturnType<Wallet['adapter']> | undefined;
     disconnecting: boolean;
 
     select(walletName: WalletName): void;
 
     signTransaction: SignerWalletAdapterProps['signTransaction'] | undefined;
     signAllTransactions: SignerWalletAdapterProps['signAllTransactions'] | undefined;
+
+    signMessage: MessageSignerWalletAdapterProps['signMessage'] | undefined;
 }
 
 export const WalletContext = createContext<WalletContextState>({} as WalletContextState);

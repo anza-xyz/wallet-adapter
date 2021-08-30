@@ -71,14 +71,14 @@ export class SolongWalletAdapter extends BaseSignerWalletAdapter {
             let account: string;
             try {
                 account = await wallet.selectAccount();
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletAccountError(error?.message, error);
             }
 
             let publicKey: PublicKey;
             try {
                 publicKey = new PublicKey(account);
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
@@ -86,7 +86,7 @@ export class SolongWalletAdapter extends BaseSignerWalletAdapter {
             this._publicKey = publicKey;
 
             this.emit('connect');
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         } finally {
@@ -110,10 +110,10 @@ export class SolongWalletAdapter extends BaseSignerWalletAdapter {
 
             try {
                 return await wallet.signTransaction(transaction);
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         }
@@ -126,10 +126,10 @@ export class SolongWalletAdapter extends BaseSignerWalletAdapter {
 
             try {
                 return await Promise.all(transactions.map((transaction) => wallet.signTransaction(transaction)));
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         }

@@ -71,14 +71,14 @@ export class BitpieWalletAdapter extends BaseSignerWalletAdapter {
             let account: string;
             try {
                 account = await wallet.getAccount();
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletAccountError(error?.message, error);
             }
 
             let publicKey: PublicKey;
             try {
                 publicKey = new PublicKey(account);
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
@@ -86,7 +86,7 @@ export class BitpieWalletAdapter extends BaseSignerWalletAdapter {
             this._publicKey = publicKey;
 
             this.emit('connect');
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         } finally {
@@ -109,11 +109,11 @@ export class BitpieWalletAdapter extends BaseSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return wallet.signTransaction(transaction);
-            } catch (error) {
+                return await wallet.signTransaction(transaction);
+            } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         }
@@ -125,11 +125,11 @@ export class BitpieWalletAdapter extends BaseSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return wallet.signAllTransactions(transactions);
-            } catch (error) {
+                return await wallet.signAllTransactions(transactions);
+            } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         }

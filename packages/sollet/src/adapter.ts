@@ -5,7 +5,6 @@ import {
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
-    WalletError,
     WalletNotConnectedError,
     WalletSignTransactionError,
     WalletWindowBlockedError,
@@ -84,8 +83,7 @@ export class SolletWalletAdapter extends BaseSignerWalletAdapter {
                         }, 100);
                     }
                 });
-            } catch (error) {
-                if (error instanceof WalletError) throw error;
+            } catch (error: any) {
                 throw new WalletConnectionError(error?.message, error);
             } finally {
                 if (interval) clearInterval(interval);
@@ -96,7 +94,7 @@ export class SolletWalletAdapter extends BaseSignerWalletAdapter {
             this._wallet = wallet;
 
             this.emit('connect');
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         } finally {
@@ -113,8 +111,8 @@ export class SolletWalletAdapter extends BaseSignerWalletAdapter {
 
             try {
                 await wallet.disconnect();
-            } catch (error) {
-                this.emit('error', new WalletDisconnectionError(error.message, error));
+            } catch (error: any) {
+                this.emit('error', new WalletDisconnectionError(error?.message, error));
             }
 
             this.emit('disconnect');
@@ -127,11 +125,11 @@ export class SolletWalletAdapter extends BaseSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return wallet.signTransaction(transaction);
-            } catch (error) {
+                return await wallet.signTransaction(transaction);
+            } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         }
@@ -143,11 +141,11 @@ export class SolletWalletAdapter extends BaseSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return wallet.signAllTransactions(transactions);
-            } catch (error) {
+                return await wallet.signAllTransactions(transactions);
+            } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         }

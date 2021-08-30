@@ -1,13 +1,12 @@
 import {
     SendTransactionOptions,
-    SignerWalletAdapter,
     WalletAdapter,
     WalletError,
     WalletNotConnectedError,
     WalletNotReadyError,
 } from '@solana/wallet-adapter-base';
 import { Wallet, WalletName } from '@solana/wallet-adapter-wallets';
-import { Connection, PublicKey, Transaction } from '@solana/web3.js';
+import { Connection, Transaction } from '@solana/web3.js';
 import React, { FC, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { WalletNotSelectedError } from './errors';
 import { useLocalStorage } from './useLocalStorage';
@@ -37,7 +36,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
 }) => {
     const [name, setName] = useLocalStorage<WalletName | null>(localStorageKey, null);
     const [wallet, setWallet] = useState<Wallet>();
-    const [adapter, setAdapter] = useState<WalletAdapter | SignerWalletAdapter>();
+    const [adapter, setAdapter] = useState<ReturnType<Wallet['adapter']>>();
     const [connecting, setConnecting] = useState(false);
     const [disconnecting, setDisconnecting] = useState(false);
     const [{ ready, publicKey, connected, autoApprove }, setState] = useState(initialState);
@@ -141,7 +140,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     const signTransaction = useMemo(
         () =>
             adapter && 'signTransaction' in adapter
-                ? async (transaction: Transaction) => {
+                ? async (transaction: Transaction): Promise<Transaction> => {
                       if (!connected) {
                           const error = new WalletNotConnectedError();
                           onError(error);
@@ -157,7 +156,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     const signAllTransactions = useMemo(
         () =>
             adapter && 'signAllTransactions' in adapter
-                ? async (transactions: Transaction[]) => {
+                ? async (transactions: Transaction[]): Promise<Transaction[]> => {
                       if (!connected) {
                           const error = new WalletNotConnectedError();
                           onError(error);
@@ -165,6 +164,22 @@ export const WalletProvider: FC<WalletProviderProps> = ({
                       }
 
                       return await adapter.signAllTransactions(transactions);
+                  }
+                : undefined,
+        [adapter, onError, connected]
+    );
+
+    const signMessage = useMemo(
+        () =>
+            adapter && 'signMessage' in adapter
+                ? async (message: Uint8Array): Promise<Uint8Array> => {
+                      if (!connected) {
+                          const error = new WalletNotConnectedError();
+                          onError(error);
+                          throw error;
+                      }
+
+                      return await adapter.signMessage(message);
                   }
                 : undefined,
         [adapter, onError, connected]
@@ -205,7 +220,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
                 setConnecting(true);
                 try {
                     await adapter.connect();
-                } catch (error) {
+                } catch (error: any) {
                     // Don't throw error, but onError will still be called
                 } finally {
                     setConnecting(false);
@@ -233,6 +248,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
                 sendTransaction,
                 signTransaction,
                 signAllTransactions,
+                signMessage,
             }}
         >
             {children}
