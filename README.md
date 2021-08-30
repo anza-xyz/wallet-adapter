@@ -55,11 +55,11 @@ yarn add @solana/wallet-adapter-wallets \
          @solana/wallet-adapter-base
 ```
 
-### Code
+### Setup
 
 ```tsx
 import React, { FC, useMemo } from 'react';
-import { WalletProvider } from '@solana/wallet-adapter-react';
+import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import {
     getLedgerWallet,
     getMathWallet,
@@ -74,6 +74,7 @@ import {
     WalletDisconnectButton,
     WalletMultiButton,
 } from '@solana/wallet-adapter-material-ui';
+import { clusterApiUrl } from '@solana/web3.js';
 
 export const Wallet: FC = () => {
     // @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking --
@@ -92,13 +93,50 @@ export const Wallet: FC = () => {
         getBitpieWallet(),
     ], []);
 
+    // Set to 'devnet' | 'testnet' | 'mainnet-beta' or provide a custom RPC endpoint
+    const endpoint = useMemo(() => clusterApiUrl('devnet'), []);
+
     return (
-        <WalletProvider wallets={wallets} autoConnect>
-            <WalletDialogProvider>
-                <WalletMultiButton/>
-                <WalletDisconnectButton/>
-            </WalletDialogProvider>
-        </WalletProvider>
+        <ConnectionProvider endpoint={endpoint}>
+            <WalletProvider wallets={wallets} autoConnect>
+                <WalletDialogProvider>
+                    <WalletMultiButton/>
+                    <WalletDisconnectButton/>
+                </WalletDialogProvider>
+            </WalletProvider>
+        </ConnectionProvider>
     );
+};
+```
+
+### Usage
+
+```tsx
+import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { Keypair, SystemProgram, Transaction } from '@solana/web3.js';
+import React, { FC, useCallback } from 'react';
+
+export const SendOneLamportToRandomAddress: FC = () => {
+    const { connection } = useConnection();
+    const { publicKey, sendTransaction } = useWallet();
+
+    const onClick = useCallback(async () => {
+        if (!publicKey) throw new WalletNotConnectedError();
+
+        const transaction = new Transaction().add(
+            SystemProgram.transfer({
+                fromPubkey: publicKey,
+                toPubkey: Keypair.generate().publicKey,
+                lamports: 1,
+            })
+        );
+
+        const signature = await sendTransaction(transaction, connection);
+
+        await connection.confirmTransaction(signature, 'processed');
+    }, [publicKey, sendTransaction, connection]);
+
+    return <button onClick={onClick} disabled={!publicKey}>Send 1 lamport to a random address!</button>;
 };
 ```
