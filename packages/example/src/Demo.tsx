@@ -20,7 +20,8 @@ import {
     WalletModalProvider as UIWalletModalProvider,
     WalletDisconnectButton as UIWalletDisconnectButton,
     WalletMultiButton as UIWalletMultiButton,
-} from '@solana/wallet-adapter-ui';
+} from '@solana/wallet-adapter-react-ui';
+import '@solana/wallet-adapter-react-ui/lib/styles.css'; // Import styles or write your own
 import { ConnectionProvider, useLocalStorage, WalletProvider } from '@solana/wallet-adapter-react';
 import {
     getBitpieWallet,

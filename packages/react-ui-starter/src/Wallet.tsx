@@ -1,5 +1,5 @@
 import { WalletError } from '@solana/wallet-adapter-base';
-import { WalletModalProvider } from '@solana/wallet-adapter-ui';
+import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { WalletProvider } from '@solana/wallet-adapter-react';
 import {
     getBitpieWallet,
@@ -15,6 +15,7 @@ import {
 import { useSnackbar } from 'notistack';
 import React, { FC, useCallback, useMemo } from 'react';
 import Navigation from './Navigation';
+import '@solana/wallet-adapter-react-ui/lib/styles.css'; // Import styles or write your own
 
 const Wallet: FC = () => {
     // @solana/wallet-adapter-wallets imports all the adapters but supports tree shaking --
