@@ -6,7 +6,6 @@ import {
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
-    WalletError,
     WalletNotConnectedError,
     WalletNotFoundError,
     WalletNotInstalledError,
@@ -22,7 +21,7 @@ interface SolflareWalletEvents {
 
 interface SolflareWallet extends EventEmitter<SolflareWalletEvents> {
     isSolflare?: boolean;
-    publicKey?: { toBuffer(): Buffer };
+    publicKey?: { toBytes(): Uint8Array };
     isConnected: boolean;
     autoApprove: boolean;
     signTransaction(transaction: Transaction): Promise<Transaction>;
@@ -61,7 +60,7 @@ export class SolflareWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get ready(): boolean {
-        return !!window.solflare?.isSolflare;
+        return typeof window !== 'undefined' && !!window.solflare?.isSolflare;
     }
 
     get connecting(): boolean {
@@ -81,30 +80,29 @@ export class SolflareWalletAdapter extends BaseSignerWalletAdapter {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const wallet = window.solflare;
+            const wallet = typeof window !== 'undefined' && window.solflare;
             if (!wallet) throw new WalletNotFoundError();
             if (!wallet.isSolflare) throw new WalletNotInstalledError();
 
             if (!wallet.isConnected) {
                 try {
                     await wallet.connect();
-                } catch (error) {
-                    if (error instanceof WalletError) throw error;
+                } catch (error: any) {
                     throw new WalletConnectionError(error?.message, error);
                 }
             }
 
-            let buffer: Buffer;
+            let bytes: Uint8Array;
             try {
-                buffer = wallet.publicKey!.toBuffer();
-            } catch (error) {
+                bytes = wallet.publicKey!.toBytes();
+            } catch (error: any) {
                 throw new WalletAccountError(error?.message, error);
             }
 
             let publicKey: PublicKey;
             try {
-                publicKey = new PublicKey(buffer);
-            } catch (error) {
+                publicKey = new PublicKey(bytes);
+            } catch (error: any) {
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
@@ -114,7 +112,7 @@ export class SolflareWalletAdapter extends BaseSignerWalletAdapter {
             this._publicKey = publicKey;
 
             this.emit('connect');
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         } finally {
@@ -132,8 +130,8 @@ export class SolflareWalletAdapter extends BaseSignerWalletAdapter {
 
             try {
                 await wallet.disconnect();
-            } catch (error) {
-                this.emit('error', new WalletDisconnectionError(error.message, error));
+            } catch (error: any) {
+                this.emit('error', new WalletDisconnectionError(error?.message, error));
             }
 
             this.emit('disconnect');
@@ -146,11 +144,11 @@ export class SolflareWalletAdapter extends BaseSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return wallet.signTransaction(transaction);
-            } catch (error) {
+                return await wallet.signTransaction(transaction);
+            } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         }
@@ -162,11 +160,11 @@ export class SolflareWalletAdapter extends BaseSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return wallet.signAllTransactions(transactions);
-            } catch (error) {
+                return await wallet.signAllTransactions(transactions);
+            } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         }

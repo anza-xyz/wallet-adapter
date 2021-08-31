@@ -55,7 +55,7 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get ready(): boolean {
-        return true;
+        return typeof window !== 'undefined';
     }
 
     get connecting(): boolean {
@@ -106,13 +106,13 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
                         client.on(CLIENT_EVENTS.pairing.created, onPairingCreated);
 
                         session = await client.connect(this._params);
-                    } catch (error) {
+                    } catch (error: any) {
                         cleanup();
                         reject(error);
                     }
                 });
-            } catch (error) {
-                throw new WalletConnectionError(error.message, error);
+            } catch (error: any) {
+                throw new WalletConnectionError(error?.message, error);
             }
 
             if (!session.state.accounts.length) throw new WalletAccountError();
@@ -124,16 +124,17 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
             let publicKey: PublicKey;
             try {
                 publicKey = new PublicKey(account);
-            } catch (error) {
-                throw new WalletPublicKeyError(error.message, error);
+            } catch (error: any) {
+                throw new WalletPublicKeyError(error?.message, error);
             }
 
             client.on(CLIENT_EVENTS.session.deleted, this._disconnected);
 
             this._publicKey = publicKey;
             this._client = client;
+
             this.emit('connect');
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         } finally {
@@ -153,8 +154,8 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
                     topic: '',
                     reason: { code: 0, message: '' },
                 });
-            } catch (error) {
-                this.emit('error', new WalletDisconnectionError(error.message, error));
+            } catch (error: any) {
+                this.emit('error', new WalletDisconnectionError(error?.message, error));
             }
 
             this.emit('disconnect');
@@ -177,12 +178,12 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
                 });
 
                 transaction.addSignature(publicKey, signature);
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
 
             return transaction;
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         }
@@ -206,12 +207,12 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
 
                     transaction.addSignature(publicKey, signature);
                 }
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
 
             return transactions;
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         }

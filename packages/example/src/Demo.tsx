@@ -15,11 +15,11 @@ import {
     WalletMultiButton as MaterialUIWalletMultiButton,
 } from '@solana/wallet-adapter-material-ui';
 import {
-    WalletConnectButton as UIWalletConnectButton,
-    WalletModalButton as UIWalletModalButton,
-    WalletModalProvider as UIWalletModalProvider,
-    WalletDisconnectButton as UIWalletDisconnectButton,
-    WalletMultiButton as UIWalletMultiButton,
+    WalletConnectButton as ReactUIWalletConnectButton,
+    WalletModalButton as ReactUIWalletModalButton,
+    WalletModalProvider as ReactUIWalletModalProvider,
+    WalletDisconnectButton as ReactUIWalletDisconnectButton,
+    WalletMultiButton as ReactUIWalletMultiButton,
 } from '@solana/wallet-adapter-react-ui';
 import { ConnectionProvider, useLocalStorage, WalletProvider } from '@solana/wallet-adapter-react';
 import {
@@ -39,6 +39,7 @@ import React, { FC, useCallback, useMemo } from 'react';
 import { version } from '../package.json';
 import RequestAirdrop from './RequestAirdrop';
 import SendTransaction from './SendTransaction';
+import SignMessage from './SignMessage';
 
 export const Demo: FC = () => {
     const endpoint = useMemo(() => clusterApiUrl('devnet'), []);
@@ -77,14 +78,14 @@ export const Demo: FC = () => {
             <WalletProvider wallets={wallets} onError={onError} autoConnect={autoConnect}>
                 <MaterialUIWalletDialogProvider>
                     <AntDesignWalletModalProvider>
-                        <UIWalletModalProvider>
+                        <ReactUIWalletModalProvider>
                             <Table>
                                 <TableHead>
                                     <TableRow>
                                         <TableCell width={240}>Component</TableCell>
                                         <TableCell width={240}>Material UI</TableCell>
                                         <TableCell width={240}>Ant Design</TableCell>
-                                        <TableCell width={240}>Phantom</TableCell>
+                                        <TableCell width={240}>React UI</TableCell>
                                         <TableCell>Example v{version}</TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -98,7 +99,7 @@ export const Demo: FC = () => {
                                             <AntDesignWalletConnectButton />
                                         </TableCell>
                                         <TableCell>
-                                            <UIWalletConnectButton />
+                                            <ReactUIWalletConnectButton />
                                         </TableCell>
                                         <TableCell></TableCell>
                                     </TableRow>
@@ -111,7 +112,7 @@ export const Demo: FC = () => {
                                             <AntDesignWalletDisconnectButton />
                                         </TableCell>
                                         <TableCell>
-                                            <UIWalletDisconnectButton />
+                                            <ReactUIWalletDisconnectButton />
                                         </TableCell>
                                         <TableCell></TableCell>
                                     </TableRow>
@@ -124,7 +125,7 @@ export const Demo: FC = () => {
                                             <AntDesignWalletModalButton />
                                         </TableCell>
                                         <TableCell>
-                                            <UIWalletModalButton />
+                                            <ReactUIWalletModalButton />
                                         </TableCell>
                                         <TableCell></TableCell>
                                     </TableRow>
@@ -137,13 +138,13 @@ export const Demo: FC = () => {
                                             <AntDesignWalletMultiButton />
                                         </TableCell>
                                         <TableCell>
-                                            <UIWalletMultiButton />
+                                            <ReactUIWalletMultiButton />
                                         </TableCell>
                                         <TableCell></TableCell>
                                     </TableRow>
                                     <TableRow>
                                         <TableCell></TableCell>
-                                        <TableCell colSpan={3}>
+                                        <TableCell>
                                             <Tooltip
                                                 title="Only runs if the wallet is ready to connect"
                                                 placement="left"
@@ -152,7 +153,7 @@ export const Demo: FC = () => {
                                                     control={
                                                         <Switch
                                                             name="autoConnect"
-                                                            color="primary"
+                                                            color="secondary"
                                                             checked={autoConnect}
                                                             onChange={(event, checked) => setAutoConnect(checked)}
                                                         />
@@ -167,10 +168,13 @@ export const Demo: FC = () => {
                                         <TableCell>
                                             <SendTransaction />
                                         </TableCell>
+                                        <TableCell>
+                                            <SignMessage />
+                                        </TableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>
-                        </UIWalletModalProvider>
+                        </ReactUIWalletModalProvider>
                     </AntDesignWalletModalProvider>
                 </MaterialUIWalletDialogProvider>
             </WalletProvider>
