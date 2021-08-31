@@ -2,13 +2,7 @@
 
 Modular TypeScript wallet adapters and components for Solana applications.
 
-![Wallets expanded](wallets_expanded.png)
-
-_React components_
-
-![Wallets expanded](wallets_mui_expanded.png)
-
-_React material-ui components_
+![Wallets](wallets.png)
 
 ## Quick Links
 
@@ -45,6 +39,11 @@ _React material-ui components_
 
 See the [react-ui-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/react-ui-starter) package
 for a more complete example.
+
+There are also material UI and ant design components if you prefer to use those:
+
+-   [material-ui](https://github.com/solana-labs/wallet-adapter/tree/master/packages/material-ui)
+-   [ant-design](https://github.com/solana-labs/wallet-adapter/tree/master/packages/ant-design)
 
 ### Install
 
@@ -114,14 +113,14 @@ export const Wallet: FC = () => {
 
 You can pass in these props to `WalletModalProvider`:
 
-| prop                  | type                  | default   | description                                                              |
-| --------------------- | --------------------- | --------- | ------------------------------------------------------------------------ |
-| className             | `string`              | ""        | Additional modal class name (optional)                                   |
-| logo                  | `string \| undefined` | undefined | your dapp logo url (optional)                                            |
-| featuredWalletsNumber | `number`              | 2         | initial number of wallets to display in the modal (optional)             |
-| root                  | `string`              | "body"    | CSS selector for the root html element to append the modal to (optional) |
+| prop                  | type                  | default     | description                                                              |
+| --------------------- | --------------------- | ----------- | ------------------------------------------------------------------------ |
+| className             | `string`              | `""`        | Additional modal class name (optional)                                   |
+| logo                  | `string \| undefined` | `undefined` | your dapp logo url (optional)                                            |
+| featuredWalletsNumber | `number`              | `2`         | initial number of wallets to display in the modal (optional)             |
+| root                  | `string`              | `"body"`    | CSS selector for the root html element to append the modal to (optional) |
 
-For example:
+For example, to show your dapp logo:
 
 ```tsx
 <WalletModalProvider logo="YOUR_LOGO_URL">...</WalletModalProvider>
