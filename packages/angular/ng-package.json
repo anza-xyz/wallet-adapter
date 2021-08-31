@@ -1,0 +1,12 @@
+{
+    "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+    "dest": "./lib",
+    "lib": {
+        "entryFile": "src/index.ts",
+        "umdModuleIds": {
+            "@ngrx/component-store": "@ngrx/component-store",
+            "@solana/web3.js": "@solana/web3.js",
+            "@solana/wallet-adapter-base": "@solana/wallet-adapter-base"
+        }
+    }
+}
