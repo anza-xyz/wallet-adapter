@@ -3,12 +3,12 @@
 Modular TypeScript wallet adapters and components for Solana applications.
 
 ![Wallets expanded](wallets_expanded.png)
+
 _React components_
 
 ![Wallets expanded](wallets_mui_expanded.png)
-_React material-ui components_
 
-<!-- @TODO -->
+_React material-ui components_
 
 ## Quick Links
 
@@ -41,9 +41,10 @@ _React material-ui components_
 
 ** WalletConnect adapter has not been published to npm yet.
 
-## Quick Setup (using React)
+## Quick Setup (using React UI)
 
-See the [react-ui-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/react-ui-starter) package for a more complete example.
+See the [react-ui-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/react-ui-starter) package
+for a more complete example.
 
 ### Install
 
@@ -52,7 +53,7 @@ Install these dependencies:
 ```shell
 yarn add @solana/wallet-adapter-wallets \
          @solana/wallet-adapter-react \
-         @solana/wallet-adapter-material-ui \
+         @solana/wallet-adapter-react-ui \
          @solana/wallet-adapter-base
          @solana/web3.js \
          react
@@ -72,28 +73,29 @@ import {
     getSolongWallet,
     getTorusWallet,
 } from '@solana/wallet-adapter-wallets';
-import { WalletModalProvider, WalletDisconnectButton, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import {
+    WalletModalProvider,
+    WalletDisconnectButton,
+    WalletMultiButton
+} from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
 
 export const Wallet: FC = () => {
     // @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking --
     // Only the wallets you want to instantiate here will be compiled into your application
-    const wallets = useMemo(
-        () => [
-            getPhantomWallet(),
-            getSolflareWallet(),
-            getTorusWallet({
-                options: { clientId: 'Get a client ID @ https://developer.tor.us' },
-            }),
-            getLedgerWallet(),
-            getSolongWallet(),
-            getMathWallet(),
-            getSolletWallet(),
-            getCoin98Wallet(),
-            getBitpieWallet(),
-        ],
-        []
-    );
+    const wallets = useMemo(() => [
+        getPhantomWallet(),
+        getSolflareWallet(),
+        getTorusWallet({
+            options: { clientId: 'Get a client ID @ https://developer.tor.us' },
+        }),
+        getLedgerWallet(),
+        getSolongWallet(),
+        getMathWallet(),
+        getSolletWallet(),
+        getCoin98Wallet(),
+        getBitpieWallet(),
+    ], []);
 
     // Set to 'devnet' | 'testnet' | 'mainnet-beta' or provide a custom RPC endpoint
     const endpoint = useMemo(() => clusterApiUrl('devnet'), []);
@@ -120,81 +122,6 @@ You can pass in a logo url `string` to `WalletModalProvider` to display your dap
 ![dapp logo example](dapp_logo.png)
 
 _dapp logo example_
-
-## Quick Setup (using React with Material UI)
-
-See the [example](https://github.com/solana-labs/wallet-adapter/tree/master/packages/example) package for a more complete example.
-
-### Install
-
-Install these peer dependencies (or skip this if you have them already):
-```shell
-yarn add @material-ui/core \
-         @material-ui/icons \
-         @solana/web3.js \
-         react
-```
-
-Install these dependencies:
-```shell
-yarn add @solana/wallet-adapter-wallets \
-         @solana/wallet-adapter-react \
-         @solana/wallet-adapter-material-ui \
-         @solana/wallet-adapter-base
-```
-
-### Setup
-
-```tsx
-import React, { FC, useMemo } from 'react';
-import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
-import {
-    getLedgerWallet,
-    getMathWallet,
-    getPhantomWallet,
-    getSolflareWallet,
-    getSolletWallet,
-    getSolongWallet,
-    getTorusWallet,
-} from '@solana/wallet-adapter-wallets';
-import { WalletDialogProvider, WalletDisconnectButton, WalletMultiButton } from '@solana/wallet-adapter-material-ui';
-import { clusterApiUrl } from '@solana/web3.js';
-
-export const Wallet: FC = () => {
-    // @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking --
-    // Only the wallets you want to instantiate here will be compiled into your application
-    const wallets = useMemo(
-        () => [
-            getPhantomWallet(),
-            getSolflareWallet(),
-            getTorusWallet({
-                options: { clientId: 'Get a client ID @ https://developer.tor.us' },
-            }),
-            getLedgerWallet(),
-            getSolongWallet(),
-            getMathWallet(),
-            getSolletWallet(),
-            getCoin98Wallet(),
-            getBitpieWallet(),
-        ],
-        []
-    );
-
-    // Set to 'devnet' | 'testnet' | 'mainnet-beta' or provide a custom RPC endpoint
-    const endpoint = useMemo(() => clusterApiUrl('devnet'), []);
-
-    return (
-        <ConnectionProvider endpoint={endpoint}>
-            <WalletProvider wallets={wallets} autoConnect>
-                <WalletDialogProvider>
-                    <WalletMultiButton />
-                    <WalletDisconnectButton />
-                </WalletDialogProvider>
-            </WalletProvider>
-        </ConnectionProvider>
-    );
-};
-```
 
 ## Usage
 
