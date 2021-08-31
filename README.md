@@ -27,7 +27,7 @@ Modular TypeScript wallet adapters and components for Solana applications.
 | [mathwallet](https://github.com/solana-labs/wallet-adapter/tree/master/packages/mathwallet)                   | Adapter for [MathWallet](https://mathwallet.org)                                 | [`@solana/wallet-adapter-mathwallet`](https://www.npmjs.com/package/@solana/wallet-adapter-mathwallet)                   | `0.5.0` |
 | [coin98](https://github.com/solana-labs/wallet-adapter/tree/master/packages/coin98)                           | Adapter for [Coin98](https://coin98.com)                                         | [`@solana/wallet-adapter-coin98`](https://www.npmjs.com/package/@solana/wallet-adapter-coin98)                           | `0.1.0` |
 | [bitpie](https://github.com/solana-labs/wallet-adapter/tree/master/packages/bitpie)                           | Adapter for [Bitpie](https://bitpie.com)                                         | [`@solana/wallet-adapter-bitpie`](https://www.npmjs.com/package/@solana/wallet-adapter-bitpie)                           | `0.1.0` |
-| walletconnect                                                                                                 | Adapter for [WalletConnect](https://walletconnect.org) (coming soon)             | `@solana/wallet-adapter-walletconnect`                                                                                   | `0.0.0` |
+| [walletconnect](https://github.com/solana-labs/wallet-adapter/tree/master/packages/walletconnect)             | Adapter for [WalletConnect](https://walletconnect.org)                           | [`@solana/wallet-adapter-walletconnect`](https://www.npmjs.com/package/@solana/wallet-adapter-walletconnect)             | `0.1.0` |
 | [material-ui](https://github.com/solana-labs/wallet-adapter/tree/master/packages/material-ui)                 | Components for [Material UI](https://material-ui.com)                            | [`@solana/wallet-adapter-material-ui`](https://www.npmjs.com/package/@solana/wallet-adapter-material-ui)                 | `0.8.0` |
 | [ant-design](https://github.com/solana-labs/wallet-adapter/tree/master/packages/ant-design)                   | Components for [Ant Design](https://ant.design)                                  | [`@solana/wallet-adapter-ant-design`](https://www.npmjs.com/package/@solana/wallet-adapter-ant-design)                   | `0.3.0` |
 | [material-ui-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/material-ui-starter) | [Create React App](https://create-react-app.dev) project using Material UI       | [`@solana/wallet-adapter-material-ui-starter`](https://www.npmjs.com/package/@solana/wallet-adapter-material-ui-starter) | `0.5.0` |
@@ -55,11 +55,11 @@ yarn add @solana/wallet-adapter-wallets \
          @solana/wallet-adapter-base
 ```
 
-### Code
+### Setup
 
 ```tsx
 import React, { FC, useMemo } from 'react';
-import { WalletProvider } from '@solana/wallet-adapter-react';
+import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import {
     getLedgerWallet,
     getMathWallet,
@@ -74,6 +74,7 @@ import {
     WalletDisconnectButton,
     WalletMultiButton,
 } from '@solana/wallet-adapter-material-ui';
+import { clusterApiUrl } from '@solana/web3.js';
 
 export const Wallet: FC = () => {
     // @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking --
@@ -92,13 +93,50 @@ export const Wallet: FC = () => {
         getBitpieWallet(),
     ], []);
 
+    // Set to 'devnet' | 'testnet' | 'mainnet-beta' or provide a custom RPC endpoint
+    const endpoint = useMemo(() => clusterApiUrl('devnet'), []);
+
     return (
-        <WalletProvider wallets={wallets} autoConnect>
-            <WalletDialogProvider>
-                <WalletMultiButton/>
-                <WalletDisconnectButton/>
-            </WalletDialogProvider>
-        </WalletProvider>
+        <ConnectionProvider endpoint={endpoint}>
+            <WalletProvider wallets={wallets} autoConnect>
+                <WalletDialogProvider>
+                    <WalletMultiButton/>
+                    <WalletDisconnectButton/>
+                </WalletDialogProvider>
+            </WalletProvider>
+        </ConnectionProvider>
     );
+};
+```
+
+### Usage
+
+```tsx
+import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { Keypair, SystemProgram, Transaction } from '@solana/web3.js';
+import React, { FC, useCallback } from 'react';
+
+export const SendOneLamportToRandomAddress: FC = () => {
+    const { connection } = useConnection();
+    const { publicKey, sendTransaction } = useWallet();
+
+    const onClick = useCallback(async () => {
+        if (!publicKey) throw new WalletNotConnectedError();
+
+        const transaction = new Transaction().add(
+            SystemProgram.transfer({
+                fromPubkey: publicKey,
+                toPubkey: Keypair.generate().publicKey,
+                lamports: 1,
+            })
+        );
+
+        const signature = await sendTransaction(transaction, connection);
+
+        await connection.confirmTransaction(signature, 'processed');
+    }, [publicKey, sendTransaction, connection]);
+
+    return <button onClick={onClick} disabled={!publicKey}>Send 1 lamport to a random address!</button>;
 };
 ```
