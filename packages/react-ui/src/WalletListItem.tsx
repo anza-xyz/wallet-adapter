@@ -10,7 +10,7 @@ interface WalletListItemProps {
 
 export const WalletListItem: FC<WalletListItemProps> = ({ handleClick, wallet }) => {
     return (
-        <li role="option">
+        <li>
             <Button onClick={handleClick} endIcon={<WalletIcon wallet={wallet} />}>
                 {wallet.name}
             </Button>

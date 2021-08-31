@@ -1,6 +1,6 @@
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletName } from '@solana/wallet-adapter-wallets';
-import React, { FC, useLayoutEffect, useMemo } from 'react';
+import React, { FC, useCallback, useLayoutEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { useWalletModal } from './useWalletModal';
 import { Button } from './Button';
@@ -36,14 +36,10 @@ export const WalletModal: FC<WalletModalProps> = ({
         [wallets, featuredWalletsNumber]
     );
 
-    const hideModal = () => {
+    const hideModal = useCallback(() => {
         setFadeIn(false);
         setTimeout(() => setVisible(false), 150);
-    };
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') hideModal();
-    };
+    }, [setFadeIn, setVisible]);
 
     const handleClose = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -60,6 +56,10 @@ export const WalletModal: FC<WalletModalProps> = ({
     };
 
     useLayoutEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') hideModal();
+        };
+
         const originalStyle = window.getComputedStyle(document.body).overflow;
         // Hack to enable fade in animation after mount
         setTimeout(() => setFadeIn(true), 0);
@@ -73,7 +73,7 @@ export const WalletModal: FC<WalletModalProps> = ({
             document.body.style.overflow = originalStyle;
             window.removeEventListener('keydown', handleKeyDown, false);
         };
-    }, []);
+    }, [hideModal]);
 
     if (!rootElement) return null;
 
@@ -87,7 +87,7 @@ export const WalletModal: FC<WalletModalProps> = ({
             <div className={`wallet-adapter-modal-wrapper ${!logo && 'wallet-adapter-modal-wrapper-no-logo'}`}>
                 {logo && (
                     <div className="wallet-adapter-modal-logo-wrapper">
-                        <img className="wallet-adapter-modal-logo" src={logo} />
+                        <img alt="logo" className="wallet-adapter-modal-logo" src={logo} />
                     </div>
                 )}
                 <h1 className="wallet-adapter-modal-title" id="wallet-adapter-modal-title">
@@ -98,7 +98,7 @@ export const WalletModal: FC<WalletModalProps> = ({
                         <path d="M14 12.461 8.3 6.772l5.234-5.233L12.006 0 6.772 5.234 1.54 0 0 1.539l5.234 5.233L0 12.006l1.539 1.528L6.772 8.3l5.69 5.7L14 12.461z" />
                     </svg>
                 </button>
-                <ul className="wallet-adapter-modal-list" role="list">
+                <ul className="wallet-adapter-modal-list">
                     {featuredWallets.map((wallet) => (
                         <WalletListItem
                             key={wallet.name}
@@ -110,7 +110,7 @@ export const WalletModal: FC<WalletModalProps> = ({
                 {expands && (
                     <>
                         <Collapse expanded={expanded} id="wallet-adapter-modal-collapse">
-                            <ul className="wallet-adapter-modal-list" role="list">
+                            <ul className="wallet-adapter-modal-list">
                                 {otherWallets.map((wallet) => (
                                     <WalletListItem
                                         key={wallet.name}
