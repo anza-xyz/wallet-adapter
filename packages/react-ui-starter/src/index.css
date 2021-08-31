@@ -16,6 +16,10 @@ nav {
     background: #2c2d30;
 }
 
+nav > h1 {
+    max-width: 90px;
+}
+
 nav > div {
     display: flex;
 }

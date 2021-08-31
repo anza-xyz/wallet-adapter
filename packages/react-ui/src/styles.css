@@ -193,15 +193,21 @@
     align-items: center;
     flex-direction: column;
     z-index: 1050;
-    width: 400px;
+    max-width: 400px;
     border-radius: 10px;
     background: #2c2d30;
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.6);
     font-family: 'Inter', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 600;
     padding: 40px 20px 20px;
-    margin: 100px auto;
+    margin: 100px 1rem;
     outline: 0;
+}
+
+@media (min-width: 480px) {
+    .wallet-adapter-modal-wrapper {
+        margin: 100px auto;
+    }
 }
 
 .wallet-adapter-modal-wrapper .wallet-adapter-button {
