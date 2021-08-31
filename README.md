@@ -126,7 +126,7 @@ For example, to show your dapp logo:
 <WalletModalProvider logo="YOUR_LOGO_URL">...</WalletModalProvider>
 ```
 
-![dapp logo example](dapp_logo.png)
+![dapp logo example](dapp.png)
 
 _dapp logo example_
 
