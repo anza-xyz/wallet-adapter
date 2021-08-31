@@ -8,6 +8,7 @@ export interface ButtonProps {
     onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     startIcon?: React.ReactElement;
     style?: React.CSSProperties;
+    tabIndex?: number;
 }
 
 export const Button: React.FC<ButtonProps> = (props) => {
@@ -20,6 +21,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
             disabled={props.disabled}
             onClick={props.onClick}
             style={{ backgroundColor, justifyContent, ...props.style }}
+            tabIndex={props.tabIndex || 0}
         >
             {props.startIcon && <i className="wallet-adapter-button-start-icon">{props.startIcon}</i>}
             {props.children}

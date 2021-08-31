@@ -5,13 +5,14 @@ import { WalletIcon } from './WalletIcon';
 
 interface WalletListItemProps {
     handleClick: MouseEventHandler<HTMLButtonElement>;
+    tabIndex?: number;
     wallet: Wallet;
 }
 
-export const WalletListItem: FC<WalletListItemProps> = ({ handleClick, wallet }) => {
+export const WalletListItem: FC<WalletListItemProps> = ({ handleClick, tabIndex, wallet }) => {
     return (
         <li>
-            <Button onClick={handleClick} endIcon={<WalletIcon wallet={wallet} />}>
+            <Button onClick={handleClick} endIcon={<WalletIcon wallet={wallet} />} tabIndex={tabIndex}>
                 {wallet.name}
             </Button>
         </li>
