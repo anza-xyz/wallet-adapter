@@ -2,8 +2,11 @@ import { useCallback, useState } from 'react';
 
 export function useLocalStorage<T>(key: string, defaultState: T): [T, (newValue: T) => void] {
     const [value, setValue] = useState<T>(() => {
+        if (typeof localStorage === 'undefined') return defaultState;
+
         const value = localStorage.getItem(key);
         if (value) return JSON.parse(value) as T;
+
         return defaultState;
     });
 

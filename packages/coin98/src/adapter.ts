@@ -55,7 +55,7 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get ready(): boolean {
-        return !!window.coin98;
+        return typeof window !== 'undefined' && !!window.coin98;
     }
 
     get connecting(): boolean {
@@ -75,21 +75,21 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const wallet = window.coin98?.sol;
+            const wallet = typeof window !== 'undefined' && window.coin98?.sol;
             if (!wallet) throw new WalletNotFoundError();
             if (!wallet.isCoin98) throw new WalletNotInstalledError();
 
             let account: string;
             try {
                 [account] = await wallet.connect();
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletAccountError(error?.message, error);
             }
 
             let publicKey: PublicKey;
             try {
                 publicKey = new PublicKey(account);
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
@@ -97,7 +97,7 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
             this._publicKey = publicKey;
 
             this.emit('connect');
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         } finally {
@@ -127,10 +127,10 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
 
                 transaction.addSignature(publicKey, signature);
                 return transaction;
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         }
@@ -143,10 +143,10 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
 
             try {
                 return await Promise.all(transactions.map((transaction) => this.signTransaction(transaction)));
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         }

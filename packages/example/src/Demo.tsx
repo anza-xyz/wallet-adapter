@@ -33,6 +33,7 @@ import React, { FC, useCallback, useMemo } from 'react';
 import { version } from '../package.json';
 import RequestAirdrop from './RequestAirdrop';
 import SendTransaction from './SendTransaction';
+import SignMessage from './SignMessage';
 
 export const Demo: FC = () => {
     const endpoint = useMemo(() => clusterApiUrl('devnet'), []);
@@ -75,9 +76,9 @@ export const Demo: FC = () => {
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell width={200}>Component</TableCell>
-                                    <TableCell width={200}>Material UI</TableCell>
-                                    <TableCell width={200}>Ant Design</TableCell>
+                                    <TableCell width={240}>Component</TableCell>
+                                    <TableCell width={240}>Material UI</TableCell>
+                                    <TableCell width={240}>Ant Design</TableCell>
                                     <TableCell>Example v{version}</TableCell>
                                 </TableRow>
                             </TableHead>
@@ -123,7 +124,6 @@ export const Demo: FC = () => {
                                     <TableCell></TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell></TableCell>
                                     <TableCell>
                                         <Tooltip title="Only runs if the wallet is ready to connect" placement="left">
                                             <FormControlLabel
@@ -144,6 +144,9 @@ export const Demo: FC = () => {
                                     </TableCell>
                                     <TableCell>
                                         <SendTransaction />
+                                    </TableCell>
+                                    <TableCell>
+                                        <SignMessage />
                                     </TableCell>
                                 </TableRow>
                             </TableBody>

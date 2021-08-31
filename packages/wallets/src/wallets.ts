@@ -1,4 +1,4 @@
-import { SignerWalletAdapter, WalletAdapter } from '@solana/wallet-adapter-base';
+import { MessageSignerWalletAdapter, SignerWalletAdapter, WalletAdapter } from '@solana/wallet-adapter-base';
 import { BitpieWalletAdapter, BitpieWalletAdapterConfig } from '@solana/wallet-adapter-bitpie';
 import { Coin98WalletAdapter, Coin98WalletAdapterConfig } from '@solana/wallet-adapter-coin98';
 import { LedgerWalletAdapter, LedgerWalletAdapterConfig } from '@solana/wallet-adapter-ledger';
@@ -9,7 +9,6 @@ import { SolflareWalletAdapter, SolflareWalletAdapterConfig } from '@solana/wall
 import { SolletWalletAdapter, SolletWalletAdapterConfig } from '@solana/wallet-adapter-sollet';
 import { SolongWalletAdapter, SolongWalletAdapterConfig } from '@solana/wallet-adapter-solong';
 import { TorusWalletAdapter, TorusWalletAdapterConfig } from '@solana/wallet-adapter-torus';
-import { WalletConnectWalletAdapter, WalletConnectWalletAdapterConfig } from '@solana/wallet-adapter-walletconnect';
 
 export enum WalletName {
     Bitpie = 'Bitpie',
@@ -23,14 +22,13 @@ export enum WalletName {
     Sollet = 'Sollet',
     Solong = 'Solong',
     Torus = 'Torus',
-    WalletConnect = 'WalletConnect',
 }
 
 export interface Wallet {
     name: WalletName;
     url: string;
     icon: string;
-    adapter: () => WalletAdapter | SignerWalletAdapter;
+    adapter: () => WalletAdapter | SignerWalletAdapter | MessageSignerWalletAdapter;
 }
 
 export const ICONS_URL = 'https://raw.githubusercontent.com/solana-labs/wallet-adapter/master/packages/wallets/icons';
@@ -111,11 +109,4 @@ export const getTorusWallet = (config: TorusWalletAdapterConfig): Wallet => ({
     url: 'https://tor.us',
     icon: `${ICONS_URL}/torus.svg`,
     adapter: () => new TorusWalletAdapter(config),
-});
-
-export const getWalletConnectWallet = (config: WalletConnectWalletAdapterConfig): Wallet => ({
-    name: WalletName.WalletConnect,
-    url: 'https://walletconnect.org',
-    icon: `${ICONS_URL}/walletconnect.svg`,
-    adapter: () => new WalletConnectWalletAdapter(config),
 });

@@ -30,8 +30,8 @@ const SendTransaction: FC = () => {
 
             await connection.confirmTransaction(signature, 'processed');
             notify('success', 'Transaction successful!', signature);
-        } catch (error) {
-            notify('error', `Transaction failed! ${error.message}`, signature);
+        } catch (error: any) {
+            notify('error', `Transaction failed! ${error?.message}`, signature);
             return;
         }
     }, [publicKey, notify, connection, sendTransaction]);
