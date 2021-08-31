@@ -99,7 +99,7 @@ export class SlopeWalletAdapter extends BaseSignerWalletAdapter {
                 if (!data.publicKey) throw new WalletAccountError(msg);
 
                 account = data.publicKey;
-            } catch (error) {
+            } catch (error: any) {
                 if (error instanceof WalletError) throw error;
                 throw new WalletAccountError(error?.message, error);
             }
@@ -107,7 +107,7 @@ export class SlopeWalletAdapter extends BaseSignerWalletAdapter {
             let publicKey: PublicKey;
             try {
                 publicKey = new PublicKey(account);
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
@@ -115,7 +115,7 @@ export class SlopeWalletAdapter extends BaseSignerWalletAdapter {
             this._publicKey = publicKey;
 
             this.emit('connect');
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         } finally {
@@ -192,7 +192,7 @@ export class SlopeWalletAdapter extends BaseSignerWalletAdapter {
                 if (error instanceof WalletError) throw error;
                 throw new WalletSignTransactionError(error?.message, error);
             }
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         }
