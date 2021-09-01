@@ -1,5 +1,5 @@
-import { Button, ButtonProps } from './Button';
 import React, { FC, MouseEventHandler, useCallback } from 'react';
+import { Button, ButtonProps } from './Button';
 import { useWalletModal } from './useWalletModal';
 
 export const WalletModalButton: FC<ButtonProps> = ({

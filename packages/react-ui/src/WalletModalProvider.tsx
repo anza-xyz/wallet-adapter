@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react';
-import { WalletModal, WalletModalProps } from './WalletModal';
-import { WalletModalContext } from './useWalletModal';
 
 import './styles.css';
+import { WalletModalContext } from './useWalletModal';
+import { WalletModal, WalletModalProps } from './WalletModal';
 
 export const WalletModalProvider: FC<WalletModalProps> = ({ children, ...props }) => {
     const [visible, setVisible] = useState(false);

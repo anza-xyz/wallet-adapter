@@ -1,8 +1,8 @@
 import { useWallet } from '@solana/wallet-adapter-react';
 import React, { FC, useMemo, useRef, useState } from 'react';
+import { Button, ButtonProps } from './Button';
 import { useOnClickOutside } from './hooks';
 import { useWalletModal } from './useWalletModal';
-import { Button, ButtonProps } from './Button';
 import { WalletConnectButton } from './WalletConnectButton';
 import { WalletIcon } from './WalletIcon';
 import { WalletModalButton } from './WalletModalButton';

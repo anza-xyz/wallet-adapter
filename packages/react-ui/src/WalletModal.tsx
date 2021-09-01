@@ -2,24 +2,19 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletName } from '@solana/wallet-adapter-wallets';
 import React, { FC, useCallback, useLayoutEffect, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { useWalletModal } from './useWalletModal';
 import { Button } from './Button';
 import { Collapse } from './Collapse';
+import { useWalletModal } from './useWalletModal';
 import { WalletListItem } from './WalletListItem';
 
 export interface WalletModalProps {
     className?: string;
-    featuredWalletsNumber?: number;
+    featuredWallets?: number;
     logo?: string;
     root?: string;
 }
 
-export const WalletModal: FC<WalletModalProps> = ({
-    className = '',
-    featuredWalletsNumber = 2,
-    logo,
-    root = 'body',
-}) => {
+export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWallets = 2, logo, root = 'body' }) => {
     const modalRef = useRef() as React.MutableRefObject<HTMLDivElement>;
     const { wallets, select } = useWallet();
     const { setVisible } = useWalletModal();
@@ -28,13 +23,9 @@ export const WalletModal: FC<WalletModalProps> = ({
 
     const rootElement = useMemo(() => document.querySelector(root), [root]);
 
-    const [featuredWallets, otherWallets, expands] = useMemo(
-        () => [
-            wallets.slice(0, featuredWalletsNumber),
-            wallets.slice(featuredWalletsNumber),
-            wallets.length > featuredWalletsNumber,
-        ],
-        [wallets, featuredWalletsNumber]
+    const [featured, other] = useMemo(
+        () => [wallets.slice(0, featuredWallets), wallets.slice(featuredWallets)],
+        [wallets, featuredWallets]
     );
 
     const hideModal = useCallback(() => {
@@ -105,7 +96,7 @@ export const WalletModal: FC<WalletModalProps> = ({
                     </svg>
                 </button>
                 <ul className="wallet-adapter-modal-list">
-                    {featuredWallets.map((wallet) => (
+                    {featured.map((wallet) => (
                         <WalletListItem
                             key={wallet.name}
                             handleClick={(event) => handleWalletClick(event, wallet.name)}
@@ -113,11 +104,11 @@ export const WalletModal: FC<WalletModalProps> = ({
                         />
                     ))}
                 </ul>
-                {expands && (
+                {other.length && (
                     <>
                         <Collapse expanded={expanded} id="wallet-adapter-modal-collapse">
                             <ul className="wallet-adapter-modal-list">
-                                {otherWallets.map((wallet) => (
+                                {other.map((wallet) => (
                                     <WalletListItem
                                         key={wallet.name}
                                         handleClick={(event) => handleWalletClick(event, wallet.name)}
