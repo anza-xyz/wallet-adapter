@@ -1,25 +1,25 @@
 {
     "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
     "version": 1,
-    "newProjectRoot": "packages",
+    "newProjectRoot": ".",
     "projects": {
         "angular": {
             "projectType": "library",
-            "root": "packages/angular",
-            "sourceRoot": "packages/angular/src",
+            "root": ".",
+            "sourceRoot": "src",
             "prefix": "lib",
             "architect": {
                 "build": {
                     "builder": "@angular-devkit/build-angular:ng-packagr",
                     "options": {
-                        "project": "packages/angular/ng-package.json"
+                        "project": "./ng-package.json"
                     },
                     "configurations": {
                         "production": {
-                            "tsConfig": "packages/angular/tsconfig.lib.prod.json"
+                            "tsConfig": "./tsconfig.lib.prod.json"
                         },
                         "development": {
-                            "tsConfig": "packages/angular/tsconfig.lib.json"
+                            "tsConfig": "./tsconfig.lib.json"
                         }
                     },
                     "defaultConfiguration": "production"
