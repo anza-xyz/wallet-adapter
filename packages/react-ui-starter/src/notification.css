@@ -1,0 +1,20 @@
+.wallet-notification {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 12px 15px;
+}
+
+.wallet-notification-error {
+    background: rgba(235, 55, 66, 0.7);
+}
+
+.wallet-notification-info {
+    background: rgba(78, 68, 206, 0.7);
+}
+
+.wallet-notification-success {
+    background: rgba(33, 229, 111, 0.7);
+}

@@ -12,9 +12,10 @@ import {
     getSolongWallet,
     getTorusWallet,
 } from '@solana/wallet-adapter-wallets';
-import { useSnackbar } from 'notistack';
 import React, { FC, useCallback, useMemo } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import Navigation from './Navigation';
+import Notification from './Notification';
 
 const Wallet: FC = () => {
     // @solana/wallet-adapter-wallets imports all the adapters but supports tree shaking --
@@ -38,13 +39,15 @@ const Wallet: FC = () => {
         []
     );
 
-    const { enqueueSnackbar } = useSnackbar();
     const onError = useCallback(
-        (error: WalletError) => {
-            enqueueSnackbar(error.message ? `${error.name}: ${error.message}` : error.name, { variant: 'error' });
-            console.error(error);
-        },
-        [enqueueSnackbar]
+        (error: WalletError) =>
+            toast.custom(
+                <Notification
+                    message={error.message ? `${error.name}: ${error.message}` : error.name}
+                    variant="error"
+                />
+            ),
+        []
     );
 
     return (
@@ -52,6 +55,7 @@ const Wallet: FC = () => {
             <WalletModalProvider>
                 <Navigation />
             </WalletModalProvider>
+            <Toaster position="bottom-left" reverseOrder={false} />
         </WalletProvider>
     );
 };
