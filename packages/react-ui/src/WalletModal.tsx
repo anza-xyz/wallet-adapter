@@ -1,6 +1,16 @@
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletName } from '@solana/wallet-adapter-wallets';
-import React, { FC, MouseEvent, RefObject, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, {
+    FC,
+    MouseEvent,
+    RefObject,
+    useCallback,
+    useLayoutEffect,
+    useMemo,
+    useRef,
+    useState,
+    ReactNode,
+} from 'react';
 import { createPortal } from 'react-dom';
 import { Button } from './Button';
 import { Collapse } from './Collapse';
@@ -9,15 +19,15 @@ import { WalletListItem } from './WalletListItem';
 
 export interface WalletModalProps {
     className?: string;
+    logo?: ReactNode;
     featuredWallets?: number;
-    logo?: string;
     container?: string;
 }
 
 export const WalletModal: FC<WalletModalProps> = ({
     className = '',
-    featuredWallets = 2,
     logo,
+    featuredWallets = 2,
     container = 'body',
 }) => {
     const ref = useRef<HTMLDivElement>(null);
@@ -120,7 +130,11 @@ export const WalletModal: FC<WalletModalProps> = ({
             <div className={`wallet-adapter-modal-wrapper ${!logo && 'wallet-adapter-modal-wrapper-no-logo'}`}>
                 {logo && (
                     <div className="wallet-adapter-modal-logo-wrapper">
-                        <img alt="logo" className="wallet-adapter-modal-logo" src={logo} />
+                        {typeof logo === 'string' ? (
+                            <img alt="logo" className="wallet-adapter-modal-logo" src={logo} />
+                        ) : (
+                            logo
+                        )}
                     </div>
                 )}
                 <h1 className="wallet-adapter-modal-title" id="wallet-adapter-modal-title">
