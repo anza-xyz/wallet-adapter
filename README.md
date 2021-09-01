@@ -6,15 +6,15 @@ Modular TypeScript wallet adapters and components for Solana applications.
 
 ## Quick Links
 
--   [Docs](https://solana-labs.github.io/wallet-adapter/)
--   [Example](https://solana-labs.github.io/wallet-adapter/example/)
+- [Docs](https://solana-labs.github.io/wallet-adapter/)
+- [Example](https://solana-labs.github.io/wallet-adapter/example/)
 
 ## Packages
 
 | package                                                                                                       | description                                                                            | npm                                                                                                                      | version |
-| ------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------- |
-| [wallets](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets)                         | All wallets with icons                                                                 | [`@solana/wallet-adapter-wallets`](https://www.npmjs.com/package/@solana/wallet-adapter-wallets)                         | `0.7.1` |
-| [react](https://github.com/solana-labs/wallet-adapter/tree/master/packages/react)                             | React hooks and context for dApps                                                      | [`@solana/wallet-adapter-react`](https://www.npmjs.com/package/@solana/wallet-adapter-react)                             | `0.8.1` |
+|---------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|---------|
+| [wallets](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets)                         | All wallets with icons                                                                 | [`@solana/wallet-adapter-wallets`](https://www.npmjs.com/package/@solana/wallet-adapter-wallets)                         | `0.7.3` |
+| [react](https://github.com/solana-labs/wallet-adapter/tree/master/packages/react)                             | React hooks and context for dApps                                                      | [`@solana/wallet-adapter-react`](https://www.npmjs.com/package/@solana/wallet-adapter-react)                             | `0.8.3` |
 | [base](https://github.com/solana-labs/wallet-adapter/tree/master/packages/base)                               | Adapter interface, errors, and utilities                                               | [`@solana/wallet-adapter-base`](https://www.npmjs.com/package/@solana/wallet-adapter-base)                               | `0.5.1` |
 | [phantom](https://github.com/solana-labs/wallet-adapter/tree/master/packages/phantom)                         | Adapter for [Phantom](https://www.phantom.app)                                         | [`@solana/wallet-adapter-phantom`](https://www.npmjs.com/package/@solana/wallet-adapter-phantom)                         | `0.5.1` |
 | [solflare](https://github.com/solana-labs/wallet-adapter/tree/master/packages/solflare)                       | Adapter for [Solflare](https://solflare.com)                                           | [`@solana/wallet-adapter-solflare`](https://www.npmjs.com/package/@solana/wallet-adapter-solflare)                       | `0.2.1` |
@@ -25,13 +25,13 @@ Modular TypeScript wallet adapters and components for Solana applications.
 | [mathwallet](https://github.com/solana-labs/wallet-adapter/tree/master/packages/mathwallet)                   | Adapter for [MathWallet](https://mathwallet.org)                                       | [`@solana/wallet-adapter-mathwallet`](https://www.npmjs.com/package/@solana/wallet-adapter-mathwallet)                   | `0.5.1` |
 | [coin98](https://github.com/solana-labs/wallet-adapter/tree/master/packages/coin98)                           | Adapter for [Coin98](https://coin98.com)                                               | [`@solana/wallet-adapter-coin98`](https://www.npmjs.com/package/@solana/wallet-adapter-coin98)                           | `0.1.1` |
 | [bitpie](https://github.com/solana-labs/wallet-adapter/tree/master/packages/bitpie)                           | Adapter for [Bitpie](https://bitpie.com)                                               | [`@solana/wallet-adapter-bitpie`](https://www.npmjs.com/package/@solana/wallet-adapter-bitpie)                           | `0.1.1` |
-| [walletconnect](https://github.com/solana-labs/wallet-adapter/tree/master/packages/walletconnect) \*\*        | Adapter for [WalletConnect](https://walletconnect.org)                                 | [`@solana/wallet-adapter-walletconnect`](https://www.npmjs.com/package/@solana/wallet-adapter-walletconnect)             | `0.1.0` |
-| [material-ui](https://github.com/solana-labs/wallet-adapter/tree/master/packages/material-ui)                 | Components for [Material UI](https://material-ui.com)                                  | [`@solana/wallet-adapter-material-ui`](https://www.npmjs.com/package/@solana/wallet-adapter-material-ui)                 | `0.8.1` |
-| [ant-design](https://github.com/solana-labs/wallet-adapter/tree/master/packages/ant-design)                   | Components for [Ant Design](https://ant.design)                                        | [`@solana/wallet-adapter-ant-design`](https://www.npmjs.com/package/@solana/wallet-adapter-ant-design)                   | `0.3.1` |
+| [walletconnect](https://github.com/solana-labs/wallet-adapter/tree/master/packages/walletconnect) **          | Adapter for [WalletConnect](https://walletconnect.org)                                 | [`@solana/wallet-adapter-walletconnect`](https://www.npmjs.com/package/@solana/wallet-adapter-walletconnect)             | `0.1.0` |
+| [material-ui](https://github.com/solana-labs/wallet-adapter/tree/master/packages/material-ui)                 | Components for [Material UI](https://material-ui.com)                                  | [`@solana/wallet-adapter-material-ui`](https://www.npmjs.com/package/@solana/wallet-adapter-material-ui)                 | `0.8.3` |
+| [ant-design](https://github.com/solana-labs/wallet-adapter/tree/master/packages/ant-design)                   | Components for [Ant Design](https://ant.design)                                        | [`@solana/wallet-adapter-ant-design`](https://www.npmjs.com/package/@solana/wallet-adapter-ant-design)                   | `0.3.3` |
 | [react-ui](https://github.com/solana-labs/wallet-adapter/tree/master/packages/react-ui)                       | Custom React components                                                                | [`@solana/wallet-adapter-react-ui`](https://www.npmjs.com/package/@solana/wallet-adapter-react-ui)                       | `0.1.0` |
-| [material-ui-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/material-ui-starter) | [Create React App](https://create-react-app.dev) project using Material UI             | [`@solana/wallet-adapter-material-ui-starter`](https://www.npmjs.com/package/@solana/wallet-adapter-material-ui-starter) | `0.5.1` |
+| [material-ui-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/material-ui-starter) | [Create React App](https://create-react-app.dev) project using Material UI             | [`@solana/wallet-adapter-material-ui-starter`](https://www.npmjs.com/package/@solana/wallet-adapter-material-ui-starter) | `0.5.3` |
 | [react-ui-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/react-ui-starter)       | [Create React App](https://create-react-app.dev) project using custom React components | [`@solana/wallet-adapter-react-ui-starter`](https://www.npmjs.com/package/@solana/wallet-adapter-react-ui-starter)       | `0.1.0` |
-| [example](https://github.com/solana-labs/wallet-adapter/tree/master/packages/example)                         | Demo of components                                                                     | [`@solana/wallet-adapter-example`](https://www.npmjs.com/package/@solana/wallet-adapter-example)                         | `0.8.1` |
+| [example](https://github.com/solana-labs/wallet-adapter/tree/master/packages/example)                         | Demo of components                                                                     | [`@solana/wallet-adapter-example`](https://www.npmjs.com/package/@solana/wallet-adapter-example)                         | `0.8.3` |
 
 \*\* WalletConnect adapter has not been published to npm yet.
 
@@ -40,10 +40,9 @@ Modular TypeScript wallet adapters and components for Solana applications.
 See the [react-ui-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/react-ui-starter) package
 for a more complete example.
 
-There are also material UI and ant design components if you prefer to use those:
-
--   [material-ui](https://github.com/solana-labs/wallet-adapter/tree/master/packages/material-ui)
--   [ant-design](https://github.com/solana-labs/wallet-adapter/tree/master/packages/ant-design)
+There are also Material UI and Ant Design components:
+- [material-ui](https://github.com/solana-labs/wallet-adapter/tree/master/packages/material-ui)
+- [ant-design](https://github.com/solana-labs/wallet-adapter/tree/master/packages/ant-design)
 
 ### Install
 
@@ -72,28 +71,29 @@ import {
     getSolongWallet,
     getTorusWallet,
 } from '@solana/wallet-adapter-wallets';
-import { WalletModalProvider, WalletDisconnectButton, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import {
+    WalletModalProvider,
+    WalletDisconnectButton,
+    WalletMultiButton
+} from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
 
 export const Wallet: FC = () => {
     // @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking --
     // Only the wallets you want to instantiate here will be compiled into your application
-    const wallets = useMemo(
-        () => [
-            getPhantomWallet(),
-            getSolflareWallet(),
-            getTorusWallet({
-                options: { clientId: 'Get a client ID @ https://developer.tor.us' },
-            }),
-            getLedgerWallet(),
-            getSolongWallet(),
-            getMathWallet(),
-            getSolletWallet(),
-            getCoin98Wallet(),
-            getBitpieWallet(),
-        ],
-        []
-    );
+    const wallets = useMemo(() => [
+        getPhantomWallet(),
+        getSolflareWallet(),
+        getTorusWallet({
+            options: { clientId: 'Get a client ID @ https://developer.tor.us' }
+        }),
+        getLedgerWallet(),
+        getSolongWallet(),
+        getMathWallet(),
+        getSolletWallet(),
+        getCoin98Wallet(),
+        getBitpieWallet(),
+    ], []);
 
     // Set to 'devnet' | 'testnet' | 'mainnet-beta' or provide a custom RPC endpoint
     const endpoint = useMemo(() => clusterApiUrl('devnet'), []);
@@ -113,12 +113,12 @@ export const Wallet: FC = () => {
 
 You can pass in these props to `WalletModalProvider`:
 
-| prop                  | type                  | default     | description                                                              |
-| --------------------- | --------------------- | ----------- | ------------------------------------------------------------------------ |
-| className             | `string`              | `""`        | Additional modal class name (optional)                                   |
-| logo                  | `string \| undefined` | `undefined` | your dapp logo url (optional)                                            |
-| featuredWalletsNumber | `number`              | `2`         | initial number of wallets to display in the modal (optional)             |
-| root                  | `string`              | `"body"`    | CSS selector for the root html element to append the modal to (optional) |
+| prop            | type                  | default     | description                                                              |
+|-----------------|-----------------------|-------------|--------------------------------------------------------------------------|
+| className       | `string`              | `""`        | additional modal class name (optional)                                   |
+| logo            | `string \| undefined` | `undefined` | your dapp logo url (optional)                                            |
+| featuredWallets | `number`              | `2`         | initial number of wallets to display in the modal (optional)             |
+| root            | `string`              | `"body"`    | CSS selector for the root html element to append the modal to (optional) |
 
 For example, to show your dapp logo:
 
