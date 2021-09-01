@@ -1,22 +1,26 @@
-import { WalletError } from "@solana/wallet-adapter-base";
+import { WalletError } from '@solana/wallet-adapter-base';
 
 export class WalletNotSelectedError extends WalletError {
     constructor() {
         super();
-        this.name = "WalletNotSelectedError";
+        this.name = 'WalletNotSelectedError';
     }
 }
 
 export class SignTransactionNotFoundError extends WalletError {
     constructor() {
         super();
-        this.name = "SignTransactionNotFoundError";
+        this.name = 'SignTransactionNotFoundError';
     }
 }
 
 export class SignAllTransactionsNotFoundError extends WalletError {
     constructor() {
         super();
+        this.name = 'SignAllTransactionsNotFoundError';
+    }
+}
+
 export class SignMessageNotFoundError extends WalletError {
     constructor() {
         super();

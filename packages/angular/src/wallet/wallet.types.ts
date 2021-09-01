@@ -1,4 +1,6 @@
 import { MessageSignerWalletAdapter, SignerWalletAdapter, WalletAdapter } from '@solana/wallet-adapter-base';
+import { Wallet, WalletName } from '@solana/wallet-adapter-wallets';
+import { PublicKey } from '@solana/web3.js';
 
 export interface WalletState {
     wallets: Wallet[];
