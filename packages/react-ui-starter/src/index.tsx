@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import { SnackbarProvider } from 'notistack';
 import Wallet from './Wallet';
 import './index.css';
 
 ReactDOM.render(
-    <React.StrictMode>
+    <StrictMode>
         <SnackbarProvider>
             <Wallet />
         </SnackbarProvider>
-    </React.StrictMode>,
+    </StrictMode>,
     document.getElementById('root')
 );

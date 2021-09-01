@@ -1,6 +1,6 @@
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletName } from '@solana/wallet-adapter-wallets';
-import React, { FC, useCallback, useLayoutEffect, useMemo, useRef } from 'react';
+import React, { FC, MouseEvent, RefObject, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Button } from './Button';
 import { Collapse } from './Collapse';
@@ -11,19 +11,25 @@ export interface WalletModalProps {
     className?: string;
     featuredWallets?: number;
     logo?: string;
-    root?: string;
+    container?: string;
 }
 
-export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWallets = 2, logo, root = 'body' }) => {
-    const modalRef = useRef() as React.MutableRefObject<HTMLDivElement>;
+export const WalletModal: FC<WalletModalProps> = ({
+    className = '',
+    featuredWallets = 2,
+    logo,
+    container = 'body',
+}) => {
+    const ref = useRef<HTMLDivElement>(null);
     const { wallets, select } = useWallet();
     const { setVisible } = useWalletModal();
-    const [expanded, setExpanded] = React.useState(false);
-    const [fadeIn, setFadeIn] = React.useState(false);
+    const [expanded, setExpanded] = useState(false);
+    const [fadeIn, setFadeIn] = useState(false);
+    const [rootElement, setRootElement] = useState<Element | null>(null);
 
-    const rootElement = useMemo(() => document.querySelector(root), [root]);
+    useLayoutEffect(() => setRootElement(document.querySelector(container)), [setRootElement, container]);
 
-    const [featured, other] = useMemo(
+    const [featured, more] = useMemo(
         () => [wallets.slice(0, featuredWallets), wallets.slice(featuredWallets)],
         [wallets, featuredWallets]
     );
@@ -33,30 +39,60 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWall
         setTimeout(() => setVisible(false), 150);
     }, [setFadeIn, setVisible]);
 
-    const handleClose = (e: React.MouseEvent) => {
-        e.preventDefault();
-        hideModal();
-    };
+    const handleClose = useCallback(
+        (event: MouseEvent) => {
+            event.preventDefault();
+            hideModal();
+        },
+        [hideModal]
+    );
 
-    const handleCollapseClick = () => {
-        setExpanded(!expanded);
-    };
+    const handleCollapseClick = useCallback(() => setExpanded(!expanded), [setExpanded, expanded]);
 
-    const handleWalletClick = (event: React.MouseEvent, walletName: WalletName) => {
-        select(walletName);
-        handleClose(event);
-    };
+    const handleWalletClick = useCallback(
+        (event: MouseEvent, walletName: WalletName) => {
+            select(walletName);
+            handleClose(event);
+        },
+        [select, handleClose]
+    );
+
+    const handleTabKey = useCallback(
+        (event: KeyboardEvent) => {
+            const node = ref.current;
+            if (!node) return;
+
+            // here we query all focusable elements
+            const focusableElements = node.querySelectorAll('button');
+            const firstElement = focusableElements[0];
+            const lastElement = focusableElements[focusableElements.length - 1];
+
+            // if going forward by pressing tab and lastElement is active shift focus to first focusable element
+            if (!event.shiftKey && document.activeElement === lastElement) {
+                firstElement.focus();
+                return event.preventDefault();
+            }
+
+            // if going backward by pressing tab and firstElement is active shift focus to last focusable element
+            if (event.shiftKey && document.activeElement === firstElement) {
+                lastElement.focus();
+                event.preventDefault();
+            }
+        },
+        [ref]
+    );
 
     useLayoutEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
                 hideModal();
-            } else if (e.key === 'Tab') {
-                handleTabKey(e, modalRef);
+            } else if (event.key === 'Tab') {
+                handleTabKey(event);
             }
         };
 
-        const originalStyle = window.getComputedStyle(document.body).overflow;
+        // Get original overflow
+        const { overflow } = window.getComputedStyle(document.body);
         // Hack to enable fade in animation after mount
         setTimeout(() => setFadeIn(true), 0);
         // Prevent scrolling on mount
@@ -66,10 +102,10 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWall
 
         return () => {
             // Re-enable scrolling when component unmounts
-            document.body.style.overflow = originalStyle;
+            document.body.style.overflow = overflow;
             window.removeEventListener('keydown', handleKeyDown, false);
         };
-    }, [handleTabKey, hideModal]);
+    }, [hideModal, handleTabKey]);
 
     if (!rootElement) return null;
 
@@ -78,7 +114,7 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWall
             aria-labelledby="wallet-adapter-modal-title"
             aria-modal="true"
             className={`wallet-adapter-modal ${fadeIn && 'wallet-adapter-modal-fade-in'} ${className}`}
-            ref={modalRef}
+            ref={ref}
             role="dialog"
         >
             <div className={`wallet-adapter-modal-wrapper ${!logo && 'wallet-adapter-modal-wrapper-no-logo'}`}>
@@ -104,11 +140,11 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWall
                         />
                     ))}
                 </ul>
-                {other.length && (
+                {more.length && (
                     <>
                         <Collapse expanded={expanded} id="wallet-adapter-modal-collapse">
                             <ul className="wallet-adapter-modal-list">
-                                {other.map((wallet) => (
+                                {more.map((wallet) => (
                                     <WalletListItem
                                         key={wallet.name}
                                         handleClick={(event) => handleWalletClick(event, wallet.name)}
@@ -140,23 +176,4 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWall
         </div>,
         rootElement
     );
-};
-
-const handleTabKey = (e: KeyboardEvent, modalRef: React.MutableRefObject<HTMLDivElement>) => {
-    // here we query all focusable elements
-    const focusableElements = modalRef.current.querySelectorAll('button');
-    const firstElement = focusableElements[0];
-    const lastElement = focusableElements[focusableElements.length - 1];
-
-    // if going forward by pressing tab and lastElement is active shift focus to first focusable element
-    if (!e.shiftKey && document.activeElement === lastElement) {
-        firstElement.focus();
-        return e.preventDefault();
-    }
-
-    // if going backward by pressing tab and firstElement is active shift focus to last focusable element
-    if (e.shiftKey && document.activeElement === firstElement) {
-        lastElement.focus();
-        e.preventDefault();
-    }
 };

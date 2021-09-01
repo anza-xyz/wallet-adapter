@@ -118,7 +118,7 @@ You can pass in these optional display props to `WalletModalProvider`:
 | className       | `string`              | `""`        | additional modal class name                                   |
 | logo            | `string | undefined`  | `undefined` | your dapp logo url                                            |
 | featuredWallets | `number`              | `2`         | initial number of wallets to display in the modal             |
-| root            | `string`              | `"body"`    | CSS selector for the root html element to append the modal to |
+| container       | `string`              | `"body"`    | CSS selector for the container element to append the modal to |
 
 For example, to show your dapp logo:
 

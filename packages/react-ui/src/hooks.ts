@@ -1,20 +1,18 @@
-import React from 'react';
+import React, { RefObject, useEffect } from 'react';
 
 /**
  * Hook for handling closing when clicking outside of an element
  */
-export function useOnClickOutside<T extends HTMLElement = HTMLElement>(
-    ref: React.RefObject<T>,
+export function useOnClickOutside<T extends HTMLElement>(
+    ref: RefObject<T>,
     handler: (event: MouseEvent | TouchEvent) => void
 ): void {
-    React.useEffect(() => {
+    useEffect(() => {
         const listener = (event: MouseEvent | TouchEvent) => {
-            const el = ref?.current;
+            const node = ref.current;
 
             // Do nothing if clicking ref's element or descendent elements
-            if (!el || el.contains(event.target as Node)) {
-                return;
-            }
+            if (!node || node.contains(event.target as Node)) return;
 
             handler(event);
         };

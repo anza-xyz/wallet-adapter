@@ -1,5 +1,5 @@
 import { useWallet } from '@solana/wallet-adapter-react';
-import React, { FC, useMemo, useRef, useState } from 'react';
+import React, { FC, useCallback, useMemo, useRef, useState } from 'react';
 import { Button, ButtonProps } from './Button';
 import { useOnClickOutside } from './hooks';
 import { useWalletModal } from './useWalletModal';
@@ -10,47 +10,38 @@ import { WalletModalButton } from './WalletModalButton';
 export const WalletMultiButton: FC<ButtonProps> = ({ children, color = '#4E44CE', ...props }) => {
     const { publicKey, wallet, disconnect } = useWallet();
     const { setVisible } = useWalletModal();
-    const [isCopied, setIsCopied] = React.useState(false);
+    const [isCopied, setIsCopied] = useState(false);
     const [active, setActive] = useState(false);
-    const dropdownRef = useRef(null);
+    const dropdownRef = useRef<HTMLUListElement>(null);
 
     const base58 = useMemo(() => publicKey?.toBase58(), [publicKey]);
     const content = useMemo(() => {
         if (children) return children;
         if (!wallet || !base58) return null;
-        return base58.substr(0, 4) + '..' + base58.substr(-4, 4);
+        return base58.slice(0, 4) + '..' + base58.slice(-4);
     }, [children, wallet, base58]);
 
-    const copyAddress = async () => {
-        if (typeof base58 === 'string') {
+    const copyAddress = useCallback(async () => {
+        if (base58) {
             await navigator.clipboard.writeText(base58);
             setIsCopied(true);
             setTimeout(() => setIsCopied(false), 400);
         }
-    };
+    }, [base58]);
 
-    const openModal = () => {
+    const openDropdown = useCallback(() => setActive(true), [setActive]);
+
+    const closeDropdown = useCallback(() => setActive(false), [setActive]);
+
+    const openModal = useCallback(() => {
         setVisible(true);
         closeDropdown();
-    };
-
-    const openDropdown = () => {
-        setActive(true);
-    };
-
-    const closeDropdown = () => {
-        setActive(false);
-    };
+    }, [setVisible, closeDropdown]);
 
     useOnClickOutside(dropdownRef, closeDropdown);
 
-    if (!wallet) {
-        return <WalletModalButton {...props} />;
-    }
-
-    if (!base58) {
-        return <WalletConnectButton {...props} />;
-    }
+    if (!wallet) return <WalletModalButton {...props} />;
+    if (!base58) return <WalletConnectButton {...props} />;
 
     return (
         <div className="wallet-adapter-dropdown">
