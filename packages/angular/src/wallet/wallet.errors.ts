@@ -17,6 +17,9 @@ export class SignTransactionNotFoundError extends WalletError {
 export class SignAllTransactionsNotFoundError extends WalletError {
     constructor() {
         super();
-        this.name = "SignAllTransactionsNotFoundError";
+export class SignMessageNotFoundError extends WalletError {
+    constructor() {
+        super();
+        this.name = 'SignMessageNotFoundError';
     }
 }

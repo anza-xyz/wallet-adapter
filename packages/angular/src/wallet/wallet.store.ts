@@ -327,9 +327,30 @@ export class WalletStore extends ComponentStore<WalletState> {
                     return throwError(new SignAllTransactionsNotFoundError());
                 }
 
-                return from(
-                    defer(() => adapter.signAllTransactions(transactions))
-                ).pipe(map((transactions) => transactions as Transaction[]));
+                return from(defer(() => adapter.signAllTransactions(transactions))).pipe(
+                    map((transactions) => transactions as Transaction[])
+                );
+            })
+        );
+    }
+
+    signMessage(message: Uint8Array): Observable<Uint8Array> {
+        return this.state$.pipe(
+            first(),
+            concatMap(({ adapter, connected }) => {
+                if (!adapter) {
+                    return throwError(new WalletNotSelectedError());
+                }
+
+                if (!connected) {
+                    return throwError(new WalletNotConnectedError());
+                }
+
+                if (!('signMessage' in adapter)) {
+                    return throwError(new SignMessageNotFoundError());
+                }
+
+                return from(defer(() => adapter.signMessage(message))).pipe(map((message) => message as Uint8Array));
             })
         );
     }
