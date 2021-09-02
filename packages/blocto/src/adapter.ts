@@ -1,19 +1,19 @@
+import BloctoSDK, { SolanaProviderInterface } from '@blocto/sdk';
 import {
     BaseWalletAdapter,
+    SendTransactionOptions,
     WalletAccountError,
+    WalletAdapterNetwork,
     WalletConnectionError,
+    WalletDisconnectionError,
+    WalletNotConnectedError,
     WalletNotFoundError,
     WalletPublicKeyError,
-    WalletNotConnectedError,
-    SendTransactionOptions,
 } from '@solana/wallet-adapter-base';
-import BloctoSDK, { SolanaProviderInterface } from '@blocto/sdk';
 import { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
-import { WalletDisconnectionError } from '@solana/wallet-adapter-base';
-import { connected } from 'process';
 
 export interface BloctoWalletAdapterConfig {
-    network: 'mainnet-beta' | 'testnet';
+    network?: WalletAdapterNetwork;
 }
 
 export class BloctoWalletAdapter extends BaseWalletAdapter {
@@ -22,12 +22,12 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
     private _publicKey: PublicKey | null;
     private _network: string;
 
-    constructor(config: BloctoWalletAdapterConfig) {
+    constructor(config: BloctoWalletAdapterConfig = {}) {
         super();
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
-        this._network = config.network;
+        this._network = config.network || WalletAdapterNetwork.Mainnet;
     }
 
     get publicKey(): PublicKey | null {
@@ -61,7 +61,7 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
             if (!wallet.connected) {
                 try {
                     await wallet.connect();
-                } catch (error) {
+                } catch (error: any) {
                     throw new WalletConnectionError(error?.message, error);
                 }
             }
@@ -73,7 +73,7 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
             let publicKey: PublicKey;
             try {
                 publicKey = new PublicKey(wallet.accounts[0]);
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
@@ -81,7 +81,7 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
             this._publicKey = publicKey;
 
             this.emit('connect');
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         } finally {
@@ -95,8 +95,8 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
 
             try {
                 this._wallet.disconnect();
-            } catch (error) {
-                this.emit('error', new WalletDisconnectionError(error.message, error));
+            } catch (error: any) {
+                this.emit('error', new WalletDisconnectionError(error?.message, error));
             } finally {
                 this._wallet = null;
             }
@@ -126,7 +126,7 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
             }
 
             return this._wallet.signAndSendTransaction(transaction, connection);
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         }

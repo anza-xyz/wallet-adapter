@@ -6,7 +6,7 @@ import {
     WalletModalProvider as AntDesignWalletModalProvider,
     WalletMultiButton as AntDesignWalletMultiButton,
 } from '@solana/wallet-adapter-ant-design';
-import { WalletError } from '@solana/wallet-adapter-base';
+import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
 import {
     WalletConnectButton as MaterialUIWalletConnectButton,
     WalletDialogButton as MaterialUIWalletDialogButton,
@@ -24,6 +24,7 @@ import {
 import { ConnectionProvider, useLocalStorage, WalletProvider } from '@solana/wallet-adapter-react';
 import {
     getBitpieWallet,
+    getBloctoWallet,
     getCoin98Wallet,
     getLedgerWallet,
     getMathWallet,
@@ -43,7 +44,8 @@ import SendTransaction from './SendTransaction';
 import SignMessage from './SignMessage';
 
 export const Demo: FC = () => {
-    const endpoint = useMemo(() => clusterApiUrl('devnet'), []);
+    const network = WalletAdapterNetwork.Devnet;
+    const endpoint = useMemo(() => clusterApiUrl(network), [network]);
     const [autoConnect, setAutoConnect] = useLocalStorage('autoConnect', false);
 
     const wallets = useMemo(
@@ -58,12 +60,13 @@ export const Demo: FC = () => {
             getLedgerWallet(),
             getSolongWallet(),
             getMathWallet(),
-            getSolletWallet(),
+            getSolletWallet({ network }),
             getCoin98Wallet(),
             getBitpieWallet(),
             getSlopeWallet(),
+            getBloctoWallet({ network }),
         ],
-        []
+        [network]
     );
 
     const { enqueueSnackbar } = useSnackbar();
