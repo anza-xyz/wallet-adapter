@@ -1,7 +1,7 @@
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletName } from '@solana/wallet-adapter-wallets';
 import { Menu, Modal, ModalProps } from 'antd';
-import React, { FC, useCallback, useMemo, useState } from 'react';
+import React, { FC, MouseEvent, useCallback, useMemo, useState } from 'react';
 import { useWalletModal } from './useWalletModal';
 import { WalletMenuItem } from './WalletMenuItem';
 
@@ -25,7 +25,7 @@ export const WalletModal: FC<WalletModalProps> = ({
     );
 
     const handleCancel = useCallback(
-        (event: React.MouseEvent<HTMLElement>) => {
+        (event: MouseEvent<HTMLElement>) => {
             if (onCancel) onCancel(event);
             if (!event.defaultPrevented) setVisible(false);
         },
@@ -33,7 +33,7 @@ export const WalletModal: FC<WalletModalProps> = ({
     );
 
     const handleWalletClick = useCallback(
-        (event: React.MouseEvent<HTMLElement>, walletName: WalletName) => {
+        (event: MouseEvent<HTMLElement>, walletName: WalletName) => {
             select(walletName);
             handleCancel(event);
         },
