@@ -3,13 +3,7 @@ import React, { FC, MouseEventHandler, useCallback, useMemo } from 'react';
 import { Button, ButtonProps } from './Button';
 import { WalletIcon } from './WalletIcon';
 
-export const WalletDisconnectButton: FC<ButtonProps> = ({
-    color = '#4E44CE',
-    children,
-    disabled,
-    onClick,
-    ...props
-}) => {
+export const WalletDisconnectButton: FC<ButtonProps> = ({ children, disabled, onClick, ...props }) => {
     const { wallet, disconnect, disconnecting } = useWallet();
 
     const handleClick: MouseEventHandler<HTMLButtonElement> = useCallback(
@@ -30,7 +24,7 @@ export const WalletDisconnectButton: FC<ButtonProps> = ({
 
     return (
         <Button
-            color={color}
+            className="wallet-adapter-button-trigger"
             disabled={disabled || !wallet}
             startIcon={wallet ? <WalletIcon wallet={wallet} /> : undefined}
             onClick={handleClick}

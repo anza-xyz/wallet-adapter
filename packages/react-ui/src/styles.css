@@ -16,6 +16,10 @@
     padding: 0 20px;
 }
 
+.wallet-adapter-button-trigger {
+    background-color: #4e44ce;
+}
+
 .wallet-adapter-button:not([disabled]):focus-visible {
     outline-color: white;
 }
