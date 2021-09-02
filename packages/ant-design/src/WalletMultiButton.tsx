@@ -26,16 +26,11 @@ export const WalletMultiButton: FC<ButtonProps> = ({
     const content = useMemo(() => {
         if (children) return children;
         if (!wallet || !base58) return null;
-        return base58.substr(0, 4) + '..' + base58.substr(-4, 4);
+        return base58.slice(0, 4) + '..' + base58.slice(-4);
     }, [children, wallet, base58]);
 
-    if (!wallet) {
-        return <WalletModalButton {...props} />;
-    }
-
-    if (!base58) {
-        return <WalletConnectButton {...props} />;
-    }
+    if (!wallet) return <WalletModalButton {...props} />;
+    if (!base58) return <WalletConnectButton {...props} />;
 
     return (
         <Dropdown
@@ -72,7 +67,9 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                     <Menu.Item
                         onClick={() => {
                             // eslint-disable-next-line @typescript-eslint/no-empty-function
-                            disconnect().catch(() => {});
+                            disconnect().catch(() => {
+                                // Silently catch because any errors are caught by the context `onError` handler
+                            });
                         }}
                         icon={<DisconnectIcon className=".wallet-adapter-multi-button-icon" />}
                         className="wallet-adapter-multi-button-item"

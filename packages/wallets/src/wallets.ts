@@ -1,9 +1,10 @@
-import { SignerWalletAdapter, WalletAdapter } from '@solana/wallet-adapter-base';
+import { MessageSignerWalletAdapter, SignerWalletAdapter, WalletAdapter } from '@solana/wallet-adapter-base';
 import { BitpieWalletAdapter, BitpieWalletAdapterConfig } from '@solana/wallet-adapter-bitpie';
 import { Coin98WalletAdapter, Coin98WalletAdapterConfig } from '@solana/wallet-adapter-coin98';
 import { LedgerWalletAdapter, LedgerWalletAdapterConfig } from '@solana/wallet-adapter-ledger';
 import { MathWalletWalletAdapter, MathWalletWalletAdapterConfig } from '@solana/wallet-adapter-mathwallet';
 import { PhantomWalletAdapter, PhantomWalletAdapterConfig } from '@solana/wallet-adapter-phantom';
+import { SlopeWalletAdapter, SlopeWalletAdapterConfig } from '@solana/wallet-adapter-slope';
 import { SolflareWalletAdapter, SolflareWalletAdapterConfig } from '@solana/wallet-adapter-solflare';
 import { SolletWalletAdapter, SolletWalletAdapterConfig } from '@solana/wallet-adapter-sollet';
 import { SolongWalletAdapter, SolongWalletAdapterConfig } from '@solana/wallet-adapter-solong';
@@ -17,6 +18,7 @@ export enum WalletName {
     Ledger = 'Ledger',
     MathWallet = 'MathWallet',
     Phantom = 'Phantom',
+    Slope = 'Slope',
     Solflare = 'Solflare',
     SolflareWeb = 'Solflare (Web)',
     Sollet = 'Sollet',
@@ -28,7 +30,7 @@ export interface Wallet {
     name: WalletName;
     url: string;
     icon: string;
-    adapter: () => WalletAdapter | SignerWalletAdapter;
+    adapter: () => WalletAdapter | SignerWalletAdapter | MessageSignerWalletAdapter;
 }
 
 export const ICONS_URL = 'https://raw.githubusercontent.com/solana-labs/wallet-adapter/master/packages/wallets/icons';
@@ -73,6 +75,13 @@ export const getPhantomWallet = (config?: PhantomWalletAdapterConfig): Wallet =>
     url: 'https://www.phantom.app',
     icon: `${ICONS_URL}/phantom.svg`,
     adapter: () => new PhantomWalletAdapter(config),
+});
+
+export const getSlopeWallet = (config?: SlopeWalletAdapterConfig): Wallet => ({
+    name: WalletName.Slope,
+    url: 'https://www.slope.finance/#/wallet',
+    icon: `${ICONS_URL}/slope.svg`,
+    adapter: () => new SlopeWalletAdapter(config),
 });
 
 export const getSolflareWallet = (config?: SolflareWalletAdapterConfig): Wallet => ({

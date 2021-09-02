@@ -67,16 +67,11 @@ export const WalletMultiButton: FC<ButtonProps> = ({
     const content = useMemo(() => {
         if (children) return children;
         if (!wallet || !base58) return null;
-        return base58.substr(0, 4) + '..' + base58.substr(-4, 4);
+        return base58.slice(0, 4) + '..' + base58.slice(-4);
     }, [children, wallet, base58]);
 
-    if (!wallet) {
-        return <WalletDialogButton color={color} variant={variant} {...props} />;
-    }
-
-    if (!base58) {
-        return <WalletConnectButton color={color} variant={variant} {...props} />;
-    }
+    if (!wallet) return <WalletDialogButton color={color} variant={variant} {...props} />;
+    if (!base58) return <WalletConnectButton color={color} variant={variant} {...props} />;
 
     return (
         <>
@@ -143,7 +138,9 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                         onClick={() => {
                             setAnchor(undefined);
                             // eslint-disable-next-line @typescript-eslint/no-empty-function
-                            disconnect().catch(() => {});
+                            disconnect().catch(() => {
+                                // Silently catch because any errors are caught by the context `onError` handler
+                            });
                         }}
                     >
                         <ListItemIcon>

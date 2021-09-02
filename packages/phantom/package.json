@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-phantom",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -19,11 +19,11 @@
         "build": "yarn clean && tsc"
     },
     "peerDependencies": {
-        "@solana/wallet-adapter-base": "^0.5.0",
+        "@solana/wallet-adapter-base": "^0.5.1",
         "@solana/web3.js": "^1.20.0"
     },
     "devDependencies": {
-        "@solana/wallet-adapter-base": "^0.5.0",
+        "@solana/wallet-adapter-base": "^0.5.1",
         "@solana/web3.js": "^1.20.0"
     }
 }
