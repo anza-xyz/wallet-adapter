@@ -1,6 +1,6 @@
 import React, { FC, useLayoutEffect, useRef } from 'react';
 
-interface CollapseProps {
+export interface CollapseProps {
     expanded: boolean;
     id: string;
 }

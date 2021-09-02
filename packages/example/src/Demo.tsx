@@ -1,4 +1,5 @@
 import { FormControlLabel, Switch, Table, TableBody, TableCell, TableHead, TableRow, Tooltip } from '@material-ui/core';
+import { Close } from '@material-ui/icons';
 import {
     WalletConnectButton as AntDesignWalletConnectButton,
     WalletDisconnectButton as AntDesignWalletDisconnectButton,
