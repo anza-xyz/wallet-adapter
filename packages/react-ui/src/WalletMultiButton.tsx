@@ -6,7 +6,7 @@ import { WalletConnectButton } from './WalletConnectButton';
 import { WalletIcon } from './WalletIcon';
 import { WalletModalButton } from './WalletModalButton';
 
-export const WalletMultiButton: FC<ButtonProps> = ({ children, color = '#4E44CE', ...props }) => {
+export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
     const { publicKey, wallet, disconnect } = useWallet();
     const { setVisible } = useWalletModal();
     const [copied, setCopied] = useState(false);
@@ -63,8 +63,8 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, color = '#4E44CE'
         <div className="wallet-adapter-dropdown">
             <Button
                 aria-expanded={active}
+                className="wallet-adapter-button-trigger"
                 style={{ pointerEvents: active ? 'none' : 'auto', ...props.style }}
-                color={color}
                 onClick={openDropdown}
                 startIcon={<WalletIcon wallet={wallet} />}
                 {...props}
