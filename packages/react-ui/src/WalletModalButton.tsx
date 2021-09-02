@@ -1,4 +1,4 @@
-import React, { FC, MouseEventHandler, useCallback } from 'react';
+import React, { FC, MouseEvent, useCallback } from 'react';
 import { Button, ButtonProps } from './Button';
 import { useWalletModal } from './useWalletModal';
 
@@ -10,8 +10,8 @@ export const WalletModalButton: FC<ButtonProps> = ({
 }) => {
     const { visible, setVisible } = useWalletModal();
 
-    const handleClick: MouseEventHandler<HTMLButtonElement> = useCallback(
-        (event) => {
+    const handleClick = useCallback(
+        (event: MouseEvent<HTMLButtonElement>) => {
             if (onClick) onClick(event);
             if (!event.defaultPrevented) setVisible(!visible);
         },

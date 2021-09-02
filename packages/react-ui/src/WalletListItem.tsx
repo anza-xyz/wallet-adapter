@@ -3,7 +3,7 @@ import React, { FC, MouseEventHandler } from 'react';
 import { Button } from './Button';
 import { WalletIcon } from './WalletIcon';
 
-interface WalletListItemProps {
+export interface WalletListItemProps {
     handleClick: MouseEventHandler<HTMLButtonElement>;
     tabIndex?: number;
     wallet: Wallet;

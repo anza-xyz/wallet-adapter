@@ -29,13 +29,8 @@ export const WalletMultiButton: FC<ButtonProps> = ({
         return base58.slice(0, 4) + '..' + base58.slice(-4);
     }, [children, wallet, base58]);
 
-    if (!wallet) {
-        return <WalletModalButton {...props} />;
-    }
-
-    if (!base58) {
-        return <WalletConnectButton {...props} />;
-    }
+    if (!wallet) return <WalletModalButton {...props} />;
+    if (!base58) return <WalletConnectButton {...props} />;
 
     return (
         <Dropdown

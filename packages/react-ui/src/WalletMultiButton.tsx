@@ -1,7 +1,6 @@
 import { useWallet } from '@solana/wallet-adapter-react';
-import React, { FC, useMemo, useRef, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button, ButtonProps } from './Button';
-import { useOnClickOutside } from './hooks';
 import { useWalletModal } from './useWalletModal';
 import { WalletConnectButton } from './WalletConnectButton';
 import { WalletIcon } from './WalletIcon';
@@ -10,47 +9,55 @@ import { WalletModalButton } from './WalletModalButton';
 export const WalletMultiButton: FC<ButtonProps> = ({ children, color = '#4E44CE', ...props }) => {
     const { publicKey, wallet, disconnect } = useWallet();
     const { setVisible } = useWalletModal();
-    const [isCopied, setIsCopied] = React.useState(false);
+    const [copied, setCopied] = useState(false);
     const [active, setActive] = useState(false);
-    const dropdownRef = useRef(null);
+    const ref = useRef<HTMLUListElement>(null);
 
     const base58 = useMemo(() => publicKey?.toBase58(), [publicKey]);
     const content = useMemo(() => {
         if (children) return children;
         if (!wallet || !base58) return null;
-        return base58.substr(0, 4) + '..' + base58.substr(-4, 4);
+        return base58.slice(0, 4) + '..' + base58.slice(-4);
     }, [children, wallet, base58]);
 
-    const copyAddress = async () => {
-        if (typeof base58 === 'string') {
+    const copyAddress = useCallback(async () => {
+        if (base58) {
             await navigator.clipboard.writeText(base58);
-            setIsCopied(true);
-            setTimeout(() => setIsCopied(false), 400);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 400);
         }
-    };
+    }, [base58]);
 
-    const openModal = () => {
+    const openDropdown = useCallback(() => setActive(true), [setActive]);
+
+    const closeDropdown = useCallback(() => setActive(false), [setActive]);
+
+    const openModal = useCallback(() => {
         setVisible(true);
         closeDropdown();
-    };
+    }, [setVisible, closeDropdown]);
 
-    const openDropdown = () => {
-        setActive(true);
-    };
+    useEffect(() => {
+        const listener = (event: MouseEvent | TouchEvent) => {
+            const node = ref.current;
 
-    const closeDropdown = () => {
-        setActive(false);
-    };
+            // Do nothing if clicking dropdown or its descendants
+            if (!node || node.contains(event.target as Node)) return;
 
-    useOnClickOutside(dropdownRef, closeDropdown);
+            closeDropdown();
+        };
 
-    if (!wallet) {
-        return <WalletModalButton {...props} />;
-    }
+        document.addEventListener('mousedown', listener);
+        document.addEventListener('touchstart', listener);
 
-    if (!base58) {
-        return <WalletConnectButton {...props} />;
-    }
+        return () => {
+            document.removeEventListener('mousedown', listener);
+            document.removeEventListener('touchstart', listener);
+        };
+    }, [ref, closeDropdown]);
+
+    if (!wallet) return <WalletModalButton {...props} />;
+    if (!base58) return <WalletConnectButton {...props} />;
 
     return (
         <div className="wallet-adapter-dropdown">
@@ -67,11 +74,11 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, color = '#4E44CE'
             <ul
                 aria-label="dropdown-list"
                 className={`wallet-adapter-dropdown-list ${active && 'wallet-adapter-dropdown-list-active'}`}
-                ref={dropdownRef}
+                ref={ref}
                 role="menu"
             >
                 <li onClick={copyAddress} className="wallet-adapter-dropdown-list-item" role="menuitem">
-                    {isCopied ? 'Copied' : 'Copy address'}
+                    {copied ? 'Copied' : 'Copy address'}
                 </li>
                 <li onClick={openModal} className="wallet-adapter-dropdown-list-item" role="menuitem">
                     Connect a different wallet

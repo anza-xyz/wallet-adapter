@@ -1,17 +1,19 @@
 import React, { FC, useLayoutEffect, useRef } from 'react';
 
-interface CollapseProps {
+export interface CollapseProps {
     expanded: boolean;
     id: string;
 }
 
-export const Collapse: FC<CollapseProps> = ({ children, expanded = false, id }) => {
-    const ref = useRef() as React.MutableRefObject<HTMLDivElement>;
+export const Collapse: FC<CollapseProps> = ({ id, children, expanded = false }) => {
+    const ref = useRef<HTMLDivElement>(null);
     const instant = useRef(true);
     const transition = 'height 250ms ease-out';
 
     const openCollapse = () => {
         const node = ref.current;
+        if (!node) return;
+
         requestAnimationFrame(() => {
             node.style.height = node.scrollHeight + 'px';
         });
@@ -19,6 +21,8 @@ export const Collapse: FC<CollapseProps> = ({ children, expanded = false, id }) 
 
     const closeCollapse = () => {
         const node = ref.current;
+        if (!node) return;
+
         requestAnimationFrame(() => {
             node.style.height = node.offsetHeight + 'px';
             node.style.overflow = 'hidden';
@@ -38,25 +42,30 @@ export const Collapse: FC<CollapseProps> = ({ children, expanded = false, id }) 
 
     useLayoutEffect(() => {
         const node = ref.current;
+        if (!node) return;
+
         function handleComplete() {
+            if (!node) return;
+
             node.style.overflow = expanded ? 'initial' : 'hidden';
             if (expanded) {
                 node.style.height = 'auto';
             }
         }
+
         function handleTransitionEnd(event: TransitionEvent) {
-            if (event.target === node && event.propertyName === 'height') {
+            if (node && event.target === node && event.propertyName === 'height') {
                 handleComplete();
             }
         }
+
         if (instant.current) {
             handleComplete();
             instant.current = false;
         }
+
         node.addEventListener('transitionend', handleTransitionEnd);
-        return () => {
-            node.removeEventListener('transitionend', handleTransitionEnd);
-        };
+        return () => node.removeEventListener('transitionend', handleTransitionEnd);
     }, [expanded]);
 
     return (

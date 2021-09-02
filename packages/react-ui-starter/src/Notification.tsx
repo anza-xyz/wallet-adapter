@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { FC } from 'react';
 import './notification.css';
 
-interface NotificationProps {
+export interface NotificationProps {
     message: string;
     variant: 'error' | 'info' | 'success';
 }
 
-const Notification: React.FC<NotificationProps> = ({ message, variant }) => {
+const Notification: FC<NotificationProps> = ({ message, variant }) => {
     return <div className={`wallet-notification wallet-notification-${variant}`}>{message}</div>;
 };
 

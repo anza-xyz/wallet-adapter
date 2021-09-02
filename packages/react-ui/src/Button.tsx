@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { CSSProperties, FC, MouseEvent, ReactElement } from 'react';
 
 export interface ButtonProps {
     className?: string;
     color?: string;
     disabled?: boolean;
-    endIcon?: React.ReactElement;
-    onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-    startIcon?: React.ReactElement;
-    style?: React.CSSProperties;
+    endIcon?: ReactElement;
+    onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
+    startIcon?: ReactElement;
+    style?: CSSProperties;
     tabIndex?: number;
 }
 
-export const Button: React.FC<ButtonProps> = (props) => {
+export const Button: FC<ButtonProps> = (props) => {
     const backgroundColor = props.color && !props.disabled ? props.color : undefined;
     const justifyContent = props.endIcon || props.startIcon ? 'space-between' : 'center';
 
