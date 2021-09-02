@@ -25,20 +25,17 @@
     },
     "dependencies": {
         "@solana/wallet-adapter-base": "^0.5.1",
-        "@solana/wallet-adapter-react": "^0.8.1",
+        "@solana/wallet-adapter-react": "^0.8.3",
         "@solana/wallet-adapter-react-ui": "^0.1.0",
-        "@solana/wallet-adapter-wallets": "^0.7.1",
+        "@solana/wallet-adapter-wallets": "^0.7.3",
         "@solana/web3.js": "^1.22.0",
-        "@testing-library/jest-dom": "^5.11.4",
-        "@testing-library/react": "^11.1.0",
-        "@testing-library/user-event": "^12.1.10",
-        "@types/jest": "^26.0.15",
-        "@types/node": "^12.0.0",
-        "@types/react": "^17.0.16",
-        "@types/react-dom": "^17.0.0",
-        "notistack": "^1.0.9",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
+        "react-hot-toast": "^2.1.1"
+    },
+    "devDependencies": {
+        "@types/react": "^17.0.16",
+        "@types/react-dom": "^17.0.0",
         "react-scripts": "^4.0.3",
         "typescript": "^4.1.2",
         "yarn": "^1.22.11"

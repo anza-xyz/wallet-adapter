@@ -36,7 +36,7 @@ _React, Material UI, and Ant Design components_
 | [react-ui-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/react-ui-starter) \*    | [Create React App](https://create-react-app.dev) project using custom React components | [`@solana/wallet-adapter-react-ui-starter`](https://www.npmjs.com/package/@solana/wallet-adapter-react-ui-starter)       | `0.1.0` |
 | [example](https://github.com/solana-labs/wallet-adapter/tree/master/packages/example)                         | Demo of components                                                                     | [`@solana/wallet-adapter-example`](https://www.npmjs.com/package/@solana/wallet-adapter-example)                         | `0.8.3` |
 
-\*\* Package has not been published to NPM yet.
+\* Package has not been published to NPM yet.
 
 ## Quick Setup (using React UI)
 
