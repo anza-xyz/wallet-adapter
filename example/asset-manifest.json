@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "https://solana-labs.github.io/wallet-adapter/example/static/css/main.f5b1b0a5.chunk.css",
+    "main.js": "https://solana-labs.github.io/wallet-adapter/example/static/js/main.a065eac6.chunk.js",
+    "main.js.map": "https://solana-labs.github.io/wallet-adapter/example/static/js/main.a065eac6.chunk.js.map",
+    "runtime-main.js": "https://solana-labs.github.io/wallet-adapter/example/static/js/runtime-main.2f58b872.js",
+    "runtime-main.js.map": "https://solana-labs.github.io/wallet-adapter/example/static/js/runtime-main.2f58b872.js.map",
+    "static/css/2.b2093059.chunk.css": "https://solana-labs.github.io/wallet-adapter/example/static/css/2.b2093059.chunk.css",
+    "static/js/2.dead6f7f.chunk.js": "https://solana-labs.github.io/wallet-adapter/example/static/js/2.dead6f7f.chunk.js",
+    "static/js/2.dead6f7f.chunk.js.map": "https://solana-labs.github.io/wallet-adapter/example/static/js/2.dead6f7f.chunk.js.map",
+    "static/js/3.96fb6ce1.chunk.js": "https://solana-labs.github.io/wallet-adapter/example/static/js/3.96fb6ce1.chunk.js",
+    "static/js/3.96fb6ce1.chunk.js.map": "https://solana-labs.github.io/wallet-adapter/example/static/js/3.96fb6ce1.chunk.js.map",
+    "index.html": "https://solana-labs.github.io/wallet-adapter/example/index.html",
+    "static/css/2.b2093059.chunk.css.map": "https://solana-labs.github.io/wallet-adapter/example/static/css/2.b2093059.chunk.css.map",
+    "static/css/main.f5b1b0a5.chunk.css.map": "https://solana-labs.github.io/wallet-adapter/example/static/css/main.f5b1b0a5.chunk.css.map",
+    "static/js/2.dead6f7f.chunk.js.LICENSE.txt": "https://solana-labs.github.io/wallet-adapter/example/static/js/2.dead6f7f.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2f58b872.js",
+    "static/css/2.b2093059.chunk.css",
+    "static/js/2.dead6f7f.chunk.js",
+    "static/css/main.f5b1b0a5.chunk.css",
+    "static/js/main.a065eac6.chunk.js"
+  ]
+}
