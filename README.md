@@ -8,8 +8,14 @@ _React, Material UI, and Ant Design components_
 
 ## Quick Links
 
-- [Docs](https://solana-labs.github.io/wallet-adapter/)
-- [Example](https://solana-labs.github.io/wallet-adapter/example/)
+- [TypeScript Docs](https://solana-labs.github.io/wallet-adapter/)
+- [UI Examples](https://solana-labs.github.io/wallet-adapter/example/)
+- [Packages](#packages)
+- [Quick Setup (using React UI)](#quick-setup-using-react-ui)
+    + [Install](#install)
+    + [Setup](#setup)
+    + [Usage](#usage)
+- [Build from Source](#build-from-source)
 
 ## Packages
 
@@ -164,4 +170,28 @@ export const SendOneLamportToRandomAddress: FC = () => {
         </button>
     );
 };
+```
+
+## Build from Source
+
+1. Clone the project:
+```shell
+git clone https://github.com/solana-labs/wallet-adapter.git
+```
+
+2. Install dependencies:
+```shell
+cd wallet-adapter
+yarn install
+```
+
+3. Build all packages:
+```shell
+yarn build
+```
+
+4. Run locally:
+```shell
+cd packages/react-ui-starter
+yarn start
 ```
