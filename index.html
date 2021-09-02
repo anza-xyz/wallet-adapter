@@ -62,8 +62,8 @@
 					<h1><code>@solana/wallet-adapter</code></h1>
 				</a>
 				<p>Modular TypeScript wallet adapters and components for Solana applications.</p>
-				<p><img src="wallets.png" alt="Wallets"> <img src="wallets_expanded.png" alt="Wallets expanded"></p>
-				<!-- @TODO -->
+				<p><img src="wallets.png" alt="Wallets"></p>
+				<p><em>React, Material UI, and Ant Design components</em></p>
 				<a href="#quick-links" id="quick-links" style="color: inherit; text-decoration: none;">
 					<h2>Quick Links</h2>
 				</a>
@@ -156,7 +156,13 @@
 							<td><code>0.1.1</code></td>
 						</tr>
 						<tr>
-							<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/walletconnect">walletconnect</a> **</td>
+							<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/slope">slope</a></td>
+							<td>Adapter for <a href="https://www.slope.finance">Slope</a></td>
+							<td><a href="https://www.npmjs.com/package/@solana/wallet-adapter-slope"><code>@solana/wallet-adapter-slope</code></a></td>
+							<td><code>0.1.0</code></td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/walletconnect">walletconnect</a> *</td>
 							<td>Adapter for <a href="https://walletconnect.org">WalletConnect</a></td>
 							<td><a href="https://www.npmjs.com/package/@solana/wallet-adapter-walletconnect"><code>@solana/wallet-adapter-walletconnect</code></a></td>
 							<td><code>0.1.0</code></td>
@@ -174,10 +180,22 @@
 							<td><code>0.3.3</code></td>
 						</tr>
 						<tr>
+							<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/react-ui">react-ui</a> *</td>
+							<td>Custom React components</td>
+							<td><a href="https://www.npmjs.com/package/@solana/wallet-adapter-react-ui"><code>@solana/wallet-adapter-react-ui</code></a></td>
+							<td><code>0.1.0</code></td>
+						</tr>
+						<tr>
 							<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/material-ui-starter">material-ui-starter</a></td>
 							<td><a href="https://create-react-app.dev">Create React App</a> project using Material UI</td>
 							<td><a href="https://www.npmjs.com/package/@solana/wallet-adapter-material-ui-starter"><code>@solana/wallet-adapter-material-ui-starter</code></a></td>
 							<td><code>0.5.3</code></td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/react-ui-starter">react-ui-starter</a> *</td>
+							<td><a href="https://create-react-app.dev">Create React App</a> project using custom React components</td>
+							<td><a href="https://www.npmjs.com/package/@solana/wallet-adapter-react-ui-starter"><code>@solana/wallet-adapter-react-ui-starter</code></a></td>
+							<td><code>0.1.0</code></td>
 						</tr>
 						<tr>
 							<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/example">example</a></td>
@@ -186,25 +204,22 @@
 							<td><code>0.8.3</code></td>
 						</tr>
 				</tbody></table>
-				<p>** WalletConnect adapter has not been published to npm yet.</p>
-				<a href="#quick-setup-using-react-with-material-ui" id="quick-setup-using-react-with-material-ui" style="color: inherit; text-decoration: none;">
-					<h2>Quick Setup (using React with Material UI)</h2>
+				<p>** Package has not been published to NPM yet.</p>
+				<a href="#quick-setup-using-react-ui" id="quick-setup-using-react-ui" style="color: inherit; text-decoration: none;">
+					<h2>Quick Setup (using React UI)</h2>
 				</a>
-				<p>See the <a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/example">example</a> package for a more complete example.</p>
+				<p>There are also <a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/material-ui">material-ui</a> and <a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/ant-design">ant-design</a> packages if you use those component frameworks.</p>
+				<p>See the <a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/react-ui-starter">react-ui-starter</a> package for a more complete example.</p>
 				<a href="#install" id="install" style="color: inherit; text-decoration: none;">
 					<h3>Install</h3>
 				</a>
-				<p>Install these peer dependencies (or skip this if you have them already):</p>
-				<pre><code class="language-shell"><span style="color: #000000">yarn add @material-ui/core \</span>
-<span style="color: #000000">         @material-ui/icons \</span>
-<span style="color: #000000">         @solana/web3.js \</span>
-<span style="color: #000000">         react</span>
-</code></pre>
 				<p>Install these dependencies:</p>
 				<pre><code class="language-shell"><span style="color: #000000">yarn add @solana/wallet-adapter-wallets \</span>
 <span style="color: #000000">         @solana/wallet-adapter-react \</span>
-<span style="color: #000000">         @solana/wallet-adapter-material-ui \</span>
+<span style="color: #000000">         @solana/wallet-adapter-react-ui \</span>
 <span style="color: #000000">         @solana/wallet-adapter-base</span>
+<span style="color: #000000">         @solana/web3.js \</span>
+<span style="color: #000000">         react</span>
 </code></pre>
 				<a href="#setup" id="setup" style="color: inherit; text-decoration: none;">
 					<h3>Setup</h3>
@@ -221,10 +236,10 @@
 <span style="color: #000000">    </span><span style="color: #001080">getTorusWallet</span><span style="color: #000000">,</span>
 <span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@solana/wallet-adapter-wallets&#039;</span><span style="color: #000000">;</span>
 <span style="color: #AF00DB">import</span><span style="color: #000000"> {</span>
-<span style="color: #000000">    </span><span style="color: #001080">WalletDialogProvider</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">WalletModalProvider</span><span style="color: #000000">,</span>
 <span style="color: #000000">    </span><span style="color: #001080">WalletDisconnectButton</span><span style="color: #000000">,</span>
-<span style="color: #000000">    </span><span style="color: #001080">WalletMultiButton</span><span style="color: #000000">,</span>
-<span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@solana/wallet-adapter-material-ui&#039;</span><span style="color: #000000">;</span>
+<span style="color: #000000">    </span><span style="color: #001080">WalletMultiButton</span>
+<span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@solana/wallet-adapter-react-ui&#039;</span><span style="color: #000000">;</span>
 <span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">clusterApiUrl</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@solana/web3.js&#039;</span><span style="color: #000000">;</span>
 
 <span style="color: #AF00DB">export</span><span style="color: #000000"> </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #795E26">Wallet</span><span style="color: #000000">: </span><span style="color: #267F99">FC</span><span style="color: #000000"> = () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
@@ -250,19 +265,59 @@
 <span style="color: #000000">    </span><span style="color: #AF00DB">return</span><span style="color: #000000"> (</span>
 <span style="color: #000000">        </span><span style="color: #800000">&lt;</span><span style="color: #267F99">ConnectionProvider</span><span style="color: #000000"> </span><span style="color: #FF0000">endpoint</span><span style="color: #000000">=</span><span style="color: #0000FF">{</span><span style="color: #001080">endpoint</span><span style="color: #0000FF">}</span><span style="color: #800000">&gt;</span>
 <span style="color: #000000">            </span><span style="color: #800000">&lt;</span><span style="color: #267F99">WalletProvider</span><span style="color: #000000"> </span><span style="color: #FF0000">wallets</span><span style="color: #000000">=</span><span style="color: #0000FF">{</span><span style="color: #001080">wallets</span><span style="color: #0000FF">}</span><span style="color: #000000"> </span><span style="color: #FF0000">autoConnect</span><span style="color: #800000">&gt;</span>
-<span style="color: #000000">                </span><span style="color: #800000">&lt;</span><span style="color: #267F99">WalletDialogProvider</span><span style="color: #800000">&gt;</span>
-<span style="color: #000000">                    </span><span style="color: #800000">&lt;</span><span style="color: #267F99">WalletMultiButton</span><span style="color: #800000">/&gt;</span>
-<span style="color: #000000">                    </span><span style="color: #800000">&lt;</span><span style="color: #267F99">WalletDisconnectButton</span><span style="color: #800000">/&gt;</span>
-<span style="color: #000000">                </span><span style="color: #800000">&lt;/</span><span style="color: #267F99">WalletDialogProvider</span><span style="color: #800000">&gt;</span>
+<span style="color: #000000">                </span><span style="color: #800000">&lt;</span><span style="color: #267F99">WalletModalProvider</span><span style="color: #800000">&gt;</span>
+<span style="color: #000000">                    </span><span style="color: #800000">&lt;</span><span style="color: #267F99">WalletMultiButton</span><span style="color: #000000"> </span><span style="color: #800000">/&gt;</span>
+<span style="color: #000000">                    </span><span style="color: #800000">&lt;</span><span style="color: #267F99">WalletDisconnectButton</span><span style="color: #000000"> </span><span style="color: #800000">/&gt;</span>
+<span style="color: #000000">                </span><span style="color: #800000">&lt;/</span><span style="color: #267F99">WalletModalProvider</span><span style="color: #800000">&gt;</span>
 <span style="color: #000000">            </span><span style="color: #800000">&lt;/</span><span style="color: #267F99">WalletProvider</span><span style="color: #800000">&gt;</span>
 <span style="color: #000000">        </span><span style="color: #800000">&lt;/</span><span style="color: #267F99">ConnectionProvider</span><span style="color: #800000">&gt;</span>
 <span style="color: #000000">    );</span>
 <span style="color: #000000">};</span>
 </code></pre>
+				<p>You can pass in these optional display props to <code>WalletModalProvider</code>:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>prop</th>
+							<th>type</th>
+							<th>default</th>
+							<th>description</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td>className</td>
+							<td><code>string</code></td>
+							<td><code>&quot;&quot;</code></td>
+							<td>additional modal class name</td>
+						</tr>
+						<tr>
+							<td>logo</td>
+							<td><code>ReactNode</code></td>
+							<td><code>undefined</code></td>
+							<td>your logo url or image element</td>
+						</tr>
+						<tr>
+							<td>featuredWallets</td>
+							<td><code>number</code></td>
+							<td><code>2</code></td>
+							<td>initial number of wallets to display in the modal</td>
+						</tr>
+						<tr>
+							<td>container</td>
+							<td><code>string</code></td>
+							<td><code>&quot;body&quot;</code></td>
+							<td>CSS selector for the container element to append the modal to</td>
+						</tr>
+				</tbody></table>
+				<p>For example, to show your logo:</p>
+				<pre><code class="language-tsx"><span style="color: #800000">&lt;</span><span style="color: #267F99">WalletModalProvider</span><span style="color: #000000"> </span><span style="color: #FF0000">logo</span><span style="color: #000000">=</span><span style="color: #A31515">&quot;YOUR_LOGO_URL&quot;</span><span style="color: #800000">&gt;</span><span style="color: #000000">...</span><span style="color: #800000">&lt;/</span><span style="color: #267F99">WalletModalProvider</span><span style="color: #800000">&gt;</span>
+</code></pre>
+				<p><img src="modal_logo.png" alt="logo example"></p>
+				<p><em>Modal logo example</em></p>
 				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
 					<h3>Usage</h3>
 				</a>
-				<pre><code class="language-tsx"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">WalletNotConnectedError</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@solana/wallet-adapter-base&quot;</span><span style="color: #000000">;</span>
+				<pre><code class="language-tsx"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">WalletNotConnectedError</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@solana/wallet-adapter-base&#039;</span><span style="color: #000000">;</span>
 <span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">useConnection</span><span style="color: #000000">, </span><span style="color: #001080">useWallet</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@solana/wallet-adapter-react&#039;</span><span style="color: #000000">;</span>
 <span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Keypair</span><span style="color: #000000">, </span><span style="color: #001080">SystemProgram</span><span style="color: #000000">, </span><span style="color: #001080">Transaction</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@solana/web3.js&#039;</span><span style="color: #000000">;</span>
 <span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #001080">React</span><span style="color: #000000">, { </span><span style="color: #001080">FC</span><span style="color: #000000">, </span><span style="color: #001080">useCallback</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;react&#039;</span><span style="color: #000000">;</span>
@@ -287,7 +342,11 @@
 <span style="color: #000000">        </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">connection</span><span style="color: #000000">.</span><span style="color: #795E26">confirmTransaction</span><span style="color: #000000">(</span><span style="color: #001080">signature</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;processed&#039;</span><span style="color: #000000">);</span>
 <span style="color: #000000">    }, [</span><span style="color: #001080">publicKey</span><span style="color: #000000">, </span><span style="color: #001080">sendTransaction</span><span style="color: #000000">, </span><span style="color: #001080">connection</span><span style="color: #000000">]);</span>
 
-<span style="color: #000000">    </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #800000">&lt;button</span><span style="color: #000000"> </span><span style="color: #FF0000">onClick</span><span style="color: #000000">=</span><span style="color: #0000FF">{</span><span style="color: #001080">onClick</span><span style="color: #0000FF">}</span><span style="color: #000000"> </span><span style="color: #FF0000">disabled</span><span style="color: #000000">=</span><span style="color: #0000FF">{</span><span style="color: #000000">!</span><span style="color: #001080">publicKey</span><span style="color: #0000FF">}</span><span style="color: #800000">&gt;</span><span style="color: #000000">Send 1 lamport to a random address!</span><span style="color: #800000">&lt;/button&gt;</span><span style="color: #000000">;</span>
+<span style="color: #000000">    </span><span style="color: #AF00DB">return</span><span style="color: #000000"> (</span>
+<span style="color: #000000">        </span><span style="color: #800000">&lt;button</span><span style="color: #000000"> </span><span style="color: #FF0000">onClick</span><span style="color: #000000">=</span><span style="color: #0000FF">{</span><span style="color: #001080">onClick</span><span style="color: #0000FF">}</span><span style="color: #000000"> </span><span style="color: #FF0000">disabled</span><span style="color: #000000">=</span><span style="color: #0000FF">{</span><span style="color: #000000">!</span><span style="color: #001080">publicKey</span><span style="color: #0000FF">}</span><span style="color: #800000">&gt;</span>
+<span style="color: #000000">            Send 1 lamport to a random address!</span>
+<span style="color: #000000">        </span><span style="color: #800000">&lt;/button&gt;</span>
+<span style="color: #000000">    );</span>
 <span style="color: #000000">};</span>
 </code></pre>
 			</div>
@@ -324,6 +383,12 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/_solana_wallet_adapter_react.html">@solana/wallet-<wbr>adapter-<wbr>react</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_solana_wallet_adapter_react_ui.html">@solana/wallet-<wbr>adapter-<wbr>react-<wbr>ui</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_solana_wallet_adapter_slope.html">@solana/wallet-<wbr>adapter-<wbr>slope</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/_solana_wallet_adapter_solflare.html">@solana/wallet-<wbr>adapter-<wbr>solflare</a>
