@@ -25,10 +25,10 @@ export class SolletWalletAdapter extends BaseSignerWalletAdapter {
     private _connecting: boolean;
     private _wallet: Wallet | null;
 
-    constructor(config?: SolletWalletAdapterConfig) {
+    constructor(config: SolletWalletAdapterConfig = {}) {
         super();
-        this._provider = config?.provider || 'https://www.sollet.io';
-        this._network = config?.network || WalletAdapterNetwork.Mainnet;
+        this._provider = config.provider || 'https://www.sollet.io';
+        this._network = config.network || WalletAdapterNetwork.Mainnet;
         this._connecting = false;
         this._wallet = null;
     }

@@ -24,7 +24,6 @@ export enum WalletConnectRPCMethod {
 }
 
 export interface WalletConnectWalletAdapterConfig {
-    chainId: WalletConnectChainID;
     options: ClientOptions;
     params?: ClientTypes.ConnectParams;
 }
