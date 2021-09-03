@@ -13,7 +13,7 @@ import { WalletDisconnectionError } from '@solana/wallet-adapter-base';
 import { connected } from 'process';
 
 export interface BloctoWalletAdapterConfig {
-    network: 'mainnet-beta' | 'testnet';
+    network: 'mainnet-beta' | 'devnet';
 }
 
 export class BloctoWalletAdapter extends BaseWalletAdapter {
