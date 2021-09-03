@@ -9,9 +9,11 @@ import { SolflareWalletAdapter, SolflareWalletAdapterConfig } from '@solana/wall
 import { SolletWalletAdapter, SolletWalletAdapterConfig } from '@solana/wallet-adapter-sollet';
 import { SolongWalletAdapter, SolongWalletAdapterConfig } from '@solana/wallet-adapter-solong';
 import { TorusWalletAdapter, TorusWalletAdapterConfig } from '@solana/wallet-adapter-torus';
+import { BloctoWalletAdapter, BloctoWalletAdapterConfig } from '@solana/wallet-adapter-blocto';
 
 export enum WalletName {
     Bitpie = 'Bitpie',
+    Blocto = 'Blocto',
     Coin98 = 'Coin98',
     Ledger = 'Ledger',
     MathWallet = 'MathWallet',
@@ -38,6 +40,13 @@ export const getBitpieWallet = (config?: BitpieWalletAdapterConfig): Wallet => (
     url: 'https://bitpiecn.com',
     icon: `${ICONS_URL}/bitpie.svg`,
     adapter: () => new BitpieWalletAdapter(config),
+});
+
+export const getBloctoWallet = (config: BloctoWalletAdapterConfig): Wallet => ({
+    name: WalletName.Blocto,
+    url: 'https://wallet.bolcto.app',
+    icon: `${ICONS_URL}/blocto.svg`,
+    adapter: () => new BloctoWalletAdapter(config),
 });
 
 export const getCoin98Wallet = (config?: Coin98WalletAdapterConfig): Wallet => ({
