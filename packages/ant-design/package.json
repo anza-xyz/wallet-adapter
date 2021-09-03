@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-ant-design",
-    "version": "0.3.3",
+    "version": "0.4.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -16,17 +16,16 @@
     },
     "scripts": {
         "clean": "rm -rf lib/*",
-        "build": "yarn clean && tsc",
-        "postbuild": "copyfiles -f src/styles.less lib/"
+        "bundle": "node build.js",
+        "build": "yarn clean && tsc && yarn bundle && cp src/styles.less lib/"
     },
     "peerDependencies": {
         "@ant-design/icons": "^4.6.3",
-        "@solana/wallet-adapter-base": "^0.5.1",
-        "@solana/wallet-adapter-react": "^0.8.3",
-        "@solana/wallet-adapter-wallets": "^0.7.3",
+        "@solana/wallet-adapter-base": "^0.6.0",
+        "@solana/wallet-adapter-react": "^0.9.0",
+        "@solana/wallet-adapter-wallets": "^0.8.0",
         "@solana/web3.js": "^1.20.0",
         "antd": "^4.16.11",
-        "craco-less": "^1.18.0",
         "react": "^17.0.2"
     },
     "dependencies": {
@@ -34,12 +33,11 @@
     },
     "devDependencies": {
         "@ant-design/icons": "^4.6.3",
-        "@solana/wallet-adapter-base": "^0.5.1",
-        "@solana/wallet-adapter-react": "^0.8.3",
-        "@solana/wallet-adapter-wallets": "^0.7.3",
+        "@solana/wallet-adapter-base": "^0.6.0",
+        "@solana/wallet-adapter-react": "^0.9.0",
+        "@solana/wallet-adapter-wallets": "^0.8.0",
         "@solana/web3.js": "^1.20.0",
         "antd": "^4.16.11",
-        "copyfiles": "^2.4.1",
         "react": "^17.0.2"
     }
 }
