@@ -6,9 +6,11 @@ import {
     WalletAdapterNetwork,
     WalletConnectionError,
     WalletDisconnectionError,
+    WalletError,
     WalletNotConnectedError,
     WalletNotFoundError,
     WalletPublicKeyError,
+    WalletSendTransactionError,
 } from '@solana/wallet-adapter-base';
 import { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
 
@@ -43,7 +45,7 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
     }
 
     get connected(): boolean {
-        return !!this._wallet?.connected;
+        return !!this._publicKey;
     }
 
     get autoApprove(): boolean {
@@ -54,8 +56,8 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
         try {
             if (this.connected || this.connecting) return;
             this._connecting = true;
-            const sdk = new BloctoSDK({ solana: { net: this._network } });
-            const wallet = sdk.solana;
+
+            const wallet = new BloctoSDK({ solana: { net: this._network } }).solana;
             if (!wallet) throw new WalletNotFoundError();
 
             if (!wallet.connected) {
@@ -66,13 +68,12 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
                 }
             }
 
-            if (!wallet.accounts[0]) {
-                throw new WalletAccountError('Account not found');
-            }
+            const account = wallet.accounts[0];
+            if (!account) throw new WalletAccountError();
 
             let publicKey: PublicKey;
             try {
-                publicKey = new PublicKey(wallet.accounts[0]);
+                publicKey = new PublicKey(account);
             } catch (error: any) {
                 throw new WalletPublicKeyError(error?.message, error);
             }
@@ -90,15 +91,15 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
     }
 
     async disconnect(): Promise<void> {
-        if (this._wallet?.connected) {
+        const wallet = this._wallet;
+        if (wallet) {
+            this._wallet = null;
             this._publicKey = null;
 
             try {
-                this._wallet.disconnect();
+                wallet.disconnect();
             } catch (error: any) {
                 this.emit('error', new WalletDisconnectionError(error?.message, error));
-            } finally {
-                this._wallet = null;
             }
 
             this.emit('disconnect');
@@ -111,21 +112,24 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
         options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         try {
-            if (!this._wallet?.connected) {
-                throw new WalletNotConnectedError();
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
+
+            try {
+                transaction.feePayer ||= this.publicKey || undefined;
+                transaction.recentBlockhash ||= (await connection.getRecentBlockhash('finalized')).blockhash;
+
+                const { signers } = options;
+                if (signers?.length) {
+                    transaction = await wallet.convertToProgramWalletTransaction(transaction);
+                    transaction.partialSign(...signers);
+                }
+
+                return await wallet.signAndSendTransaction(transaction, connection);
+            } catch (error: any) {
+                if (error instanceof WalletError) throw error;
+                throw new WalletSendTransactionError(error?.message, error);
             }
-
-            transaction.feePayer ||= this.publicKey || undefined;
-            transaction.recentBlockhash ||= (await connection.getRecentBlockhash('max')).blockhash;
-
-            const { signers } = options;
-
-            if (signers?.length) {
-                transaction = await this._wallet.convertToProgramWalletTransaction(transaction);
-                transaction.partialSign(...signers);
-            }
-
-            return this._wallet.signAndSendTransaction(transaction, connection);
         } catch (error: any) {
             this.emit('error', error);
             throw error;

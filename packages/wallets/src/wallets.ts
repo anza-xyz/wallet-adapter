@@ -44,7 +44,7 @@ export const getBitpieWallet = (config?: BitpieWalletAdapterConfig): Wallet => (
 
 export const getBloctoWallet = (config?: BloctoWalletAdapterConfig): Wallet => ({
     name: WalletName.Blocto,
-    url: 'https://wallet.bolcto.app',
+    url: 'https://wallet.blocto.app',
     icon: `${ICONS_URL}/blocto.svg`,
     adapter: () => new BloctoWalletAdapter(config),
 });
