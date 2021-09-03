@@ -9,10 +9,10 @@ export function getDerivationPath(account?: number, change?: number): Buffer {
     offset = derivationPath.writeUInt32BE(harden(44), offset); // Using BIP44
     offset = derivationPath.writeUInt32BE(harden(501), offset); // Solana's BIP44 path
 
-    if (length > 2) {
-        offset = derivationPath.writeUInt32BE(harden(account!), offset);
-        if (length === 4) {
-            derivationPath.writeUInt32BE(harden(change!), offset);
+    if (account !== undefined) {
+        offset = derivationPath.writeUInt32BE(harden(account), offset);
+        if (change !== undefined) {
+            derivationPath.writeUInt32BE(harden(change), offset);
         }
     }
 
@@ -38,19 +38,23 @@ const MAX_PAYLOAD = 255;
 
 const LEDGER_CLA = 0xe0;
 
-export async function getPublicKey(transport: Transport, derivationPath: Buffer) {
+export async function getPublicKey(transport: Transport, derivationPath: Buffer): Promise<PublicKey> {
     const bytes = await send(transport, INS_GET_PUBKEY, P1_NON_CONFIRM, derivationPath);
     return new PublicKey(bytes);
 }
 
-export async function signTransaction(transport: Transport, transaction: Transaction, derivationPath: Buffer) {
+export async function signTransaction(
+    transport: Transport,
+    transaction: Transaction,
+    derivationPath: Buffer
+): Promise<Buffer> {
     const paths = Buffer.alloc(1);
     paths.writeUInt8(1, 0);
 
     const message = transaction.serializeMessage();
     const data = Buffer.concat([paths, derivationPath, message]);
 
-    return send(transport, INS_SIGN_MESSAGE, P1_CONFIRM, data);
+    return await send(transport, INS_SIGN_MESSAGE, P1_CONFIRM, data);
 }
 
 async function send(transport: Transport, instruction: number, p1: number, data: Buffer): Promise<Buffer> {

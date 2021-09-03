@@ -94,6 +94,7 @@ export class SolflareWalletAdapter extends BaseSignerWalletAdapter {
 
             let bytes: Uint8Array;
             try {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 bytes = wallet.publicKey!.toBytes();
             } catch (error: any) {
                 throw new WalletAccountError(error?.message, error);

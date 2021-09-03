@@ -134,6 +134,7 @@ export class SlopeWalletAdapter extends BaseSignerWalletAdapter {
                 if (msg !== 'ok') throw new WalletDisconnectionError(msg);
             } catch (error: any) {
                 if (!(error instanceof WalletError)) {
+                    // eslint-disable-next-line no-ex-assign
                     error = new WalletDisconnectionError(error?.message, error);
                 }
                 this.emit('error', error);
