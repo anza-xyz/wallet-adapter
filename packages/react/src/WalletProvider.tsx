@@ -20,7 +20,12 @@ export interface WalletProviderProps {
     localStorageKey?: string;
 }
 
-const initialState: Pick<WalletAdapter, 'ready' | 'publicKey' | 'connected' | 'autoApprove'> = {
+const initialState: {
+    wallet: Wallet | null;
+    adapter: ReturnType<Wallet['adapter']> | null;
+} & Pick<WalletAdapter, 'ready' | 'publicKey' | 'connected' | 'autoApprove'> = {
+    wallet: null,
+    adapter: null,
     ready: false,
     publicKey: null,
     connected: false,
@@ -35,12 +40,11 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     localStorageKey = 'walletName',
 }) => {
     const [name, setName] = useLocalStorage<WalletName | null>(localStorageKey, null);
-    const [wallet, setWallet] = useState<Wallet>();
-    const [adapter, setAdapter] = useState<ReturnType<Wallet['adapter']>>();
+    const [{ wallet, adapter, ready, publicKey, connected, autoApprove }, setState] = useState(initialState);
     const [connecting, setConnecting] = useState(false);
     const [disconnecting, setDisconnecting] = useState(false);
-    const [{ ready, publicKey, connected, autoApprove }, setState] = useState(initialState);
 
+    // Map of wallet names to wallets
     const walletsByName = useMemo(
         () =>
             wallets.reduce((walletsByName, wallet) => {
@@ -50,32 +54,74 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         [wallets]
     );
 
-    const select = useCallback(
-        async (selected: WalletName | null) => {
-            if (name === selected) return;
-            if (adapter) await adapter.disconnect();
-            setName(selected);
-        },
-        [name, adapter, setName]
-    );
+    // When the selected wallet changes, initialize the state
+    useEffect(() => {
+        const wallet = name && walletsByName[name];
+        const adapter = wallet && wallet.adapter();
+        if (adapter) {
+            const { ready, publicKey, connected, autoApprove } = adapter;
+            setState({ wallet, adapter, connected, publicKey, ready, autoApprove });
+        } else {
+            setState(initialState);
+        }
+    }, [name, walletsByName, setState]);
 
+    // If autoConnect is enabled, try to connect when the adapter changes and is ready
+    useEffect(() => {
+        if (autoConnect && adapter && ready && !connecting && !connected) {
+            (async function () {
+                setConnecting(true);
+                try {
+                    await adapter.connect();
+                } catch (error: any) {
+                    // Clear the selected wallet
+                    setName(null);
+                    // Don't throw error, but onError will still be called
+                } finally {
+                    setConnecting(false);
+                }
+            })();
+        }
+    }, [autoConnect, adapter, ready, connecting, connected, setConnecting, setName]);
+
+    // Reset the state
     const reset = useCallback(() => {
         setConnecting(false);
         setDisconnecting(false);
         setState(initialState);
     }, [setConnecting, setDisconnecting, setState]);
 
+    // Select a wallet by name
+    const select = useCallback(
+        async (newName: WalletName | null) => {
+            if (name === newName) return;
+            if (adapter) await adapter.disconnect();
+            setName(newName);
+        },
+        [name, adapter, setName]
+    );
+
+    // Handle the adapter's ready event
     const onReady = useCallback(() => setState((state) => ({ ...state, ready: true })), [setState]);
 
+    // Handle the adapter's connect event
     const onConnect = useCallback(() => {
         if (!adapter) return;
 
-        const { ready, publicKey, autoApprove } = adapter;
-        setState({ connected: true, ready, publicKey, autoApprove });
+        const { connected, publicKey, ready, autoApprove } = adapter;
+        setState((state) => ({
+            ...state,
+            connected,
+            publicKey,
+            ready,
+            autoApprove,
+        }));
     }, [adapter, setState]);
 
+    // Handle the adapter's disconnect event
     const onDisconnect = useCallback(() => reset(), [reset]);
 
+    // Connect the adapter to the wallet
     const connect = useCallback(async () => {
         if (connecting || disconnecting || connected) return;
 
@@ -84,7 +130,10 @@ export const WalletProvider: FC<WalletProviderProps> = ({
             onError(error);
             throw error;
         }
+
         if (!ready) {
+            setName(null);
+
             if (typeof window !== 'undefined') {
                 window.open(wallet.url, '_blank');
             }
@@ -97,28 +146,29 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         setConnecting(true);
         try {
             await adapter.connect();
+        } catch (error: any) {
+            setName(null);
+            throw error;
         } finally {
             setConnecting(false);
         }
-    }, [connecting, disconnecting, connected, wallet, adapter, ready, onError, setConnecting]);
+    }, [connecting, disconnecting, connected, wallet, adapter, onError, ready, setName, setConnecting]);
 
+    // Disconnect the adapter from the wallet
     const disconnect = useCallback(async () => {
         if (disconnecting) return;
-
-        if (!adapter) {
-            await select(null);
-            return;
-        }
+        if (!adapter) return setName(null);
 
         setDisconnecting(true);
         try {
             await adapter.disconnect();
         } finally {
+            setName(null);
             setDisconnecting(false);
-            await select(null);
         }
-    }, [disconnecting, adapter, select, setDisconnecting]);
+    }, [disconnecting, adapter, setName, setDisconnecting]);
 
+    // Send a transaction using the provided connection
     const sendTransaction = useCallback(
         async (transaction: Transaction, connection: Connection, options?: SendTransactionOptions) => {
             if (!adapter) {
@@ -137,6 +187,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         [adapter, onError, connected]
     );
 
+    // Sign a transaction if the wallet supports it
     const signTransaction = useMemo(
         () =>
             adapter && 'signTransaction' in adapter
@@ -153,6 +204,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         [adapter, onError, connected]
     );
 
+    // Sign multiple transactions if the wallet supports it
     const signAllTransactions = useMemo(
         () =>
             adapter && 'signAllTransactions' in adapter
@@ -169,6 +221,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         [adapter, onError, connected]
     );
 
+    // Sign an arbitrary message if the wallet supports it
     const signMessage = useMemo(
         () =>
             adapter && 'signMessage' in adapter
@@ -185,18 +238,6 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         [adapter, onError, connected]
     );
 
-    // Reset state and set the wallet, adapter, and ready state when the name changes
-    useEffect(() => {
-        reset();
-
-        const wallet = name ? walletsByName[name] : undefined;
-        const adapter = wallet ? wallet.adapter() : undefined;
-
-        setWallet(wallet);
-        setAdapter(adapter);
-        setState((state) => ({ ...state, ready: !!adapter?.ready }));
-    }, [reset, name, walletsByName, setWallet, setAdapter, setState]);
-
     // Setup and teardown event listeners when the adapter changes
     useEffect(() => {
         if (adapter) {
@@ -212,22 +253,6 @@ export const WalletProvider: FC<WalletProviderProps> = ({
             };
         }
     }, [adapter, onReady, onConnect, onDisconnect, onError]);
-
-    // If autoConnect is enabled, try to connect when the adapter changes and is ready
-    useEffect(() => {
-        if (autoConnect && adapter && ready) {
-            (async function () {
-                setConnecting(true);
-                try {
-                    await adapter.connect();
-                } catch (error: any) {
-                    // Don't throw error, but onError will still be called
-                } finally {
-                    setConnecting(false);
-                }
-            })();
-        }
-    }, [autoConnect, adapter, ready, setConnecting]);
 
     return (
         <WalletContext.Provider

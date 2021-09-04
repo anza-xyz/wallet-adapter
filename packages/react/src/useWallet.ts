@@ -10,8 +10,8 @@ export interface WalletContextState extends WalletAdapterProps {
     wallets: Wallet[];
     autoConnect: boolean;
 
-    wallet: Wallet | undefined;
-    adapter: ReturnType<Wallet['adapter']> | undefined;
+    wallet: Wallet | null;
+    adapter: ReturnType<Wallet['adapter']> | null;
     disconnecting: boolean;
 
     select(walletName: WalletName): void;

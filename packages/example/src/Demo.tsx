@@ -14,17 +14,16 @@ import {
     WalletDisconnectButton as MaterialUIWalletDisconnectButton,
     WalletMultiButton as MaterialUIWalletMultiButton,
 } from '@solana/wallet-adapter-material-ui';
-import {
-    WalletConnectButton as ReactUIWalletConnectButton,
-    WalletModalButton as ReactUIWalletModalButton,
-    WalletModalProvider as ReactUIWalletModalProvider,
-    WalletDisconnectButton as ReactUIWalletDisconnectButton,
-    WalletMultiButton as ReactUIWalletMultiButton,
-} from '@solana/wallet-adapter-react-ui';
 import { ConnectionProvider, useLocalStorage, WalletProvider } from '@solana/wallet-adapter-react';
 import {
+    WalletConnectButton as ReactUIWalletConnectButton,
+    WalletDisconnectButton as ReactUIWalletDisconnectButton,
+    WalletModalButton as ReactUIWalletModalButton,
+    WalletModalProvider as ReactUIWalletModalProvider,
+    WalletMultiButton as ReactUIWalletMultiButton,
+} from '@solana/wallet-adapter-react-ui';
+import {
     getBitpieWallet,
-    getBloctoWallet,
     getCoin98Wallet,
     getLedgerWallet,
     getMathWallet,
@@ -64,7 +63,6 @@ export const Demo: FC = () => {
             getCoin98Wallet(),
             getBitpieWallet(),
             getSlopeWallet(),
-            getBloctoWallet({ network }),
         ],
         [network]
     );
