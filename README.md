@@ -75,7 +75,7 @@ export const Wallet: FC = () => {
         }),
         getLedgerWallet(),
         getSolletWallet({ network }),
-    ], []);
+    ], [network]);
 
     return (
         <ConnectionProvider endpoint={endpoint}>

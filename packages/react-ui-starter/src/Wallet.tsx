@@ -42,7 +42,7 @@ const Wallet: FC = () => {
             getBitpieWallet(),
             getSlopeWallet(),
         ],
-        []
+        [network]
     );
 
     const onError = useCallback(

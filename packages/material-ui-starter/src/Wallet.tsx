@@ -41,7 +41,7 @@ const Wallet: FC = () => {
             getBitpieWallet(),
             getSlopeWallet(),
         ],
-        []
+        [network]
     );
 
     const { enqueueSnackbar } = useSnackbar();
