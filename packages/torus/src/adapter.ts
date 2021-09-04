@@ -88,6 +88,7 @@ export class TorusWalletAdapter extends BaseSignerWalletAdapter {
                             );
                         });
                     } finally {
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                         window.removeEventListener('unhandledrejection', listener!);
                     }
                 }

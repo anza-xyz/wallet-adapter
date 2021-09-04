@@ -24,7 +24,6 @@ export enum WalletConnectRPCMethod {
 }
 
 export interface WalletConnectWalletAdapterConfig {
-    chainId: WalletConnectChainID;
     options: ClientOptions;
     params?: ClientTypes.ConnectParams;
 }
@@ -80,6 +79,7 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
             try {
                 client = await WalletConnectClient.init(this._options);
 
+                // eslint-disable-next-line no-async-promise-executor
                 session = await new Promise<SessionTypes.Settled>(async (resolve, reject) => {
                     let session: SessionTypes.Settled;
 

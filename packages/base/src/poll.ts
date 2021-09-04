@@ -1,6 +1,6 @@
 import { WalletAdapter } from './adapter';
 
-export function poll(callback: () => boolean | Promise<boolean>, interval: number, count: number) {
+export function poll(callback: () => boolean | Promise<boolean>, interval: number, count: number): void {
     if (count > 0) {
         setTimeout(async () => {
             const done = await callback();
@@ -9,7 +9,7 @@ export function poll(callback: () => boolean | Promise<boolean>, interval: numbe
     }
 }
 
-export function pollUntilReady(adapter: WalletAdapter, pollInterval: number, pollCount: number) {
+export function pollUntilReady(adapter: WalletAdapter, pollInterval: number, pollCount: number): void {
     poll(
         () => {
             const { ready } = adapter;

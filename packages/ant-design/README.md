@@ -5,7 +5,7 @@ See the [example](https://github.com/solana-labs/wallet-adapter/tree/master/pack
 
 ## Install
 
-1. Set up craco if you haven't already using the following [guide]([https://link](https://github.com/gsoft-inc/craco/blob/master/packages/craco/README.md#installation)).
+1. Set up craco if you haven't already using the following [guide](https://github.com/gsoft-inc/craco/blob/master/packages/craco/README.md#installation).
 2. Add `craco-less` into the project `yarn add craco-less`.
    1. Add it to the `craco.config.js` file
         ```javascript
