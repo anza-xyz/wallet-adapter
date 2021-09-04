@@ -20,7 +20,12 @@ export interface WalletProviderProps {
     localStorageKey?: string;
 }
 
-const initialState: Pick<WalletAdapter, 'ready' | 'publicKey' | 'connected' | 'autoApprove'> = {
+const initialState: {
+    wallet: Wallet | null;
+    adapter: ReturnType<Wallet['adapter']> | null;
+} & Pick<WalletAdapter, 'ready' | 'publicKey' | 'connected' | 'autoApprove'> = {
+    wallet: null,
+    adapter: null,
     ready: false,
     publicKey: null,
     connected: false,
