@@ -1,4 +1,4 @@
-import { WalletError } from '@solana/wallet-adapter-base';
+import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
 import { WalletDialogProvider } from '@solana/wallet-adapter-material-ui';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import {
@@ -7,6 +7,7 @@ import {
     getLedgerWallet,
     getMathWallet,
     getPhantomWallet,
+    getSlopeWallet,
     getSolflareWallet,
     getSolletWallet,
     getSolongWallet,
@@ -18,6 +19,9 @@ import React, { FC, useCallback, useMemo } from 'react';
 import Navigation from './Navigation';
 
 const Wallet: FC = () => {
+    const network = WalletAdapterNetwork.Devnet;
+    const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+
     // @solana/wallet-adapter-wallets imports all the adapters but supports tree shaking --
     // Only the wallets you want to support will be compiled into your application
     const wallets = useMemo(
@@ -30,16 +34,15 @@ const Wallet: FC = () => {
                 },
             }),
             getLedgerWallet(),
-            getSolletWallet(),
+            getSolletWallet({ network }),
             getSolongWallet(),
             getMathWallet(),
             getCoin98Wallet(),
             getBitpieWallet(),
+            getSlopeWallet(),
         ],
         []
     );
-
-    const endpoint = useMemo(() => clusterApiUrl('devnet'), []);
 
     const { enqueueSnackbar } = useSnackbar();
     const onError = useCallback(
