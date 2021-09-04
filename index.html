@@ -105,13 +105,12 @@
 				</a>
 				<pre><code class="language-tsx"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #001080">React</span><span style="color: #000000">, { </span><span style="color: #001080">FC</span><span style="color: #000000">, </span><span style="color: #001080">useMemo</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;react&#039;</span><span style="color: #000000">;</span>
 <span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">ConnectionProvider</span><span style="color: #000000">, </span><span style="color: #001080">WalletProvider</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@solana/wallet-adapter-react&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">WalletAdapterNetwork</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@solana/wallet-adapter-base&#039;</span><span style="color: #000000">;</span>
 <span style="color: #AF00DB">import</span><span style="color: #000000"> {</span>
 <span style="color: #000000">    </span><span style="color: #001080">getLedgerWallet</span><span style="color: #000000">,</span>
-<span style="color: #000000">    </span><span style="color: #001080">getMathWallet</span><span style="color: #000000">,</span>
 <span style="color: #000000">    </span><span style="color: #001080">getPhantomWallet</span><span style="color: #000000">,</span>
 <span style="color: #000000">    </span><span style="color: #001080">getSolflareWallet</span><span style="color: #000000">,</span>
 <span style="color: #000000">    </span><span style="color: #001080">getSolletWallet</span><span style="color: #000000">,</span>
-<span style="color: #000000">    </span><span style="color: #001080">getSolongWallet</span><span style="color: #000000">,</span>
 <span style="color: #000000">    </span><span style="color: #001080">getTorusWallet</span><span style="color: #000000">,</span>
 <span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@solana/wallet-adapter-wallets&#039;</span><span style="color: #000000">;</span>
 <span style="color: #AF00DB">import</span><span style="color: #000000"> {</span>
@@ -122,8 +121,14 @@
 <span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">clusterApiUrl</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@solana/web3.js&#039;</span><span style="color: #000000">;</span>
 
 <span style="color: #AF00DB">export</span><span style="color: #000000"> </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #795E26">Wallet</span><span style="color: #000000">: </span><span style="color: #267F99">FC</span><span style="color: #000000"> = () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #008000">// Can be set to &#039;devnet&#039;, &#039;testnet&#039;, or &#039;mainnet-beta&#039;</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">network</span><span style="color: #000000"> = </span><span style="color: #001080">WalletAdapterNetwork</span><span style="color: #000000">.</span><span style="color: #001080">Devnet</span><span style="color: #000000">;</span>
+
+<span style="color: #000000">    </span><span style="color: #008000">// You can also provide a custom RPC endpoint</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">endpoint</span><span style="color: #000000"> = </span><span style="color: #795E26">useMemo</span><span style="color: #000000">(() </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #795E26">clusterApiUrl</span><span style="color: #000000">(</span><span style="color: #001080">network</span><span style="color: #000000">), [</span><span style="color: #001080">network</span><span style="color: #000000">]);</span>
+
 <span style="color: #000000">    </span><span style="color: #008000">// @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking --</span>
-<span style="color: #000000">    </span><span style="color: #008000">// Only the wallets you want to instantiate here will be compiled into your application</span>
+<span style="color: #000000">    </span><span style="color: #008000">// Only the wallets you configure here will be compiled into your application</span>
 <span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">wallets</span><span style="color: #000000"> = </span><span style="color: #795E26">useMemo</span><span style="color: #000000">(() </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> [</span>
 <span style="color: #000000">        </span><span style="color: #795E26">getPhantomWallet</span><span style="color: #000000">(),</span>
 <span style="color: #000000">        </span><span style="color: #795E26">getSolflareWallet</span><span style="color: #000000">(),</span>
@@ -131,15 +136,8 @@
 <span style="color: #000000">            </span><span style="color: #001080">options:</span><span style="color: #000000"> { </span><span style="color: #001080">clientId:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;Get a client ID @ https://developer.tor.us&#039;</span><span style="color: #000000"> }</span>
 <span style="color: #000000">        }),</span>
 <span style="color: #000000">        </span><span style="color: #795E26">getLedgerWallet</span><span style="color: #000000">(),</span>
-<span style="color: #000000">        </span><span style="color: #795E26">getSolongWallet</span><span style="color: #000000">(),</span>
-<span style="color: #000000">        </span><span style="color: #795E26">getMathWallet</span><span style="color: #000000">(),</span>
-<span style="color: #000000">        </span><span style="color: #795E26">getSolletWallet</span><span style="color: #000000">(),</span>
-<span style="color: #000000">        </span><span style="color: #795E26">getCoin98Wallet</span><span style="color: #000000">(),</span>
-<span style="color: #000000">        </span><span style="color: #795E26">getBitpieWallet</span><span style="color: #000000">(),</span>
+<span style="color: #000000">        </span><span style="color: #795E26">getSolletWallet</span><span style="color: #000000">({ </span><span style="color: #001080">network</span><span style="color: #000000"> }),</span>
 <span style="color: #000000">    ], []);</span>
-
-<span style="color: #000000">    </span><span style="color: #008000">// Set to &#039;devnet&#039; | &#039;testnet&#039; | &#039;mainnet-beta&#039; or provide a custom RPC endpoint</span>
-<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">endpoint</span><span style="color: #000000"> = </span><span style="color: #795E26">useMemo</span><span style="color: #000000">(() </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #795E26">clusterApiUrl</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;devnet&#039;</span><span style="color: #000000">), []);</span>
 
 <span style="color: #000000">    </span><span style="color: #AF00DB">return</span><span style="color: #000000"> (</span>
 <span style="color: #000000">        </span><span style="color: #800000">&lt;</span><span style="color: #267F99">ConnectionProvider</span><span style="color: #000000"> </span><span style="color: #FF0000">endpoint</span><span style="color: #000000">=</span><span style="color: #0000FF">{</span><span style="color: #001080">endpoint</span><span style="color: #0000FF">}</span><span style="color: #800000">&gt;</span>
