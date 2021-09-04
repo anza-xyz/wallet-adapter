@@ -43,13 +43,12 @@ yarn add @solana/wallet-adapter-wallets \
 ```tsx
 import React, { FC, useMemo } from 'react';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
+import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {
     getLedgerWallet,
-    getMathWallet,
     getPhantomWallet,
     getSolflareWallet,
     getSolletWallet,
-    getSolongWallet,
     getTorusWallet,
 } from '@solana/wallet-adapter-wallets';
 import {
@@ -60,8 +59,14 @@ import {
 import { clusterApiUrl } from '@solana/web3.js';
 
 export const Wallet: FC = () => {
+    // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
+    const network = WalletAdapterNetwork.Devnet;
+
+    // You can also provide a custom RPC endpoint
+    const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+
     // @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking --
-    // Only the wallets you want to instantiate here will be compiled into your application
+    // Only the wallets you configure here will be compiled into your application
     const wallets = useMemo(() => [
         getPhantomWallet(),
         getSolflareWallet(),
@@ -69,15 +74,8 @@ export const Wallet: FC = () => {
             options: { clientId: 'Get a client ID @ https://developer.tor.us' }
         }),
         getLedgerWallet(),
-        getSolongWallet(),
-        getMathWallet(),
-        getSolletWallet(),
-        getCoin98Wallet(),
-        getBitpieWallet(),
+        getSolletWallet({ network }),
     ], []);
-
-    // Set to 'devnet' | 'testnet' | 'mainnet-beta' or provide a custom RPC endpoint
-    const endpoint = useMemo(() => clusterApiUrl('devnet'), []);
 
     return (
         <ConnectionProvider endpoint={endpoint}>
@@ -190,7 +188,7 @@ The core [wallets](https://github.com/solana-labs/wallet-adapter/tree/master/pac
 | package                                                                                                       | description                                                                            | npm                                                                                                                      |
 | ------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | [bitpie](https://github.com/solana-labs/wallet-adapter/tree/master/packages/bitpie)                           | Adapter for [Bitpie](https://bitpie.com)                                               | [`@solana/wallet-adapter-bitpie`](https://www.npmjs.com/package/@solana/wallet-adapter-bitpie)                           |
-| [blocto](https://github.com/solana-labs/wallet-adapter/tree/master/packages/blocto) \*                        | Adapter for [Blocto](https://blocto.app)                                               | [`@solana/wallet-adapter-blocto`](https://www.npmjs.com/package/@solana/wallet-adapter-blocto)                           |
+| [blocto](https://github.com/solana-labs/wallet-adapter/tree/master/packages/blocto)                           | Adapter for [Blocto](https://blocto.app)                                               | [`@solana/wallet-adapter-blocto`](https://www.npmjs.com/package/@solana/wallet-adapter-blocto)                           |
 | [coin98](https://github.com/solana-labs/wallet-adapter/tree/master/packages/coin98)                           | Adapter for [Coin98](https://coin98.com)                                               | [`@solana/wallet-adapter-coin98`](https://www.npmjs.com/package/@solana/wallet-adapter-coin98)                           |
 | [ledger](https://github.com/solana-labs/wallet-adapter/tree/master/packages/ledger)                           | Adapter for [Ledger](https://www.ledger.com)                                           | [`@solana/wallet-adapter-ledger`](https://www.npmjs.com/package/@solana/wallet-adapter-ledger)                           |
 | [mathwallet](https://github.com/solana-labs/wallet-adapter/tree/master/packages/mathwallet)                   | Adapter for [MathWallet](https://mathwallet.org)                                       | [`@solana/wallet-adapter-mathwallet`](https://www.npmjs.com/package/@solana/wallet-adapter-mathwallet)                   |
