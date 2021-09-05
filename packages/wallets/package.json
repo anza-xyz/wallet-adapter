@@ -20,7 +20,7 @@
         "build": "yarn clean && tsc"
     },
     "peerDependencies": {
-        "@solana/wallet-adapter-base": "^0.5.1"
+        "@solana/wallet-adapter-base": "^0.5.2"
     },
     "dependencies": {
         "@solana/wallet-adapter-bitpie": "^0.1.2",
