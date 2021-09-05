@@ -10,7 +10,8 @@
     "types": "lib/index.d.ts",
     "files": [
         "lib",
-        "src"
+        "src",
+        "LICENSE"
     ],
     "publishConfig": {
         "access": "public"

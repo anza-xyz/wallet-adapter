@@ -8,6 +8,7 @@
         "public",
         "src",
         ".env",
+        "LICENSE",
         "package.json",
         "README.md",
         "tsconfig.json",
