@@ -15,8 +15,8 @@
         "access": "public"
     },
     "scripts": {
-        "clean": "rm -rf lib/*",
-        "build": "yarn clean && tsc && cp -f src/styles.less lib/"
+        "clean": "shx rm -rf lib/*",
+        "build": "yarn clean && tsc && shx cp -f src/styles.less lib/"
     },
     "peerDependencies": {
         "@ant-design/icons": "^4.6.3",

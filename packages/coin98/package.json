@@ -15,7 +15,7 @@
         "access": "public"
     },
     "scripts": {
-        "clean": "rm -rf lib/*",
+        "clean": "shx rm -rf lib/*",
         "build": "yarn clean && tsc"
     },
     "peerDependencies": {

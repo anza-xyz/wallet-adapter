@@ -40,6 +40,7 @@
         "gh-pages": "^3.2.3",
         "lerna": "^4.0.0",
         "prettier": "^2.2.1",
+        "shx": "^0.3.3",
         "tslib": "^2.3.0",
         "typedoc": "^0.21.2",
         "typescript": "^4.3.5"

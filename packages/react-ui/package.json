@@ -16,9 +16,8 @@
         "access": "public"
     },
     "scripts": {
-        "clean": "rm -rf lib/*",
-        "build": "yarn clean && tsc",
-        "postbuild": "cp src/styles.css lib/styles.css"
+        "clean": "shx rm -rf lib/*",
+        "build": "yarn clean && tsc && shx cp -f src/styles.css lib/"
     },
     "peerDependencies": {
         "@solana/wallet-adapter-base": "^0.5.1",

@@ -17,7 +17,7 @@
         "access": "public"
     },
     "scripts": {
-        "clean": "rm -rf build/*",
+        "clean": "shx rm -rf build/*",
         "start": "craco start",
         "build": "craco build",
         "test": "craco test"
