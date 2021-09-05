@@ -165,9 +165,7 @@ These packages provide components for common UI frameworks.
 | ------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | [material-ui](https://github.com/solana-labs/wallet-adapter/tree/master/packages/material-ui)                 | Components for [Material UI](https://material-ui.com)                                  | [`@solana/wallet-adapter-material-ui`](https://www.npmjs.com/package/@solana/wallet-adapter-material-ui)                 |
 | [ant-design](https://github.com/solana-labs/wallet-adapter/tree/master/packages/ant-design)                   | Components for [Ant Design](https://ant.design)                                        | [`@solana/wallet-adapter-ant-design`](https://www.npmjs.com/package/@solana/wallet-adapter-ant-design)                   |
-| [react-ui](https://github.com/solana-labs/wallet-adapter/tree/master/packages/react-ui) \*                    | Components for React (no UI framework, just CSS)                                       | [`@solana/wallet-adapter-react-ui`](https://www.npmjs.com/package/@solana/wallet-adapter-react-ui)                       |
-
-\* Package has not been published to NPM yet.
+| [react-ui](https://github.com/solana-labs/wallet-adapter/tree/master/packages/react-ui)                       | Components for React (no UI framework, just CSS)                                       | [`@solana/wallet-adapter-react-ui`](https://www.npmjs.com/package/@solana/wallet-adapter-react-ui)                       |
 
 ### Starter Projects
 These packages provide projects that you can use to start building a dApp with built-in wallet support.
@@ -177,9 +175,7 @@ Alternatively, check out [dapp-scaffold](https://github.com/solana-labs/dapp-sca
 | ------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | [example](https://github.com/solana-labs/wallet-adapter/tree/master/packages/example)                         | Demo of UI components                                                                  | [`@solana/wallet-adapter-example`](https://www.npmjs.com/package/@solana/wallet-adapter-example)                         |
 | [material-ui-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/material-ui-starter) | [Create React App](https://create-react-app.dev) project using Material UI             | [`@solana/wallet-adapter-material-ui-starter`](https://www.npmjs.com/package/@solana/wallet-adapter-material-ui-starter) |
-| [react-ui-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/react-ui-starter) \*    | [Create React App](https://create-react-app.dev) project using React UI                | [`@solana/wallet-adapter-react-ui-starter`](https://www.npmjs.com/package/@solana/wallet-adapter-react-ui-starter)       |
-
-\* Package has not been published to NPM yet.
+| [react-ui-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/react-ui-starter)       | [Create React App](https://create-react-app.dev) project using React UI                | [`@solana/wallet-adapter-react-ui-starter`](https://www.npmjs.com/package/@solana/wallet-adapter-react-ui-starter)       |
 
 ### Wallets
 These packages provide adapters for each wallet.

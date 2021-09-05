@@ -1,5 +1,4 @@
 {
-    "private": true,
     "name": "@solana/wallet-adapter-react-ui-starter",
     "version": "0.1.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
