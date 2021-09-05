@@ -2,6 +2,7 @@ import { MessageSignerWalletAdapter, SignerWalletAdapter, WalletAdapter } from '
 import { BitpieWalletAdapter, BitpieWalletAdapterConfig } from '@solana/wallet-adapter-bitpie';
 import { Coin98WalletAdapter, Coin98WalletAdapterConfig } from '@solana/wallet-adapter-coin98';
 import { LedgerWalletAdapter, LedgerWalletAdapterConfig } from '@solana/wallet-adapter-ledger';
+import { BitKeepWalletAdapter, BitKeepWalletAdapterConfig } from '@solana/wallet-adapter-bitkeep';
 import { MathWalletWalletAdapter, MathWalletWalletAdapterConfig } from '@solana/wallet-adapter-mathwallet';
 import { PhantomWalletAdapter, PhantomWalletAdapterConfig } from '@solana/wallet-adapter-phantom';
 import { SlopeWalletAdapter, SlopeWalletAdapterConfig } from '@solana/wallet-adapter-slope';
@@ -17,6 +18,7 @@ export enum WalletName {
     Coin98 = 'Coin98',
     Ledger = 'Ledger',
     MathWallet = 'MathWallet',
+    BitKeep = 'BitKeep',
     Phantom = 'Phantom',
     Slope = 'Slope',
     Solflare = 'Solflare',
@@ -68,6 +70,13 @@ export const getMathWallet = (config?: MathWalletWalletAdapterConfig): Wallet =>
     url: 'https://mathwallet.org',
     icon: `${ICONS_URL}/mathwallet.svg`,
     adapter: () => new MathWalletWalletAdapter(config),
+});
+
+export const getBitKeepWallet = (config?: BitKeepWalletAdapterConfig): Wallet => ({
+    name: WalletName.BitKeep,
+    url: 'https://bitkeep.com',
+    icon: `${ICONS_URL}/bitkeep.svg`,
+    adapter: () => new BitKeepWalletAdapter(config),
 });
 
 export const getPhantomWallet = (config?: PhantomWalletAdapterConfig): Wallet => ({
