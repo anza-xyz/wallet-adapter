@@ -4,8 +4,6 @@ Modular TypeScript wallet adapters and components for Solana applications.
 
 ![Wallets](wallets.png)
 
-_React, Material UI, and Ant Design components_
-
 ## Quick Links
 
 - [TypeScript Docs](https://solana-labs.github.io/wallet-adapter/)
