@@ -3,7 +3,7 @@ import { BitpieWalletAdapter, BitpieWalletAdapterConfig } from '@solana/wallet-a
 import { Coin98WalletAdapter, Coin98WalletAdapterConfig } from '@solana/wallet-adapter-coin98';
 import { LedgerWalletAdapter, LedgerWalletAdapterConfig } from '@solana/wallet-adapter-ledger';
 import { MathWalletWalletAdapter, MathWalletWalletAdapterConfig } from '@solana/wallet-adapter-mathwallet';
-import { SafePalWalletAdapter, SafePalWalletAdapterConfig } from '@solana/wallet-adapter-safepalwallet';
+import { SafePalWalletAdapter, SafePalWalletAdapterConfig } from '@solana/wallet-adapter-safepal';
 import { PhantomWalletAdapter, PhantomWalletAdapterConfig } from '@solana/wallet-adapter-phantom';
 import { SolflareWalletAdapter, SolflareWalletAdapterConfig } from '@solana/wallet-adapter-solflare';
 import { SolletWalletAdapter, SolletWalletAdapterConfig } from '@solana/wallet-adapter-sollet';
@@ -32,7 +32,6 @@ export interface Wallet {
 }
 
 export const ICONS_URL = 'https://raw.githubusercontent.com/solana-labs/wallet-adapter/master/packages/wallets/icons';
-
 
 export const getBitpieWallet = (config?: BitpieWalletAdapterConfig): Wallet => ({
     name: WalletName.Bitpie,
