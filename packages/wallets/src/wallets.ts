@@ -4,6 +4,7 @@ import { Coin98WalletAdapter, Coin98WalletAdapterConfig } from '@solana/wallet-a
 import { LedgerWalletAdapter, LedgerWalletAdapterConfig } from '@solana/wallet-adapter-ledger';
 import { MathWalletWalletAdapter, MathWalletWalletAdapterConfig } from '@solana/wallet-adapter-mathwallet';
 import { PhantomWalletAdapter, PhantomWalletAdapterConfig } from '@solana/wallet-adapter-phantom';
+import { SafePalWalletAdapter, SafePalWalletAdapterConfig } from '@solana/wallet-adapter-safepal';
 import { SlopeWalletAdapter, SlopeWalletAdapterConfig } from '@solana/wallet-adapter-slope';
 import { SolflareWalletAdapter, SolflareWalletAdapterConfig } from '@solana/wallet-adapter-solflare';
 import { SolletWalletAdapter, SolletWalletAdapterConfig } from '@solana/wallet-adapter-sollet';
@@ -18,6 +19,7 @@ export enum WalletName {
     Ledger = 'Ledger',
     MathWallet = 'MathWallet',
     Phantom = 'Phantom',
+    SafePalWallet = 'SafePal',
     Slope = 'Slope',
     Solflare = 'Solflare',
     SolflareWeb = 'Solflare (Web)',
@@ -75,6 +77,13 @@ export const getPhantomWallet = (config?: PhantomWalletAdapterConfig): Wallet =>
     url: 'https://www.phantom.app',
     icon: `${ICONS_URL}/phantom.svg`,
     adapter: () => new PhantomWalletAdapter(config),
+});
+
+export const getSafePalWallet = (config?: SafePalWalletAdapterConfig): Wallet => ({
+    name: WalletName.SafePalWallet,
+    url: 'https://www.safepal.io/',
+    icon: `${ICONS_URL}/safepal.svg`,
+    adapter: () => new SafePalWalletAdapter(config),
 });
 
 export const getSlopeWallet = (config?: SlopeWalletAdapterConfig): Wallet => ({
