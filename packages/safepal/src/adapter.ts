@@ -22,6 +22,7 @@ interface SafePalWallet {
 
 interface SafePalWalletWindow extends Window {
     safepal?: SafePalWallet;
+    solana?: SafePalWallet;
 }
 
 declare const window: SafePalWalletWindow;
@@ -50,7 +51,11 @@ export class SafePalWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get ready(): boolean {
-        return !!window.safepal?.isSafePalWallet;
+        if (!!window.safepal) {
+            return !!window.safepal?.isSafePalWallet;
+        } else {
+            return !!window.solana?.isSafePalWallet;
+        }
     }
 
     get connecting(): boolean {
@@ -70,7 +75,14 @@ export class SafePalWalletAdapter extends BaseSignerWalletAdapter {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const wallet = window.safepal;
+            let wallet: SafePalWallet;
+            if (!!window.safepal) {
+                wallet = window.safepal;
+            } else {
+                wallet = window.solana;
+            }
+        
+
             if (!wallet) throw new WalletNotFoundError();
             if (!wallet.isSafePalWallet) throw new WalletNotInstalledError();
 
