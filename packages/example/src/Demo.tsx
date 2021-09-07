@@ -24,6 +24,7 @@ import {
 } from '@solana/wallet-adapter-react-ui';
 import {
     getBitpieWallet,
+    getBloctoWallet,
     getCoin98Wallet,
     getLedgerWallet,
     getMathWallet,
@@ -63,6 +64,7 @@ export const Demo: FC = () => {
             getCoin98Wallet(),
             getBitpieWallet(),
             getSlopeWallet(),
+            getBloctoWallet({ network }),
         ],
         [network]
     );
