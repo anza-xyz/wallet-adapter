@@ -11,12 +11,12 @@ import { SolongWalletAdapter, SolongWalletAdapterConfig } from '@solana/wallet-a
 import { TorusWalletAdapter, TorusWalletAdapterConfig } from '@solana/wallet-adapter-torus';
 
 export enum WalletName {
-    SafePalWallet = 'SafePal',
     Bitpie = 'Bitpie',
     Coin98 = 'Coin98',
     Ledger = 'Ledger',
     MathWallet = 'MathWallet',
     Phantom = 'Phantom',
+    SafePalWallet = 'SafePal',
     Solflare = 'Solflare',
     SolflareWeb = 'Solflare (Web)',
     Sollet = 'Sollet',
@@ -33,12 +33,6 @@ export interface Wallet {
 
 export const ICONS_URL = 'https://raw.githubusercontent.com/solana-labs/wallet-adapter/master/packages/wallets/icons';
 
-export const getSafePalWallet = (config?: SafePalWalletAdapterConfig): Wallet => ({
-    name: WalletName.SafePalWallet,
-    url: 'https://www.safepal.io/',
-    icon: `${ICONS_URL}/safepal.svg`,
-    adapter: () => new SafePalWalletAdapter(config),
-});
 
 export const getBitpieWallet = (config?: BitpieWalletAdapterConfig): Wallet => ({
     name: WalletName.Bitpie,
@@ -73,6 +67,13 @@ export const getPhantomWallet = (config?: PhantomWalletAdapterConfig): Wallet =>
     url: 'https://www.phantom.app',
     icon: `${ICONS_URL}/phantom.svg`,
     adapter: () => new PhantomWalletAdapter(config),
+});
+
+export const getSafePalWallet = (config?: SafePalWalletAdapterConfig): Wallet => ({
+    name: WalletName.SafePalWallet,
+    url: 'https://www.safepal.io/',
+    icon: `${ICONS_URL}/safepal.svg`,
+    adapter: () => new SafePalWalletAdapter(config),
 });
 
 export const getSolflareWallet = (config?: SolflareWalletAdapterConfig): Wallet => ({

@@ -1,5 +1,5 @@
 import {
-    EventEmitter,
+    BaseSignerWalletAdapter,
     pollUntilReady,
     WalletAccountError,
     WalletAdapter,
@@ -9,7 +9,7 @@ import {
     WalletNotFoundError,
     WalletNotInstalledError,
     WalletPublicKeyError,
-    WalletSignatureError,
+    WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 
@@ -21,7 +21,7 @@ interface SafePalWallet {
 }
 
 interface SafePalWalletWindow extends Window {
-    solana?: SafePalWallet;
+    safepal?: SafePalWallet;
 }
 
 declare const window: SafePalWalletWindow;
@@ -31,7 +31,7 @@ export interface SafePalWalletAdapterConfig {
     pollCount?: number;
 }
 
-export class SafePalWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
+export class SafePalWalletAdapter extends BaseSignerWalletAdapter {
     private _connecting: boolean;
     private _wallet: SafePalWallet | null;
     private _publicKey: PublicKey | null;
@@ -50,7 +50,7 @@ export class SafePalWalletAdapter extends EventEmitter<WalletAdapterEvents> impl
     }
 
     get ready(): boolean {
-        return !!window.solana?.isSafePalWallet;
+        return !!window.safepal?.isSafePalWallet;
     }
 
     get connecting(): boolean {
@@ -70,7 +70,7 @@ export class SafePalWalletAdapter extends EventEmitter<WalletAdapterEvents> impl
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const wallet = window.solana;
+            const wallet = window.safepal;
             if (!wallet) throw new WalletNotFoundError();
             if (!wallet.isSafePalWallet) throw new WalletNotInstalledError();
 
@@ -90,7 +90,6 @@ export class SafePalWalletAdapter extends EventEmitter<WalletAdapterEvents> impl
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
-            window.addEventListener('message', this._messaged);
 
             this._wallet = wallet;
             this._publicKey = publicKey;
@@ -106,7 +105,6 @@ export class SafePalWalletAdapter extends EventEmitter<WalletAdapterEvents> impl
 
     async disconnect(): Promise<void> {
         if (this._wallet) {
-            window.removeEventListener('message', this._messaged);
 
             this._wallet = null;
             this._publicKey = null;
@@ -123,7 +121,7 @@ export class SafePalWalletAdapter extends EventEmitter<WalletAdapterEvents> impl
             try {
                 return wallet.signTransaction(transaction);
             } catch (error) {
-                throw new WalletSignatureError(error?.message, error);
+                throw new WalletSignTransactionError(error?.message, error);
             }
         } catch (error) {
             this.emit('error', error);
@@ -139,30 +137,11 @@ export class SafePalWalletAdapter extends EventEmitter<WalletAdapterEvents> impl
             try {
                 return wallet.signAllTransactions(transactions);
             } catch (error) {
-                throw new WalletSignatureError(error?.message, error);
+                throw new WalletSignTransactionError(error?.message, error);
             }
         } catch (error) {
             this.emit('error', error);
             throw error;
         }
     }
-
-    private _messaged = (event: MessageEvent) => {
-        const data = event.data;
-        if (data && data.origin === 'safePalWallet_internal' && data.type === 'lockStatusChanged' && !data.payload) {
-            this._disconnected();
-        }
-    };
-
-    private _disconnected = () => {
-        if (this._wallet) {
-            window.removeEventListener('message', this._messaged);
-
-            this._wallet = null;
-            this._publicKey = null;
-
-            this.emit('error', new WalletDisconnectedError());
-            this.emit('disconnect');
-        }
-    };
 }
