@@ -29,6 +29,7 @@ import {
     getLedgerWallet,
     getMathWallet,
     getPhantomWallet,
+    getSafePalWallet,
     getSlopeWallet,
     getSolflareWallet,
     getSolletWallet,
@@ -52,19 +53,20 @@ export const Demo: FC = () => {
         () => [
             getPhantomWallet(),
             getSolflareWallet(),
+            getSlopeWallet(),
             getTorusWallet({
                 options: {
                     clientId: 'BOM5Cl7PXgE9Ylq1Z1tqzhpydY0RVr8k90QQ85N7AKI5QGSrr9iDC-3rvmy0K_hF0JfpLMiXoDhta68JwcxS1LQ',
                 },
             }),
             getLedgerWallet(),
-            getSolongWallet(),
-            getMathWallet(),
             getSolletWallet({ network }),
-            getCoin98Wallet(),
             getBitpieWallet(),
-            getSlopeWallet(),
             getBloctoWallet({ network }),
+            getCoin98Wallet(),
+            getMathWallet(),
+            getSafePalWallet(),
+            getSolongWallet(),
         ],
         [network]
     );

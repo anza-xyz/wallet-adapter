@@ -2,16 +2,11 @@ import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
 import { WalletDialogProvider } from '@solana/wallet-adapter-material-ui';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import {
-    getBitpieWallet,
-    getCoin98Wallet,
     getLedgerWallet,
-    getMathWallet,
     getPhantomWallet,
-    getSafePalWallet,
     getSlopeWallet,
     getSolflareWallet,
     getSolletWallet,
-    getSolongWallet,
     getTorusWallet,
 } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';

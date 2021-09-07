@@ -1,5 +1,6 @@
 import { MessageSignerWalletAdapter, SignerWalletAdapter, WalletAdapter } from '@solana/wallet-adapter-base';
 import { BitpieWalletAdapter, BitpieWalletAdapterConfig } from '@solana/wallet-adapter-bitpie';
+import { BloctoWalletAdapter, BloctoWalletAdapterConfig } from '@solana/wallet-adapter-blocto';
 import { Coin98WalletAdapter, Coin98WalletAdapterConfig } from '@solana/wallet-adapter-coin98';
 import { LedgerWalletAdapter, LedgerWalletAdapterConfig } from '@solana/wallet-adapter-ledger';
 import { MathWalletWalletAdapter, MathWalletWalletAdapterConfig } from '@solana/wallet-adapter-mathwallet';
@@ -10,7 +11,6 @@ import { SolflareWalletAdapter, SolflareWalletAdapterConfig } from '@solana/wall
 import { SolletWalletAdapter, SolletWalletAdapterConfig } from '@solana/wallet-adapter-sollet';
 import { SolongWalletAdapter, SolongWalletAdapterConfig } from '@solana/wallet-adapter-solong';
 import { TorusWalletAdapter, TorusWalletAdapterConfig } from '@solana/wallet-adapter-torus';
-import { BloctoWalletAdapter, BloctoWalletAdapterConfig } from '@solana/wallet-adapter-blocto';
 
 export enum WalletName {
     Bitpie = 'Bitpie',
@@ -81,7 +81,7 @@ export const getPhantomWallet = (config?: PhantomWalletAdapterConfig): Wallet =>
 
 export const getSafePalWallet = (config?: SafePalWalletAdapterConfig): Wallet => ({
     name: WalletName.SafePalWallet,
-    url: 'https://www.safepal.io/',
+    url: 'https://www.safepal.io',
     icon: `${ICONS_URL}/safepal.svg`,
     adapter: () => new SafePalWalletAdapter(config),
 });

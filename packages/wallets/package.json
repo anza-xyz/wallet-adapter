@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-wallets",
-    "version": "0.7.5",
+    "version": "0.7.6",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -29,6 +29,7 @@
         "@solana/wallet-adapter-ledger": "^0.5.2",
         "@solana/wallet-adapter-mathwallet": "^0.5.2",
         "@solana/wallet-adapter-phantom": "^0.5.2",
+        "@solana/wallet-adapter-safepal": "^0.1.0",
         "@solana/wallet-adapter-slope": "^0.1.1",
         "@solana/wallet-adapter-solflare": "^0.2.2",
         "@solana/wallet-adapter-sollet": "^0.5.2",

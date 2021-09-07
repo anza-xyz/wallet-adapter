@@ -45,6 +45,7 @@ import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {
     getLedgerWallet,
     getPhantomWallet,
+    getSlopeWallet,
     getSolflareWallet,
     getSolletWallet,
     getTorusWallet,
@@ -68,6 +69,7 @@ export const Wallet: FC = () => {
     const wallets = useMemo(() => [
         getPhantomWallet(),
         getSolflareWallet(),
+        getSlopeWallet(),
         getTorusWallet({
             options: { clientId: 'Get a client ID @ https://developer.tor.us' }
         }),
@@ -187,6 +189,7 @@ The core [wallets](https://github.com/solana-labs/wallet-adapter/tree/master/pac
 | [ledger](https://github.com/solana-labs/wallet-adapter/tree/master/packages/ledger)                           | Adapter for [Ledger](https://www.ledger.com)                                           | [`@solana/wallet-adapter-ledger`](https://www.npmjs.com/package/@solana/wallet-adapter-ledger)                           |
 | [mathwallet](https://github.com/solana-labs/wallet-adapter/tree/master/packages/mathwallet)                   | Adapter for [MathWallet](https://mathwallet.org)                                       | [`@solana/wallet-adapter-mathwallet`](https://www.npmjs.com/package/@solana/wallet-adapter-mathwallet)                   |
 | [phantom](https://github.com/solana-labs/wallet-adapter/tree/master/packages/phantom)                         | Adapter for [Phantom](https://www.phantom.app)                                         | [`@solana/wallet-adapter-phantom`](https://www.npmjs.com/package/@solana/wallet-adapter-phantom)                         |
+| [safepal](https://github.com/solana-labs/wallet-adapter/tree/master/packages/safepal)                         | Adapter for [SafePal](https://www.safepal.io)                                          | [`@solana/wallet-adapter-safepal`](https://www.npmjs.com/package/@solana/wallet-adapter-safepal)                         |
 | [slope](https://github.com/solana-labs/wallet-adapter/tree/master/packages/slope)                             | Adapter for [Slope](https://www.slope.finance)                                         | [`@solana/wallet-adapter-slope`](https://www.npmjs.com/package/@solana/wallet-adapter-slope)                             |
 | [solflare](https://github.com/solana-labs/wallet-adapter/tree/master/packages/solflare)                       | Adapter for [Solflare](https://solflare.com)                                           | [`@solana/wallet-adapter-solflare`](https://www.npmjs.com/package/@solana/wallet-adapter-solflare)                       |
 | [sollet](https://github.com/solana-labs/wallet-adapter/tree/master/packages/sollet)                           | Adapter for [Sollet](https://www.sollet.io)                                            | [`@solana/wallet-adapter-sollet`](https://www.npmjs.com/package/@solana/wallet-adapter-sollet)                           |
