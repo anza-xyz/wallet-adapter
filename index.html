@@ -108,6 +108,7 @@
 <span style="color: #AF00DB">import</span><span style="color: #000000"> {</span>
 <span style="color: #000000">    </span><span style="color: #001080">getLedgerWallet</span><span style="color: #000000">,</span>
 <span style="color: #000000">    </span><span style="color: #001080">getPhantomWallet</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">getSlopeWallet</span><span style="color: #000000">,</span>
 <span style="color: #000000">    </span><span style="color: #001080">getSolflareWallet</span><span style="color: #000000">,</span>
 <span style="color: #000000">    </span><span style="color: #001080">getSolletWallet</span><span style="color: #000000">,</span>
 <span style="color: #000000">    </span><span style="color: #001080">getTorusWallet</span><span style="color: #000000">,</span>
@@ -131,6 +132,7 @@
 <span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">wallets</span><span style="color: #000000"> = </span><span style="color: #795E26">useMemo</span><span style="color: #000000">(() </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> [</span>
 <span style="color: #000000">        </span><span style="color: #795E26">getPhantomWallet</span><span style="color: #000000">(),</span>
 <span style="color: #000000">        </span><span style="color: #795E26">getSolflareWallet</span><span style="color: #000000">(),</span>
+<span style="color: #000000">        </span><span style="color: #795E26">getSlopeWallet</span><span style="color: #000000">(),</span>
 <span style="color: #000000">        </span><span style="color: #795E26">getTorusWallet</span><span style="color: #000000">({</span>
 <span style="color: #000000">            </span><span style="color: #001080">options:</span><span style="color: #000000"> { </span><span style="color: #001080">clientId:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;Get a client ID @ https://developer.tor.us&#039;</span><span style="color: #000000"> }</span>
 <span style="color: #000000">        }),</span>
@@ -359,6 +361,11 @@
 							<td><a href="https://www.npmjs.com/package/@solana/wallet-adapter-phantom"><code>@solana/wallet-adapter-phantom</code></a></td>
 						</tr>
 						<tr>
+							<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/safepal">safepal</a></td>
+							<td>Adapter for <a href="https://www.safepal.io">SafePal</a></td>
+							<td><a href="https://www.npmjs.com/package/@solana/wallet-adapter-safepal"><code>@solana/wallet-adapter-safepal</code></a></td>
+						</tr>
+						<tr>
 							<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/slope">slope</a></td>
 							<td>Adapter for <a href="https://www.slope.finance">Slope</a></td>
 							<td><a href="https://www.npmjs.com/package/@solana/wallet-adapter-slope"><code>@solana/wallet-adapter-slope</code></a></td>
@@ -453,6 +460,9 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/_solana_wallet_adapter_react_ui.html">@solana/wallet-<wbr>adapter-<wbr>react-<wbr>ui</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_solana_wallet_adapter_safepal.html">@solana/wallet-<wbr>adapter-<wbr>safepal</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/_solana_wallet_adapter_slope.html">@solana/wallet-<wbr>adapter-<wbr>slope</a>
