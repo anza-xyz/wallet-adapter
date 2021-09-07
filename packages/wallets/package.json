@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-wallets",
-    "version": "0.7.0",
+    "version": "0.7.5",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -9,30 +9,33 @@
     "types": "lib/index.d.ts",
     "files": [
         "lib",
-        "src"
+        "src",
+        "LICENSE"
     ],
     "publishConfig": {
         "access": "public"
     },
     "scripts": {
-        "clean": "rm -rf lib/*",
+        "clean": "shx rm -rf lib/*",
         "build": "yarn clean && tsc"
     },
     "peerDependencies": {
-        "@solana/wallet-adapter-base": "^0.5.0"
+        "@solana/wallet-adapter-base": "^0.5.2"
     },
     "dependencies": {
-        "@solana/wallet-adapter-bitpie": "^0.1.0",
-        "@solana/wallet-adapter-coin98": "^0.1.0",
-        "@solana/wallet-adapter-ledger": "^0.5.0",
-        "@solana/wallet-adapter-mathwallet": "^0.5.0",
-        "@solana/wallet-adapter-phantom": "^0.5.0",
-        "@solana/wallet-adapter-solflare": "^0.2.0",
-        "@solana/wallet-adapter-sollet": "^0.5.0",
-        "@solana/wallet-adapter-solong": "^0.5.0",
-        "@solana/wallet-adapter-torus": "^0.6.0"
+        "@solana/wallet-adapter-bitpie": "^0.1.2",
+        "@solana/wallet-adapter-blocto": "^0.1.1",
+        "@solana/wallet-adapter-coin98": "^0.1.2",
+        "@solana/wallet-adapter-ledger": "^0.5.2",
+        "@solana/wallet-adapter-mathwallet": "^0.5.2",
+        "@solana/wallet-adapter-phantom": "^0.5.2",
+        "@solana/wallet-adapter-slope": "^0.1.1",
+        "@solana/wallet-adapter-solflare": "^0.2.2",
+        "@solana/wallet-adapter-sollet": "^0.5.2",
+        "@solana/wallet-adapter-solong": "^0.5.2",
+        "@solana/wallet-adapter-torus": "^0.6.2"
     },
     "devDependencies": {
-        "@solana/wallet-adapter-base": "^0.5.0"
+        "@solana/wallet-adapter-base": "^0.5.2"
     }
 }

@@ -15,13 +15,13 @@
     },
     "scripts": {
         "clean": "lerna run clean",
-        "build": "yarn clean && lerna run build",
+        "build": "lerna run build",
         "test": "lerna run test",
         "publish": "lerna publish from-package",
         "deploy": "yarn deploy:docs && yarn deploy:example",
         "deploy:docs": "yarn docs && gh-pages --dist docs --dotfiles",
         "deploy:example": "gh-pages --dist packages/example/build --dest example --dotfiles",
-        "docs": "rm -rf docs && typedoc && cp .nojekyll docs/",
+        "docs": "rm -rf docs && NODE_OPTIONS=--max_old_space_size=8192 typedoc && cp .nojekyll docs/ && cp wallets.png docs/",
         "fmt": "prettier --write '{*,**/*}.{js,ts,jsx,tsx,json}'",
         "lint": "eslint . --ext .ts && prettier --check '{*,**/*}.{js,ts,jsx,tsx,json}'",
         "lint:fix": "eslint . --ext .ts --fix && prettier --write '{*,**/*}.{js,ts,jsx,tsx,json}'",
@@ -40,6 +40,7 @@
         "gh-pages": "^3.2.3",
         "lerna": "^4.0.0",
         "prettier": "^2.2.1",
+        "shx": "^0.3.3",
         "tslib": "^2.3.0",
         "typedoc": "^0.21.2",
         "typescript": "^4.3.5"

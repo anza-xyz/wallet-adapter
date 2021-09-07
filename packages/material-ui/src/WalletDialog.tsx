@@ -78,13 +78,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export interface WalletDialogProps extends Omit<DialogProps, 'title' | 'open'> {
-    featuredWalletsNumber?: number;
+    featuredWallets?: number;
     title?: ReactElement;
 }
 
 export const WalletDialog: FC<WalletDialogProps> = ({
     title = 'Select your wallet',
-    featuredWalletsNumber = 2,
+    featuredWallets = 2,
     onClose,
     ...props
 }) => {
@@ -93,13 +93,9 @@ export const WalletDialog: FC<WalletDialogProps> = ({
     const { open, setOpen } = useWalletDialog();
     const [expanded, setExpanded] = useState(false);
 
-    const [featuredWallets, otherWallets, expands] = useMemo(
-        () => [
-            wallets.slice(0, featuredWalletsNumber),
-            wallets.slice(featuredWalletsNumber),
-            wallets.length > featuredWalletsNumber,
-        ],
-        [wallets, featuredWalletsNumber]
+    const [featured, more] = useMemo(
+        () => [wallets.slice(0, featuredWallets), wallets.slice(featuredWallets)],
+        [wallets, featuredWallets]
     );
 
     const handleClose = useCallback(
@@ -130,21 +126,21 @@ export const WalletDialog: FC<WalletDialogProps> = ({
             </DialogTitle>
             <DialogContent>
                 <List>
-                    {featuredWallets.map((wallet) => (
+                    {featured.map((wallet) => (
                         <WalletListItem
                             key={wallet.name}
-                            handleClick={(event) => handleWalletClick(event, wallet.name)}
+                            onClick={(event) => handleWalletClick(event, wallet.name)}
                             wallet={wallet}
                         />
                     ))}
-                    {expands && (
+                    {more.length && (
                         <>
                             <Collapse in={expanded} timeout="auto" unmountOnExit>
                                 <List>
-                                    {otherWallets.map((wallet) => (
+                                    {more.map((wallet) => (
                                         <WalletListItem
                                             key={wallet.name}
-                                            handleClick={(event) => handleWalletClick(event, wallet.name)}
+                                            onClick={(event) => handleWalletClick(event, wallet.name)}
                                             wallet={wallet}
                                         />
                                     ))}

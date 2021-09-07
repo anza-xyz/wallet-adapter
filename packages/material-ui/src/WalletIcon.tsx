@@ -10,11 +10,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export interface WalletIconProps extends DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
-    wallet?: Wallet;
+    wallet: Wallet | null;
 }
 
 export const WalletIcon: FC<WalletIconProps> = ({ wallet, ...props }) => {
     const styles = useStyles();
 
-    return wallet ? <img src={wallet.icon} alt={`${wallet.name} icon`} className={styles.root} {...props} /> : null;
+    return wallet && <img src={wallet.icon} alt={`${wallet.name} icon`} className={styles.root} {...props} />;
 };
