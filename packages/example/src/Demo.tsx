@@ -24,13 +24,16 @@ import {
 } from '@solana/wallet-adapter-react-ui';
 import {
     getBitpieWallet,
+    getBloctoWallet,
     getCoin98Wallet,
     getLedgerWallet,
     getMathWallet,
     getPhantomWallet,
     getSlopeWallet,
     getSolflareWallet,
+    getSolflareWebWallet,
     getSolletWallet,
+    getSolletWebWallet,
     getSolongWallet,
     getTorusWallet,
 } from '@solana/wallet-adapter-wallets';
@@ -57,12 +60,15 @@ export const Demo: FC = () => {
                 },
             }),
             getLedgerWallet(),
+            getBloctoWallet({ network }),
+            getSolletWallet({ network }),
             getSolongWallet(),
             getMathWallet(),
-            getSolletWallet({ network }),
             getCoin98Wallet(),
             getBitpieWallet(),
             getSlopeWallet(),
+            getSolflareWebWallet(),
+            getSolletWebWallet({ network }),
         ],
         [network]
     );

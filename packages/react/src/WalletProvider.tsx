@@ -54,6 +54,9 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         [wallets]
     );
 
+    // @FIXME: remove
+    useEffect(() => setName(null), [setName]);
+
     // When the selected wallet changes, initialize the state
     useEffect(() => {
         const wallet = name && walletsByName[name];
@@ -85,11 +88,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     }, [autoConnect, adapter, ready, connecting, connected, setConnecting, setName]);
 
     // Reset the state
-    const reset = useCallback(() => {
-        setConnecting(false);
-        setDisconnecting(false);
-        setState(initialState);
-    }, [setConnecting, setDisconnecting, setState]);
+    const reset = useCallback(() => setState(initialState), [setState]);
 
     // Select a wallet by name
     const select = useCallback(
