@@ -2,9 +2,6 @@ import {
     BaseSignerWalletAdapter,
     pollUntilReady,
     WalletAccountError,
-    WalletAdapter,
-    WalletAdapterEvents,
-    WalletDisconnectedError,
     WalletNotConnectedError,
     WalletNotFoundError,
     WalletNotInstalledError,
@@ -15,13 +12,12 @@ import { PublicKey, Transaction } from '@solana/web3.js';
 
 interface SafePalWallet {
     isSafePalWallet?: boolean;
-    getAccount: () => Promise<string>;
-    signTransaction: (transaction: Transaction) => Promise<Transaction>;
-    signAllTransactions: (transactions: Transaction[]) => Promise<Transaction[]>;
+    getAccount(): Promise<string>;
+    signTransaction(transaction: Transaction): Promise<Transaction>;
+    signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
 }
 
 interface SafePalWalletWindow extends Window {
-    safepal?: SafePalWallet;
     solana?: SafePalWallet;
 }
 
@@ -51,11 +47,7 @@ export class SafePalWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get ready(): boolean {
-        if (!!window.safepal) {
-            return !!window.safepal?.isSafePalWallet;
-        } else {
-            return !!window.solana?.isSafePalWallet;
-        }
+        return typeof window !== 'undefined' && !!window.solana?.isSafePalWallet;
     }
 
     get connecting(): boolean {
@@ -75,39 +67,29 @@ export class SafePalWalletAdapter extends BaseSignerWalletAdapter {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            let wallet: SafePalWallet;
-            if (!!window.safepal) {
-                wallet = window.safepal;
-            } else {
-                wallet = window.solana;
-            }
-        
-
+            let wallet = window.solana;
             if (!wallet) throw new WalletNotFoundError();
             if (!wallet.isSafePalWallet) throw new WalletNotInstalledError();
-
-            // @TODO: handle if popup is blocked
 
             let account: string;
             try {
                 account = await wallet.getAccount();
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletAccountError(error?.message, error);
             }
 
             let publicKey: PublicKey;
             try {
                 publicKey = new PublicKey(account);
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletPublicKeyError(error?.message, error);
             }
-
 
             this._wallet = wallet;
             this._publicKey = publicKey;
 
             this.emit('connect');
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         } finally {
@@ -117,7 +99,6 @@ export class SafePalWalletAdapter extends BaseSignerWalletAdapter {
 
     async disconnect(): Promise<void> {
         if (this._wallet) {
-
             this._wallet = null;
             this._publicKey = null;
 
@@ -132,10 +113,10 @@ export class SafePalWalletAdapter extends BaseSignerWalletAdapter {
 
             try {
                 return wallet.signTransaction(transaction);
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         }
@@ -148,10 +129,10 @@ export class SafePalWalletAdapter extends BaseSignerWalletAdapter {
 
             try {
                 return wallet.signAllTransactions(transactions);
-            } catch (error) {
+            } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
-        } catch (error) {
+        } catch (error: any) {
             this.emit('error', error);
             throw error;
         }

@@ -1,17 +1,17 @@
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletName } from '@solana/wallet-adapter-wallets';
 import { Menu, Modal, ModalProps } from 'antd';
-import React, { FC, useCallback, useMemo, useState } from 'react';
+import React, { FC, MouseEvent, useCallback, useMemo, useState } from 'react';
 import { useWalletModal } from './useWalletModal';
-import { WalletListItem } from './WalletListItem';
+import { WalletMenuItem } from './WalletMenuItem';
 
 export interface WalletModalProps extends Omit<ModalProps, 'visible'> {
-    featuredWalletsNumber?: number;
+    featuredWallets?: number;
 }
 
 export const WalletModal: FC<WalletModalProps> = ({
     title = 'Select your wallet',
-    featuredWalletsNumber = 2,
+    featuredWallets = 2,
     onCancel,
     ...props
 }) => {
@@ -19,17 +19,13 @@ export const WalletModal: FC<WalletModalProps> = ({
     const { visible, setVisible } = useWalletModal();
     const [expanded, setExpanded] = useState(false);
 
-    const [featuredWallets, otherWallets, expands] = useMemo(
-        () => [
-            wallets.slice(0, featuredWalletsNumber),
-            wallets.slice(featuredWalletsNumber),
-            wallets.length > featuredWalletsNumber,
-        ],
-        [wallets, featuredWalletsNumber]
+    const [featured, more] = useMemo(
+        () => [wallets.slice(0, featuredWallets), wallets.slice(featuredWallets)],
+        [wallets, featuredWallets]
     );
 
     const handleCancel = useCallback(
-        (event: React.MouseEvent<HTMLElement>) => {
+        (event: MouseEvent<HTMLElement>) => {
             if (onCancel) onCancel(event);
             if (!event.defaultPrevented) setVisible(false);
         },
@@ -37,7 +33,7 @@ export const WalletModal: FC<WalletModalProps> = ({
     );
 
     const handleWalletClick = useCallback(
-        (event: React.MouseEvent<HTMLElement>, walletName: WalletName) => {
+        (event: MouseEvent<HTMLElement>, walletName: WalletName) => {
             select(walletName);
             handleCancel(event);
         },
@@ -58,19 +54,19 @@ export const WalletModal: FC<WalletModalProps> = ({
             {...props}
         >
             <Menu className="wallet-adapter-modal-menu" inlineIndent={0} mode="inline" onOpenChange={onOpenChange}>
-                {featuredWallets.map((wallet) => (
-                    <WalletListItem
+                {featured.map((wallet) => (
+                    <WalletMenuItem
                         key={wallet.name}
-                        handleClick={(event) => handleWalletClick(event, wallet.name)}
+                        onClick={(event) => handleWalletClick(event, wallet.name)}
                         wallet={wallet}
                     />
                 ))}
-                {expands && (
+                {more.length && (
                     <Menu.SubMenu key="wallet-adapter-modal-submenu" title={`${expanded ? 'Less' : 'More'} options`}>
-                        {otherWallets.map((wallet) => (
-                            <WalletListItem
+                        {more.map((wallet) => (
+                            <WalletMenuItem
                                 key={wallet.name}
-                                handleClick={(event) => handleWalletClick(event, wallet.name)}
+                                onClick={(event) => handleWalletClick(event, wallet.name)}
                                 wallet={wallet}
                             />
                         ))}

@@ -1,8 +1,6 @@
-import { Button, Link, makeStyles } from '@material-ui/core';
-import LaunchIcon from '@material-ui/icons/Launch';
+import { Button } from '@material-ui/core';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { Keypair, LAMPORTS_PER_SOL, SystemProgram, Transaction, TransactionSignature } from '@solana/web3.js';
-import { useSnackbar, VariantType } from 'notistack';
+import { Keypair, SystemProgram, Transaction, TransactionSignature } from '@solana/web3.js';
 import React, { FC, useCallback } from 'react';
 import { useNotify } from './notify';
 
@@ -32,8 +30,8 @@ const SendTransaction: FC = () => {
 
             await connection.confirmTransaction(signature, 'processed');
             notify('success', 'Transaction successful!', signature);
-        } catch (error) {
-            notify('error', `Transaction failed! ${error.message}`, signature);
+        } catch (error: any) {
+            notify('error', `Transaction failed! ${error?.message}`, signature);
             return;
         }
     }, [publicKey, notify, connection, sendTransaction]);
