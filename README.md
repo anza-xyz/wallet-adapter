@@ -176,6 +176,7 @@ Alternatively, check out [dapp-scaffold](https://github.com/solana-labs/dapp-sca
 | [example](https://github.com/solana-labs/wallet-adapter/tree/master/packages/example)                         | Demo of UI components                                                                  | [`@solana/wallet-adapter-example`](https://www.npmjs.com/package/@solana/wallet-adapter-example)                         |
 | [material-ui-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/material-ui-starter) | [Create React App](https://create-react-app.dev) project using Material UI             | [`@solana/wallet-adapter-material-ui-starter`](https://www.npmjs.com/package/@solana/wallet-adapter-material-ui-starter) |
 | [react-ui-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/react-ui-starter)       | [Create React App](https://create-react-app.dev) project using React UI                | [`@solana/wallet-adapter-react-ui-starter`](https://www.npmjs.com/package/@solana/wallet-adapter-react-ui-starter)       |
+| [nextjs-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/nextjs-starter)           | [Next.js](https://nextjs.org) project using React                                      | [`@solana/wallet-adapter-nextjs-starter`](https://www.npmjs.com/package/@solana/wallet-adapter-nextjs-starter)           |
 
 ### Wallets
 These packages provide adapters for each wallet.
