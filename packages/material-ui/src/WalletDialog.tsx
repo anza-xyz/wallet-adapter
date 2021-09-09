@@ -133,7 +133,7 @@ export const WalletDialog: FC<WalletDialogProps> = ({
                             wallet={wallet}
                         />
                     ))}
-                    {more.length && (
+                    {more.length ? (
                         <>
                             <Collapse in={expanded} timeout="auto" unmountOnExit>
                                 <List>
@@ -153,7 +153,7 @@ export const WalletDialog: FC<WalletDialogProps> = ({
                                 </Button>
                             </ListItem>
                         </>
-                    )}
+                    ) : null}
                 </List>
             </DialogContent>
         </Dialog>
