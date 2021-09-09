@@ -61,7 +61,7 @@ export const WalletModal: FC<WalletModalProps> = ({
                         wallet={wallet}
                     />
                 ))}
-                {more.length && (
+                {more.length ? (
                     <Menu.SubMenu key="wallet-adapter-modal-submenu" title={`${expanded ? 'Less' : 'More'} options`}>
                         {more.map((wallet) => (
                             <WalletMenuItem
@@ -71,7 +71,7 @@ export const WalletModal: FC<WalletModalProps> = ({
                             />
                         ))}
                     </Menu.SubMenu>
-                )}
+                ) : null}
             </Menu>
         </Modal>
     );

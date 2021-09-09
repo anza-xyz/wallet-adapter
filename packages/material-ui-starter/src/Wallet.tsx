@@ -2,15 +2,11 @@ import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
 import { WalletDialogProvider } from '@solana/wallet-adapter-material-ui';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import {
-    getBitpieWallet,
-    getCoin98Wallet,
     getLedgerWallet,
-    getMathWallet,
     getPhantomWallet,
     getSlopeWallet,
     getSolflareWallet,
     getSolletWallet,
-    getSolongWallet,
     getTorusWallet,
 } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
@@ -28,6 +24,7 @@ const Wallet: FC = () => {
         () => [
             getPhantomWallet(),
             getSolflareWallet(),
+            getSlopeWallet(),
             getTorusWallet({
                 options: {
                     clientId: 'BOM5Cl7PXgE9Ylq1Z1tqzhpydY0RVr8k90QQ85N7AKI5QGSrr9iDC-3rvmy0K_hF0JfpLMiXoDhta68JwcxS1LQ',
@@ -35,11 +32,6 @@ const Wallet: FC = () => {
             }),
             getLedgerWallet(),
             getSolletWallet({ network }),
-            getSolongWallet(),
-            getMathWallet(),
-            getCoin98Wallet(),
-            getBitpieWallet(),
-            getSlopeWallet(),
         ],
         [network]
     );
