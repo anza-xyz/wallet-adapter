@@ -75,28 +75,6 @@ export class SolletWalletAdapter extends BaseSignerWalletAdapter {
             try {
                 wallet = new Wallet(provider, this._network);
 
-                const disconnect = wallet._handleDisconnect;
-
-                await new Promise<void>((resolve, reject) => {
-                    const connect = () => {
-                        wallet.off('connect', connect);
-                        resolve();
-                    };
-
-                    wallet._handleDisconnect = (...args: unknown[]) => {
-                        wallet.off('connect', connect);
-                        reject(new WalletWindowClosedError());
-                        return disconnect.apply(wallet, args);
-                    };
-
-                    wallet.on('connect', connect);
-
-                    wallet.connect().catch((reason: any) => {
-                        wallet.off('connect', connect);
-                        reject(reason);
-                    });
-                });
-
                 // HACK: sol-wallet-adapter doesn't reject or emit an event if the popup is closed or blocked
                 await new Promise<void>((resolve, reject) => {
                     if (typeof provider === 'string') {
@@ -115,7 +93,17 @@ export class SolletWalletAdapter extends BaseSignerWalletAdapter {
                             count++;
                         }, 100);
                     } else {
-                        wallet.on('connect');
+                        const connect = () => {
+                            wallet.off('connect', connect);
+                            resolve();
+                        };
+
+                        wallet.on('connect', connect);
+
+                        wallet.connect().catch((reason: any) => {
+                            wallet.off('connect', connect);
+                            reject(reason);
+                        });
                     }
                 });
             } catch (error: any) {
