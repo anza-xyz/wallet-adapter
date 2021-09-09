@@ -147,7 +147,7 @@ export const WalletModal: FC<WalletModalProps> = ({
                                 />
                             ))}
                         </ul>
-                        {more.length && (
+                        {more.length ? (
                             <>
                                 <Collapse expanded={expanded} id="wallet-adapter-modal-collapse">
                                     <ul className="wallet-adapter-modal-list">
@@ -177,7 +177,7 @@ export const WalletModal: FC<WalletModalProps> = ({
                                     {expanded ? 'Less' : 'More'} options
                                 </Button>
                             </>
-                        )}
+                        ) : null}
                     </div>
                 </div>
                 <div className="wallet-adapter-modal-overlay" onMouseDown={handleClose} />
