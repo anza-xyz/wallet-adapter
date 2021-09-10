@@ -41,7 +41,7 @@ export class SolletWalletAdapter extends BaseSignerWalletAdapter {
 
     constructor(config: SolletWalletAdapterConfig = {}) {
         super();
-        this._provider = config.provider || window.sollet;
+        this._provider = config.provider || (typeof window === 'undefined' ? undefined : window.sollet);
         this._network = config.network || WalletAdapterNetwork.Mainnet;
         this._connecting = false;
         this._wallet = null;
@@ -55,8 +55,8 @@ export class SolletWalletAdapter extends BaseSignerWalletAdapter {
 
     get ready(): boolean {
         return (
-            typeof window !== 'undefined' &&
-            (typeof this._provider === 'string' || typeof window.sollet?.postMessage === 'function')
+            typeof this._provider === 'string' ||
+            (typeof window !== 'undefined' && typeof window.sollet?.postMessage === 'function')
         );
     }
 
@@ -77,7 +77,7 @@ export class SolletWalletAdapter extends BaseSignerWalletAdapter {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const provider = this._provider || window.sollet;
+            const provider = this._provider || (typeof window !== 'undefined' && window.sollet);
             if (!provider) throw new WalletNotFoundError();
 
             let wallet: Wallet;
