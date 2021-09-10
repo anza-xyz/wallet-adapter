@@ -17,7 +17,7 @@ export interface WalletModalProps {
 export const WalletModal: FC<WalletModalProps> = ({
     className = '',
     logo,
-    featuredWallets = 2,
+    featuredWallets = 3,
     container = 'body',
 }) => {
     const ref = useRef<HTMLDivElement>(null);

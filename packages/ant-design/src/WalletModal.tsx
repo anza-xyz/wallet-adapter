@@ -11,7 +11,7 @@ export interface WalletModalProps extends Omit<ModalProps, 'visible'> {
 
 export const WalletModal: FC<WalletModalProps> = ({
     title = 'Select your wallet',
-    featuredWallets = 2,
+    featuredWallets = 3,
     onCancel,
     ...props
 }) => {

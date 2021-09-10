@@ -100,7 +100,7 @@ You can pass in these optional display props to `WalletModalProvider`:
 | --------------- | ----------- | ----------- | ------------------------------------------------------------- |
 | className       | `string`    | `""`        | additional modal class name                                   |
 | logo            | `ReactNode` | `undefined` | your logo url or image element                                |
-| featuredWallets | `number`    | `2`         | initial number of wallets to display in the modal             |
+| featuredWallets | `number`    | `3`         | initial number of wallets to display in the modal             |
 | container       | `string`    | `"body"`    | CSS selector for the container element to append the modal to |
 
 For example, to show your logo:

@@ -84,7 +84,7 @@ export interface WalletDialogProps extends Omit<DialogProps, 'title' | 'open'> {
 
 export const WalletDialog: FC<WalletDialogProps> = ({
     title = 'Select your wallet',
-    featuredWallets = 2,
+    featuredWallets = 3,
     onClose,
     ...props
 }) => {
