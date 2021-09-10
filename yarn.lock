@@ -1250,10 +1250,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@blocto/sdk@^0.2.10":
-  version "0.2.10"
-  resolved "https://registry.yarnpkg.com/@blocto/sdk/-/sdk-0.2.10.tgz#0d643aa2332f1aa3caa3bf80e3cb1d86d1b7c6f7"
-  integrity sha512-5bmLz/zpudaM4lQUy9D8yCVQ2NjGX1Hpkm63Gw8kPtWjZNat3WW6gldtRbb9xdqKr0iGKbbdKBDMdkCBn12nlw==
+"@blocto/sdk@^0.2.11":
+  version "0.2.11"
+  resolved "https://registry.yarnpkg.com/@blocto/sdk/-/sdk-0.2.11.tgz#c95f4934f605bbe9a54d0f90bacdc3b4ea7e3e80"
+  integrity sha512-k+b24kMi8UD7IiffqbcLJPk4CnewwIMhIJEsTBkodUY7xnmZnhBsSd2Lcc3YWmJLr1EiCxhC6iSnBnZ4c2axAQ==
   dependencies:
     "@solana/web3.js" "^1.22.0"
     bs58 "^4.0.1"
