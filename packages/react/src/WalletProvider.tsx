@@ -56,7 +56,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
 
     // When the selected wallet changes, initialize the state
     useEffect(() => {
-        const wallet = name && walletsByName[name];
+        const wallet = (name && walletsByName[name]) || null;
         const adapter = wallet && wallet.adapter();
         if (adapter) {
             const { ready, publicKey, connected, autoApprove } = adapter;
