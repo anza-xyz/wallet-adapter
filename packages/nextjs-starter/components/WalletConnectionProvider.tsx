@@ -1,11 +1,13 @@
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import {
+    getBloctoWallet,
     getLedgerWallet,
     getPhantomWallet,
     getSlopeWallet,
     getSolflareWallet,
     getSolletWallet,
+    getSolletWebWallet,
     getTorusWallet,
 } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
@@ -29,7 +31,9 @@ const WalletConnectionProvider: FC = ({ children }) => {
                 options: { clientId: 'Get a client ID @ https://developer.tor.us' },
             }),
             getLedgerWallet(),
+            getBloctoWallet({ network }),
             getSolletWallet({ network }),
+            getSolletWebWallet({ network }),
         ],
         [network]
     );

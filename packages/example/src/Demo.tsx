@@ -23,19 +23,13 @@ import {
     WalletMultiButton as ReactUIWalletMultiButton,
 } from '@solana/wallet-adapter-react-ui';
 import {
-    getBitpieWallet,
     getBloctoWallet,
-    getCoin98Wallet,
     getLedgerWallet,
-    getMathWallet,
     getPhantomWallet,
-    getSafePalWallet,
     getSlopeWallet,
     getSolflareWallet,
-    getSolflareWebWallet,
     getSolletWallet,
     getSolletWebWallet,
-    getSolongWallet,
     getTorusWallet,
 } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
@@ -64,12 +58,6 @@ export const Demo: FC = () => {
             getLedgerWallet(),
             getBloctoWallet({ network }),
             getSolletWallet({ network }),
-            getBitpieWallet(),
-            getCoin98Wallet(),
-            getMathWallet(),
-            getSafePalWallet(),
-            getSolongWallet(),
-            getSolflareWebWallet(),
             getSolletWebWallet({ network }),
         ],
         [network]
