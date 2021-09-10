@@ -30,19 +30,19 @@
     "devDependencies": {
         "@types/eslint": "^7.2.13",
         "@types/eslint-plugin-prettier": "^3.1.0",
-        "@types/node": "^16.4.13",
+        "@types/node": "^16.9.1",
         "@types/prettier": "^2.3.1",
-        "@typescript-eslint/eslint-plugin": "^4.28.0",
-        "@typescript-eslint/parser": "^4.28.1",
+        "@typescript-eslint/eslint-plugin": "^4.31.0",
+        "@typescript-eslint/parser": "^4.31.0",
         "eslint": "^7.29.0",
         "eslint-config-prettier": "^8.3.0",
-        "eslint-plugin-prettier": "^3.4.0",
+        "eslint-plugin-prettier": "^4.0.0",
         "gh-pages": "^3.2.3",
         "lerna": "^4.0.0",
-        "prettier": "^2.2.1",
+        "prettier": "^2.4.0",
         "shx": "^0.3.3",
         "tslib": "^2.3.0",
-        "typedoc": "^0.21.2",
-        "typescript": "^4.3.5"
+        "typedoc": "^0.22.1",
+        "typescript": "^4.4.3"
     }
 }
