@@ -24,6 +24,7 @@ export enum WalletName {
     Solflare = 'Solflare',
     SolflareWeb = 'Solflare (Web)',
     Sollet = 'Sollet',
+    SolletWeb = 'Sollet (Web)',
     Solong = 'Solong',
     Torus = 'Torus',
 }
@@ -37,85 +38,91 @@ export interface Wallet {
 
 export const ICONS_URL = 'https://raw.githubusercontent.com/solana-labs/wallet-adapter/master/packages/wallets/icons';
 
-export const getBitpieWallet = (config?: BitpieWalletAdapterConfig): Wallet => ({
+export const getBitpieWallet = (config: BitpieWalletAdapterConfig = {}): Wallet => ({
     name: WalletName.Bitpie,
     url: 'https://bitpiecn.com',
     icon: `${ICONS_URL}/bitpie.svg`,
     adapter: () => new BitpieWalletAdapter(config),
 });
 
-export const getBloctoWallet = (config?: BloctoWalletAdapterConfig): Wallet => ({
+export const getBloctoWallet = (config: BloctoWalletAdapterConfig = {}): Wallet => ({
     name: WalletName.Blocto,
     url: 'https://wallet.blocto.app',
     icon: `${ICONS_URL}/blocto.svg`,
     adapter: () => new BloctoWalletAdapter(config),
 });
 
-export const getCoin98Wallet = (config?: Coin98WalletAdapterConfig): Wallet => ({
+export const getCoin98Wallet = (config: Coin98WalletAdapterConfig = {}): Wallet => ({
     name: WalletName.Coin98,
     url: 'https://coin98.com',
     icon: `${ICONS_URL}/coin98.svg`,
     adapter: () => new Coin98WalletAdapter(config),
 });
 
-export const getLedgerWallet = (config?: LedgerWalletAdapterConfig): Wallet => ({
+export const getLedgerWallet = (config: LedgerWalletAdapterConfig = {}): Wallet => ({
     name: WalletName.Ledger,
     url: 'https://www.ledger.com',
     icon: `${ICONS_URL}/ledger.svg`,
     adapter: () => new LedgerWalletAdapter(config),
 });
 
-export const getMathWallet = (config?: MathWalletWalletAdapterConfig): Wallet => ({
+export const getMathWallet = (config: MathWalletWalletAdapterConfig = {}): Wallet => ({
     name: WalletName.MathWallet,
     url: 'https://mathwallet.org',
     icon: `${ICONS_URL}/mathwallet.svg`,
     adapter: () => new MathWalletWalletAdapter(config),
 });
 
-export const getPhantomWallet = (config?: PhantomWalletAdapterConfig): Wallet => ({
+export const getPhantomWallet = (config: PhantomWalletAdapterConfig = {}): Wallet => ({
     name: WalletName.Phantom,
     url: 'https://www.phantom.app',
     icon: `${ICONS_URL}/phantom.svg`,
     adapter: () => new PhantomWalletAdapter(config),
 });
 
-export const getSafePalWallet = (config?: SafePalWalletAdapterConfig): Wallet => ({
+export const getSafePalWallet = (config: SafePalWalletAdapterConfig = {}): Wallet => ({
     name: WalletName.SafePalWallet,
     url: 'https://www.safepal.io',
     icon: `${ICONS_URL}/safepal.svg`,
     adapter: () => new SafePalWalletAdapter(config),
 });
 
-export const getSlopeWallet = (config?: SlopeWalletAdapterConfig): Wallet => ({
+export const getSlopeWallet = (config: SlopeWalletAdapterConfig = {}): Wallet => ({
     name: WalletName.Slope,
     url: 'https://www.slope.finance/#/wallet',
     icon: `${ICONS_URL}/slope.svg`,
     adapter: () => new SlopeWalletAdapter(config),
 });
 
-export const getSolflareWallet = (config?: SolflareWalletAdapterConfig): Wallet => ({
+export const getSolflareWallet = (config: SolflareWalletAdapterConfig = {}): Wallet => ({
     name: WalletName.Solflare,
     url: 'https://solflare.com',
     icon: `${ICONS_URL}/solflare.svg`,
     adapter: () => new SolflareWalletAdapter(config),
 });
 
-export const getSolflareWebWallet = (config?: SolletWalletAdapterConfig): Wallet => ({
+export const getSolflareWebWallet = ({ provider, ...config }: SolletWalletAdapterConfig = {}): Wallet => ({
     name: WalletName.SolflareWeb,
     url: 'https://solflare.com',
     icon: `${ICONS_URL}/solflare.svg`,
-    adapter: () =>
-        new SolletWalletAdapter({ ...config, provider: config?.provider || 'https://solflare.com/access-wallet' }),
+    adapter: () => new SolletWalletAdapter({ provider: 'https://solflare.com/access-wallet', ...config }),
 });
 
-export const getSolletWallet = (config?: SolletWalletAdapterConfig): Wallet => ({
+export const getSolletWallet = ({ provider, ...config }: SolletWalletAdapterConfig = {}): Wallet => ({
     name: WalletName.Sollet,
     url: 'https://www.sollet.io',
     icon: `${ICONS_URL}/sollet.svg`,
     adapter: () => new SolletWalletAdapter(config),
 });
 
-export const getSolongWallet = (config?: SolongWalletAdapterConfig): Wallet => ({
+export const getSolletWebWallet = ({ provider, ...config }: SolletWalletAdapterConfig = {}): Wallet => ({
+    name: WalletName.SolletWeb,
+    url: 'https://www.sollet.io',
+    icon: `${ICONS_URL}/sollet.svg`,
+    adapter: () => new SolletWalletAdapter({ provider: 'https://www.sollet.io', ...config }),
+});
+
+export const getSolongWallet = (config: SolongWalletAdapterConfig = {}): Wallet => ({
     name: WalletName.Solong,
     url: 'https://solongwallet.com',
     icon: `${ICONS_URL}/solong.png`,

@@ -32,7 +32,9 @@ import {
     getSafePalWallet,
     getSlopeWallet,
     getSolflareWallet,
+    getSolflareWebWallet,
     getSolletWallet,
+    getSolletWebWallet,
     getSolongWallet,
     getTorusWallet,
 } from '@solana/wallet-adapter-wallets';
@@ -60,13 +62,15 @@ export const Demo: FC = () => {
                 },
             }),
             getLedgerWallet(),
+            getBloctoWallet({ network }),
             getSolletWallet({ network }),
             getBitpieWallet(),
-            getBloctoWallet({ network }),
             getCoin98Wallet(),
             getMathWallet(),
             getSafePalWallet(),
             getSolongWallet(),
+            getSolflareWebWallet(),
+            getSolletWebWallet({ network }),
         ],
         [network]
     );

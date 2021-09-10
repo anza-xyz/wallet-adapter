@@ -2,6 +2,7 @@ import {
     BaseSignerWalletAdapter,
     WalletConnectionError,
     WalletDisconnectionError,
+    WalletError,
     WalletKeypairError,
     WalletNotConnectedError,
     WalletSignTransactionError,
@@ -93,6 +94,7 @@ export class TorusWalletAdapter extends BaseSignerWalletAdapter {
                     }
                 }
             } catch (error: any) {
+                if (error instanceof WalletError) throw error;
                 throw new WalletConnectionError(error?.message, error);
             }
 

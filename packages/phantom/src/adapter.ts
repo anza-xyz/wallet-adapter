@@ -6,6 +6,7 @@ import {
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
+    WalletError,
     WalletNotConnectedError,
     WalletNotFoundError,
     WalletNotInstalledError,
@@ -89,7 +90,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             if (!wallet.isConnected) {
                 // HACK: Phantom doesn't reject or emit an event if the popup is closed
-                const disconnect = wallet._handleDisconnect;
+                const handleDisconnect = wallet._handleDisconnect;
                 try {
                     await new Promise<void>((resolve, reject) => {
                         const connect = () => {
@@ -100,7 +101,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
                         wallet._handleDisconnect = (...args: unknown[]) => {
                             wallet.off('connect', connect);
                             reject(new WalletWindowClosedError());
-                            return disconnect.apply(wallet, args);
+                            return handleDisconnect.apply(wallet, args);
                         };
 
                         wallet.on('connect', connect);
@@ -111,9 +112,10 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
                         });
                     });
                 } catch (error: any) {
+                    if (error instanceof WalletError) throw error;
                     throw new WalletConnectionError(error?.message, error);
                 } finally {
-                    wallet._handleDisconnect = disconnect;
+                    wallet._handleDisconnect = handleDisconnect;
                 }
             }
 
