@@ -18,9 +18,7 @@
     "include": ["packages/*/src"],
     "exclude": ["node_modules", "packages/*/node_modules"],
     "typedocOptions": {
-        "entryPoints": ".",
-        "entryPointStrategy": "packages",
         "out": "docs",
-        "readme": "README.md"
+        "packages": "."
     }
 }
