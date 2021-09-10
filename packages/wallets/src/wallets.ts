@@ -11,7 +11,7 @@ import { SolflareWalletAdapter, SolflareWalletAdapterConfig } from '@solana/wall
 import { SolletWalletAdapter, SolletWalletAdapterConfig } from '@solana/wallet-adapter-sollet';
 import { SolongWalletAdapter, SolongWalletAdapterConfig } from '@solana/wallet-adapter-solong';
 import { TorusWalletAdapter, TorusWalletAdapterConfig } from '@solana/wallet-adapter-torus';
-
+import { CloverWalletWalletAdapter, CloverWalletWalletAdapterConfig } from '@solana/wallet-adapter-cloverwallet';
 export enum WalletName {
     Bitpie = 'Bitpie',
     Blocto = 'Blocto',
@@ -26,6 +26,7 @@ export enum WalletName {
     Sollet = 'Sollet',
     Solong = 'Solong',
     Torus = 'Torus',
+    Clover = 'Clover',
 }
 
 export interface Wallet {
@@ -127,4 +128,11 @@ export const getTorusWallet = (config: TorusWalletAdapterConfig): Wallet => ({
     url: 'https://tor.us',
     icon: `${ICONS_URL}/torus.svg`,
     adapter: () => new TorusWalletAdapter(config),
+});
+
+export const getCloverWallet = (config: CloverWalletWalletAdapterConfig): Wallet => ({
+    name: WalletName.Clover,
+    url: 'https://clover.finance',
+    icon: `${ICONS_URL}/clover.svg`,
+    adapter: () => new CloverWalletWalletAdapter(config),
 });
