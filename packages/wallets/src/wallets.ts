@@ -111,14 +111,14 @@ export const getSolflareWebWallet = ({ provider, ...config }: SolletWalletAdapte
 export const getSolletWallet = ({ provider, ...config }: SolletWalletAdapterConfig = {}): Wallet => ({
     name: WalletName.Sollet,
     url: 'https://www.sollet.io',
-    icon: `${ICONS_URL}/sollet.svg`,
+    icon: `${ICONS_URL}/sollet.png`,
     adapter: () => new SolletWalletAdapter(config),
 });
 
 export const getSolletWebWallet = ({ provider, ...config }: SolletWalletAdapterConfig = {}): Wallet => ({
     name: WalletName.SolletWeb,
     url: 'https://www.sollet.io',
-    icon: `${ICONS_URL}/sollet.svg`,
+    icon: `${ICONS_URL}/sollet_web.svg`,
     adapter: () => new SolletWalletAdapter({ provider: 'https://www.sollet.io', ...config }),
 });
 
