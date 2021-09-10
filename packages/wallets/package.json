@@ -28,10 +28,10 @@
         "@solana/wallet-adapter-coin98": "^0.1.2",
         "@solana/wallet-adapter-ledger": "^0.5.2",
         "@solana/wallet-adapter-mathwallet": "^0.5.2",
-        "@solana/wallet-adapter-phantom": "^0.5.2",
+        "@solana/wallet-adapter-phantom": "^0.5.3",
         "@solana/wallet-adapter-safepal": "^0.1.0",
         "@solana/wallet-adapter-slope": "^0.1.1",
-        "@solana/wallet-adapter-solflare": "^0.2.2",
+        "@solana/wallet-adapter-solflare": "^0.2.3",
         "@solana/wallet-adapter-sollet": "^0.6.0",
         "@solana/wallet-adapter-solong": "^0.5.2",
         "@solana/wallet-adapter-torus": "^0.6.3"

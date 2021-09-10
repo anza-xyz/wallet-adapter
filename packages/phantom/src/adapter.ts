@@ -119,17 +119,11 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
                 }
             }
 
-            let bytes: Uint8Array;
-            try {
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                bytes = wallet.publicKey!.toBytes();
-            } catch (error: any) {
-                throw new WalletAccountError(error?.message, error);
-            }
+            if (!wallet.publicKey) throw new WalletConnectionError();
 
             let publicKey: PublicKey;
             try {
-                publicKey = new PublicKey(bytes);
+                publicKey = new PublicKey(wallet.publicKey.toBytes());
             } catch (error: any) {
                 throw new WalletPublicKeyError(error?.message, error);
             }
