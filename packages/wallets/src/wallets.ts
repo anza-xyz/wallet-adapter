@@ -19,7 +19,7 @@ export enum WalletName {
     Ledger = 'Ledger',
     MathWallet = 'MathWallet',
     Phantom = 'Phantom',
-    SafePalWallet = 'SafePal',
+    SafePal = 'SafePal',
     Slope = 'Slope',
     Solflare = 'Solflare',
     SolflareWeb = 'Solflare (Web)',
@@ -81,7 +81,7 @@ export const getPhantomWallet = (config: PhantomWalletAdapterConfig = {}): Walle
 });
 
 export const getSafePalWallet = (config: SafePalWalletAdapterConfig = {}): Wallet => ({
-    name: WalletName.SafePalWallet,
+    name: WalletName.SafePal,
     url: 'https://www.safepal.io',
     icon: `${ICONS_URL}/safepal.svg`,
     adapter: () => new SafePalWalletAdapter(config),
