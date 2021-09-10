@@ -4,6 +4,7 @@ import {
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
+    WalletError,
     WalletNotConnectedError,
     WalletPublicKeyError,
     WalletSignTransactionError,
@@ -112,6 +113,7 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
                     }
                 });
             } catch (error: any) {
+                if (error instanceof WalletError) throw error;
                 throw new WalletConnectionError(error?.message, error);
             }
 
