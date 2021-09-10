@@ -24,7 +24,7 @@ export enum WalletName {
     Solflare = 'Solflare',
     SolflareWeb = 'Solflare (Web)',
     Sollet = 'Sollet',
-    SolletWeb = 'Sollet (Web)',
+    SolletExtension = 'Sollet (Extension)',
     Solong = 'Solong',
     Torus = 'Torus',
 }
@@ -111,15 +111,15 @@ export const getSolflareWebWallet = ({ provider, ...config }: SolletWalletAdapte
 export const getSolletWallet = ({ provider, ...config }: SolletWalletAdapterConfig = {}): Wallet => ({
     name: WalletName.Sollet,
     url: 'https://www.sollet.io',
-    icon: `${ICONS_URL}/sollet.png`,
-    adapter: () => new SolletWalletAdapter(config),
+    icon: `${ICONS_URL}/sollet.svg`,
+    adapter: () => new SolletWalletAdapter({ provider: 'https://www.sollet.io', ...config }),
 });
 
-export const getSolletWebWallet = ({ provider, ...config }: SolletWalletAdapterConfig = {}): Wallet => ({
-    name: WalletName.SolletWeb,
-    url: 'https://www.sollet.io',
-    icon: `${ICONS_URL}/sollet_web.svg`,
-    adapter: () => new SolletWalletAdapter({ provider: 'https://www.sollet.io', ...config }),
+export const getSolletExtensionWallet = ({ provider, ...config }: SolletWalletAdapterConfig = {}): Wallet => ({
+    name: WalletName.SolletExtension,
+    url: 'https://chrome.google.com/webstore/detail/sollet/fhmfendgdocmcbmfikdcogofphimnkno',
+    icon: `${ICONS_URL}/sollet_extension.png`,
+    adapter: () => new SolletWalletAdapter(config),
 });
 
 export const getSolongWallet = (config: SolongWalletAdapterConfig = {}): Wallet => ({

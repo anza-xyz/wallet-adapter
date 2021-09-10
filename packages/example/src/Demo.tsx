@@ -29,7 +29,7 @@ import {
     getSlopeWallet,
     getSolflareWallet,
     getSolletWallet,
-    getSolletWebWallet,
+    getSolletExtensionWallet,
     getTorusWallet,
 } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
@@ -58,7 +58,7 @@ export const Demo: FC = () => {
             getLedgerWallet(),
             getBloctoWallet({ network }),
             getSolletWallet({ network }),
-            getSolletWebWallet({ network }),
+            getSolletExtensionWallet({ network }),
         ],
         [network]
     );
