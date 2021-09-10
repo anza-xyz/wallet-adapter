@@ -2,6 +2,7 @@ import {
     BaseSignerWalletAdapter,
     pollUntilReady,
     WalletAccountError,
+    WalletConnectionError,
     WalletDisconnectionError,
     WalletError,
     WalletNotConnectedError,
@@ -94,14 +95,14 @@ export class SlopeWalletAdapter extends BaseSignerWalletAdapter {
 
             let account: string;
             try {
-                const { msg, data } = await wallet.connect();
+                const { data } = await wallet.connect();
 
-                if (!data.publicKey) throw new WalletAccountError(msg);
+                if (!data.publicKey) throw new WalletConnectionError();
 
                 account = data.publicKey;
             } catch (error: any) {
                 if (error instanceof WalletError) throw error;
-                throw new WalletAccountError(error?.message, error);
+                throw new WalletConnectionError(error?.message, error);
             }
 
             let publicKey: PublicKey;
