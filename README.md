@@ -48,8 +48,8 @@ import {
     getPhantomWallet,
     getSlopeWallet,
     getSolflareWallet,
+    getSolletExtensionWallet,
     getSolletWallet,
-    getSolletWebWallet,
     getTorusWallet,
 } from '@solana/wallet-adapter-wallets';
 import {
@@ -78,7 +78,7 @@ export const Wallet: FC = () => {
         getLedgerWallet(),
         getBloctoWallet({ network }),
         getSolletWallet({ network }),
-        getSolletWebWallet({ network }),
+        getSolletExtensionWallet({ network }),
     ], [network]);
 
     return (
