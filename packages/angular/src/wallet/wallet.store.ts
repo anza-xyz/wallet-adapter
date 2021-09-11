@@ -22,9 +22,9 @@ export const WALLET_DEFAULT_CONFIG: WalletConfig = {
 export class WalletStore extends ComponentStore<WalletState> {
     private readonly _autoConnect = this._config?.autoConnect || false;
     private readonly _localStorageKey = this._config?.localStorageKey || 'walletName';
-    private logError = this._config?.onError || ((error: unknown) => console.error(error));
+    private _logError = this._config?.onError || ((error: unknown) => console.error(error));
     readonly wallets$ = this.select((state) => state.wallets);
-    readonly selectedWallet$ = this.select((state) => state.selectedWallet);
+    readonly name$ = this.select((state) => state.name);
     readonly connected$ = this.select((state) => state.connected);
     readonly connecting$ = this.select((state) => state.connecting);
     readonly disconnecting$ = this.select((state) => state.disconnecting);
@@ -54,7 +54,7 @@ export class WalletStore extends ComponentStore<WalletState> {
     ) {
         super({
             wallets: _config.wallets,
-            selectedWallet: null,
+            name: null,
             wallet: null,
             adapter: null,
             connected: false,
@@ -65,14 +65,10 @@ export class WalletStore extends ComponentStore<WalletState> {
             autoApprove: false,
         });
 
-        if (!this._config) {
-            this._config = WALLET_DEFAULT_CONFIG;
-        } else {
-            this._config = {
-                ...WALLET_DEFAULT_CONFIG,
-                ...this._config,
-            };
-        }
+        this._config = {
+            ...WALLET_DEFAULT_CONFIG,
+            ...this._config,
+        };
 
         const walletName = localStorage.getItem(this._localStorageKey);
         const wallet = this._config.wallets.find(({ name }) => name === walletName);
@@ -99,13 +95,13 @@ export class WalletStore extends ComponentStore<WalletState> {
             tap(() => this.patchState({ connecting: true })),
             concatMap(({ adapter, wallet, ready }) => {
                 if (!wallet || !adapter) {
-                    this.logError(new WalletNotSelectedError());
+                    this._logError(new WalletNotSelectedError());
                     return of(null);
                 }
 
                 if (!ready) {
                     window.open(wallet.url, '_blank');
-                    this.logError(new WalletNotReadyError());
+                    this._logError(new WalletNotReadyError());
                     return of(null);
                 }
 
@@ -134,7 +130,7 @@ export class WalletStore extends ComponentStore<WalletState> {
     readonly selectWallet = this.effect((walletName$: Observable<WalletName>) => {
         return walletName$.pipe(
             concatMap((action) => of(action).pipe(withLatestFrom(this.state$))),
-            filter(([walletName, { selectedWallet }]) => walletName !== selectedWallet),
+            filter(([walletName, { name }]) => walletName !== name),
             concatMap(([walletName, { adapter, wallets }]) =>
                 of(adapter)
                     .pipe(
@@ -152,7 +148,7 @@ export class WalletStore extends ComponentStore<WalletState> {
                             const wallet = wallets.find(({ name }) => name === walletName);
                             const adapter = wallet ? wallet.adapter() : null;
                             this.patchState({
-                                selectedWallet: walletName as WalletName,
+                                name: walletName,
                                 adapter,
                                 wallet,
                                 ready: adapter?.ready || false,
@@ -188,8 +184,6 @@ export class WalletStore extends ComponentStore<WalletState> {
             tap(() =>
                 this.patchState({
                     connected: false,
-                    connecting: false,
-                    disconnecting: false,
                     autoApprove: false,
                     publicKey: null,
                 })
@@ -209,7 +203,7 @@ export class WalletStore extends ComponentStore<WalletState> {
         return this.adapter$.pipe(
             isNotNull,
             fromAdapterEvent('error'),
-            tap((error) => this.logError(error))
+            tap((error) => this._logError(error))
         );
     });
 
@@ -229,9 +223,7 @@ export class WalletStore extends ComponentStore<WalletState> {
                     return throwError(new WalletNotConnectedError());
                 }
 
-                return from(defer(() => adapter.sendTransaction(transaction, connection, options))).pipe(
-                    map((txId) => txId as string)
-                );
+                return from(defer(() => adapter.sendTransaction(transaction, connection, options)));
             })
         );
     }
@@ -247,9 +239,7 @@ export class WalletStore extends ComponentStore<WalletState> {
                           return throwError(new WalletNotConnectedError());
                       }
 
-                      return from(defer(() => adapter.signTransaction(transaction))).pipe(
-                          map((transaction) => transaction as Transaction)
-                      );
+                      return from(defer(() => adapter.signTransaction(transaction)));
                   })
               )
             : undefined;
@@ -266,9 +256,7 @@ export class WalletStore extends ComponentStore<WalletState> {
                           return throwError(new WalletNotConnectedError());
                       }
 
-                      return from(defer(() => adapter.signAllTransactions(transactions))).pipe(
-                          map((transactions) => transactions as Transaction[])
-                      );
+                      return from(defer(() => adapter.signAllTransactions(transactions)));
                   })
               )
             : undefined;
@@ -285,9 +273,7 @@ export class WalletStore extends ComponentStore<WalletState> {
                           return throwError(new WalletNotConnectedError());
                       }
 
-                      return from(defer(() => adapter.signMessage(message))).pipe(
-                          map((message) => message as Uint8Array)
-                      );
+                      return from(defer(() => adapter.signMessage(message)));
                   })
               )
             : undefined;

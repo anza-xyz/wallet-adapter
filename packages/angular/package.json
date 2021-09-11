@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-angular",
-    "version": "0.0.2",
+    "version": "0.1.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana/wallet-adapter",
     "license": "Apache-2.0",

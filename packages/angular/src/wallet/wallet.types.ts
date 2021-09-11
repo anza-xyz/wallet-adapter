@@ -4,7 +4,7 @@ import { PublicKey } from '@solana/web3.js';
 
 export interface WalletState {
     wallets: Wallet[];
-    selectedWallet: WalletName | null;
+    name: WalletName | null;
     wallet: Wallet | null;
     adapter: WalletAdapter | SignerWalletAdapter | MessageSignerWalletAdapter | null;
     connecting: boolean;

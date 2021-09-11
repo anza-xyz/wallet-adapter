@@ -3,7 +3,8 @@ import { fromEventPattern, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 export const fromAdapterEvent =
-    (eventName: keyof WalletAdapterEvents) => (source: Observable<WalletAdapter | SignerWalletAdapter>) =>
+    (eventName: keyof WalletAdapterEvents) =>
+    (source: Observable<WalletAdapter>): Observable<unknown> =>
         source.pipe(
             switchMap((adapter) =>
                 fromEventPattern(
