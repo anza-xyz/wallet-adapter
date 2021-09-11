@@ -4,7 +4,6 @@
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
-    "private": true,
     "workspaces": [
         "packages/*"
     ],
