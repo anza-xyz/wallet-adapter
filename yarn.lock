@@ -15785,10 +15785,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typedoc@^0.22.1:
-  version "0.22.1"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.22.1.tgz#2919ed9d6bd3857dea7575d38bad907a9ba6ba68"
-  integrity sha512-JO1/nkMhUKb+Khiekn64HyBniuUuI3ePHN78BMiiFVHi4Oc8VqppWZiE2CNB38ZNqtwZFM+U3j0sJht3N6bWrg==
+typedoc@^0.22.2:
+  version "0.22.2"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.22.2.tgz#bbf9a3d6a74629d419e0cae53857d6ee5a8fbfc6"
+  integrity sha512-p516wGGy6bCUj8k5ZpWWqOT2qa0e5lVU6APiQhEHS4T9LPmCTyAIb9PJgtHbSnkCBnaZE+oOK+lSgCKWGzgJ+w==
   dependencies:
     glob "^7.1.7"
     lunr "^2.3.9"
