@@ -33,7 +33,8 @@
         "@solana/wallet-adapter-wallets": "^0.8.0",
         "@solana/web3.js": "^1.20.0",
         "ng-packagr": "^12.1.1",
-        "rxjs": "~6.6.0"
+        "rxjs": "~6.6.0",
+        "typescript": "4.3.5"
     },
     "main": "lib/bundles/solana-wallet-adapter-angular.umd.js",
     "module": "lib/fesm2015/solana-wallet-adapter-angular.js",
