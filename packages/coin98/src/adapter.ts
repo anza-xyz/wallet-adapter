@@ -141,11 +141,17 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
+            const signedTransactions: Transaction[] = [];
+
             try {
-                return await Promise.all(transactions.map((transaction) => this.signTransaction(transaction)));
+                for (const transaction of transactions) {
+                    signedTransactions.push(await this.signTransaction(transaction));
+                }
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
+
+            return signedTransactions;
         } catch (error: any) {
             this.emit('error', error);
             throw error;
