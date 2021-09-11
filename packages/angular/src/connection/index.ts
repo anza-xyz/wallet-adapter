@@ -1,4 +1,3 @@
-export * from './connection.provider';
+export * from './connection.tokens';
 export * from './connection.store';
-export * from './connection.provider';
 export * from './connection.types';
