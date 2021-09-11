@@ -6,24 +6,3 @@ export class WalletNotSelectedError extends WalletError {
         this.name = 'WalletNotSelectedError';
     }
 }
-
-export class SignTransactionNotFoundError extends WalletError {
-    constructor() {
-        super();
-        this.name = 'SignTransactionNotFoundError';
-    }
-}
-
-export class SignAllTransactionsNotFoundError extends WalletError {
-    constructor() {
-        super();
-        this.name = 'SignAllTransactionsNotFoundError';
-    }
-}
-
-export class SignMessageNotFoundError extends WalletError {
-    constructor() {
-        super();
-        this.name = 'SignMessageNotFoundError';
-    }
-}

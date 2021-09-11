@@ -1,8 +1,8 @@
 {
-    "name": "@danmt/wallet-adapter-angular",
-    "version": "0.1.31",
-    "author": "Daniel Marin",
-    "repository": "https://github.com/danmt/wallet-adapter",
+    "name": "@solana/wallet-adapter-angular",
+    "version": "0.0.2",
+    "author": "Solana Maintainers <maintainers@solana.foundation>",
+    "repository": "https://github.com/solana/wallet-adapter",
     "license": "Apache-2.0",
     "publishConfig": {
         "access": "public"
@@ -35,11 +35,11 @@
         "ng-packagr": "^12.1.1",
         "rxjs": "~6.6.0"
     },
-    "main": "lib/bundles/danmt-wallet-adapter-angular.umd.js",
-    "module": "lib/fesm2015/danmt-wallet-adapter-angular.js",
-    "es2015": "lib/fesm2015/danmt-wallet-adapter-angular.js",
-    "esm2015": "lib/esm2015/danmt-wallet-adapter-angular.js",
-    "fesm2015": "lib/fesm2015/danmt-wallet-adapter-angular.js",
-    "typings": "lib/danmt-wallet-adapter-angular.d.ts",
+    "main": "lib/bundles/solana-wallet-adapter-angular.umd.js",
+    "module": "lib/fesm2015/solana-wallet-adapter-angular.js",
+    "es2015": "lib/fesm2015/solana-wallet-adapter-angular.js",
+    "esm2015": "lib/esm2015/solana-wallet-adapter-angular.js",
+    "fesm2015": "lib/fesm2015/solana-wallet-adapter-angular.js",
+    "typings": "lib/solana-wallet-adapter-angular.d.ts",
     "sideEffects": false
 }
