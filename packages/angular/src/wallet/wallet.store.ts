@@ -21,7 +21,6 @@ export const WALLET_DEFAULT_CONFIG: WalletConfig = {
 
 @Injectable()
 export class WalletStore extends ComponentStore<WalletState> {
-    private readonly _autoConnect = this._config?.autoConnect || false;
     private readonly _localStorageKey = this._config?.localStorageKey || 'walletName';
     private readonly _localStorage = new LocalStorageService<WalletName | null>(this._localStorageKey, null);
     private _logError = this._config?.onError || ((error: unknown) => console.error(error));
@@ -48,6 +47,7 @@ export class WalletStore extends ComponentStore<WalletState> {
                 : undefined;
         }
     );
+    readonly autoConnect$ = this.select((state) => state.autoConnect);
 
     constructor(
         @Optional()
@@ -55,7 +55,7 @@ export class WalletStore extends ComponentStore<WalletState> {
         private _config: WalletConfig
     ) {
         super({
-            wallets: _config.wallets,
+            wallets: _config?.wallets || [],
             name: null,
             wallet: null,
             adapter: null,
@@ -65,6 +65,7 @@ export class WalletStore extends ComponentStore<WalletState> {
             ready: false,
             publicKey: null,
             autoApprove: false,
+            autoConnect: _config?.autoConnect || false,
         });
 
         this._config = {
@@ -79,8 +80,8 @@ export class WalletStore extends ComponentStore<WalletState> {
     }
 
     readonly autoConnect = this.effect(() => {
-        return combineLatest([this.adapter$, this.ready$]).pipe(
-            filter(([adapter, ready]) => this._autoConnect && !!adapter && ready),
+        return combineLatest([this.autoConnect$, this.adapter$, this.ready$]).pipe(
+            filter(([autoConnect, adapter, ready]) => autoConnect && adapter !== null && ready),
             observeOn(asyncScheduler),
             tap(() => this.connect())
         );

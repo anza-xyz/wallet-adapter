@@ -13,6 +13,7 @@ export interface WalletState {
     ready: boolean;
     publicKey: PublicKey | null;
     autoApprove: boolean;
+    autoConnect: boolean;
 }
 
 export interface WalletConfig {
