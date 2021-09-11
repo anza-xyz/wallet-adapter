@@ -4,8 +4,9 @@ import { SendTransactionOptions, WalletNotConnectedError, WalletNotReadyError } 
 import { WalletName } from '@solana/wallet-adapter-wallets';
 import { Connection, Transaction } from '@solana/web3.js';
 import { asyncScheduler, combineLatest, defer, from, Observable, of, throwError } from 'rxjs';
-import { catchError, concatMap, filter, first, map, observeOn, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { catchError, concatMap, filter, first, observeOn, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
+import { LocalStorageService } from '../local-storage/local-storage.service';
 import { fromAdapterEvent, isNotNull } from '../operators';
 import { WalletNotSelectedError } from './wallet.errors';
 import { WALLET_CONFIG } from './wallet.tokens';
@@ -22,6 +23,7 @@ export const WALLET_DEFAULT_CONFIG: WalletConfig = {
 export class WalletStore extends ComponentStore<WalletState> {
     private readonly _autoConnect = this._config?.autoConnect || false;
     private readonly _localStorageKey = this._config?.localStorageKey || 'walletName';
+    private readonly _localStorage = new LocalStorageService<WalletName | null>(this._localStorageKey, null);
     private _logError = this._config?.onError || ((error: unknown) => console.error(error));
     readonly wallets$ = this.select((state) => state.wallets);
     readonly name$ = this.select((state) => state.name);
@@ -70,13 +72,9 @@ export class WalletStore extends ComponentStore<WalletState> {
             ...this._config,
         };
 
-        const walletName = localStorage.getItem(this._localStorageKey);
-        const wallet = this._config.wallets.find(({ name }) => name === walletName);
-
-        if (wallet) {
-            this.selectWallet(walletName as WalletName);
-        } else if (this._config.wallets.length > 0) {
-            this.selectWallet(this._config.wallets[0].name);
+        const walletName = this._localStorage.value;
+        if (this._config.wallets.some(({ name }) => name === walletName)) {
+            this.selectWallet(walletName);
         }
     }
 
@@ -127,7 +125,7 @@ export class WalletStore extends ComponentStore<WalletState> {
         );
     });
 
-    readonly selectWallet = this.effect((walletName$: Observable<WalletName>) => {
+    readonly selectWallet = this.effect((walletName$: Observable<WalletName | null>) => {
         return walletName$.pipe(
             concatMap((action) => of(action).pipe(withLatestFrom(this.state$))),
             filter(([walletName, { name }]) => walletName !== name),
@@ -144,7 +142,7 @@ export class WalletStore extends ComponentStore<WalletState> {
                     )
                     .pipe(
                         tap(() => {
-                            localStorage.setItem(this._localStorageKey, walletName);
+                            this._localStorage.setItem(walletName);
                             const wallet = wallets.find(({ name }) => name === walletName);
                             const adapter = wallet ? wallet.adapter() : null;
                             this.patchState({
