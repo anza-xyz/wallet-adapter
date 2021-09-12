@@ -3,7 +3,7 @@ import { ComponentStore } from '@ngrx/component-store';
 import { SendTransactionOptions, WalletNotConnectedError, WalletNotReadyError } from '@solana/wallet-adapter-base';
 import { WalletName } from '@solana/wallet-adapter-wallets';
 import { Connection, Transaction } from '@solana/web3.js';
-import { asyncScheduler, combineLatest, defer, from, Observable, of, throwError } from 'rxjs';
+import { asyncScheduler, combineLatest, defer, from, Observable, of, Subject, throwError } from 'rxjs';
 import { catchError, concatMap, filter, first, observeOn, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import { LocalStorageService } from '../local-storage/local-storage.service';
@@ -21,6 +21,7 @@ export const WALLET_DEFAULT_CONFIG: WalletConfig = {
 
 @Injectable()
 export class WalletStore extends ComponentStore<WalletState> {
+    private readonly _error = new Subject();
     private readonly _localStorageKey = this._config?.localStorageKey || 'walletName';
     private readonly _localStorage = new LocalStorageService<WalletName | null>(this._localStorageKey, null);
     private _logError = this._config?.onError || ((error: unknown) => console.error(error));
@@ -48,6 +49,7 @@ export class WalletStore extends ComponentStore<WalletState> {
         }
     );
     readonly autoConnect$ = this.select((state) => state.autoConnect);
+    readonly error$ = this._error.asObservable();
 
     constructor(
         @Optional()
@@ -95,12 +97,14 @@ export class WalletStore extends ComponentStore<WalletState> {
             concatMap(({ adapter, wallet, ready }) => {
                 if (!wallet || !adapter) {
                     this._logError(new WalletNotSelectedError());
+                    this._error.next(new WalletNotSelectedError());
                     return of(null);
                 }
 
                 if (!ready) {
                     window.open(wallet.url, '_blank');
                     this._logError(new WalletNotReadyError());
+                    this._error.next(new WalletNotReadyError());
                     return of(null);
                 }
 
@@ -202,7 +206,10 @@ export class WalletStore extends ComponentStore<WalletState> {
         return this.adapter$.pipe(
             isNotNull,
             fromAdapterEvent('error'),
-            tap((error) => this._logError(error))
+            tap((error) => {
+                this._logError(error);
+                this._error.next(error);
+            })
         );
     });
 
