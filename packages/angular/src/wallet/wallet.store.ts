@@ -39,8 +39,10 @@ const initialState: {
 @Injectable()
 export class WalletStore extends ComponentStore<WalletState> {
     private readonly _error = new Subject();
-    private readonly _localStorageKey = this._config?.localStorageKey || 'walletName';
-    private readonly _localStorage = new LocalStorageService<WalletName | null>(this._localStorageKey, null);
+    private readonly _localStorage = new LocalStorageService<WalletName | null>(
+        this._config?.localStorageKey || 'walletName',
+        null
+    );
     private _logError = this._config?.onError || ((error: unknown) => console.error(error));
     readonly wallets$ = this.select((state) => state.wallets);
     readonly name$ = this.select((state) => state.name);
