@@ -52,7 +52,8 @@ export class WalletStore extends ComponentStore<WalletState> {
                           signAllTransactions(transactions).toPromise(),
                   }
                 : undefined;
-        }
+        },
+        { debounce: true }
     );
     readonly autoConnect$ = this.select((state) => state.autoConnect);
     readonly error$ = this._error.asObservable();
