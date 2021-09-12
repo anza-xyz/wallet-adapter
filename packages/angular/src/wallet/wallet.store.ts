@@ -7,7 +7,7 @@ import { asyncScheduler, combineLatest, defer, from, Observable, of, Subject, th
 import { catchError, concatMap, filter, first, observeOn, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import { LocalStorageService } from '../local-storage/local-storage.service';
-import { fromAdapterEvent, isNotNull } from '../operators';
+import { fromAdapterEvent, isNotNull, messageSigner, transactionSigner, transactionsSigner } from '../operators';
 import { WalletNotSelectedError } from './wallet.errors';
 import { WALLET_CONFIG } from './wallet.tokens';
 import { WalletConfig, WalletState } from './wallet.types';
@@ -35,15 +35,21 @@ export class WalletStore extends ComponentStore<WalletState> {
     readonly publicKey$ = this.select((state) => state.publicKey);
     readonly ready$ = this.select((state) => state.ready);
     readonly anchorWallet$ = this.select(
-        this.publicKey$.pipe(isNotNull),
-        this.adapter$.pipe(isNotNull),
-        (publicKey, adapter) => {
-            return publicKey && 'signTransaction' in adapter && 'signAllTransactions' in adapter
+        this.publicKey$,
+        this.adapter$,
+        this.connected$,
+        (publicKey, adapter, connected) => {
+            const signTransaction =
+                adapter && 'signTransaction' in adapter ? transactionSigner(adapter, connected) : undefined;
+            const signAllTransactions =
+                adapter && 'signAllTransactions' in adapter ? transactionsSigner(adapter, connected) : undefined;
+
+            return publicKey && signTransaction && signAllTransactions
                 ? {
                       publicKey,
-                      signTransaction: (transaction: Transaction) => this.signTransaction(transaction)?.toPromise(),
+                      signTransaction: (transaction: Transaction) => signTransaction(transaction).toPromise(),
                       signAllTransactions: (transactions: Transaction[]) =>
-                          this.signAllTransactions(transactions)?.toPromise(),
+                          signAllTransactions(transactions).toPromise(),
                   }
                 : undefined;
         }
@@ -235,53 +241,22 @@ export class WalletStore extends ComponentStore<WalletState> {
     }
 
     signTransaction(transaction: Transaction): Observable<Transaction> | undefined {
-        const { adapter } = this.get();
+        const { adapter, connected } = this.get();
 
-        return adapter && 'signTransaction' in adapter
-            ? this.connected$.pipe(
-                  first(),
-                  concatMap((connected) => {
-                      if (!connected) {
-                          return throwError(new WalletNotConnectedError());
-                      }
-
-                      return from(defer(() => adapter.signTransaction(transaction)));
-                  })
-              )
-            : undefined;
+        return adapter && 'signTransaction' in adapter ? transactionSigner(adapter, connected)(transaction) : undefined;
     }
 
     signAllTransactions(transactions: Transaction[]): Observable<Transaction[]> | undefined {
-        const { adapter } = this.get();
+        const { adapter, connected } = this.get();
 
         return adapter && 'signAllTransactions' in adapter
-            ? this.connected$.pipe(
-                  first(),
-                  concatMap((connected) => {
-                      if (!connected) {
-                          return throwError(new WalletNotConnectedError());
-                      }
-
-                      return from(defer(() => adapter.signAllTransactions(transactions)));
-                  })
-              )
+            ? transactionsSigner(adapter, connected)(transactions)
             : undefined;
     }
 
     signMessage(message: Uint8Array): Observable<Uint8Array> | undefined {
-        const { adapter } = this.get();
+        const { adapter, connected } = this.get();
 
-        return adapter && 'signMessage' in adapter
-            ? this.connected$.pipe(
-                  first(),
-                  concatMap((connected) => {
-                      if (!connected) {
-                          return throwError(new WalletNotConnectedError());
-                      }
-
-                      return from(defer(() => adapter.signMessage(message)));
-                  })
-              )
-            : undefined;
+        return adapter && 'signMessage' in adapter ? messageSigner(adapter, connected)(message) : undefined;
     }
 }
