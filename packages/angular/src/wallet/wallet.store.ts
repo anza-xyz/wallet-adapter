@@ -96,7 +96,7 @@ export class WalletStore extends ComponentStore<WalletState> {
 
         const walletName = this._localStorage.value;
         if (this._config.wallets.some(({ name }) => name === walletName)) {
-            this.setName(walletName);
+            this.selectWallet(walletName);
         }
     }
 
@@ -109,10 +109,11 @@ export class WalletStore extends ComponentStore<WalletState> {
     });
 
     readonly connect = this.effect((action$: Observable<void>) => {
-        return combineLatest([action$, this.state$]).pipe(
-            filter(([, { connected, connecting, disconnecting }]) => !connected && !connecting && !disconnecting),
+        return action$.pipe(
+            concatMap(() => of(null).pipe(withLatestFrom(this.state$, (_, state) => state))),
+            filter(({ connected, connecting, disconnecting }) => !connected && !connecting && !disconnecting),
             tap(() => this.patchState({ connecting: true })),
-            concatMap(([, { adapter, wallet, ready }]) => {
+            concatMap(({ adapter, wallet, ready }) => {
                 if (!wallet || !adapter) {
                     this._logError(new WalletNotSelectedError());
                     this._error.next(new WalletNotSelectedError());
@@ -120,7 +121,7 @@ export class WalletStore extends ComponentStore<WalletState> {
                 }
 
                 if (!ready) {
-                    this.setName(null);
+                    this.selectWallet(null);
 
                     if (typeof window !== 'undefined') {
                         window.open(wallet.url, '_blank');
@@ -133,7 +134,7 @@ export class WalletStore extends ComponentStore<WalletState> {
 
                 return from(defer(() => adapter.connect())).pipe(
                     catchError(() => {
-                        this.setName(null);
+                        this.selectWallet(null);
                         return of(null);
                     })
                 );
@@ -143,16 +144,17 @@ export class WalletStore extends ComponentStore<WalletState> {
     });
 
     readonly disconnect = this.effect((action$: Observable<void>) => {
-        return combineLatest([action$, this.state$]).pipe(
-            filter(([, { disconnecting }]) => !disconnecting),
+        return action$.pipe(
+            concatMap(() => of(null).pipe(withLatestFrom(this.state$, (_, state) => state))),
+            filter(({ disconnecting }) => !disconnecting),
             tap(() => this.patchState({ disconnecting: true })),
-            concatMap(([, { adapter }]) => {
+            concatMap(({ adapter }) => {
                 if (!adapter) {
                     return of(null);
                 } else {
                     return from(defer(() => adapter.disconnect())).pipe(
                         catchError(() => {
-                            this.setName(null);
+                            this.selectWallet(null);
                             return of(null);
                         })
                     );
@@ -162,8 +164,9 @@ export class WalletStore extends ComponentStore<WalletState> {
         );
     });
 
-    readonly setName = this.effect((name$: Observable<WalletName | null>) => {
-        return combineLatest([name$, this.state$]).pipe(
+    readonly selectWallet = this.effect((name$: Observable<WalletName | null>) => {
+        return name$.pipe(
+            concatMap((action) => of(action).pipe(withLatestFrom(this.state$))),
             filter(([name, wallet]) => name !== wallet.name),
             concatMap(([name, { adapter, wallets }]) =>
                 of(adapter).pipe(
