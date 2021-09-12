@@ -160,7 +160,7 @@ export class WalletStore extends ComponentStore<WalletState> {
                     );
                 }
             }),
-            tap(() => this.patchState({ disconnecting: false }))
+            tap(() => this.patchState({ disconnecting: false, name: null }))
         );
     });
 
