@@ -17,18 +17,14 @@ export class ConnectionStore extends ComponentStore<ConnectionState> {
         @Inject(CONNECTION_CONFIG)
         private _config: ConnectionConfig
     ) {
-        super({
-            connection: null,
-        });
+        super();
 
-        if (!this._config) {
-            this._config = CONNECTION_DEFAULT_CONFIG;
-        } else {
-            this._config = {
-                ...CONNECTION_DEFAULT_CONFIG,
-                ...this._config,
-            };
-        }
+        this._config = {
+            ...CONNECTION_DEFAULT_CONFIG,
+            ...this._config,
+        };
+
+        this.setState({ connection: null });
     }
 
     readonly setEndpoint = this.updater((state, endpoint: string) => ({
