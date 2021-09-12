@@ -1,13 +1,18 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import { SendTransactionOptions, WalletNotConnectedError, WalletNotReadyError } from '@solana/wallet-adapter-base';
-import { WalletName } from '@solana/wallet-adapter-wallets';
+import {
+    SendTransactionOptions,
+    WalletAdapter,
+    WalletNotConnectedError,
+    WalletNotReadyError,
+} from '@solana/wallet-adapter-base';
+import { Wallet, WalletName } from '@solana/wallet-adapter-wallets';
 import { Connection, Transaction } from '@solana/web3.js';
 import { asyncScheduler, combineLatest, defer, from, Observable, of, Subject, throwError } from 'rxjs';
 import { catchError, concatMap, filter, first, observeOn, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
-import { LocalStorageService } from '../local-storage/local-storage.service';
 import { fromAdapterEvent, isNotNull, messageSigner, transactionSigner, transactionsSigner } from '../operators';
+import { LocalStorageService } from './local-storage';
 import { WalletNotSelectedError } from './wallet.errors';
 import { WALLET_CONFIG } from './wallet.tokens';
 import { WalletConfig, WalletState } from './wallet.types';
@@ -17,6 +22,18 @@ export const WALLET_DEFAULT_CONFIG: WalletConfig = {
     autoConnect: false,
     localStorageKey: 'walletName',
     onError: (error: unknown) => console.error(error),
+};
+
+const initialState: {
+    wallet: Wallet | null;
+    adapter: ReturnType<Wallet['adapter']> | null;
+} & Pick<WalletAdapter, 'ready' | 'publicKey' | 'connected' | 'autoApprove'> = {
+    wallet: null,
+    adapter: null,
+    ready: false,
+    publicKey: null,
+    connected: false,
+    autoApprove: false,
 };
 
 @Injectable()
@@ -64,16 +81,11 @@ export class WalletStore extends ComponentStore<WalletState> {
         private _config: WalletConfig
     ) {
         super({
+            ...initialState,
             wallets: _config?.wallets || [],
             name: null,
-            wallet: null,
-            adapter: null,
-            connected: false,
             connecting: false,
             disconnecting: false,
-            ready: false,
-            publicKey: null,
-            autoApprove: false,
             autoConnect: _config?.autoConnect || false,
         });
 
@@ -84,7 +96,7 @@ export class WalletStore extends ComponentStore<WalletState> {
 
         const walletName = this._localStorage.value;
         if (this._config.wallets.some(({ name }) => name === walletName)) {
-            this.selectWallet(walletName);
+            this.setName(walletName);
         }
     }
 
@@ -97,11 +109,10 @@ export class WalletStore extends ComponentStore<WalletState> {
     });
 
     readonly connect = this.effect((action$: Observable<void>) => {
-        return action$.pipe(
-            concatMap(() => of(null).pipe(withLatestFrom(this.state$, (_, state) => state))),
-            filter(({ connected, connecting, disconnecting }) => !connected && !connecting && !disconnecting),
+        return combineLatest([action$, this.state$]).pipe(
+            filter(([, { connected, connecting, disconnecting }]) => !connected && !connecting && !disconnecting),
             tap(() => this.patchState({ connecting: true })),
-            concatMap(({ adapter, wallet, ready }) => {
+            concatMap(([, { adapter, wallet, ready }]) => {
                 if (!wallet || !adapter) {
                     this._logError(new WalletNotSelectedError());
                     this._error.next(new WalletNotSelectedError());
@@ -109,62 +120,80 @@ export class WalletStore extends ComponentStore<WalletState> {
                 }
 
                 if (!ready) {
-                    window.open(wallet.url, '_blank');
+                    this.setName(null);
+
+                    if (typeof window !== 'undefined') {
+                        window.open(wallet.url, '_blank');
+                    }
+
                     this._logError(new WalletNotReadyError());
                     this._error.next(new WalletNotReadyError());
                     return of(null);
                 }
 
-                return from(defer(() => adapter.connect())).pipe(catchError(() => of(null)));
+                return from(defer(() => adapter.connect())).pipe(
+                    catchError(() => {
+                        this.setName(null);
+                        return of(null);
+                    })
+                );
             }),
             tap(() => this.patchState({ connecting: false }))
         );
     });
 
     readonly disconnect = this.effect((action$: Observable<void>) => {
-        return action$.pipe(
-            concatMap(() => of(null).pipe(withLatestFrom(this.state$, (_, state) => state))),
-            filter(({ disconnecting }) => !disconnecting),
+        return combineLatest([action$, this.state$]).pipe(
+            filter(([, { disconnecting }]) => !disconnecting),
             tap(() => this.patchState({ disconnecting: true })),
-            concatMap(({ adapter }) => {
+            concatMap(([, { adapter }]) => {
                 if (!adapter) {
                     return of(null);
                 } else {
-                    return from(defer(() => adapter.disconnect())).pipe(catchError(() => of(null)));
+                    return from(defer(() => adapter.disconnect())).pipe(
+                        catchError(() => {
+                            this.setName(null);
+                            return of(null);
+                        })
+                    );
                 }
             }),
             tap(() => this.patchState({ disconnecting: false }))
         );
     });
 
-    readonly selectWallet = this.effect((walletName$: Observable<WalletName | null>) => {
-        return walletName$.pipe(
-            concatMap((action) => of(action).pipe(withLatestFrom(this.state$))),
-            filter(([walletName, { name }]) => walletName !== name),
-            concatMap(([walletName, { adapter, wallets }]) =>
-                of(adapter)
-                    .pipe(
-                        concatMap((adapter) => {
-                            if (!adapter) {
-                                return of(null);
-                            } else {
-                                return from(defer(() => adapter.disconnect())).pipe(catchError(() => of(null)));
-                            }
-                        })
-                    )
-                    .pipe(
-                        tap(() => {
-                            this._localStorage.setItem(walletName);
-                            const wallet = wallets.find(({ name }) => name === walletName);
-                            const adapter = wallet ? wallet.adapter() : null;
+    readonly setName = this.effect((name$: Observable<WalletName | null>) => {
+        return combineLatest([name$, this.state$]).pipe(
+            filter(([name, wallet]) => name !== wallet.name),
+            concatMap(([name, { adapter, wallets }]) =>
+                of(adapter).pipe(
+                    concatMap((adapter) => {
+                        if (!adapter) {
+                            return of(null);
+                        } else {
+                            return from(defer(() => adapter.disconnect())).pipe(catchError(() => of(null)));
+                        }
+                    }),
+                    tap(() => {
+                        this._localStorage.setItem(name);
+                        const wallet = wallets.find((wallet) => wallet.name === name) || null;
+                        const adapter = wallet ? wallet.adapter() : null;
+
+                        if (adapter) {
                             this.patchState({
-                                name: walletName,
+                                name,
                                 adapter,
                                 wallet,
-                                ready: adapter?.ready || false,
+                                ready: adapter.ready,
+                                autoApprove: adapter.autoApprove,
+                                connected: adapter.connected,
+                                publicKey: adapter.publicKey,
                             });
-                        })
-                    )
+                        } else {
+                            this.patchState(initialState);
+                        }
+                    })
+                )
             )
         );
     });
@@ -173,13 +202,13 @@ export class WalletStore extends ComponentStore<WalletState> {
         return this.adapter$.pipe(
             isNotNull,
             switchMap((adapter) =>
-                of(adapter).pipe(
-                    fromAdapterEvent('connect'),
+                fromAdapterEvent(adapter, 'connect').pipe(
                     tap(() =>
                         this.patchState({
                             connected: true,
                             publicKey: adapter.publicKey,
                             autoApprove: adapter.autoApprove,
+                            ready: adapter.ready,
                         })
                     )
                 )
@@ -190,13 +219,8 @@ export class WalletStore extends ComponentStore<WalletState> {
     readonly onDisconnect = this.effect(() => {
         return this.adapter$.pipe(
             isNotNull,
-            fromAdapterEvent('disconnect'),
-            tap(() =>
-                this.patchState({
-                    connected: false,
-                    autoApprove: false,
-                    publicKey: null,
-                })
+            switchMap((adapter) =>
+                fromAdapterEvent(adapter, 'disconnect').pipe(tap(() => this.patchState(initialState)))
             )
         );
     });
@@ -204,19 +228,21 @@ export class WalletStore extends ComponentStore<WalletState> {
     readonly onReady = this.effect(() => {
         return this.adapter$.pipe(
             isNotNull,
-            fromAdapterEvent('ready'),
-            tap(() => this.patchState({ ready: true }))
+            switchMap((adapter) => fromAdapterEvent(adapter, 'ready').pipe(tap(() => this.patchState({ ready: true }))))
         );
     });
 
     readonly onError = this.effect(() => {
         return this.adapter$.pipe(
             isNotNull,
-            fromAdapterEvent('error'),
-            tap((error) => {
-                this._logError(error);
-                this._error.next(error);
-            })
+            switchMap((adapter) =>
+                fromAdapterEvent(adapter, 'error').pipe(
+                    tap((error) => {
+                        this._logError(error);
+                        this._error.next(error);
+                    })
+                )
+            )
         );
     });
 
