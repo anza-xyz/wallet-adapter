@@ -11,7 +11,7 @@ import { SolflareWalletAdapter, SolflareWalletAdapterConfig } from '@solana/wall
 import { SolletWalletAdapter, SolletWalletAdapterConfig } from '@solana/wallet-adapter-sollet';
 import { SolongWalletAdapter, SolongWalletAdapterConfig } from '@solana/wallet-adapter-solong';
 import { TorusWalletAdapter, TorusWalletAdapterConfig } from '@solana/wallet-adapter-torus';
-import { CloverWalletWalletAdapter, CloverWalletWalletAdapterConfig } from '@solana/wallet-adapter-cloverwallet';
+import { CloverWalletWalletAdapter, CloverWalletWalletAdapterConfig } from '@solana/wallet-adapter-clover';
 export enum WalletName {
     Bitpie = 'Bitpie',
     Blocto = 'Blocto',
