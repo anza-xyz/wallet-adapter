@@ -72,8 +72,6 @@ export class CloverWalletWalletAdapter extends BaseSignerWalletAdapter {
             if (!wallet) throw new WalletNotFoundError();
             if (!wallet.isCloverWallet) throw new WalletNotInstalledError();
 
-            // @TODO: handle if popup is blocked
-
             let account: string;
             try {
                 account = await wallet.getAccount();
