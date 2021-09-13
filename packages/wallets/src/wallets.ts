@@ -15,6 +15,7 @@ import { CloverWalletWalletAdapter, CloverWalletWalletAdapterConfig } from '@sol
 export enum WalletName {
     Bitpie = 'Bitpie',
     Blocto = 'Blocto',
+    Clover = 'Clover',
     Coin98 = 'Coin98',
     Ledger = 'Ledger',
     MathWallet = 'MathWallet',
@@ -27,7 +28,6 @@ export enum WalletName {
     SolletExtension = 'Sollet (Extension)',
     Solong = 'Solong',
     Torus = 'Torus',
-    Clover = 'Clover',
 }
 
 export interface Wallet {
@@ -51,6 +51,13 @@ export const getBloctoWallet = (config: BloctoWalletAdapterConfig = {}): Wallet 
     url: 'https://wallet.blocto.app',
     icon: `${ICONS_URL}/blocto.svg`,
     adapter: () => new BloctoWalletAdapter(config),
+});
+
+export const getCloverWallet = (config: CloverWalletWalletAdapterConfig = {}): Wallet => ({
+    name: WalletName.Clover,
+    url: 'https://clover.finance',
+    icon: `${ICONS_URL}/clover.svg`,
+    adapter: () => new CloverWalletWalletAdapter(config),
 });
 
 export const getCoin98Wallet = (config: Coin98WalletAdapterConfig = {}): Wallet => ({
@@ -135,11 +142,4 @@ export const getTorusWallet = (config: TorusWalletAdapterConfig): Wallet => ({
     url: 'https://tor.us',
     icon: `${ICONS_URL}/torus.svg`,
     adapter: () => new TorusWalletAdapter(config),
-});
-
-export const getCloverWallet = (config: CloverWalletWalletAdapterConfig): Wallet => ({
-    name: WalletName.Clover,
-    url: 'https://clover.finance',
-    icon: `${ICONS_URL}/clover.svg`,
-    adapter: () => new CloverWalletWalletAdapter(config),
 });
