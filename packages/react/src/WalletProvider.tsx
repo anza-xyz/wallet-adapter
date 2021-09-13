@@ -112,7 +112,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     }, [adapter, setState]);
 
     // Handle the adapter's disconnect event
-    const onDisconnect = useCallback(() => setState(initialState), [setState]);
+    const onDisconnect = useCallback(() => setName(null), [setState]);
 
     // Connect the adapter to the wallet
     const connect = useCallback(async () => {
