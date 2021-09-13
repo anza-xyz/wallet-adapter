@@ -1,5 +1,5 @@
 {
-    "name": "@solana/wallet-adapter-cloverwallet",
+    "name": "@solana/wallet-adapter-clover",
     "version": "0.1.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
