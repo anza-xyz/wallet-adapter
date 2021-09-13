@@ -2,7 +2,7 @@ import {
     BaseSignerWalletAdapter,
     pollUntilReady,
     WalletAccountError,
-    WalletDisconnectedError,
+    WalletError,
     WalletNotConnectedError,
     WalletNotFoundError,
     WalletNotInstalledError,
@@ -113,7 +113,7 @@ export class CloverWalletWalletAdapter extends BaseSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return await wallet.signTransaction(transaction);
+                return (await wallet.signTransaction(transaction)) || transaction;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -124,18 +124,10 @@ export class CloverWalletWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
-        try {
-            const wallet = this._wallet;
-            if (!wallet) throw new WalletNotConnectedError();
-
-            try {
-                return await Promise.all(transactions.map((transaction) => this.signTransaction(transaction)));
-            } catch (error: any) {
-                throw new WalletSignTransactionError(error?.message, error);
-            }
-        } catch (error: any) {
-            this.emit('error', error);
-            throw error;
+        const signedTransactions: Transaction[] = [];
+        for (const transaction of transactions) {
+            signedTransactions.push(await this.signTransaction(transaction));
         }
+        return signedTransactions;
     }
 }

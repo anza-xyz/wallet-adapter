@@ -140,7 +140,7 @@ export class SolflareWalletAdapter extends BaseSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return await wallet.signTransaction(transaction);
+                return (await wallet.signTransaction(transaction)) || transaction;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -156,7 +156,7 @@ export class SolflareWalletAdapter extends BaseSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return await wallet.signAllTransactions(transactions);
+                return (await wallet.signAllTransactions(transactions)) || transactions;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }

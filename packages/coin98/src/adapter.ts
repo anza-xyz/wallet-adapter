@@ -2,6 +2,7 @@ import {
     BaseSignerWalletAdapter,
     pollUntilReady,
     WalletAccountError,
+    WalletError,
     WalletNotConnectedError,
     WalletNotFoundError,
     WalletNotInstalledError,
@@ -137,24 +138,10 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
     }
 
     async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
-        try {
-            const wallet = this._wallet;
-            if (!wallet) throw new WalletNotConnectedError();
-
-            const signedTransactions: Transaction[] = [];
-
-            try {
-                for (const transaction of transactions) {
-                    signedTransactions.push(await this.signTransaction(transaction));
-                }
-            } catch (error: any) {
-                throw new WalletSignTransactionError(error?.message, error);
-            }
-
-            return signedTransactions;
-        } catch (error: any) {
-            this.emit('error', error);
-            throw error;
+        const signedTransactions: Transaction[] = [];
+        for (const transaction of transactions) {
+            signedTransactions.push(await this.signTransaction(transaction));
         }
+        return signedTransactions;
     }
 }

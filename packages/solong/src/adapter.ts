@@ -109,7 +109,7 @@ export class SolongWalletAdapter extends BaseSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return await wallet.signTransaction(transaction);
+                return (await wallet.signTransaction(transaction)) || transaction;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -120,24 +120,10 @@ export class SolongWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
-        try {
-            const wallet = this._wallet;
-            if (!wallet) throw new WalletNotConnectedError();
-
-            const signedTransactions: Transaction[] = [];
-
-            try {
-                for (const transaction of transactions) {
-                    signedTransactions.push(await this.signTransaction(transaction));
-                }
-            } catch (error: any) {
-                throw new WalletSignTransactionError(error?.message, error);
-            }
-
-            return signedTransactions;
-        } catch (error: any) {
-            this.emit('error', error);
-            throw error;
+        const signedTransactions: Transaction[] = [];
+        for (const transaction of transactions) {
+            signedTransactions.push(await this.signTransaction(transaction));
         }
+        return signedTransactions;
     }
 }
