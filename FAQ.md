@@ -1,5 +1,10 @@
 # FAQ (Frequently Asked Questions)
 
+- [How can I get support?](#how-can-i-get-support)
+- [Can I use this with ___?](#can-i-use-this-with-___)
+- [What does this error mean?](#what-does-this-error-mean)
+- [How can I sign and verify messages?](#how-can-i-sign-and-verify-messages)
+
 ## How can I get support?
 
 Please ask questions in the #developer-support channel on the Solana Discord: https://discord.com/invite/pquxPsq
