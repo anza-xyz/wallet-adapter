@@ -9,12 +9,10 @@
             "packages/*/*"
         ],
         "nohoist": [
-            "**/@angular-devkit",
-            "**/@angular-devkit/**",
-            "**/next",
-            "**/next/**",
-            "**/react-scripts",
-            "**/react-scripts/**"
+            "**/babel-loader",
+            "**/babel-loader/**",
+            "**/webpack",
+            "**/webpack/**"
         ]
     },
     "engines": {
