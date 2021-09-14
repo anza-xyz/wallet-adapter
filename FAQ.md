@@ -27,13 +27,15 @@ Yes, see the [angular](https://github.com/solana-labs/wallet-adapter/tree/master
 Not yet, see [issue #67](https://github.com/solana-labs/wallet-adapter/issues/67). Please contribute if you want to add Vue support!
 
 ### Webpack / Babel / Rollup / Vite / Snowpack / esbuild
-Yes, but you may need to provide custom build configuration. Most of the packages are built using the TypeScript compiler, which outputs modular ES6 with `import`/`export` statements.
+Yes, but you may need to provide custom build configuration.
+Most of the packages are built using the TypeScript compiler, which outputs modular ES6 with `import`/`export` statements.
 
 If you're using Create React App, craco, or one of the React-based starter projects using them, this should be handled automatically.
 
 If you're using Next.js, this requires configuration, which is provided in the [nextjs-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/nextjs-starter) package.
 
-If you're using something else, you may have to configure your build tool to transpile the packages similarly to how it's done in the Next.js config. Please open an issue or pull request to document your solution!
+If you're using something else, you may have to configure your build tool to transpile the packages similarly to how it's done in the Next.js config.
+Please open an issue or pull request to document your solution!
 
 ## What does this error mean?
 
@@ -53,6 +55,22 @@ This shouldn't happen if you're using one of the starter projects, since they se
 
 This can happen if you try to use `signTransaction`, `signAllTransactions`, or `signMessage` without checking if they are defined first.
 
-`sendTransaction` is the primary method that all wallets support, and it signs transactions. The other methods are optional APIs, so you have to feature-detect them before using them.
+`sendTransaction` is the primary method that all wallets support, and it signs transactions.
+The other methods are optional APIs, so you have to feature-detect them before using them.
 
 Please see [issue #72](https://github.com/solana-labs/wallet-adapter/issues/72#issuecomment-919232595).
+
+### Torus wallet doesn't connect / `registering module Get a client ID @ https://developer.tor.us`
+
+This can happen if you're using one of the starter projects and you didn't configure Torus for your dApp.
+
+Go to https://developer.tor.us to sign up for your own unique client ID. Then use this ID in your configuration:
+```tsx
+    const wallets = useMemo(() => [
+        // ...
+        getTorusWallet({
+            options: { clientId: '<YOUR CLIENT ID>' },
+        }),
+        // ...
+    ], [network]);
+```
