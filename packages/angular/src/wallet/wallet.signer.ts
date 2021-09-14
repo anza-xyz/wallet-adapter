@@ -2,7 +2,7 @@ import { MessageSignerWalletAdapter, SignerWalletAdapter, WalletNotConnectedErro
 import { Transaction } from '@solana/web3.js';
 import { defer, from, Observable, Subject, throwError } from 'rxjs';
 
-export const messageSigner = (
+export const signMessage = (
     adapter: MessageSignerWalletAdapter,
     connected: boolean,
     errorSubject: Subject<unknown>
@@ -18,7 +18,7 @@ export const messageSigner = (
     };
 };
 
-export const transactionSigner = (
+export const signTransaction = (
     adapter: SignerWalletAdapter,
     connected: boolean,
     errorSubject: Subject<unknown>
@@ -34,7 +34,7 @@ export const transactionSigner = (
     };
 };
 
-export const transactionsSigner = (
+export const signAllTransactions = (
     adapter: SignerWalletAdapter,
     connected: boolean,
     errorSubject: Subject<unknown>

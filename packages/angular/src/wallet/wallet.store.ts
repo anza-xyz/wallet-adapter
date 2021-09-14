@@ -14,7 +14,7 @@ import { catchError, concatMap, filter, finalize, first, map, switchMap, tap, wi
 import { fromAdapterEvent, isNotNull } from '../operators';
 import { LocalStorageService } from './local-storage';
 import { WalletNotSelectedError } from './wallet.errors';
-import { messageSigner, transactionSigner, transactionsSigner } from './wallet.signer';
+import { signMessage, signTransaction, signAllTransactions } from './wallet.signer';
 import { WALLET_CONFIG } from './wallet.tokens';
 import { WalletConfig, WalletState } from './wallet.types';
 
@@ -59,21 +59,19 @@ export class WalletStore extends ComponentStore<WalletState> {
         this.adapter$,
         this.connected$,
         (publicKey, adapter, connected) => {
-            const signTransaction =
-                adapter && 'signTransaction' in adapter
-                    ? transactionSigner(adapter, connected, this._error)
-                    : undefined;
-            const signAllTransactions =
+            const adapterSignTransaction =
+                adapter && 'signTransaction' in adapter ? signTransaction(adapter, connected, this._error) : undefined;
+            const adapterSignAllTransactions =
                 adapter && 'signAllTransactions' in adapter
-                    ? transactionsSigner(adapter, connected, this._error)
+                    ? signAllTransactions(adapter, connected, this._error)
                     : undefined;
 
-            return publicKey && signTransaction && signAllTransactions
+            return publicKey && adapterSignTransaction && adapterSignAllTransactions
                 ? {
                       publicKey,
-                      signTransaction: (transaction: Transaction) => signTransaction(transaction).toPromise(),
+                      signTransaction: (transaction: Transaction) => adapterSignTransaction(transaction).toPromise(),
                       signAllTransactions: (transactions: Transaction[]) =>
-                          signAllTransactions(transactions).toPromise(),
+                          adapterSignAllTransactions(transactions).toPromise(),
                   }
                 : undefined;
         },
@@ -322,7 +320,7 @@ export class WalletStore extends ComponentStore<WalletState> {
         const { adapter, connected } = this.get();
 
         return adapter && 'signTransaction' in adapter
-            ? transactionSigner(adapter, connected, this._error)(transaction)
+            ? signTransaction(adapter, connected, this._error)(transaction)
             : undefined;
     }
 
@@ -331,7 +329,7 @@ export class WalletStore extends ComponentStore<WalletState> {
         const { adapter, connected } = this.get();
 
         return adapter && 'signAllTransactions' in adapter
-            ? transactionsSigner(adapter, connected, this._error)(transactions)
+            ? signAllTransactions(adapter, connected, this._error)(transactions)
             : undefined;
     }
 
@@ -339,8 +337,6 @@ export class WalletStore extends ComponentStore<WalletState> {
     signMessage(message: Uint8Array): Observable<Uint8Array> | undefined {
         const { adapter, connected } = this.get();
 
-        return adapter && 'signMessage' in adapter
-            ? messageSigner(adapter, connected, this._error)(message)
-            : undefined;
+        return adapter && 'signMessage' in adapter ? signMessage(adapter, connected, this._error)(message) : undefined;
     }
 }

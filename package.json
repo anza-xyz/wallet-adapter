@@ -4,9 +4,19 @@
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
-    "workspaces": [
-        "packages/*"
-    ],
+    "workspaces": {
+        "packages": [
+            "packages/*"
+        ],
+        "nohoist": [
+            "**/@angular-devkit",
+            "**/@angular-devkit/**",
+            "**/next",
+            "**/next/**",
+            "**/react-scripts",
+            "**/react-scripts/**"
+        ]
+    },
     "engines": {
         "node": ">= 10"
     },

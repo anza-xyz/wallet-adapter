@@ -13,7 +13,6 @@ export class LocalStorageService<T> {
         }
 
         const value = localStorage.getItem(this._key);
-
         if (value) {
             this._value = JSON.parse(value) as T;
             return this._value;

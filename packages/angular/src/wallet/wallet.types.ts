@@ -1,4 +1,3 @@
-import { MessageSignerWalletAdapter, SignerWalletAdapter, WalletAdapter } from '@solana/wallet-adapter-base';
 import { Wallet, WalletName } from '@solana/wallet-adapter-wallets';
 import { PublicKey } from '@solana/web3.js';
 
@@ -6,7 +5,7 @@ export interface WalletState {
     wallets: Wallet[];
     name: WalletName | null;
     wallet: Wallet | null;
-    adapter: WalletAdapter | SignerWalletAdapter | MessageSignerWalletAdapter | null;
+    adapter: ReturnType<Wallet['adapter']> | null;
     connecting: boolean;
     disconnecting: boolean;
     connected: boolean;
