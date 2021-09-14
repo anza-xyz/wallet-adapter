@@ -160,7 +160,10 @@ These packages are what most projects can use to support wallets on Solana.
 | ------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | [wallets](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets)                         | All wallets with icons                                                                 | [`@solana/wallet-adapter-wallets`](https://www.npmjs.com/package/@solana/wallet-adapter-wallets)                         |
 | [base](https://github.com/solana-labs/wallet-adapter/tree/master/packages/base)                               | Adapter interfaces, error types, and common utilities                                  | [`@solana/wallet-adapter-base`](https://www.npmjs.com/package/@solana/wallet-adapter-base)                               |
-| [react](https://github.com/solana-labs/wallet-adapter/tree/master/packages/react)                             | React hooks and context for dApps                                                      | [`@solana/wallet-adapter-react`](https://www.npmjs.com/package/@solana/wallet-adapter-react)                             |
+| [react](https://github.com/solana-labs/wallet-adapter/tree/master/packages/react)                             | Contexts and hooks for React dApps                                                     | [`@solana/wallet-adapter-react`](https://www.npmjs.com/package/@solana/wallet-adapter-react)                             |
+| [angular](https://github.com/solana-labs/wallet-adapter/tree/master/packages/angular) \*                      | Stores and configuration for Angular dApps                                             | [`@solana/wallet-adapter-angular`](https://www.npmjs.com/package/@solana/wallet-adapter-angular)                         |
+
+\* Package has not been published to NPM yet.
 
 ### UI Components
 These packages provide components for common UI frameworks.
