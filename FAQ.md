@@ -39,7 +39,7 @@ If you're using something else, you may have to configure your build tool to tra
 
 ### `Failed to compile. [...] Module not found: Can't resolve [...]`
 
-This can happen if you're cloning the project and [building it from the source](./README.md#build-from-source) and you missed a step.
+This can happen if you're cloning the project and [building it from the source](https://github.com/solana-labs/wallet-adapter/blob/master/README.md#build-from-source) and you missed a step.
 
 If this doesn't fix the problem, please [open an issue](https://github.com/solana-labs/wallet-adapter/issues/new).
 
