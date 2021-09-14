@@ -15,8 +15,8 @@
         "isolatedModules": true,
         "typeRoots": ["node_modules/@types"]
     },
-    "include": ["packages/*/src"],
-    "exclude": ["node_modules", "packages/*/node_modules"],
+    "include": ["packages/*/*/src"],
+    "exclude": ["node_modules", "packages/*/*/node_modules"],
     "typedocOptions": {
         "entryPoints": ".",
         "entryPointStrategy": "packages",
