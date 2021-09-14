@@ -2,3 +2,4 @@ docs
 build
 lib
 .next
+*.svg
