@@ -8,6 +8,7 @@ Modular TypeScript wallet adapters and components for Solana applications.
 
 - [TypeScript Docs](https://solana-labs.github.io/wallet-adapter/)
 - [UI Examples](https://solana-labs.github.io/wallet-adapter/example/)
+- [FAQ (Frequently Asked Questions)](./FAQ.md)
 - [Quick Setup (using React UI)](#quick-setup-using-react-ui)
     + [Install](#install)
     + [Setup](#setup)
