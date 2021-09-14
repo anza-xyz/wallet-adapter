@@ -1,4 +1,5 @@
 {
+    "private": true,
     "name": "@solana/wallet-adapter-angular",
     "version": "0.1.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
