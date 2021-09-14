@@ -215,7 +215,7 @@ export class WalletStore extends ComponentStore<WalletState> {
         return this.adapter$.pipe(
             isNotNull,
             switchMap((adapter) =>
-                fromAdapterEvent(adapter, 'disconnect').pipe(tap(() => this.patchState(initialState)))
+                fromAdapterEvent(adapter, 'disconnect').pipe(tap(() => this.patchState({ name: null })))
             )
         );
     });
