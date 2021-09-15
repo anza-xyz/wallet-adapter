@@ -82,7 +82,7 @@ Go to https://developer.tor.us to sign up for your own unique client ID. Then us
 
 ## How can I sign and verify messages?
 
-Some wallet adapters like Phantom provide a `signMessage` method for signing arbitrary bytes.
+Some wallet adapters like Phantom and Sollet provide a `signMessage` method for signing arbitrary bytes.
 
 The signature string returned by this method can be verified using [tweetnacl-js](https://github.com/dchest/tweetnacl-js/blob/master/README.md#naclsigndetachedverifymessage-signature-publickey) using the public key from the adapter.
 
