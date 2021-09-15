@@ -1,5 +1,6 @@
 import Wallet from '@project-serum/sol-wallet-adapter';
 import {
+    BaseMessageSignerWalletAdapter,
     BaseSignerWalletAdapter,
     pollUntilReady,
     WalletAdapterNetwork,
@@ -34,7 +35,7 @@ export interface SolletWalletAdapterConfig {
     pollCount?: number;
 }
 
-export class SolletWalletAdapter extends BaseSignerWalletAdapter {
+export class SolletWalletAdapter extends BaseMessageSignerWalletAdapter {
     private _provider: string | SolletWallet | undefined;
     private _network: WalletAdapterNetwork;
     private _connecting: boolean;
