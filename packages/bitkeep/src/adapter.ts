@@ -2,7 +2,6 @@ import {
     BaseSignerWalletAdapter,
     pollUntilReady,
     WalletAccountError,
-    WalletDisconnectedError,
     WalletNotConnectedError,
     WalletNotFoundError,
     WalletNotInstalledError,
@@ -11,15 +10,19 @@ import {
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 
-interface BitKeep {
+interface BitKeepWallet {
     isBitKeep?: boolean;
+    connect(): Promise<void>;
+    disconnect(): Promise<void>;
     getAccount(): Promise<string>;
     signTransaction(transaction: Transaction): Promise<Transaction>;
     signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
 }
 
 interface BitKeepWindow extends Window {
-    solana?: BitKeep;
+    bitkeep?: {
+        solana?: BitKeepWallet;
+    };
 }
 
 declare const window: BitKeepWindow;
@@ -31,7 +34,7 @@ export interface BitKeepWalletAdapterConfig {
 
 export class BitKeepWalletAdapter extends BaseSignerWalletAdapter {
     private _connecting: boolean;
-    private _wallet: BitKeep | null;
+    private _wallet: BitKeepWallet | null;
     private _publicKey: PublicKey | null;
 
     constructor(config: BitKeepWalletAdapterConfig = {}) {
@@ -48,7 +51,7 @@ export class BitKeepWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get ready(): boolean {
-        return typeof window !== 'undefined' && !!window.solana?.isBitKeep;
+        return typeof window !== 'undefined' && !!window.bitkeep;
     }
 
     get connecting(): boolean {
@@ -68,11 +71,9 @@ export class BitKeepWalletAdapter extends BaseSignerWalletAdapter {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const wallet = typeof window !== 'undefined' && window.solana;
+            const wallet = typeof window !== 'undefined' && window.bitkeep?.solana;
             if (!wallet) throw new WalletNotFoundError();
             if (!wallet.isBitKeep) throw new WalletNotInstalledError();
-
-            // @TODO: handle if popup is blocked
 
             let account: string;
             try {
@@ -88,8 +89,6 @@ export class BitKeepWalletAdapter extends BaseSignerWalletAdapter {
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
-            window.addEventListener('message', this._messaged);
-
             this._wallet = wallet;
             this._publicKey = publicKey;
 
@@ -104,11 +103,9 @@ export class BitKeepWalletAdapter extends BaseSignerWalletAdapter {
 
     async disconnect(): Promise<void> {
         if (this._wallet) {
-            window.removeEventListener('message', this._messaged);
-
+            this._wallet.disconnect();
             this._wallet = null;
             this._publicKey = null;
-
             this.emit('disconnect');
         }
     }
@@ -144,23 +141,4 @@ export class BitKeepWalletAdapter extends BaseSignerWalletAdapter {
             throw error;
         }
     }
-
-    private _messaged = (event: MessageEvent) => {
-        const data = event.data;
-        if (data && data.origin === 'bitkeep_internal' && data.type === 'lockStatusChanged' && !data.payload) {
-            this._disconnected();
-        }
-    };
-
-    private _disconnected = () => {
-        if (this._wallet) {
-            window.removeEventListener('message', this._messaged);
-
-            this._wallet = null;
-            this._publicKey = null;
-
-            this.emit('error', new WalletDisconnectedError());
-            this.emit('disconnect');
-        }
-    };
 }
