@@ -21,17 +21,17 @@
         "build": "yarn clean && tsc"
     },
     "peerDependencies": {
-        "@solana/wallet-adapter-base": "^0.5.2",
+        "@solana/wallet-adapter-base": "^0.6.0",
         "@solana/web3.js": "^1.20.0"
     },
     "dependencies": {
         "@types/pino": "^6.3.11",
-        "@walletconnect/client": "2.0.0-beta.16",
-        "@walletconnect/qrcode-modal": "2.0.0-alpha.20",
-        "@walletconnect/types": "2.0.0-beta.16"
+        "@walletconnect/client": "^2.0.0-beta.17",
+        "@walletconnect/qrcode-modal": "^2.0.0-alpha.20",
+        "@walletconnect/types": "^2.0.0-beta.17"
     },
     "devDependencies": {
-        "@solana/wallet-adapter-base": "^0.5.2",
+        "@solana/wallet-adapter-base": "^0.6.0",
         "@solana/web3.js": "^1.20.0"
     }
 }
