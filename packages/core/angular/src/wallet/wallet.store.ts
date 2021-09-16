@@ -27,13 +27,12 @@ export const WALLET_DEFAULT_CONFIG: WalletConfig = {
 const initialState: {
     wallet: Wallet | null;
     adapter: ReturnType<Wallet['adapter']> | null;
-} & Pick<WalletAdapter, 'ready' | 'publicKey' | 'connected' | 'autoApprove'> = {
+} & Pick<WalletAdapter, 'ready' | 'publicKey' | 'connected'> = {
     wallet: null,
     adapter: null,
     ready: false,
     publicKey: null,
     connected: false,
-    autoApprove: false,
 };
 
 @Injectable()
@@ -116,7 +115,7 @@ export class WalletStore extends ComponentStore<WalletState> {
                 const adapter = wallet && wallet.adapter();
 
                 if (adapter) {
-                    const { ready, publicKey, connected, autoApprove } = adapter;
+                    const { ready, publicKey, connected } = adapter;
                     this.patchState({
                         name,
                         adapter,
@@ -124,7 +123,6 @@ export class WalletStore extends ComponentStore<WalletState> {
                         ready,
                         publicKey,
                         connected,
-                        autoApprove,
                     });
                 } else {
                     this.patchState(initialState);
@@ -194,13 +192,12 @@ export class WalletStore extends ComponentStore<WalletState> {
             switchMap((adapter) =>
                 fromAdapterEvent(adapter, 'connect').pipe(
                     tap(() => {
-                        const { connected, publicKey, ready, autoApprove } = adapter;
+                        const { connected, publicKey, ready } = adapter;
 
                         this.patchState({
                             connected,
                             publicKey,
                             ready,
-                            autoApprove,
                         });
                     })
                 )

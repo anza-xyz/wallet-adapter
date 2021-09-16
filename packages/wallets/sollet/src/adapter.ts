@@ -70,10 +70,6 @@ export class SolletWalletAdapter extends BaseMessageSignerWalletAdapter {
         return !!this._wallet?.connected;
     }
 
-    get autoApprove(): boolean {
-        return !!this._wallet?.autoApprove;
-    }
-
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;

@@ -11,7 +11,6 @@ export interface WalletState {
     connected: boolean;
     ready: boolean;
     publicKey: PublicKey | null;
-    autoApprove: boolean;
     autoConnect: boolean;
 }
 

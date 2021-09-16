@@ -48,10 +48,6 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
         return !!this._publicKey;
     }
 
-    get autoApprove(): boolean {
-        return false;
-    }
-
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;

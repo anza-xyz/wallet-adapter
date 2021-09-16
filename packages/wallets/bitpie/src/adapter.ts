@@ -56,10 +56,6 @@ export class BitpieWalletAdapter extends BaseSignerWalletAdapter {
         return !!this._wallet;
     }
 
-    get autoApprove(): boolean {
-        return false;
-    }
-
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;

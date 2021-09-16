@@ -25,7 +25,6 @@ interface PhantomWallet extends EventEmitter<PhantomWalletEvents> {
     isPhantom?: boolean;
     publicKey?: { toBytes(): Uint8Array };
     isConnected: boolean;
-    autoApprove: boolean;
     signTransaction(transaction: Transaction): Promise<Transaction>;
     signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
     signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
@@ -73,10 +72,6 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
 
     get connected(): boolean {
         return !!this._wallet?.isConnected;
-    }
-
-    get autoApprove(): boolean {
-        return !!this._wallet?.autoApprove;
     }
 
     async connect(): Promise<void> {

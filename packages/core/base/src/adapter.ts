@@ -20,7 +20,6 @@ export interface WalletAdapterProps {
     ready: boolean;
     connecting: boolean;
     connected: boolean;
-    autoApprove: boolean;
 
     connect(): Promise<void>;
     disconnect(): Promise<void>;
@@ -38,7 +37,6 @@ export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents
     abstract ready: boolean;
     abstract connecting: boolean;
     abstract connected: boolean;
-    abstract autoApprove: boolean;
 
     abstract connect(): Promise<void>;
     abstract disconnect(): Promise<void>;

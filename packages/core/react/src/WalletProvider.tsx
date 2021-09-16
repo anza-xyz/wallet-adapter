@@ -23,13 +23,12 @@ export interface WalletProviderProps {
 const initialState: {
     wallet: Wallet | null;
     adapter: ReturnType<Wallet['adapter']> | null;
-} & Pick<WalletAdapter, 'ready' | 'publicKey' | 'connected' | 'autoApprove'> = {
+} & Pick<WalletAdapter, 'ready' | 'publicKey' | 'connected'> = {
     wallet: null,
     adapter: null,
     ready: false,
     publicKey: null,
     connected: false,
-    autoApprove: false,
 };
 
 export const WalletProvider: FC<WalletProviderProps> = ({
@@ -40,7 +39,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     localStorageKey = 'walletName',
 }) => {
     const [name, setName] = useLocalStorage<WalletName | null>(localStorageKey, null);
-    const [{ wallet, adapter, ready, publicKey, connected, autoApprove }, setState] = useState(initialState);
+    const [{ wallet, adapter, ready, publicKey, connected }, setState] = useState(initialState);
     const [connecting, setConnecting] = useState(false);
     const [disconnecting, setDisconnecting] = useState(false);
 
@@ -59,8 +58,8 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         const wallet = (name && walletsByName[name]) || null;
         const adapter = wallet && wallet.adapter();
         if (adapter) {
-            const { ready, publicKey, connected, autoApprove } = adapter;
-            setState({ wallet, adapter, connected, publicKey, ready, autoApprove });
+            const { ready, publicKey, connected } = adapter;
+            setState({ wallet, adapter, connected, publicKey, ready });
         } else {
             setState(initialState);
         }
@@ -101,13 +100,12 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     const onConnect = useCallback(() => {
         if (!adapter) return;
 
-        const { connected, publicKey, ready, autoApprove } = adapter;
+        const { connected, publicKey, ready } = adapter;
         setState((state) => ({
             ...state,
             connected,
             publicKey,
             ready,
-            autoApprove,
         }));
     }, [adapter, setState]);
 
@@ -260,7 +258,6 @@ export const WalletProvider: FC<WalletProviderProps> = ({
                 connecting,
                 disconnecting,
                 connected,
-                autoApprove,
                 connect,
                 disconnect,
                 sendTransaction,
