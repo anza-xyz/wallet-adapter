@@ -16,6 +16,9 @@ After reading this FAQ, if you've found a bug or you'd like to request a feature
 ### React
 Yes, see the [react-ui-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/react-ui-starter) package
 
+### Anchor
+Yes, use the [`useAnchorWallet()`](https://github.com/solana-labs/wallet-adapter/blob/master/packages/core/react/src/useAnchorWallet.ts) hook in the React package to easily get an [Anchor-compatible Wallet interface](https://github.com/project-serum/anchor/blob/0faed886002a9b01ad0513c860e19d7570cb0221/ts/src/provider.ts#L220-L224).
+
 ### Next.js (with React)
 Yes, see the [nextjs-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/nextjs-starter) package.
 
@@ -82,7 +85,7 @@ Go to https://developer.tor.us to sign up for your own unique client ID. Then us
 
 ## How can I sign and verify messages?
 
-Some wallet adapters like Phantom provide a `signMessage` method for signing arbitrary bytes.
+Some wallet adapters like Phantom and Sollet provide a `signMessage` method for signing arbitrary bytes.
 
 The signature string returned by this method can be verified using [tweetnacl-js](https://github.com/dchest/tweetnacl-js/blob/master/README.md#naclsigndetachedverifymessage-signature-publickey) using the public key from the adapter.
 
