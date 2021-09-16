@@ -24,17 +24,17 @@ interface CloverWalletWindow extends Window {
 
 declare const window: CloverWalletWindow;
 
-export interface CloverWalletWalletAdapterConfig {
+export interface CloverWalletAdapterConfig {
     pollInterval?: number;
     pollCount?: number;
 }
 
-export class CloverWalletWalletAdapter extends BaseSignerWalletAdapter {
+export class CloverWalletAdapter extends BaseSignerWalletAdapter {
     private _connecting: boolean;
     private _wallet: CloverWallet | null;
     private _publicKey: PublicKey | null;
 
-    constructor(config: CloverWalletWalletAdapterConfig = {}) {
+    constructor(config: CloverWalletAdapterConfig = {}) {
         super();
         this._connecting = false;
         this._wallet = null;
@@ -124,10 +124,18 @@ export class CloverWalletWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
-        const signedTransactions: Transaction[] = [];
-        for (const transaction of transactions) {
-            signedTransactions.push(await this.signTransaction(transaction));
+        try {
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
+
+            try {
+                return (await wallet.signAllTransactions(transactions)) || transactions;
+            } catch (error: any) {
+                throw new WalletSignTransactionError(error?.message, error);
+            }
+        } catch (error: any) {
+            this.emit('error', error);
+            throw error;
         }
-        return signedTransactions;
     }
 }
