@@ -44,7 +44,6 @@ import React, { FC, useMemo } from 'react';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {
-    getBloctoWallet,
     getLedgerWallet,
     getPhantomWallet,
     getSlopeWallet,
@@ -71,13 +70,12 @@ export const Wallet: FC = () => {
     // Only the wallets you configure here will be compiled into your application
     const wallets = useMemo(() => [
         getPhantomWallet(),
-        getSolflareWallet(),
         getSlopeWallet(),
+        getSolflareWallet(),
         getTorusWallet({
             options: { clientId: 'Get a client ID @ https://developer.tor.us' }
         }),
         getLedgerWallet(),
-        getBloctoWallet({ network }),
         getSolletWallet({ network }),
         getSolletExtensionWallet({ network }),
     ], [network]);

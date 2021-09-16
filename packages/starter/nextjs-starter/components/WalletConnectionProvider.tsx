@@ -1,7 +1,6 @@
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import {
-    getBloctoWallet,
     getLedgerWallet,
     getPhantomWallet,
     getSlopeWallet,
@@ -25,13 +24,12 @@ const WalletConnectionProvider: FC = ({ children }) => {
     const wallets = useMemo(
         () => [
             getPhantomWallet(),
-            getSolflareWallet(),
             getSlopeWallet(),
+            getSolflareWallet(),
             getTorusWallet({
                 options: { clientId: 'Get a client ID @ https://developer.tor.us' },
             }),
             getLedgerWallet(),
-            getBloctoWallet({ network }),
             getSolletWallet({ network }),
             getSolletExtensionWallet({ network }),
         ],
