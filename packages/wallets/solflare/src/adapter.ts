@@ -23,7 +23,6 @@ interface SolflareWallet extends EventEmitter<SolflareWalletEvents> {
     isSolflare?: boolean;
     publicKey?: { toBytes(): Uint8Array };
     isConnected: boolean;
-    autoApprove: boolean;
     signTransaction(transaction: Transaction): Promise<Transaction>;
     signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
     connect(): Promise<boolean>;
@@ -69,10 +68,6 @@ export class SolflareWalletAdapter extends BaseSignerWalletAdapter {
 
     get connected(): boolean {
         return !!this._wallet?.isConnected;
-    }
-
-    get autoApprove(): boolean {
-        return !!this._wallet?.autoApprove;
     }
 
     async connect(): Promise<void> {

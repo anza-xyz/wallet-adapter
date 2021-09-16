@@ -67,10 +67,6 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
         return !!this._wallet?.isConnected();
     }
 
-    get autoApprove(): boolean {
-        return false;
-    }
-
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
