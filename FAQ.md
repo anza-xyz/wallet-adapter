@@ -7,7 +7,7 @@
 
 ## How can I get support?
 
-Please ask questions in the #developer-support channel on the Solana Discord: https://discord.com/invite/pquxPsq
+Please ask questions in the #developer-support channel on the Solana Discord: https://discord.com/invite/solana
 
 After reading this FAQ, if you've found a bug or you'd like to request a feature, please [open an issue](https://github.com/solana-labs/wallet-adapter/issues/new).
 
