@@ -6,9 +6,13 @@ Modular TypeScript wallet adapters and components for Solana applications.
 
 ## Quick Links
 
+- [Demo](https://solana-labs.github.io/wallet-adapter/example/)
 - [TypeScript Docs](https://solana-labs.github.io/wallet-adapter/)
-- [UI Examples](https://solana-labs.github.io/wallet-adapter/example/)
 - [FAQ (Frequently Asked Questions)](https://github.com/solana-labs/wallet-adapter/blob/master/FAQ.md)
+    + [How can I get support?](https://github.com/solana-labs/wallet-adapter/blob/master/FAQ.md#how-can-i-get-support)
+    + [Can I use this with ___?](https://github.com/solana-labs/wallet-adapter/blob/master/FAQ.md#can-i-use-this-with-___)
+    + [What does this error mean?](https://github.com/solana-labs/wallet-adapter/blob/master/FAQ.md#what-does-this-error-mean)
+    + [How can I sign and verify messages?](https://github.com/solana-labs/wallet-adapter/blob/master/FAQ.md#how-can-i-sign-and-verify-messages)
 - [Quick Setup (using React UI)](#quick-setup-using-react-ui)
     + [Install](#install)
     + [Setup](#setup)

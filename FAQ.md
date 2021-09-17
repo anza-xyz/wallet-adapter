@@ -22,6 +22,8 @@ Yes, use the [`useAnchorWallet()`](https://github.com/solana-labs/wallet-adapter
 ### Next.js (with React)
 Yes, see the [nextjs-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/nextjs-starter) package.
 
+If you're using one of the [react-ui](https://github.com/solana-labs/wallet-adapter/tree/master/packages/ui/react-ui), [material-ui](https://github.com/solana-labs/wallet-adapter/tree/master/packages/ui/material-ui), or [ant-design](https://github.com/solana-labs/wallet-adapter/tree/master/packages/ui/ant-design) packages too, make sure to configure the `WalletModalProvider` or `WalletDialogProvider` context [as shown here](https://github.com/solana-labs/wallet-adapter#setup).
+
 ### Material UI (with React)
 Yes, see the [material-ui-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/material-ui-starter) package.
 
@@ -53,9 +55,10 @@ This can happen if you're cloning the project and [building it from the source](
 
 If this doesn't fix the problem, please [open an issue](https://github.com/solana-labs/wallet-adapter/issues/new).
 
-### `[...] is undefined` / `Uncaught TypeError: Cannot destructure property` / `Uncaught (in promise) WalletNotConnectedError`
+### `[...] is not a function` / `[...] is undefined` / `Uncaught TypeError: Cannot destructure property` / `Uncaught (in promise) WalletNotConnectedError`
 
-This can happen if you don't wrap your dApp with the `WalletContext` and `ConnectionContext` provided by the [react](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/react) package. See [issue #62](https://github.com/solana-labs/wallet-adapter/issues/62#issuecomment-916421795) and [issue #73](https://github.com/solana-labs/wallet-adapter/issues/73#issuecomment-919237687).
+This can happen if you don't wrap your dApp with the `WalletContext` and `ConnectionContext` provided by the [react](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/react) package.
+See issues [#62](https://github.com/solana-labs/wallet-adapter/issues/62#issuecomment-916421795), [#73](https://github.com/solana-labs/wallet-adapter/issues/73#issuecomment-919237687), and [#85](https://github.com/solana-labs/wallet-adapter/issues/85).
 
 This shouldn't happen if you're using one of the starter projects, since they set up the contexts for you.
 
