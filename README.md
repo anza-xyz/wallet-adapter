@@ -36,7 +36,7 @@ Install these dependencies:
 yarn add @solana/wallet-adapter-wallets \
          @solana/wallet-adapter-base \
          @solana/wallet-adapter-react \
-         @solana/wallet-adapter-react-ui
+         @solana/wallet-adapter-react-ui \
          @solana/web3.js \
          react
 ```
