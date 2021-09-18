@@ -54,8 +54,6 @@ export const WalletMultiButton: FC<ButtonProps> = ({
     color = 'primary',
     variant = 'contained',
     children,
-    disabled,
-    onClick,
     ...props
 }) => {
     const styles = useStyles();
@@ -70,8 +68,20 @@ export const WalletMultiButton: FC<ButtonProps> = ({
         return base58.slice(0, 4) + '..' + base58.slice(-4);
     }, [children, wallet, base58]);
 
-    if (!wallet) return <WalletDialogButton color={color} variant={variant} {...props} />;
-    if (!base58) return <WalletConnectButton color={color} variant={variant} {...props} />;
+    if (!wallet) {
+        return (
+            <WalletDialogButton color={color} variant={variant} {...props}>
+                {children}
+            </WalletDialogButton>
+        );
+    }
+    if (!base58) {
+        return (
+            <WalletConnectButton color={color} variant={variant} {...props}>
+                {children}
+            </WalletConnectButton>
+        );
+    }
 
     return (
         <>

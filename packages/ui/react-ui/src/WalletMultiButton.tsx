@@ -56,8 +56,8 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
         };
     }, [ref, closeDropdown]);
 
-    if (!wallet) return <WalletModalButton {...props} />;
-    if (!base58) return <WalletConnectButton {...props} />;
+    if (!wallet) return <WalletModalButton {...props}>{children}</WalletModalButton>;
+    if (!base58) return <WalletConnectButton {...props}>{children}</WalletConnectButton>;
 
     return (
         <div className="wallet-adapter-dropdown">

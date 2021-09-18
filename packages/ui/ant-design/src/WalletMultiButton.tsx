@@ -11,14 +11,7 @@ import { WalletConnectButton } from './WalletConnectButton';
 import { WalletIcon } from './WalletIcon';
 import { WalletModalButton } from './WalletModalButton';
 
-export const WalletMultiButton: FC<ButtonProps> = ({
-    type = 'primary',
-    size = 'large',
-    children,
-    disabled,
-    onClick,
-    ...props
-}) => {
+export const WalletMultiButton: FC<ButtonProps> = ({ type = 'primary', size = 'large', children, ...props }) => {
     const { publicKey, wallet, disconnect } = useWallet();
     const { setVisible } = useWalletModal();
 
@@ -29,8 +22,20 @@ export const WalletMultiButton: FC<ButtonProps> = ({
         return base58.slice(0, 4) + '..' + base58.slice(-4);
     }, [children, wallet, base58]);
 
-    if (!wallet) return <WalletModalButton {...props} />;
-    if (!base58) return <WalletConnectButton {...props} />;
+    if (!wallet) {
+        return (
+            <WalletModalButton type={type} size={size} {...props}>
+                {children}
+            </WalletModalButton>
+        );
+    }
+    if (!base58) {
+        return (
+            <WalletConnectButton type={type} size={size} {...props}>
+                {children}
+            </WalletConnectButton>
+        );
+    }
 
     return (
         <Dropdown
