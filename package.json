@@ -4,9 +4,17 @@
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
-    "workspaces": [
-        "packages/*"
-    ],
+    "workspaces": {
+        "packages": [
+            "packages/*/*"
+        ],
+        "nohoist": [
+            "**/babel-loader",
+            "**/babel-loader/**",
+            "**/webpack",
+            "**/webpack/**"
+        ]
+    },
     "engines": {
         "node": ">= 10"
     },
@@ -20,28 +28,29 @@
         "publish": "lerna publish from-package",
         "deploy": "yarn deploy:docs && yarn deploy:example",
         "deploy:docs": "yarn docs && gh-pages --dist docs --dotfiles",
-        "deploy:example": "gh-pages --dist packages/example/build --dest example --dotfiles",
-        "docs": "rm -rf docs && NODE_OPTIONS=--max_old_space_size=8192 typedoc && cp .nojekyll docs/",
+        "deploy:example": "gh-pages --dist packages/starter/example/build --dest example --dotfiles",
+        "docs": "shx rm -rf docs && NODE_OPTIONS=--max_old_space_size=8192 typedoc && shx cp ./{.nojekyll,wallets.png,modal_logo.png} docs/",
         "fmt": "prettier --write '{*,**/*}.{js,ts,jsx,tsx,json}'",
-        "lint": "eslint . --ext .ts && prettier --check '{*,**/*}.{js,ts,jsx,tsx,json}'",
-        "lint:fix": "eslint . --ext .ts --fix && prettier --write '{*,**/*}.{js,ts,jsx,tsx,json}'",
-        "nuke": "rm -rf {.,packages/*}/{node_modules,yarn.lock}"
+        "lint": "eslint --ext .ts . && prettier --check '{*,**/*}.{js,ts,jsx,tsx,json}'",
+        "lint:fix": "eslint --fix --ext .ts . && yarn fmt",
+        "nuke": "shx rm -rf {.,packages/*/*}/{node_modules,yarn.lock}"
     },
     "devDependencies": {
         "@types/eslint": "^7.2.13",
         "@types/eslint-plugin-prettier": "^3.1.0",
-        "@types/node": "^16.4.13",
+        "@types/node": "^16.9.1",
         "@types/prettier": "^2.3.1",
-        "@typescript-eslint/eslint-plugin": "^4.28.0",
-        "@typescript-eslint/parser": "^4.28.1",
+        "@typescript-eslint/eslint-plugin": "^4.31.0",
+        "@typescript-eslint/parser": "^4.31.0",
         "eslint": "^7.29.0",
         "eslint-config-prettier": "^8.3.0",
-        "eslint-plugin-prettier": "^3.4.0",
+        "eslint-plugin-prettier": "^4.0.0",
         "gh-pages": "^3.2.3",
         "lerna": "^4.0.0",
-        "prettier": "^2.2.1",
+        "prettier": "^2.4.0",
+        "shx": "^0.3.3",
         "tslib": "^2.3.0",
-        "typedoc": "^0.21.2",
-        "typescript": "^4.3.5"
+        "typedoc": "^0.22.2",
+        "typescript": "^4.4.3"
     }
 }

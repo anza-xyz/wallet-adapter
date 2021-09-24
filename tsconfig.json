@@ -6,7 +6,7 @@
         "noEmitOnError": true,
         "stripInternal": true,
         "target": "es6",
-        "module": "commonjs",
+        "module": "esnext",
         "moduleResolution": "node",
         "jsx": "react",
         "strict": true,
@@ -15,10 +15,12 @@
         "isolatedModules": true,
         "typeRoots": ["node_modules/@types"]
     },
-    "include": ["packages/*/src"],
-    "exclude": ["node_modules", "packages/*/node_modules"],
+    "include": ["packages/*/*/src"],
+    "exclude": ["node_modules", "packages/*/*/node_modules"],
     "typedocOptions": {
+        "entryPoints": ".",
+        "entryPointStrategy": "packages",
         "out": "docs",
-        "packages": "."
+        "readme": "README.md"
     }
 }
