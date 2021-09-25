@@ -3161,13 +3161,6 @@
   dependencies:
     buffer "~6.0.3"
 
-"@solana/wallet-adapter-ant-design@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@solana/wallet-adapter-ant-design/-/wallet-adapter-ant-design-0.6.0.tgz#3df529e689e6f57383e72f81f4f03100eb6141fe"
-  integrity sha512-5eKC6PgVElRjN6dUoOa0+b0uBqQfeuDzoxi0Z4IHYU6OBy7v5ZVO3FIBf5/oIHAOMP7bTzXzUjVgOxYvRPSRWA==
-  dependencies:
-    "@types/react" "^17.0.16"
-
 "@solana/web3.js@^1.20.0", "@solana/web3.js@^1.22.0":
   version "1.29.0"
   resolved "https://registry.yarnpkg.com/@solana/web3.js/-/web3.js-1.29.0.tgz#61cb40e2190f13ae8084d20012cb81f8fade78fa"
@@ -3733,7 +3726,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^17.0.16", "@types/react@^17.0.20", "@types/react@^17.0.24":
+"@types/react@*", "@types/react@^17.0.24":
   version "17.0.24"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.24.tgz#7e1b3f78d0fc53782543f9bce6d949959a5880bd"
   integrity sha512-eIpyco99gTH+FTI3J7Oi/OH8MZoFMJuztNRimDOJwH4iGIsKV2qkGnk4M9VzlaVWeEEWLWSQRy0FEA0Kz218cg==
