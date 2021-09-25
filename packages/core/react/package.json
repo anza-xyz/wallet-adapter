@@ -25,13 +25,11 @@
         "@solana/web3.js": "^1.20.0",
         "react": "^17.0.2"
     },
-    "dependencies": {
-        "@types/react": "^17.0.16"
-    },
     "devDependencies": {
         "@solana/wallet-adapter-base": "^0.6.0",
         "@solana/wallet-adapter-wallets": "^0.10.0",
         "@solana/web3.js": "^1.20.0",
+        "@types/react": "^17.0.24",
         "react": "^17.0.2"
     }
 }
