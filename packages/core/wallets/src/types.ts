@@ -3,7 +3,7 @@ import { MessageSignerWalletAdapter, SignerWalletAdapter, WalletAdapter } from '
 export enum WalletName {
     // Bitpie = 'Bitpie', // not published yet
     Blocto = 'Blocto',
-    // Clover = 'Clover', // not published yet
+    Clover = 'Clover',
     Coin98 = 'Coin98',
     Ledger = 'Ledger',
     MathWallet = 'MathWallet',

@@ -23,6 +23,7 @@ import {
     WalletMultiButton as ReactUIWalletMultiButton,
 } from '@solana/wallet-adapter-react-ui';
 import {
+    getCloverWallet,
     getLedgerWallet,
     getPhantomWallet,
     getSlopeWallet,
@@ -46,6 +47,7 @@ export const Demo: FC = () => {
 
     const wallets = useMemo(
         () => [
+            getCloverWallet(),
             getPhantomWallet(),
             getSlopeWallet(),
             getSolflareWallet(),
