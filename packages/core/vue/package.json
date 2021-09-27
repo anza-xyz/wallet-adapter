@@ -1,0 +1,34 @@
+{
+    "name": "@solana/wallet-adapter-vue",
+    "version": "0.1.0",
+    "author": "Solana Maintainers <maintainers@solana.foundation>",
+    "repository": "https://github.com/solana-labs/wallet-adapter",
+    "license": "Apache-2.0",
+    "main": "lib/index.js",
+    "esnext": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "files": [
+        "lib",
+        "src",
+        "LICENSE"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "clean": "shx rm -rf lib/*",
+        "build": "yarn clean && tsc"
+    },
+    "peerDependencies": {
+        "@solana/wallet-adapter-base": "^0.6.0",
+        "@solana/wallet-adapter-wallets": "^0.10.0",
+        "@solana/web3.js": "^1.20.0",
+        "vue": "^3.0.0"
+    },
+    "devDependencies": {
+        "@solana/wallet-adapter-base": "^0.6.0",
+        "@solana/wallet-adapter-wallets": "^0.10.0",
+        "@solana/web3.js": "^1.20.0",
+        "vue": "^3.0.0"
+    }
+}
