@@ -2,6 +2,7 @@ import {
     BaseSignerWalletAdapter,
     pollUntilReady,
     WalletAccountError,
+    WalletDisconnectionError,
     WalletNotConnectedError,
     WalletNotFoundError,
     WalletNotInstalledError,
@@ -59,11 +60,7 @@ export class BitKeepWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get connected(): boolean {
-        return !!this._wallet;
-    }
-
-    get autoApprove(): boolean {
-        return false;
+        return !!this._publicKey;
     }
 
     async connect(): Promise<void> {
@@ -102,10 +99,17 @@ export class BitKeepWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     async disconnect(): Promise<void> {
-        if (this._wallet) {
-            this._wallet.disconnect();
+        const wallet = this._wallet;
+        if (wallet) {
             this._wallet = null;
             this._publicKey = null;
+
+            try {
+                await wallet.disconnect();
+            } catch (error: any) {
+                this.emit('error', new WalletDisconnectionError(error?.message, error));
+            }
+
             this.emit('disconnect');
         }
     }
@@ -116,7 +120,7 @@ export class BitKeepWalletAdapter extends BaseSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return await wallet.signTransaction(transaction);
+                return (await wallet.signTransaction(transaction)) || transaction;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -132,7 +136,7 @@ export class BitKeepWalletAdapter extends BaseSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return await wallet.signAllTransactions(transactions);
+                return (await wallet.signAllTransactions(transactions)) || transactions;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
