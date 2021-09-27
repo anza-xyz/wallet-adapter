@@ -71,7 +71,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
     }
 
     get connected(): boolean {
-        return !!this._wallet?.isConnected;
+        return !!this._publicKey;
     }
 
     async connect(): Promise<void> {

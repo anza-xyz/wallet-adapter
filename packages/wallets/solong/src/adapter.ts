@@ -53,7 +53,7 @@ export class SolongWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get connected(): boolean {
-        return !!this._wallet?.currentAccount;
+        return !!this._publicKey;
     }
 
     async connect(): Promise<void> {

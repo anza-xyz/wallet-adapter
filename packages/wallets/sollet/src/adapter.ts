@@ -67,7 +67,7 @@ export class SolletWalletAdapter extends BaseMessageSignerWalletAdapter {
     }
 
     get connected(): boolean {
-        return !!this._wallet?.connected;
+        return !!this._wallet?.publicKey;
     }
 
     async connect(): Promise<void> {

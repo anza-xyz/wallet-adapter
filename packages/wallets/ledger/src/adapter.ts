@@ -43,7 +43,7 @@ export class LedgerWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get connected(): boolean {
-        return !!this._transport;
+        return !!this._publicKey;
     }
 
     async connect(): Promise<void> {

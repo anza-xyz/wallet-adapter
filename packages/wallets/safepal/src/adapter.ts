@@ -55,7 +55,7 @@ export class SafePalWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get connected(): boolean {
-        return !!this._wallet;
+        return !!this._publicKey;
     }
 
     async connect(): Promise<void> {

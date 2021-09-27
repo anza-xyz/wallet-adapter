@@ -67,7 +67,7 @@ export class SolflareWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get connected(): boolean {
-        return !!this._wallet?.isConnected;
+        return !!this._publicKey;
     }
 
     async connect(): Promise<void> {
