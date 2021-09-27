@@ -23,7 +23,6 @@
         "@solana/wallet-adapter-base": "^0.6.0"
     },
     "dependencies": {
-        "@solana/wallet-adapter-bitpie": "^0.2.0",
         "@solana/wallet-adapter-blocto": "^0.2.0",
         "@solana/wallet-adapter-coin98": "^0.2.0",
         "@solana/wallet-adapter-ledger": "^0.6.0",
