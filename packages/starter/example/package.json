@@ -5,73 +5,55 @@
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
     "files": [
+        "components",
+        "pages",
         "public",
-        "src",
-        ".env",
-        "LICENSE",
+        "styles",
+        ".eslintrc.json",
+        "next.config.js",
+        "next-env.d.ts",
         "package.json",
         "README.md",
-        "tsconfig.json",
-        "yarn.lock"
+        "tsconfig.json"
     ],
     "publishConfig": {
         "access": "public"
     },
     "scripts": {
-        "clean": "shx rm -rf build/*",
-        "start": "craco start",
-        "build": "craco build",
-        "test": "craco test"
+        "clean": "shx rm -rf .next",
+        "dev": "next dev",
+        "build": "yarn clean && next build && next export",
+        "start": "next start",
+        "lint": "next lint"
     },
     "dependencies": {
+        "@ant-design/icons": "^4.6.3",
         "@material-ui/core": "^4.12.3",
         "@material-ui/icons": "^4.11.2",
-        "@solana/wallet-adapter-ant-design": "^0.7.2",
+        "@solana/wallet-adapter-ant-design": "^0.8.0",
         "@solana/wallet-adapter-base": "^0.6.0",
         "@solana/wallet-adapter-material-ui": "^0.12.2",
         "@solana/wallet-adapter-react": "^0.12.2",
-        "@solana/wallet-adapter-react-ui": "^0.4.2",
+        "@solana/wallet-adapter-react-ui": "^0.5.0",
         "@solana/wallet-adapter-wallets": "^0.10.0",
         "@solana/web3.js": "^1.20.0",
+        "antd": "^4.16.11",
         "bs58": "^4.0.1",
+        "next": "^11.1.2",
         "notistack": "^1.0.9",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
-        "tweetnacl": "^1.0.3",
-        "web-vitals": "^1.0.1"
+        "tweetnacl": "^1.0.3"
     },
     "devDependencies": {
-        "@craco/craco": "^6.2.0",
-        "@testing-library/jest-dom": "^5.11.4",
-        "@testing-library/react": "^11.1.0",
-        "@testing-library/user-event": "^12.1.10",
-        "@types/bs58": "^4.0.1",
-        "@types/jest": "^26.0.15",
-        "@types/node": "^12.0.0",
         "@types/react": "^17.0.24",
-        "@types/react-dom": "^17.0.0",
-        "craco-less": "^1.18.0",
-        "react-scripts": "^4.0.3",
-        "source-map-explorer": "^2.5.2",
-        "typescript": "^4.4.3",
-        "yarn": "^1.22.11"
-    },
-    "eslintConfig": {
-        "extends": [
-            "react-app",
-            "react-app/jest"
-        ]
-    },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
+        "babel-plugin-import": "^1.13.3",
+        "eslint": "^7.32.0",
+        "eslint-config-next": "^11.1.2",
+        "next-compose-plugins": "^2.2.1",
+        "next-plugin-antd-less": "^1.4.3",
+        "next-transpile-modules": "^8.0.0",
+        "shx": "^0.3.3",
+        "typescript": "^4.4.3"
     }
 }

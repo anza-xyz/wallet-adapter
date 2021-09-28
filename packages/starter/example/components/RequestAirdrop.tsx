@@ -1,7 +1,7 @@
 import { Button } from '@material-ui/core';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { LAMPORTS_PER_SOL, TransactionSignature } from '@solana/web3.js';
-import React, { FC, useCallback } from 'react';
+import { FC, useCallback } from 'react';
 import { useNotify } from './notify';
 
 const RequestAirdrop: FC = () => {
