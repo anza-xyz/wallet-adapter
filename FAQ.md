@@ -36,7 +36,33 @@ Yes, see the [angular](https://github.com/solana-labs/wallet-adapter/tree/master
 ### Vue / Vuex
 Not yet, see [issue #67](https://github.com/solana-labs/wallet-adapter/issues/67). Please contribute if you want to add Vue support!
 
-### Webpack / Babel / Rollup / Vite / Snowpack / esbuild
+### Webpack / Gatsby
+Yes, but you may need to set up polyfills for certain imported modules.
+
+For example, you may need to install `buffer`:
+```shell
+yarn add buffer
+```
+
+And configure `webpack.config.js`:
+```js
+const webpack = require('webpack');
+
+module.exports = {
+    plugins: [
+        new webpack.ProvidePlugin({
+            Buffer: ['buffer', 'Buffer']
+        })
+    ],
+    resolve: {
+        fallback: {
+            crypto: false
+        }
+    }
+};
+```
+
+### Babel / Rollup / Vite / Snowpack / esbuild
 Yes, but you may need to provide custom build configuration.
 Most of the packages are built using the TypeScript compiler, which outputs modular ES6 with `import`/`export` statements.
 
