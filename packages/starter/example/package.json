@@ -20,7 +20,7 @@
         "access": "public"
     },
     "scripts": {
-        "clean": "shx rm -rf .next",
+        "clean": "shx rm -rf .next out",
         "dev": "next dev",
         "build": "yarn clean && next build && next export",
         "start": "next start",
