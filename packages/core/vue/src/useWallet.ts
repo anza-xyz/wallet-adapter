@@ -1,4 +1,4 @@
-import { Connection, Message, PublicKey, Transaction } from '@solana/web3.js';
+import { Connection, PublicKey, Transaction } from '@solana/web3.js';
 import {
     MessageSignerWalletAdapterProps,
     SignerWalletAdapterProps,
@@ -9,8 +9,7 @@ import {
     WalletError,
 } from '@solana/wallet-adapter-base';
 import { Wallet, WalletName } from '@solana/wallet-adapter-wallets';
-import { ref, computed, Ref } from '@vue/reactivity';
-import { watch, watchEffect } from '@vue/runtime-core'; // TODO: Throws errors when compiling...
+import { ref, computed, Ref, watch, watchEffect } from 'vue'; // TODO: Throws errors when compiling...
 import { useLocalStorage } from './useLocalStorage';
 import { WalletNotSelectedError } from './errors';
 
