@@ -76,7 +76,7 @@ export const initWallet = (wallets: Wallet[], autoConnect = false): void => {
     })
 
     // Select a wallet by name.
-    const select = async (newWalletProvider: Wallet): Promise<void> => {
+    const select = async (newWalletProvider: string): Promise<void> => {
         if (walletProvider.value === newWalletProvider) return
         if (adapter.value) await adapter.value.disconnect()
         walletProvider.value = newWalletProvider
@@ -85,7 +85,6 @@ export const initWallet = (wallets: Wallet[], autoConnect = false): void => {
     // Handle the adapter events.
     const onReady = () => ready.value = true
     const onError = (error: Error) => console.log(error)
-    const onDisconnect = () => {}
     const onConnect = () => {
         if (! adapter.value) return
         ready.value = adapter.value.ready
@@ -96,13 +95,11 @@ export const initWallet = (wallets: Wallet[], autoConnect = false): void => {
         if (! adapter.value) return
         adapter.value.on('ready', onReady)
         adapter.value.on('connect', onConnect)
-        adapter.value.on('disconnect', onDisconnect)
         adapter.value.on('error', onError)
         onInvalidate(() => {
             if (! adapter.value) return
             adapter.value.off('ready', onReady)
             adapter.value.off('connect', onConnect)
-            adapter.value.off('disconnect', onDisconnect)
             adapter.value.off('error', onError)
         })
     })
@@ -160,21 +157,21 @@ export const initWallet = (wallets: Wallet[], autoConnect = false): void => {
 
     // Sign a transaction if the wallet supports it.
     const signTransaction = async (transaction: Transaction) => {
-        if (! adapter?.value?.signTransaction) return
+        if (! adapter?.value || !('signTransaction' in adapter.value)) return
         if (! connected.value) throw newError('Wallet not connected')
         return await adapter.value.signTransaction(transaction)
     }
 
     // Sign multiple transactions if the wallet supports it
     const signAllTransactions = async (transactions: Transaction[]) => {
-        if (! adapter?.value?.signAllTransactions) return
+        if (! adapter?.value || !('signAllTransactions' in adapter.value)) return
         if (! connected.value) throw newError('Wallet not connected')
         return await adapter.value.signAllTransactions(transactions)
     }
 
     // Sign an arbitrary message if the wallet supports it.
-    const signMessage = async (message: Message) => {
-        if (! adapter?.value?.signMessage) return
+    const signMessage = async (message: Uint8Array) => {
+        if (! adapter?.value || !('signMessage' in adapter.value)) return
         if (! connected.value) throw newError('Wallet not connected')
         return await adapter.value.signMessage(message)
     }
