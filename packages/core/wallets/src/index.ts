@@ -1,3 +1,4 @@
+export * from './bitkeep';
 export * from './bitpie';
 export * from './blocto';
 export * from './clover';
