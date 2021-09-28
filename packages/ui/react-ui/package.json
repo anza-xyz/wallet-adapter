@@ -10,14 +10,15 @@
     "files": [
         "lib",
         "src",
-        "LICENSE"
+        "LICENSE",
+        "styles.css"
     ],
     "publishConfig": {
         "access": "public"
     },
     "scripts": {
         "clean": "shx rm -rf lib/*",
-        "build": "yarn clean && tsc && shx cp -f src/styles.css lib/"
+        "build": "yarn clean && tsc"
     },
     "peerDependencies": {
         "@solana/wallet-adapter-base": "^0.6.0",

@@ -1,8 +1,10 @@
 import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import './index.css';
 import reportWebVitals from './reportWebVitals';
+
+// Use require instead of import, and order matters
+require('./index.css');
 
 ReactDOM.render(
     <StrictMode>
