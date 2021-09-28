@@ -81,7 +81,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
                 }
             })();
         }
-    }, [autoConnect, adapter, ready, connecting, connected, connecting, setName]);
+    }, [autoConnect, adapter, ready, connected, connecting, setName]);
 
     // Select a wallet by name
     const select = useCallback(
