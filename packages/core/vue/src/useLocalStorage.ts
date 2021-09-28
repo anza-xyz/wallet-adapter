@@ -1,6 +1,6 @@
 import { customRef, Ref } from '@vue/reactivity';
 
-export default function<T> (key: string, defaultValue: T | null = null): Ref<T | null> {
+export function useLocalStorage<T> (key: string, defaultValue: T | null = null): Ref<T | null> {
     return customRef<T | null>((track, trigger) => ({
         get: () => {
             track();
