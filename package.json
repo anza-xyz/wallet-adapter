@@ -28,7 +28,7 @@
         "publish": "lerna publish from-package",
         "deploy": "yarn deploy:docs && yarn deploy:example",
         "deploy:docs": "yarn docs && gh-pages --dist docs --dotfiles",
-        "deploy:example": "gh-pages --dist packages/starter/example/build --dest example --dotfiles",
+        "deploy:example": "gh-pages --dist packages/starter/example/out --dest example --dotfiles",
         "docs": "shx rm -rf docs && NODE_OPTIONS=--max_old_space_size=8192 typedoc && shx cp ./{.nojekyll,wallets.png,modal_logo.png} docs/",
         "fmt": "prettier --write '{*,**/*}.{js,ts,jsx,tsx,json}'",
         "lint": "eslint --ext .ts . && prettier --check '{*,**/*}.{js,ts,jsx,tsx,json}'",

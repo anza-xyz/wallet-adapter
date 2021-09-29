@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
-import './notification.css';
+
+// Use require instead of import, and order matters
+require('./notification.css');
 
 export interface NotificationProps {
     message: string;

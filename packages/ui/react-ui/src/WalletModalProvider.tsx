@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import './styles.css';
 import { WalletModalContext } from './useWalletModal';
 import { WalletModal, WalletModalProps } from './WalletModal';
 
