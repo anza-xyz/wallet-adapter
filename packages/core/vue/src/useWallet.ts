@@ -9,7 +9,7 @@ import {
     WalletError,
 } from '@solana/wallet-adapter-base';
 import { Wallet, WalletName } from '@solana/wallet-adapter-wallets';
-import { ref, computed, Ref, watch, watchEffect } from 'vue'; // TODO: Throws errors when compiling...
+import { ref, computed, Ref, watch, watchEffect } from '@vue/runtime-core';
 import { useLocalStorage } from './useLocalStorage';
 import { WalletNotSelectedError } from './errors';
 
