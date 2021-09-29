@@ -65,8 +65,8 @@ export const initWallet = ({
 
     // Update the wallet and adapter based on the wallet provider.
     watch(walletProvider, (): void => {
-        wallet.value = walletsByProvider.value?.[walletProvider.value as string]
-        adapter.value = wallet.value?.adapter()
+        wallet.value = walletsByProvider.value?.[walletProvider.value as string] ?? null
+        adapter.value = wallet.value?.adapter() ?? null
         if (adapter.value) {
             ready.value = adapter.value.ready
             publicKey.value = adapter.value.publicKey
