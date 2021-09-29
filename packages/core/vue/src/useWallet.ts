@@ -63,6 +63,16 @@ export const initWallet = ({
         }, {} as WalletDictionary)
     })
 
+    // DEBUG
+    watchEffect(() => { console.log('walletProvider => ', walletProvider) })
+    watchEffect(() => { console.log('wallet => ', wallet) })
+    watchEffect(() => { console.log('adapter => ', adapter) })
+    watchEffect(() => { console.log('publicKey => ', publicKey) })
+    watchEffect(() => { console.log('ready => ', ready) })
+    watchEffect(() => { console.log('connected => ', connected) })
+    watchEffect(() => { console.log('connecting => ', connecting) })
+    watchEffect(() => { console.log('walletsByProvider => ', walletsByProvider) })
+
     // Update the wallet and adapter based on the wallet provider.
     watch(walletProvider, (): void => {
         wallet.value = walletsByProvider.value?.[walletProvider.value as string] ?? null
@@ -77,19 +87,6 @@ export const initWallet = ({
             connected.value = false
         }
     }, { immediate:true })
-
-    // If autoConnect is enabled, try to connect when the adapter changes and is ready.
-    watchEffect(async (): Promise<void> => {
-        if (! autoConnect || ! adapter.value || ! ready.value || connected.value || connecting.value) return
-        try {
-            connecting.value = true
-            await adapter.value.connect()
-        } catch (error) {
-            walletProvider.value = null
-        } finally {
-            connecting.value = false
-        }
-    })
 
     // Select a wallet by name.
     const select = async (newWalletProvider: string): Promise<void> => {
@@ -188,6 +185,12 @@ export const initWallet = ({
         if (! connected.value) throw newError(new WalletNotConnectedError())
         return await adapter.value.signMessage(message)
     }
+
+    // If autoConnect is enabled, try to connect when the adapter changes and is ready.
+    watchEffect(async (): Promise<void> => {
+        if (! autoConnect || ! adapter.value || ! ready.value || connected.value || connecting.value) return;
+        await connect();
+    })
 
     walletStore = {
         // Data
