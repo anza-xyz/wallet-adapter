@@ -21,7 +21,7 @@
     },
     "scripts": {
         "clean": "shx rm -rf .next out",
-        "dev": "next dev",
+        "dev": "NODE_OPTIONS='--inspect' next dev",
         "build": "yarn clean && next build && next export",
         "start": "next start",
         "lint": "next lint"
