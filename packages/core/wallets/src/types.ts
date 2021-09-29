@@ -6,6 +6,7 @@ export enum WalletName {
     Blocto = 'Blocto',
     // Clover = 'Clover', // not published yet
     Coin98 = 'Coin98',
+    Cryptid = 'Cryptid',
     Ledger = 'Ledger',
     MathWallet = 'MathWallet',
     Phantom = 'Phantom',
