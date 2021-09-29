@@ -20,7 +20,7 @@ Yes, see the [react-ui-starter](https://github.com/solana-labs/wallet-adapter/tr
 Yes, use the [`useAnchorWallet()`](https://github.com/solana-labs/wallet-adapter/blob/master/packages/core/react/src/useAnchorWallet.ts) hook in the React package to easily get an [Anchor-compatible Wallet interface](https://github.com/project-serum/anchor/blob/0faed886002a9b01ad0513c860e19d7570cb0221/ts/src/provider.ts#L220-L224).
 
 ### Next.js (with React)
-Yes, see the [nextjs-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/nextjs-starter) package.
+Yes, see the [nextjs-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/nextjs-starter) package for very basic configuration, or the [example](https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/example) package for more complete configuration.
 
 If you're using one of the [react-ui](https://github.com/solana-labs/wallet-adapter/tree/master/packages/ui/react-ui), [material-ui](https://github.com/solana-labs/wallet-adapter/tree/master/packages/ui/material-ui), or [ant-design](https://github.com/solana-labs/wallet-adapter/tree/master/packages/ui/ant-design) packages too, make sure to configure the `WalletModalProvider` or `WalletDialogProvider` context [as shown here](https://github.com/solana-labs/wallet-adapter#setup).
 

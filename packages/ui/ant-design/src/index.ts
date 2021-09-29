@@ -1,5 +1,3 @@
-import './styles.less';
-
 export * from './useWalletModal';
 export * from './WalletConnectButton';
 export * from './WalletModal';
