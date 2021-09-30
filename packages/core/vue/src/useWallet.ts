@@ -3,7 +3,6 @@ import { Connection, PublicKey, Transaction, TransactionSignature } from '@solan
 import {
     MessageSignerWalletAdapterProps,
     SignerWalletAdapterProps,
-    WalletAdapterProps,
     SendTransactionOptions,
     WalletNotConnectedError,
     WalletNotReadyError,
@@ -19,6 +18,8 @@ type WalletDictionary = { [key: string]: Wallet };
 export interface WalletStore {
     wallets: Wallet[];
     autoConnect: boolean;
+    walletProvider: Ref<string | null>,
+    walletsByProvider: Ref<WalletDictionary>,
 
     wallet: Ref<Wallet | null>;
     adapter: Ref<Adapter | null>;
@@ -106,7 +107,7 @@ export const initWallet = ({
     // Handle the adapter events.
     const onReady = () => ready.value = true
     const onConnect = () => {
-        if (! adapter.value) return
+        if (! adapter.value) return;
         ready.value = adapter.value.ready
         publicKey.value = adapter.value.publicKey
         connected.value = adapter.value.connected
@@ -153,16 +154,19 @@ export const initWallet = ({
     }
 
     // Disconnect the adapter from the wallet.
-    const disconnect = async () => {
-        if (disconnecting.value) return
-        if (! adapter.value) return walletProvider.value = null
+    const disconnect = async (): Promise<void> => {
+        if (disconnecting.value) return;
+        if (! adapter.value) {
+            walletProvider.value = null;
+            return;
+        }
 
         try {
-            disconnecting.value = true
-            await adapter.value.disconnect()
+            disconnecting.value = true;
+            await adapter.value.disconnect();
         } finally {
-            walletProvider.value = null
-            disconnecting.value = false
+            walletProvider.value = null;
+            disconnecting.value = false;
         }
     }
 
@@ -204,6 +208,10 @@ export const initWallet = ({
     })
 
     walletStore = {
+        // Props
+        wallets,
+        autoConnect,
+
         // Data
         walletProvider,
         walletsByProvider,
