@@ -1,4 +1,7 @@
 export * from './useWalletModal';
+export * from './useConnectionModal';
+export * from './ConnectionModal';
+export * from './ConnectionModalProvider';
 export * from './WalletConnectButton';
 export * from './WalletModal';
 export * from './WalletModalButton';

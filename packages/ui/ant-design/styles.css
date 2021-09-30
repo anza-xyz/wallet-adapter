@@ -52,6 +52,13 @@
     align-items: center;
 }
 
+.wallet-adapter-connection-modal-menu-button {
+    height: 44px;
+    padding-left: 24px;
+    display: flex;
+    align-items: center;
+}
+
 .wallet-adapter-modal-menu-button-icon {
     width: 24px;
     height: 24px;

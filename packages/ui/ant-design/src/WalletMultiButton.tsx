@@ -7,6 +7,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { Button, ButtonProps, Dropdown, Menu } from 'antd';
 import React, { FC, useMemo } from 'react';
 import { useWalletModal } from './useWalletModal';
+import { useConnectionModal } from './useConnectionModal';
 import { WalletConnectButton } from './WalletConnectButton';
 import { WalletIcon } from './WalletIcon';
 import { WalletModalButton } from './WalletModalButton';
@@ -14,6 +15,7 @@ import { WalletModalButton } from './WalletModalButton';
 export const WalletMultiButton: FC<ButtonProps> = ({ type = 'primary', size = 'large', children, ...props }) => {
     const { publicKey, wallet, disconnect } = useWallet();
     const { setVisible } = useWalletModal();
+    const { setVisible: setConnetionModalVisible } = useConnectionModal();
 
     const base58 = useMemo(() => publicKey?.toBase58(), [publicKey]);
     const content = useMemo(() => {
@@ -68,6 +70,13 @@ export const WalletMultiButton: FC<ButtonProps> = ({ type = 'primary', size = 'l
                         className="wallet-adapter-multi-button-item"
                     >
                         Connect a different wallet
+                    </Menu.Item>
+                    <Menu.Item
+                        onClick={() => setTimeout(() => setConnetionModalVisible(true), 100)}
+                        icon={<SwitchIcon className=".wallet-adapter-multi-button-icon" />}
+                        className="wallet-adapter-multi-button-item"
+                    >
+                        Use a different endpoint
                     </Menu.Item>
                     <Menu.Item
                         onClick={() => {
