@@ -1,8 +1,6 @@
 import { ref, Ref, computed, watch, watchEffect } from '@vue/runtime-core';
 import { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
 import {
-    MessageSignerWalletAdapterProps,
-    SignerWalletAdapterProps,
     SendTransactionOptions,
     WalletNotConnectedError,
     WalletNotReadyError,
@@ -16,27 +14,29 @@ type Adapter = ReturnType<Wallet['adapter']>;
 type WalletDictionary = { [key: string]: Wallet };
 
 export interface WalletStore {
+    // Props.
     wallets: Wallet[];
     autoConnect: boolean;
-    walletProvider: Ref<string | null>,
-    walletsByProvider: Ref<WalletDictionary>,
 
+    // Data.
+    walletName: Ref<string | null>,
+    walletsByName: Ref<WalletDictionary>,
     wallet: Ref<Wallet | null>;
     adapter: Ref<Adapter | null>;
-    disconnecting: Ref<boolean>;
-
     publicKey: Ref<PublicKey | null>;
     ready: Ref<boolean>;
-    connecting: Ref<boolean>;
     connected: Ref<boolean>;
+    connecting: Ref<boolean>;
+    disconnecting: Ref<boolean>;
+
+    // Methods.
+    select(walletName: WalletName): void;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
-    select(walletName: WalletName): void;
-    
     sendTransaction(transaction: Transaction, connection: Connection, options?: SendTransactionOptions): Promise<TransactionSignature>;
-    signTransaction: SignerWalletAdapterProps['signTransaction'];
-    signAllTransactions: SignerWalletAdapterProps['signAllTransactions'];
-    signMessage: MessageSignerWalletAdapterProps['signMessage'];
+    signTransaction(transaction: Transaction): Promise<Transaction>;
+    signAllTransactions(transaction: Transaction[]): Promise<Transaction[]>;
+    signMessage(message: Uint8Array): Promise<Uint8Array>;
 }
 
 export interface WalletStoreProps {
@@ -56,7 +56,7 @@ export const initWallet = ({
     onError = (error: WalletError) => console.error(error),
     localStorageKey = 'walletName',
 }: WalletStoreProps): void => {
-    const walletProvider = useLocalStorage<string>(localStorageKey);
+    const walletName = useLocalStorage<string>(localStorageKey);
     const wallet = ref<Wallet | null>(null);
     const adapter = ref<Adapter | null>(null);
     const publicKey = ref<PublicKey | null>(null);
@@ -65,26 +65,26 @@ export const initWallet = ({
     const connecting = ref<boolean>(false);
     const disconnecting = ref<boolean>(false);
 
-    const walletsByProvider = computed<WalletDictionary>(() => {
-        return wallets.reduce((walletsByProvider, wallet) => {
-            walletsByProvider[wallet.name] = wallet
-            return walletsByProvider
+    const walletsByName = computed<WalletDictionary>(() => {
+        return wallets.reduce((walletsByName, wallet) => {
+            walletsByName[wallet.name] = wallet
+            return walletsByName
         }, {} as WalletDictionary)
     })
 
     // DEBUG
-    watchEffect(() => { console.log('walletProvider => ', walletProvider) })
+    watchEffect(() => { console.log('walletName => ', walletName) })
     watchEffect(() => { console.log('wallet => ', wallet) })
     watchEffect(() => { console.log('adapter => ', adapter) })
     watchEffect(() => { console.log('publicKey => ', publicKey) })
     watchEffect(() => { console.log('ready => ', ready) })
     watchEffect(() => { console.log('connected => ', connected) })
     watchEffect(() => { console.log('connecting => ', connecting) })
-    watchEffect(() => { console.log('walletsByProvider => ', walletsByProvider) })
+    watchEffect(() => { console.log('walletsByName => ', walletsByName) })
 
     // Update the wallet and adapter based on the wallet provider.
-    watch(walletProvider, (): void => {
-        wallet.value = walletsByProvider.value?.[walletProvider.value as string] ?? null
+    watch(walletName, (): void => {
+        wallet.value = walletsByName.value?.[walletName.value as string] ?? null
         adapter.value = wallet.value?.adapter() ?? null
         if (adapter.value) {
             ready.value = adapter.value.ready
@@ -98,10 +98,10 @@ export const initWallet = ({
     }, { immediate:true })
 
     // Select a wallet by name.
-    const select = async (newWalletProvider: string): Promise<void> => {
-        if (walletProvider.value === newWalletProvider) return
+    const select = async (newWalletName: string): Promise<void> => {
+        if (walletName.value === newWalletName) return
         if (adapter.value) await adapter.value.disconnect()
-        walletProvider.value = newWalletProvider
+        walletName.value = newWalletName
     }
 
     // Handle the adapter events.
@@ -137,7 +137,7 @@ export const initWallet = ({
         if (! wallet.value || ! adapter.value) throw newError(new WalletNotSelectedError())
 
         if (! ready.value) {
-            walletProvider.value = null
+            walletName.value = null
             window.open(wallet.value.url, '_blank')
             throw newError(new WalletNotReadyError())
         }
@@ -146,7 +146,7 @@ export const initWallet = ({
             connecting.value = true
             await adapter.value.connect()
         } catch (error: any) {
-            walletProvider.value = null
+            walletName.value = null
             throw error
         } finally {
             connecting.value = false
@@ -157,7 +157,7 @@ export const initWallet = ({
     const disconnect = async (): Promise<void> => {
         if (disconnecting.value) return;
         if (! adapter.value) {
-            walletProvider.value = null;
+            walletName.value = null;
             return;
         }
 
@@ -165,7 +165,7 @@ export const initWallet = ({
             disconnecting.value = true;
             await adapter.value.disconnect();
         } finally {
-            walletProvider.value = null;
+            walletName.value = null;
             disconnecting.value = false;
         }
     }
@@ -208,13 +208,13 @@ export const initWallet = ({
     })
 
     walletStore = {
-        // Props
+        // Props.
         wallets,
         autoConnect,
 
-        // Data
-        walletProvider,
-        walletsByProvider,
+        // Data.
+        walletName,
+        walletsByName,
         wallet,
         adapter,
         publicKey,
@@ -223,7 +223,7 @@ export const initWallet = ({
         connecting,
         disconnecting,
 
-        // Methods
+        // Methods.
         select,
         connect,
         disconnect,
