@@ -67,91 +67,81 @@ export const initWallet = ({
 
     const walletsByName = computed<WalletDictionary>(() => {
         return wallets.reduce((walletsByName, wallet) => {
-            walletsByName[wallet.name] = wallet
-            return walletsByName
-        }, {} as WalletDictionary)
-    })
-
-    // DEBUG
-    watchEffect(() => { console.log('walletName => ', walletName) })
-    watchEffect(() => { console.log('wallet => ', wallet) })
-    watchEffect(() => { console.log('adapter => ', adapter) })
-    watchEffect(() => { console.log('publicKey => ', publicKey) })
-    watchEffect(() => { console.log('ready => ', ready) })
-    watchEffect(() => { console.log('connected => ', connected) })
-    watchEffect(() => { console.log('connecting => ', connecting) })
-    watchEffect(() => { console.log('walletsByName => ', walletsByName) })
+            walletsByName[wallet.name] = wallet;
+            return walletsByName;
+        }, {} as WalletDictionary);
+    });
 
     // Update the wallet and adapter based on the wallet provider.
     watch(walletName, (): void => {
-        wallet.value = walletsByName.value?.[walletName.value as string] ?? null
-        adapter.value = wallet.value?.adapter() ?? null
+        wallet.value = walletsByName.value?.[walletName.value as string] ?? null;
+        adapter.value = wallet.value?.adapter() ?? null;
         if (adapter.value) {
-            ready.value = adapter.value.ready
-            publicKey.value = adapter.value.publicKey
-            connected.value = adapter.value.connected
+            ready.value = adapter.value.ready;
+            publicKey.value = adapter.value.publicKey;
+            connected.value = adapter.value.connected;
         } else {
-            ready.value = false
-            publicKey.value = null
-            connected.value = false
+            ready.value = false;
+            publicKey.value = null;
+            connected.value = false;
         }
-    }, { immediate:true })
+    }, { immediate:true });
 
     // Select a wallet by name.
     const select = async (newWalletName: string): Promise<void> => {
         if (walletName.value === newWalletName) return
         if (adapter.value) await adapter.value.disconnect()
         walletName.value = newWalletName
-    }
+    };
 
     // Handle the adapter events.
-    const onReady = () => ready.value = true
+    const onReady = () => ready.value = true;
     const onConnect = () => {
         if (! adapter.value) return;
-        ready.value = adapter.value.ready
-        publicKey.value = adapter.value.publicKey
-        connected.value = adapter.value.connected
-    }
+        ready.value = adapter.value.ready;
+        publicKey.value = adapter.value.publicKey;
+        connected.value = adapter.value.connected;
+    };
     watchEffect(onInvalidate => {
-        if (! adapter.value) return
-        adapter.value.on('ready', onReady)
-        adapter.value.on('connect', onConnect)
-        adapter.value.on('error', onError)
+        if (! adapter.value) return;
+        adapter.value.on('ready', onReady);
+        adapter.value.on('connect', onConnect);
+        adapter.value.on('error', onError);
         onInvalidate(() => {
-            if (! adapter.value) return
-            adapter.value.off('ready', onReady)
-            adapter.value.off('connect', onConnect)
-            adapter.value.off('error', onError)
-        })
-    })
+            if (! adapter.value) return;
+            adapter.value.off('ready', onReady);
+            adapter.value.off('connect', onConnect);
+            adapter.value.off('error', onError);
+        });
+    });
 
     // Helper method to return an error whilst using the onError callback.
     const newError = (error: WalletError): WalletError => {
-        onError(error)
-        return error
-    }
+        onError(error);
+        return error;
+    };
 
     // Connect the adapter to the wallet.
     const connect = async (): Promise<void> => {
-        if (connected.value || connecting.value || disconnecting.value) return
-        if (! wallet.value || ! adapter.value) throw newError(new WalletNotSelectedError())
+        if (connected.value || connecting.value || disconnecting.value) return;
+        if (! wallet.value || ! adapter.value) throw newError(new WalletNotSelectedError());
 
         if (! ready.value) {
-            walletName.value = null
-            window.open(wallet.value.url, '_blank')
-            throw newError(new WalletNotReadyError())
+            walletName.value = null;
+            window.open(wallet.value.url, '_blank');
+            throw newError(new WalletNotReadyError());
         }
 
         try {
-            connecting.value = true
-            await adapter.value.connect()
+            connecting.value = true;
+            await adapter.value.connect();
         } catch (error: any) {
-            walletName.value = null
-            throw error
+            walletName.value = null;
+            throw error;
         } finally {
-            connecting.value = false
+            connecting.value = false;
         }
-    }
+    };
 
     // Disconnect the adapter from the wallet.
     const disconnect = async (): Promise<void> => {
@@ -168,44 +158,44 @@ export const initWallet = ({
             walletName.value = null;
             disconnecting.value = false;
         }
-    }
+    };
 
     // Send a transaction using the provided connection.
     const sendTransaction = async (transaction: Transaction, connection: Connection, options?: SendTransactionOptions) => {
-        if (! adapter.value) throw newError(new WalletNotSelectedError())
-        if (! connected.value) throw newError(new WalletNotConnectedError())
-        return await adapter.value.sendTransaction(transaction, connection, options)
-    }
+        if (! adapter.value) throw newError(new WalletNotSelectedError());
+        if (! connected.value) throw newError(new WalletNotConnectedError());
+        return await adapter.value.sendTransaction(transaction, connection, options);
+    };
 
     // Sign a transaction if the wallet supports it.
     const signTransaction = async (transaction: Transaction) => {
-        if (! adapter.value) throw newError(new WalletNotSelectedError())
-        if (! connected.value) throw newError(new WalletNotConnectedError())
-        if (!('signTransaction' in adapter.value)) throw newError(new OperationNotSupportedByWalletError())
-        return await adapter.value.signTransaction(transaction)
-    }
+        if (! adapter.value) throw newError(new WalletNotSelectedError());
+        if (! connected.value) throw newError(new WalletNotConnectedError());
+        if (!('signTransaction' in adapter.value)) throw newError(new OperationNotSupportedByWalletError());
+        return await adapter.value.signTransaction(transaction);
+    };
 
     // Sign multiple transactions if the wallet supports it
     const signAllTransactions = async (transactions: Transaction[]) => {
-        if (! adapter.value) throw newError(new WalletNotSelectedError())
-        if (! connected.value) throw newError(new WalletNotConnectedError())
-        if (!('signAllTransactions' in adapter.value)) throw newError(new OperationNotSupportedByWalletError())
-        return await adapter.value.signAllTransactions(transactions)
-    }
+        if (! adapter.value) throw newError(new WalletNotSelectedError());
+        if (! connected.value) throw newError(new WalletNotConnectedError());
+        if (!('signAllTransactions' in adapter.value)) throw newError(new OperationNotSupportedByWalletError());
+        return await adapter.value.signAllTransactions(transactions);
+    };
 
     // Sign an arbitrary message if the wallet supports it.
     const signMessage = async (message: Uint8Array) => {
-        if (! adapter.value) throw newError(new WalletNotSelectedError())
-        if (! connected.value) throw newError(new WalletNotConnectedError())
-        if (!('signMessage' in adapter.value)) throw newError(new OperationNotSupportedByWalletError())
+        if (! adapter.value) throw newError(new WalletNotSelectedError());
+        if (! connected.value) throw newError(new WalletNotConnectedError());
+        if (!('signMessage' in adapter.value)) throw newError(new OperationNotSupportedByWalletError());
         return await adapter.value.signMessage(message);
-    }
+    };
 
     // If autoConnect is enabled, try to connect when the adapter changes and is ready.
     watchEffect(async (): Promise<void> => {
         if (! autoConnect || ! adapter.value || ! ready.value || connected.value || connecting.value) return;
         await connect();
-    })
+    });
 
     walletStore = {
         // Props.
@@ -231,5 +221,5 @@ export const initWallet = ({
         signTransaction,
         signAllTransactions,
         signMessage,
-    }
-}
+    };
+};
