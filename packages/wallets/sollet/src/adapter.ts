@@ -80,7 +80,7 @@ export class SolletWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             let wallet: Wallet;
             try {
-                wallet = new Wallet(provider, this._network);
+                wallet = new Wallet(provider, this._network, true);
 
                 // HACK: sol-wallet-adapter doesn't reject or emit an event if the popup or extension is closed or blocked
                 const handleDisconnect: (...args: unknown[]) => unknown = (wallet as any).handleDisconnect;
