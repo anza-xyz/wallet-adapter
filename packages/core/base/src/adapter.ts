@@ -8,6 +8,7 @@ export interface WalletAdapterEvents {
     ready(): void;
     connect(): void;
     disconnect(): void;
+    change(): void;
     error(error: WalletError): void;
 }
 

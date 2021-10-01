@@ -98,6 +98,17 @@ export const WalletProvider: FC<WalletProviderProps> = ({
 
     // Handle the adapter's connect event
     const onConnect = useCallback(() => {
+        _setAdapterState(adapter);
+    }, [adapter, setState]);
+
+    // Handle the adapter's disconnect event
+    const onDisconnect = useCallback(() => setName(null), [setName]);
+
+    const onChange = useCallback(async () => {
+        _setAdapterState(adapter);
+    }, [adapter, setState]);
+
+    const _setAdapterState = (adapter: ReturnType<Wallet['adapter']> | null) => {
         if (!adapter) return;
 
         const { connected, publicKey, ready } = adapter;
@@ -107,10 +118,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
             publicKey,
             ready,
         }));
-    }, [adapter, setState]);
-
-    // Handle the adapter's disconnect event
-    const onDisconnect = useCallback(() => setName(null), [setName]);
+    }
 
     // Connect the adapter to the wallet
     const connect = useCallback(async () => {
@@ -235,15 +243,17 @@ export const WalletProvider: FC<WalletProviderProps> = ({
             adapter.on('ready', onReady);
             adapter.on('connect', onConnect);
             adapter.on('disconnect', onDisconnect);
+            adapter.on('change', onChange);
             adapter.on('error', onError);
             return () => {
                 adapter.off('ready', onReady);
                 adapter.off('connect', onConnect);
                 adapter.off('disconnect', onDisconnect);
+                adapter.off('change', onChange);
                 adapter.off('error', onError);
             };
         }
-    }, [adapter, onReady, onConnect, onDisconnect, onError]);
+    }, [adapter, onReady, onConnect, onDisconnect, onChange, onError]);
 
     return (
         <WalletContext.Provider
