@@ -3060,9 +3060,9 @@
     schema-utils "^2.6.5"
     source-map "^0.7.3"
 
-"@project-serum/sol-wallet-adapter@git://github.com/identity-com/sol-wallet-adapter":
+"@project-serum/sol-wallet-adapter@git://github.com/identity-com/sol-wallet-adapter#011b2acb88b3cd3d6b8debd10120d5a76b379b2a":
   version "0.2.5"
-  resolved "git://github.com/identity-com/sol-wallet-adapter#3a69a2b53832abb9b1ee7f57bcb960bcc649b42e"
+  resolved "git://github.com/identity-com/sol-wallet-adapter#011b2acb88b3cd3d6b8debd10120d5a76b379b2a"
   dependencies:
     bs58 "^4.0.1"
     eventemitter3 "^4.0.7"

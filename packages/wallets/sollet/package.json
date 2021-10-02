@@ -24,7 +24,7 @@
         "@solana/web3.js": "^1.20.0"
     },
     "dependencies": {
-        "@project-serum/sol-wallet-adapter": "git://github.com/identity-com/sol-wallet-adapter"
+        "@project-serum/sol-wallet-adapter": "git://github.com/identity-com/sol-wallet-adapter#011b2acb88b3cd3d6b8debd10120d5a76b379b2a"
     },
     "devDependencies": {
         "@solana/wallet-adapter-base": "^0.6.0",

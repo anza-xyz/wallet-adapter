@@ -33,6 +33,7 @@ export interface SolletWalletAdapterConfig {
     network?: WalletAdapterNetwork;
     pollInterval?: number;
     pollCount?: number;
+    useExtendedIF?: boolean;
 }
 
 export class SolletWalletAdapter extends BaseMessageSignerWalletAdapter {
@@ -40,6 +41,7 @@ export class SolletWalletAdapter extends BaseMessageSignerWalletAdapter {
     private _network: WalletAdapterNetwork;
     private _connecting: boolean;
     private _wallet: Wallet | null;
+    private _useExtendedIF: boolean;
 
     constructor(config: SolletWalletAdapterConfig = {}) {
         super();
@@ -47,6 +49,7 @@ export class SolletWalletAdapter extends BaseMessageSignerWalletAdapter {
         this._network = config.network || WalletAdapterNetwork.Mainnet;
         this._connecting = false;
         this._wallet = null;
+        this._useExtendedIF = !!config.useExtendedIF
 
         if (!this.ready) pollUntilReady(this, config.pollInterval || 1000, config.pollCount || 3);
     }
@@ -80,7 +83,7 @@ export class SolletWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             let wallet: Wallet;
             try {
-                wallet = new Wallet(provider, this._network, true);
+                wallet = new Wallet(provider, this._network, this._useExtendedIF);
 
                 // HACK: sol-wallet-adapter doesn't reject or emit an event if the popup or extension is closed or blocked
                 const handleDisconnect: (...args: unknown[]) => unknown = (wallet as any).handleDisconnect;
