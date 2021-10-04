@@ -1,5 +1,5 @@
 import {
-    BaseSignerWalletAdapter,
+    BaseMessageSignerWalletAdapter,
     pollUntilReady,
     WalletAccountError,
     WalletConnectionError,
@@ -35,6 +35,7 @@ interface SlopeWallet {
             signatures?: string[];
         };
     }>;
+    signMessage(message: Uint8Array): Promise<{ data: { signature: string } }>;
 }
 
 interface SlopeWindow extends Window {
@@ -50,7 +51,7 @@ export interface SlopeWalletAdapterConfig {
     pollCount?: number;
 }
 
-export class SlopeWalletAdapter extends BaseSignerWalletAdapter {
+export class SlopeWalletAdapter extends BaseMessageSignerWalletAdapter {
     private _connecting: boolean;
     private _wallet: SlopeWallet | null;
     private _publicKey: PublicKey | null;
@@ -188,6 +189,23 @@ export class SlopeWalletAdapter extends BaseSignerWalletAdapter {
                 return transactions;
             } catch (error: any) {
                 if (error instanceof WalletError) throw error;
+                throw new WalletSignTransactionError(error?.message, error);
+            }
+        } catch (error: any) {
+            this.emit('error', error);
+            throw error;
+        }
+    }
+
+    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+        try {
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
+
+            try {
+                const response = await wallet.signMessage(message);
+                return bs58.decode(response.data.signature);
+            } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
         } catch (error: any) {
