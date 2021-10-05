@@ -121,6 +121,7 @@ export const initWallet = ({
 
     // Handle the adapter events.
     const onReady = () => ready.value = true;
+    const onDisconnect = () => walletName.value = null;
     const onConnect = () => {
         if (! wallet.value || ! adapter.value) return;
         setStateFromAdapter(wallet.value, adapter.value);
@@ -129,11 +130,13 @@ export const initWallet = ({
         if (! adapter.value) return;
         adapter.value.on('ready', onReady);
         adapter.value.on('connect', onConnect);
+        adapter.value.on('disconnect', onDisconnect);
         adapter.value.on('error', onError);
         onInvalidate(() => {
             if (! adapter.value) return;
             adapter.value.off('ready', onReady);
             adapter.value.off('connect', onConnect);
+            adapter.value.off('disconnect', onDisconnect);
             adapter.value.off('error', onError);
         });
     });
