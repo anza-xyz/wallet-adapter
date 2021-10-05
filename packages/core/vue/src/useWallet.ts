@@ -19,8 +19,6 @@ export interface WalletStore {
     autoConnect: boolean;
 
     // Data.
-    walletName: Ref<WalletName | null>,
-    walletsByName: Ref<WalletDictionary>,
     wallet: Ref<Wallet | null>;
     adapter: Ref<Adapter | null>;
     publicKey: Ref<PublicKey | null>;
@@ -203,8 +201,6 @@ export const initWallet = ({
         autoConnect,
 
         // Data.
-        walletName,
-        walletsByName,
         wallet,
         adapter,
         publicKey,
