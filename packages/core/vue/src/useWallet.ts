@@ -19,7 +19,7 @@ export interface WalletStore {
     autoConnect: boolean;
 
     // Data.
-    walletName: Ref<string | null>,
+    walletName: Ref<WalletName | null>,
     walletsByName: Ref<WalletDictionary>,
     wallet: Ref<Wallet | null>;
     adapter: Ref<Adapter | null>;
@@ -56,7 +56,7 @@ export const initWallet = ({
     onError = (error: WalletError) => console.error(error),
     localStorageKey = 'walletName',
 }: WalletStoreProps): void => {
-    const walletName = useLocalStorage<string>(localStorageKey);
+    const walletName: Ref<WalletName | null> = useLocalStorage<WalletName>(localStorageKey);
     const wallet = ref<Wallet | null>(null);
     const adapter = ref<Adapter | null>(null);
     const publicKey = ref<PublicKey | null>(null);
@@ -74,7 +74,7 @@ export const initWallet = ({
 
     // Update the wallet and adapter based on the wallet provider.
     watch(walletName, (): void => {
-        wallet.value = walletsByName.value?.[walletName.value as string] ?? null;
+        wallet.value = walletsByName.value?.[walletName.value as WalletName] ?? null;
         adapter.value = wallet.value?.adapter() ?? null;
         if (adapter.value) {
             ready.value = adapter.value.ready;
@@ -88,7 +88,7 @@ export const initWallet = ({
     }, { immediate:true });
 
     // Select a wallet by name.
-    const select = async (newWalletName: string): Promise<void> => {
+    const select = async (newWalletName: WalletName): Promise<void> => {
         if (walletName.value === newWalletName) return
         if (adapter.value) await adapter.value.disconnect()
         walletName.value = newWalletName
