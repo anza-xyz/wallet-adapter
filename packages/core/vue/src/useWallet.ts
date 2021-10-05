@@ -63,6 +63,40 @@ export const initWallet = ({
     const connecting = ref<boolean>(false);
     const disconnecting = ref<boolean>(false);
 
+    // Helper methods to set and reset the main state variables.
+    const setState = (state: {
+        wallet: Wallet | null;
+        adapter: Adapter | null;
+        publicKey: PublicKey | null;
+        ready: boolean;
+        connected: boolean;
+    }) => {
+        wallet.value = state.wallet;
+        adapter.value = state.adapter;
+        ready.value = state.ready;
+        publicKey.value = state.publicKey;
+        connected.value = state.connected;
+    }
+    const setStateFromAdapter = (wallet: Wallet, adapter: Adapter) => {
+        setState({
+            wallet,
+            adapter,
+            ready: adapter.ready,
+            publicKey: adapter.publicKey,
+            connected: adapter.connected,
+        })
+    }
+    const resetState = () => {
+        setState({
+            wallet: null,
+            adapter: null,
+            ready: false,
+            publicKey: null,
+            connected: false,
+        })
+    }
+
+    // Create a wallet dictionary keyed by their name.
     const walletsByName = computed<WalletDictionary>(() => {
         return wallets.reduce((walletsByName, wallet) => {
             walletsByName[wallet.name] = wallet;
@@ -72,17 +106,10 @@ export const initWallet = ({
 
     // Update the wallet and adapter based on the wallet provider.
     watch(walletName, (): void => {
-        wallet.value = walletsByName.value?.[walletName.value as WalletName] ?? null;
-        adapter.value = wallet.value?.adapter() ?? null;
-        if (adapter.value) {
-            ready.value = adapter.value.ready;
-            publicKey.value = adapter.value.publicKey;
-            connected.value = adapter.value.connected;
-        } else {
-            ready.value = false;
-            publicKey.value = null;
-            connected.value = false;
-        }
+        const wallet = walletsByName.value?.[walletName.value as WalletName] ?? null;
+        const adapter = wallet?.adapter() ?? null;
+        if (! adapter) return resetState();
+        setStateFromAdapter(wallet, adapter);
     }, { immediate:true });
 
     // Select a wallet by name.
@@ -95,10 +122,8 @@ export const initWallet = ({
     // Handle the adapter events.
     const onReady = () => ready.value = true;
     const onConnect = () => {
-        if (! adapter.value) return;
-        ready.value = adapter.value.ready;
-        publicKey.value = adapter.value.publicKey;
-        connected.value = adapter.value.connected;
+        if (! wallet.value || ! adapter.value) return;
+        setStateFromAdapter(wallet.value, adapter.value);
     };
     watchEffect(onInvalidate => {
         if (! adapter.value) return;
