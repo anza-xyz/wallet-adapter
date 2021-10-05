@@ -226,7 +226,16 @@ export const initWallet = ({
     // If autoConnect is enabled, try to connect when the adapter changes and is ready.
     watchEffect(async (): Promise<void> => {
         if (! autoConnect || ! adapter.value || ! ready.value || connected.value || connecting.value) return;
-        await connect();
+        try {
+            connecting.value = true;
+            await adapter.value.connect();
+        } catch (error: any) {
+            // Clear the selected wallet
+            walletName.value = null;
+            // Don't throw error, but onError will still be called
+        } finally {
+            connecting.value = false;
+        }
     });
 
     walletStore = {
