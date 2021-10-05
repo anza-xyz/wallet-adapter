@@ -8,7 +8,7 @@ import {
 } from '@solana/wallet-adapter-base';
 import { Wallet, WalletName } from '@solana/wallet-adapter-wallets';
 import { useLocalStorage } from './useLocalStorage';
-import { WalletNotSelectedError, OperationNotSupportedByWalletError } from './errors';
+import { WalletNotSelectedError } from './errors';
 
 type Adapter = ReturnType<Wallet['adapter']>;
 type WalletDictionary = { [key: string]: Wallet };
