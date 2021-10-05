@@ -32,9 +32,9 @@ export interface WalletStore {
     connect(): Promise<void>;
     disconnect(): Promise<void>;
     sendTransaction(transaction: Transaction, connection: Connection, options?: SendTransactionOptions): Promise<TransactionSignature>;
-    signTransaction(transaction: Transaction): Promise<Transaction>;
-    signAllTransactions(transaction: Transaction[]): Promise<Transaction[]>;
-    signMessage(message: Uint8Array): Promise<Uint8Array>;
+    signTransaction: Ref<((transaction: Transaction) => Promise<Transaction>) | undefined>;
+    signAllTransactions: Ref<((transaction: Transaction[]) => Promise<Transaction[]>) | undefined>;
+    signMessage: Ref<((message: Uint8Array) => Promise<Uint8Array>) | undefined>;
 }
 
 export interface WalletStoreProps {
@@ -166,28 +166,34 @@ export const initWallet = ({
     };
 
     // Sign a transaction if the wallet supports it.
-    const signTransaction = async (transaction: Transaction) => {
-        if (! adapter.value) throw newError(new WalletNotSelectedError());
-        if (! connected.value) throw newError(new WalletNotConnectedError());
-        if (!('signTransaction' in adapter.value)) throw newError(new OperationNotSupportedByWalletError());
-        return await adapter.value.signTransaction(transaction);
-    };
+    const signTransaction = computed(() => {
+        if (! (adapter.value && 'signTransaction' in adapter.value)) return undefined;
+        return async (transaction: Transaction) => {
+            if (! connected.value) throw newError(new WalletNotConnectedError());
+            // @ts-ignore
+            return await adapter.value.signTransaction(transaction);
+        }
+    });
 
     // Sign multiple transactions if the wallet supports it
-    const signAllTransactions = async (transactions: Transaction[]) => {
-        if (! adapter.value) throw newError(new WalletNotSelectedError());
-        if (! connected.value) throw newError(new WalletNotConnectedError());
-        if (!('signAllTransactions' in adapter.value)) throw newError(new OperationNotSupportedByWalletError());
-        return await adapter.value.signAllTransactions(transactions);
-    };
+    const signAllTransactions = computed(() => {
+        if (! (adapter.value && 'signAllTransactions' in adapter.value)) return undefined;
+        return async (transactions: Transaction[]) => {
+            if (! connected.value) throw newError(new WalletNotConnectedError());
+            // @ts-ignore
+            return await adapter.value.signAllTransactions(transactions);
+        }
+    });
 
     // Sign an arbitrary message if the wallet supports it.
-    const signMessage = async (message: Uint8Array) => {
-        if (! adapter.value) throw newError(new WalletNotSelectedError());
-        if (! connected.value) throw newError(new WalletNotConnectedError());
-        if (!('signMessage' in adapter.value)) throw newError(new OperationNotSupportedByWalletError());
-        return await adapter.value.signMessage(message);
-    };
+    const signMessage = computed(() => {
+        if (! (adapter.value && 'signMessage' in adapter.value)) return undefined;
+        return async (message: Uint8Array) => {
+            if (! connected.value) throw newError(new WalletNotConnectedError());
+            // @ts-ignore
+            return await adapter.value.signMessage(message);
+        }
+    });
 
     // If autoConnect is enabled, try to connect when the adapter changes and is ready.
     watchEffect(async (): Promise<void> => {
