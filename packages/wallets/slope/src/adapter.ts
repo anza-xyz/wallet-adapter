@@ -137,9 +137,9 @@ export class SlopeWalletAdapter extends BaseMessageSignerWalletAdapter {
                 }
                 this.emit('error', error);
             }
-
-            this.emit('disconnect');
         }
+
+        this.emit('disconnect');
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {

@@ -187,9 +187,9 @@ export class SolletWalletAdapter extends BaseMessageSignerWalletAdapter {
             } finally {
                 (wallet as any).handleDisconnect = handleDisconnect;
             }
-
-            this.emit('disconnect');
         }
+
+        this.emit('disconnect');
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {

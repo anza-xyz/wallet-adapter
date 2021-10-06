@@ -98,9 +98,9 @@ export class CloverWalletAdapter extends BaseSignerWalletAdapter {
         if (this._wallet) {
             this._wallet = null;
             this._publicKey = null;
-
-            this.emit('disconnect');
         }
+
+        this.emit('disconnect');
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {
