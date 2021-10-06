@@ -5,6 +5,8 @@ import {
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletError,
+    SignerWalletAdapterProps,
+    MessageSignerWalletAdapterProps,
 } from '@solana/wallet-adapter-base';
 import { Wallet, WalletName } from '@solana/wallet-adapter-wallets';
 import { useLocalStorage } from './useLocalStorage';
@@ -32,9 +34,9 @@ export interface WalletStore {
     connect(): Promise<void>;
     disconnect(): Promise<void>;
     sendTransaction(transaction: Transaction, connection: Connection, options?: SendTransactionOptions): Promise<TransactionSignature>;
-    signTransaction: Ref<((transaction: Transaction) => Promise<Transaction>) | undefined>;
-    signAllTransactions: Ref<((transaction: Transaction[]) => Promise<Transaction[]>) | undefined>;
-    signMessage: Ref<((message: Uint8Array) => Promise<Uint8Array>) | undefined>;
+    signTransaction: Ref<SignerWalletAdapterProps['signTransaction'] | undefined>;
+    signAllTransactions: Ref<SignerWalletAdapterProps['signAllTransactions'] | undefined>;
+    signMessage: Ref<MessageSignerWalletAdapterProps['signMessage'] | undefined>;
 }
 
 export interface WalletStoreProps {
