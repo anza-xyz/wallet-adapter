@@ -22,9 +22,9 @@ export abstract class BaseSignerWalletAdapter extends BaseWalletAdapter implemen
 
                 const { signers, ...sendOptions } = options;
 
-                signers?.length && transaction.partialSign(...signers);
-
                 transaction = await this.signTransaction(transaction);
+
+                signers?.length && transaction.partialSign(...signers);
 
                 const rawTransaction = transaction.serialize();
 
