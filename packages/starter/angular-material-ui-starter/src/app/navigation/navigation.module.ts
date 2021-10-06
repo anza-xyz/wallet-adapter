@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { WalletUiModule } from '@solana/wallet-adapter-angular-ui';
+import { WalletUiModule } from '@solana/wallet-adapter-angular-material-ui';
 
 import { NavigationComponent } from './navigation.component';
 

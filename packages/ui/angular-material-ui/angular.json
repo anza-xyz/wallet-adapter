@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": ".",
     "projects": {
-        "angular-ui": {
+        "angular-material-ui": {
             "projectType": "library",
             "root": ".",
             "sourceRoot": "src",
@@ -27,5 +27,5 @@
             }
         }
     },
-    "defaultProject": "angular-ui"
+    "defaultProject": "angular-material-ui"
 }

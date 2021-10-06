@@ -6,7 +6,7 @@
         "packageManager": "yarn"
     },
     "projects": {
-        "angular-ui-starter": {
+        "angular-material-ui-starter": {
             "projectType": "application",
             "schematics": {
                 "@schematics/angular:component": {
@@ -23,17 +23,14 @@
                 "build": {
                     "builder": "@angular-builders/custom-webpack:browser",
                     "options": {
-                        "outputPath": "dist/angular-ui-starter",
+                        "outputPath": "dist/angular-material-ui-starter",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "scss",
                         "assets": ["src/favicon.ico", "src/assets"],
-                        "styles": [
-                            "../../../node_modules/@angular/material/prebuilt-themes/purple-green.css",
-                            "src/styles.scss"
-                        ],
+                        "styles": ["src/styles.scss"],
                         "scripts": [],
                         "customWebpackConfig": {
                             "path": "./webpack.config.js",
@@ -79,10 +76,10 @@
                     "builder": "@angular-builders/custom-webpack:dev-server",
                     "configurations": {
                         "production": {
-                            "browserTarget": "angular-ui-starter:build:production"
+                            "browserTarget": "angular-material-ui-starter:build:production"
                         },
                         "development": {
-                            "browserTarget": "angular-ui-starter:build:development"
+                            "browserTarget": "angular-material-ui-starter:build:development"
                         }
                     },
                     "defaultConfiguration": "development"
@@ -90,5 +87,5 @@
             }
         }
     },
-    "defaultProject": "angular-ui-starter"
+    "defaultProject": "angular-material-ui-starter"
 }
