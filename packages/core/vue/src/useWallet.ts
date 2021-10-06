@@ -126,7 +126,7 @@ export const initWallet = ({
         if (! wallet.value || ! adapter.value) return;
         setStateFromAdapter(wallet.value, adapter.value);
     };
-    watchEffect(onInvalidate => {
+    const invalidateListeners = watchEffect(onInvalidate => {
         if (! adapter.value) return;
         adapter.value.on('ready', onReady);
         adapter.value.on('connect', onConnect);
@@ -140,6 +140,7 @@ export const initWallet = ({
             adapter.value.off('error', onError);
         });
     });
+    window.addEventListener('beforeunload', invalidateListeners);
 
     // Helper method to return an error whilst using the onError callback.
     const newError = (error: WalletError): WalletError => {
