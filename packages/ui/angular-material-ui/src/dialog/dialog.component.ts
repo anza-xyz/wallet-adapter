@@ -39,7 +39,12 @@ import { map } from 'rxjs/operators';
                     </ng-container>
                 </mat-selection-list>
 
-                <wallet-expand *ngIf="moreWallets.length > 0" (toggleExpand)="onToggleExpand($event)"> </wallet-expand>
+                <wallet-expand
+                    *ngIf="moreWallets.length > 0"
+                    [expanded]="expanded$ | ngrxPush"
+                    (toggleExpand)="onToggleExpand($event)"
+                >
+                </wallet-expand>
             </ng-container>
         </ng-container>
     `,
@@ -65,8 +70,10 @@ import { map } from 'rxjs/operators';
                 line-height: 1;
             }
 
-            .mat-dialog-container {
-                padding: 0;
+            .mat-dialog-container,
+            .mat-list-base,
+            .mat-list-text {
+                padding: 0 !important;
             }
 
             .bottom-separator {
@@ -75,18 +82,6 @@ import { map } from 'rxjs/operators';
 
             .mat-list-option:last-child {
                 border-bottom: none;
-            }
-
-            .mat-list-base {
-                padding: 0 !important;
-            }
-
-            .mat-list-text {
-                padding: 0 !important;
-            }
-
-            .mat-list-item-content {
-                padding: 0;
             }
         `,
     ],
