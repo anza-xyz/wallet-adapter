@@ -11,7 +11,7 @@ import { useLocalStorage } from './useLocalStorage';
 import { WalletNotSelectedError } from './errors';
 
 type Adapter = ReturnType<Wallet['adapter']>;
-type WalletDictionary = { [key: string]: Wallet };
+type WalletDictionary = { [name in WalletName]: Wallet };
 
 export interface WalletStore {
     // Props.
