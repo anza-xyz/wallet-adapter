@@ -9,6 +9,7 @@ const withTM = require('next-transpile-modules')([
     '@solana/wallet-adapter-ant-design',
     '@solana/wallet-adapter-material-ui',
     '@solana/wallet-adapter-react-ui',
+    '@solana/wallet-adapter-bitkeep',
     '@solana/wallet-adapter-bitpie',
     '@solana/wallet-adapter-blocto',
     '@solana/wallet-adapter-clover',

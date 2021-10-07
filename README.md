@@ -63,6 +63,9 @@ import {
 } from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
 
+// Default styles that can be overridden by your app
+require('@solana/wallet-adapter-react-ui/styles.css');
+
 export const Wallet: FC = () => {
     // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
     const network = WalletAdapterNetwork.Devnet;
@@ -194,6 +197,7 @@ The core [wallets](https://github.com/solana-labs/wallet-adapter/tree/master/pac
 
 | package                                                                                                      | description                                            | npm                                                                                                          |
 | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| [bitkeep](https://github.com/solana-labs/wallet-adapter/tree/master/packages/bitkeep) \*                     | Adapter for [BitKeep](https://bitkeep.com)             | [`@solana/wallet-adapter-bitkeep`](https://www.npmjs.com/package/@solana/wallet-adapter-bitkeep)             |
 | [bitpie](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/bitpie)                  | Adapter for [Bitpie](https://bitpie.com)               | [`@solana/wallet-adapter-bitpie`](https://www.npmjs.com/package/@solana/wallet-adapter-bitpie)               |
 | [blocto](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/blocto)                  | Adapter for [Blocto](https://blocto.app)               | [`@solana/wallet-adapter-blocto`](https://www.npmjs.com/package/@solana/wallet-adapter-blocto)               |
 | [clover](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/clover) \*               | Adapter for [Clover](https://clover.finance)           | [`@solana/wallet-adapter-clover`](https://www.npmjs.com/package/@solana/wallet-adapter-clover)               |

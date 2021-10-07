@@ -103,12 +103,15 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
     }
 
     async disconnect(): Promise<void> {
-        if (this._wallet) {
-            this._wallet.disconnect();
+        const wallet = this._wallet;
+        if (wallet) {
             this._wallet = null;
             this._publicKey = null;
-            this.emit('disconnect');
+
+            await wallet.disconnect();
         }
+
+        this.emit('disconnect');
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {

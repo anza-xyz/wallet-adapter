@@ -93,13 +93,13 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
             this._publicKey = null;
 
             try {
-                wallet.disconnect();
+                await wallet.disconnect();
             } catch (error: any) {
                 this.emit('error', new WalletDisconnectionError(error?.message, error));
             }
-
-            this.emit('disconnect');
         }
+
+        this.emit('disconnect');
     }
 
     async sendTransaction(
