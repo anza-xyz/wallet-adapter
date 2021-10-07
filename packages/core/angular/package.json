@@ -8,18 +8,6 @@
     "publishConfig": {
         "access": "public"
     },
-    "type": "module",
-    "sideEffects": false,
-    "main": "lib/bundles/solana-wallet-adapter-angular.umd.js",
-    "module": "lib/fesm2015/solana-wallet-adapter-angular.js",
-    "types": "lib/solana-wallet-adapter-angular.d.ts",
-    "es2015": "lib/fesm2015/solana-wallet-adapter-angular.js",
-    "esm2015": "lib/esm2015/solana-wallet-adapter-angular.js",
-    "fesm2015": "lib/fesm2015/solana-wallet-adapter-angular.js",
-    "files": [
-        "lib",
-        "src"
-    ],
     "scripts": {
         "clean": "shx rm -rf lib/*",
         "build": "yarn clean && ng build angular --configuration=production"
