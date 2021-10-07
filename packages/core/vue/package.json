@@ -21,13 +21,13 @@
     },
     "peerDependencies": {
         "@solana/wallet-adapter-base": "^0.6.0",
-        "@solana/wallet-adapter-wallets": "^0.10.0",
+        "@solana/wallet-adapter-wallets": "^0.10.1",
         "@solana/web3.js": "^1.20.0",
         "vue": "^3.0.0"
     },
     "devDependencies": {
         "@solana/wallet-adapter-base": "^0.6.0",
-        "@solana/wallet-adapter-wallets": "^0.10.0",
+        "@solana/wallet-adapter-wallets": "^0.10.1",
         "@solana/web3.js": "^1.20.0",
         "vue": "^3.0.0"
     }
