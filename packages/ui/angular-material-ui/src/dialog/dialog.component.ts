@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { MatSelectionListChange } from '@angular/material/list';
+import { MatSelectionList, MatSelectionListChange } from '@angular/material/list';
 import { WalletStore } from '@solana/wallet-adapter-angular';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -21,30 +21,26 @@ import { map } from 'rxjs/operators';
                         *ngFor="let wallet of featured$ | ngrxPush; last as isLast"
                         [value]="wallet.name"
                         [ngClass]="{
-                            'bottom-separator': expanded || !isLast
+                            'bottom-separator': moreWallets.length > 0 || !isLast
                         }"
                     >
                         <wallet-list-item [wallet]="wallet"> </wallet-list-item>
                     </mat-list-option>
-                    <ng-container *ngIf="moreWallets.length > 0 && expanded">
-                        <mat-list-option
-                            *ngFor="let wallet of moreWallets; last as isLast"
-                            [value]="wallet.name"
-                            [ngClass]="{
-                                'bottom-separator': !isLast
-                            }"
-                        >
-                            <wallet-list-item [wallet]="wallet"> </wallet-list-item>
+                    <ng-container *ngIf="moreWallets.length > 0">
+                        <ng-container *ngIf="expanded">
+                            <mat-list-option
+                                *ngFor="let wallet of moreWallets; last as isLast"
+                                [value]="wallet.name"
+                                class="bottom-separator"
+                            >
+                                <wallet-list-item [wallet]="wallet"> </wallet-list-item>
+                            </mat-list-option>
+                        </ng-container>
+                        <mat-list-option [value]="null">
+                            <wallet-expand [expanded]="expanded"> </wallet-expand>
                         </mat-list-option>
                     </ng-container>
                 </mat-selection-list>
-
-                <wallet-expand
-                    *ngIf="moreWallets.length > 0"
-                    [expanded]="expanded$ | ngrxPush"
-                    (toggleExpand)="onToggleExpand($event)"
-                >
-                </wallet-expand>
             </ng-container>
         </ng-container>
     `,
@@ -88,6 +84,7 @@ import { map } from 'rxjs/operators';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WalletDialogComponent {
+    @ViewChild(MatSelectionList) matSelectionList: MatSelectionList | null = null;
     @HostBinding('class') class = 'host';
     private readonly _expanded = new BehaviorSubject(false);
     readonly expanded$ = this._expanded.asObservable();
@@ -106,14 +103,15 @@ export class WalletDialogComponent {
         private readonly _matDialogRef: MatDialogRef<WalletDialogComponent>
     ) {}
 
-    onToggleExpand(expanded: boolean): void {
-        this._expanded.next(expanded);
-    }
-
     onSelectionChange({ options }: MatSelectionListChange): void {
         const [option] = options;
 
-        this._walletStore.selectWallet(option.value || null);
-        this._matDialogRef.close();
+        if (option.value === null) {
+            this.matSelectionList?.deselectAll();
+            this._expanded.next(!this._expanded.getValue());
+        } else {
+            this._walletStore.selectWallet(option.value || null);
+            this._matDialogRef.close();
+        }
     }
 }
