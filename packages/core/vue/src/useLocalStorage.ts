@@ -8,7 +8,7 @@ export function useLocalStorage<T> (key: string, defaultValue: T | null = null):
             try {
                 return value ? (JSON.parse(value) as T) : defaultValue;
             } catch (error) {
-                console.warn("Couldn't parse the following value from the local storage", value);
+                console.warn(error);
                 return defaultValue;
             }
         },
@@ -19,7 +19,7 @@ export function useLocalStorage<T> (key: string, defaultValue: T | null = null):
                 try {
                     localStorage.setItem(key, JSON.stringify(value));
                 } catch (error) {
-                    console.error("Couldn't save the following value to the local storage", value);
+                    console.error(error);
                 }
             }
             trigger();
