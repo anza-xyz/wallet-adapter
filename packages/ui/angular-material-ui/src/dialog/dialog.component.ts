@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSelectionList, MatSelectionListChange } from '@angular/material/list';
 import { WalletStore } from '@solana/wallet-adapter-angular';
@@ -8,12 +8,12 @@ import { map } from 'rxjs/operators';
 @Component({
     selector: 'wallet-dialog',
     template: `
-        <h2 mat-dialog-title class="mat-primary">
-            <span>Select Wallet</span>
+        <mat-toolbar color="primary">
+            <h2 mat-dialog-title>Select Wallet</h2>
             <button mat-icon-button mat-dialog-close aria-label="Close wallet adapter selection">
                 <mat-icon>close</mat-icon>
             </button>
-        </h2>
+        </mat-toolbar>
         <ng-container *ngrxLet="more$; let moreWallets">
             <ng-container *ngrxLet="expanded$; let expanded">
                 <mat-selection-list [multiple]="false" (selectionChange)="onSelectionChange($event)">
@@ -44,40 +44,27 @@ import { map } from 'rxjs/operators';
             </ng-container>
         </ng-container>
     `,
-    encapsulation: ViewEncapsulation.None,
     styles: [
         `
-            .host {
+            :host {
                 display: block;
-                width: 280px;
+                min-width: 280px;
             }
 
             .mat-dialog-title {
-                display: flex;
+                margin: 0;
+            }
+
+            .mat-toolbar {
                 justify-content: space-between;
-                align-items: center;
-                margin: 0 !important;
-                padding: 1rem 1.5rem;
-                background-color: var(--primary-color);
-                color: var(--text-primary-color);
             }
 
-            .mat-dialog-title button {
-                line-height: 1;
-            }
-
-            .mat-dialog-container,
-            .mat-list-base,
-            .mat-list-text {
+            .mat-list-base {
                 padding: 0 !important;
             }
 
             .bottom-separator {
                 border-bottom: solid 1px rgb(255 255 255 / 10%);
-            }
-
-            .mat-list-option:last-child {
-                border-bottom: none;
             }
         `,
     ],
@@ -85,7 +72,6 @@ import { map } from 'rxjs/operators';
 })
 export class WalletDialogComponent {
     @ViewChild(MatSelectionList) matSelectionList: MatSelectionList | null = null;
-    @HostBinding('class') class = 'host';
     private readonly _expanded = new BehaviorSubject(false);
     readonly expanded$ = this._expanded.asObservable();
     private readonly _featuredWallets = new BehaviorSubject(3);

@@ -8,5 +8,6 @@
             "@ngrx/component": "@ngrx/component",
             "@ngrx/component-store": "@ngrx/component-store"
         }
-    }
+    },
+    "assets": ["src/style.css"]
 }

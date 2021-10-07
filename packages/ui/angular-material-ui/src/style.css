@@ -1,0 +1,8 @@
+.wallet-dialog .mat-dialog-container {
+    padding: 0;
+    width: 320px;
+}
+
+.wallet-dialog .mat-list-text {
+    padding: 0 !important;
+}
