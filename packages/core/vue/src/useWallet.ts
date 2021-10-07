@@ -271,13 +271,11 @@ export const initWallet = ({
         signMessage,
     };
 
+    if (typeof window !== 'undefined') {
+        // Trigger that method before unloading the page in case users did not register it.
+        window.addEventListener('beforeunload', invalidateListeners);
+    }
+
     // Provide a method to cleanup any dependencies within the store.
-    const cleanup = () => {
-        invalidateListeners();
-    };
-
-    // Trigger that method before unloading the page in case users did not register it.
-    window.addEventListener('beforeunload', cleanup);
-
-    return cleanup;
+    return invalidateListeners;
 };
