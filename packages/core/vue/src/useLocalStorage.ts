@@ -1,6 +1,6 @@
 import { customRef, Ref } from '@vue/reactivity';
 
-export function useLocalStorage<T> (key: string, defaultValue: T | null = null): Ref<T | null> {
+export function useLocalStorage<T>(key: string, defaultValue: T | null = null): Ref<T | null> {
     return customRef<T | null>((track, trigger) => ({
         get: () => {
             track();
@@ -12,7 +12,7 @@ export function useLocalStorage<T> (key: string, defaultValue: T | null = null):
                 return defaultValue;
             }
         },
-        set: value => {
+        set: (value) => {
             if (value === null) {
                 localStorage.removeItem(key);
             } else {
@@ -24,5 +24,5 @@ export function useLocalStorage<T> (key: string, defaultValue: T | null = null):
             }
             trigger();
         },
-    }))
+    }));
 }
