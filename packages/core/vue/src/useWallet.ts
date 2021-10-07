@@ -198,31 +198,31 @@ export const initWallet = ({
 
     // Sign a transaction if the wallet supports it.
     const signTransaction = computed(() => {
-        if (! (adapter.value && 'signTransaction' in adapter.value)) return undefined;
+        const _adapter = adapter.value
+        if (! (_adapter && 'signTransaction' in _adapter)) return undefined;
         return async (transaction: Transaction) => {
             if (! connected.value) throw newError(new WalletNotConnectedError());
-            // @ts-ignore
-            return await adapter.value.signTransaction(transaction);
+            return await _adapter.signTransaction(transaction);
         }
     });
 
     // Sign multiple transactions if the wallet supports it
     const signAllTransactions = computed(() => {
-        if (! (adapter.value && 'signAllTransactions' in adapter.value)) return undefined;
+        const _adapter = adapter.value
+        if (! (_adapter && 'signAllTransactions' in _adapter)) return undefined;
         return async (transactions: Transaction[]) => {
             if (! connected.value) throw newError(new WalletNotConnectedError());
-            // @ts-ignore
-            return await adapter.value.signAllTransactions(transactions);
+            return await _adapter.signAllTransactions(transactions);
         }
     });
 
     // Sign an arbitrary message if the wallet supports it.
     const signMessage = computed(() => {
-        if (! (adapter.value && 'signMessage' in adapter.value)) return undefined;
+        const _adapter = adapter.value
+        if (! (_adapter && 'signMessage' in _adapter)) return undefined;
         return async (message: Uint8Array) => {
             if (! connected.value) throw newError(new WalletNotConnectedError());
-            // @ts-ignore
-            return await adapter.value.signMessage(message);
+            return await _adapter.signMessage(message);
         }
     });
 
