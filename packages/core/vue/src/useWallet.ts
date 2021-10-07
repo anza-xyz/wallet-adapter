@@ -56,7 +56,7 @@ export const initWallet = ({
     onError = (error: WalletError) => console.error(error),
     localStorageKey = 'walletName',
 }: WalletStoreProps): (() => void) => {
-    const walletName: Ref<WalletName | null> = useLocalStorage<WalletName>(localStorageKey);
+    const name: Ref<WalletName | null> = useLocalStorage<WalletName>(localStorageKey);
     const wallet = ref<Wallet | null>(null);
     const adapter = ref<Adapter | null>(null);
     const publicKey = ref<PublicKey | null>(null);
@@ -107,23 +107,27 @@ export const initWallet = ({
     });
 
     // Update the wallet and adapter based on the wallet provider.
-    watch(walletName, (): void => {
-        const wallet = walletsByName.value?.[walletName.value as WalletName] ?? null;
-        const adapter = wallet?.adapter() ?? null;
-        if (! adapter) return resetState();
-        setStateFromAdapter(wallet, adapter);
-    }, { immediate:true });
+    watch(
+        name,
+        (): void => {
+            const wallet = walletsByName.value?.[name.value as WalletName] ?? null;
+            const adapter = wallet?.adapter() ?? null;
+            if (!adapter) return resetState();
+            setStateFromAdapter(wallet, adapter);
+        },
+        { immediate: true }
+    );
 
     // Select a wallet by name.
-    const select = async (newWalletName: WalletName): Promise<void> => {
-        if (walletName.value === newWalletName) return
-        if (adapter.value) await adapter.value.disconnect()
-        walletName.value = newWalletName
+    const select = async (newName: WalletName): Promise<void> => {
+        if (name.value === newName) return;
+        if (adapter.value) await adapter.value.disconnect();
+        name.value = newName;
     };
 
     // Handle the adapter events.
-    const onReady = () => ready.value = true;
-    const onDisconnect = () => walletName.value = null;
+    const onReady = () => (ready.value = true);
+    const onDisconnect = () => (name.value = null);
     const onConnect = () => {
         if (! wallet.value || ! adapter.value) return;
         setStateFromAdapter(wallet.value, adapter.value);
@@ -156,8 +160,8 @@ export const initWallet = ({
         if (connected.value || connecting.value || disconnecting.value) return;
         if (! wallet.value || ! adapter.value) throw newError(new WalletNotSelectedError());
 
-        if (! ready.value) {
-            walletName.value = null;
+        if (!ready.value) {
+            name.value = null;
             window.open(wallet.value.url, '_blank');
             throw newError(new WalletNotReadyError());
         }
@@ -166,7 +170,7 @@ export const initWallet = ({
             connecting.value = true;
             await adapter.value.connect();
         } catch (error: any) {
-            walletName.value = null;
+            name.value = null;
             throw error;
         } finally {
             connecting.value = false;
@@ -176,8 +180,8 @@ export const initWallet = ({
     // Disconnect the adapter from the wallet.
     const disconnect = async (): Promise<void> => {
         if (disconnecting.value) return;
-        if (! adapter.value) {
-            walletName.value = null;
+        if (!adapter.value) {
+            name.value = null;
             return;
         }
 
@@ -185,7 +189,7 @@ export const initWallet = ({
             disconnecting.value = true;
             await adapter.value.disconnect();
         } finally {
-            walletName.value = null;
+            name.value = null;
             disconnecting.value = false;
         }
     };
@@ -235,7 +239,7 @@ export const initWallet = ({
             await adapter.value.connect();
         } catch (error: any) {
             // Clear the selected wallet
-            walletName.value = null;
+            name.value = null;
             // Don't throw error, but onError will still be called
         } finally {
             connecting.value = false;
