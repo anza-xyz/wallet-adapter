@@ -128,18 +128,20 @@ export const initWallet = ({
         if (! wallet.value || ! adapter.value) return;
         setStateFromAdapter(wallet.value, adapter.value);
     };
-    const invalidateListeners = watchEffect(onInvalidate => {
-        if (! adapter.value) return;
-        adapter.value.on('ready', onReady);
-        adapter.value.on('connect', onConnect);
-        adapter.value.on('disconnect', onDisconnect);
-        adapter.value.on('error', onError);
+    const invalidateListeners = watchEffect((onInvalidate) => {
+        const _adapter = adapter.value;
+        if (!_adapter) return;
+
+        _adapter.on('ready', onReady);
+        _adapter.on('connect', onConnect);
+        _adapter.on('disconnect', onDisconnect);
+        _adapter.on('error', onError);
+
         onInvalidate(() => {
-            if (! adapter.value) return;
-            adapter.value.off('ready', onReady);
-            adapter.value.off('connect', onConnect);
-            adapter.value.off('disconnect', onDisconnect);
-            adapter.value.off('error', onError);
+            _adapter.off('ready', onReady);
+            _adapter.off('connect', onConnect);
+            _adapter.off('disconnect', onDisconnect);
+            _adapter.off('error', onError);
         });
     });
 
