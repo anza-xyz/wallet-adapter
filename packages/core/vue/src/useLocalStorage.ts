@@ -6,7 +6,7 @@ export function useLocalStorage<T> (key: string, defaultValue: T | null = null):
             track();
             const value = localStorage.getItem(key);
             try {
-                return value ? JSON.parse(value) : defaultValue;
+                return value ? (JSON.parse(value) as T) : defaultValue;
             } catch (error) {
                 console.warn("Couldn't parse the following value from the local storage", value);
                 return defaultValue;
