@@ -30,7 +30,10 @@
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "scss",
                         "assets": ["src/favicon.ico", "src/assets"],
-                        "styles": ["src/styles.scss"],
+                        "styles": [
+                            "src/styles.scss",
+                            "../../../node_modules/@solana/wallet-adapter-angular-material-ui/lib/src/style.css"
+                        ],
                         "scripts": [],
                         "customWebpackConfig": {
                             "path": "./webpack.config.js",
