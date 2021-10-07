@@ -30,11 +30,11 @@ Yes, see the [material-ui-starter](https://github.com/solana-labs/wallet-adapter
 ### Ant Design (with React)
 Yes, see the [ant-design](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/ant-design) package.
 
+### Vue
+Yes, see the [vue](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/vue) package.
+
 ### Angular / RxJS
 Yes, see the [angular](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/angular) package.
-
-### Vue / Vuex
-Not yet, see [issue #67](https://github.com/solana-labs/wallet-adapter/issues/67). Please contribute if you want to add Vue support!
 
 ### Webpack / Gatsby
 Yes, but you may need to set up polyfills for certain imported modules.

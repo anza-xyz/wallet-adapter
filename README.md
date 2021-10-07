@@ -168,7 +168,7 @@ These packages are what most projects can use to support wallets on Solana.
 | [base](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/base)          | Adapter interfaces, error types, and common utilities | [`@solana/wallet-adapter-base`](https://www.npmjs.com/package/@solana/wallet-adapter-base)       |
 | [react](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/react)        | Contexts and hooks for React dApps                    | [`@solana/wallet-adapter-react`](https://www.npmjs.com/package/@solana/wallet-adapter-react)     |
 | [angular](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/angular) \* | Stores and configuration for Angular dApps            | [`@solana/wallet-adapter-angular`](https://www.npmjs.com/package/@solana/wallet-adapter-angular) |
-| [vue](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/vue) \*         | Stores and composables for Vue 3 dApps                | [`@solana/wallet-adapter-vue`](https://www.npmjs.com/package/@solana/wallet-adapter-vue)         |
+| [vue](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/vue)            | Stores and composables for Vue 3 dApps                | [`@solana/wallet-adapter-vue`](https://www.npmjs.com/package/@solana/wallet-adapter-vue)         |
 
 \* Package has not been published to NPM yet.
 
