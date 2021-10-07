@@ -1,1 +1,0 @@
-# @solana/wallet-adapter-angular
