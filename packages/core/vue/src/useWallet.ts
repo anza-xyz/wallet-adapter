@@ -55,7 +55,7 @@ export const initWallet = ({
     autoConnect = false,
     onError = (error: WalletError) => console.error(error),
     localStorageKey = 'walletName',
-}: WalletStoreProps): void => {
+}: WalletStoreProps): (() => void) => {
     const walletName: Ref<WalletName | null> = useLocalStorage<WalletName>(localStorageKey);
     const wallet = ref<Wallet | null>(null);
     const adapter = ref<Adapter | null>(null);
@@ -142,7 +142,6 @@ export const initWallet = ({
             adapter.value.off('error', onError);
         });
     });
-    window.addEventListener('beforeunload', invalidateListeners);
 
     // Helper method to return an error whilst using the onError callback.
     const newError = (error: WalletError): WalletError => {
@@ -241,6 +240,7 @@ export const initWallet = ({
         }
     });
 
+    // Set up the store.
     walletStore = {
         // Props.
         wallets,
@@ -264,4 +264,14 @@ export const initWallet = ({
         signAllTransactions,
         signMessage,
     };
+
+    // Provide a method to cleanup any dependencies within the store.
+    const cleanup = () => {
+        invalidateListeners();
+    };
+
+    // Trigger that method before unloading the page in case users did not register it.
+    window.addEventListener('beforeunload', cleanup);
+
+    return cleanup;
 };
