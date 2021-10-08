@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { toRefs } from 'vue'
 import WalletButton from './WalletButton.vue';
 import WalletIcon from './WalletIcon.vue';

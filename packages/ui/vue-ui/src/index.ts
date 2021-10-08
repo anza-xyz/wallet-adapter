@@ -1,7 +1,7 @@
 export * from './useWalletModal';
-export * from './WalletConnectButton.vue';
-export * from './WalletDisconnectButton.vue';
-export * from './WalletIcon.vue';
-export * from './WalletModal.vue';
-export * from './WalletModalButton.vue';
-export * from './WalletMultiButton.vue';
+export { default as WalletConnectButton } from './WalletConnectButton.vue';
+export { default as WalletDisconnectButton } from './WalletDisconnectButton.vue';
+export { default as WalletIcon } from './WalletIcon.vue';
+export { default as WalletModal } from './WalletModal.vue';
+export { default as WalletModalButton } from './WalletModalButton.vue';
+export { default as WalletMultiButton } from './WalletMultiButton.vue';

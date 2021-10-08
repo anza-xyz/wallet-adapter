@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed, ref, toRefs, watchPostEffect } from 'vue';
 import { useWallet } from '@solana/wallet-adapter-vue';
 import { useWalletModal } from './useWalletModal';

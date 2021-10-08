@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import WalletButton from './WalletButton.vue';
 import { useWalletModal } from './useWalletModal';
 const { showModal } = useWalletModal();
