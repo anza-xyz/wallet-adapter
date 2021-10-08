@@ -3,7 +3,8 @@
     "compilerOptions": {
         "noEmit": false,
         "outDir": "lib",
-        "isolatedModules": false
+        "isolatedModules": false,
+        "typeRoots": []
     },
     "include": ["src"]
 }
