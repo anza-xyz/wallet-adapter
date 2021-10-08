@@ -1,3 +1,9 @@
+<script lang="ts">
+    export default {
+        name: 'wallet-connect-button',
+    }
+</script>
+
 <script setup lang="ts">
 import { toRefs, computed } from 'vue';
 import { useWallet } from '@solana/wallet-adapter-vue';

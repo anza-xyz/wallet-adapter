@@ -1,3 +1,9 @@
+<script lang="ts">
+    export default {
+        name: 'wallet-button',
+    }
+</script>
+
 <script setup lang="ts">
 import { useSlots } from 'vue';
 const slots = useSlots();

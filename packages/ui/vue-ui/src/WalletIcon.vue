@@ -1,3 +1,9 @@
+<script lang="ts">
+    export default {
+        name: 'wallet-icon',
+    }
+</script>
+
 <script setup lang="ts">
 import { toRefs } from 'vue'
 const props = defineProps({ wallet: Object });

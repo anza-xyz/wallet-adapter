@@ -1,3 +1,9 @@
+<script lang="ts">
+    export default {
+        name: 'wallet-list-item',
+    }
+</script>
+
 <script setup lang="ts">
 import { toRefs } from 'vue'
 import WalletButton from './WalletButton.vue';

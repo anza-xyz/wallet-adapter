@@ -1,4 +1,4 @@
-import { ref, Ref } from '@vue/runtime-core';
+import { ref, Ref } from 'vue';
 
 export interface WalletModalStore {
     visible: Ref<boolean>,

@@ -1,3 +1,9 @@
+<script lang="ts">
+    export default {
+        name: 'wallet-modal',
+    }
+</script>
+
 <script setup lang="ts">
 import { computed, ref, toRefs, watchPostEffect } from 'vue';
 import { useWallet } from '@solana/wallet-adapter-vue';

@@ -1,3 +1,9 @@
+<script lang="ts">
+    export default {
+        name: 'wallet-multi-button',
+    }
+</script>
+
 <script setup lang="ts">
 import { ref, computed, watchEffect } from 'vue'
 import { useWallet } from '@solana/wallet-adapter-vue';
