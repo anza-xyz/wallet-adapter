@@ -2,10 +2,10 @@
 import { ref, computed, watchEffect } from 'vue'
 import { useWallet } from '@solana/wallet-adapter-vue';
 import { useWalletModal } from './useWalletModal';
-import WalletConnectButton from './WalletConnectButton';
-import WalletModalButton from './WalletModalButton';
-import WalletButton from './WalletButton';
-import WalletIcon from './WalletIcon';
+import WalletConnectButton from './WalletConnectButton.vue';
+import WalletModalButton from './WalletModalButton.vue';
+import WalletButton from './WalletButton.vue';
+import WalletIcon from './WalletIcon.vue';
 
 const { publicKey, wallet, disconnect } = useWallet();
 const { showModal } = useWalletModal();

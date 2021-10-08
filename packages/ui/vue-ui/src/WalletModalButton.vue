@@ -1,5 +1,5 @@
 <script setup>
-import WalletButton from './WalletButton';
+import WalletButton from './WalletButton.vue';
 import { useWalletModal } from './useWalletModal';
 const { showModal } = useWalletModal();
 </script>

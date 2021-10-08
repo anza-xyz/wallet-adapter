@@ -1,7 +1,7 @@
 <script setup>
 import { toRefs } from 'vue'
-import WalletButton from './WalletButton';
-import WalletIcon from './WalletIcon';
+import WalletButton from './WalletButton.vue';
+import WalletIcon from './WalletIcon.vue';
 
 const props = defineProps({ wallet: Object });
 const { wallet } = toRefs(props);

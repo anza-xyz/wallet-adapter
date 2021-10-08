@@ -1,8 +1,8 @@
 <script setup>
 import { toRefs, computed } from 'vue';
 import { useWallet } from '@solana/wallet-adapter-vue';
-import WalletButton from './WalletButton';
-import WalletIcon from './WalletIcon';
+import WalletButton from './WalletButton.vue';
+import WalletIcon from './WalletIcon.vue';
 
 const emit = defineEmits(['click'])
 const props = defineProps({ disabled: Boolean });

@@ -2,8 +2,8 @@
 import { computed, ref, toRefs, watchPostEffect } from 'vue';
 import { useWallet } from '@solana/wallet-adapter-vue';
 import { useWalletModal } from './useWalletModal';
-import WalletButton from './WalletButton';
-import WalletListItem from './WalletListItem';
+import WalletButton from './WalletButton.vue';
+import WalletListItem from './WalletListItem.vue';
 
 const props = defineProps({
     featuredWallets: { type: Number, default: 3 },
