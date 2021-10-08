@@ -1,38 +1,48 @@
 <script lang="ts">
-    export default {
-        name: 'wallet-disconnect-button',
-    }
-</script>
-
-<script setup lang="ts">
-import { toRefs, computed } from 'vue';
+import { computed } from 'vue';
 import { useWallet } from '@solana/wallet-adapter-vue';
 import WalletButton from './WalletButton.vue';
 import WalletIcon from './WalletIcon.vue';
 
-const emit = defineEmits(['click'])
-const props = defineProps({ disabled: Boolean });
-const { disabled } = toRefs(props);
+export default {
+    name: 'wallet-disconnect-button',
+    components: {
+        WalletButton,
+        WalletIcon,
+    },
+    props: {
+        disabled: Boolean,
+    },
+    setup ({ disabled }, { emit }) {
+        const { wallet, disconnect, disconnecting } = useWallet();
 
-const { wallet, disconnect, disconnecting } = useWallet();
+        const content = computed(() => {
+            if (disconnecting.value) return 'Disconnecting ...';
+            if (wallet.value) return 'Disconnect';
+            return 'Disconnect Wallet';
+        });
 
-const handleClick = event => {
-    emit('click', event);
-    if (event.defaultPrevented) return;
-    disconnect().catch(() => {});
+        const handleClick = (event: MouseEvent) => {
+            emit('click', event);
+            if (event.defaultPrevented) return;
+            disconnect().catch(() => {});
+        };
+
+        return {
+            wallet,
+            disconnecting,
+            disabled,
+            content,
+            handleClick,
+        };
+    },
 };
-
-const content = computed(() => {
-    if (disconnecting.value) return 'Disconnecting ...';
-    if (wallet.value) return 'Disconnect';
-    return 'Disconnect Wallet';
-});
 </script>
 
 <template>
     <wallet-button
         class="wallet-adapter-button-trigger"
-        :disabled="disabled || ! wallet"
+        :disabled="disabled || disconnecting || ! wallet"
         @click="handleClick"
     >
         <template #start-icon v-if="wallet">

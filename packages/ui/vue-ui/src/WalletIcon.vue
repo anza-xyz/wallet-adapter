@@ -1,13 +1,13 @@
 <script lang="ts">
-    export default {
-        name: 'wallet-icon',
-    }
-</script>
-
-<script setup lang="ts">
-import { toRefs } from 'vue'
-const props = defineProps({ wallet: Object });
-const { wallet } = toRefs(props);
+export default {
+    name: 'wallet-icon',
+    props: {
+        wallet: Object,
+    },
+    setup ({ wallet }) {
+        return { wallet };
+    },
+};
 </script>
 
 <template>

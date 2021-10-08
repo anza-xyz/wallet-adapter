@@ -36,9 +36,9 @@ export default {
             connected,
             content,
             handleClick,
-        }
+        };
     },
-}
+};
 </script>
 
 <template>
