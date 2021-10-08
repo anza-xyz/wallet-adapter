@@ -1,33 +1,44 @@
 <script lang="ts">
-    export default {
-        name: 'wallet-connect-button',
-    }
-</script>
-
-<script setup lang="ts">
-import { toRefs, computed } from 'vue';
+import { computed } from 'vue';
 import { useWallet } from '@solana/wallet-adapter-vue';
 import WalletButton from './WalletButton.vue';
 import WalletIcon from './WalletIcon.vue';
 
-const emit = defineEmits(['click'])
-const props = defineProps({ disabled: Boolean });
-const { disabled } = toRefs(props);
+export default {
+    name: 'wallet-connect-button',
+    components: {
+        WalletButton,
+        WalletIcon,
+    },
+    props: {
+        disabled: Boolean,
+    },
+    setup ({ disabled }, { emit }) {
+        const { wallet, connect, connecting, connected } = useWallet();
 
-const { wallet, connect, connecting, connected } = useWallet();
+        const content = computed(() => {
+            if (connecting.value) return 'Connecting ...';
+            if (connected.value) return 'Connected';
+            if (wallet.value) return 'Connect';
+            return 'Connect Wallet';
+        });
 
-const handleClick = event => {
-    emit('click', event);
-    if (event.defaultPrevented) return;
-    connect().catch(() => {});
-};
+        const handleClick = (event: MouseEvent) => {
+            emit('click', event);
+            if (event.defaultPrevented) return;
+            connect().catch(() => {});
+        };
 
-const content = computed(() => {
-    if (connecting.value) return 'Connecting ...';
-    if (connected.value) return 'Connected';
-    if (wallet.value) return 'Connect';
-    return 'Connect Wallet';
-});
+        return {
+            wallet,
+            disabled,
+            connecting,
+            connected,
+            content,
+            handleClick,
+        }
+    },
+}
 </script>
 
 <template>

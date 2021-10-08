@@ -1,13 +1,14 @@
 <script lang="ts">
-    export default {
-        name: 'wallet-button',
-    }
-</script>
+import { defineComponent } from 'vue';
 
-<script setup lang="ts">
-import { useSlots } from 'vue';
-const slots = useSlots();
-const justifyContent = (slots['end-icon'] || slots['start-icon']) ? 'space-between' : 'center';
+export default defineComponent({
+    name: 'wallet-button',
+    setup (props, { slots }) {
+        const justifyContent = (slots['end-icon'] || slots['start-icon']) ? 'space-between' : 'center';
+
+        return { justifyContent };
+    },
+});
 </script>
 
 <template>
