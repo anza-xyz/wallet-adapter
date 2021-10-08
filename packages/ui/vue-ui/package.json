@@ -21,11 +21,15 @@
         "build": "yarn clean && vite build"
     },
     "peerDependencies": {
+        "@solana/wallet-adapter-base": "^0.6.0",
         "@solana/wallet-adapter-vue": "^0.1.0",
+        "@solana/wallet-adapter-wallets": "^0.10.1",
         "vue": "^3.0.0"
     },
     "devDependencies": {
+        "@solana/wallet-adapter-base": "^0.6.0",
         "@solana/wallet-adapter-vue": "^0.1.0",
+        "@solana/wallet-adapter-wallets": "^0.10.1",
         "@vitejs/plugin-vue": "^1.9.3",
         "vite": "^2.6.4",
         "vite-plugin-dts": "^0.8.2",

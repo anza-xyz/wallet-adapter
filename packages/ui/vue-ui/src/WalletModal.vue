@@ -1,81 +1,94 @@
 <script lang="ts">
-    export default {
-        name: 'wallet-modal',
-    }
-</script>
-
-<script setup lang="ts">
 import { computed, ref, toRefs, watchPostEffect } from 'vue';
+import { WalletName } from '@solana/wallet-adapter-wallets';
 import { useWallet } from '@solana/wallet-adapter-vue';
 import { useWalletModal } from './useWalletModal';
 import WalletButton from './WalletButton.vue';
 import WalletListItem from './WalletListItem.vue';
 
-const props = defineProps({
-    featuredWallets: { type: Number, default: 3 },
-    container: { type: String, default: 'body' },
-    logo: String,
-});
+export default {
+    name: 'wallet-modal',
+    components: {
+        WalletButton,
+        WalletListItem,
+    },
+    props: {
+        featuredWallets: { type: Number, default: 3 },
+        container: { type: String, default: 'body' },
+        logo: String,
+    },
+    setup ({ featuredWallets: featuredWalletsNumber, container, logo }) {
+        const { wallets, select } = useWallet();
+        const { visible, hideModal } = useWalletModal();
+        const modal = ref<Element>();
+        const expanded = ref(false);
+        const featuredWallets = computed(() => wallets.slice(0, featuredWalletsNumber));
+        const otherWallets = computed(() => wallets.slice(featuredWalletsNumber));
 
-const { featuredWallets: featuredWalletsNumber, container, logo } = toRefs(props);
-const { wallets, select } = useWallet();
-const { visible, hideModal } = useWalletModal();
-const modal = ref(null);
-const expanded = ref(false);
-const featuredWallets = computed(() => wallets.slice(0, featuredWalletsNumber.value));
-const otherWallets = computed(() => wallets.slice(featuredWalletsNumber.value));
-
-const selectWallet = walletName => {
-    select(walletName);
-    hideModal();
-};
-
-const handleTabKey = event => {
-    const node = modal.value;
-    if (!node) return;
-
-    // here we query all focusable elements
-    const focusableElements = node.querySelectorAll('button');
-    const firstElement = focusableElements[0];
-    const lastElement = focusableElements[focusableElements.length - 1];
-
-    if (event.shiftKey) {
-        // if going backward by pressing tab and firstElement is active, shift focus to last focusable element
-        if (document.activeElement === firstElement) {
-            lastElement.focus();
-            event.preventDefault();
-        }
-    } else {
-        // if going forward by pressing tab and lastElement is active, shift focus to first focusable element
-        if (document.activeElement === lastElement) {
-            firstElement.focus();
-            event.preventDefault();
-        }
-    }
-};
-
-watchPostEffect(onInvalidate => {
-    const handleKeyDown = event => {
-        if (event.key === 'Escape') {
+        const selectWallet = (walletName: WalletName) => {
+            select(walletName);
             hideModal();
-        } else if (event.key === 'Tab') {
-            handleTabKey(event);
+        };
+
+        const handleTabKey = (event: KeyboardEvent) => {
+            const node = modal.value;
+            if (!node) return;
+
+            // here we query all focusable elements
+            const focusableElements = node.querySelectorAll('button');
+            const firstElement = focusableElements[0];
+            const lastElement = focusableElements[focusableElements.length - 1];
+
+            if (event.shiftKey) {
+                // if going backward by pressing tab and firstElement is active, shift focus to last focusable element
+                if (document.activeElement === firstElement) {
+                    lastElement.focus();
+                    event.preventDefault();
+                }
+            } else {
+                // if going forward by pressing tab and lastElement is active, shift focus to first focusable element
+                if (document.activeElement === lastElement) {
+                    firstElement.focus();
+                    event.preventDefault();
+                }
+            }
+        };
+
+        watchPostEffect(onInvalidate => {
+            const handleKeyDown = (event: KeyboardEvent) => {
+                if (event.key === 'Escape') {
+                    hideModal();
+                } else if (event.key === 'Tab') {
+                    handleTabKey(event);
+                }
+            };
+
+            // Get original overflow
+            const { overflow } = window.getComputedStyle(document.body);
+            // Prevent scrolling on mount
+            document.body.style.overflow = 'hidden';
+            // Listen for keydown events
+            window.addEventListener('keydown', handleKeyDown, false);
+
+            onInvalidate(() => {
+                // Re-enable scrolling when component unmounts
+                document.body.style.overflow = overflow;
+                window.removeEventListener('keydown', handleKeyDown, false);
+            });
+        });
+
+        return {
+            container,
+            logo,
+            visible,
+            expanded,
+            featuredWallets,
+            otherWallets,
+            selectWallet,
+            hideModal,
         }
-    };
-
-    // Get original overflow
-    const { overflow } = window.getComputedStyle(document.body);
-    // Prevent scrolling on mount
-    document.body.style.overflow = 'hidden';
-    // Listen for keydown events
-    window.addEventListener('keydown', handleKeyDown, false);
-
-    onInvalidate(() => {
-        // Re-enable scrolling when component unmounts
-        document.body.style.overflow = overflow;
-        window.removeEventListener('keydown', handleKeyDown, false);
-    });
-});
+    },
+};
 </script>
 
 <template>

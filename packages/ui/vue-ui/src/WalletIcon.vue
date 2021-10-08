@@ -1,8 +1,11 @@
 <script lang="ts">
+import { PropType } from 'vue';
+import { Wallet } from '@solana/wallet-adapter-wallets';
+
 export default {
     name: 'wallet-icon',
     props: {
-        wallet: Object,
+        wallet: Object as PropType<Wallet>,
     },
     setup ({ wallet }) {
         return { wallet };
