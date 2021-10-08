@@ -14,7 +14,7 @@ export default defineConfig({
             fileName: () => 'index.js',
         },
         rollupOptions: {
-            external: ['vue'],
+            external: ['vue', '@solana/wallet-adapter-vue'],
             output: {
                 globals: {
                     vue: 'Vue',
