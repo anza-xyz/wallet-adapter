@@ -84,6 +84,7 @@ export default defineComponent({
             expanded,
             featuredWallets,
             otherWallets,
+            modal,
             selectWallet,
             hideModal,
         }

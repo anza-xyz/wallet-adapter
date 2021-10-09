@@ -64,6 +64,7 @@ export default defineComponent({
             base58,
             active,
             copied,
+            dropdown,
             openDropdown,
             openModal,
             copyAddress,
