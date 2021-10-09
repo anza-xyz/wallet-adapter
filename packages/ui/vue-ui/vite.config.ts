@@ -14,7 +14,12 @@ export default defineConfig({
             fileName: () => 'index.js',
         },
         rollupOptions: {
-            external: ['vue', '@solana/wallet-adapter-vue'],
+            external: [
+                '@solana/wallet-adapter-base',
+                '@solana/wallet-adapter-vue',
+                '@solana/wallet-adapter-wallets',
+                'vue',
+            ],
             output: {
                 globals: {
                     vue: 'Vue',
@@ -22,5 +27,5 @@ export default defineConfig({
             },
         },
     },
-    plugins: [vue(), dts()],
+    plugins: [vue(), dts({ insertTypesEntry: true })],
 })
