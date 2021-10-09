@@ -1,8 +1,9 @@
 <script lang="ts">
-import WalletButton from './WalletButton.vue';
+import { defineComponent } from 'vue';
 import { useWalletModal } from './useWalletModal';
+import WalletButton from './WalletButton.vue';
 
-export default {
+export default defineComponent({
     name: 'wallet-modal-button',
     components: {
         WalletButton,
@@ -12,7 +13,7 @@ export default {
 
         return { showModal };
     },
-};
+});
 </script>
 
 <template>

@@ -1,10 +1,10 @@
 <script lang="ts">
-import { computed } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { useWallet } from '@solana/wallet-adapter-vue';
 import WalletButton from './WalletButton.vue';
 import WalletIcon from './WalletIcon.vue';
 
-export default {
+export default defineComponent({
     name: 'wallet-connect-button',
     components: {
         WalletButton,
@@ -38,7 +38,7 @@ export default {
             handleClick,
         };
     },
-};
+});
 </script>
 
 <template>

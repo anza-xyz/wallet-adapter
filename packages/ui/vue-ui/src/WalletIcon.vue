@@ -1,8 +1,8 @@
 <script lang="ts">
-import { PropType } from 'vue';
+import { PropType, defineComponent } from 'vue';
 import { Wallet } from '@solana/wallet-adapter-wallets';
 
-export default {
+export default defineComponent({
     name: 'wallet-icon',
     props: {
         wallet: Object as PropType<Wallet>,
@@ -10,7 +10,7 @@ export default {
     setup ({ wallet }) {
         return { wallet };
     },
-};
+});
 </script>
 
 <template>

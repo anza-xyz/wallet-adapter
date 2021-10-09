@@ -1,12 +1,12 @@
 <script lang="ts">
-import { computed, ref, toRefs, watchPostEffect } from 'vue';
+import { computed, ref, watchPostEffect, defineComponent } from 'vue';
 import { WalletName } from '@solana/wallet-adapter-wallets';
 import { useWallet } from '@solana/wallet-adapter-vue';
 import { useWalletModal } from './useWalletModal';
 import WalletButton from './WalletButton.vue';
 import WalletListItem from './WalletListItem.vue';
 
-export default {
+export default defineComponent({
     name: 'wallet-modal',
     components: {
         WalletButton,
@@ -88,7 +88,7 @@ export default {
             hideModal,
         }
     },
-};
+});
 </script>
 
 <template>

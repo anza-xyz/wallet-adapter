@@ -1,5 +1,5 @@
 <script lang="ts">
-import { ref, computed, watchEffect } from 'vue'
+import { ref, computed, watchEffect, defineComponent } from 'vue'
 import { useWallet } from '@solana/wallet-adapter-vue';
 import { useWalletModal } from './useWalletModal';
 import WalletConnectButton from './WalletConnectButton.vue';
@@ -7,7 +7,7 @@ import WalletModalButton from './WalletModalButton.vue';
 import WalletButton from './WalletButton.vue';
 import WalletIcon from './WalletIcon.vue';
 
-export default {
+export default defineComponent({
     name: 'wallet-multi-button',
     components: {
         WalletConnectButton,
@@ -70,7 +70,7 @@ export default {
             disconnect,
         };
     },
-};
+});
 </script>
 
 <template>
