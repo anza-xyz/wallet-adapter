@@ -1,10 +1,4 @@
 <script lang="ts">
-    export default {
-        name: 'wallet-multi-button',
-    }
-</script>
-
-<script setup lang="ts">
 import { ref, computed, watchEffect } from 'vue'
 import { useWallet } from '@solana/wallet-adapter-vue';
 import { useWalletModal } from './useWalletModal';
@@ -13,46 +7,70 @@ import WalletModalButton from './WalletModalButton.vue';
 import WalletButton from './WalletButton.vue';
 import WalletIcon from './WalletIcon.vue';
 
-const { publicKey, wallet, disconnect } = useWallet();
-const { showModal } = useWalletModal();
-const copied = ref(false);
-const active = ref(false);
-const dropdown = ref(null);
+export default {
+    name: 'wallet-multi-button',
+    components: {
+        WalletConnectButton,
+        WalletModalButton,
+        WalletButton,
+        WalletIcon,
+    },
+    setup () {
+        const { publicKey, wallet, disconnect } = useWallet();
+        const { showModal } = useWalletModal();
+        const copied = ref(false);
+        const active = ref(false);
+        const dropdown = ref<Element>();
 
-const base58 = computed(() => publicKey.value?.toBase58());
-const content = computed(() => {
-    if (! wallet.value || ! base58.value) return null;
-    return base58.value.slice(0, 4) + '..' + base58.value.slice(-4);
-});
+        const base58 = computed(() => publicKey.value?.toBase58());
+        const content = computed(() => {
+            if (! wallet.value || ! base58.value) return null;
+            return base58.value.slice(0, 4) + '..' + base58.value.slice(-4);
+        });
 
-const copyAddress = async () => {
-    if (! base58.value) return;
-    await navigator.clipboard.writeText(base58.value);
-    copied.value = true;
-    setTimeout(() => copied.value = false, 400);
+        const copyAddress = async () => {
+            if (! base58.value) return;
+            await navigator.clipboard.writeText(base58.value);
+            copied.value = true;
+            setTimeout(() => copied.value = false, 400);
+        };
+
+        const openDropdown = () => active.value = true;
+        const closeDropdown = () => active.value = false;
+        const openModal = () => {
+            showModal();
+            closeDropdown();
+        };
+
+        // Close the dropdown when clicking outside of it.
+        watchEffect(onInvalidate => {
+            const listener = (event: MouseEvent | TouchEvent) => {
+                const node = dropdown.value;
+                // Do nothing if clicking dropdown or its descendants
+                if (! node || node.contains(event.target as Node)) return;
+                closeDropdown();
+            };
+            document.addEventListener('mousedown', listener);
+            document.addEventListener('touchstart', listener);
+            onInvalidate(() => {
+                document.removeEventListener('mousedown', listener);
+                document.removeEventListener('touchstart', listener);
+            });
+        });
+
+        return {
+            wallet,
+            content,
+            base58,
+            active,
+            copied,
+            openDropdown,
+            openModal,
+            copyAddress,
+            disconnect,
+        };
+    },
 };
-
-const openDropdown = () => active.value = true;
-const closeDropdown = () => active.value = false;
-const openModal = () => {
-    showModal();
-    closeDropdown();
-};
-
-watchEffect(onInvalidate => {
-    const listener = event => {
-        const node = dropdown.value;
-        // Do nothing if clicking dropdown or its descendants
-        if (!node || node.contains(event.target)) return;
-        closeDropdown();
-    };
-    document.addEventListener('mousedown', listener);
-    document.addEventListener('touchstart', listener);
-    onInvalidate(() => {
-        document.removeEventListener('mousedown', listener);
-        document.removeEventListener('touchstart', listener);
-    });
-});
 </script>
 
 <template>
@@ -62,7 +80,7 @@ watchEffect(onInvalidate => {
     <wallet-connect-button v-else-if="! base58">
         <slot></slot>
     </wallet-connect-button>
-    <div v-else className="wallet-adapter-dropdown">
+    <div v-else class="wallet-adapter-dropdown">
         <wallet-button
             class="wallet-adapter-button-trigger"
             :style="{ pointerEvents: active ? 'none' : 'auto' }"
