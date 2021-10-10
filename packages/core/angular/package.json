@@ -13,7 +13,7 @@
         "src"
     ],
     "scripts": {
-        "clean": "rm -rf lib/*",
+        "clean": "shx rm -rf lib/*",
         "build": "yarn clean && ng build angular --configuration=production"
     },
     "peerDependencies": {
