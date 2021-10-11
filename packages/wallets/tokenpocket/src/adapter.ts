@@ -4,15 +4,11 @@ import {
     pollUntilReady,
     WalletAccountError,
     WalletConnectionError,
-    WalletDisconnectedError,
-    WalletDisconnectionError,
-    WalletError,
     WalletNotConnectedError,
     WalletNotFoundError,
     WalletNotInstalledError,
     WalletPublicKeyError,
     WalletSignTransactionError,
-    WalletWindowClosedError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 
@@ -84,13 +80,11 @@ export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             try {
                 await wallet.connect();
-            }
-            catch (error: any) {
-                if (error instanceof WalletError) throw error;
+            } catch (error: any) {
                 throw new WalletConnectionError(error?.message, error);
             }
 
-            if (!wallet.publicKey) throw new WalletConnectionError();
+            if (!wallet.publicKey) throw new WalletAccountError();
 
             let publicKey: PublicKey;
             try {
@@ -116,6 +110,7 @@ export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
         if (wallet) {
             this._wallet = null;
             this._publicKey = null;
+
             this.emit('disconnect');
         }
     }
@@ -168,5 +163,4 @@ export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
             throw error;
         }
     }
-
 }
