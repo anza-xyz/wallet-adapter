@@ -40,8 +40,10 @@ export const WalletProvider: FC<WalletProviderProps> = ({
 }) => {
     const [name, setName] = useLocalStorage<WalletName | null>(localStorageKey, null);
     const [{ wallet, adapter, ready, publicKey, connected }, setState] = useState(initialState);
-    const connecting = useRef(false);
-    const disconnecting = useRef(false);
+    const [connecting, setConnecting] = useState(false);
+    const [disconnecting, setDisconnecting] = useState(false);
+    const isConnecting = useRef(false);
+    const isDisconnecting = useRef(false);
 
     // Map of wallet names to wallets
     const walletsByName = useMemo(
@@ -67,21 +69,23 @@ export const WalletProvider: FC<WalletProviderProps> = ({
 
     // If autoConnect is enabled, try to connect when the adapter changes and is ready
     useEffect(() => {
-        if (autoConnect && adapter && ready && !connected && !connecting.current) {
-            (async function () {
-                connecting.current = true;
-                try {
-                    await adapter.connect();
-                } catch (error: any) {
-                    // Clear the selected wallet
-                    setName(null);
-                    // Don't throw error, but onError will still be called
-                } finally {
-                    connecting.current = false;
-                }
-            })();
-        }
-    }, [autoConnect, adapter, ready, connecting, connected, connecting, setName]);
+        if (isConnecting.current || connecting || connected || !autoConnect || !adapter || !ready) return;
+
+        (async function () {
+            isConnecting.current = true;
+            setConnecting(true);
+            try {
+                await adapter.connect();
+            } catch (error: any) {
+                // Clear the selected wallet
+                setName(null);
+                // Don't throw error, but onError will still be called
+            } finally {
+                setConnecting(false);
+                isConnecting.current = false;
+            }
+        })();
+    }, [isConnecting, connecting, connected, autoConnect, adapter, ready, setConnecting, setName]);
 
     // Select a wallet by name
     const select = useCallback(
@@ -114,7 +118,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
 
     // Connect the adapter to the wallet
     const connect = useCallback(async () => {
-        if (connected || connecting.current || disconnecting.current) return;
+        if (isConnecting.current || connecting || disconnecting || connected) return;
 
         if (!wallet || !adapter) {
             const error = new WalletNotSelectedError();
@@ -134,30 +138,34 @@ export const WalletProvider: FC<WalletProviderProps> = ({
             throw error;
         }
 
-        connecting.current = true;
+        isConnecting.current = true;
+        setConnecting(true);
         try {
             await adapter.connect();
         } catch (error: any) {
             setName(null);
             throw error;
         } finally {
-            connecting.current = false;
+            setConnecting(false);
+            isConnecting.current = false;
         }
-    }, [connected, connecting, disconnecting, wallet, adapter, onError, ready, setName]);
+    }, [isConnecting, connecting, disconnecting, connected, wallet, adapter, onError, ready, setConnecting, setName]);
 
     // Disconnect the adapter from the wallet
     const disconnect = useCallback(async () => {
-        if (disconnecting.current) return;
+        if (isDisconnecting.current || disconnecting) return;
         if (!adapter) return setName(null);
 
-        disconnecting.current = true;
+        isDisconnecting.current = true;
+        setDisconnecting(true);
         try {
             await adapter.disconnect();
         } finally {
             setName(null);
-            disconnecting.current = false;
+            setDisconnecting(false);
+            isDisconnecting.current = false;
         }
-    }, [disconnecting, adapter, setName]);
+    }, [isDisconnecting, disconnecting, adapter, setDisconnecting, setName]);
 
     // Send a transaction using the provided connection
     const sendTransaction = useCallback(
@@ -255,8 +263,8 @@ export const WalletProvider: FC<WalletProviderProps> = ({
                 publicKey,
                 ready,
                 connected,
-                connecting: connecting.current,
-                disconnecting: disconnecting.current,
+                connecting,
+                disconnecting,
                 select,
                 connect,
                 disconnect,

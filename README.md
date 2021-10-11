@@ -63,6 +63,9 @@ import {
 } from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
 
+// Default styles that can be overridden by your app
+require('@solana/wallet-adapter-react-ui/styles.css');
+
 export const Wallet: FC = () => {
     // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
     const network = WalletAdapterNetwork.Devnet;
@@ -165,6 +168,7 @@ These packages are what most projects can use to support wallets on Solana.
 | [base](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/base)          | Adapter interfaces, error types, and common utilities | [`@solana/wallet-adapter-base`](https://www.npmjs.com/package/@solana/wallet-adapter-base)       |
 | [react](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/react)        | Contexts and hooks for React dApps                    | [`@solana/wallet-adapter-react`](https://www.npmjs.com/package/@solana/wallet-adapter-react)     |
 | [angular](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/angular) \* | Stores and configuration for Angular dApps            | [`@solana/wallet-adapter-angular`](https://www.npmjs.com/package/@solana/wallet-adapter-angular) |
+| [vue](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/vue)            | Stores and composables for Vue 3 dApps                | [`@solana/wallet-adapter-vue`](https://www.npmjs.com/package/@solana/wallet-adapter-vue)         |
 
 \* Package has not been published to NPM yet.
 
@@ -197,7 +201,7 @@ The core [wallets](https://github.com/solana-labs/wallet-adapter/tree/master/pac
 | [bitkeep](https://github.com/solana-labs/wallet-adapter/tree/master/packages/bitkeep) \*                     | Adapter for [BitKeep](https://bitkeep.com)             | [`@solana/wallet-adapter-bitkeep`](https://www.npmjs.com/package/@solana/wallet-adapter-bitkeep)             |
 | [bitpie](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/bitpie)                  | Adapter for [Bitpie](https://bitpie.com)               | [`@solana/wallet-adapter-bitpie`](https://www.npmjs.com/package/@solana/wallet-adapter-bitpie)               |
 | [blocto](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/blocto)                  | Adapter for [Blocto](https://blocto.app)               | [`@solana/wallet-adapter-blocto`](https://www.npmjs.com/package/@solana/wallet-adapter-blocto)               |
-| [clover](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/clover) \*               | Adapter for [Clover](https://clover.finance)           | [`@solana/wallet-adapter-clover`](https://www.npmjs.com/package/@solana/wallet-adapter-clover)               |
+| [clover](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/clover)                  | Adapter for [Clover](https://clover.finance)           | [`@solana/wallet-adapter-clover`](https://www.npmjs.com/package/@solana/wallet-adapter-clover)               |
 | [coin98](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/coin98)                  | Adapter for [Coin98](https://coin98.com)               | [`@solana/wallet-adapter-coin98`](https://www.npmjs.com/package/@solana/wallet-adapter-coin98)               |
 | [ledger](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/ledger)                  | Adapter for [Ledger](https://www.ledger.com)           | [`@solana/wallet-adapter-ledger`](https://www.npmjs.com/package/@solana/wallet-adapter-ledger)               |
 | [mathwallet](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/mathwallet)          | Adapter for [MathWallet](https://mathwallet.org)       | [`@solana/wallet-adapter-mathwallet`](https://www.npmjs.com/package/@solana/wallet-adapter-mathwallet)       |

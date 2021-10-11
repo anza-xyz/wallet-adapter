@@ -13,14 +13,14 @@
         "src"
     ],
     "scripts": {
-        "clean": "rm -rf lib/*",
+        "clean": "shx rm -rf lib/*",
         "build": "yarn clean && ng build angular --configuration=production"
     },
     "peerDependencies": {
         "@angular/core": "^12.2.0",
         "@ngrx/component-store": "^12.4.0",
         "@solana/wallet-adapter-base": "^0.6.0",
-        "@solana/wallet-adapter-wallets": "^0.10.0",
+        "@solana/wallet-adapter-wallets": "^0.10.1",
         "@solana/web3.js": "^1.20.0",
         "rxjs": "^6.6.0"
     },
