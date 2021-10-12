@@ -1,11 +1,21 @@
 import type { WalletName } from '@solana/wallet-adapter-wallets';
 
-export function useLocalStorage(key: string, defaultValue: WalletName | null = null): WalletName | null {
+export function useLocalStorage(key: string, defaultValue: WalletName | undefined = undefined): WalletName | undefined{
     const value = localStorage.getItem(key);
     if (value){
-        return JSON.parse(value)
+        try {
+            return value ? JSON.parse(value) as WalletName : defaultValue;
+        } catch (error) {
+            console.warn(error);
+            return defaultValue;
+        }
     } else if (!value && defaultValue) {
-        localStorage.setItem(key, JSON.stringify(defaultValue));
-        return null
+        try {
+            localStorage.setItem(key, JSON.stringify(defaultValue));
+        } catch (error) {
+            console.error(error);
+        }
+    } else if (value === null) {
+        localStorage.removeItem(key);
     }
 }
