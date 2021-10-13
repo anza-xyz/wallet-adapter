@@ -18,7 +18,7 @@ type onError = (error: WalletError) => void;
 export interface useWalletStoreT {
 	wallets: Wallet[];
 	autoConnect: boolean;
-	walletsByName: WalletDictionary | null;
+	walletsByName: WalletDictionary | Record<string, never>;
 	wallet: Wallet | null;
 	publicKey: PublicKey | null;
 	ready: boolean;
@@ -55,7 +55,7 @@ export const useWalletStore = writable<useWalletStoreT>({
 	autoConnect: false,
 
 	// Data
-	walletsByName: null,
+	walletsByName: {},
 	wallet: null,
 	publicKey: null,
 	ready: false,
@@ -80,7 +80,7 @@ let key: string;
 export async function initWallet({
 	wallets,
 	autoConnect = false,
-	localStorageKey,
+	localStorageKey = 'walletName',
 	onError = (error: WalletError) => console.error(error)
 }: {
 	wallets: Wallet[];
