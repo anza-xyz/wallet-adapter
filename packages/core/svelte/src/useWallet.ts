@@ -64,12 +64,12 @@ export const useWalletStore = writable<useWalletStoreT>({
 	disconnecting: false
 });
 
-// This is not exposed to the client
+// @internal
 export const useWalletName = writable<useWalletNameStoreT>({
 	walletName: undefined
 });
 
-// This is not exposed to the client
+// @internal
 export const useWalletAdapter = writable<useWalletAdapterStoreT>({
 	adapter: null
 });
