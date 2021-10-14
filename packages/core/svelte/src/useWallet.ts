@@ -18,7 +18,7 @@ type onError = (error: WalletError) => void;
 interface useWalletStoreT {
 	wallets: Wallet[];
 	autoConnect: boolean;
-	walletsByName: WalletDictionary | null;
+	walletsByName: WalletDictionary;
 	wallet: Wallet | null;
 	publicKey: PublicKey | null;
 	ready: boolean;
