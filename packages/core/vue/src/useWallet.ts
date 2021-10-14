@@ -139,7 +139,7 @@ export const initWallet = ({
         if (!wallet.value || !adapter.value) return;
         setStateFromAdapter(wallet.value, adapter.value);
     };
-    watchEffect((onInvalidate) => {
+    const invalidateListeners = watchEffect((onInvalidate) => {
         const _adapter = adapter.value;
         if (!_adapter) return;
 
@@ -155,6 +155,12 @@ export const initWallet = ({
             _adapter.off('error', onError);
         });
     });
+
+    if (typeof window !== 'undefined') {
+        // Ensure the adapter listeners are invalidated before refreshing the page.
+        // This is because Vue does not unmount components when the page is being refreshed.
+        window.addEventListener('beforeunload', invalidateListeners);
+    }
 
     // Helper method to return an error whilst using the onError callback.
     const newError = (error: WalletError): WalletError => {
