@@ -15,10 +15,10 @@ type Adapter = ReturnType<Wallet['adapter']>;
 type WalletDictionary = { [name in WalletName]: Wallet };
 type onError = (error: WalletError) => void;
 
-export interface useWalletStoreT {
+interface useWalletStoreT {
 	wallets: Wallet[];
 	autoConnect: boolean;
-	walletsByName: WalletDictionary | Record<string, never>;
+	walletsByName: WalletDictionary | null;
 	wallet: Wallet | null;
 	publicKey: PublicKey | null;
 	ready: boolean;
@@ -27,15 +27,15 @@ export interface useWalletStoreT {
 	disconnecting: boolean;
 }
 
-export interface useWalletNameStoreT {
+interface useWalletNameStoreT {
 	walletName: WalletName | undefined;
 }
 
-export interface useWalletAdapterStoreT {
+interface useWalletAdapterStoreT {
 	adapter: Adapter | null;
 }
 
-export interface useWalletMethods {
+interface useWalletMethods {
 	select(walletName: WalletName): void;
 	connect(): Promise<void>;
 	disconnect(): Promise<void>;
@@ -49,13 +49,13 @@ export interface useWalletMethods {
 	signMessage(message: Uint8Array): Promise<Uint8Array | undefined>;
 }
 
-export const useWalletStore = writable<useWalletStoreT>({
+const useWalletStore = writable<useWalletStoreT>({
 	//Props
 	wallets: [],
 	autoConnect: false,
 
 	// Data
-	walletsByName: {},
+	walletsByName: null,
 	wallet: null,
 	publicKey: null,
 	ready: false,
@@ -64,13 +64,13 @@ export const useWalletStore = writable<useWalletStoreT>({
 	disconnecting: false
 });
 
-// @internal
-export const useWalletName = writable<useWalletNameStoreT>({
+// This is not exposed to the client
+const useWalletName = writable<useWalletNameStoreT>({
 	walletName: undefined
 });
 
-// @internal
-export const useWalletAdapter = writable<useWalletAdapterStoreT>({
+// This is not exposed to the client
+const useWalletAdapter = writable<useWalletAdapterStoreT>({
 	adapter: null
 });
 
@@ -80,7 +80,7 @@ let key: string;
 export async function initWallet({
 	wallets,
 	autoConnect = false,
-	localStorageKey = 'walletName',
+	localStorageKey,
 	onError = (error: WalletError) => console.error(error)
 }: {
 	wallets: Wallet[];
@@ -162,8 +162,8 @@ const onDisconnect = () => {
 	}));
 };
 
-// Watcher has to be used in Svelte component as reactivity function
-export const watchWalletName = (walletName: WalletName | null): void => {
+// watcher for walletName
+useWalletName.subscribe(({walletName}: {walletName: WalletName | undefined }) => {
 	if (walletName) {
 		useLocalStorage(key, walletName);
 	}
@@ -200,19 +200,46 @@ export const watchWalletName = (walletName: WalletName | null): void => {
 			adapter: null
 		}));
 	}
-};
+});
 
-// Watcher has to be used in Svelte component as reactivity function
-export const watchAdapter = (adapter: Adapter | null): void => {
+// watcher for adapter
+useWalletAdapter.subscribe(({ adapter }: { adapter: Adapter | null }) => {
 	if (!adapter) return;
 	adapter.on('ready', onReady);
 	adapter.on('connect', onConnect);
 	adapter.on('disconnect', onDisconnect);
 	adapter.on('error', triggerError);
-};
+})
 
-// Watcher has to be used in Svelte component inside onDestroy method
-export const destroyAdapter = (adapter: Adapter | null): void => {
+// watcher for auto-connect
+useWalletAdapter.subscribe(async ({ adapter }: { adapter: Adapter | null }) => {
+	const { autoConnect, ready, connected, connecting } = get(useWalletStore);
+	const { walletName } = get(useWalletName);
+	if (!autoConnect || !adapter || !walletName || !ready || connected || connecting) return;
+	try {
+		useWalletStore.update((storeValues: useWalletStoreT) => ({
+			...storeValues,
+			connecting: true
+		}));
+		await adapter.connect();
+	} catch (error: unknown) {
+		// Clear the selected wallet
+		useWalletName.update((storeValues: useWalletNameStoreT) => ({
+			...storeValues,
+			walletName: undefined
+		}));
+		// Don't throw error, but onError will still be called
+	} finally {
+		useWalletStore.update((storeValues: useWalletStoreT) => ({
+			...storeValues,
+			connecting: false
+		}));
+	}
+})
+
+// This has to be used Svelte component inside onDestroy method
+export const destroyAdapter = (): void => {
+	const { adapter } = get(useWalletAdapter);
 	if (!adapter) return;
 	adapter.off('ready', onReady);
 	adapter.off('connect', onConnect);
@@ -288,37 +315,6 @@ const disconnect = async (): Promise<void> => {
 	}
 };
 
-// If autoConnect is enabled, try to connect when the adapter changes and is ready.
-export async function autoConnectWallet({
-	adapter,
-	walletName
-}: {
-	adapter: Adapter | null;
-	walletName: WalletName | null;
-}): Promise<void> {
-	const { autoConnect, ready, connected, connecting } = get(useWalletStore);
-	if (!autoConnect || !adapter || !walletName || !ready || connected || connecting) return;
-	try {
-		useWalletStore.update((storeValues: useWalletStoreT) => ({
-			...storeValues,
-			connecting: true
-		}));
-		await adapter.connect();
-	} catch (error: unknown) {
-		// Clear the selected wallet
-		useWalletName.update((storeValues: useWalletNameStoreT) => ({
-			...storeValues,
-			walletName: undefined
-		}));
-		// Don't throw error, but onError will still be called
-	} finally {
-		useWalletStore.update((storeValues: useWalletStoreT) => ({
-			...storeValues,
-			connecting: false
-		}));
-	}
-}
-
 // Send a transaction using the provided connection.
 const sendTransaction = async (
 	transaction: Transaction,
@@ -362,7 +358,7 @@ const signMessage = async (message: Uint8Array): Promise<Uint8Array | undefined>
 };
 
 // Wallet exported
-export const useWallet = derived(useWalletStore, ($useWalletStore) => ({
+export const useWallet = derived(useWalletStore, ($useWalletStore: useWalletStoreT): useWalletStoreT |  useWalletMethods => ({
 	...$useWalletStore,
 	select,
 	connect,
