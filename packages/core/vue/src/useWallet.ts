@@ -8,7 +8,7 @@ import {
 } from '@solana/wallet-adapter-base';
 import { Wallet, WalletName } from '@solana/wallet-adapter-wallets';
 import { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
-import { computed, Ref, ref, watch, watchEffect } from '@vue/runtime-core';
+import { computed, inject, InjectionKey, onBeforeUnmount, provide, Ref, ref, watch, watchEffect } from '@vue/runtime-core';
 import { WalletNotSelectedError } from './errors';
 import { useLocalStorage } from './useLocalStorage';
 
@@ -51,16 +51,18 @@ export interface WalletStoreProps {
     localStorageKey?: string;
 }
 
-let walletStore: WalletStore = {} as WalletStore;
+const walletStoreKey: InjectionKey<WalletStore> = Symbol()
 
-export const useWallet = (): WalletStore => walletStore;
+export const useWallet = (): WalletStore | undefined => {
+    return inject(walletStoreKey);
+}
 
 export const initWallet = ({
     wallets,
     autoConnect = false,
     onError = (error: WalletError) => console.error(error),
     localStorageKey = 'walletName',
-}: WalletStoreProps): (() => void) => {
+}: WalletStoreProps): void => {
     const name: Ref<WalletName | null> = useLocalStorage<WalletName>(localStorageKey);
     const wallet = ref<Wallet | null>(null);
     const adapter = ref<Adapter | null>(null);
@@ -137,7 +139,7 @@ export const initWallet = ({
         if (!wallet.value || !adapter.value) return;
         setStateFromAdapter(wallet.value, adapter.value);
     };
-    const invalidateListeners = watchEffect((onInvalidate) => {
+    watchEffect((onInvalidate) => {
         const _adapter = adapter.value;
         if (!_adapter) return;
 
@@ -256,7 +258,7 @@ export const initWallet = ({
     });
 
     // Set up the store.
-    walletStore = {
+    provide(walletStoreKey, {
         // Props.
         wallets,
         autoConnect,
@@ -278,13 +280,5 @@ export const initWallet = ({
         signTransaction,
         signAllTransactions,
         signMessage,
-    };
-
-    if (typeof window !== 'undefined') {
-        // Trigger that method before unloading the page in case users did not register it.
-        window.addEventListener('beforeunload', invalidateListeners);
-    }
-
-    // Provide a method to cleanup any dependencies within the store.
-    return invalidateListeners;
+    });
 };
