@@ -6,7 +6,7 @@ import {
 	WalletNotReadyError,
 	WalletError
 } from '@solana/wallet-adapter-base';
-import type { SendTransactionOptions } from '@solana/wallet-adapter-base';
+import type { SendTransactionOptions, SignerWalletAdapterProps, MessageSignerWalletAdapterProps, } from '@solana/wallet-adapter-base';
 import type { Wallet, WalletName } from '@solana/wallet-adapter-wallets';
 import { useLocalStorage } from './useLocalStorage';
 import { WalletNotSelectedError } from './errors';
@@ -44,9 +44,9 @@ interface useWalletMethods {
 		connection: Connection,
 		options?: SendTransactionOptions
 	): Promise<TransactionSignature>;
-	signTransaction(transaction: Transaction): Promise<Transaction | undefined>;
-	signAllTransactions(transaction: Transaction): Promise<Transaction[] | undefined>;
-	signMessage(message: Uint8Array): Promise<Uint8Array | undefined>;
+	signTransaction(transaction: Transaction): SignerWalletAdapterProps['signTransaction'] | undefined;
+	signAllTransactions(transaction: Transaction): SignerWalletAdapterProps['signAllTransactions'] | undefined;
+	signMessage(message: Uint8Array): MessageSignerWalletAdapterProps['signMessage'] | undefined;
 }
 
 const useWalletStore = writable<useWalletStoreT>({
@@ -329,7 +329,7 @@ const sendTransaction = async (
 };
 
 // Sign a transaction if the wallet supports it.
-const signTransaction = async (transaction: Transaction): Promise<Transaction | undefined> => {
+const signTransaction: SignerWalletAdapterProps['signTransaction'] | undefined = async (transaction: Transaction) => {
 	const { connected } = get(useWalletStore);
 	const { adapter } = get(useWalletAdapter);
 	if (!(adapter && 'signTransaction' in adapter)) return;
@@ -338,9 +338,9 @@ const signTransaction = async (transaction: Transaction): Promise<Transaction | 
 };
 
 // Sign multiple transactions if the wallet supports it
-const signAllTransactions = async (
+const signAllTransactions: SignerWalletAdapterProps['signAllTransactions'] | undefined = async (
 	transactions: Transaction[]
-): Promise<Transaction[] | undefined> => {
+) => {
 	const { connected } = get(useWalletStore);
 	const { adapter } = get(useWalletAdapter);
 	if (!(adapter && 'signAllTransactions' in adapter)) return;
@@ -349,7 +349,7 @@ const signAllTransactions = async (
 };
 
 // Sign an arbitrary message if the wallet supports it.
-const signMessage = async (message: Uint8Array): Promise<Uint8Array | undefined> => {
+const signMessage: MessageSignerWalletAdapterProps['signMessage'] | undefined = async (message: Uint8Array) => {
 	const { connected } = get(useWalletStore);
 	const { adapter } = get(useWalletAdapter);
 	if (!(adapter && 'signMessage' in adapter)) return;
