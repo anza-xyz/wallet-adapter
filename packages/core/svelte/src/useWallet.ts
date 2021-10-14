@@ -206,7 +206,7 @@ let key: string;
 export async function initWallet({
 	wallets,
 	autoConnect = false,
-	localStorageKey,
+	localStorageKey = 'walletAdapter',
 	onError = (error: WalletError) => console.error(error)
 }: {
 	wallets: Wallet[];
