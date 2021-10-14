@@ -1,9 +1,9 @@
-import { WalletError } from "@solana/wallet-adapter-base";
-import { Wallet } from "@solana/wallet-adapter-wallets";
-import { defineComponent, PropType } from "@vue/runtime-core";
-import { initWallet } from "./useWallet";
+import { WalletError } from '@solana/wallet-adapter-base';
+import { Wallet } from '@solana/wallet-adapter-wallets';
+import { defineComponent, PropType } from '@vue/runtime-core';
+import { initWallet } from './useWallet';
 
-export default defineComponent({
+export const WalletProvider = defineComponent({
     name: 'wallet-provider',
     props: {
         wallets: {
@@ -23,7 +23,7 @@ export default defineComponent({
             default: 'walletName',
         },
     },
-    setup (props, { slots }) {
+    setup(props, { slots }) {
         initWallet({
             wallets: props.wallets,
             autoConnect: props.autoConnect,
@@ -33,4 +33,4 @@ export default defineComponent({
 
         return () => slots.default?.();
     },
-})
+});

@@ -8,7 +8,7 @@ import {
 } from '@solana/wallet-adapter-base';
 import { Wallet, WalletName } from '@solana/wallet-adapter-wallets';
 import { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
-import { computed, inject, InjectionKey, onBeforeUnmount, provide, Ref, ref, watch, watchEffect } from '@vue/runtime-core';
+import { computed, inject, InjectionKey, provide, Ref, ref, watch, watchEffect } from '@vue/runtime-core';
 import { WalletNotSelectedError } from './errors';
 import { useLocalStorage } from './useLocalStorage';
 
@@ -51,11 +51,11 @@ export interface WalletStoreProps {
     localStorageKey?: string;
 }
 
-const walletStoreKey: InjectionKey<WalletStore> = Symbol()
+const walletStoreKey: InjectionKey<WalletStore> = Symbol();
 
 export const useWallet = (): WalletStore | undefined => {
     return inject(walletStoreKey);
-}
+};
 
 export const initWallet = ({
     wallets,
