@@ -33,9 +33,9 @@ interface useWalletStoreT {
 		connection: Connection,
 		options?: SendTransactionOptions
 	): Promise<TransactionSignature>;
-	signTransaction: SignerWalletAdapterProps['signTransaction'];
-	signAllTransactions: SignerWalletAdapterProps['signAllTransactions'];
-	signMessage: MessageSignerWalletAdapterProps['signMessage'];
+	signTransaction: SignerWalletAdapterProps['signTransaction'] | undefined;
+	signAllTransactions: SignerWalletAdapterProps['signAllTransactions'] | undefined;
+	signMessage: MessageSignerWalletAdapterProps['signMessage'] | undefined;
 }
 
 interface useWalletNameStoreT {
@@ -138,35 +138,6 @@ const sendTransaction = async (
 	return await adapter.sendTransaction(transaction, connection, options);
 };
 
-// Sign a transaction if the wallet supports it.
-const signTransaction: SignerWalletAdapterProps['signTransaction'] = async (transaction: Transaction) => {
-	const { connected } = get(useWallet);
-	const { adapter } = get(useWalletAdapter);
-	if (!(adapter && 'signTransaction' in adapter)) return;
-	if (!connected) throw newError(new WalletNotConnectedError());
-	return await adapter.signTransaction(transaction);
-};
-
-// Sign multiple transactions if the wallet supports it
-const signAllTransactions: SignerWalletAdapterProps['signAllTransactions'] = async (
-	transactions: Transaction[]
-) => {
-	const { connected } = get(useWallet);
-	const { adapter } = get(useWalletAdapter);
-	if (!(adapter && 'signAllTransactions' in adapter)) return;
-	if (!connected) throw newError(new WalletNotConnectedError());
-	return await adapter.signAllTransactions(transactions);
-};
-
-// Sign an arbitrary message if the wallet supports it.
-const signMessage: MessageSignerWalletAdapterProps['signMessage'] = async (message: Uint8Array) => {
-	const { connected } = get(useWallet);
-	const { adapter } = get(useWalletAdapter);
-	if (!(adapter && 'signMessage' in adapter)) return;
-	if (!connected) throw newError(new WalletNotConnectedError());
-	return await adapter.signMessage(message);
-};
-
 //export const useWallet
 export const useWallet = writable<useWalletStoreT>({
 	//Props
@@ -187,9 +158,9 @@ export const useWallet = writable<useWalletStoreT>({
 	connect,
 	disconnect,
 	sendTransaction,
-	signTransaction,
-	signAllTransactions,
-	signMessage,
+	signTransaction: undefined,
+	signAllTransactions: undefined,
+	signMessage: undefined
 });
 
 const useWalletName = writable<useWalletNameStoreT>({
@@ -348,6 +319,50 @@ useWalletAdapter.subscribe(async ({ adapter }: { adapter: Adapter | null }) => {
 		useWallet.update((storeValues: useWalletStoreT) => ({
 			...storeValues,
 			connecting: false
+		}));
+	}
+})
+
+// watcher for signature functions
+useWalletAdapter.subscribe(({ adapter }: { adapter: Adapter | null }) => {
+	const { connected } = get(useWallet);
+
+	// Sign a transaction if the wallet supports it.
+	if (!(adapter && 'signTransaction' in adapter)) {
+		return;
+	}  else {
+		useWallet.update((storeValues: useWalletStoreT) => ({
+			...storeValues,
+			signTransaction: async (transaction: Transaction) => {
+				if (!connected) throw newError(new WalletNotConnectedError());
+				return await adapter.signTransaction(transaction);
+			}
+		}));
+	}
+
+	// Sign multiple transactions if the wallet supports it
+	if (!(adapter && 'signAllTransactions' in adapter)) {
+		return;
+	} else {
+		useWallet.update((storeValues: useWalletStoreT) => ({
+			...storeValues,
+			signAllTransactions: async (transactions: Transaction[]) => {
+				if (!connected) throw newError(new WalletNotConnectedError());
+				return await adapter.signAllTransactions(transactions);
+			}
+		}));
+	}
+
+	// Sign an arbitrary message if the wallet supports it.
+	if (!(adapter && 'signMessage' in adapter)) {
+		return;
+	} else {
+		useWallet.update((storeValues: useWalletStoreT) => ({
+			...storeValues,
+			signMessage: async (message: Uint8Array) => {
+				if (!connected) throw newError(new WalletNotConnectedError());
+				return await adapter.signMessage(message);
+			}
 		}));
 	}
 })
