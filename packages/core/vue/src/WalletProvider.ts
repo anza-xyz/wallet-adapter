@@ -23,15 +23,14 @@ export default defineComponent({
             default: 'walletName',
         },
     },
-    setup (props) {
+    setup (props, { slots }) {
         initWallet({
             wallets: props.wallets,
             autoConnect: props.autoConnect,
             onError: props.onError,
             localStorageKey: props.localStorageKey,
         });
+
+        return () => slots.default?.();
     },
-    render () {
-        return this.$slots.default?.()
-    }
 })
