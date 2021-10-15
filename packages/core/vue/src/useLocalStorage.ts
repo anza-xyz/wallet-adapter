@@ -2,7 +2,7 @@ import { customRef, Ref } from '@vue/reactivity';
 
 export function useLocalStorage<T>(key: string, defaultValue: T | null = null): Ref<T | null> {
     return customRef<T | null>((track, trigger) => ({
-        get: () => {
+        get() {
             track();
             const value = localStorage.getItem(key);
             try {
@@ -12,7 +12,7 @@ export function useLocalStorage<T>(key: string, defaultValue: T | null = null): 
                 return defaultValue;
             }
         },
-        set: (value) => {
+        set(value) {
             if (value === null) {
                 localStorage.removeItem(key);
             } else {
