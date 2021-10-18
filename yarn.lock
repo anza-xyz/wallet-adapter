@@ -3163,7 +3163,12 @@
   dependencies:
     buffer "~6.0.3"
 
-"@solana/web3.js@^1.20.0", "@solana/web3.js@^1.22.0":
+"@solana/wallet-adapter-vue@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@solana/wallet-adapter-vue/-/wallet-adapter-vue-0.1.0.tgz#3a510608647a6c1fc9896b91d44421860bbf4c08"
+  integrity sha512-L52bIhG4YnYN5bRr1pke4f87456VVLL52xkpBxIyTTNx4hiDWRipmmeHcyNXmX1LR6v72fgx+KKdBpBZlSQuNQ==
+
+"@solana/web3.js@^1.20.0", "@solana/web3.js@^1.22.0", "@solana/web3.js@^1.29.2":
   version "1.29.2"
   resolved "https://registry.yarnpkg.com/@solana/web3.js/-/web3.js-1.29.2.tgz#05c162f477c226ee3211f8ee8c1c6d4203e08f54"
   integrity sha512-gtoHzimv7upsKF2DIO4/vNfIMKN+cxSImBHvsdiMyp9IPqb8sctsHVU/+80xXl0JKXVKeairDv5RvVnesJYrtw==
@@ -17212,6 +17217,11 @@ supports-hyperlinks@^2.0.0:
   dependencies:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
+
+svelte@^3.43.1:
+  version "3.43.2"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.43.2.tgz#217fc6059f52afa281f39200b6253ac1b83812b4"
+  integrity sha512-Lj+TJfSeod8UGnoG2opysdlCy4MCck/hHQsZwtNPXdYTwLTz+WC37QwewPhZtd+h3dpfps4h9QzFxWGVI4tzQw==
 
 svg-parser@^2.0.2:
   version "2.0.4"
