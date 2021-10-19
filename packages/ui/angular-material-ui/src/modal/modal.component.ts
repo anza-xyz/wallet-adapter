@@ -6,7 +6,7 @@ import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
-    selector: 'wallet-dialog',
+    selector: 'wallet-modal',
     template: `
         <mat-toolbar color="primary">
             <h2 mat-dialog-title>Select Wallet</h2>
@@ -70,7 +70,7 @@ import { map } from 'rxjs/operators';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WalletDialogComponent {
+export class WalletModalComponent {
     @ViewChild(MatSelectionList) matSelectionList: MatSelectionList | null = null;
     private readonly _expanded = new BehaviorSubject(false);
     readonly expanded$ = this._expanded.asObservable();
@@ -86,7 +86,7 @@ export class WalletDialogComponent {
 
     constructor(
         private readonly _walletStore: WalletStore,
-        private readonly _matDialogRef: MatDialogRef<WalletDialogComponent>
+        private readonly _matDialogRef: MatDialogRef<WalletModalComponent>
     ) {}
 
     onSelectionChange({ options }: MatSelectionListChange): void {

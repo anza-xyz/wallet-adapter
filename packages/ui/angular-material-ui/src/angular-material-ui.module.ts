@@ -11,12 +11,12 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { WalletConnectButtonComponent, WalletConnectButtonDirective } from './connect-button';
 import {
-    WalletDialogButtonComponent,
-    WalletDialogButtonDirective,
-    WalletDialogComponent,
+    WalletModalButtonComponent,
+    WalletModalButtonDirective,
+    WalletModalComponent,
     WalletExpandComponent,
     WalletListItemComponent,
-} from './dialog';
+} from './modal';
 import { WalletDisconnectButtonComponent, WalletDisconnectButtonDirective } from './disconnect-button';
 import { WalletMultiButtonComponent } from './multi-button';
 import { ObscureAddressPipe, SanitizeUrlPipe, WalletIconComponent } from './shared';
@@ -39,9 +39,9 @@ import { ObscureAddressPipe, SanitizeUrlPipe, WalletIconComponent } from './shar
         WalletDisconnectButtonComponent,
         WalletDisconnectButtonDirective,
         WalletMultiButtonComponent,
-        WalletDialogButtonComponent,
-        WalletDialogButtonDirective,
-        WalletDialogComponent,
+        WalletModalButtonComponent,
+        WalletModalButtonDirective,
+        WalletModalComponent,
         WalletIconComponent,
     ],
     declarations: [
@@ -50,9 +50,9 @@ import { ObscureAddressPipe, SanitizeUrlPipe, WalletIconComponent } from './shar
         WalletDisconnectButtonComponent,
         WalletDisconnectButtonDirective,
         WalletMultiButtonComponent,
-        WalletDialogButtonComponent,
-        WalletDialogButtonDirective,
-        WalletDialogComponent,
+        WalletModalButtonComponent,
+        WalletModalButtonDirective,
+        WalletModalComponent,
         WalletListItemComponent,
         WalletExpandComponent,
         WalletIconComponent,

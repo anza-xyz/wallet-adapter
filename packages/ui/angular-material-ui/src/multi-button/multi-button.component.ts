@@ -7,7 +7,7 @@ import { ButtonColor } from '../shared/types';
 @Component({
     selector: 'wallet-multi-button',
     template: `
-        <wallet-dialog-button *ngIf="(wallet$ | ngrxPush) === null" [color]="color"></wallet-dialog-button>
+        <wallet-modal-button *ngIf="(wallet$ | ngrxPush) === null" [color]="color"></wallet-modal-button>
         <wallet-connect-button
             *ngIf="(connected$ | ngrxPush) === false && (wallet$ | ngrxPush)"
             [color]="color"
@@ -26,7 +26,7 @@ import { ButtonColor } from '../shared/types';
                     <mat-icon>content_copy</mat-icon>
                     Copy address
                 </button>
-                <button mat-menu-item wallet-dialog-button>
+                <button mat-menu-item wallet-modal-button>
                     <mat-icon>sync_alt</mat-icon>
                     Connect a different wallet
                 </button>
