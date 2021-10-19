@@ -9,14 +9,14 @@ export interface AnchorWallet {
 }
 
 export function useAnchorWallet(): Ref<AnchorWallet | undefined> {
-    const wallet = useWallet();
+    const walletStore = useWallet();
 
     return computed<AnchorWallet | undefined>(() => {
-        // Ensure the wallet was initialised by a WalletProvider.
-        if (! wallet) return;
+        // Ensure the wallet store was initialised by a WalletProvider.
+        if (! walletStore) return;
 
-        // Ensure the wallet is connect and supports the right methods.
-        const { signTransaction, signAllTransactions, publicKey } = wallet;
+        // Ensure the wallet is connected and supports the right methods.
+        const { signTransaction, signAllTransactions, publicKey } = walletStore;
         if (! signTransaction.value || ! signAllTransactions.value || ! publicKey.value) return;
 
         return {
