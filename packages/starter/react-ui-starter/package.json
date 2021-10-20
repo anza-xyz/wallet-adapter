@@ -20,7 +20,7 @@
     "scripts": {
         "clean": "shx rm -rf build/*",
         "start": "craco start",
-        "build": "craco build",
+        "build": "yarn clean && craco build",
         "test": "craco test",
         "analyze": "source-map-explorer 'build/static/js/*.js'"
     },
