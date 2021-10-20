@@ -9,6 +9,7 @@
         "access": "public"
     },
     "type": "module",
+    "sideEffects": false,
     "main": "lib/bundles/solana-wallet-adapter-angular.umd.js",
     "module": "lib/fesm2015/solana-wallet-adapter-angular.js",
     "types": "lib/solana-wallet-adapter-angular.d.ts",
@@ -47,6 +48,5 @@
         "ng-packagr": "^12.1.1",
         "rxjs": "^6.6.0",
         "typescript": "~4.3.5"
-    },
-    "sideEffects": false
+    }
 }
