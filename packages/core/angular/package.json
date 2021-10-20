@@ -8,6 +8,13 @@
     "publishConfig": {
         "access": "public"
     },
+    "type": "module",
+    "main": "lib/bundles/solana-wallet-adapter-angular.umd.js",
+    "module": "lib/fesm2015/solana-wallet-adapter-angular.js",
+    "types": "lib/solana-wallet-adapter-angular.d.ts",
+    "es2015": "lib/fesm2015/solana-wallet-adapter-angular.js",
+    "esm2015": "lib/esm2015/solana-wallet-adapter-angular.js",
+    "fesm2015": "lib/fesm2015/solana-wallet-adapter-angular.js",
     "files": [
         "lib",
         "src"
@@ -41,11 +48,5 @@
         "rxjs": "^6.6.0",
         "typescript": "~4.3.5"
     },
-    "main": "lib/bundles/solana-wallet-adapter-angular.umd.js",
-    "module": "lib/fesm2015/solana-wallet-adapter-angular.js",
-    "es2015": "lib/fesm2015/solana-wallet-adapter-angular.js",
-    "esm2015": "lib/esm2015/solana-wallet-adapter-angular.js",
-    "fesm2015": "lib/fesm2015/solana-wallet-adapter-angular.js",
-    "typings": "lib/solana-wallet-adapter-angular.d.ts",
     "sideEffects": false
 }
