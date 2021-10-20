@@ -1,8 +1,12 @@
-import React, { FC, useState } from 'react';
+import React, { FC, ReactNode, useState } from 'react';
 import { WalletDialogContext } from './useWalletDialog';
 import { WalletDialog, WalletDialogProps } from './WalletDialog';
 
-export const WalletDialogProvider: FC<WalletDialogProps> = ({ children, ...props }) => {
+export interface WalletDialogProviderProps extends WalletDialogProps {
+    children: ReactNode;
+}
+
+export const WalletDialogProvider: FC<WalletDialogProviderProps> = ({ children, ...props }) => {
     const [open, setOpen] = useState(false);
 
     return (

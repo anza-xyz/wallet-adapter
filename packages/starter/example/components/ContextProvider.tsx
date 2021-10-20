@@ -14,7 +14,7 @@ import {
 } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 import { SnackbarProvider, useSnackbar } from 'notistack';
-import { FC, useCallback, useMemo } from 'react';
+import { FC, ReactNode, useCallback, useMemo } from 'react';
 import { AutoConnectProvider, useAutoConnect } from './AutoConnectProvider';
 
 const theme = createTheme({
@@ -48,7 +48,7 @@ const theme = createTheme({
     },
 });
 
-const WalletContextProvider: FC = ({ children }) => {
+const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const network = WalletAdapterNetwork.Devnet;
     const endpoint = useMemo(() => clusterApiUrl(network), [network]);
     const { autoConnect } = useAutoConnect();
@@ -88,7 +88,7 @@ const WalletContextProvider: FC = ({ children }) => {
     );
 };
 
-const ContextProvider: FC = ({ children }) => {
+export const ContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     return (
         <ThemeProvider theme={theme}>
             <SnackbarProvider>
@@ -99,5 +99,3 @@ const ContextProvider: FC = ({ children }) => {
         </ThemeProvider>
     );
 };
-
-export default ContextProvider;

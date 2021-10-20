@@ -21,11 +21,11 @@ import {
     WalletMultiButton as ReactUIWalletMultiButton,
 } from '@solana/wallet-adapter-react-ui';
 import { NextPage } from 'next';
-import pkg from '../package.json';
 import { useAutoConnect } from '../components/AutoConnectProvider';
-import RequestAirdrop from '../components/RequestAirdrop';
-import SendTransaction from '../components/SendTransaction';
-import SignMessage from '../components/SignMessage';
+import { RequestAirdrop } from '../components/RequestAirdrop';
+import { SendTransaction } from '../components/SendTransaction';
+import { SignMessage } from '../components/SignMessage';
+import pkg from '../package.json';
 
 const Index: NextPage = () => {
     const { autoConnect, setAutoConnect } = useAutoConnect();

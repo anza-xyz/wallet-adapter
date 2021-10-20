@@ -1,6 +1,6 @@
 import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
-import Wallet from './Wallet';
+import { Wallet } from './Wallet';
 
 // Use require instead of import, and order matters
 require('@solana/wallet-adapter-react-ui/styles.css');
