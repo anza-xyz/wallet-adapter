@@ -13,16 +13,16 @@ export function useAnchorWallet(): Ref<AnchorWallet | undefined> {
 
     return computed<AnchorWallet | undefined>(() => {
         // Ensure the wallet store was initialised by a WalletProvider.
-        if (! walletStore) return;
+        if (!walletStore) return;
 
         // Ensure the wallet is connected and supports the right methods.
         const { signTransaction, signAllTransactions, publicKey } = walletStore;
-        if (! signTransaction.value || ! signAllTransactions.value || ! publicKey.value) return;
+        if (!signTransaction.value || !signAllTransactions.value || !publicKey.value) return;
 
         return {
             signTransaction: signTransaction.value,
             signAllTransactions: signAllTransactions.value,
             publicKey: publicKey.value,
         };
-    })
+    });
 }
