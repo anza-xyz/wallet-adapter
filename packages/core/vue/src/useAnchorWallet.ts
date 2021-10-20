@@ -17,12 +17,12 @@ export function useAnchorWallet(): Ref<AnchorWallet | undefined> {
 
         // Ensure the wallet is connected and supports the right methods.
         const { signTransaction, signAllTransactions, publicKey } = walletStore;
-        if (!signTransaction.value || !signAllTransactions.value || !publicKey.value) return;
+        if (!publicKey.value || !signTransaction.value || !signAllTransactions.value) return;
 
         return {
+            publicKey: publicKey.value,
             signTransaction: signTransaction.value,
             signAllTransactions: signAllTransactions.value,
-            publicKey: publicKey.value,
         };
     });
 }
