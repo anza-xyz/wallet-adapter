@@ -1,7 +1,6 @@
 import Wallet from '@project-serum/sol-wallet-adapter';
 import {
     BaseMessageSignerWalletAdapter,
-    BaseSignerWalletAdapter,
     pollUntilReady,
     WalletAdapterNetwork,
     WalletConnectionError,

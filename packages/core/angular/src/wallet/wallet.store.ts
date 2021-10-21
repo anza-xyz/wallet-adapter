@@ -14,7 +14,7 @@ import { catchError, concatMap, filter, finalize, first, map, switchMap, tap, wi
 import { fromAdapterEvent, isNotNull } from '../operators';
 import { LocalStorageService } from './local-storage';
 import { WalletNotSelectedError } from './wallet.errors';
-import { signMessage, signTransaction, signAllTransactions } from './wallet.signer';
+import { signAllTransactions, signMessage, signTransaction } from './wallet.signer';
 import { WALLET_CONFIG } from './wallet.tokens';
 import { WalletConfig, WalletState } from './wallet.types';
 
