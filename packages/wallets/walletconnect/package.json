@@ -23,7 +23,7 @@
         "build": "yarn clean && tsc"
     },
     "peerDependencies": {
-        "@solana/wallet-adapter-base": "^0.6.0",
+        "@solana/wallet-adapter-base": "^0.7.0",
         "@solana/web3.js": "^1.20.0"
     },
     "dependencies": {
@@ -33,7 +33,7 @@
         "@walletconnect/types": "^2.0.0-beta.17"
     },
     "devDependencies": {
-        "@solana/wallet-adapter-base": "^0.6.0",
+        "@solana/wallet-adapter-base": "^0.7.0",
         "@solana/web3.js": "^1.20.0"
     }
 }

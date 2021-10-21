@@ -27,8 +27,8 @@
     "peerDependencies": {
         "@angular/core": "^12.2.0",
         "@ngrx/component-store": "^12.4.0",
-        "@solana/wallet-adapter-base": "^0.6.0",
-        "@solana/wallet-adapter-wallets": "^0.10.1",
+        "@solana/wallet-adapter-base": "^0.7.0",
+        "@solana/wallet-adapter-wallets": "^0.11.0",
         "@solana/web3.js": "^1.20.0",
         "rxjs": "^6.6.0"
     },
@@ -42,8 +42,8 @@
         "@angular/compiler-cli": "^12.2.0",
         "@angular/core": "^12.2.0",
         "@ngrx/component-store": "^12.4.0",
-        "@solana/wallet-adapter-base": "^0.6.0",
-        "@solana/wallet-adapter-wallets": "^0.10.0",
+        "@solana/wallet-adapter-base": "^0.7.0",
+        "@solana/wallet-adapter-wallets": "^0.11.0",
         "@solana/web3.js": "^1.20.0",
         "ng-packagr": "^12.1.1",
         "rxjs": "^6.6.0",
