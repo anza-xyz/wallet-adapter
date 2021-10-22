@@ -93,6 +93,9 @@ export class WalletModalComponent {
         const [option] = options;
 
         if (option.value === null) {
+            // Mat list options doesn't allow selecting a selected option.
+            // Once the modal expands, the collapse button is selected and
+            // cannot be selected again.
             this.matSelectionList?.deselectAll();
             this._expanded.next(!this._expanded.getValue());
         } else {
