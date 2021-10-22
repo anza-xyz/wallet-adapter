@@ -1,5 +1,4 @@
 {
-    "private": true,
     "name": "@solana/wallet-adapter-bitkeep",
     "version": "0.1.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
