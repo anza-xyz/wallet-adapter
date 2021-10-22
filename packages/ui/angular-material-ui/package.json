@@ -8,11 +8,13 @@
     "publishConfig": {
         "access": "public"
     },
+    "files": [
+        "lib",
+        "src"
+    ],
     "scripts": {
         "clean": "rm -rf lib/*",
-        "build": "yarn clean && ng build angular-material-ui --configuration=production",
-        "prepublish": "rm lib/package.json",
-        "ng-publish": "npm publish lib"
+        "build": "yarn clean && ng build angular-material-ui --configuration=production"
     },
     "peerDependencies": {
         "@angular/animations": "~12.2.0",
