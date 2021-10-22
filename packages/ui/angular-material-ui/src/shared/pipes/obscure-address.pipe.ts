@@ -9,11 +9,6 @@ export class ObscureAddressPipe implements PipeTransform {
             return '';
         }
 
-        return value
-            .split('')
-            .reduce((state: string, curr: string, index: number) => state + (index <= 3 || index >= 39 ? curr : '*'))
-            .split('*')
-            .filter((segment) => segment)
-            .join('***');
+        return value.slice(0, 4) + '..' + value.slice(-4);
     }
 }
