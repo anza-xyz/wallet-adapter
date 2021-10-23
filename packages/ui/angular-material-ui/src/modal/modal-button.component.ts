@@ -1,15 +1,6 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    ContentChild,
-    ElementRef,
-    EventEmitter,
-    Input,
-    Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChild, ElementRef, Input } from '@angular/core';
 import { WalletStore } from '@solana/wallet-adapter-angular';
 import { WalletName } from '@solana/wallet-adapter-wallets';
-import { Wallet } from '@solana/wallet-adapter-wallets';
 
 import { ButtonColor } from '../shared/types';
 
