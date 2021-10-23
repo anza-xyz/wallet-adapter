@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ConnectionStore, WalletStore } from '@solana/wallet-adapter-angular';
 
 import { AppStore } from './app.store';
 
@@ -6,7 +7,7 @@ import { AppStore } from './app.store';
     selector: 'app-root',
     template: ` <app-navigation></app-navigation> `,
     styles: [],
-    viewProviders: [AppStore],
+    providers: [AppStore, WalletStore, ConnectionStore],
 })
 export class AppComponent implements OnInit {
     constructor(private readonly _appStore: AppStore) {}

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ContentChild, ElementRef, Input } from '@angular/core';
 import { WalletStore } from '@solana/wallet-adapter-angular';
+import { WalletName } from '@solana/wallet-adapter-wallets';
 import { map } from 'rxjs/operators';
 
 import { ButtonColor } from '../shared/types';
@@ -26,7 +27,12 @@ import { ButtonColor } from '../shared/types';
                     <mat-icon>content_copy</mat-icon>
                     Copy address
                 </button>
-                <button mat-menu-item wallet-modal-button>
+                <button
+                    mat-menu-item
+                    wallet-modal-button
+                    [wallets]="wallets$ | ngrxPush"
+                    (selectWallet)="onSelectWallet($event)"
+                >
                     <mat-icon>sync_alt</mat-icon>
                     Connect a different wallet
                 </button>
@@ -52,9 +58,14 @@ import { ButtonColor } from '../shared/types';
 export class WalletMultiButtonComponent {
     @ContentChild('children') children: ElementRef | null = null;
     @Input() color: ButtonColor = 'primary';
+    readonly wallets$ = this._walletStore.wallets$;
     readonly wallet$ = this._walletStore.wallet$;
     readonly connected$ = this._walletStore.connected$;
     readonly address$ = this._walletStore.publicKey$.pipe(map((publicKey) => publicKey && publicKey.toBase58()));
 
     constructor(private readonly _walletStore: WalletStore) {}
+
+    onSelectWallet(walletName: WalletName): void {
+        this._walletStore.selectWallet(walletName);
+    }
 }

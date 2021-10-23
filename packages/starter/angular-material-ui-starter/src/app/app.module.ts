@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ConnectionStore, WalletStore, WALLET_CONFIG } from '@solana/wallet-adapter-angular';
+import { WALLET_CONFIG } from '@solana/wallet-adapter-angular';
 import {
     getBloctoWallet,
     getLedgerWallet,
@@ -39,8 +39,6 @@ import { NavigationModule } from './navigation/navigation.module';
                 autoConnect: true,
             },
         },
-        WalletStore,
-        ConnectionStore,
     ],
     bootstrap: [AppComponent],
 })
