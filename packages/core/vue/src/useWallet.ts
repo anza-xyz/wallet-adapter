@@ -57,6 +57,12 @@ export const useWallet = (): WalletStore | undefined => {
     return inject(walletStoreKey);
 };
 
+export const useWalletOrFail = (): WalletStore | undefined => {
+    const walletStore = useWallet();
+    if (! walletStore) throw new Error("Wallet not initialized. Please use the `WalletProvider` component to initialize the wallet.");
+    return walletStore;
+};
+
 export const initWallet = ({
     wallets,
     autoConnect = false,
