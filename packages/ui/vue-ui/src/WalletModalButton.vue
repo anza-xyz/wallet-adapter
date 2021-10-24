@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useWalletModal } from './useWalletModal';
+import { useWalletModalOrFail } from './useWalletModal';
 import WalletButton from './WalletButton.vue';
 
 export default defineComponent({
@@ -9,7 +9,7 @@ export default defineComponent({
         WalletButton,
     },
     setup () {
-        const { showModal } = useWalletModal();
+        const { showModal } = useWalletModalOrFail();
 
         return { showModal };
     },

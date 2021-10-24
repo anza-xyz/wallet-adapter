@@ -12,6 +12,12 @@ export const useWalletModal = (): WalletModalStore | undefined => {
     return inject(walletModalStoreKey);
 };
 
+export const useWalletModalOrFail = (): WalletModalStore => {
+    const walletModalStore = inject(walletModalStoreKey);
+    if (! walletModalStore) throw new Error("Wallet modal not initialized. Please use the `WalletModalProvider` component to initialize the wallet modal.");
+    return walletModalStore;
+};
+
 export const initWalletModal = (initiallyVisible = false): void => {
     const visible = ref<boolean>(initiallyVisible);
     const showModal = () => (visible.value = true);

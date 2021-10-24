@@ -1,7 +1,7 @@
 <script lang="ts">
 import { ref, computed, watchEffect, defineComponent } from 'vue'
 import { useWallet } from '@solana/wallet-adapter-vue';
-import { useWalletModal } from './useWalletModal';
+import { useWalletModalOrFail } from './useWalletModal';
 import WalletConnectButton from './WalletConnectButton.vue';
 import WalletModalButton from './WalletModalButton.vue';
 import WalletButton from './WalletButton.vue';
@@ -17,7 +17,7 @@ export default defineComponent({
     },
     setup () {
         const { publicKey, wallet, disconnect } = useWallet();
-        const { showModal } = useWalletModal();
+        const { showModal } = useWalletModalOrFail();
         const copied = ref(false);
         const active = ref(false);
         const dropdown = ref<Element>();
