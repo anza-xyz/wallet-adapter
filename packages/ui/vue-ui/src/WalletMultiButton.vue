@@ -1,11 +1,11 @@
 <script lang="ts">
-import { ref, computed, watchEffect, defineComponent } from 'vue'
-import { useWalletOrFail } from '@solana/wallet-adapter-vue';
-import { useWalletModalOrFail } from './useWalletModal';
-import WalletConnectButton from './WalletConnectButton.vue';
-import WalletModalButton from './WalletModalButton.vue';
-import WalletButton from './WalletButton.vue';
-import WalletIcon from './WalletIcon.vue';
+import { useWalletOrFail } from "@solana/wallet-adapter-vue";
+import { ref, computed, watchEffect, defineComponent } from "vue"
+import { useWalletModalOrFail } from "./useWalletModal";
+import WalletButton from "./WalletButton.vue";
+import WalletConnectButton from "./WalletConnectButton.vue";
+import WalletIcon from "./WalletIcon.vue";
+import WalletModalButton from "./WalletModalButton.vue";
 
 export default defineComponent({
     name: 'wallet-multi-button',

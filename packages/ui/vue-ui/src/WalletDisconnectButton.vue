@@ -1,8 +1,8 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-import { useWalletOrFail } from '@solana/wallet-adapter-vue';
-import WalletButton from './WalletButton.vue';
-import WalletIcon from './WalletIcon.vue';
+import { useWalletOrFail } from "@solana/wallet-adapter-vue";
+import { computed, defineComponent } from "vue";
+import WalletButton from "./WalletButton.vue";
+import WalletIcon from "./WalletIcon.vue";
 
 export default defineComponent({
     name: 'wallet-disconnect-button',
