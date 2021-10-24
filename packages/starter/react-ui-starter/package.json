@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-react-ui-starter",
-    "version": "0.5.1",
+    "version": "0.6.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -20,15 +20,15 @@
     "scripts": {
         "clean": "shx rm -rf build/*",
         "start": "craco start",
-        "build": "craco build",
+        "build": "yarn clean && craco build",
         "test": "craco test",
         "analyze": "source-map-explorer 'build/static/js/*.js'"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.6.0",
-        "@solana/wallet-adapter-react": "^0.12.4",
-        "@solana/wallet-adapter-react-ui": "^0.5.1",
-        "@solana/wallet-adapter-wallets": "^0.10.1",
+        "@solana/wallet-adapter-base": "^0.7.0",
+        "@solana/wallet-adapter-react": "^0.13.0",
+        "@solana/wallet-adapter-react-ui": "^0.6.0",
+        "@solana/wallet-adapter-wallets": "^0.11.0",
         "@solana/web3.js": "^1.20.0",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",

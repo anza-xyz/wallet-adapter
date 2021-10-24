@@ -5,14 +5,14 @@ import {
     getPhantomWallet,
     getSlopeWallet,
     getSolflareWallet,
-    getSolletWallet,
     getSolletExtensionWallet,
+    getSolletWallet,
     getTorusWallet,
 } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
-import { FC, useMemo } from 'react';
+import { FC, ReactNode, useMemo } from 'react';
 
-const WalletConnectionProvider: FC = ({ children }) => {
+export const WalletConnectionProvider: FC<{ children: ReactNode }> = ({ children }) => {
     // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
     const network = WalletAdapterNetwork.Devnet;
 
@@ -44,5 +44,3 @@ const WalletConnectionProvider: FC = ({ children }) => {
         </ConnectionProvider>
     );
 };
-
-export default WalletConnectionProvider;

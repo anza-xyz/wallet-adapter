@@ -1,4 +1,4 @@
-import { ref, Ref, InjectionKey, provide, inject } from 'vue';
+import { inject, InjectionKey, provide, Ref, ref } from 'vue';
 
 export interface WalletModalStore {
     visible: Ref<boolean>;
