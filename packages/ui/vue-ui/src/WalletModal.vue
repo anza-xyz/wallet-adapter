@@ -1,10 +1,10 @@
 <script lang="ts">
-import { computed, ref, watchPostEffect, defineComponent } from 'vue';
-import { WalletName } from '@solana/wallet-adapter-wallets';
-import { useWallet } from '@solana/wallet-adapter-vue';
-import { useWalletModal } from './useWalletModal';
-import WalletButton from './WalletButton.vue';
-import WalletListItem from './WalletListItem.vue';
+import { useWallet } from "@solana/wallet-adapter-vue";
+import { WalletName } from "@solana/wallet-adapter-wallets";
+import { computed, defineComponent, ref, watch } from "vue";
+import { useWalletModal } from "./useWalletModal";
+import WalletButton from "./WalletButton.vue";
+import WalletListItem from "./WalletListItem.vue";
 
 export default defineComponent({
     name: 'wallet-modal',
@@ -54,7 +54,7 @@ export default defineComponent({
             }
         };
 
-        watchPostEffect(onInvalidate => {
+        watch(visible, (newVisible, oldVisible, onInvalidate) => {
             const handleKeyDown = (event: KeyboardEvent) => {
                 if (event.key === 'Escape') {
                     hideModal();
@@ -64,18 +64,27 @@ export default defineComponent({
             };
 
             // Get original overflow
-            const { overflow } = window.getComputedStyle(document.body);
-            // Prevent scrolling on mount
-            document.body.style.overflow = 'hidden';
-            // Listen for keydown events
-            window.addEventListener('keydown', handleKeyDown, false);
+            let overflow = window.getComputedStyle(document.body).overflow;
+
+            if (newVisible) {
+                // Refetch original overflow
+                overflow = window.getComputedStyle(document.body).overflow;
+                // Prevent scrolling on mount
+                document.body.style.overflow = 'hidden';
+                // Listen for keydown events
+                window.addEventListener('keydown', handleKeyDown, false);
+            } else {
+                // Re-enable scrolling when component unmounts
+                document.body.style.overflow = overflow;
+                window.removeEventListener('keydown', handleKeyDown, false);
+            }
 
             onInvalidate(() => {
                 // Re-enable scrolling when component unmounts
                 document.body.style.overflow = overflow;
                 window.removeEventListener('keydown', handleKeyDown, false);
             });
-        });
+        }, { immediate: true });
 
         return {
             container,

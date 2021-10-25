@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-nextjs-starter",
-    "version": "0.4.3",
+    "version": "0.5.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -27,9 +27,9 @@
         "lint": "next lint"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.6.0",
-        "@solana/wallet-adapter-react": "^0.12.4",
-        "@solana/wallet-adapter-wallets": "^0.10.1",
+        "@solana/wallet-adapter-base": "^0.7.0",
+        "@solana/wallet-adapter-react": "^0.13.0",
+        "@solana/wallet-adapter-wallets": "^0.11.0",
         "@solana/web3.js": "^1.20.0",
         "next": "^11.1.2",
         "react": "^17.0.2",

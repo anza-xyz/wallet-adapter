@@ -1,11 +1,12 @@
 {
     "name": "@solana/wallet-adapter-base",
-    "version": "0.6.0",
+    "version": "0.7.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
+    "type": "module",
+    "sideEffects": false,
     "main": "lib/index.js",
-    "esnext": "lib/index.js",
     "types": "lib/index.d.ts",
     "files": [
         "lib",

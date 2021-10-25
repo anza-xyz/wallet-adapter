@@ -2,7 +2,6 @@ import {
     BaseSignerWalletAdapter,
     EventEmitter,
     pollUntilReady,
-    WalletAccountError,
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,

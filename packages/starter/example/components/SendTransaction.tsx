@@ -4,7 +4,7 @@ import { Keypair, SystemProgram, Transaction, TransactionSignature } from '@sola
 import { FC, useCallback } from 'react';
 import { useNotify } from './notify';
 
-const SendTransaction: FC = () => {
+export const SendTransaction: FC = () => {
     const { connection } = useConnection();
     const { publicKey, sendTransaction } = useWallet();
     const notify = useNotify();
@@ -42,5 +42,3 @@ const SendTransaction: FC = () => {
         </Button>
     );
 };
-
-export default SendTransaction;
