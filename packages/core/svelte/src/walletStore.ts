@@ -84,11 +84,11 @@ export const walletStore = writable<WalletStore>({
     signMessage: undefined,
 });
 
-const walletNameStore = writable<WalletNameStore>({
+export const walletNameStore = writable<WalletNameStore>({
     walletName: null,
 });
 
-const walletAdapterStore = writable<WalletAdapterStore>({
+export const walletAdapterStore = writable<WalletAdapterStore>({
     adapter: null,
 });
 
