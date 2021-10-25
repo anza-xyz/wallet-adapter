@@ -10,7 +10,10 @@ const walletModalStoreKey: InjectionKey<WalletModalStore> = Symbol();
 
 export const useWalletModal = (): WalletModalStore => {
     const walletModalStore = inject(walletModalStoreKey);
-    if (! walletModalStore) throw new Error("Wallet modal not initialized. Please use the `WalletModalProvider` component to initialize the wallet modal.");
+    if (!walletModalStore)
+        throw new Error(
+            'Wallet modal not initialized. Please use the `WalletModalProvider` component to initialize the wallet modal.'
+        );
     return walletModalStore;
 };
 
