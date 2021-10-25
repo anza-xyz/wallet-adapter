@@ -1,5 +1,5 @@
 <script lang="ts">
-import { useWalletOrFail } from "@solana/wallet-adapter-vue";
+import { useWallet } from "@solana/wallet-adapter-vue";
 import { computed, defineComponent } from "vue";
 import WalletButton from "./WalletButton.vue";
 import WalletIcon from "./WalletIcon.vue";
@@ -14,7 +14,7 @@ export default defineComponent({
         disabled: Boolean,
     },
     setup ({ disabled }, { emit }) {
-        const { wallet, connect, connecting, connected } = useWalletOrFail();
+        const { wallet, connect, connecting, connected } = useWallet();
 
         const content = computed(() => {
             if (connecting.value) return 'Connecting ...';

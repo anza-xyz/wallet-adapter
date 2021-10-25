@@ -53,12 +53,8 @@ export interface WalletStoreProps {
 
 const walletStoreKey: InjectionKey<WalletStore> = Symbol();
 
-export const useWallet = (): WalletStore | undefined => {
-    return inject(walletStoreKey);
-};
-
-export const useWalletOrFail = (): WalletStore => {
-    const walletStore = useWallet();
+export const useWallet = (): WalletStore => {
+    const walletStore = inject(walletStoreKey);
     if (! walletStore) throw new Error("Wallet not initialized. Please use the `WalletProvider` component to initialize the wallet.");
     return walletStore;
 };

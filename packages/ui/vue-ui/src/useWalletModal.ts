@@ -8,12 +8,8 @@ export interface WalletModalStore {
 
 const walletModalStoreKey: InjectionKey<WalletModalStore> = Symbol();
 
-export const useWalletModal = (): WalletModalStore | undefined => {
-    return inject(walletModalStoreKey);
-};
-
-export const useWalletModalOrFail = (): WalletModalStore => {
-    const walletModalStore = useWalletModal();
+export const useWalletModal = (): WalletModalStore => {
+    const walletModalStore = inject(walletModalStoreKey);
     if (! walletModalStore) throw new Error("Wallet modal not initialized. Please use the `WalletModalProvider` component to initialize the wallet modal.");
     return walletModalStore;
 };

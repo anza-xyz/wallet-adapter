@@ -1,8 +1,8 @@
 <script lang="ts">
-import { useWalletOrFail } from "@solana/wallet-adapter-vue";
+import { useWallet } from "@solana/wallet-adapter-vue";
 import { WalletName } from "@solana/wallet-adapter-wallets";
 import { computed, defineComponent, ref, watch } from "vue";
-import { useWalletModalOrFail } from "./useWalletModal";
+import { useWalletModal } from "./useWalletModal";
 import WalletButton from "./WalletButton.vue";
 import WalletListItem from "./WalletListItem.vue";
 
@@ -18,8 +18,8 @@ export default defineComponent({
         logo: String,
     },
     setup ({ featuredWallets: featuredWalletsNumber, container, logo }) {
-        const { wallets, select } = useWalletOrFail();
-        const { visible, hideModal } = useWalletModalOrFail();
+        const { wallets, select } = useWallet();
+        const { visible, hideModal } = useWalletModal();
         const modal = ref<Element>();
         const expanded = ref(false);
         const featuredWallets = computed(() => wallets.slice(0, featuredWalletsNumber));
