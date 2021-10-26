@@ -3441,42 +3441,44 @@
   dependencies:
     deepmerge "^4.2.2"
 
-"@toruslabs/openlogin-ed25519@^0.10.2":
-  version "0.10.2"
-  resolved "https://registry.yarnpkg.com/@toruslabs/openlogin-ed25519/-/openlogin-ed25519-0.10.2.tgz#bcda4fff62344b6f55e4cd20ded44cab5a2d2e18"
-  integrity sha512-sgYTOgvAVd0e6WMpWi9p6YlsSroOfg1eLCa1DaNOj3Xy0WWs2mDxPwoNwzX/2WzJosoy/23lT3KOwJgUBhwpRA==
+"@toruslabs/openlogin-ed25519@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@toruslabs/openlogin-ed25519/-/openlogin-ed25519-1.0.0.tgz#2a307eaa793df29585f06febd0c0d4041fa64ebc"
+  integrity sha512-p4r4UtvC9wSKH/OlF1lOruHZRmQTV5/4ZUE1WdT0vnYw2I9h4lk7YQlLKYPwP6AqcFLR5OyetkW2+QvK5Mbe+A==
   dependencies:
     "@toruslabs/tweetnacl-js" "^1.0.3"
 
-"@toruslabs/openlogin-jrpc@^0.10.2":
-  version "0.10.2"
-  resolved "https://registry.yarnpkg.com/@toruslabs/openlogin-jrpc/-/openlogin-jrpc-0.10.2.tgz#64ed0f8dce16c74a0409c32d4a14cf28626d37da"
-  integrity sha512-ZlP56CeQ/Ii8ubg+EbL0If7QwV4JLHzrrd4+enqG47PRcFR7clHEmmHM54BTyrJKbOygDsU75RvkCmMkSIs8Pw==
+"@toruslabs/openlogin-jrpc@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@toruslabs/openlogin-jrpc/-/openlogin-jrpc-1.0.0.tgz#1e8001bd7008e152f7635474972c097f268fc3a8"
+  integrity sha512-ONQKHY/j4WHqO4XEILtfMeNSJSLfwTv4ikkO1D6JolWeVScH+6CtgO+rpalSf3oWJy/PECITiI63EGnHIH7yKA==
   dependencies:
-    "@toruslabs/openlogin-utils" "^0.10.2"
+    "@toruslabs/openlogin-utils" "^1.0.0"
     end-of-stream "^1.4.4"
-    fast-safe-stringify "^2.0.8"
+    events "^3.3.0"
+    fast-safe-stringify "^2.1.1"
     once "^1.4.0"
     pump "^3.0.0"
+    readable-stream "^3.6.0"
 
-"@toruslabs/openlogin-utils@^0.10.2":
-  version "0.10.2"
-  resolved "https://registry.yarnpkg.com/@toruslabs/openlogin-utils/-/openlogin-utils-0.10.2.tgz#0e9cea953955cb0f48db047642d6624f64da7acc"
-  integrity sha512-PUWn7RHfZm0v87lE9KniTrfJ9oAsCHywnMr8wOwiBZGvH84+7R389hh7jGOwnbTmqntFixD5YzlWQICzDfFrCA==
+"@toruslabs/openlogin-utils@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@toruslabs/openlogin-utils/-/openlogin-utils-1.0.0.tgz#4a16b37d3f18c3ef1f1ac8a0f7ac374fd6cc6a78"
+  integrity sha512-ZJO0KqzG1s71ouuop4TIka4JcQ/Uaat0iayydgQy5xFqCU4tgHLDB6UpHddZJnQDcqDYqWdmdvEuSnFe6qkNZA==
   dependencies:
     base64url "^3.0.1"
     keccak "^3.0.2"
     randombytes "^2.1.0"
 
-"@toruslabs/openlogin@^0.10.2":
-  version "0.10.2"
-  resolved "https://registry.yarnpkg.com/@toruslabs/openlogin/-/openlogin-0.10.2.tgz#aeaf6031d6fc2f902721a88bbfabe28914926889"
-  integrity sha512-4nr7nY0JCGBXeFJ4g42P/GtjS5Qw9tr5qIKKdOd3BEC/DtycIMjc7CRCnpGim/PAZo22qoO+SNSBwd1hlU+zag==
+"@toruslabs/openlogin@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@toruslabs/openlogin/-/openlogin-1.0.0.tgz#fad254303e76a56254da53b3d47176df13d64bb9"
+  integrity sha512-nsyPMT22I7YBx9UcW6ZTL52AB23bwsTABattlBZ3AO4OO9MjM5PCwYox3C8iLFBllOTOJZpCVhCJIvcOs3xP2w==
   dependencies:
     "@toruslabs/eccrypto" "^1.1.7"
     "@toruslabs/http-helpers" "^1.4.0"
-    "@toruslabs/openlogin-jrpc" "^0.10.2"
-    "@toruslabs/openlogin-utils" "^0.10.2"
+    "@toruslabs/openlogin-jrpc" "^1.0.0"
+    "@toruslabs/openlogin-utils" "^1.0.0"
     lodash.merge "^4.6.2"
     pump "^3.0.0"
 
@@ -3779,6 +3781,14 @@
     "@types/prop-types" "*"
     "@types/scheduler" "*"
     csstype "^3.0.2"
+
+"@types/readable-stream@^2.3.11":
+  version "2.3.11"
+  resolved "https://registry.yarnpkg.com/@types/readable-stream/-/readable-stream-2.3.11.tgz#942bc4574a1d7ca4368cb9cb4352e3d2b4b51dea"
+  integrity sha512-0z+/apYJwKFz/RHp6mOMxz/y7xOvWPYPevuCEyAY3gXsjtaac02E26RvxA+I96rfvmVH/dEMGXNvyJfViR1FSQ==
+  dependencies:
+    "@types/node" "*"
+    safe-buffer "*"
 
 "@types/resolve@0.0.8":
   version "0.0.8"
@@ -8785,7 +8795,7 @@ fast-redact@^3.0.0:
   resolved "https://registry.yarnpkg.com/fast-redact/-/fast-redact-3.0.2.tgz#c940ba7162dde3aeeefc522926ae8c5231412904"
   integrity sha512-YN+CYfCVRVMUZOUPeinHNKgytM1wPI/C/UCLEi56EsY2dwwvI00kIJHJoI7pMVqGoMew8SMZ2SSfHKHULHXDsg==
 
-fast-safe-stringify@^2.0.7, fast-safe-stringify@^2.0.8:
+fast-safe-stringify@^2.0.7, fast-safe-stringify@^2.0.8, fast-safe-stringify@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/fast-safe-stringify/-/fast-safe-stringify-2.1.1.tgz#c406a83b6e70d9e35ce3b30a81141df30aeba884"
   integrity sha512-W+KJc2dmILlPplD/H4K9l9LcAHAfPtP6BY84uVLXQ6Evcz9Lcg33Y2z1IVblT6xdY54PXYVHEv+0Wpq8Io6zkA==
@@ -16215,15 +16225,15 @@ rxjs@^7.2.0:
   dependencies:
     tslib "~2.1.0"
 
+safe-buffer@*, safe-buffer@>=5.1.0, safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, safe-buffer@^5.1.2, safe-buffer@^5.2.0, safe-buffer@^5.2.1, safe-buffer@~5.2.0:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6"
+  integrity sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==
+
 safe-buffer@5.1.2, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d"
   integrity sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==
-
-safe-buffer@>=5.1.0, safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, safe-buffer@^5.1.2, safe-buffer@^5.2.0, safe-buffer@^5.2.1, safe-buffer@~5.2.0:
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6"
-  integrity sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==
 
 safe-json-utils@^1.1.1:
   version "1.1.1"

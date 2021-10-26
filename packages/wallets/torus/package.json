@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-torus",
-    "version": "0.8.0",
+    "version": "0.8.1",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -28,7 +28,8 @@
     "dependencies": {
         "@toruslabs/openlogin": "^1.0.0",
         "@toruslabs/openlogin-ed25519": "^1.0.0",
-        "@types/keccak": "^3.0.1"
+        "@types/keccak": "^3.0.1",
+        "@types/readable-stream": "^2.3.11"
     },
     "devDependencies": {
         "@solana/wallet-adapter-base": "^0.7.0",
