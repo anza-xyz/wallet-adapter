@@ -26,6 +26,7 @@ export default defineConfig({
                 },
             },
         },
+        sourcemap: true,
     },
-    plugins: [vue(), dts({ insertTypesEntry: true })],
+    plugins: [vue(), dts()],
 });
