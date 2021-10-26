@@ -26,8 +26,8 @@
         "@solana/web3.js": "^1.20.0"
     },
     "dependencies": {
-        "@toruslabs/openlogin": "^0.10.2",
-        "@toruslabs/openlogin-ed25519": "^0.10.2",
+        "@toruslabs/openlogin": "^1.0.0",
+        "@toruslabs/openlogin-ed25519": "^1.0.0",
         "@types/keccak": "^3.0.1"
     },
     "devDependencies": {
