@@ -1,10 +1,12 @@
 {
-    "private": true,
     "name": "@solana/wallet-adapter-vue-ui",
     "version": "0.1.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
+    "main": "lib/index.js",
+    "esnext": "lib/index.js",
+    "types": "lib/src/index.d.ts",
     "files": [
         "lib",
         "src",
