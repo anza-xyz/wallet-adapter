@@ -104,9 +104,9 @@ export class MathWalletWalletAdapter extends BaseSignerWalletAdapter {
 
             this._wallet = null;
             this._publicKey = null;
-
-            this.emit('disconnect');
         }
+
+        this.emit('disconnect');
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {

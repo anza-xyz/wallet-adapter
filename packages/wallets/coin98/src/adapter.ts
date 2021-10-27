@@ -2,7 +2,6 @@ import {
     BaseSignerWalletAdapter,
     pollUntilReady,
     WalletAccountError,
-    WalletError,
     WalletNotConnectedError,
     WalletNotFoundError,
     WalletNotInstalledError,
@@ -41,14 +40,18 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
     private _connecting: boolean;
     private _wallet: Coin98Wallet | null;
     private _publicKey: PublicKey | null;
+    private _canPollForChange: boolean;
+    private _pollInterval: number;
 
     constructor(config: Coin98WalletAdapterConfig = {}) {
         super();
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
+        this._canPollForChange = false;
+        this._pollInterval = config.pollInterval ? config.pollInterval : 1000;
 
-        if (!this.ready) pollUntilReady(this, config.pollInterval || 1000, config.pollCount || 3);
+        if (!this.ready) pollUntilReady(this, this._pollInterval, config.pollCount || 3);
     }
 
     get publicKey(): PublicKey | null {
@@ -76,22 +79,12 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
             if (!wallet) throw new WalletNotFoundError();
             if (!wallet.isCoin98) throw new WalletNotInstalledError();
 
-            let account: string;
-            try {
-                [account] = await wallet.connect();
-            } catch (error: any) {
-                throw new WalletAccountError(error?.message, error);
-            }
-
-            let publicKey: PublicKey;
-            try {
-                publicKey = new PublicKey(account);
-            } catch (error: any) {
-                throw new WalletPublicKeyError(error?.message, error);
-            }
+            const publicKey = await this._getConnectedPublicKey(wallet);
 
             this._wallet = wallet;
             this._publicKey = publicKey;
+            this._canPollForChange = true;
+            this._pollUntilBreak(this._changeCallback, this._pollInterval);
 
             this.emit('connect');
         } catch (error: any) {
@@ -103,12 +96,15 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
     }
 
     async disconnect(): Promise<void> {
-        if (this._wallet) {
-            this._wallet.disconnect();
+        const wallet = this._wallet;
+        if (wallet) {
             this._wallet = null;
             this._publicKey = null;
-            this.emit('disconnect');
+
+            await wallet.disconnect();
         }
+
+        this.emit('disconnect');
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {
@@ -139,5 +135,49 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
             signedTransactions.push(await this.signTransaction(transaction));
         }
         return signedTransactions;
+    }
+
+    private _pollUntilBreak(callback: (adapter: Coin98WalletAdapter) => Promise<boolean>, interval: number): void {
+        setTimeout(async () => {
+            const done = await callback(this);
+            if (!done) this._pollUntilBreak(callback, interval);
+        }, interval, this);
+    }
+
+    private async _getConnectedPublicKey(wallet: Coin98Wallet): Promise<PublicKey> {
+        let account: string;
+        try {
+            [account] = await wallet.connect();
+        } catch (error: any) {
+            throw new WalletAccountError(error?.message, error);
+        }
+
+        let publicKey: PublicKey;
+        try {
+            publicKey = new PublicKey(account);
+        } catch (error: any) {
+            throw new WalletPublicKeyError(error?.message, error);
+        }
+        return publicKey;
+    }
+
+    private async _changeCallback(adapter: Coin98WalletAdapter): Promise<boolean> {
+        if (!adapter._canPollForChange) return true;
+        await adapter._change();
+        return false;
+    }
+
+    private async _change(): Promise<void> {
+        const wallet = this._wallet;
+
+        if (wallet) {
+            const publicKey = await this._getConnectedPublicKey(wallet);
+
+            if (this._publicKey?.toBase58() !== publicKey.toBase58()) {
+                this._wallet = wallet;
+                this._publicKey = publicKey;
+                this.emit('change');
+            }
+        }
     }
 }

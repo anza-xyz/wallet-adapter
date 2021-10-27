@@ -2,7 +2,6 @@ import {
     BaseSignerWalletAdapter,
     pollUntilReady,
     WalletAccountError,
-    WalletError,
     WalletNotConnectedError,
     WalletNotFoundError,
     WalletNotInstalledError,
@@ -33,14 +32,18 @@ export class CloverWalletAdapter extends BaseSignerWalletAdapter {
     private _connecting: boolean;
     private _wallet: CloverWallet | null;
     private _publicKey: PublicKey | null;
+    private _canPollForChange: boolean;
+    private _pollInterval: number;
 
     constructor(config: CloverWalletAdapterConfig = {}) {
         super();
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
+        this._canPollForChange = false;
+        this._pollInterval = config.pollInterval ? config.pollInterval : 1000;
 
-        if (!this.ready) pollUntilReady(this, config.pollInterval || 1000, config.pollCount || 3);
+        if (!this.ready) pollUntilReady(this, this._pollInterval, config.pollCount || 3);
     }
 
     get publicKey(): PublicKey | null {
@@ -56,7 +59,7 @@ export class CloverWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get connected(): boolean {
-        return !!this._wallet;
+        return !!this._publicKey;
     }
 
     async connect(): Promise<void> {
@@ -68,22 +71,12 @@ export class CloverWalletAdapter extends BaseSignerWalletAdapter {
             if (!wallet) throw new WalletNotFoundError();
             if (!wallet.isCloverWallet) throw new WalletNotInstalledError();
 
-            let account: string;
-            try {
-                account = await wallet.getAccount();
-            } catch (error: any) {
-                throw new WalletAccountError(error?.message, error);
-            }
-
-            let publicKey: PublicKey;
-            try {
-                publicKey = new PublicKey(account);
-            } catch (error: any) {
-                throw new WalletPublicKeyError(error?.message, error);
-            }
+            const publicKey = await this._getConnectedPublicKey(wallet);
 
             this._wallet = wallet;
             this._publicKey = publicKey;
+            this._canPollForChange = true;
+            this._pollUntilBreak(this._changeCallback, this._pollInterval);
 
             this.emit('connect');
         } catch (error: any) {
@@ -98,9 +91,9 @@ export class CloverWalletAdapter extends BaseSignerWalletAdapter {
         if (this._wallet) {
             this._wallet = null;
             this._publicKey = null;
-
-            this.emit('disconnect');
         }
+
+        this.emit('disconnect');
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {
@@ -132,6 +125,50 @@ export class CloverWalletAdapter extends BaseSignerWalletAdapter {
         } catch (error: any) {
             this.emit('error', error);
             throw error;
+        }
+    }
+
+    private _pollUntilBreak(callback: (adapter: CloverWalletAdapter) => Promise<boolean>, interval: number): void {
+        setTimeout(async () => {
+            const done = await callback(this);
+            if (!done) this._pollUntilBreak(callback, interval);
+        }, interval, this);
+    }
+
+    private async _getConnectedPublicKey(wallet: CloverWallet): Promise<PublicKey> {
+        let account: string;
+        try {
+            account = await wallet.getAccount();
+        } catch (error: any) {
+            throw new WalletAccountError(error?.message, error);
+        }
+
+        let publicKey: PublicKey;
+        try {
+            publicKey = new PublicKey(account);
+        } catch (error: any) {
+            throw new WalletPublicKeyError(error?.message, error);
+        }
+        return publicKey;
+    }
+
+    private async _changeCallback(adapter: CloverWalletAdapter): Promise<boolean> {
+        if (!adapter._canPollForChange) return true;
+        await adapter._change();
+        return false;
+    }
+
+    private async _change(): Promise<void> {
+        const wallet = this._wallet;
+
+        if (wallet) {
+            const publicKey = await this._getConnectedPublicKey(wallet);
+
+            if (this._publicKey?.toBase58() !== publicKey.toBase58()) {
+                this._wallet = wallet;
+                this._publicKey = publicKey;
+                this.emit('change');
+            }
         }
     }
 }

@@ -1,7 +1,6 @@
 import Wallet from '@project-serum/sol-wallet-adapter';
 import {
     BaseMessageSignerWalletAdapter,
-    BaseSignerWalletAdapter,
     pollUntilReady,
     WalletAdapterNetwork,
     WalletConnectionError,
@@ -163,6 +162,8 @@ export class SolletWalletAdapter extends BaseMessageSignerWalletAdapter {
                     (wallet as any).handleDisconnect = (...args: unknown[]): unknown => {
                         clearTimeout(timeout);
                         resolve();
+                        // HACK: sol-wallet-adapter rejects with an uncaught promise error
+                        (wallet as any)._responsePromises = new Map();
                         return handleDisconnect.apply(wallet, args);
                     };
 
@@ -174,7 +175,7 @@ export class SolletWalletAdapter extends BaseMessageSignerWalletAdapter {
                         (error) => {
                             clearTimeout(timeout);
                             // HACK: sol-wallet-adapter rejects with an error on disconnect
-                            if (error.message === 'Wallet disconnected') {
+                            if (error?.message === 'Wallet disconnected') {
                                 resolve();
                             } else {
                                 reject(error);
@@ -187,9 +188,9 @@ export class SolletWalletAdapter extends BaseMessageSignerWalletAdapter {
             } finally {
                 (wallet as any).handleDisconnect = handleDisconnect;
             }
-
-            this.emit('disconnect');
         }
+
+        this.emit('disconnect');
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {

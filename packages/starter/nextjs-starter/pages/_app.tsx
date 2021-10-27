@@ -1,18 +1,26 @@
-import type { AppProps } from 'next/app';
+import { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
-import { ReactElement } from 'react';
-import '../styles/globals.css';
+import { FC, ReactNode } from 'react';
 
-const WalletConnectionProvider = dynamic(() => import('../components/WalletConnectionProvider'), {
-    ssr: false,
-});
+// Use require instead of import, and order matters
+require('../styles/globals.css');
 
-function App({ Component, pageProps }: AppProps): ReactElement {
+const WalletConnectionProvider = dynamic<{ children: ReactNode }>(
+    () =>
+        import('../components/WalletConnectionProvider').then(
+            ({ WalletConnectionProvider }) => WalletConnectionProvider
+        ),
+    {
+        ssr: false,
+    }
+);
+
+const App: FC<AppProps> = ({ Component, pageProps }) => {
     return (
         <WalletConnectionProvider>
             <Component {...pageProps} />
         </WalletConnectionProvider>
     );
-}
+};
 
 export default App;

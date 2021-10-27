@@ -5,9 +5,12 @@ export function useLocalStorage<T>(key: string, defaultState: T): [T, (newValue:
         if (typeof localStorage === 'undefined') return defaultState;
 
         const value = localStorage.getItem(key);
-        if (value) return JSON.parse(value) as T;
-
-        return defaultState;
+        try {
+            return value ? (JSON.parse(value) as T) : defaultState;
+        } catch (error) {
+            console.warn(error);
+            return defaultState;
+        }
     });
 
     const setLocalStorage = useCallback(
@@ -18,7 +21,11 @@ export function useLocalStorage<T>(key: string, defaultState: T): [T, (newValue:
             if (newValue === null) {
                 localStorage.removeItem(key);
             } else {
-                localStorage.setItem(key, JSON.stringify(newValue));
+                try {
+                    localStorage.setItem(key, JSON.stringify(newValue));
+                } catch (error) {
+                    console.error(error);
+                }
             }
         },
         [value, setValue, key]

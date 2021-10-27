@@ -45,7 +45,7 @@ yarn add @solana/wallet-adapter-wallets \
 
 
 ## Usage
-Check out usage in the [example](https://github.com/solana-labs/wallet-adapter/tree/master/packages/example) package.
+Check out usage in the [example](https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/example) package.
 
 ## Overrides
 
