@@ -113,15 +113,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
 
     // Handle the adapter's connect event
     const onConnect = useCallback(() => {
-        if (!adapter) return;
-
-        const { connected, publicKey, ready } = adapter;
-        setState((state) => ({
-            ...state,
-            connected,
-            publicKey,
-            ready,
-        }));
+        _setAdapterState(adapter);
     }, [adapter, setState]);
 
     // Handle the adapter's disconnect event
@@ -129,6 +121,11 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         // Clear the selected wallet unless the window is unloading
         if (!isUnloading.current) setName(null);
     }, [isUnloading, setName]);
+
+    // Handle the adapter's change event
+    const onChange = useCallback(async () => {
+        _setAdapterState(adapter);
+    }, [adapter, setState]);
 
     // Handle the adapter's error event, and local errors
     const onError = useCallback(
@@ -139,6 +136,18 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         },
         [isUnloading, _onError]
     );
+
+    const _setAdapterState = (adapter: ReturnType<Wallet['adapter']> | null) => {
+        if (!adapter) return;
+
+        const { connected, publicKey, ready } = adapter;
+        setState((state) => ({
+            ...state,
+            connected,
+            publicKey,
+            ready,
+        }));
+    }
 
     // Connect the adapter to the wallet
     const connect = useCallback(async () => {
@@ -243,11 +252,13 @@ export const WalletProvider: FC<WalletProviderProps> = ({
             adapter.on('ready', onReady);
             adapter.on('connect', onConnect);
             adapter.on('disconnect', onDisconnect);
+            adapter.on('change', onChange);
             adapter.on('error', onError);
             return () => {
                 adapter.off('ready', onReady);
                 adapter.off('connect', onConnect);
                 adapter.off('disconnect', onDisconnect);
+                adapter.off('change', onChange);
                 adapter.off('error', onError);
             };
         }
