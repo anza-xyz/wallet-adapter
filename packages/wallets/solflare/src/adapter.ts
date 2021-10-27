@@ -9,6 +9,7 @@ import {
     WalletNotFoundError,
     WalletNotInstalledError,
     WalletPublicKeyError,
+    WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
@@ -153,6 +154,23 @@ export class SolflareWalletAdapter extends BaseSignerWalletAdapter {
                 return (await wallet.signAllTransactions(transactions)) || transactions;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
+            }
+        } catch (error: any) {
+            this.emit('error', error);
+            throw error;
+        }
+    }
+    
+    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+        try {
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
+
+            try {
+                const { signature } = await wallet.sign(message, 'utf8');
+                return Uint8Array.from(signature);
+            } catch (error: any) {
+                throw new WalletSignMessageError(error?.message, error);
             }
         } catch (error: any) {
             this.emit('error', error);
