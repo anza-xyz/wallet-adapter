@@ -1,5 +1,5 @@
 import {
-    BaseSignerWalletAdapter,
+    BaseSignerWalletAdapter, pollUntilBreak,
     pollUntilReady,
     WalletAccountError,
     WalletNotConnectedError,
@@ -9,6 +9,7 @@ import {
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
+import { BaseChangerWalletAdapter } from '@solana/wallet-adapter-base/lib/changer';
 
 interface CloverWallet {
     isCloverWallet?: boolean;
@@ -28,7 +29,7 @@ export interface CloverWalletAdapterConfig {
     pollCount?: number;
 }
 
-export class CloverWalletAdapter extends BaseSignerWalletAdapter {
+export class CloverWalletAdapter extends BaseChangerWalletAdapter {
     private _connecting: boolean;
     private _wallet: CloverWallet | null;
     private _publicKey: PublicKey | null;
@@ -62,6 +63,10 @@ export class CloverWalletAdapter extends BaseSignerWalletAdapter {
         return !!this._publicKey;
     }
 
+    get canPollForChange(): boolean {
+        return this._canPollForChange;
+    }
+
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
@@ -76,7 +81,7 @@ export class CloverWalletAdapter extends BaseSignerWalletAdapter {
             this._wallet = wallet;
             this._publicKey = publicKey;
             this._canPollForChange = true;
-            this._pollUntilBreak(this._changeCallback, this._pollInterval);
+            pollUntilBreak(this, this.checkForChange, this._pollInterval);
 
             this.emit('connect');
         } catch (error: any) {
@@ -128,13 +133,6 @@ export class CloverWalletAdapter extends BaseSignerWalletAdapter {
         }
     }
 
-    private _pollUntilBreak(callback: (adapter: CloverWalletAdapter) => Promise<boolean>, interval: number): void {
-        setTimeout(async () => {
-            const done = await callback(this);
-            if (!done) this._pollUntilBreak(callback, interval);
-        }, interval, this);
-    }
-
     private async _getConnectedPublicKey(wallet: CloverWallet): Promise<PublicKey> {
         let account: string;
         try {
@@ -152,13 +150,7 @@ export class CloverWalletAdapter extends BaseSignerWalletAdapter {
         return publicKey;
     }
 
-    private async _changeCallback(adapter: CloverWalletAdapter): Promise<boolean> {
-        if (!adapter._canPollForChange) return true;
-        await adapter._change();
-        return false;
-    }
-
-    private async _change(): Promise<void> {
+    async change(): Promise<void> {
         const wallet = this._wallet;
 
         if (wallet) {

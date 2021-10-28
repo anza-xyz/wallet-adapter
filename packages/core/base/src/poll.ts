@@ -1,4 +1,5 @@
 import { WalletAdapter } from './adapter';
+import { ChangerWalletAdapter } from './changer';
 
 export function poll(callback: () => boolean | Promise<boolean>, interval: number, count: number): void {
     if (count > 0) {
@@ -23,4 +24,11 @@ export function pollUntilReady(adapter: WalletAdapter, pollInterval: number, pol
         pollInterval,
         pollCount
     );
+}
+
+export function pollUntilBreak(adapter: ChangerWalletAdapter, callback: (adapter: ChangerWalletAdapter) => Promise<boolean>, pollInterval: number): void {
+    setTimeout(async () => {
+        const done = await callback(adapter);
+        if (!done) pollUntilBreak(adapter, callback, pollInterval);
+    }, pollInterval, adapter);
 }

@@ -1,5 +1,5 @@
 import {
-    BaseSignerWalletAdapter,
+    pollUntilBreak,
     pollUntilReady,
     WalletAccountError,
     WalletNotConnectedError,
@@ -10,6 +10,7 @@ import {
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 import bs58 from 'bs58';
+import { BaseChangerWalletAdapter } from '@solana/wallet-adapter-base/lib/changer';
 
 interface Coin98Wallet {
     isCoin98?: boolean;
@@ -36,7 +37,7 @@ export interface Coin98WalletAdapterConfig {
     pollCount?: number;
 }
 
-export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
+export class Coin98WalletAdapter extends BaseChangerWalletAdapter {
     private _connecting: boolean;
     private _wallet: Coin98Wallet | null;
     private _publicKey: PublicKey | null;
@@ -70,6 +71,10 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
         return !!this._wallet?.isConnected();
     }
 
+    get canPollForChange(): boolean {
+        return this._canPollForChange;
+    }
+
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
@@ -84,7 +89,7 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
             this._wallet = wallet;
             this._publicKey = publicKey;
             this._canPollForChange = true;
-            this._pollUntilBreak(this._changeCallback, this._pollInterval);
+            pollUntilBreak(this, this.checkForChange, this._pollInterval);
 
             this.emit('connect');
         } catch (error: any) {
@@ -137,13 +142,6 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
         return signedTransactions;
     }
 
-    private _pollUntilBreak(callback: (adapter: Coin98WalletAdapter) => Promise<boolean>, interval: number): void {
-        setTimeout(async () => {
-            const done = await callback(this);
-            if (!done) this._pollUntilBreak(callback, interval);
-        }, interval, this);
-    }
-
     private async _getConnectedPublicKey(wallet: Coin98Wallet): Promise<PublicKey> {
         let account: string;
         try {
@@ -161,20 +159,13 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
         return publicKey;
     }
 
-    private async _changeCallback(adapter: Coin98WalletAdapter): Promise<boolean> {
-        if (!adapter._canPollForChange) return true;
-        await adapter._change();
-        return false;
-    }
-
-    private async _change(): Promise<void> {
+    async change(): Promise<void> {
         const wallet = this._wallet;
 
         if (wallet) {
             const publicKey = await this._getConnectedPublicKey(wallet);
 
             if (this._publicKey?.toBase58() !== publicKey.toBase58()) {
-                this._wallet = wallet;
                 this._publicKey = publicKey;
                 this.emit('change');
             }
