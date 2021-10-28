@@ -1,3 +1,4 @@
+import { WalletDisconnectButton, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -16,6 +17,11 @@ const Index: NextPage = () => {
                 <h1 className={styles.title}>
                     Welcome to <a href="https://nextjs.org">Next.js!</a>
                 </h1>
+
+                <div className={styles.walletButtons}>
+                    <WalletMultiButton />
+                    <WalletDisconnectButton />
+                </div>
 
                 <p className={styles.description}>
                     Get started by editing <code className={styles.code}>pages/index.js</code>
