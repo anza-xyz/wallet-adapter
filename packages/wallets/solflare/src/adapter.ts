@@ -23,6 +23,7 @@ interface SolflareWallet extends EventEmitter<SolflareWalletEvents> {
     isSolflare?: boolean;
     publicKey?: { toBytes(): Uint8Array };
     isConnected: boolean;
+    sign(data: Uint8Array,display: unknown,): Promise<{signature: Buffer;publicKey: PublicKey;}> ;
     signTransaction(transaction: Transaction): Promise<Transaction>;
     signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
     connect(): Promise<boolean>;
