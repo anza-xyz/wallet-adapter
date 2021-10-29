@@ -1,6 +1,6 @@
 <script lang="ts">
-import { PropType, defineComponent } from 'vue';
-import { Wallet } from '@solana/wallet-adapter-wallets';
+import { Wallet } from "@solana/wallet-adapter-wallets";
+import { defineComponent, PropType } from "vue";
 
 export default defineComponent({
     name: 'wallet-icon',

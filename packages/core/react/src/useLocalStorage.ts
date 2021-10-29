@@ -21,12 +21,6 @@ export function useLocalStorage<T>(key: string, defaultState: T): [T, (newValue:
             if (newValue === null) {
                 localStorage.removeItem(key);
             } else {
-                localStorage.setItem(key, JSON.stringify(newValue));
-            }
-
-            if (newValue === null) {
-                localStorage.removeItem(key);
-            } else {
                 try {
                     localStorage.setItem(key, JSON.stringify(newValue));
                 } catch (error) {

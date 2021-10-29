@@ -6,17 +6,17 @@ import {
     getPhantomWallet,
     getSlopeWallet,
     getSolflareWallet,
-    getSolletWallet,
     getSolletExtensionWallet,
+    getSolletWallet,
     getTorusWallet,
 } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 import React, { FC, useCallback, useMemo } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import Navigation from './Navigation';
-import Notification from './Notification';
+import { Navigation } from './Navigation';
+import { Notification } from './Notification';
 
-const Wallet: FC = () => {
+export const Wallet: FC = () => {
     const network = WalletAdapterNetwork.Devnet;
     const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 
@@ -59,5 +59,3 @@ const Wallet: FC = () => {
         </ConnectionProvider>
     );
 };
-
-export default Wallet;

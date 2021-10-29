@@ -2,10 +2,10 @@ import { Button } from '@material-ui/core';
 import { useWallet } from '@solana/wallet-adapter-react';
 import bs58 from 'bs58';
 import { FC, useCallback } from 'react';
-import { useNotify } from './notify';
 import { sign } from 'tweetnacl';
+import { useNotify } from './notify';
 
-const SignMessage: FC = () => {
+export const SignMessage: FC = () => {
     const { publicKey, signMessage } = useWallet();
     const notify = useNotify();
 
@@ -35,5 +35,3 @@ const SignMessage: FC = () => {
         </Button>
     ) : null;
 };
-
-export default SignMessage;

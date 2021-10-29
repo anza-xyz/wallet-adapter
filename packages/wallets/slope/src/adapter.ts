@@ -1,7 +1,6 @@
 import {
     BaseMessageSignerWalletAdapter,
     pollUntilReady,
-    WalletAccountError,
     WalletConnectionError,
     WalletDisconnectionError,
     WalletError,

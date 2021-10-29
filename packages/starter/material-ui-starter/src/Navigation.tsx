@@ -4,7 +4,7 @@ import { WalletDisconnectButton, WalletMultiButton } from '@solana/wallet-adapte
 import { useWallet } from '@solana/wallet-adapter-react';
 import React, { FC } from 'react';
 
-const Navigation: FC = () => {
+export const Navigation: FC = () => {
     const { wallet } = useWallet();
 
     return (
@@ -17,5 +17,3 @@ const Navigation: FC = () => {
         </Toolbar>
     );
 };
-
-export default Navigation;

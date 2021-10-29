@@ -2,7 +2,7 @@ import { createTheme, ThemeProvider } from '@material-ui/core';
 import { deepPurple } from '@material-ui/core/colors';
 import { SnackbarProvider } from 'notistack';
 import React, { FC } from 'react';
-import Wallet from './Wallet';
+import { Wallet } from './Wallet';
 
 // Use require instead of import, and order matters
 require('./App.css');

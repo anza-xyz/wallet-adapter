@@ -1,35 +1,35 @@
 {
-  "name": "@solana/wallet-adapter-svelte",
-  "version": "0.1.0",
-  "description": "Wallet adapter for svelte applications",
-  "author": "Silvestre Vivo<silvestrevivomillan@gmail.com | @silvestrevivo>",
-  "repository": "https://github.com/solana-labs/wallet-adapter",
-  "license": "Apache-2.0",
-  "main": "lib/index.js",
-  "esnext": "lib/index.js",
-  "types": "lib/index.d.ts",
-  "files": [
-    "lib",
-    "src",
-    "LICENSE"
-  ],
-  "publishConfig": {
-    "access": "public"
-  },
-  "scripts": {
-    "clean": "shx rm -rf lib/*",
-    "build": "yarn clean && tsc"
-  },
-  "peerDependencies": {
-    "@solana/wallet-adapter-base": "^0.6.0",
-    "@solana/wallet-adapter-wallets": "^0.10.1",
-    "@solana/web3.js": "^1.29.2",
-    "svelte": "^3.43.1"
-  },
-  "devDependencies": {
-    "@solana/wallet-adapter-base": "^0.6.0",
-    "@solana/wallet-adapter-wallets": "^0.10.1",
-    "@solana/web3.js": "^1.29.2",
-    "svelte": "^3.43.1"
-  }
+    "private": true,
+    "name": "@solana/wallet-adapter-svelte",
+    "version": "0.1.0",
+    "author": "Silvestre Vivo <silvestrevivomillan@gmail.com>",
+    "repository": "https://github.com/solana-labs/wallet-adapter",
+    "license": "Apache-2.0",
+    "main": "lib/index.js",
+    "esnext": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "files": [
+        "lib",
+        "src",
+        "LICENSE"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "clean": "shx rm -rf lib/*",
+        "build": "yarn clean && tsc"
+    },
+    "peerDependencies": {
+        "@solana/wallet-adapter-base": "^0.6.0",
+        "@solana/wallet-adapter-wallets": "^0.10.1",
+        "@solana/web3.js": "^1.29.2",
+        "svelte": "^3.43.1"
+    },
+    "devDependencies": {
+        "@solana/wallet-adapter-base": "^0.6.0",
+        "@solana/wallet-adapter-wallets": "^0.10.1",
+        "@solana/web3.js": "^1.29.2",
+        "svelte": "^3.43.1"
+    }
 }
