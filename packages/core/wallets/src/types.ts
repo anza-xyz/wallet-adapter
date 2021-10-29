@@ -6,6 +6,7 @@ export enum WalletName {
     Blocto = 'Blocto',
     Clover = 'Clover',
     Coin98 = 'Coin98',
+    Coinhub = 'Coinhub',
     Ledger = 'Ledger',
     MathWallet = 'MathWallet',
     Phantom = 'Phantom',

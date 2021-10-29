@@ -3,6 +3,7 @@ export * from './bitpie';
 export * from './blocto';
 export * from './clover';
 export * from './coin98';
+export * from './coinhub';
 export * from './ledger';
 export * from './mathwallet';
 export * from './phantom';
