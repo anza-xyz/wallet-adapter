@@ -162,13 +162,14 @@ To add it to your dApp, you only need the core packages and UI components for yo
 ### Core
 These packages are what most projects can use to support wallets on Solana.
 
-| package                                                                                       | description                                           | npm                                                                                          |
-| --------------------------------------------------------------------------------------------- | ----------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| [wallets](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/wallets)    | All wallets with icons                                | [`@solana/wallet-adapter-wallets`](https://npmjs.com/package/@solana/wallet-adapter-wallets) |
-| [base](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/base)          | Adapter interfaces, error types, and common utilities | [`@solana/wallet-adapter-base`](https://npmjs.com/package/@solana/wallet-adapter-base)       |
-| [react](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/react)        | Contexts and hooks for React dApps                    | [`@solana/wallet-adapter-react`](https://npmjs.com/package/@solana/wallet-adapter-react)     |
-| [angular](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/angular) \* | Stores and configuration for Angular dApps            | [`@solana/wallet-adapter-angular`](https://npmjs.com/package/@solana/wallet-adapter-angular) |
-| [vue](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/vue)            | Stores and composables for Vue 3 dApps                | [`@solana/wallet-adapter-vue`](https://npmjs.com/package/@solana/wallet-adapter-vue)         |
+| package                                                                                       | description                                           | npm                                                                                            |
+| --------------------------------------------------------------------------------------------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| [wallets](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/wallets)    | All wallets with icons                                | [`@solana/wallet-adapter-wallets`](https://npmjs.com/package/@solana/wallet-adapter-wallets)   |
+| [base](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/base)          | Adapter interfaces, error types, and common utilities | [`@solana/wallet-adapter-base`](https://npmjs.com/package/@solana/wallet-adapter-base)         |
+| [react](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/react)        | Contexts and hooks for React dApps                    | [`@solana/wallet-adapter-react`](https://npmjs.com/package/@solana/wallet-adapter-react)       |
+| [angular](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/angular) \* | Stores and configuration for Angular dApps            | [`@solana/wallet-adapter-angular`](https://npmjs.com/package/@solana/wallet-adapter-angular)   |
+| [vue](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/vue)            | Stores and composables for Vue 3 dApps                | [`@solana/wallet-adapter-vue`](https://npmjs.com/package/@solana/wallet-adapter-vue)           |
+| [svelte](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/svelte) \*   | Stores for Svelte dApps                               | [`@solana/wallet-adapter-svelte`](https://www.npmjs.com/package/@solana/wallet-adapter-svelte) |
 
 \* Package has not been published to NPM yet.
 

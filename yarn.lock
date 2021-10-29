@@ -1598,7 +1598,7 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@blocto/sdk@^0.2.16":
+"@blocto/sdk@^0.2.11", "@blocto/sdk@^0.2.16":
   version "0.2.16"
   resolved "https://registry.yarnpkg.com/@blocto/sdk/-/sdk-0.2.16.tgz#4887102d4f32b9a0c00b2352e1645d8ffb1d1277"
   integrity sha512-dL/jTbw9/rLKGSdIVKebu7U2xIukFOLUtvUDFQ6bv5YTpCdq2J1HA8E5mmraAtlsRz6iIug8yabv83LWekugUw==
@@ -17397,6 +17397,11 @@ supports-hyperlinks@^2.0.0:
   dependencies:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
+
+svelte@^3.43.1:
+  version "3.44.0"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.44.0.tgz#e6176cb3ad93846ddb4140e93f43098136b23f3b"
+  integrity sha512-zWACSJBSncGiDvFfYOMFGNV5zDLOlyhftmO5yOZ0lEtQMptpElaRtl39MWz1+lYCpwUq4F3Q2lTzI9TrTL+eMA==
 
 svg-parser@^2.0.2:
   version "2.0.4"
