@@ -6,23 +6,23 @@ Modular TypeScript wallet adapters and components for Solana applications.
 
 ## Quick Links
 
--   [Demo](https://solana-labs.github.io/wallet-adapter/example/)
--   [TypeScript Docs](https://solana-labs.github.io/wallet-adapter/)
--   [FAQ (Frequently Asked Questions)](https://github.com/solana-labs/wallet-adapter/blob/master/FAQ.md)
-    -   [How can I get support?](https://github.com/solana-labs/wallet-adapter/blob/master/FAQ.md#how-can-i-get-support)
-    -   [Can I use this with \_\_\_?](https://github.com/solana-labs/wallet-adapter/blob/master/FAQ.md#can-i-use-this-with-___)
-    -   [What does this error mean?](https://github.com/solana-labs/wallet-adapter/blob/master/FAQ.md#what-does-this-error-mean)
-    -   [How can I sign and verify messages?](https://github.com/solana-labs/wallet-adapter/blob/master/FAQ.md#how-can-i-sign-and-verify-messages)
--   [Quick Setup (using React UI)](#quick-setup-using-react-ui)
-    -   [Install](#install)
-    -   [Setup](#setup)
-    -   [Usage](#usage)
--   [Packages](#packages)
-    -   [Core](#core)
-    -   [UI Components](#ui-components)
-    -   [Starter Projects](#starter-projects)
-    -   [Wallets](#wallets)
--   [Build from Source](#build-from-source)
+- [Demo](https://solana-labs.github.io/wallet-adapter/example/)
+- [TypeScript Docs](https://solana-labs.github.io/wallet-adapter/)
+- [FAQ (Frequently Asked Questions)](https://github.com/solana-labs/wallet-adapter/blob/master/FAQ.md)
+    + [How can I get support?](https://github.com/solana-labs/wallet-adapter/blob/master/FAQ.md#how-can-i-get-support)
+    + [Can I use this with ___?](https://github.com/solana-labs/wallet-adapter/blob/master/FAQ.md#can-i-use-this-with-___)
+    + [What does this error mean?](https://github.com/solana-labs/wallet-adapter/blob/master/FAQ.md#what-does-this-error-mean)
+    + [How can I sign and verify messages?](https://github.com/solana-labs/wallet-adapter/blob/master/FAQ.md#how-can-i-sign-and-verify-messages)
+- [Quick Setup (using React UI)](#quick-setup-using-react-ui)
+    + [Install](#install)
+    + [Setup](#setup)
+    + [Usage](#usage)
+- [Packages](#packages)
+    + [Core](#core)
+    + [UI Components](#ui-components)
+    + [Starter Projects](#starter-projects)
+    + [Wallets](#wallets)
+- [Build from Source](#build-from-source)
 
 ## Quick Setup (using React UI)
 
@@ -56,7 +56,11 @@ import {
     getSolletWallet,
     getTorusWallet,
 } from '@solana/wallet-adapter-wallets';
-import { WalletModalProvider, WalletDisconnectButton, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import {
+    WalletModalProvider,
+    WalletDisconnectButton,
+    WalletMultiButton
+} from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
 
 // Default styles that can be overridden by your app
@@ -71,20 +75,17 @@ export const Wallet: FC = () => {
 
     // @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking --
     // Only the wallets you configure here will be compiled into your application
-    const wallets = useMemo(
-        () => [
-            getPhantomWallet(),
-            getSlopeWallet(),
-            getSolflareWallet(),
-            getTorusWallet({
-                options: { clientId: 'Get a client ID @ https://developer.tor.us' },
-            }),
-            getLedgerWallet(),
-            getSolletWallet({ network }),
-            getSolletExtensionWallet({ network }),
-        ],
-        [network]
-    );
+    const wallets = useMemo(() => [
+        getPhantomWallet(),
+        getSlopeWallet(),
+        getSolflareWallet(),
+        getTorusWallet({
+            options: { clientId: 'Get a client ID @ https://developer.tor.us' }
+        }),
+        getLedgerWallet(),
+        getSolletWallet({ network }),
+        getSolletExtensionWallet({ network }),
+    ], [network]);
 
     return (
         <ConnectionProvider endpoint={endpoint}>
@@ -155,12 +156,10 @@ export const SendOneLamportToRandomAddress: FC = () => {
 ```
 
 ## Packages
-
 This library is organized into small packages with few dependencies.
 To add it to your dApp, you only need the core packages and UI components for your chosen framework.
 
 ### Core
-
 These packages are what most projects can use to support wallets on Solana.
 
 | package                                                                                       | description                                           | npm                                                                                          |
@@ -174,7 +173,6 @@ These packages are what most projects can use to support wallets on Solana.
 \* Package has not been published to NPM yet.
 
 ### UI Components
-
 These packages provide components for common UI frameworks.
 
 | package                                                                                          | description                                           | npm                                                                                                  |
@@ -185,7 +183,6 @@ These packages provide components for common UI frameworks.
 | [vue-ui](https://github.com/solana-labs/wallet-adapter/tree/master/packages/ui/vue-ui)           | Components for Vue (no UI framework, just CSS)        | [`@solana/wallet-adapter-vue-ui`](https://npmjs.com/package/@solana/wallet-adapter-vue-ui)           |
 
 ### Starter Projects
-
 These packages provide projects that you can use to start building a dApp with built-in wallet support.
 Alternatively, check out [dapp-scaffold](https://github.com/solana-labs/dapp-scaffold) for a more complete framework.
 
@@ -197,7 +194,6 @@ Alternatively, check out [dapp-scaffold](https://github.com/solana-labs/dapp-sca
 | [nextjs-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/nextjs-starter)           | [Next.js](https://nextjs.org) project using React                          | [`@solana/wallet-adapter-nextjs-starter`](https://npmjs.com/package/@solana/wallet-adapter-nextjs-starter)           |
 
 ### Wallets
-
 These packages provide adapters for each wallet.
 The core [wallets](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets) package already includes them, so you don't need to add these as dependencies.
 
@@ -226,26 +222,22 @@ The core [wallets](https://github.com/solana-labs/wallet-adapter/tree/master/pac
 ## Build from Source
 
 1. Clone the project:
-
 ```shell
 git clone https://github.com/solana-labs/wallet-adapter.git
 ```
 
 2. Install dependencies:
-
 ```shell
 cd wallet-adapter
 yarn install
 ```
 
 3. Build all packages:
-
 ```shell
 yarn build
 ```
 
 4. Run locally:
-
 ```shell
 cd packages/starter/react-ui-starter
 yarn start
