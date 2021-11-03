@@ -32,6 +32,7 @@
             "packages/wallets/blocto",
             "packages/wallets/clover",
             "packages/wallets/coin98",
+            "packages/wallets/coinhub",
             "packages/wallets/ledger",
             "packages/wallets/mathwallet",
             "packages/wallets/phantom",
