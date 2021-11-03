@@ -1,5 +1,5 @@
 import {
-    BaseSignerWalletAdapter,
+    BaseMessageSignerWalletAdapter,
     EventEmitter,
     pollUntilReady,
     WalletConnectionError,
@@ -24,6 +24,7 @@ interface SolflareWallet extends EventEmitter<SolflareWalletEvents> {
     isConnected: boolean;
     signTransaction(transaction: Transaction): Promise<Transaction>;
     signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
+    signMessage(message: Uint8Array, encoding: string): Promise<{ signature: Uint8Array }>;
     connect(): Promise<boolean>;
     disconnect(): Promise<boolean>;
 }
@@ -39,7 +40,7 @@ export interface SolflareWalletAdapterConfig {
     pollCount?: number;
 }
 
-export class SolflareWalletAdapter extends BaseSignerWalletAdapter {
+export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
     private _connecting: boolean;
     private _wallet: SolflareWallet | null;
     private _publicKey: PublicKey | null;
@@ -151,6 +152,23 @@ export class SolflareWalletAdapter extends BaseSignerWalletAdapter {
 
             try {
                 return (await wallet.signAllTransactions(transactions)) || transactions;
+            } catch (error: any) {
+                throw new WalletSignTransactionError(error?.message, error);
+            }
+        } catch (error: any) {
+            this.emit('error', error);
+            throw error;
+        }
+    }
+
+    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+        try {
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
+
+            try {
+                const { signature } = await wallet.signMessage(message, 'utf8');
+                return Uint8Array.from(signature);
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
