@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-wallets",
-    "version": "0.11.1",
+    "version": "0.11.2",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -30,6 +30,7 @@
         "@solana/wallet-adapter-blocto": "^0.3.0",
         "@solana/wallet-adapter-clover": "^0.2.0",
         "@solana/wallet-adapter-coin98": "^0.3.0",
+        "@solana/wallet-adapter-coinhub": "^0.1.0",
         "@solana/wallet-adapter-ledger": "^0.7.0",
         "@solana/wallet-adapter-mathwallet": "^0.7.0",
         "@solana/wallet-adapter-phantom": "^0.7.0",
