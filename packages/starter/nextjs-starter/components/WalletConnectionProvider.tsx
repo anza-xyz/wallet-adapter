@@ -1,6 +1,7 @@
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import {
+    getAldrinWallet,
     getLedgerWallet,
     getPhantomWallet,
     getSlopeWallet,
@@ -32,6 +33,7 @@ export const WalletConnectionProvider: FC<{ children: ReactNode }> = ({ children
             getLedgerWallet(),
             getSolletWallet({ network }),
             getSolletExtensionWallet({ network }),
+            getAldrinWallet({ network }),
         ],
         [network]
     );

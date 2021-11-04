@@ -8,7 +8,6 @@ export interface WalletModalProviderProps extends WalletModalProps {
 
 export const WalletModalProvider: FC<WalletModalProviderProps> = ({ children, ...props }) => {
     const [visible, setVisible] = useState(false);
-
     return (
         <WalletModalContext.Provider
             value={{

@@ -2,6 +2,7 @@ import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import {
+    getAldrinWallet,
     getLedgerWallet,
     getPhantomWallet,
     getSlopeWallet,
@@ -33,6 +34,7 @@ export const Wallet: FC = () => {
             getLedgerWallet(),
             getSolletWallet({ network }),
             getSolletExtensionWallet({ network }),
+            getAldrinWallet({ network }),
         ],
         [network]
     );
@@ -47,7 +49,8 @@ export const Wallet: FC = () => {
             ),
         []
     );
-
+    console.log('aldrin', getAldrinWallet({ network }));
+    console.log('wallets', wallets);
     return (
         <ConnectionProvider endpoint={endpoint}>
             <WalletProvider wallets={wallets} onError={onError} autoConnect>

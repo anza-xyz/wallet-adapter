@@ -55,6 +55,7 @@ import {
     getSolletExtensionWallet,
     getSolletWallet,
     getTorusWallet,
+    getAldrinWallet
 } from '@solana/wallet-adapter-wallets';
 import {
     WalletModalProvider,
@@ -85,6 +86,8 @@ export const Wallet: FC = () => {
         getLedgerWallet(),
         getSolletWallet({ network }),
         getSolletExtensionWallet({ network }),
+        getAldrinWallet({ network
+         })
     ], [network]);
 
     return (
@@ -213,6 +216,7 @@ The core [wallets](https://github.com/solana-labs/wallet-adapter/tree/master/pac
 | [slope](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/slope)                    | Adapter for [Slope](https://slope.finance)             | [`@solana/wallet-adapter-slope`](https://npmjs.com/package/@solana/wallet-adapter-slope)                 |
 | [solflare](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/solflare)              | Adapter for [Solflare](https://solflare.com)           | [`@solana/wallet-adapter-solflare`](https://npmjs.com/package/@solana/wallet-adapter-solflare)           |
 | [sollet](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/sollet)                  | Adapter for [Sollet](https://sollet.io)                | [`@solana/wallet-adapter-sollet`](https://npmjs.com/package/@solana/wallet-adapter-sollet)               |
+| [aldrin](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/aldrin)                | Adapter for [Aldrin](https://wallet.aldrin.com)             | [`@solana/wallet-adapter-aldrin`](https://npmjs.com/package/@solana/wallet-adapter-aldrin)             |
 | [solong](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/solong)                  | Adapter for [Solong](https://solongwallet.com)         | [`@solana/wallet-adapter-solong`](https://npmjs.com/package/@solana/wallet-adapter-solong)               |
 | [tokenpocket](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/tokenpocket)        | Adapter for [TokenPocket](https://tokenpocket.pro)     | [`@solana/wallet-adapter-tokenpocket`](https://npmjs.com/package/@solana/wallet-adapter-tokenpocket)     |
 | [torus](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/torus)                    | Adapter for [Torus](https://tor.us)                    | [`@solana/wallet-adapter-torus`](https://npmjs.com/package/@solana/wallet-adapter-torus)                 |

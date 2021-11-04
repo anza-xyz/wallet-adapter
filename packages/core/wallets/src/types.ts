@@ -1,6 +1,7 @@
 import { MessageSignerWalletAdapter, SignerWalletAdapter, WalletAdapter } from '@solana/wallet-adapter-base';
 
 export enum WalletName {
+    Aldrin = 'Aldrin',
     BitKeep = 'BitKeep',
     Bitpie = 'Bitpie',
     Blocto = 'Blocto',
