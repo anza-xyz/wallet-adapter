@@ -86,8 +86,7 @@ export const Wallet: FC = () => {
         getLedgerWallet(),
         getSolletWallet({ network }),
         getSolletExtensionWallet({ network }),
-        getAldrinWallet({ network
-         })
+        getAldrinWallet({ network })
     ], [network]);
 
     return (

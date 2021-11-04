@@ -49,8 +49,7 @@ export const Wallet: FC = () => {
             ),
         []
     );
-    console.log('aldrin', getAldrinWallet({ network }));
-    console.log('wallets', wallets);
+
     return (
         <ConnectionProvider endpoint={endpoint}>
             <WalletProvider wallets={wallets} onError={onError} autoConnect>

@@ -108,7 +108,6 @@ export const WalletModal: FC<WalletModalProps> = ({
     }, [hideModal, handleTabKey]);
 
     useLayoutEffect(() => setPortal(document.querySelector(container)), [setPortal, container]);
-    console.log('wallet', featured, more);
 
     return (
         portal &&
@@ -153,7 +152,6 @@ export const WalletModal: FC<WalletModalProps> = ({
                                 <Collapse expanded={expanded} id="wallet-adapter-modal-collapse">
                                     <ul className="wallet-adapter-modal-list">
                                         {more.map((wallet) => {
-                                            console.log('wallet', wallet);
                                             return (
                                                 <WalletListItem
                                                     key={wallet.name}
