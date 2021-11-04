@@ -151,16 +151,14 @@ export const WalletModal: FC<WalletModalProps> = ({
                             <>
                                 <Collapse expanded={expanded} id="wallet-adapter-modal-collapse">
                                     <ul className="wallet-adapter-modal-list">
-                                        {more.map((wallet) => {
-                                            return (
-                                                <WalletListItem
-                                                    key={wallet.name}
-                                                    handleClick={(event) => handleWalletClick(event, wallet.name)}
-                                                    tabIndex={expanded ? 0 : -1}
-                                                    wallet={wallet}
-                                                />
-                                            );
-                                        })}
+                                        {more.map((wallet) => (
+                                            <WalletListItem
+                                                key={wallet.name}
+                                                handleClick={(event) => handleWalletClick(event, wallet.name)}
+                                                tabIndex={expanded ? 0 : -1}
+                                                wallet={wallet}
+                                            />
+                                        ))}
                                     </ul>
                                 </Collapse>
                                 <Button
