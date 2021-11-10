@@ -3,7 +3,7 @@
 	import WalletButton from './WalletButton.svelte';
 	import WalletConnectButton from './WalletConnectButton.svelte';
 	import WalletModal from './WalletModal.svelte';
-	import '../styles.css';
+	import './styles.css';
 
 	$: ({ publicKey, wallet, disconnect, connect, select } = $walletStore);
 
