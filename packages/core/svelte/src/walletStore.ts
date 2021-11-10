@@ -1,15 +1,17 @@
 import {
+    WalletNotConnectedError,
+    WalletNotReadyError,
+} from '@solana/wallet-adapter-base';
+import type {
     MessageSignerWalletAdapter,
     MessageSignerWalletAdapterProps,
     SendTransactionOptions,
     SignerWalletAdapter,
     SignerWalletAdapterProps,
     WalletError,
-    WalletNotConnectedError,
-    WalletNotReadyError,
 } from '@solana/wallet-adapter-base';
-import { Wallet, WalletName } from '@solana/wallet-adapter-wallets';
-import { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { Wallet, WalletName } from '@solana/wallet-adapter-wallets';
+import type { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
 import { get, writable } from 'svelte/store';
 import { WalletNotSelectedError } from './errors';
 import { getLocalStorage, setLocalStorage } from './localStorage';
@@ -126,7 +128,7 @@ async function select(newName: WalletName | null): Promise<void> {
     if (walletName === newName) return;
 
     const { adapter } = get(walletAdapterStore);
-    if (adapter) await adapter.disconnect();
+    if (adapter) await disconnect();
 
     walletNameStore.update((storeValues: WalletNameStore) => ({
         ...storeValues,
@@ -151,6 +153,7 @@ async function disconnect(): Promise<void> {
             ...storeValues,
             disconnecting: true,
         }));
+        await destroyAdapter();
         await adapter.disconnect();
     } finally {
         walletNameStore.update((storeValues: WalletNameStore) => ({
@@ -256,7 +259,9 @@ function onDisconnect() {
 
 walletNameStore.subscribe(({ walletName }: { walletName: WalletName | null }) => {
     const { localStorageKey } = get(walletConfigStore);
-    setLocalStorage(localStorageKey, walletName);
+    if (walletName){
+        setLocalStorage(localStorageKey, walletName);
+    }
 
     const { walletsByName } = get(walletConfigStore);
     const wallet = walletsByName?.[walletName as WalletName] ?? null;
@@ -290,13 +295,10 @@ walletAdapterStore.subscribe(({ adapter }: { adapter: Adapter | null }) => {
 
 // watcher for auto-connect
 walletAdapterStore.subscribe(async ({ adapter }: { adapter: Adapter | null }) => {
-    if (!adapter) return;
-
     const { autoConnect } = get(walletConfigStore);
-    if (!autoConnect) return;
-
     const { ready, connected, connecting } = get(walletStore);
-    if (!ready || connected || connecting) return;
+
+    if (!adapter || !autoConnect || !ready || connected || connecting) return;
 
     try {
         walletStore.update((storeValues: WalletStore) => ({
@@ -362,9 +364,7 @@ walletAdapterStore.subscribe(({ adapter }: { adapter: Adapter | null }) => {
     }));
 });
 
-// @FIXME: this needs to be handled by the core library here, not components
-// This has to be used Svelte component inside onDestroy method
-export function destroyAdapter() {
+function destroyAdapter(): void {
     const { adapter } = get(walletAdapterStore);
     if (!adapter) return;
 
@@ -374,4 +374,9 @@ export function destroyAdapter() {
     adapter.off('connect', onConnect);
     adapter.off('disconnect', onDisconnect);
     adapter.off('error', onError);
+}
+
+if (typeof window !== 'undefined') {
+    // Ensure the adapter listeners are invalidated before refreshing the page.
+    window.addEventListener('beforeunload', destroyAdapter);
 }
