@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { walletStore } from '$utils/walletStore';
+	import { walletStore } from '@solana/wallet-adapter-svelte';
 	import WalletButton from './WalletButton.svelte';
 	import WalletConnectButton from './WalletConnectButton.svelte';
 	import WalletModal from './WalletModal.svelte';
+	import '../styles.css';
 
 	$: ({ publicKey, wallet, disconnect, connect, select } = $walletStore);
 
@@ -95,7 +96,11 @@
 					}
 				}}
 			>
-				<li on:click={copyAddress} class="wallet-adapter-dropdown-list-item" role="menuitem">
+				<li
+					on:click={copyAddress}
+					class="wallet-adapter-dropdown-list-item"
+					role="menuitem"
+				>
 					{copied ? 'Copied' : 'Copy address'}
 				</li>
 				<li on:click={openModal} class="wallet-adapter-dropdown-list-item" role="menuitem">

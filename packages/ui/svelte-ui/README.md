@@ -8,11 +8,11 @@ The UI components need to be installed into a project that is already set up wit
 
 During this process, you will:
 
-- 📦 Install the base wallet adapters
-- 📦 Install the svelte adapter and svelte UI
-- 🔨 Add the `ConnectionProvider` (`AnchorConnectionProvider` if you're using Anchor)
-- 🔨 Add the `WalletProvider` component
-- 🔨 Add the `WalletMultiButton` component
+-   📦 Install the base wallet adapters
+-   📦 Install the svelte adapter and svelte UI
+-   🔨 Add the `ConnectionProvider` (`AnchorConnectionProvider` if you're using Anchor)
+-   🔨 Add the `WalletProvider` component
+-   🔨 Add the `WalletMultiButton` component
 
 ## Installing
 
@@ -37,9 +37,9 @@ npm i @solana/wallet-adapter-svelte-ui
 
 There are three components that you need to get set up:
 
-- `WalletProvider`
-- `ConnectionProvider` (`AnchorConnectionProvicer` if you're using Anchor)
-- `WalletMultiButton`
+-   `WalletProvider`
+-   `ConnectionProvider` (`AnchorConnectionProvicer` if you're using Anchor)
+-   `WalletMultiButton`
 
 ### `WalletProvider`
 
@@ -47,37 +47,37 @@ There are three components that you need to get set up:
 
 The four wallet stores:
 
-- `walletConfigStore` - Contains the config
-- `walletStore` - Contains the connected wallet
-- `walletNameStore` - Contains the name of the connected wallet
-- `walletAdapterStore` - Contains the adapter of the connected wallet
+-   `walletConfigStore` - Contains the config
+-   `walletStore` - Contains the connected wallet
+-   `walletNameStore` - Contains the name of the connected wallet
+-   `walletAdapterStore` - Contains the adapter of the connected wallet
 
 #### API
 
-| prop | type | default |
-| ---- | -----| --------|
-| localStorageKey? | `string` | `'walletAdapter'`     |
-| wallets | `Wallets[]` |    |
-| autoConnect? | `boolean` | `false`     |
+| prop             | type        | default           |
+| ---------------- | ----------- | ----------------- |
+| localStorageKey? | `string`    | `'walletAdapter'` |
+| wallets          | `Wallets[]` |                   |
+| autoConnect?     | `boolean`   | `false`           |
 
 #### Usage
 
 ```html
 <script lang="ts">
-    import { onMount } from 'svelte';
-    import WalletProvider from '@solana/wallet-adapter-svelte';
+	import { onMount } from 'svelte';
+	import WalletProvider from '@solana/wallet-adapter-svelte';
 
-    const localStorageKey = 'walletAdapter';
+	const localStorageKey = 'walletAdapter';
 
-    let wallets;
+	let wallets;
 
-    onMount(async () => {
-        const { getPhantomWallet, getSlopeWallet, getSolflareWallet } = await import(
-            '@solana/wallet-adapter-wallets'
-        );
-        const walletsMap = [getPhantomWallet(), getSlopeWallet(), getSolflareWallet()];
-        wallets = walletsMap;
-    });
+	onMount(async () => {
+		const { getPhantomWallet, getSlopeWallet, getSolflareWallet } = await import(
+			'@solana/wallet-adapter-wallets'
+		);
+		const walletsMap = [getPhantomWallet(), getSlopeWallet(), getSolflareWallet()];
+		wallets = walletsMap;
+	});
 </script>
 
 <WalletProvider {localStorageKey} {wallets} autoConnect />
@@ -89,18 +89,18 @@ The four wallet stores:
 
 #### API
 
-| prop | type | default |
-| ---- | ---- | ------- |
-| network | `string` |      |
+| prop    | type     | default |
+| ------- | -------- | ------- |
+| network | `string` |         |
 
 #### Usage
 
 ```html
 <script lang="ts">
-    import { clusterApiUrl } from '@solana/web3.js';
-    import ConnectionProvider from '@solana/wallet-adapter-svelte';
+	import { clusterApiUrl } from '@solana/web3.js';
+	import ConnectionProvider from '@solana/wallet-adapter-svelte';
 
-    const network = clusterApiUrl('devnet');
+	const network = clusterApiUrl('devnet');
 </script>
 
 <ConnectionProvider {network} />
@@ -112,20 +112,19 @@ The four wallet stores:
 
 #### API
 
-| prop | type | default |
-| ---- | ---- | ------- |
-| network | `string` |      |
-| idl  | `Idl` |    |
-
+| prop    | type     | default |
+| ------- | -------- | ------- |
+| network | `string` |         |
+| idl     | `Idl`    |         |
 
 #### Usage
 
 ```html
 <script lang="ts">
-    import { clusterApiUrl } from '@solana/web3.js';
-    import AnchorConnectionProvider from '@solana/wallet-adapter-svelte';
+	import { clusterApiUrl } from '@solana/web3.js';
+	import AnchorConnectionProvider from '@solana/wallet-adapter-svelte';
 
-    const network = clusterApiUrl('devnet');
+	const network = clusterApiUrl('devnet');
 </script>
 
 <AnchorConnectionProvider {network} {idl} />
@@ -139,7 +138,7 @@ The four wallet stores:
 
 ```html
 <script lang="ts">
-    import WalletMultiButton from '@solana/wallet-adapter-svelte-ui';
+	import WalletMultiButton from '@solana/wallet-adapter-svelte-ui';
 </script>
 
 <WalletMultiButton />
@@ -149,7 +148,6 @@ The four wallet stores:
 
 See example implementations of the `@solana/wallet-adapter-svelte-ui` library.
 
-- [Solana svelte counter][1]
+-   [Solana svelte counter][1]
 
 [1]: https://github.com/silvestrevivo/solana-svelte-counter
-

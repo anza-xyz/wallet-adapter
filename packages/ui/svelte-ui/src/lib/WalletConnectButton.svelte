@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { walletStore } from '$utils/walletStore';
+	import { walletStore } from '@solana/wallet-adapter-svelte';
 	import WalletButton from './WalletButton.svelte';
 
 	export let disabled: boolean = false;

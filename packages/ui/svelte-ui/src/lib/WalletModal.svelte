@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { walletConfigStore } from '$utils/walletStore';
+	import { walletConfigStore } from '@solana/wallet-adapter-svelte';
 	import { createEventDispatcher } from 'svelte';
 	import WalletButton from './WalletButton.svelte';
 
