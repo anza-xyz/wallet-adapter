@@ -295,10 +295,13 @@ walletAdapterStore.subscribe(({ adapter }: { adapter: Adapter | null }) => {
 
 // watcher for auto-connect
 walletAdapterStore.subscribe(async ({ adapter }: { adapter: Adapter | null }) => {
-    const { autoConnect } = get(walletConfigStore);
-    const { ready, connected, connecting } = get(walletStore);
+    if (!adapter) return;
 
-    if (!adapter || !autoConnect || !ready || connected || connecting) return;
+    const { autoConnect } = get(walletConfigStore);
+    if (!autoConnect) return;
+
+    const { ready, connected, connecting } = get(walletStore);
+    if (!ready || connected || connecting) return;
 
     try {
         walletStore.update((storeValues: WalletStore) => ({
