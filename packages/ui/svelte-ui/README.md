@@ -64,7 +64,7 @@ The four wallet stores:
 
 ```html
 <script lang="ts">
-    import WalletProvider from '@solana/wallet-adapter-svelte-ui/WalletProvider.svelte';
+	import WalletProvider from '@solana/wallet-adapter-svelte-ui/WalletProvider.svelte';
 	import { onMount } from 'svelte';
 
 	const localStorageKey = 'walletAdapter';
