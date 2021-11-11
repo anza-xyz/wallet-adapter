@@ -16,6 +16,7 @@ export const WalletMenuItem: FC<WalletMenuItemProps> = ({ onClick, wallet, ...pr
                 icon={<WalletIcon wallet={wallet} className="wallet-adapter-modal-menu-button-icon" />}
                 type="text"
                 className="wallet-adapter-modal-menu-button"
+                htmlType="button"
                 block
             >
                 {wallet.name}

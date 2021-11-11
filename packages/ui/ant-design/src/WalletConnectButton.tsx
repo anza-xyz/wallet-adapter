@@ -6,6 +6,7 @@ import { WalletIcon } from './WalletIcon';
 export const WalletConnectButton: FC<ButtonProps> = ({
     type = 'primary',
     size = 'large',
+    htmlType = 'button',
     children,
     disabled,
     onClick,
@@ -40,6 +41,7 @@ export const WalletConnectButton: FC<ButtonProps> = ({
             icon={<WalletIcon wallet={wallet} />}
             type={type}
             size={size}
+            htmlType={htmlType}
             {...props}
         >
             {content}

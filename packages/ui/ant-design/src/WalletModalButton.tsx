@@ -6,6 +6,7 @@ export const WalletModalButton: FC<ButtonProps> = ({
     children = 'Select Wallet',
     type = 'primary',
     size = 'large',
+    htmlType = 'button',
     onClick,
     ...props
 }) => {
@@ -20,7 +21,7 @@ export const WalletModalButton: FC<ButtonProps> = ({
     );
 
     return (
-        <Button onClick={handleClick} type={type} size={size} {...props}>
+        <Button onClick={handleClick} type={type} size={size} htmlType={htmlType} {...props}>
             {children}
         </Button>
     );
