@@ -20,6 +20,7 @@ export const Button: FC<ButtonProps> = (props) => {
             onClick={props.onClick}
             style={{ justifyContent, ...props.style }}
             tabIndex={props.tabIndex || 0}
+            type="button"
         >
             {props.startIcon && <i className="wallet-adapter-button-start-icon">{props.startIcon}</i>}
             {props.children}

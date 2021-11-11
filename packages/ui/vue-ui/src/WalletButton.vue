@@ -12,7 +12,7 @@ export default defineComponent({
 </script>
 
 <template>
-    <button class="wallet-adapter-button" :style="`justify-content: ${justifyContent};`">
+    <button class="wallet-adapter-button" :style="`justify-content: ${justifyContent};`" type="button">
         <i v-if="$slots['start-icon']" className="wallet-adapter-button-start-icon">
             <slot name="start-icon"></slot>
         </i>
