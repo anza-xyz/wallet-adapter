@@ -258,8 +258,8 @@ function onDisconnect() {
 }
 
 walletNameStore.subscribe(({ walletName }: { walletName: WalletName | null }) => {
-    const { localStorageKey } = get(walletConfigStore);
-    if (walletName){
+    const { localStorageKey, wallets } = get(walletConfigStore);
+    if (wallets.length > 0) {
         setLocalStorage(localStorageKey, walletName);
     }
 
