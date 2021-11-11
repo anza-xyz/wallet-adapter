@@ -26,7 +26,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@project-serum/anchor": "^0.18.0",
 		"@solana/wallet-adapter-base": "^0.6.0",
 		"@solana/wallet-adapter-svelte": "^0.2.0",
 		"@solana/wallet-adapter-wallets": "^0.10.1",

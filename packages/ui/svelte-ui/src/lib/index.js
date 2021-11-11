@@ -1,4 +1,3 @@
-export * from './AnchorConnectionProvider.svelte';
 export * from './ConnectionProvider.svelte';
 export * from './WalletButton.svelte';
 export * from './WalletConnectButton.svelte';
