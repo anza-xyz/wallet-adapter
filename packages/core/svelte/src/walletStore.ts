@@ -153,7 +153,7 @@ async function disconnect(): Promise<void> {
             ...storeValues,
             disconnecting: true,
         }));
-        await destroyAdapter();
+        cleanup();
         await adapter.disconnect();
     } finally {
         walletNameStore.update((storeValues: WalletNameStore) => ({
@@ -367,7 +367,7 @@ walletAdapterStore.subscribe(({ adapter }: { adapter: Adapter | null }) => {
     }));
 });
 
-function destroyAdapter(): void {
+function cleanup(): void {
     const { adapter } = get(walletAdapterStore);
     if (!adapter) return;
 
@@ -381,5 +381,5 @@ function destroyAdapter(): void {
 
 if (typeof window !== 'undefined') {
     // Ensure the adapter listeners are invalidated before refreshing the page.
-    window.addEventListener('beforeunload', destroyAdapter);
+    window.addEventListener('beforeunload', cleanup);
 }
