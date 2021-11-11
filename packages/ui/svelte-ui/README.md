@@ -64,8 +64,8 @@ The four wallet stores:
 
 ```html
 <script lang="ts">
+    import WalletProvider from '@solana/wallet-adapter-svelte-ui/WalletProvider.svelte';
 	import { onMount } from 'svelte';
-	import WalletProvider from '@solana/wallet-adapter-svelte-ui/WalletProvider.svelte';
 
 	const localStorageKey = 'walletAdapter';
 
@@ -82,6 +82,8 @@ The four wallet stores:
 
 <WalletProvider {localStorageKey} {wallets} autoConnect />
 ```
+
+> It's worth noting that the `WalletProvider` import should appear before imports to any `@solana/wallet-adapter-*` libs. Some libraries reference a global `Buffer` or `process` variable that is provided by the `WalletProvider`
 
 ### `ConnectionProvider`
 
