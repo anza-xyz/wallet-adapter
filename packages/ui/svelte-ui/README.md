@@ -43,7 +43,7 @@ There are three components that you need to get set up:
 
 ### `WalletProvider`
 
-`WalletProvider` is a component used to initialize four wallet stores and add event listeners ...
+`WalletProvider` is a component used to initialize the wallet stores and add event listeners
 
 The four wallet stores:
 
@@ -65,7 +65,7 @@ The four wallet stores:
 ```html
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import WalletProvider from '@solana/wallet-adapter-svelte';
+	import WalletProvider from '@solana/wallet-adapter-svelte-ui/WalletProvider.svelte';
 
 	const localStorageKey = 'walletAdapter';
 
@@ -85,7 +85,7 @@ The four wallet stores:
 
 ### `ConnectionProvider`
 
-`ConnectionProvider` is a component used to ...
+`ConnectionProvider` is a component used to establish a connection with the network.
 
 #### API
 
@@ -98,7 +98,7 @@ The four wallet stores:
 ```html
 <script lang="ts">
 	import { clusterApiUrl } from '@solana/web3.js';
-	import ConnectionProvider from '@solana/wallet-adapter-svelte';
+	import ConnectionProvider from '@solana/wallet-adapter-svelte-ui/ConnectionProvider.svelte';
 
 	const network = clusterApiUrl('devnet');
 </script>
@@ -107,8 +107,6 @@ The four wallet stores:
 ```
 
 ### `AnchorConnectionProvider`
-
-`AnchorConnectionProvider` is a component used to ...
 
 #### API
 
@@ -138,7 +136,7 @@ The four wallet stores:
 
 ```html
 <script lang="ts">
-	import WalletMultiButton from '@solana/wallet-adapter-svelte-ui';
+	import WalletMultiButton from '@solana/wallet-adapter-svelte-ui/WalletMultiButton.svelte';
 </script>
 
 <WalletMultiButton />
