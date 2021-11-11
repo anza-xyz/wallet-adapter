@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const WalletMultiButton: FC<ButtonProps> = ({
     color = 'primary',
     variant = 'contained',
+    type = 'button',
     children,
     ...props
 }) => {
@@ -70,14 +71,14 @@ export const WalletMultiButton: FC<ButtonProps> = ({
 
     if (!wallet) {
         return (
-            <WalletDialogButton color={color} variant={variant} {...props}>
+            <WalletDialogButton color={color} variant={variant} type={type} {...props}>
                 {children}
             </WalletDialogButton>
         );
     }
     if (!base58) {
         return (
-            <WalletConnectButton color={color} variant={variant} {...props}>
+            <WalletConnectButton color={color} variant={variant} type={type} {...props}>
                 {children}
             </WalletConnectButton>
         );
@@ -88,6 +89,7 @@ export const WalletMultiButton: FC<ButtonProps> = ({
             <Button
                 color={color}
                 variant={variant}
+                type={type}
                 startIcon={<WalletIcon wallet={wallet} />}
                 onClick={(event) => setAnchor(event.currentTarget)}
                 aria-controls="wallet-menu"
@@ -112,6 +114,7 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                     <Button
                         color={color}
                         variant={variant}
+                        type={type}
                         startIcon={<WalletIcon wallet={wallet} />}
                         className={styles.root}
                         onClick={(event) => setAnchor(undefined)}

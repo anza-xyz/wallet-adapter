@@ -11,7 +11,13 @@ import { WalletConnectButton } from './WalletConnectButton';
 import { WalletIcon } from './WalletIcon';
 import { WalletModalButton } from './WalletModalButton';
 
-export const WalletMultiButton: FC<ButtonProps> = ({ type = 'primary', size = 'large', children, ...props }) => {
+export const WalletMultiButton: FC<ButtonProps> = ({
+    type = 'primary',
+    size = 'large',
+    htmlType = 'button',
+    children,
+    ...props
+}) => {
     const { publicKey, wallet, disconnect } = useWallet();
     const { setVisible } = useWalletModal();
 
@@ -24,14 +30,14 @@ export const WalletMultiButton: FC<ButtonProps> = ({ type = 'primary', size = 'l
 
     if (!wallet) {
         return (
-            <WalletModalButton type={type} size={size} {...props}>
+            <WalletModalButton type={type} size={size} htmlType={htmlType} {...props}>
                 {children}
             </WalletModalButton>
         );
     }
     if (!base58) {
         return (
-            <WalletConnectButton type={type} size={size} {...props}>
+            <WalletConnectButton type={type} size={size} htmlType={htmlType} {...props}>
                 {children}
             </WalletConnectButton>
         );
@@ -46,6 +52,7 @@ export const WalletMultiButton: FC<ButtonProps> = ({ type = 'primary', size = 'l
                             icon={<WalletIcon wallet={wallet} />}
                             type={type}
                             size={size}
+                            htmlType={htmlType}
                             className="wallet-adapter-multi-button-menu-button"
                             block
                             {...props}
@@ -85,7 +92,7 @@ export const WalletMultiButton: FC<ButtonProps> = ({ type = 'primary', size = 'l
             }
             trigger={['click']}
         >
-            <Button icon={<WalletIcon wallet={wallet} />} type={type} size={size} {...props}>
+            <Button icon={<WalletIcon wallet={wallet} />} type={type} size={size} htmlType={htmlType} {...props}>
                 {content}
             </Button>
         </Dropdown>
