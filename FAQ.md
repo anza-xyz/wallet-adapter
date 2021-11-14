@@ -114,7 +114,12 @@ Go to https://developer.tor.us to sign up for your own unique client ID. Then us
 
 ## How can I sign and verify messages?
 
-The following wallet adapters provide a `signMessage` method for signing arbitrary bytes: Phantom, Sollet, Solflare, Slope and TockenPocket.
+Some wallet adapters provide a `signMessage` method for signing arbitrary bytes:
+
+- [Phantom](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/phantom)
+- [Solflare](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/solflare)
+- [Slope](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/slope)
+- [TokenPocket](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/tokenpocket)
 
 The signature string returned by this method can be verified using [tweetnacl-js](https://github.com/dchest/tweetnacl-js/blob/master/README.md#naclsigndetachedverifymessage-signature-publickey) using the public key from the adapter.
 
