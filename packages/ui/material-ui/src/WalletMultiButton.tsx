@@ -101,7 +101,8 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                 transitionDuration={250}
                 keepMounted
             >
-                <MenuItem onClick={() => setAnchor(undefined)} button={false}>
+                {/* TODO: Figure out button={false} */}
+                <MenuItem onClick={() => setAnchor(undefined)}>
                     <Button
                         color={color}
                         variant={variant}
