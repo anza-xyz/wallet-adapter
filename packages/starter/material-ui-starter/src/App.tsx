@@ -1,4 +1,4 @@
-import { createTheme, ThemeProvider, Theme, StyledEngineProvider, adaptV4Theme } from '@mui/material';
+import { createTheme, ThemeProvider, Theme, StyledEngineProvider } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
 import { SnackbarProvider } from 'notistack';
 import React, { FC } from 'react';
@@ -15,20 +15,23 @@ declare module '@mui/styles/defaultTheme' {
 // Use require instead of import, and order matters
 require('./App.css');
 
-const theme = createTheme(adaptV4Theme({
+const theme = createTheme({
     palette: {
         mode: 'dark',
         primary: {
             main: deepPurple[700],
         },
     },
-    overrides: {
+    components: {
         MuiButtonBase: {
-            root: {
-                justifyContent: 'flex-start',
-            },
+            styleOverrides: {
+                root: {
+                    justifyContent: 'flex-start',
+                }
+            }
         },
         MuiButton: {
+            styleOverrides: {
             root: {
                 textTransform: undefined,
                 padding: '12px 16px',
@@ -39,9 +42,10 @@ const theme = createTheme(adaptV4Theme({
             endIcon: {
                 marginLeft: 8,
             },
-        },
+            }
+        }
     },
-}));
+});
 
 const App: FC = () => {
     return (
