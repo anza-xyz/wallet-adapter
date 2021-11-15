@@ -28,11 +28,9 @@ const useStyles = makeStyles((theme: Theme) => ({
         },
         '& .MuiDialogTitle-root': {
             backgroundColor: theme.palette.primary.main,
-            '& .MuiTypography-root': {
-                display: 'flex',
-                justifyContent: 'space-between',
-                lineHeight: theme.spacing(5),
-            },
+            display: 'flex',
+            justifyContent: 'space-between',
+            lineHeight: theme.spacing(5),
             '& .MuiIconButton-root': {
                 flexShrink: 1,
                 padding: theme.spacing(),
