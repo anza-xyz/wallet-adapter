@@ -8,12 +8,12 @@ import {
     IconButton,
     List,
     ListItem,
-    makeStyles,
     Theme,
-} from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import CloseIcon from '@mui/icons-material/Close';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletName } from '@solana/wallet-adapter-wallets';
 import React, { FC, ReactElement, SyntheticEvent, useCallback, useMemo, useState } from 'react';
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) => ({
             '& .MuiTypography-root': {
                 display: 'flex',
                 justifyContent: 'space-between',
-                lineHeight: theme.spacing(5) + 'px',
+                lineHeight: theme.spacing(5),
             },
             '& .MuiIconButton-root': {
                 flexShrink: 1,
@@ -120,7 +120,7 @@ export const WalletDialog: FC<WalletDialogProps> = ({
         <Dialog open={open} onClose={handleClose} className={styles.root} {...props}>
             <DialogTitle>
                 {title}
-                <IconButton onClick={handleClose}>
+                <IconButton onClick={handleClose} size="large">
                     <CloseIcon />
                 </IconButton>
             </DialogTitle>

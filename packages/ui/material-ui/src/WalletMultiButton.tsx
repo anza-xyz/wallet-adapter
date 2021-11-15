@@ -1,17 +1,8 @@
-import {
-    Button,
-    ButtonProps,
-    Collapse,
-    Fade,
-    ListItemIcon,
-    makeStyles,
-    Menu,
-    MenuItem,
-    Theme,
-} from '@material-ui/core';
-import CopyIcon from '@material-ui/icons/FileCopy';
-import DisconnectIcon from '@material-ui/icons/LinkOff';
-import SwitchIcon from '@material-ui/icons/SwapHoriz';
+import { Button, ButtonProps, Collapse, Fade, ListItemIcon, Menu, MenuItem, Theme } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import CopyIcon from '@mui/icons-material/FileCopy';
+import DisconnectIcon from '@mui/icons-material/LinkOff';
+import SwitchIcon from '@mui/icons-material/SwapHoriz';
 import { useWallet } from '@solana/wallet-adapter-react';
 import React, { FC, useMemo, useState } from 'react';
 import { useWalletDialog } from './useWalletDialog';

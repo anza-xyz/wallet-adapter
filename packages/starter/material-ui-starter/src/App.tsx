@@ -7,12 +7,10 @@ import { Wallet } from './Wallet';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createStyles } from '@mui/styles';
 
-
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface DefaultTheme extends Theme {}
 }
-
 
 // Use require instead of import, and order matters
 require('./App.css');
