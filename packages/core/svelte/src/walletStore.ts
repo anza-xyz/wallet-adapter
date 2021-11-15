@@ -1,7 +1,4 @@
-import {
-    WalletNotConnectedError,
-    WalletNotReadyError,
-} from '@solana/wallet-adapter-base';
+import { WalletNotConnectedError, WalletNotReadyError } from '@solana/wallet-adapter-base';
 import type {
     MessageSignerWalletAdapter,
     MessageSignerWalletAdapterProps,
