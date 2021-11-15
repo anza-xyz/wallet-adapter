@@ -1,15 +1,25 @@
-import { createTheme, ThemeProvider } from '@material-ui/core';
-import { deepPurple } from '@material-ui/core/colors';
+import { createTheme, ThemeProvider, Theme, StyledEngineProvider, adaptV4Theme } from '@mui/material';
+import { deepPurple } from '@mui/material/colors';
 import { SnackbarProvider } from 'notistack';
 import React, { FC } from 'react';
 import { Wallet } from './Wallet';
+// TODO: Needed for the default theme override below. Remote later if it's not needed.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { createStyles } from '@mui/styles';
+
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
 
 // Use require instead of import, and order matters
 require('./App.css');
 
-const theme = createTheme({
+const theme = createTheme(adaptV4Theme({
     palette: {
-        type: 'dark',
+        mode: 'dark',
         primary: {
             main: deepPurple[700],
         },
@@ -33,15 +43,17 @@ const theme = createTheme({
             },
         },
     },
-});
+}));
 
 const App: FC = () => {
     return (
-        <ThemeProvider theme={theme}>
-            <SnackbarProvider>
-                <Wallet />
-            </SnackbarProvider>
-        </ThemeProvider>
+        <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>
+                <SnackbarProvider>
+                    <Wallet />
+                </SnackbarProvider>
+            </ThemeProvider>
+        </StyledEngineProvider>
     );
 };
 
