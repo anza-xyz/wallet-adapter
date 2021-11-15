@@ -107,9 +107,33 @@ function createWalletNameStore() {
 
 export const walletNameStore = createWalletNameStore();
 
-export const walletAdapterStore = writable<WalletAdapterStore>({
-    adapter: null,
-});
+function createWalletAdapterStore() {
+    const { subscribe, set } = writable<WalletAdapterStore>({
+        adapter: null
+    });
+
+    return {
+        subscribe,
+        updateAdapter: (adapter: Adapter) => {
+            // clean up adapter event listeners
+            cleanup();
+
+            // update store
+            set({ adapter });
+
+            if (!adapter) return;
+            const { onError } = get(walletConfigStore);
+
+            // add event listeners
+            adapter.on('ready', onReady);
+            adapter.on('connect', onConnect);
+            adapter.on('disconnect', onDisconnect);
+            adapter.on('error', onError);
+        }
+    };
+}
+
+export const walletAdapterStore = createWalletAdapterStore();
 
 export async function initialize({
     wallets,
@@ -161,7 +185,6 @@ async function disconnect(): Promise<void> {
             ...storeValues,
             disconnecting: true,
         }));
-        cleanup();
         await adapter.disconnect();
     } finally {
         walletNameStore.reset();
@@ -243,10 +266,7 @@ function onConnect() {
         connected: adapter.connected,
     }));
 
-    walletAdapterStore.update((storeValues: WalletAdapterStore) => ({
-        ...storeValues,
-        adapter,
-    }));
+    walletAdapterStore.updateAdapter(adapter);
 }
 
 function onDisconnect() {
@@ -266,22 +286,7 @@ walletNameStore.subscribe(({ walletName }: { walletName: WalletName | null }) =>
         connected: adapter?.connected || false,
     }));
 
-    walletAdapterStore.update((storeValues: WalletAdapterStore) => ({
-        ...storeValues,
-        adapter,
-    }));
-});
-
-// watcher for adapter
-walletAdapterStore.subscribe(({ adapter }: { adapter: Adapter | null }) => {
-    if (!adapter) return;
-
-    const { onError } = get(walletConfigStore);
-
-    adapter.on('ready', onReady);
-    adapter.on('connect', onConnect);
-    adapter.on('disconnect', onDisconnect);
-    adapter.on('error', onError);
+    walletAdapterStore.updateAdapter(adapter);
 });
 
 // watcher for auto-connect
