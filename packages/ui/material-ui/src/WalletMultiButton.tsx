@@ -14,20 +14,6 @@ const StyledMenu = styled(Menu)(({theme}: {theme: Theme}) => ({
     '& .MuiList-root': {
         padding: 0,
     },
-    '& .MuiMenuItem-root': {
-        padding: theme.spacing(1, 2),
-        boxShadow: 'inset 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.1)',
-        '&:not(.MuiButtonBase-root)': {
-            padding: 0,
-            '& .MuiButton-root': {
-                borderRadius: 0,
-            },
-        },
-        '&:hover': {
-            boxShadow:
-                'inset 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.1)' + ', 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.05)',
-        },
-    },
     '& .MuiListItemIcon-root': {
         marginRight: theme.spacing(),
         minWidth: 'unset',
@@ -35,6 +21,24 @@ const StyledMenu = styled(Menu)(({theme}: {theme: Theme}) => ({
             width: 20,
             height: 20,
         },
+    },
+}));
+
+const WalletActionMenuItem = styled(MenuItem)(({theme}: {theme: Theme}) => ({
+    padding: theme.spacing(1, 2),
+    boxShadow: 'inset 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.1)',
+
+    '&:hover': {
+        boxShadow:
+            'inset 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.1)' + ', 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.05)',
+    },
+}));
+
+const WalletMenuItem = styled(WalletActionMenuItem)(({theme}: {theme: Theme}) => ({
+    padding: 0,
+
+    '& .MuiButton-root': {
+        borderRadius: 0,
     },
 }));
 
@@ -95,8 +99,8 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                 transitionDuration={250}
                 keepMounted
             >
-                {/* TODO: Figure out button={false} */}
-                <MenuItem onClick={() => setAnchor(undefined)}>
+                <WalletMenuItem
+                    onClick={() => setAnchor(undefined)}>
                     <Button
                         color={color}
                         variant={variant}
@@ -108,9 +112,9 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                     >
                         {wallet.name}
                     </Button>
-                </MenuItem>
+                </WalletMenuItem>
                 <Collapse in={!!anchor}>
-                    <MenuItem
+                    <WalletActionMenuItem
                         onClick={async () => {
                             setAnchor(undefined);
                             await navigator.clipboard.writeText(base58);
@@ -120,8 +124,8 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                             <CopyIcon />
                         </ListItemIcon>
                         Copy address
-                    </MenuItem>
-                    <MenuItem
+                    </WalletActionMenuItem>
+                    <WalletActionMenuItem
                         onClick={() => {
                             setAnchor(undefined);
                             setOpen(true);
@@ -131,8 +135,8 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                             <SwitchIcon />
                         </ListItemIcon>
                         Connect a different wallet
-                    </MenuItem>
-                    <MenuItem
+                    </WalletActionMenuItem>
+                    <WalletActionMenuItem
                         onClick={() => {
                             setAnchor(undefined);
                             // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -145,7 +149,7 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                             <DisconnectIcon />
                         </ListItemIcon>
                         Disconnect
-                    </MenuItem>
+                    </WalletActionMenuItem>
                 </Collapse>
             </StyledMenu>
         </>
