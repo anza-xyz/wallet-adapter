@@ -1,5 +1,6 @@
-import { Link, makeStyles } from '@material-ui/core';
-import LaunchIcon from '@material-ui/icons/Launch';
+import { Link } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import LaunchIcon from '@mui/icons-material/Launch';
 import { useSnackbar, VariantType } from 'notistack';
 import { useCallback } from 'react';
 

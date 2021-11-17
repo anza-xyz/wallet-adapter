@@ -1,6 +1,4 @@
-import { createTheme, ThemeProvider } from '@material-ui/core';
-import deepPurple from '@material-ui/core/colors/deepPurple';
-import pink from '@material-ui/core/colors/pink';
+import { createTheme, ThemeProvider, Theme, StyledEngineProvider, adaptV4Theme } from '@mui/material';
 import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import {
@@ -17,9 +15,18 @@ import { SnackbarProvider, useSnackbar } from 'notistack';
 import { FC, ReactNode, useCallback, useMemo } from 'react';
 import { AutoConnectProvider, useAutoConnect } from './AutoConnectProvider';
 
-const theme = createTheme({
+import { deepPurple, pink } from '@mui/material/colors';
+
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
+
+const theme = createTheme(adaptV4Theme({
     palette: {
-        type: 'dark',
+        mode: 'dark',
         primary: {
             main: deepPurple[700],
         },
@@ -46,7 +53,7 @@ const theme = createTheme({
             },
         },
     },
-});
+}));
 
 const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const network = WalletAdapterNetwork.Devnet;
@@ -90,12 +97,14 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
 export const ContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     return (
-        <ThemeProvider theme={theme}>
-            <SnackbarProvider>
-                <AutoConnectProvider>
-                    <WalletContextProvider>{children}</WalletContextProvider>
-                </AutoConnectProvider>
-            </SnackbarProvider>
-        </ThemeProvider>
+        <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>
+                <SnackbarProvider>
+                    <AutoConnectProvider>
+                        <WalletContextProvider>{children}</WalletContextProvider>
+                    </AutoConnectProvider>
+                </SnackbarProvider>
+            </ThemeProvider>
+        </StyledEngineProvider>
     );
 };
