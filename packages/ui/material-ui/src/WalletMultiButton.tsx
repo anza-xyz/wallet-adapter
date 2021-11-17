@@ -1,5 +1,5 @@
 import { Button, ButtonProps, Collapse, Fade, ListItemIcon, Menu, MenuItem, Theme } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+import { styled } from '@mui/material/styles';
 import CopyIcon from '@mui/icons-material/FileCopy';
 import DisconnectIcon from '@mui/icons-material/LinkOff';
 import SwitchIcon from '@mui/icons-material/SwapHoriz';
@@ -10,33 +10,30 @@ import { WalletConnectButton } from './WalletConnectButton';
 import { WalletDialogButton } from './WalletDialogButton';
 import { WalletIcon } from './WalletIcon';
 
-const useStyles = makeStyles((theme: Theme) => ({
-    root: {},
-    menu: {
-        '& .MuiList-root': {
+const StyledMenu = styled(Menu)(({theme}: {theme: Theme}) => ({
+    '& .MuiList-root': {
+        padding: 0,
+    },
+    '& .MuiMenuItem-root': {
+        padding: theme.spacing(1, 2),
+        boxShadow: 'inset 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.1)',
+        '&:not(.MuiButtonBase-root)': {
             padding: 0,
-        },
-        '& .MuiMenuItem-root': {
-            padding: theme.spacing(1, 2),
-            boxShadow: 'inset 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.1)',
-            '&:not(.MuiButtonBase-root)': {
-                padding: 0,
-                '& .MuiButton-root': {
-                    borderRadius: 0,
-                },
-            },
-            '&:hover': {
-                boxShadow:
-                    'inset 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.1)' + ', 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.05)',
+            '& .MuiButton-root': {
+                borderRadius: 0,
             },
         },
-        '& .MuiListItemIcon-root': {
-            marginRight: theme.spacing(),
-            minWidth: 'unset',
-            '& .MuiSvgIcon-root': {
-                width: 20,
-                height: 20,
-            },
+        '&:hover': {
+            boxShadow:
+                'inset 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.1)' + ', 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.05)',
+        },
+    },
+    '& .MuiListItemIcon-root': {
+        marginRight: theme.spacing(),
+        minWidth: 'unset',
+        '& .MuiSvgIcon-root': {
+            width: 20,
+            height: 20,
         },
     },
 }));
@@ -48,7 +45,6 @@ export const WalletMultiButton: FC<ButtonProps> = ({
     children,
     ...props
 }) => {
-    const styles = useStyles();
     const { publicKey, wallet, disconnect } = useWallet();
     const { setOpen } = useWalletDialog();
     const [anchor, setAnchor] = useState<HTMLElement>();
@@ -85,17 +81,15 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                 onClick={(event) => setAnchor(event.currentTarget)}
                 aria-controls="wallet-menu"
                 aria-haspopup="true"
-                className={styles.root}
                 {...props}
             >
                 {content}
             </Button>
-            <Menu
+            <StyledMenu
                 id="wallet-menu"
                 anchorEl={anchor}
                 open={!!anchor}
                 onClose={() => setAnchor(undefined)}
-                className={styles.menu}
                 marginThreshold={0}
                 TransitionComponent={Fade}
                 transitionDuration={250}
@@ -108,7 +102,6 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                         variant={variant}
                         type={type}
                         startIcon={<WalletIcon wallet={wallet} />}
-                        className={styles.root}
                         onClick={(event) => setAnchor(undefined)}
                         fullWidth
                         {...props}
@@ -154,7 +147,7 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                         Disconnect
                     </MenuItem>
                 </Collapse>
-            </Menu>
+            </StyledMenu>
         </>
     );
 };
