@@ -20,9 +20,8 @@
         "build": "yarn clean && tsc"
     },
     "peerDependencies": {
-        "@material-ui/core": "^4.12.1",
-        "@material-ui/icons": "^4.11.2",
         "@mui/icons-material": "^5.1.0",
+        "@mui/material": "^5.1.0",
         "@mui/styles": "^5.1.0",
         "@solana/wallet-adapter-base": "^0.7.0",
         "@solana/wallet-adapter-react": "^0.13.0",
@@ -32,9 +31,8 @@
         "react-dom": "^17.0.2"
     },
     "devDependencies": {
-        "@material-ui/core": "^4.12.1",
-        "@material-ui/icons": "^4.11.2",
         "@mui/icons-material": "^5.1.0",
+        "@mui/material": "^5.1.0",
         "@mui/styles": "^5.1.0",
         "@solana/wallet-adapter-base": "^0.7.0",
         "@solana/wallet-adapter-react": "^0.13.0",
