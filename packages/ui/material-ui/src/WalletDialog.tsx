@@ -59,6 +59,7 @@ const RootDialog = styled(Dialog)(({theme} : {theme: Theme}) => ({
                 margin: 0,
             },
             '& .MuiButton-root': {
+                color: theme.palette.text.primary,
                 flexGrow: 1,
                 justifyContent: 'space-between',
                 padding: theme.spacing(1, 3),
