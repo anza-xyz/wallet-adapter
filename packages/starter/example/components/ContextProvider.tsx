@@ -1,4 +1,4 @@
-import { createTheme, ThemeProvider, Theme, StyledEngineProvider, adaptV4Theme } from '@mui/material';
+import { createTheme, ThemeProvider, Theme, StyledEngineProvider } from '@mui/material';
 import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import {
@@ -24,7 +24,7 @@ declare module '@mui/styles/defaultTheme' {
 }
 
 
-const theme = createTheme(adaptV4Theme({
+const theme = createTheme({
     palette: {
         mode: 'dark',
         primary: {
@@ -34,26 +34,30 @@ const theme = createTheme(adaptV4Theme({
             main: pink[700],
         },
     },
-    overrides: {
+    components: {
         MuiButtonBase: {
-            root: {
-                justifyContent: 'flex-start',
+            styleOverrides: {
+                root: {
+                    justifyContent: 'flex-start',
+                },
             },
         },
         MuiButton: {
-            root: {
-                textTransform: undefined,
-                padding: '12px 16px',
-            },
-            startIcon: {
-                marginRight: 8,
-            },
-            endIcon: {
-                marginLeft: 8,
-            },
+            styleOverrides: {
+                root: {
+                    textTransform: undefined,
+                    padding: '12px 16px',
+                },
+                startIcon: {
+                    marginRight: 8,
+                },
+                endIcon: {
+                    marginLeft: 8,
+                },
+            }
         },
     },
-}));
+});
 
 const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const network = WalletAdapterNetwork.Devnet;
