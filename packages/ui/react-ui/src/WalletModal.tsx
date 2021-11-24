@@ -1,22 +1,19 @@
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletName } from '@solana/wallet-adapter-wallets';
-import React, { FC, MouseEvent, ReactNode, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { FC, MouseEvent, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Button } from './Button';
 import { Collapse } from './Collapse';
 import { useWalletModal } from './useWalletModal';
 import { WalletListItem } from './WalletListItem';
 
 export interface WalletModalProps {
     className?: string;
-    logo?: ReactNode;
     featuredWallets?: number;
     container?: string;
 }
 
 export const WalletModal: FC<WalletModalProps> = ({
     className = '',
-    logo,
     featuredWallets = 3,
     container = 'body',
 }) => {
@@ -81,7 +78,7 @@ export const WalletModal: FC<WalletModalProps> = ({
         },
         [ref]
     );
-
+    
     useLayoutEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Escape') {
@@ -120,37 +117,19 @@ export const WalletModal: FC<WalletModalProps> = ({
                 role="dialog"
             >
                 <div className="wallet-adapter-modal-container">
-                    <div className={`wallet-adapter-modal-wrapper ${!logo && 'wallet-adapter-modal-wrapper-no-logo'}`}>
-                        {logo && (
-                            <div className="wallet-adapter-modal-logo-wrapper">
-                                {typeof logo === 'string' ? (
-                                    <img alt="logo" className="wallet-adapter-modal-logo" src={logo} />
-                                ) : (
-                                    logo
-                                )}
-                            </div>
-                        )}
-                        <h1 className="wallet-adapter-modal-title" id="wallet-adapter-modal-title">
-                            Connect Wallet
-                        </h1>
+                    <div className="wallet-adapter-modal-wrapper">
                         <button onClick={handleClose} className="wallet-adapter-modal-button-close">
                             <svg width="14" height="14">
                                 <path d="M14 12.461 8.3 6.772l5.234-5.233L12.006 0 6.772 5.234 1.54 0 0 1.539l5.234 5.233L0 12.006l1.539 1.528L6.772 8.3l5.69 5.7L14 12.461z" />
                             </svg>
                         </button>
+                        <h1 className="wallet-adapter-modal-title">Connect a wallet on Solana to continue</h1>
                         <ul className="wallet-adapter-modal-list">
-                            {featured.map((wallet) => (
-                                <WalletListItem
-                                    key={wallet.name}
-                                    handleClick={(event) => handleWalletClick(event, wallet.name)}
-                                    wallet={wallet}
-                                />
+                            {featured.map((wallet)=>(
+                                <WalletListItem key={wallet.name} handleClick={(event)=>handleWalletClick(event,wallet.name)} wallet={wallet}/>
                             ))}
-                        </ul>
-                        {more.length ? (
-                            <>
+                            {more.length && 
                                 <Collapse expanded={expanded} id="wallet-adapter-modal-collapse">
-                                    <ul className="wallet-adapter-modal-list">
                                         {more.map((wallet) => (
                                             <WalletListItem
                                                 key={wallet.name}
@@ -159,25 +138,19 @@ export const WalletModal: FC<WalletModalProps> = ({
                                                 wallet={wallet}
                                             />
                                         ))}
-                                    </ul>
-                                </Collapse>
-                                <Button
-                                    aria-controls="wallet-adapter-modal-collapse"
-                                    aria-expanded={expanded}
-                                    className={`wallet-adapter-modal-collapse-button ${
-                                        expanded && 'wallet-adapter-modal-collapse-button-active'
-                                    }`}
-                                    endIcon={
-                                        <svg width="11" height="6" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="m5.938 5.73 4.28-4.126a.915.915 0 0 0 0-1.322 1 1 0 0 0-1.371 0L5.253 3.736 1.659.272a1 1 0 0 0-1.371 0A.93.93 0 0 0 0 .932c0 .246.1.48.288.662l4.28 4.125a.99.99 0 0 0 1.37.01z" />
-                                        </svg>
-                                    }
-                                    onClick={handleCollapseClick}
-                                >
-                                    {expanded ? 'Less' : 'More'} options
-                                </Button>
-                            </>
-                        ) : null}
+                                </Collapse>}   
+                        </ul>
+                        {more.length && <button className="wallet-adapter-modal-list-more" onClick={handleCollapseClick} tabIndex={0}>
+                           <span>{expanded ? 'Less ' : 'More '}options</span> 
+                           <svg width="13" height="7" viewBox="0 0 13 7" xmlns="http://www.w3.org/2000/svg" className={`${expanded ? 'wallet-adapter-modal-list-more-icon-rotate' : ''}`}>
+                                <path d="M0.71418 1.626L5.83323 6.26188C5.91574 6.33657 6.0181 6.39652 6.13327 6.43762C6.24844 6.47872 6.37371 6.5 6.50048 6.5C6.62725 6.5 6.75252 6.47872 6.8677 6.43762C6.98287 6.39652 7.08523 6.33657 7.16774 6.26188L12.2868 1.626C12.7753 1.1835 12.3703 0.5 11.6195 0.5H1.37997C0.629216 0.5 0.224175 1.1835 0.71418 1.626Z" fill="#D6A4FF"/>
+                            </svg>
+                        </button>}
+                        <div className="wallet-adapter-modal-bottom">
+                            <h1 className="wallet-adapter-modal-bottom-title">Need a wallet on Solana?</h1>
+                            <p className="wallet-adapter-modal-bottom-info">To begin, you'll need to create wallet and add some funds.</p>
+                            <button type="button" className="wallet-adapter-modal-bottom-button" onClick={(event)=>handleWalletClick(event,"Torus" as WalletName)}>Get started</button>
+                        </div>
                     </div>
                 </div>
                 <div className="wallet-adapter-modal-overlay" onMouseDown={handleClose} />

@@ -24,14 +24,12 @@ export const Wallet: FC = () => {
     // Only the wallets you want to support will be compiled into your application
     const wallets = useMemo(
         () => [
+            getTorusWallet(),
             getPhantomWallet(),
+            getSolletWallet({ network }),
             getSlopeWallet(),
             getSolflareWallet(),
-            getTorusWallet({
-                options: { clientId: 'Get a client ID @ https://developer.tor.us' },
-            }),
             getLedgerWallet(),
-            getSolletWallet({ network }),
             getSolletExtensionWallet({ network }),
         ],
         [network]
