@@ -28,7 +28,7 @@
     "dependencies": {
         "@toruslabs/openlogin": "^1.0.0",
         "@toruslabs/openlogin-ed25519": "^1.0.0",
-        "@toruslabs/solana-embed": "0.0.4",
+        "@toruslabs/solana-embed": "0.0.5",
         "@types/keccak": "^3.0.1",
         "@types/readable-stream": "^2.3.11"
     },

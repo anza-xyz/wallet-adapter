@@ -3705,10 +3705,10 @@
     lodash.merge "^4.6.2"
     pump "^3.0.0"
 
-"@toruslabs/solana-embed@0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@toruslabs/solana-embed/-/solana-embed-0.0.4.tgz#919056610c2a2f801ee748921959773d48462d23"
-  integrity sha512-vCNEj6y5yVeuH5bR7DM1jlgO6242DfYU3YOQz1my5cA3lxfTnnHeZBzMBKhprlmBVjiolKUT3DX3ECYJd/elHg==
+"@toruslabs/solana-embed@0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@toruslabs/solana-embed/-/solana-embed-0.0.5.tgz#e5560d86d67776b6feb03c5bae7611851c4288f4"
+  integrity sha512-6tj61bqGyNX6iZOFZvrtZGx9XOygRNTlxXawjl5CHt4kXJHrmFCxzgHXfyIaJNB8Xx6h5mQUlmYdelnAPaJbbw==
   dependencies:
     "@solana/web3.js" "^1.29.2"
     "@toruslabs/base-controllers" "^1.0.1"
