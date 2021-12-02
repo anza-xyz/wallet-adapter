@@ -36,6 +36,8 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
     private _params: ClientTypes.ConnectParams;
     private _client: WalletConnectClient | undefined;
 
+    private _session?: SessionTypes.Created;
+
     constructor(config: WalletConnectWalletAdapterConfig) {
         super();
 
@@ -82,27 +84,42 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
 
                     async function onPairingProposal(proposal: PairingTypes.Proposal) {
                         const { uri } = proposal.signal.params;
+                        console.log('onPairingProposal', uri);
+
                         QRCodeModal.open(uri, () => {
                             cleanup();
                             reject(new WalletWindowClosedError());
                         });
                     }
 
-                    async function onPairingCreated(created: PairingTypes.Created) {
-                        cleanup();
-                        resolve(session);
+                    // async function onPairingCreated(created: PairingTypes.Created) {
+                    //     console.log('onPairingCreated');
+                    //     // cleanup();
+                    //     resolve(session);
+                    // }
+
+                    async function onSessionProposal(proposal: SessionTypes.Proposal) {
+                        console.log('onSessionProposal', proposal);
+                    }
+
+                    async function onSessionCreated(created: SessionTypes.Created) {
+                        console.log('onSessionCreated', created);
+                        resolve(created);
                     }
 
                     function cleanup() {
                         client.off(CLIENT_EVENTS.pairing.proposal, onPairingProposal);
-                        client.off(CLIENT_EVENTS.pairing.created, onPairingCreated);
+                        // client.off(CLIENT_EVENTS.pairing.created, onPairingCreated);
                     }
 
                     try {
                         client.on(CLIENT_EVENTS.pairing.proposal, onPairingProposal);
-                        client.on(CLIENT_EVENTS.pairing.created, onPairingCreated);
+                        // client.on(CLIENT_EVENTS.pairing.created, onPairingCreated);
+                        client.on(CLIENT_EVENTS.session.proposal, onSessionProposal);
+                        client.on(CLIENT_EVENTS.session.created, onSessionCreated);
 
                         session = await client.connect(this._params);
+                        resolve(session);
                     } catch (error: any) {
                         cleanup();
                         reject(error);
@@ -131,6 +148,8 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
             this._publicKey = publicKey;
             this._client = client;
 
+            this._session = session;
+            QRCodeModal.close();
             this.emit('connect');
         } catch (error: any) {
             this.emit('error', error);
@@ -164,19 +183,33 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
         try {
             const client = this._client;
             const publicKey = this._publicKey;
-            if (!client || !publicKey) throw new WalletNotConnectedError();
+            if (!client || !publicKey || !this._session) throw new WalletNotConnectedError();
 
             try {
                 const signature = await client.request({
-                    topic: '', // @FIXME
+                    topic: this._session.topic,
                     request: {
                         method: WalletConnectRPCMethod.SOL_SIGN_TRANSACTION,
-                        params: transaction,
+                        // TODO: If not manually encoded you get weird { _bn: '' } type objects
+                        params: {
+                            feePayer: transaction.feePayer!.toBase58(),
+                            instructions: transaction.instructions.map((i) => ({
+                                programId: i.programId.toBase58(),
+                                data: i.data.toString(),
+                                keys: i.keys.map((k) => ({
+                                    isSigner: k.isSigner,
+                                    isWritable: k.isWritable,
+                                    pubkey: k.pubkey.toBase58(),
+                                })),
+                            })),
+                            recentBlockhash: transaction.recentBlockhash,
+                        },
                     },
                 });
 
-                transaction.addSignature(publicKey, signature);
+                transaction.addSignature(publicKey, Buffer.from(signature, 'base64'));
             } catch (error: any) {
+                console.log(error);
                 throw new WalletSignTransactionError(error?.message, error);
             }
 
@@ -191,12 +224,12 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
         try {
             const client = this._client;
             const publicKey = this._publicKey;
-            if (!client || !publicKey) throw new WalletNotConnectedError();
+            if (!client || !publicKey || !this._session) throw new WalletNotConnectedError();
 
             try {
                 for (const transaction of transactions) {
                     const signature = await client.request({
-                        topic: '', // @FIXME
+                        topic: this._session.topic,
                         request: {
                             method: WalletConnectRPCMethod.SOL_SIGN_TRANSACTION,
                             params: transaction,
@@ -223,6 +256,7 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
 
             this._publicKey = null;
             this._client = undefined;
+            this._session = undefined;
 
             this.emit('error', new WalletDisconnectedError());
             this.emit('disconnect');

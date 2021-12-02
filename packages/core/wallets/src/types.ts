@@ -19,7 +19,7 @@ export enum WalletName {
     Solong = 'Solong',
     TokenPocket = 'TokenPocket',
     Torus = 'Torus',
-    // WalletConnect = 'WalletConnect', // not published yet
+    WalletConnect = 'WalletConnect',
 }
 
 export interface Wallet {
