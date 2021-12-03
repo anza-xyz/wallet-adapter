@@ -20,15 +20,16 @@ nav {
 
 nav > div {
     display: flex;
+    flex-wrap: wrap;
 }
 
 nav > div > button {
-    margin-left: 1rem;
+    margin: 0.5rem;
 }
 
 @media (max-width: 400px) {
     nav > h1 {
-        max-width: 90px;
+        max-width: 100%;
     }
 }
 
