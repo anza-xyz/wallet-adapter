@@ -31,3 +31,12 @@ nav > div > button {
         max-width: 90px;
     }
 }
+
+@media (max-width: 640px) {
+    nav {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+    }
+}
