@@ -20,8 +20,8 @@ nav {
 
 nav > div {
     display: flex;
-    flex-wrap: wrap;
 }
+
 
 nav > div > button {
     margin: 0.5rem;
@@ -39,5 +39,8 @@ nav > div > button {
         align-items: center;
         justify-content: center;
         padding: 2rem;
+    }
+    nav > div {
+        flex-wrap: wrap;
     }
 }
