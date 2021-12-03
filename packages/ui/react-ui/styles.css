@@ -38,6 +38,13 @@
     }
 }
 
+.wallet-modal-h-52 {
+    height: 52rem !important;
+}
+.wallet-modal-pb-2 {
+    padding-bottom: 2rem !important;
+}
+
 .wallet-adapter-modal-wrapper {
     height: 45rem;
     box-sizing: border-box;
@@ -54,6 +61,7 @@
     font-weight: 500;
     flex: 1;
     padding: 0;
+    transition: height .5s ease;
 }
 
 .wallet-adapter-modal-button-close {
@@ -99,6 +107,18 @@
     .wallet-adapter-modal-title {
         padding: 0 1rem;
     }
+}
+
+.wallet-adapter-modal-list-header {
+    margin: 5rem 0rem 0rem 1.6875rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 500;
+    align-self: flex-start;
+}
+
+.wallet-modal-mt-24 {
+    margin-top: 1.5rem !important;
 }
 
 .wallet-adapter-modal-list {
@@ -240,6 +260,35 @@
     background-color: rgba(255, 255, 255, 0.8);
 }
 
+.wallet-adapter-modal-middle {
+    margin-top: 3.375rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.wallet-adapter-modal-middle-button {
+    border: none;
+    width: 90%;
+    font-size: 1rem;
+    line-height: 1.2rem;
+    font-weight: 500;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.375rem;
+    color: rgba(255, 255, 255, 1);
+    text-align: center;
+    background-color: rgba(103, 65, 255, 1);
+    box-shadow: 0 0 1.5rem rgba(26, 26, 26, 0.12);
+    margin-top: 2.025rem;
+    font-family: 'DM Sans', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    cursor: pointer;
+}
+
+.wallet-adapter-modal-middle-button:hover {
+    background-color: rgba(103,65,255,0.8);
+}
+
 .wallet-adapter-modal-overlay {
     background: rgba(0, 0, 0, 0);
     position: fixed;
@@ -249,7 +298,6 @@
     right: 0;
 }
 
-/* idk if css below is being used */
 
 .wallet-adapter-button-trigger {
     background-color: #4e44ce;
