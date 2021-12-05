@@ -123,7 +123,6 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
 
                 return await wallet.signAndSendTransaction(transaction, connection);
             } catch (error: any) {
-                if (error instanceof WalletError) throw error;
                 throw new WalletSendTransactionError(error?.message, error);
             }
         } catch (error: any) {
