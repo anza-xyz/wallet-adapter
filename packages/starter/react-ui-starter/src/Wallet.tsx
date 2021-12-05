@@ -9,7 +9,6 @@ import {
     getSolletExtensionWallet,
     getSolletWallet,
     getTorusWallet,
-    getWalletConnectWallet,
 } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 import React, { FC, useCallback, useMemo } from 'react';
@@ -26,17 +25,6 @@ export const Wallet: FC = () => {
     const wallets = useMemo(
         () => [
             getPhantomWallet(),
-            getWalletConnectWallet({
-                options: {
-                    relayProvider: 'wss://relay.walletconnect.org',
-                    metadata: {
-                        name: 'Example Dapp',
-                        description: 'Example Dapp',
-                        url: 'https://github.com/solana-labs/wallet-adapter',
-                        icons: ['https://avatars.githubusercontent.com/u/35608259?s=200'],
-                    },
-                },
-            }),
             getSlopeWallet(),
             getSolflareWallet(),
             getTorusWallet({
