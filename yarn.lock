@@ -3569,12 +3569,12 @@
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
 "@toruslabs/base-controllers@^1.0.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@toruslabs/base-controllers/-/base-controllers-1.2.1.tgz#97fa25c98bcdfeac9b08e6fd26c63ecfedab1443"
-  integrity sha512-G9Q2dF3z6e1FdATvX7II0Nq73zJqCcWgihNLba+5hPHuSnuPTf9m9wQpoSRdNwZ06Fk7tFL3fvTUIaHxEJNrJg==
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@toruslabs/base-controllers/-/base-controllers-1.3.0.tgz#29adc55ac85c0d6c00f389f263d71106e83d024c"
+  integrity sha512-SQmxjRNL8aoZfEJl/qWxnzXoZ2b2nnsREY7YWWH6DCxWgaBn/DeX5bPzzbvm9DJ0+z6XCihbRaoyRyzkVW/LGg==
   dependencies:
     "@toruslabs/http-helpers" "^1.4.0"
-    "@toruslabs/openlogin-jrpc" "^1.0.2"
+    "@toruslabs/openlogin-jrpc" "^1.3.0"
     async-mutex "^0.3.2"
     bignumber.js "^9.0.1"
     bowser "^2.11.0"
@@ -3582,7 +3582,7 @@
     eth-rpc-errors "^4.0.3"
     ethereumjs-util "^7.1.3"
     lodash "^4.17.21"
-    loglevel "^1.7.1"
+    loglevel "^1.8.0"
 
 "@toruslabs/eccrypto@^1.1.7":
   version "1.1.7"
@@ -3610,13 +3610,6 @@
   dependencies:
     "@toruslabs/tweetnacl-js" "^1.0.3"
 
-"@toruslabs/openlogin-ed25519@^1.0.0":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@toruslabs/openlogin-ed25519/-/openlogin-ed25519-1.0.2.tgz#0f6ed7673f00db0ab29fb0051b11c960e46c147e"
-  integrity sha512-a5TUqoohaz0Lwr9mg5Yo+ELVbk2IvTJMC6tBhpwypKWb5Pep+wvJ9PIuf8M/1VnNIFK6ZqKyepMRnJItqgejWA==
-  dependencies:
-    "@toruslabs/tweetnacl-js" "^1.0.3"
-
 "@toruslabs/openlogin-jrpc@^0.10.2":
   version "0.10.2"
   resolved "https://registry.yarnpkg.com/@toruslabs/openlogin-jrpc/-/openlogin-jrpc-0.10.2.tgz#64ed0f8dce16c74a0409c32d4a14cf28626d37da"
@@ -3629,11 +3622,11 @@
     pump "^3.0.0"
 
 "@toruslabs/openlogin-jrpc@^1.0.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@toruslabs/openlogin-jrpc/-/openlogin-jrpc-1.2.0.tgz#cf8710e34c87519ecfdbf4bdceb1e80f7ce9638d"
-  integrity sha512-GBZLYXFKljIgOFcBr7eJvbYAYt1N4EItI9JCNgwSGvC3pzHrLs9bc0h1BYK3FxhGofrWs30o3cIFJTpHu/LM6Q==
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@toruslabs/openlogin-jrpc/-/openlogin-jrpc-1.3.3.tgz#cd5671b2a491281148565b9a965799bbe50a9c39"
+  integrity sha512-N8UqTdc26K0jIXXuh8mlxGog5qgLmm7ts9qwItC9sfGVIEKYu/9XonnMjxYZ2fTzJP4H+bARO377gGuMJDnLzg==
   dependencies:
-    "@toruslabs/openlogin-utils" "^1.2.0"
+    "@toruslabs/openlogin-utils" "^1.3.3"
     end-of-stream "^1.4.4"
     events "^3.3.0"
     fast-safe-stringify "^2.1.1"
@@ -3641,12 +3634,12 @@
     pump "^3.0.0"
     readable-stream "^3.6.0"
 
-"@toruslabs/openlogin-jrpc@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@toruslabs/openlogin-jrpc/-/openlogin-jrpc-1.0.2.tgz#ec29f1a45eaf0dcbdb0e1ebd5d0543f987198a8a"
-  integrity sha512-UcnAO3QZ7uUBxvEscBYpQYkZYwuP/CXQTI9zD9dGXyJk6YdZXQCN715kCQVangJFG7koH0re1/qnnMWWok8upQ==
+"@toruslabs/openlogin-jrpc@^1.3.0":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@toruslabs/openlogin-jrpc/-/openlogin-jrpc-1.3.1.tgz#1af5677706aea7d4741087ded699efe81a8aadff"
+  integrity sha512-yLM5I3AVEhhWqTUbSAcOjLvgwR8ZaOmVq2cw3Lvn3Dte9S04PYF+yKJD9uEz7dG3eJsh47TWiXxciQEKwaHSHQ==
   dependencies:
-    "@toruslabs/openlogin-utils" "^1.0.2"
+    "@toruslabs/openlogin-utils" "^1.3.0"
     end-of-stream "^1.4.4"
     events "^3.3.0"
     fast-safe-stringify "^2.1.1"
@@ -3663,19 +3656,19 @@
     keccak "^3.0.2"
     randombytes "^2.1.0"
 
-"@toruslabs/openlogin-utils@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@toruslabs/openlogin-utils/-/openlogin-utils-1.0.2.tgz#09e10956c55729d4615a98d506d7345f3b4adb9e"
-  integrity sha512-f9NrKBiLvlyttUT8y6VNyc2Byd89cdmpHQKaS3B6dG2JdPID30p0rPHswVonh9r/zImFQqoywukgKnZJXWK/ig==
+"@toruslabs/openlogin-utils@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@toruslabs/openlogin-utils/-/openlogin-utils-1.3.0.tgz#e3b4788d85a6995fe3ece1e337715b5ac0ff4970"
+  integrity sha512-ugyBWIhNaaGJuGm4EqhNGJ1pjnUNGVwsyvMc6CCtgTEi/C07NdFUUMM9QqKcTGmRG8prdtbIlsVeTricK7EnUQ==
   dependencies:
     base64url "^3.0.1"
     keccak "^3.0.2"
     randombytes "^2.1.0"
 
-"@toruslabs/openlogin-utils@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@toruslabs/openlogin-utils/-/openlogin-utils-1.2.0.tgz#be1c60bf10eb2e70e19b15635632932dd5bbda6e"
-  integrity sha512-CNG7JeMdQBnEBkgmxOrCCts7FHOAvDSlkQhmXE4OLoMqK1yXMn5VAsA5A8/yavVl68XVmTSu6gG7MgdKxI9U5Q==
+"@toruslabs/openlogin-utils@^1.3.3":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@toruslabs/openlogin-utils/-/openlogin-utils-1.3.3.tgz#d0dc9bed1e1d655b7e466b78142fe1eb46962537"
+  integrity sha512-MsICB8CdyF4KU3FALAMnz9PvZT5dIvgOzyympDYhoSX2CdxTGwtPNE0wmxm5gyclEHDKnnXBJ45pfG33HSQg+Q==
   dependencies:
     base64url "^3.0.1"
     keccak "^3.0.2"
@@ -3693,22 +3686,10 @@
     lodash.merge "^4.6.2"
     pump "^3.0.0"
 
-"@toruslabs/openlogin@^1.0.0":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@toruslabs/openlogin/-/openlogin-1.0.2.tgz#9065ca261fd40fc30d5e064795991c188341c104"
-  integrity sha512-58bnBisJRq3mLOVW0mhC7nK7XQcby1ifPifz0OLXBkXrddJFRP0ecDiIkJWO7qDW57Nl/o3pIsMIo9UOm0VcnA==
-  dependencies:
-    "@toruslabs/eccrypto" "^1.1.7"
-    "@toruslabs/http-helpers" "^1.4.0"
-    "@toruslabs/openlogin-jrpc" "^1.0.2"
-    "@toruslabs/openlogin-utils" "^1.0.2"
-    lodash.merge "^4.6.2"
-    pump "^3.0.0"
-
-"@toruslabs/solana-embed@0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@toruslabs/solana-embed/-/solana-embed-0.0.5.tgz#e5560d86d67776b6feb03c5bae7611851c4288f4"
-  integrity sha512-6tj61bqGyNX6iZOFZvrtZGx9XOygRNTlxXawjl5CHt4kXJHrmFCxzgHXfyIaJNB8Xx6h5mQUlmYdelnAPaJbbw==
+"@toruslabs/solana-embed@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@toruslabs/solana-embed/-/solana-embed-0.0.1.tgz#d09b4485328483f60a41411c5899c3de0fd4d6f1"
+  integrity sha512-Wa0PARPlGPwHGijNyOvaAZI/zyWhJHBm7f1Vz5CsKQ2n4felPmOzJyoj3lgPQbl9OwrxqNtphIY8SYW8wy9W/g==
   dependencies:
     "@solana/web3.js" "^1.29.2"
     "@toruslabs/base-controllers" "^1.0.1"
@@ -12185,7 +12166,7 @@ loglevel@^1.6.8:
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.7.1.tgz#005fde2f5e6e47068f935ff28573e125ef72f197"
   integrity sha512-Hesni4s5UkWkwCGJMQGAh71PaLUmKFM60dHvq0zi/vDhhrzuk+4GgNbTXJ12YYQJn6ZKBDNIjYcuQGKudvqrIw==
 
-loglevel@^1.7.1:
+loglevel@^1.7.1, loglevel@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.8.0.tgz#e7ec73a57e1e7b419cb6c6ac06bf050b67356114"
   integrity sha512-G6A/nJLRgWOuuwdNuA6koovfEV1YpqqAG4pRUlFaz3jj2QNZ8M4vBqnVA+HBTmU/AMNUtlOsMmSpF6NyOjztbA==

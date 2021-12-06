@@ -85,7 +85,7 @@ export const walletStore = writable<WalletStore>({
 
 function createWalletNameStore() {
     const { subscribe, set } = writable<WalletNameStore>({
-        walletName: null
+        walletName: null,
     });
 
     function updateWalletName(walletName: WalletName | null) {
@@ -98,7 +98,7 @@ function createWalletNameStore() {
     return {
         subscribe,
         updateName: (walletName: WalletName | null) => updateWalletName(walletName),
-        reset: () => updateWalletName(null)
+        reset: () => updateWalletName(null),
     };
 }
 
@@ -106,7 +106,7 @@ export const walletNameStore = createWalletNameStore();
 
 function createWalletAdapterStore() {
     const { subscribe, set } = writable<WalletAdapterStore>({
-        adapter: null
+        adapter: null,
     });
 
     return {
@@ -126,7 +126,7 @@ function createWalletAdapterStore() {
             adapter.on('connect', onConnect);
             adapter.on('disconnect', onDisconnect);
             adapter.on('error', onError);
-        }
+        },
     };
 }
 
@@ -151,7 +151,7 @@ export async function initialize({
         }, {} as WalletDictionary),
         autoConnect,
         localStorageKey,
-        onError
+        onError,
     });
 
     const walletName = getLocalStorage<WalletName>(localStorageKey);

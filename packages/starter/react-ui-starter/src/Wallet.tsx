@@ -24,12 +24,12 @@ export const Wallet: FC = () => {
     // Only the wallets you want to support will be compiled into your application
     const wallets = useMemo(
         () => [
-            getTorusWallet(),
             getPhantomWallet(),
-            getSolletWallet({ network }),
             getSlopeWallet(),
             getSolflareWallet(),
+            getTorusWallet(),
             getLedgerWallet(),
+            getSolletWallet({ network }),
             getSolletExtensionWallet({ network }),
         ],
         [network]
