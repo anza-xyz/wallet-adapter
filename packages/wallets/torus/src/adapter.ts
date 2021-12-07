@@ -67,9 +67,13 @@ export class TorusWalletAdapter extends BaseSignerWalletAdapter {
 
             // Check if torus is initialized, torus.init({config})
             if (typeof window === 'undefined') throw new WalletNotReadyError();
+
+            // assigned from embed
             let torus = window.torus;
-            if (!torus) torus = new Torus();
-            window.torus = torus;
+            if (!torus) {
+                torus = new Torus();
+            }
+
             if (!torus.isInitialized) await torus.init(this._params);
 
             // Login
@@ -151,7 +155,7 @@ export class TorusWalletAdapter extends BaseSignerWalletAdapter {
             if (!torus) throw new WalletNotConnectedError();
 
             try {
-                return (await torus.signMessage(message))
+                return await torus.signMessage(message);
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
