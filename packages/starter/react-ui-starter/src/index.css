@@ -22,12 +22,18 @@ nav > div {
     display: flex;
 }
 
-nav > div > button {
-    margin-left: 1rem;
+nav > div > * {
+    margin: 0.5rem;
 }
 
-@media (max-width: 400px) {
-    nav > h1 {
-        max-width: 90px;
+@media (max-width: 576px) {
+    nav > div {
+        flex-direction: column;
+        align-items: center;
+    }
+    nav {
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem;
     }
 }
