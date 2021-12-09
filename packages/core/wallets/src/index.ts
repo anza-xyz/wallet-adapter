@@ -7,6 +7,7 @@ export * from './coinhub';
 export * from './ledger';
 export * from './mathwallet';
 export * from './phantom';
+export * from './onekey';
 export * from './safepal';
 export * from './slope';
 export * from './solflare';
