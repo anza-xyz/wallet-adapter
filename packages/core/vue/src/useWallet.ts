@@ -55,7 +55,7 @@ const walletStoreKey: InjectionKey<WalletStore> = Symbol();
 let globalWalletStore: WalletStore | null = null;
 
 export const useWallet = (): WalletStore => {
-    const providedWalletStore = inject(walletStoreKey);
+    const providedWalletStore = inject(walletStoreKey, undefined);
     if (providedWalletStore) return providedWalletStore;
     if (globalWalletStore) return globalWalletStore;
     throw new Error('Wallet not initialized. Please use the `WalletProvider` component to initialize the wallet.');
