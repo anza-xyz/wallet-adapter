@@ -1,7 +1,7 @@
 import { WalletError } from '@solana/wallet-adapter-base';
 import { Wallet } from '@solana/wallet-adapter-wallets';
 import { defineComponent, PropType } from '@vue/runtime-core';
-import { initWallet } from './useWallet';
+import { provideWallet } from './useWallet';
 
 export const WalletProvider = defineComponent({
     name: 'wallet-provider',
@@ -24,7 +24,7 @@ export const WalletProvider = defineComponent({
         },
     },
     setup(props, { slots }) {
-        initWallet({
+        provideWallet({
             wallets: props.wallets,
             autoConnect: props.autoConnect,
             onError: props.onError,
