@@ -2,6 +2,7 @@ import {
     BaseMessageSignerWalletAdapter,
     EventEmitter,
     pollUntilReady,
+    WalletAccountError,
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
@@ -113,7 +114,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
                 }
             }
 
-            if (!wallet.publicKey) throw new WalletConnectionError();
+            if (!wallet.publicKey) throw new WalletAccountError();
 
             let publicKey: PublicKey;
             try {
