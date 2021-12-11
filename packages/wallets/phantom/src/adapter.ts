@@ -194,7 +194,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             try {
                 const { signature } = await wallet.signMessage(message);
-                return Uint8Array.from(signature);
+                return signature;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
