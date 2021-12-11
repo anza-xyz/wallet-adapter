@@ -1,45 +1,36 @@
 import {
     BaseMessageSignerWalletAdapter,
-    BaseSignerWalletAdapter,
-    EventEmitter,
-    pollUntilReady,
     WalletAccountError,
     WalletConnectionError,
-    WalletDisconnectedError,
     WalletDisconnectionError,
-    WalletError,
     WalletNotConnectedError,
     WalletNotFoundError,
-    WalletNotInstalledError,
-    WalletNotReadyError,
     WalletPublicKeyError,
     WalletSignTransactionError,
-    WalletWindowClosedError,
 } from '@solana/wallet-adapter-base';
-import { PublicKey, Transaction, Message, Cluster } from '@solana/web3.js';
+import { PublicKey, Transaction } from '@solana/web3.js';
 import Torus, { TorusParams } from '@toruslabs/solana-embed';
 
 export interface TorusWalletAdapterConfig {
     params?: TorusParams;
-    pollInterval?: number;
-    pollCount?: number;
 }
+
 interface TorusWindow extends Window {
-    torus: Torus | null;
+    torus?: Torus | null;
 }
 
 declare const window: TorusWindow;
 
-export class TorusWalletAdapter extends BaseSignerWalletAdapter {
+export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
     private _connecting: boolean;
-    private _torus: Torus | null;
+    private _wallet: Torus | null;
     private _publicKey: PublicKey | null;
     private _params: TorusParams;
 
     constructor(config: TorusWalletAdapterConfig) {
         super();
         this._connecting = false;
-        this._torus = null;
+        this._wallet = null;
         this._publicKey = null;
         this._params = config.params || {};
     }
@@ -57,7 +48,7 @@ export class TorusWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get connected(): boolean {
-        return !!this._torus?.isLoggedIn;
+        return !!this._wallet?.isLoggedIn;
     }
 
     async connect(): Promise<void> {
@@ -65,35 +56,35 @@ export class TorusWalletAdapter extends BaseSignerWalletAdapter {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            // Check if torus is initialized, torus.init({config})
-            if (typeof window === 'undefined') throw new WalletNotReadyError();
+            if (typeof window === 'undefined') throw new WalletNotFoundError();
 
-            // assigned from embed
-            let torus = window.torus;
-            if (!torus) {
-                torus = new Torus();
+            const wallet = window.torus || new Torus();
+
+            if (!wallet.isInitialized) {
+                try {
+                    await wallet.init(this._params);
+                } catch (error: any) {
+                    throw new WalletConnectionError(error?.message, error);
+                }
             }
 
-            if (!torus.isInitialized) await torus.init(this._params);
-
-            // Login
-            let loginResult;
+            let accounts: string[];
             try {
-                loginResult = await torus.login();
+                accounts = await wallet.login();
             } catch (error: any) {
-                throw new WalletConnectionError(error?.message, error);
+                throw new WalletAccountError(error?.message, error);
             }
 
-            // Get public key
             let publicKey: PublicKey;
             try {
-                publicKey = new PublicKey(loginResult[0]);
+                publicKey = new PublicKey(accounts[0]);
             } catch (error: any) {
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
-            this._torus = torus;
+            this._wallet = wallet;
             this._publicKey = publicKey;
+
             this.emit('connect');
         } catch (error: any) {
             this.emit('error', error);
@@ -104,22 +95,24 @@ export class TorusWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     async disconnect(): Promise<void> {
-        const torus = this._torus;
-        if (torus) {
-            this._torus = null;
+        const wallet = this._wallet;
+        if (wallet) {
+            this._wallet = null;
             this._publicKey = null;
+
             try {
-                if (torus.isLoggedIn) await torus.cleanUp();
+                if (wallet.isLoggedIn) await wallet.cleanUp();
             } catch (error: any) {
                 this.emit('error', new WalletDisconnectionError(error?.message, error));
             }
         }
+
         this.emit('disconnect');
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {
         try {
-            const wallet = this._torus;
+            const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
@@ -135,7 +128,7 @@ export class TorusWalletAdapter extends BaseSignerWalletAdapter {
 
     async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
         try {
-            const wallet = this._torus;
+            const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
@@ -151,11 +144,11 @@ export class TorusWalletAdapter extends BaseSignerWalletAdapter {
 
     async signMessage(message: Uint8Array): Promise<Uint8Array> {
         try {
-            const torus = this._torus;
-            if (!torus) throw new WalletNotConnectedError();
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return await torus.signMessage(message);
+                return await wallet.signMessage(message);
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -164,8 +157,4 @@ export class TorusWalletAdapter extends BaseSignerWalletAdapter {
             throw error;
         }
     }
-
-    private _disconnected = () => {
-        this.disconnect();
-    };
 }
