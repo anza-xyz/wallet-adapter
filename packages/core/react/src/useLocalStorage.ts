@@ -21,6 +21,8 @@ export function useLocalStorage<T>(key: string, defaultState: T): [T, (newValue:
             if (newValue === value) return;
             setValue(newValue);
 
+            if (typeof localStorage === 'undefined') return;
+
             if (newValue === null) {
                 localStorage.removeItem(key);
             } else {
