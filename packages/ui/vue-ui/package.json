@@ -23,13 +23,13 @@
     "peerDependencies": {
         "@solana/wallet-adapter-base": "^0.7.0",
         "@solana/wallet-adapter-vue": "^0.3.0",
-        "@solana/wallet-adapter-wallets": "^0.11.0",
+        "@solana/wallet-adapter-wallets": "^0.12.0",
         "vue": "^3.0.0"
     },
     "devDependencies": {
         "@solana/wallet-adapter-base": "^0.7.0",
         "@solana/wallet-adapter-vue": "^0.3.0",
-        "@solana/wallet-adapter-wallets": "^0.11.0",
+        "@solana/wallet-adapter-wallets": "^0.12.0",
         "@vitejs/plugin-vue": "^1.9.3",
         "vite": "^2.6.4",
         "vite-plugin-dts": "^0.8.2",
