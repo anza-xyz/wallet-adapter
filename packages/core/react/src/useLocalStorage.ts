@@ -4,13 +4,16 @@ export function useLocalStorage<T>(key: string, defaultState: T): [T, (newValue:
     const [value, setValue] = useState<T>(() => {
         if (typeof localStorage === 'undefined') return defaultState;
 
-        const value = localStorage.getItem(key);
         try {
-            return value ? (JSON.parse(value) as T) : defaultState;
+            const value = localStorage.getItem(key);
+            if (value) {
+                return JSON.parse(value) as T;
+            }
         } catch (error) {
             console.warn(error);
-            return defaultState;
         }
+
+        return defaultState;
     });
 
     const setLocalStorage = useCallback(
