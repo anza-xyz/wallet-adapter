@@ -35,6 +35,7 @@
         "@types/jest": "^27.0.3",
         "@types/react": "^17.0.24",
         "jest": "^27.4.4",
+        "jest-localstorage-mock": "^2.4.18",
         "react": "^17.0.2",
         "ts-jest": "^27.1.1"
     }
