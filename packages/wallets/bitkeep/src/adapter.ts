@@ -1,11 +1,9 @@
 import {
     BaseSignerWalletAdapter,
-    pollUntilReady,
     WalletAccountError,
     WalletDisconnectionError,
     WalletNotConnectedError,
-    WalletNotFoundError,
-    WalletNotInstalledError,
+    WalletNotReadyError,
     WalletPublicKeyError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
@@ -28,10 +26,7 @@ interface BitKeepWindow extends Window {
 
 declare const window: BitKeepWindow;
 
-export interface BitKeepWalletAdapterConfig {
-    pollInterval?: number;
-    pollCount?: number;
-}
+export interface BitKeepWalletAdapterConfig {}
 
 export class BitKeepWalletAdapter extends BaseSignerWalletAdapter {
     private _connecting: boolean;
@@ -43,16 +38,10 @@ export class BitKeepWalletAdapter extends BaseSignerWalletAdapter {
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
-
-        if (!this.ready) pollUntilReady(this, config.pollInterval || 1000, config.pollCount || 3);
     }
 
     get publicKey(): PublicKey | null {
         return this._publicKey;
-    }
-
-    get ready(): boolean {
-        return typeof window !== 'undefined' && !!window.bitkeep;
     }
 
     get connecting(): boolean {
@@ -63,14 +52,29 @@ export class BitKeepWalletAdapter extends BaseSignerWalletAdapter {
         return !!this._publicKey;
     }
 
+    async ready(): Promise<boolean> {
+        if (typeof window === 'undefined' || typeof document === 'undefined') return false;
+
+        if (document.readyState === 'complete') return !!window.bitkeep?.solana?.isBitKeep;
+
+        return new Promise((resolve) => {
+            function listener() {
+                window.removeEventListener('load', listener);
+                resolve(!!window.bitkeep?.solana?.isBitKeep);
+            }
+
+            window.addEventListener('load', listener);
+        });
+    }
+
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const wallet = typeof window !== 'undefined' && window.bitkeep?.solana;
-            if (!wallet) throw new WalletNotFoundError();
-            if (!wallet.isBitKeep) throw new WalletNotInstalledError();
+            if (!(await this.ready())) throw new WalletNotReadyError();
+
+            const wallet = window!.bitkeep!.solana!;
 
             let account: string;
             try {

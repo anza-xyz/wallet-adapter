@@ -1,14 +1,13 @@
 import Wallet from '@project-serum/sol-wallet-adapter';
 import {
     BaseMessageSignerWalletAdapter,
-    pollUntilReady,
     WalletAdapterNetwork,
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
     WalletError,
     WalletNotConnectedError,
-    WalletNotFoundError,
+    WalletNotReadyError,
     WalletSignMessageError,
     WalletSignTransactionError,
     WalletTimeoutError,
@@ -30,8 +29,6 @@ declare const window: SolletWindow;
 export interface SolletWalletAdapterConfig {
     provider?: string | SolletWallet;
     network?: WalletAdapterNetwork;
-    pollInterval?: number;
-    pollCount?: number;
 }
 
 export class SolletWalletAdapter extends BaseMessageSignerWalletAdapter {
@@ -46,19 +43,10 @@ export class SolletWalletAdapter extends BaseMessageSignerWalletAdapter {
         this._network = config.network || WalletAdapterNetwork.Mainnet;
         this._connecting = false;
         this._wallet = null;
-
-        if (!this.ready) pollUntilReady(this, config.pollInterval || 1000, config.pollCount || 3);
     }
 
     get publicKey(): PublicKey | null {
         return this._wallet?.publicKey || null;
-    }
-
-    get ready(): boolean {
-        return (
-            typeof this._provider === 'string' ||
-            (typeof window !== 'undefined' && typeof window.sollet?.postMessage === 'function')
-        );
     }
 
     get connecting(): boolean {
@@ -69,13 +57,31 @@ export class SolletWalletAdapter extends BaseMessageSignerWalletAdapter {
         return !!this._wallet?.connected;
     }
 
+    async ready(): Promise<boolean> {
+        if (typeof window === 'undefined' || typeof document === 'undefined') return false;
+
+        if (typeof this._provider === 'string') return true;
+
+        if (document.readyState === 'complete') return typeof window.sollet?.postMessage === 'function';
+
+        return new Promise((resolve) => {
+            function listener() {
+                window.removeEventListener('load', listener);
+                resolve(typeof window.sollet?.postMessage === 'function');
+            }
+
+            window.addEventListener('load', listener);
+        });
+    }
+
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const provider = this._provider || (typeof window !== 'undefined' && window.sollet);
-            if (!provider) throw new WalletNotFoundError();
+            if (!(await this.ready())) throw new WalletNotReadyError();
+
+            const provider = this._provider || window!.sollet!;
 
             let wallet: Wallet;
             try {

@@ -4,11 +4,11 @@ import {
     SendTransactionOptions,
     WalletAccountError,
     WalletAdapterNetwork,
+    WalletConfigError,
     WalletConnectionError,
     WalletDisconnectionError,
-    WalletError,
     WalletNotConnectedError,
-    WalletNotFoundError,
+    WalletNotReadyError,
     WalletPublicKeyError,
     WalletSendTransactionError,
 } from '@solana/wallet-adapter-base';
@@ -36,8 +36,8 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
         return this._publicKey;
     }
 
-    get ready(): boolean {
-        return true;
+    async ready(): Promise<boolean> {
+        return typeof window === 'undefined';
     }
 
     get connecting(): boolean {
@@ -53,8 +53,10 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
+            if (!(await this.ready())) throw new WalletNotReadyError();
+
             const wallet = new BloctoSDK({ solana: { net: this._network } }).solana;
-            if (!wallet) throw new WalletNotFoundError();
+            if (!wallet) throw new WalletConfigError();
 
             if (!wallet.connected) {
                 try {

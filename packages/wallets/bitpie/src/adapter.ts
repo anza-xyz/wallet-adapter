@@ -1,9 +1,8 @@
 import {
     BaseSignerWalletAdapter,
-    pollUntilReady,
     WalletAccountError,
     WalletNotConnectedError,
-    WalletNotFoundError,
+    WalletNotReadyError,
     WalletPublicKeyError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
@@ -21,10 +20,7 @@ interface BitpieWalletWindow extends Window {
 
 declare const window: BitpieWalletWindow;
 
-export interface BitpieWalletAdapterConfig {
-    pollInterval?: number;
-    pollCount?: number;
-}
+export interface BitpieWalletAdapterConfig {}
 
 export class BitpieWalletAdapter extends BaseSignerWalletAdapter {
     private _connecting: boolean;
@@ -36,16 +32,10 @@ export class BitpieWalletAdapter extends BaseSignerWalletAdapter {
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
-
-        if (!this.ready) pollUntilReady(this, config.pollInterval || 1000, config.pollCount || 3);
     }
 
     get publicKey(): PublicKey | null {
         return this._publicKey;
-    }
-
-    get ready(): boolean {
-        return typeof window !== 'undefined' && !!window.bitpie;
     }
 
     get connecting(): boolean {
@@ -56,13 +46,29 @@ export class BitpieWalletAdapter extends BaseSignerWalletAdapter {
         return !!this._wallet;
     }
 
+    async ready(): Promise<boolean> {
+        if (typeof window === 'undefined' || typeof document === 'undefined') return false;
+
+        if (document.readyState === 'complete') return !!window.bitpie;
+
+        return new Promise((resolve) => {
+            function listener() {
+                window.removeEventListener('load', listener);
+                resolve(!!window.bitpie);
+            }
+
+            window.addEventListener('load', listener);
+        });
+    }
+
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const wallet = typeof window !== 'undefined' && window.bitpie;
-            if (!wallet) throw new WalletNotFoundError();
+            if (!(await this.ready())) throw new WalletNotReadyError();
+
+            const wallet = window!.bitpie!;
 
             let account: string;
             try {

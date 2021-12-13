@@ -1,10 +1,8 @@
 import {
     BaseSignerWalletAdapter,
-    pollUntilReady,
     WalletAccountError,
     WalletNotConnectedError,
-    WalletNotFoundError,
-    WalletNotInstalledError,
+    WalletNotReadyError,
     WalletPublicKeyError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
@@ -23,10 +21,7 @@ interface CloverWalletWindow extends Window {
 
 declare const window: CloverWalletWindow;
 
-export interface CloverWalletAdapterConfig {
-    pollInterval?: number;
-    pollCount?: number;
-}
+export interface CloverWalletAdapterConfig {}
 
 export class CloverWalletAdapter extends BaseSignerWalletAdapter {
     private _connecting: boolean;
@@ -38,16 +33,25 @@ export class CloverWalletAdapter extends BaseSignerWalletAdapter {
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
-
-        if (!this.ready) pollUntilReady(this, config.pollInterval || 1000, config.pollCount || 3);
     }
 
     get publicKey(): PublicKey | null {
         return this._publicKey;
     }
 
-    get ready(): boolean {
-        return typeof window !== 'undefined' && !!window.clover_solana?.isCloverWallet;
+    async ready(): Promise<boolean> {
+        if (typeof window === 'undefined' || typeof document === 'undefined') return false;
+
+        if (document.readyState === 'complete') return !!window.clover_solana?.isCloverWallet;
+
+        return new Promise((resolve) => {
+            function listener() {
+                window.removeEventListener('load', listener);
+                resolve(!!window.clover_solana?.isCloverWallet);
+            }
+
+            window.addEventListener('load', listener);
+        });
     }
 
     get connecting(): boolean {
@@ -63,9 +67,9 @@ export class CloverWalletAdapter extends BaseSignerWalletAdapter {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const wallet = typeof window !== 'undefined' && window.clover_solana;
-            if (!wallet) throw new WalletNotFoundError();
-            if (!wallet.isCloverWallet) throw new WalletNotInstalledError();
+            if (!(await this.ready())) throw new WalletNotReadyError();
+
+            const wallet = window!.clover_solana!;
 
             let account: string;
             try {

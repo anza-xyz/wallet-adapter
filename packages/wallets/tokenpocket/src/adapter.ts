@@ -1,12 +1,10 @@
 import {
     BaseMessageSignerWalletAdapter,
     EventEmitter,
-    pollUntilReady,
     WalletAccountError,
     WalletConnectionError,
     WalletNotConnectedError,
-    WalletNotFoundError,
-    WalletNotInstalledError,
+    WalletNotReadyError,
     WalletPublicKeyError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
@@ -34,10 +32,7 @@ interface TokenPocketWindow extends Window {
 
 declare const window: TokenPocketWindow;
 
-export interface TokenPocketWalletAdapterConfig {
-    pollInterval?: number;
-    pollCount?: number;
-}
+export interface TokenPocketWalletAdapterConfig {}
 
 export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
     private _connecting: boolean;
@@ -49,16 +44,10 @@ export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
-
-        if (!this.ready) pollUntilReady(this, config.pollInterval || 1000, config.pollCount || 3);
     }
 
     get publicKey(): PublicKey | null {
         return this._publicKey;
-    }
-
-    get ready(): boolean {
-        return typeof window !== 'undefined' && !!window.solana?.isTokenPocket;
     }
 
     get connecting(): boolean {
@@ -66,7 +55,23 @@ export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
     }
 
     get connected(): boolean {
+        // @TODO: detect disconnection?
         return !!this._wallet?.isConnected;
+    }
+
+    async ready(): Promise<boolean> {
+        if (typeof window === 'undefined' || typeof document === 'undefined') return false;
+
+        if (document.readyState === 'complete') return !!window.solana?.isTokenPocket;
+
+        return new Promise((resolve) => {
+            function listener() {
+                window.removeEventListener('load', listener);
+                resolve(!!window.solana?.isTokenPocket);
+            }
+
+            window.addEventListener('load', listener);
+        });
     }
 
     async connect(): Promise<void> {
@@ -74,9 +79,9 @@ export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const wallet = typeof window !== 'undefined' && window.solana;
-            if (!wallet) throw new WalletNotFoundError();
-            if (!wallet.isTokenPocket) throw new WalletNotInstalledError();
+            if (!(await this.ready())) throw new WalletNotReadyError();
+
+            const wallet = window!.solana!;
 
             try {
                 await wallet.connect();

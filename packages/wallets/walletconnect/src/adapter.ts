@@ -6,6 +6,7 @@ import {
     WalletDisconnectionError,
     WalletError,
     WalletNotConnectedError,
+    WalletNotReadyError,
     WalletPublicKeyError,
     WalletSignTransactionError,
     WalletWindowClosedError,
@@ -54,10 +55,6 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
         return this._publicKey;
     }
 
-    get ready(): boolean {
-        return typeof window !== 'undefined';
-    }
-
     get connecting(): boolean {
         return this._connecting;
     }
@@ -66,10 +63,16 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
         return !!this._publicKey;
     }
 
+    async ready(): Promise<boolean> {
+        return typeof window !== 'undefined';
+    }
+
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
             this._connecting = true;
+
+            if (!(await this.ready())) throw new WalletNotReadyError();
 
             let client: WalletConnectClient;
             let session: SessionTypes.Settled;
