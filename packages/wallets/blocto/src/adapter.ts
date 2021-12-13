@@ -36,16 +36,12 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
         return this._publicKey;
     }
 
-    async ready(): Promise<boolean> {
-        return typeof window === 'undefined';
-    }
-
     get connecting(): boolean {
         return this._connecting;
     }
 
-    get connected(): boolean {
-        return !!this._publicKey;
+    async ready(): Promise<boolean> {
+        return typeof window !== 'undefined';
     }
 
     async connect(): Promise<void> {

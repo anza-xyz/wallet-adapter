@@ -34,7 +34,10 @@ export type WalletAdapter = WalletAdapterProps & EventEmitter<WalletAdapterEvent
 export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
     abstract publicKey: PublicKey | null;
     abstract connecting: boolean;
-    abstract connected: boolean;
+
+    get connected(): boolean {
+        return !!this.publicKey;
+    }
 
     abstract ready(): Promise<boolean>;
     abstract connect(): Promise<void>;

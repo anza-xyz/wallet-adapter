@@ -39,6 +39,10 @@ export class CloverWalletAdapter extends BaseSignerWalletAdapter {
         return this._publicKey;
     }
 
+    get connecting(): boolean {
+        return this._connecting;
+    }
+
     async ready(): Promise<boolean> {
         if (typeof window === 'undefined' || typeof document === 'undefined') return false;
 
@@ -52,14 +56,6 @@ export class CloverWalletAdapter extends BaseSignerWalletAdapter {
 
             window.addEventListener('load', listener);
         });
-    }
-
-    get connecting(): boolean {
-        return this._connecting;
-    }
-
-    get connected(): boolean {
-        return !!this._publicKey;
     }
 
     async connect(): Promise<void> {

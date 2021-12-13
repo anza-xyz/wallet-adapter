@@ -39,10 +39,6 @@ export class LedgerWalletAdapter extends BaseSignerWalletAdapter {
         return this._connecting;
     }
 
-    get connected(): boolean {
-        return !!this._transport;
-    }
-
     async ready(): Promise<boolean> {
         return typeof navigator !== 'undefined' && !!navigator.hid;
     }

@@ -67,10 +67,6 @@ export class SlopeWalletAdapter extends BaseMessageSignerWalletAdapter {
         return this._connecting;
     }
 
-    get connected(): boolean {
-        return !!this._publicKey;
-    }
-
     async ready(): Promise<boolean> {
         if (typeof window === 'undefined' || typeof document === 'undefined') return false;
 
