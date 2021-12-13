@@ -89,15 +89,6 @@ export const initWallet = ({
         publicKey.value = state.publicKey;
         connected.value = state.connected;
     };
-    const setStateFromAdapter = (wallet: Wallet, adapter: Adapter) => {
-        setState({
-            wallet,
-            adapter,
-            ready: false,
-            publicKey: adapter.publicKey,
-            connected: adapter.connected,
-        });
-    };
     const resetState = () => {
         setState({
             wallet: null,
@@ -123,9 +114,23 @@ export const initWallet = ({
             const wallet = walletsByName.value?.[name.value as WalletName] ?? null;
             const adapter = wallet && wallet.adapter;
             if (adapter) {
-                setStateFromAdapter(wallet, adapter);
+                setState({
+                    wallet,
+                    adapter,
+                    ready: false,
+                    publicKey: adapter.publicKey,
+                    connected: adapter.connected,
+                });
 
-                // FIXME: Asynchronously update the ready state
+                // Asynchronously update the ready state
+                const waiting = name;
+                (async function () {
+                    const readyValue = await adapter.ready();
+                    // If the selected wallet hasn't changed while waiting, update the ready state
+                    if (name === waiting) {
+                        ready.value = readyValue;
+                    }
+                })();
             } else {
                 resetState();
             }
@@ -143,8 +148,9 @@ export const initWallet = ({
     // Handle the adapter events.
     const onDisconnect = () => (name.value = null);
     const onConnect = () => {
-        if (!wallet.value || !adapter.value) return;
-        setStateFromAdapter(wallet.value, adapter.value);
+        if (!adapter.value) return;
+        publicKey.value = adapter.value.publicKey;
+        connected.value = adapter.value.connected;
     };
     const invalidateListeners = watchEffect((onInvalidate) => {
         const _adapter = adapter.value;
