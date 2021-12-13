@@ -39,7 +39,7 @@ export class SolletWalletAdapter extends BaseMessageSignerWalletAdapter {
 
     constructor(config: SolletWalletAdapterConfig = {}) {
         super();
-        this._provider = config.provider || (typeof window === 'undefined' ? undefined : window.sollet);
+        this._provider = config.provider;
         this._network = config.network || WalletAdapterNetwork.Mainnet;
         this._connecting = false;
         this._wallet = null;
@@ -60,7 +60,7 @@ export class SolletWalletAdapter extends BaseMessageSignerWalletAdapter {
     async ready(): Promise<boolean> {
         if (typeof window === 'undefined' || typeof document === 'undefined') return false;
 
-        if (typeof this._provider === 'string') return true;
+        if (typeof this._provider === 'string' || typeof this._provider?.postMessage === 'function') return true;
 
         if (document.readyState === 'complete') return typeof window.sollet?.postMessage === 'function';
 
