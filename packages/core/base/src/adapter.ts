@@ -5,7 +5,6 @@ import { WalletError } from './errors';
 export { EventEmitter };
 
 export interface WalletAdapterEvents {
-    ready(): void;
     connect(): void;
     disconnect(): void;
     error(error: WalletError): void;
@@ -17,10 +16,10 @@ export interface SendTransactionOptions extends SendOptions {
 
 export interface WalletAdapterProps {
     publicKey: PublicKey | null;
-    ready: boolean;
     connecting: boolean;
     connected: boolean;
 
+    ready(): Promise<boolean>;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
     sendTransaction(
@@ -34,10 +33,10 @@ export type WalletAdapter = WalletAdapterProps & EventEmitter<WalletAdapterEvent
 
 export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
     abstract publicKey: PublicKey | null;
-    abstract ready: boolean;
     abstract connecting: boolean;
     abstract connected: boolean;
 
+    abstract ready(): Promise<boolean>;
     abstract connect(): Promise<void>;
     abstract disconnect(): Promise<void>;
     abstract sendTransaction(
