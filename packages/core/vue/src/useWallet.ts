@@ -1,4 +1,5 @@
 import {
+    Adapter,
     MessageSignerWalletAdapter,
     SendTransactionOptions,
     SignerWalletAdapter,
@@ -6,14 +7,13 @@ import {
     WalletNotConnectedError,
     WalletNotReadyError,
 } from '@solana/wallet-adapter-base';
-import { Wallet, WalletName } from '@solana/wallet-adapter-wallets';
+import { Wallet, WalletName } from '@solana/wallet-adapter-base';
 import { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
 import { computed, inject, InjectionKey, provide, Ref, ref, watch, watchEffect } from '@vue/runtime-core';
 import { WalletNotSelectedError } from './errors';
 import { useLocalStorage } from './useLocalStorage';
 
-type Adapter = ReturnType<Wallet['adapter']>;
-type WalletDictionary = { [name in WalletName]: Wallet };
+type WalletDictionary = { [walletName: WalletName]: Wallet };
 
 export interface WalletStore {
     // Props.
@@ -93,7 +93,7 @@ export const initWallet = ({
         setState({
             wallet,
             adapter,
-            ready: adapter.ready,
+            ready: false,
             publicKey: adapter.publicKey,
             connected: adapter.connected,
         });
@@ -121,22 +121,26 @@ export const initWallet = ({
         name,
         (): void => {
             const wallet = walletsByName.value?.[name.value as WalletName] ?? null;
-            const adapter = wallet?.adapter() ?? null;
-            if (!adapter) return resetState();
-            setStateFromAdapter(wallet, adapter);
+            const adapter = wallet && wallet.adapter;
+            if (adapter) {
+                setStateFromAdapter(wallet, adapter);
+
+                // FIXME: Asynchronously update the ready state
+            } else {
+                resetState();
+            }
         },
         { immediate: true }
     );
 
     // Select a wallet by name.
-    const select = async (newName: WalletName): Promise<void> => {
-        if (name.value === newName) return;
+    const select = async (walletName: WalletName): Promise<void> => {
+        if (name.value === walletName) return;
         if (adapter.value) await adapter.value.disconnect();
-        name.value = newName;
+        name.value = walletName;
     };
 
     // Handle the adapter events.
-    const onReady = () => (ready.value = true);
     const onDisconnect = () => (name.value = null);
     const onConnect = () => {
         if (!wallet.value || !adapter.value) return;
@@ -146,13 +150,11 @@ export const initWallet = ({
         const _adapter = adapter.value;
         if (!_adapter) return;
 
-        _adapter.on('ready', onReady);
         _adapter.on('connect', onConnect);
         _adapter.on('disconnect', onDisconnect);
         _adapter.on('error', onError);
 
         onInvalidate(() => {
-            _adapter.off('ready', onReady);
             _adapter.off('connect', onConnect);
             _adapter.off('disconnect', onDisconnect);
             _adapter.off('error', onError);
