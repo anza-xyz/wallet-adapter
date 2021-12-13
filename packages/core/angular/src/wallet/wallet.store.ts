@@ -1,13 +1,14 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import {
+    Adapter,
     SendTransactionOptions,
-    WalletAdapter,
+    Wallet,
+    WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
 } from '@solana/wallet-adapter-base';
-import { Wallet, WalletName } from '@solana/wallet-adapter-wallets';
-import { Connection, Transaction } from '@solana/web3.js';
+import { Connection, PublicKey, Transaction } from '@solana/web3.js';
 import { combineLatest, defer, EMPTY, from, Observable, of, Subject, throwError } from 'rxjs';
 import { catchError, concatMap, filter, finalize, first, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
@@ -26,13 +27,16 @@ export const WALLET_DEFAULT_CONFIG: WalletConfig = {
 
 const initialState: {
     wallet: Wallet | null;
-    adapter: ReturnType<Wallet['adapter']> | null;
-} & Pick<WalletAdapter, 'ready' | 'publicKey' | 'connected'> = {
+    adapter: Adapter | null;
+    ready: boolean;
+    connected: boolean;
+    publicKey: PublicKey | null;
+} = {
     wallet: null,
     adapter: null,
     ready: false,
-    publicKey: null,
     connected: false,
+    publicKey: null,
 };
 
 @Injectable()
@@ -82,7 +86,7 @@ export class WalletStore extends ComponentStore<WalletState> {
         wallets.reduce((walletsByName, wallet) => {
             walletsByName[wallet.name] = wallet;
             return walletsByName;
-        }, {} as { [name in WalletName]: Wallet })
+        }, {} as { [name: WalletName]: Wallet })
     );
 
     constructor(
@@ -112,18 +116,20 @@ export class WalletStore extends ComponentStore<WalletState> {
         combineLatest([this.name$, this._walletsByName$]).pipe(
             tap(([name, walletsByName]) => {
                 const wallet = (name && walletsByName[name]) || null;
-                const adapter = wallet && wallet.adapter();
+                const adapter = wallet && wallet.adapter;
 
                 if (adapter) {
-                    const { ready, publicKey, connected } = adapter;
+                    const { publicKey, connected } = adapter;
                     this.patchState({
                         name,
                         adapter,
                         wallet,
-                        ready,
                         publicKey,
                         connected,
+                        ready: false,
                     });
+
+                    // FIXME: Asynchronously update the ready state
                 } else {
                     this.patchState(initialState);
                 }
@@ -177,14 +183,6 @@ export class WalletStore extends ComponentStore<WalletState> {
         );
     });
 
-    // Handle the adapter's ready event
-    readonly onReady = this.effect(() => {
-        return this.adapter$.pipe(
-            isNotNull,
-            switchMap((adapter) => fromAdapterEvent(adapter, 'ready').pipe(tap(() => this.patchState({ ready: true }))))
-        );
-    });
-
     // Handle the adapter's connect event
     readonly onConnect = this.effect(() => {
         return this.adapter$.pipe(
@@ -192,12 +190,11 @@ export class WalletStore extends ComponentStore<WalletState> {
             switchMap((adapter) =>
                 fromAdapterEvent(adapter, 'connect').pipe(
                     tap(() => {
-                        const { connected, publicKey, ready } = adapter;
+                        const { connected, publicKey } = adapter;
 
                         this.patchState({
                             connected,
                             publicKey,
-                            ready,
                         });
                     })
                 )
