@@ -3,6 +3,7 @@ import {
     EventEmitter,
     WalletAccountError,
     WalletConnectionError,
+    WalletDisconnectedError,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
@@ -55,7 +56,6 @@ export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
     }
 
     get connected(): boolean {
-        // @TODO: detect disconnection?
         return !!this._wallet?.isConnected;
     }
 
@@ -98,6 +98,8 @@ export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
+            wallet.on('disconnect', this._disconnected);
+
             this._wallet = wallet;
             this._publicKey = publicKey;
 
@@ -113,6 +115,8 @@ export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
     async disconnect(): Promise<void> {
         const wallet = this._wallet;
         if (wallet) {
+            wallet.off('disconnect', this._disconnected);
+
             this._wallet = null;
             this._publicKey = null;
 
@@ -168,4 +172,17 @@ export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
             throw error;
         }
     }
+
+    private _disconnected = () => {
+        const wallet = this._wallet;
+        if (wallet) {
+            wallet.off('disconnect', this._disconnected);
+
+            this._wallet = null;
+            this._publicKey = null;
+
+            this.emit('error', new WalletDisconnectedError());
+            this.emit('disconnect');
+        }
+    };
 }
