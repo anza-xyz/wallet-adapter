@@ -15,6 +15,7 @@ export abstract class BaseSignerWalletAdapter extends BaseWalletAdapter implemen
         connection: Connection,
         options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
+        let emit = true;
         try {
             try {
                 transaction.feePayer ||= this.publicKey || undefined;
@@ -30,11 +31,17 @@ export abstract class BaseSignerWalletAdapter extends BaseWalletAdapter implemen
 
                 return await connection.sendRawTransaction(rawTransaction, sendOptions);
             } catch (error: any) {
-                if (error instanceof WalletError) throw error;
+                // If the error was thrown by `signTransaction`, rethrow it and don't emit a duplicate event
+                if (error instanceof WalletError) {
+                    emit = false;
+                    throw error;
+                }
                 throw new WalletSendTransactionError(error?.message, error);
             }
         } catch (error: any) {
-            this.emit('error', error);
+            if (emit) {
+                this.emit('error', error);
+            }
             throw error;
         }
     }

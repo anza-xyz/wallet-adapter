@@ -1,12 +1,11 @@
 import {
     BaseMessageSignerWalletAdapter,
     EventEmitter,
-    pollUntilReady,
     WalletAccountError,
     WalletConnectionError,
+    WalletDisconnectedError,
     WalletNotConnectedError,
-    WalletNotFoundError,
-    WalletNotInstalledError,
+    WalletNotReadyError,
     WalletPublicKeyError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
@@ -34,10 +33,7 @@ interface TokenPocketWindow extends Window {
 
 declare const window: TokenPocketWindow;
 
-export interface TokenPocketWalletAdapterConfig {
-    pollInterval?: number;
-    pollCount?: number;
-}
+export interface TokenPocketWalletAdapterConfig {}
 
 export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
     private _connecting: boolean;
@@ -49,16 +45,10 @@ export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
-
-        if (!this.ready) pollUntilReady(this, config.pollInterval || 1000, config.pollCount || 3);
     }
 
     get publicKey(): PublicKey | null {
         return this._publicKey;
-    }
-
-    get ready(): boolean {
-        return typeof window !== 'undefined' && !!window.solana?.isTokenPocket;
     }
 
     get connecting(): boolean {
@@ -69,14 +59,29 @@ export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
         return !!this._wallet?.isConnected;
     }
 
+    async ready(): Promise<boolean> {
+        if (typeof window === 'undefined' || typeof document === 'undefined') return false;
+
+        if (document.readyState === 'complete') return !!window.solana?.isTokenPocket;
+
+        return new Promise((resolve) => {
+            function listener() {
+                window.removeEventListener('load', listener);
+                resolve(!!window.solana?.isTokenPocket);
+            }
+
+            window.addEventListener('load', listener);
+        });
+    }
+
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const wallet = typeof window !== 'undefined' && window.solana;
-            if (!wallet) throw new WalletNotFoundError();
-            if (!wallet.isTokenPocket) throw new WalletNotInstalledError();
+            if (!(await this.ready())) throw new WalletNotReadyError();
+
+            const wallet = window!.solana!;
 
             try {
                 await wallet.connect();
@@ -93,6 +98,8 @@ export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
+            wallet.on('disconnect', this._disconnected);
+
             this._wallet = wallet;
             this._publicKey = publicKey;
 
@@ -108,6 +115,8 @@ export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
     async disconnect(): Promise<void> {
         const wallet = this._wallet;
         if (wallet) {
+            wallet.off('disconnect', this._disconnected);
+
             this._wallet = null;
             this._publicKey = null;
 
@@ -163,4 +172,17 @@ export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
             throw error;
         }
     }
+
+    private _disconnected = () => {
+        const wallet = this._wallet;
+        if (wallet) {
+            wallet.off('disconnect', this._disconnected);
+
+            this._wallet = null;
+            this._publicKey = null;
+
+            this.emit('error', new WalletDisconnectedError());
+            this.emit('disconnect');
+        }
+    };
 }
