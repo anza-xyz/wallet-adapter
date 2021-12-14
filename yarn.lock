@@ -1636,12 +1636,12 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@blocto/sdk@0.2.16":
-  version "0.2.16"
-  resolved "https://registry.yarnpkg.com/@blocto/sdk/-/sdk-0.2.16.tgz#4887102d4f32b9a0c00b2352e1645d8ffb1d1277"
-  integrity sha512-dL/jTbw9/rLKGSdIVKebu7U2xIukFOLUtvUDFQ6bv5YTpCdq2J1HA8E5mmraAtlsRz6iIug8yabv83LWekugUw==
+"@blocto/sdk@^0.2.21":
+  version "0.2.21"
+  resolved "https://registry.yarnpkg.com/@blocto/sdk/-/sdk-0.2.21.tgz#40b729f0ef6b2e46942dfe992f5cccb6abaa4403"
+  integrity sha512-yolSah+bYEZGzbBYr0GuQ2Pca1h95aF/btDJvcEyranosyR27kokvRKiPTX4Sost+giAD+Z6vrD8/hM6E+LnUw==
   dependencies:
-    "@solana/web3.js" "^1.22.0"
+    "@solana/web3.js" "^1.30.2"
     bs58 "^4.0.1"
     buffer "^6.0.3"
     eip1193-provider "^1.0.1"
@@ -3235,7 +3235,7 @@
   dependencies:
     buffer "~6.0.3"
 
-"@solana/web3.js@^1.20.0", "@solana/web3.js@^1.22.0", "@solana/web3.js@^1.29.2":
+"@solana/web3.js@^1.20.0", "@solana/web3.js@^1.29.2", "@solana/web3.js@^1.30.2":
   version "1.31.0"
   resolved "https://registry.yarnpkg.com/@solana/web3.js/-/web3.js-1.31.0.tgz#7a313d4c1a90b77f27ddbfe845a10d6883e06452"
   integrity sha512-7nHHx1JNFnrt15e9y8m38I/EJCbaB+bFC3KZVM1+QhybCikFxGMtGA5r7PDC3GEL1R2RZA8yKoLkDKo3vzzqnw==
