@@ -26,7 +26,7 @@
         "@solana/web3.js": "^1.20.0"
     },
     "dependencies": {
-        "@blocto/sdk": "0.2.16"
+        "@blocto/sdk": "^0.2.21"
     },
     "devDependencies": {
         "@solana/wallet-adapter-base": "^0.8.0",
