@@ -436,7 +436,7 @@ describe('WalletProvider', () => {
                 it('should disconnect the old wallet', () => {
                     expect(fooWalletAdapter.disconnect).toHaveBeenCalled();
                 });
-                fit('the adapter of the new wallet should be set in state', () => {
+                it('the adapter of the new wallet should be set in state', () => {
                     expect(ref.current?.getWalletContextState().adapter).toBe(barWalletAdapter);
                 });
                 /**
