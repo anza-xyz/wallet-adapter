@@ -1,13 +1,11 @@
 import {
     BaseMessageSignerWalletAdapter,
     EventEmitter,
-    pollUntilReady,
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
     WalletNotConnectedError,
-    WalletNotFoundError,
-    WalletNotInstalledError,
+    WalletNotReadyError,
     WalletPublicKeyError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
@@ -35,10 +33,7 @@ interface SolflareWindow extends Window {
 
 declare const window: SolflareWindow;
 
-export interface SolflareWalletAdapterConfig {
-    pollInterval?: number;
-    pollCount?: number;
-}
+export interface SolflareWalletAdapterConfig {}
 
 export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
     private _connecting: boolean;
@@ -50,16 +45,10 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
-
-        if (!this.ready) pollUntilReady(this, config.pollInterval || 1000, config.pollCount || 3);
     }
 
     get publicKey(): PublicKey | null {
         return this._publicKey;
-    }
-
-    get ready(): boolean {
-        return typeof window !== 'undefined' && !!window.solflare?.isSolflare;
     }
 
     get connecting(): boolean {
@@ -70,14 +59,29 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
         return !!this._wallet?.isConnected;
     }
 
+    async ready(): Promise<boolean> {
+        if (typeof window === 'undefined' || typeof document === 'undefined') return false;
+
+        if (document.readyState === 'complete') return !!window.solflare?.isSolflare;
+
+        return new Promise((resolve) => {
+            function listener() {
+                window.removeEventListener('load', listener);
+                resolve(!!window.solflare?.isSolflare);
+            }
+
+            window.addEventListener('load', listener);
+        });
+    }
+
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const wallet = typeof window !== 'undefined' && window.solflare;
-            if (!wallet) throw new WalletNotFoundError();
-            if (!wallet.isSolflare) throw new WalletNotInstalledError();
+            if (!(await this.ready())) throw new WalletNotReadyError();
+
+            const wallet = window!.solflare!;
 
             if (!wallet.isConnected) {
                 try {
