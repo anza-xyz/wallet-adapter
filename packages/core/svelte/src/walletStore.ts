@@ -8,7 +8,7 @@ import type {
     SignerWalletAdapterProps,
     WalletError,
     Wallet,
-    WalletName
+    WalletName,
 } from '@solana/wallet-adapter-base';
 import type { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
 import { get, writable } from 'svelte/store';
@@ -136,6 +136,22 @@ function createWalletStore() {
             publicKey: adapter?.publicKey || null,
             connected: adapter?.connected || false,
         }));
+
+        if (wallet?.name && adapter) {
+            // Asynchronously update the ready state
+            const waiting = wallet.name;
+            (async function() {
+                const ready = await adapter.ready();
+                // If the selected wallet hasn't changed while waiting, update the ready state
+                if (wallet.name === waiting) {
+                    update((store) => ({
+                        ...store,
+                        ready,
+                    }));
+                }
+            })();
+        }
+
     }
 
     function updateWalletName(name: WalletName | null) {
