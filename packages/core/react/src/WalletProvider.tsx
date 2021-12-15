@@ -94,7 +94,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
             } catch (error: any) {
                 // Clear the selected wallet
                 setName(null);
-                // Don't throw error, but onError will still be called
+                // Don't throw error, but handleError will still be called
             } finally {
                 setConnecting(false);
                 isConnecting.current = false;
@@ -139,7 +139,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     // Handle the adapter's error event, and local errors
     const handleError = useCallback(
         (error: WalletError) => {
-            // Call the provided error handler unless the window is unloading
+            // Call onError unless the window is unloading
             if (!isUnloading.current) {
                 (onError || console.error)(error);
             }
@@ -171,7 +171,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         } catch (error: any) {
             // Clear the selected wallet
             setName(null);
-            // Rethrow the error, and onError will also be called
+            // Rethrow the error, and handleError will also be called
             throw error;
         } finally {
             setConnecting(false);
@@ -202,7 +202,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         } catch (error: any) {
             // Clear the selected wallet
             setName(null);
-            // Rethrow the error, and onError will also be called
+            // Rethrow the error, and handleError will also be called
             throw error;
         } finally {
             setDisconnecting(false);
