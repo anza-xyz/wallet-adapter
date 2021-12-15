@@ -33,10 +33,10 @@ There are also [material-ui](https://github.com/solana-labs/wallet-adapter/tree/
 Install these dependencies:
 
 ```shell
-yarn add @solana/wallet-adapter-wallets \
-         @solana/wallet-adapter-base \
+yarn add @solana/wallet-adapter-base \
          @solana/wallet-adapter-react \
          @solana/wallet-adapter-react-ui \
+         @solana/wallet-adapter-wallets \
          @solana/web3.js \
          react
 ```
