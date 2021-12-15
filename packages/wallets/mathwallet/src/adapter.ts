@@ -1,11 +1,9 @@
 import {
     BaseSignerWalletAdapter,
-    pollUntilReady,
     WalletAccountError,
     WalletDisconnectedError,
     WalletNotConnectedError,
-    WalletNotFoundError,
-    WalletNotInstalledError,
+    WalletNotReadyError,
     WalletPublicKeyError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
@@ -24,39 +22,41 @@ interface MathWalletWindow extends Window {
 
 declare const window: MathWalletWindow;
 
-export interface MathWalletWalletAdapterConfig {
-    pollInterval?: number;
-    pollCount?: number;
-}
+export interface MathWalletAdapterConfig {}
 
-export class MathWalletWalletAdapter extends BaseSignerWalletAdapter {
+export class MathWalletAdapter extends BaseSignerWalletAdapter {
     private _connecting: boolean;
     private _wallet: MathWallet | null;
     private _publicKey: PublicKey | null;
 
-    constructor(config: MathWalletWalletAdapterConfig = {}) {
+    constructor(config: MathWalletAdapterConfig = {}) {
         super();
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
-
-        if (!this.ready) pollUntilReady(this, config.pollInterval || 1000, config.pollCount || 3);
     }
 
     get publicKey(): PublicKey | null {
         return this._publicKey;
     }
 
-    get ready(): boolean {
-        return typeof window !== 'undefined' && !!window.solana?.isMathWallet;
-    }
-
     get connecting(): boolean {
         return this._connecting;
     }
 
-    get connected(): boolean {
-        return !!this._wallet;
+    async ready(): Promise<boolean> {
+        if (typeof window === 'undefined' || typeof document === 'undefined') return false;
+
+        if (document.readyState === 'complete') return !!window.solana?.isMathWallet;
+
+        return new Promise((resolve) => {
+            function listener() {
+                window.removeEventListener('load', listener);
+                resolve(!!window.solana?.isMathWallet);
+            }
+
+            window.addEventListener('load', listener);
+        });
     }
 
     async connect(): Promise<void> {
@@ -64,14 +64,13 @@ export class MathWalletWalletAdapter extends BaseSignerWalletAdapter {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const wallet = typeof window !== 'undefined' && window.solana;
-            if (!wallet) throw new WalletNotFoundError();
-            if (!wallet.isMathWallet) throw new WalletNotInstalledError();
+            if (!(await this.ready())) throw new WalletNotReadyError();
 
-            // @TODO: handle if popup is blocked
+            const wallet = window!.solana!;
 
             let account: string;
             try {
+                // @TODO: handle if popup is blocked
                 account = await wallet.getAccount();
             } catch (error: any) {
                 throw new WalletAccountError(error?.message, error);

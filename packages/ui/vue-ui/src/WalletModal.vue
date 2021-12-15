@@ -1,6 +1,6 @@
 <script lang="ts">
+import { WalletName } from "@solana/wallet-adapter-base";
 import { useWallet } from "@solana/wallet-adapter-vue";
-import { WalletName } from "@solana/wallet-adapter-wallets";
 import { computed, defineComponent, ref, watch } from "vue";
 import { useWalletModal } from "./useWalletModal";
 import WalletButton from "./WalletButton.vue";

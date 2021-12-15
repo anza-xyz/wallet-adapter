@@ -1,10 +1,8 @@
 import {
     BaseSignerWalletAdapter,
-    pollUntilReady,
     WalletAccountError,
     WalletNotConnectedError,
-    WalletNotFoundError,
-    WalletNotInstalledError,
+    WalletNotReadyError,
     WalletPublicKeyError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
@@ -31,10 +29,7 @@ interface Coin98Window extends Window {
 
 declare const window: Coin98Window;
 
-export interface Coin98WalletAdapterConfig {
-    pollInterval?: number;
-    pollCount?: number;
-}
+export interface Coin98WalletAdapterConfig {}
 
 export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
     private _connecting: boolean;
@@ -46,16 +41,10 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
-
-        if (!this.ready) pollUntilReady(this, config.pollInterval || 1000, config.pollCount || 3);
     }
 
     get publicKey(): PublicKey | null {
         return this._publicKey;
-    }
-
-    get ready(): boolean {
-        return typeof window !== 'undefined' && !!window.coin98;
     }
 
     get connecting(): boolean {
@@ -66,14 +55,29 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
         return !!this._wallet?.isConnected();
     }
 
+    async ready(): Promise<boolean> {
+        if (typeof window === 'undefined' || typeof document === 'undefined') return false;
+
+        if (document.readyState === 'complete') return !!window.coin98?.sol;
+
+        return new Promise((resolve) => {
+            function listener() {
+                window.removeEventListener('load', listener);
+                resolve(!!window.coin98?.sol);
+            }
+
+            window.addEventListener('load', listener);
+        });
+    }
+
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const wallet = typeof window !== 'undefined' && window.coin98?.sol;
-            if (!wallet) throw new WalletNotFoundError();
-            if (!wallet.isCoin98) throw new WalletNotInstalledError();
+            if (!(await this.ready())) throw new WalletNotReadyError();
+
+            const wallet = window!.coin98!.sol!;
 
             let account: string;
             try {

@@ -6,6 +6,7 @@ import {
     WalletDisconnectedError,
     WalletDisconnectionError,
     WalletNotConnectedError,
+    WalletNotReadyError,
     WalletPublicKeyError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
@@ -34,22 +35,20 @@ export class LedgerWalletAdapter extends BaseSignerWalletAdapter {
         return this._publicKey;
     }
 
-    get ready(): boolean {
-        return typeof window !== 'undefined' && !!navigator.hid;
-    }
-
     get connecting(): boolean {
         return this._connecting;
     }
 
-    get connected(): boolean {
-        return !!this._transport;
+    async ready(): Promise<boolean> {
+        return typeof navigator !== 'undefined' && !!navigator.hid;
     }
 
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
             this._connecting = true;
+
+            if (!(await this.ready())) throw new WalletNotReadyError();
 
             let transport: Transport;
             try {
