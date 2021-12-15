@@ -4,7 +4,7 @@ import {
     WalletConnectionError,
     WalletDisconnectionError,
     WalletNotConnectedError,
-    WalletNotFoundError,
+    WalletNotReadyError,
     WalletPublicKeyError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
@@ -39,10 +39,6 @@ export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
         return this._publicKey;
     }
 
-    get ready(): boolean {
-        return typeof window !== 'undefined';
-    }
-
     get connecting(): boolean {
         return this._connecting;
     }
@@ -51,12 +47,16 @@ export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
         return !!this._wallet?.isLoggedIn;
     }
 
+    async ready(): Promise<boolean> {
+        return typeof window !== 'undefined';
+    }
+
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            if (typeof window === 'undefined') throw new WalletNotFoundError();
+            if (!(await this.ready())) throw new WalletNotReadyError();
 
             const wallet = window.torus || new Torus();
 
