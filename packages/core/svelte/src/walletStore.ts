@@ -286,10 +286,6 @@ function onDisconnect() {
     walletStore.resetWallet();
 }
 
-function onReady() {
-    walletStore.setReady(true);
-}
-
 function removeAdapterEventListeners(): void {
     const { adapter, onError } = get(walletStore);
     if (!adapter) return;
