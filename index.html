@@ -102,7 +102,7 @@
   <h2>Packages</h2>
 </a>
 <p>This library is organized into small packages with few dependencies.
-To add it to your dApp, you only need the core packages and UI components for your chosen framework.</p>
+To add it to your dApp, you&#39;ll need core packages, some wallets, and UI components for your chosen framework.</p>
 
 <a href="#core" id="core" style="color: inherit; text-decoration: none;">
   <h3>Core</h3>
@@ -117,11 +117,6 @@ To add it to your dApp, you only need the core packages and UI components for yo
 </tr>
 </thead>
 <tbody><tr>
-<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/wallets">wallets</a></td>
-<td>All wallets with icons</td>
-<td><a href="https://npmjs.com/package/@solana/wallet-adapter-wallets"><code>@solana/wallet-adapter-wallets</code></a></td>
-</tr>
-<tr>
 <td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/base">base</a></td>
 <td>Adapter interfaces, error types, and common utilities</td>
 <td><a href="https://npmjs.com/package/@solana/wallet-adapter-base"><code>@solana/wallet-adapter-base</code></a></td>
@@ -149,80 +144,11 @@ To add it to your dApp, you only need the core packages and UI components for yo
 </tbody></table>
 <p>* Package has not been published to NPM yet.</p>
 
-<a href="#ui-components" id="ui-components" style="color: inherit; text-decoration: none;">
-  <h3>UI Components</h3>
-</a>
-<p>These packages provide components for common UI frameworks.</p>
-<table>
-<thead>
-<tr>
-<th>package</th>
-<th>description</th>
-<th>npm</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/ui/material-ui">material-ui</a></td>
-<td>Components for <a href="https://material-ui.com">Material UI</a></td>
-<td><a href="https://npmjs.com/package/@solana/wallet-adapter-material-ui"><code>@solana/wallet-adapter-material-ui</code></a></td>
-</tr>
-<tr>
-<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/ui/ant-design">ant-design</a></td>
-<td>Components for <a href="https://ant.design">Ant Design</a></td>
-<td><a href="https://npmjs.com/package/@solana/wallet-adapter-ant-design"><code>@solana/wallet-adapter-ant-design</code></a></td>
-</tr>
-<tr>
-<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/ui/react-ui">react-ui</a></td>
-<td>Components for React (no UI framework, just CSS)</td>
-<td><a href="https://npmjs.com/package/@solana/wallet-adapter-react-ui"><code>@solana/wallet-adapter-react-ui</code></a></td>
-</tr>
-<tr>
-<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/ui/vue-ui">vue-ui</a></td>
-<td>Components for Vue (no UI framework, just CSS)</td>
-<td><a href="https://npmjs.com/package/@solana/wallet-adapter-vue-ui"><code>@solana/wallet-adapter-vue-ui</code></a></td>
-</tr>
-</tbody></table>
-
-<a href="#starter-projects" id="starter-projects" style="color: inherit; text-decoration: none;">
-  <h3>Starter Projects</h3>
-</a>
-<p>These packages provide projects that you can use to start building a dApp with built-in wallet support.
-Alternatively, check out <a href="https://github.com/solana-labs/dapp-scaffold">dapp-scaffold</a> for a more complete framework.</p>
-<table>
-<thead>
-<tr>
-<th>package</th>
-<th>description</th>
-<th>npm</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/example">example</a></td>
-<td>Demo of UI components</td>
-<td><a href="https://npmjs.com/package/@solana/wallet-adapter-example"><code>@solana/wallet-adapter-example</code></a></td>
-</tr>
-<tr>
-<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/material-ui-starter">material-ui-starter</a></td>
-<td><a href="https://create-react-app.dev">Create React App</a> project using Material UI</td>
-<td><a href="https://npmjs.com/package/@solana/wallet-adapter-material-ui-starter"><code>@solana/wallet-adapter-material-ui-starter</code></a></td>
-</tr>
-<tr>
-<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/react-ui-starter">react-ui-starter</a></td>
-<td><a href="https://create-react-app.dev">Create React App</a> project using React UI</td>
-<td><a href="https://npmjs.com/package/@solana/wallet-adapter-react-ui-starter"><code>@solana/wallet-adapter-react-ui-starter</code></a></td>
-</tr>
-<tr>
-<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/nextjs-starter">nextjs-starter</a></td>
-<td><a href="https://nextjs.org">Next.js</a> project using React</td>
-<td><a href="https://npmjs.com/package/@solana/wallet-adapter-nextjs-starter"><code>@solana/wallet-adapter-nextjs-starter</code></a></td>
-</tr>
-</tbody></table>
-
 <a href="#wallets" id="wallets" style="color: inherit; text-decoration: none;">
   <h3>Wallets</h3>
 </a>
 <p>These packages provide adapters for each wallet.
-The core <a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets">wallets</a> package already includes them, so you don&#39;t need to add these as dependencies.</p>
+You can use the <a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/wallets">wallets</a> package, or add the individual wallet packages you want.</p>
 <table>
 <thead>
 <tr>
@@ -232,7 +158,12 @@ The core <a href="https://github.com/solana-labs/wallet-adapter/tree/master/pack
 </tr>
 </thead>
 <tbody><tr>
-<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/bitkeep">bitkeep</a></td>
+<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/wallets">wallets</a></td>
+<td>Includes all the wallets (with tree shaking)</td>
+<td><a href="https://npmjs.com/package/@solana/wallet-adapter-wallets"><code>@solana/wallet-adapter-wallets</code></a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/bitkeep">bitkeep</a></td>
 <td>Adapter for <a href="https://bitkeep.com">BitKeep</a></td>
 <td><a href="https://npmjs.com/package/@solana/wallet-adapter-bitkeep"><code>@solana/wallet-adapter-bitkeep</code></a></td>
 </tr>
@@ -318,6 +249,75 @@ The core <a href="https://github.com/solana-labs/wallet-adapter/tree/master/pack
 </tr>
 </tbody></table>
 <p>* Package has not been published to NPM yet.</p>
+
+<a href="#ui-components" id="ui-components" style="color: inherit; text-decoration: none;">
+  <h3>UI Components</h3>
+</a>
+<p>These packages provide components for common UI frameworks.</p>
+<table>
+<thead>
+<tr>
+<th>package</th>
+<th>description</th>
+<th>npm</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/ui/material-ui">material-ui</a></td>
+<td>Components for <a href="https://material-ui.com">Material UI</a></td>
+<td><a href="https://npmjs.com/package/@solana/wallet-adapter-material-ui"><code>@solana/wallet-adapter-material-ui</code></a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/ui/ant-design">ant-design</a></td>
+<td>Components for <a href="https://ant.design">Ant Design</a></td>
+<td><a href="https://npmjs.com/package/@solana/wallet-adapter-ant-design"><code>@solana/wallet-adapter-ant-design</code></a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/ui/react-ui">react-ui</a></td>
+<td>Components for React (no UI framework, just CSS)</td>
+<td><a href="https://npmjs.com/package/@solana/wallet-adapter-react-ui"><code>@solana/wallet-adapter-react-ui</code></a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/ui/vue-ui">vue-ui</a></td>
+<td>Components for Vue (no UI framework, just CSS)</td>
+<td><a href="https://npmjs.com/package/@solana/wallet-adapter-vue-ui"><code>@solana/wallet-adapter-vue-ui</code></a></td>
+</tr>
+</tbody></table>
+
+<a href="#starter-projects" id="starter-projects" style="color: inherit; text-decoration: none;">
+  <h3>Starter Projects</h3>
+</a>
+<p>These packages provide projects that you can use to start building a dApp with built-in wallet support.
+Alternatively, check out <a href="https://github.com/solana-labs/dapp-scaffold">dapp-scaffold</a> for a more complete framework.</p>
+<table>
+<thead>
+<tr>
+<th>package</th>
+<th>description</th>
+<th>npm</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/example">example</a></td>
+<td>Demo of UI components</td>
+<td><a href="https://npmjs.com/package/@solana/wallet-adapter-example"><code>@solana/wallet-adapter-example</code></a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/material-ui-starter">material-ui-starter</a></td>
+<td><a href="https://create-react-app.dev">Create React App</a> project using Material UI</td>
+<td><a href="https://npmjs.com/package/@solana/wallet-adapter-material-ui-starter"><code>@solana/wallet-adapter-material-ui-starter</code></a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/react-ui-starter">react-ui-starter</a></td>
+<td><a href="https://create-react-app.dev">Create React App</a> project using React UI</td>
+<td><a href="https://npmjs.com/package/@solana/wallet-adapter-react-ui-starter"><code>@solana/wallet-adapter-react-ui-starter</code></a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/nextjs-starter">nextjs-starter</a></td>
+<td><a href="https://nextjs.org">Next.js</a> project using React</td>
+<td><a href="https://npmjs.com/package/@solana/wallet-adapter-nextjs-starter"><code>@solana/wallet-adapter-nextjs-starter</code></a></td>
+</tr>
+</tbody></table>
 
 <a href="#build-from-source" id="build-from-source" style="color: inherit; text-decoration: none;">
   <h2>Build from Source</h2>
