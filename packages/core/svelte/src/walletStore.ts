@@ -17,9 +17,8 @@ import { getLocalStorage, setLocalStorage } from './localStorage';
 
 type WalletDictionary = { [walletName: WalletName]: Wallet };
 type ErrorHandler = (error: WalletError) => void;
-type WalletConfig = Pick<WalletStore,
-    'wallets' | 'walletsByName' | 'autoConnect' | 'localStorageKey' | 'onError'>;
-type WalletStatus = Pick<WalletStore, 'connected' | 'publicKey'>
+type WalletConfig = Pick<WalletStore, 'wallets' | 'autoConnect' | 'localStorageKey' | 'onError'>;
+type WalletStatus = Pick<WalletStore, 'connected' | 'publicKey'>;
 
 interface WalletStore {
     autoConnect: boolean;
@@ -46,7 +45,7 @@ interface WalletStore {
     sendTransaction(
         transaction: Transaction,
         connection: Connection,
-        options?: SendTransactionOptions,
+        options?: SendTransactionOptions
     ): Promise<TransactionSignature>;
 
     signAllTransactions: SignerWalletAdapterProps['signAllTransactions'] | undefined;
@@ -137,21 +136,20 @@ function createWalletStore() {
             connected: adapter?.connected || false,
         }));
 
-        if (wallet?.name && adapter) {
-            // Asynchronously update the ready state
-            const waiting = wallet.name;
-            (async function() {
-                const ready = await adapter.ready();
-                // If the selected wallet hasn't changed while waiting, update the ready state
-                if (wallet.name === waiting) {
-                    update((store) => ({
-                        ...store,
-                        ready,
-                    }));
-                }
-            })();
-        }
+        if (!(wallet?.name && adapter)) return;
 
+        // Asynchronously update the ready state
+        const waiting = wallet.name;
+        (async function () {
+            const ready = await adapter.ready();
+            // If the selected wallet hasn't changed while waiting, update the ready state
+            if (wallet.name === waiting) {
+                update((store) => ({
+                    ...store,
+                    ready,
+                }));
+            }
+        })();
     }
 
     function updateWalletName(name: WalletName | null) {
@@ -174,7 +172,7 @@ function createWalletStore() {
         if (adapter) {
             // Sign a transaction if the wallet supports it
             if ('signTransaction' in adapter) {
-                signTransaction = async function(transaction: Transaction) {
+                signTransaction = async function (transaction: Transaction) {
                     const { connected } = get(walletStore);
                     if (!connected) throw newError(new WalletNotConnectedError());
                     return await adapter.signTransaction(transaction);
@@ -183,7 +181,7 @@ function createWalletStore() {
 
             // Sign multiple transactions if the wallet supports it
             if ('signAllTransactions' in adapter) {
-                signAllTransactions = async function(transactions: Transaction[]) {
+                signAllTransactions = async function (transactions: Transaction[]) {
                     const { connected } = get(walletStore);
                     if (!connected) throw newError(new WalletNotConnectedError());
                     return await adapter.signAllTransactions(transactions);
@@ -192,7 +190,7 @@ function createWalletStore() {
 
             // Sign an arbitrary message if the wallet supports it
             if ('signMessage' in adapter) {
-                signMessage = async function(message: Uint8Array) {
+                signMessage = async function (message: Uint8Array) {
                     const { connected } = get(walletStore);
                     if (!connected) throw newError(new WalletNotConnectedError());
                     return await adapter.signMessage(message);
@@ -215,7 +213,7 @@ function createWalletStore() {
         setDisconnecting: (disconnecting: boolean) => update((store) => ({ ...store, disconnecting })),
         setReady: (ready: boolean) => update((store) => ({ ...store, ready })),
         subscribe,
-        updateConfig: (walletConfig: WalletConfig) =>
+        updateConfig: (walletConfig: WalletConfig & { walletsByName: WalletDictionary }) =>
             update((store) => ({
                 ...store,
                 ...walletConfig,
@@ -241,11 +239,11 @@ async function disconnect(): Promise<void> {
 }
 
 export async function initialize({
-     wallets,
-     autoConnect = false,
-     localStorageKey = 'walletAdapter',
-     onError = (error: WalletError) => console.error(error),
- }: WalletConfig): Promise<void> {
+    wallets,
+    autoConnect = false,
+    localStorageKey = 'walletAdapter',
+    onError = (error: WalletError) => console.error(error),
+}: WalletConfig): Promise<void> {
     const walletsByName = wallets.reduce((walletsByName, wallet) => {
         walletsByName[wallet.name] = wallet;
         return walletsByName;
@@ -307,7 +305,7 @@ async function select(walletName: WalletName): Promise<void> {
 async function sendTransaction(
     transaction: Transaction,
     connection: Connection,
-    options?: SendTransactionOptions,
+    options?: SendTransactionOptions
 ): Promise<TransactionSignature> {
     const { connected, adapter } = get(walletStore);
     if (!connected) throw newError(new WalletNotConnectedError());
