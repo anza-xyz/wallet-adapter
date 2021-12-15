@@ -11,8 +11,8 @@ import { act } from 'react-dom/test-utils';
 import { useLocalStorage } from '../useLocalStorage';
 
 type TestRefType = {
-    getPersistedValue(): string,
-    persistValue(value: string | null): void,
+    getPersistedValue(): string;
+    persistValue(value: string | null): void;
 };
 
 const DEFAULT_VALUE = 'default value';
@@ -25,40 +25,34 @@ const STORAGE_KEY = 'storageKey';
  * the cleanup function after you're done, so that other tests can run.
  */
 function configureLocalStorageToFatalOnAccess(): () => void {
-    const savedPropertyDescriptor = Object.getOwnPropertyDescriptor(
-        window,
-        'localStorage',
-    ) as PropertyDescriptor;
+    const savedPropertyDescriptor = Object.getOwnPropertyDescriptor(window, 'localStorage') as PropertyDescriptor;
     Object.defineProperty(window, 'localStorage', {
         get() {
             throw new Error(
                 'Error: Accessing `localStorage` resulted in a fatal ' +
-                '(eg. accessing it in a private window in Firefox).',
+                    '(eg. accessing it in a private window in Firefox).'
             );
         },
     });
     return function restoreOldLocalStorage() {
-        Object.defineProperty(
-            window,
-            'localStorage',
-            savedPropertyDescriptor,
-        );
+        Object.defineProperty(window, 'localStorage', savedPropertyDescriptor);
     };
 }
 
 const TestComponent = forwardRef(function TestComponentImpl(_props, ref) {
-    const [persistedValue, setPersistedValue] = useLocalStorage<string | null>(
-        STORAGE_KEY,
-        DEFAULT_VALUE,
+    const [persistedValue, setPersistedValue] = useLocalStorage<string | null>(STORAGE_KEY, DEFAULT_VALUE);
+    useImperativeHandle(
+        ref,
+        () => ({
+            getPersistedValue() {
+                return persistedValue;
+            },
+            persistValue(newValue: string | null) {
+                setPersistedValue(newValue);
+            },
+        }),
+        [persistedValue]
     );
-    useImperativeHandle(ref, () => ({
-        getPersistedValue() {
-            return persistedValue;
-        },
-        persistValue(newValue: string | null) {
-            setPersistedValue(newValue);
-        },
-    }), [persistedValue]);
     return null;
 });
 
@@ -88,13 +82,12 @@ describe('useLocalStorage', () => {
         describe('when local storage has a value for the storage key', () => {
             const PERSISTED_VALUE = 'value';
             beforeEach(() => {
-                (localStorage.getItem as jest.Mock)
-                    .mockImplementation(storageKey => {
-                        if (storageKey !== STORAGE_KEY) {
-                            return null;
-                        }
-                        return JSON.stringify(PERSISTED_VALUE);
-                    });
+                (localStorage.getItem as jest.Mock).mockImplementation((storageKey) => {
+                    if (storageKey !== STORAGE_KEY) {
+                        return null;
+                    }
+                    return JSON.stringify(PERSISTED_VALUE);
+                });
                 expect(renderTest).not.toThrow();
             });
             it('returns that value', () => {
@@ -104,8 +97,7 @@ describe('useLocalStorage', () => {
         describe('when local storage has no value for the storage key', () => {
             const PERSISTED_VALUE = 'value';
             beforeEach(() => {
-                (localStorage.getItem as jest.Mock)
-                    .mockReturnValue(null);
+                (localStorage.getItem as jest.Mock).mockReturnValue(null);
                 expect(renderTest).not.toThrow();
             });
             it('returns the default value', () => {
@@ -127,8 +119,9 @@ describe('useLocalStorage', () => {
         });
         describe('when local storage fatals on read', () => {
             beforeEach(() => {
-                (localStorage.getItem as jest.Mock)
-                    .mockImplementation(() => { throw new Error('Local storage derped'); });
+                (localStorage.getItem as jest.Mock).mockImplementation(() => {
+                    throw new Error('Local storage derped');
+                });
                 expect(renderTest).not.toThrow();
             });
             it('renders with the default value', () => {
@@ -152,8 +145,7 @@ describe('useLocalStorage', () => {
         });
         describe('when local storage contains invalid JSON', () => {
             beforeEach(() => {
-                (localStorage.getItem as jest.Mock)
-                    .mockReturnValue('' /* <- not valid JSON! */);
+                (localStorage.getItem as jest.Mock).mockReturnValue('' /* <- not valid JSON! */);
                 expect(renderTest).not.toThrow();
             });
             it('renders with the default value', () => {
@@ -171,8 +163,7 @@ describe('useLocalStorage', () => {
                 act(() => {
                     ref.current?.persistValue(NEW_VALUE);
                 });
-                expect(localStorage.setItem)
-                    .toHaveBeenCalledWith(STORAGE_KEY, JSON.stringify(NEW_VALUE));
+                expect(localStorage.setItem).toHaveBeenCalledWith(STORAGE_KEY, JSON.stringify(NEW_VALUE));
             });
             it('re-renders the component with the new value', () => {
                 act(() => {
@@ -189,8 +180,7 @@ describe('useLocalStorage', () => {
                 act(() => {
                     ref.current?.persistValue(null);
                 });
-                expect(localStorage.removeItem)
-                    .toHaveBeenCalledWith(STORAGE_KEY);
+                expect(localStorage.removeItem).toHaveBeenCalledWith(STORAGE_KEY);
             });
             it('re-renders the component with `null`', () => {
                 act(() => {
@@ -219,8 +209,9 @@ describe('useLocalStorage', () => {
         describe('when local storage fatals on write', () => {
             const NEW_VALUE = 'new value';
             beforeEach(() => {
-                (localStorage.setItem as jest.Mock)
-                    .mockImplementation(() => { throw new Error('Local storage derped'); });
+                (localStorage.setItem as jest.Mock).mockImplementation(() => {
+                    throw new Error('Local storage derped');
+                });
                 expect(renderTest).not.toThrow();
             });
             it('re-renders the component with the new value', () => {
