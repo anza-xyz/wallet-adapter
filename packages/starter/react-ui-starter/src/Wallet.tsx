@@ -24,7 +24,7 @@ export const Wallet: FC = () => {
     // Only the wallets you want to support will be compiled into your application
     const wallets = useMemo(
         () => [
-            getTorusWallet({params:{showTorusButton:false}}),
+            getTorusWallet({ params: { showTorusButton: false } }),
             getPhantomWallet(),
             getSolflareWallet(),
             getSlopeWallet(),
