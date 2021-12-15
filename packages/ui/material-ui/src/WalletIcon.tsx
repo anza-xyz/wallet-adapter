@@ -1,6 +1,6 @@
 import { Theme } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Wallet } from '@solana/wallet-adapter-wallets';
+import { Wallet } from '@solana/wallet-adapter-base';
 import React, { DetailedHTMLProps, FC, ImgHTMLAttributes } from 'react';
 
 const Img = styled('img')(({theme}: {theme: Theme}) => ({

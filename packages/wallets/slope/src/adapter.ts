@@ -1,11 +1,11 @@
 import {
     BaseMessageSignerWalletAdapter,
-    pollUntilReady,
+    WalletAccountError,
     WalletConnectionError,
     WalletDisconnectionError,
     WalletError,
     WalletNotConnectedError,
-    WalletNotFoundError,
+    WalletNotReadyError,
     WalletPublicKeyError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
@@ -45,10 +45,7 @@ interface SlopeWindow extends Window {
 
 declare const window: SlopeWindow;
 
-export interface SlopeWalletAdapterConfig {
-    pollInterval?: number;
-    pollCount?: number;
-}
+export interface SlopeWalletAdapterConfig {}
 
 export class SlopeWalletAdapter extends BaseMessageSignerWalletAdapter {
     private _connecting: boolean;
@@ -60,24 +57,29 @@ export class SlopeWalletAdapter extends BaseMessageSignerWalletAdapter {
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
-
-        if (!this.ready) pollUntilReady(this, config.pollInterval || 1000, config.pollCount || 3);
     }
 
     get publicKey(): PublicKey | null {
         return this._publicKey;
     }
 
-    get ready(): boolean {
-        return typeof window !== 'undefined' && !!window.Slope;
-    }
-
     get connecting(): boolean {
         return this._connecting;
     }
 
-    get connected(): boolean {
-        return !!this._publicKey;
+    async ready(): Promise<boolean> {
+        if (typeof window === 'undefined' || typeof document === 'undefined') return false;
+
+        if (document.readyState === 'complete') return typeof window.Slope === 'function';
+
+        return new Promise((resolve) => {
+            function listener() {
+                window.removeEventListener('load', listener);
+                resolve(typeof window.Slope === 'function');
+            }
+
+            window.addEventListener('load', listener);
+        });
     }
 
     async connect(): Promise<void> {
@@ -85,25 +87,22 @@ export class SlopeWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            if (!window.Slope) throw new WalletNotFoundError();
+            if (!(await this.ready())) throw new WalletNotReadyError();
 
-            const wallet = new window.Slope();
+            const wallet = new window!.Slope!();
 
-            let account: string;
+            let data: { publicKey?: string | undefined };
             try {
-                const { data } = await wallet.connect();
-
-                if (!data.publicKey) throw new WalletConnectionError();
-
-                account = data.publicKey;
+                ({ data } = await wallet.connect());
             } catch (error: any) {
-                if (error instanceof WalletError) throw error;
                 throw new WalletConnectionError(error?.message, error);
             }
 
+            if (!data.publicKey) throw new WalletAccountError();
+
             let publicKey: PublicKey;
             try {
-                publicKey = new PublicKey(account);
+                publicKey = new PublicKey(data.publicKey);
             } catch (error: any) {
                 throw new WalletPublicKeyError(error?.message, error);
             }

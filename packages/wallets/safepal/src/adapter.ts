@@ -1,10 +1,8 @@
 import {
     BaseSignerWalletAdapter,
-    pollUntilReady,
     WalletAccountError,
     WalletNotConnectedError,
-    WalletNotFoundError,
-    WalletNotInstalledError,
+    WalletNotReadyError,
     WalletPublicKeyError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
@@ -23,10 +21,7 @@ interface SafePalWalletWindow extends Window {
 
 declare const window: SafePalWalletWindow;
 
-export interface SafePalWalletAdapterConfig {
-    pollInterval?: number;
-    pollCount?: number;
-}
+export interface SafePalWalletAdapterConfig {}
 
 export class SafePalWalletAdapter extends BaseSignerWalletAdapter {
     private _connecting: boolean;
@@ -38,24 +33,29 @@ export class SafePalWalletAdapter extends BaseSignerWalletAdapter {
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
-
-        if (!this.ready) pollUntilReady(this, config.pollInterval || 1000, config.pollCount || 3);
     }
 
     get publicKey(): PublicKey | null {
         return this._publicKey;
     }
 
-    get ready(): boolean {
-        return typeof window !== 'undefined' && !!window.safepal?.isSafePalWallet;
-    }
-
     get connecting(): boolean {
         return this._connecting;
     }
 
-    get connected(): boolean {
-        return !!this._wallet;
+    async ready(): Promise<boolean> {
+        if (typeof window === 'undefined' || typeof document === 'undefined') return false;
+
+        if (document.readyState === 'complete') return !!window.safepal?.isSafePalWallet;
+
+        return new Promise((resolve) => {
+            function listener() {
+                window.removeEventListener('load', listener);
+                resolve(!!window.safepal?.isSafePalWallet);
+            }
+
+            window.addEventListener('load', listener);
+        });
     }
 
     async connect(): Promise<void> {
@@ -63,9 +63,9 @@ export class SafePalWalletAdapter extends BaseSignerWalletAdapter {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const wallet = window.safepal;
-            if (!wallet) throw new WalletNotFoundError();
-            if (!wallet.isSafePalWallet) throw new WalletNotInstalledError();
+            if (!(await this.ready())) throw new WalletNotReadyError();
+
+            const wallet = window!.safepal!;
 
             let account: string;
             try {

@@ -26,9 +26,7 @@ export const WalletConnectionProvider: FC<{ children: ReactNode }> = ({ children
             getPhantomWallet(),
             getSlopeWallet(),
             getSolflareWallet(),
-            getTorusWallet({
-                options: { clientId: 'Get a client ID @ https://developer.tor.us' },
-            }),
+            getTorusWallet(),
             getLedgerWallet(),
             getSolletWallet({ network }),
             getSolletExtensionWallet({ network }),

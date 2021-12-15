@@ -1,10 +1,8 @@
 import {
     BaseSignerWalletAdapter,
-    pollUntilReady,
     WalletAccountError,
     WalletNotConnectedError,
-    WalletNotFoundError,
-    WalletNotInstalledError,
+    WalletNotReadyError,
     WalletPublicKeyError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
@@ -23,10 +21,7 @@ interface CoinhubWalletWindow extends Window {
 
 declare const window: CoinhubWalletWindow;
 
-export interface CoinhubWalletAdapterConfig {
-    pollInterval?: number;
-    pollCount?: number;
-}
+export interface CoinhubWalletAdapterConfig {}
 
 export class CoinhubWalletAdapter extends BaseSignerWalletAdapter {
     private _connecting: boolean;
@@ -38,24 +33,29 @@ export class CoinhubWalletAdapter extends BaseSignerWalletAdapter {
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
-
-        if (!this.ready) pollUntilReady(this, config.pollInterval || 1000, config.pollCount || 3);
     }
 
     get publicKey(): PublicKey | null {
         return this._publicKey;
     }
 
-    get ready(): boolean {
-        return typeof window !== 'undefined' && !!window.coinhub?.isCoinhubWallet;
-    }
-
     get connecting(): boolean {
         return this._connecting;
     }
 
-    get connected(): boolean {
-        return !!this._wallet;
+    async ready(): Promise<boolean> {
+        if (typeof window === 'undefined' || typeof document === 'undefined') return false;
+
+        if (document.readyState === 'complete') return !!window.coinhub?.isCoinhubWallet;
+
+        return new Promise((resolve) => {
+            function listener() {
+                window.removeEventListener('load', listener);
+                resolve(!!window.coinhub?.isCoinhubWallet);
+            }
+
+            window.addEventListener('load', listener);
+        });
     }
 
     async connect(): Promise<void> {
@@ -63,9 +63,9 @@ export class CoinhubWalletAdapter extends BaseSignerWalletAdapter {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const wallet = window.coinhub;
-            if (!wallet) throw new WalletNotFoundError();
-            if (!wallet.isCoinhubWallet) throw new WalletNotInstalledError();
+            if (!(await this.ready())) throw new WalletNotReadyError();
+
+            const wallet = window!.coinhub!;
 
             let account: string;
             try {
