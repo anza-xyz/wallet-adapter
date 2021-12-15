@@ -3,13 +3,10 @@ import { useCallback, useState } from 'react';
 export function useLocalStorage<T>(key: string, defaultState: T): [T, (newValue: T) => void] {
     const [value, setValue] = useState<T>(() => {
         try {
-            if (typeof localStorage === 'undefined') return defaultState;
             const value = localStorage.getItem(key);
-            if (value) {
-                return JSON.parse(value) as T;
-            }
+            if (value) return JSON.parse(value) as T;
         } catch (error) {
-            console.warn(error);
+            console.error(error);
         }
 
         return defaultState;
@@ -21,7 +18,6 @@ export function useLocalStorage<T>(key: string, defaultState: T): [T, (newValue:
             setValue(newValue);
 
             try {
-                if (typeof localStorage === 'undefined') return;
                 if (newValue === null) {
                     localStorage.removeItem(key);
                 } else {
