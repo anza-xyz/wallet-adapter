@@ -1,24 +1,25 @@
 import { WalletNotConnectedError, WalletNotReadyError } from '@solana/wallet-adapter-base';
 import type {
+    Adapter,
     MessageSignerWalletAdapter,
     MessageSignerWalletAdapterProps,
     SendTransactionOptions,
     SignerWalletAdapter,
     SignerWalletAdapterProps,
     WalletError,
+    Wallet,
+    WalletName
 } from '@solana/wallet-adapter-base';
-import type { Wallet, WalletName } from '@solana/wallet-adapter-wallets';
 import type { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
 import { get, writable } from 'svelte/store';
 import { WalletNotSelectedError } from './errors';
 import { getLocalStorage, setLocalStorage } from './localStorage';
 
-type Adapter = ReturnType<Wallet['adapter']>;
+type WalletDictionary = { [walletName: WalletName]: Wallet };
 type ErrorHandler = (error: WalletError) => void;
-type WalletDictionary = { [name in WalletName]: Wallet };
 type WalletConfig = Pick<WalletStore,
     'wallets' | 'walletsByName' | 'autoConnect' | 'localStorageKey' | 'onError'>;
-type WalletStatus = Pick<WalletStore, 'ready' | 'connected' | 'publicKey'>
+type WalletStatus = Pick<WalletStore, 'connected' | 'publicKey'>
 
 interface WalletStore {
     autoConnect: boolean;
@@ -34,7 +35,7 @@ interface WalletStore {
     ready: boolean;
     wallet: Wallet | null;
     walletsByName: WalletDictionary;
-    walletName: WalletName | null;
+    name: WalletName | null;
 
     connect(): Promise<void>;
 
@@ -58,7 +59,6 @@ export const walletStore = createWalletStore();
 function addAdapterEventListeners(adapter: Adapter) {
     const { onError } = get(walletStore);
 
-    adapter.on('ready', onReady);
     adapter.on('connect', onConnect);
     adapter.on('disconnect', onDisconnect);
     adapter.on('error', onError);
@@ -115,7 +115,7 @@ function createWalletStore() {
         publicKey: null,
         ready: false,
         wallet: null,
-        walletName: null,
+        name: null,
         walletsByName: {} as WalletDictionary,
         connect,
         disconnect,
@@ -130,21 +130,21 @@ function createWalletStore() {
         updateAdapter(adapter);
         update((store) => ({
             ...store,
-            walletName: wallet?.name || null,
+            name: wallet?.name || null,
             wallet,
-            ready: adapter?.ready || false,
+            ready: false,
             publicKey: adapter?.publicKey || null,
             connected: adapter?.connected || false,
         }));
     }
 
-    function updateWalletName(walletName: WalletName | null) {
+    function updateWalletName(name: WalletName | null) {
         const { localStorageKey, walletsByName } = get(walletStore);
 
-        const wallet = walletsByName?.[walletName as WalletName] ?? null;
-        const adapter = wallet?.adapter() ?? null;
+        const wallet = walletsByName?.[name as WalletName] ?? null;
+        const adapter = wallet && wallet.adapter;
 
-        setLocalStorage(localStorageKey, walletName);
+        setLocalStorage(localStorageKey, name);
         updateWalletState(wallet, adapter);
     }
 
@@ -213,9 +213,7 @@ async function disconnect(): Promise<void> {
     const { disconnecting, adapter } = get(walletStore);
     if (disconnecting) return;
 
-    if (!adapter) {
-        return walletStore.resetWallet();
-    }
+    if (!adapter) return walletStore.resetWallet();
 
     try {
         walletStore.setDisconnecting(true);
@@ -263,7 +261,6 @@ function onConnect() {
     if (!adapter || !wallet) return;
 
     walletStore.updateStatus({
-        ready: adapter.ready,
         publicKey: adapter.publicKey,
         connected: adapter.connected,
     });
@@ -281,19 +278,18 @@ function removeAdapterEventListeners(): void {
     const { adapter, onError } = get(walletStore);
     if (!adapter) return;
 
-    adapter.off('ready', onReady);
     adapter.off('connect', onConnect);
     adapter.off('disconnect', onDisconnect);
     adapter.off('error', onError);
 }
 
-async function select(newName: WalletName): Promise<void> {
-    const { walletName, adapter } = get(walletStore);
-    if (walletName === newName) return;
+async function select(walletName: WalletName): Promise<void> {
+    const { name, adapter } = get(walletStore);
+    if (name === walletName) return;
 
     if (adapter) await disconnect();
 
-    walletStore.updateWallet(newName);
+    walletStore.updateWallet(walletName);
 }
 
 async function sendTransaction(
