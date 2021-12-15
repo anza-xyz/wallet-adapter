@@ -1,6 +1,6 @@
+import LaunchIcon from '@mui/icons-material/Launch';
 import { Link } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import LaunchIcon from '@mui/icons-material/Launch';
 import { useSnackbar, VariantType } from 'notistack';
 import { useCallback } from 'react';
 
@@ -34,10 +34,7 @@ export function useNotify() {
                 <Notification>
                     {message}
                     {signature && (
-                        <StyledLink
-                            href={`https://explorer.solana.com/tx/${signature}?cluster=devnet`}
-                            target="_blank"
-                        >
+                        <StyledLink href={`https://explorer.solana.com/tx/${signature}?cluster=devnet`} target="_blank">
                             Transaction
                             <StyledLaunchIcon />
                         </StyledLink>

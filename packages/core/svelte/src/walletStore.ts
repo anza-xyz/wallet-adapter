@@ -1,4 +1,3 @@
-import { WalletNotConnectedError, WalletNotReadyError } from '@solana/wallet-adapter-base';
 import type {
     Adapter,
     MessageSignerWalletAdapter,
@@ -6,9 +5,11 @@ import type {
     SendTransactionOptions,
     SignerWalletAdapter,
     SignerWalletAdapterProps,
+    Wallet,
     WalletError,
+    WalletName,
 } from '@solana/wallet-adapter-base';
-import type { Wallet, WalletName } from '@solana/wallet-adapter-base';
+import { WalletNotConnectedError, WalletNotReadyError } from '@solana/wallet-adapter-base';
 import type { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
 import { get, writable } from 'svelte/store';
 import { WalletNotSelectedError } from './errors';

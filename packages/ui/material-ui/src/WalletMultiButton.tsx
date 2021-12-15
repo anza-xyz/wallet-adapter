@@ -1,8 +1,8 @@
-import { Button, ButtonProps, Collapse, Fade, ListItemIcon, Menu, MenuItem, Theme } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import CopyIcon from '@mui/icons-material/FileCopy';
 import DisconnectIcon from '@mui/icons-material/LinkOff';
 import SwitchIcon from '@mui/icons-material/SwapHoriz';
+import { Button, ButtonProps, Collapse, Fade, ListItemIcon, Menu, MenuItem, Theme } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useWallet } from '@solana/wallet-adapter-react';
 import React, { FC, useMemo, useState } from 'react';
 import { useWalletDialog } from './useWalletDialog';
@@ -10,7 +10,7 @@ import { WalletConnectButton } from './WalletConnectButton';
 import { WalletDialogButton } from './WalletDialogButton';
 import { WalletIcon } from './WalletIcon';
 
-const StyledMenu = styled(Menu)(({theme}: {theme: Theme}) => ({
+const StyledMenu = styled(Menu)(({ theme }: { theme: Theme }) => ({
     '& .MuiList-root': {
         padding: 0,
     },
@@ -24,17 +24,16 @@ const StyledMenu = styled(Menu)(({theme}: {theme: Theme}) => ({
     },
 }));
 
-const WalletActionMenuItem = styled(MenuItem)(({theme}: {theme: Theme}) => ({
+const WalletActionMenuItem = styled(MenuItem)(({ theme }: { theme: Theme }) => ({
     padding: theme.spacing(1, 2),
     boxShadow: 'inset 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.1)',
 
     '&:hover': {
-        boxShadow:
-            'inset 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.1)' + ', 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.05)',
+        boxShadow: 'inset 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.1)' + ', 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.05)',
     },
 }));
 
-const WalletMenuItem = styled(WalletActionMenuItem)(({theme}: {theme: Theme}) => ({
+const WalletMenuItem = styled(WalletActionMenuItem)(({ theme }: { theme: Theme }) => ({
     padding: 0,
 
     '& .MuiButton-root': {
@@ -99,8 +98,7 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                 transitionDuration={250}
                 keepMounted
             >
-                <WalletMenuItem
-                    onClick={() => setAnchor(undefined)}>
+                <WalletMenuItem onClick={() => setAnchor(undefined)}>
                     <Button
                         color={color}
                         variant={variant}

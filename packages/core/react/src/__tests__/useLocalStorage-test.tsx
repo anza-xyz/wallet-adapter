@@ -5,8 +5,8 @@
 'use strict';
 
 import 'jest-localstorage-mock';
-import { render, unmountComponentAtNode } from 'react-dom';
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
+import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import { useLocalStorage } from '../useLocalStorage';
 

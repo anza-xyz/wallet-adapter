@@ -1,4 +1,4 @@
-import { createTheme, ThemeProvider, Theme, StyledEngineProvider } from '@mui/material';
+import { createTheme, StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
 import { SnackbarProvider } from 'notistack';
 import React, { FC } from 'react';
@@ -19,23 +19,23 @@ const theme = createTheme({
             styleOverrides: {
                 root: {
                     justifyContent: 'flex-start',
-                }
-            }
+                },
+            },
         },
         MuiButton: {
             styleOverrides: {
-            root: {
-                textTransform: undefined,
-                padding: '12px 16px',
+                root: {
+                    textTransform: undefined,
+                    padding: '12px 16px',
+                },
+                startIcon: {
+                    marginRight: 8,
+                },
+                endIcon: {
+                    marginLeft: 8,
+                },
             },
-            startIcon: {
-                marginRight: 8,
-            },
-            endIcon: {
-                marginLeft: 8,
-            },
-            }
-        }
+        },
     },
 });
 

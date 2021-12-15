@@ -1,3 +1,6 @@
+import CloseIcon from '@mui/icons-material/Close';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 import {
     Button,
     Collapse,
@@ -11,16 +14,13 @@ import {
     Theme,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import CloseIcon from '@mui/icons-material/Close';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletName } from '@solana/wallet-adapter-base';
+import { useWallet } from '@solana/wallet-adapter-react';
 import React, { FC, ReactElement, SyntheticEvent, useCallback, useMemo, useState } from 'react';
 import { useWalletDialog } from './useWalletDialog';
 import { WalletListItem } from './WalletListItem';
 
-const RootDialog = styled(Dialog)(({theme} : {theme: Theme}) => ({
+const RootDialog = styled(Dialog)(({ theme }: { theme: Theme }) => ({
     '& .MuiDialog-paper': {
         width: theme.spacing(40),
         margin: 0,

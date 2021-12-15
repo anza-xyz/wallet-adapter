@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import { Wallet } from '@solana/wallet-adapter-base';
 import React, { DetailedHTMLProps, FC, ImgHTMLAttributes } from 'react';
 
-const Img = styled('img')(({theme}: {theme: Theme}) => ({
+const Img = styled('img')(({ theme }: { theme: Theme }) => ({
     width: theme.spacing(3),
     height: theme.spacing(3),
 }));

@@ -1,4 +1,6 @@
-import { createTheme, ThemeProvider, Theme, StyledEngineProvider } from '@mui/material';
+import { createTheme, StyledEngineProvider, ThemeProvider } from '@mui/material';
+
+import { deepPurple, pink } from '@mui/material/colors';
 import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import {
@@ -14,8 +16,6 @@ import { clusterApiUrl } from '@solana/web3.js';
 import { SnackbarProvider, useSnackbar } from 'notistack';
 import { FC, ReactNode, useCallback, useMemo } from 'react';
 import { AutoConnectProvider, useAutoConnect } from './AutoConnectProvider';
-
-import { deepPurple, pink } from '@mui/material/colors';
 
 const theme = createTheme({
     palette: {
@@ -47,7 +47,7 @@ const theme = createTheme({
                 endIcon: {
                     marginLeft: 8,
                 },
-            }
+            },
         },
     },
 });
