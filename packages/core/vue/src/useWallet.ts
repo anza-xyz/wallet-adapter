@@ -52,20 +52,29 @@ export interface WalletStoreProps {
 }
 
 const walletStoreKey: InjectionKey<WalletStore> = Symbol();
+let globalWalletStore: WalletStore | null = null;
 
 export const useWallet = (): WalletStore => {
-    const walletStore = inject(walletStoreKey);
-    if (!walletStore)
-        throw new Error('Wallet not initialized. Please use the `WalletProvider` component to initialize the wallet.');
-    return walletStore;
+    const providedWalletStore = inject(walletStoreKey, undefined);
+    if (providedWalletStore) return providedWalletStore;
+    if (globalWalletStore) return globalWalletStore;
+    throw new Error('Wallet not initialized. Please use the `WalletProvider` component to initialize the wallet.');
 };
 
-export const initWallet = ({
+export const provideWallet = (walletStoreProps: WalletStoreProps): void => {
+    provide(walletStoreKey, createWalletStore(walletStoreProps));
+};
+
+export const initWallet = (walletStoreProps: WalletStoreProps): void => {
+    globalWalletStore = createWalletStore(walletStoreProps)
+}
+
+export const createWalletStore = ({
     wallets,
     autoConnect = false,
     onError = (error: WalletError) => console.error(error),
     localStorageKey = 'walletName',
-}: WalletStoreProps): void => {
+}: WalletStoreProps): WalletStore => {
     const name: Ref<WalletName | null> = useLocalStorage<WalletName>(localStorageKey);
     const wallet = ref<Wallet | null>(null);
     const adapter = ref<Adapter | null>(null);
@@ -274,8 +283,8 @@ export const initWallet = ({
         }
     });
 
-    // Set up the store.
-    provide(walletStoreKey, {
+    // Return the created store.
+    return {
         // Props.
         wallets,
         autoConnect,
@@ -297,5 +306,5 @@ export const initWallet = ({
         signTransaction,
         signAllTransactions,
         signMessage,
-    });
+    };
 };

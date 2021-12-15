@@ -39,7 +39,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     children,
     wallets,
     autoConnect = false,
-    onError: _onError = (error: WalletError) => console.error(error),
+    onError,
     localStorageKey = 'walletName',
 }) => {
     const [name, setName] = useLocalStorage<WalletName | null>(localStorageKey, null);
@@ -94,7 +94,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
             } catch (error: any) {
                 // Clear the selected wallet
                 setName(null);
-                // Don't throw error, but onError will still be called
+                // Don't throw error, but handleError will still be called
             } finally {
                 setConnecting(false);
                 isConnecting.current = false;
@@ -123,7 +123,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     );
 
     // Handle the adapter's connect event
-    const onConnect = useCallback(() => {
+    const handleConnect = useCallback(() => {
         if (!adapter) return;
 
         const { connected, publicKey } = adapter;
@@ -131,25 +131,27 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     }, [adapter, setState]);
 
     // Handle the adapter's disconnect event
-    const onDisconnect = useCallback(() => {
+    const handleDisconnect = useCallback(() => {
         // Clear the selected wallet unless the window is unloading
         if (!isUnloading.current) setName(null);
     }, [isUnloading, setName]);
 
     // Handle the adapter's error event, and local errors
-    const onError = useCallback(
+    const handleError = useCallback(
         (error: WalletError) => {
-            // Call the provided error handler unless the window is unloading
-            if (!isUnloading.current) _onError(error);
+            // Call onError unless the window is unloading
+            if (!isUnloading.current) {
+                (onError || console.error)(error);
+            }
             return error;
         },
-        [isUnloading, _onError]
+        [isUnloading, onError]
     );
 
     // Connect the adapter to the wallet
     const connect = useCallback(async () => {
         if (isConnecting.current || connecting || disconnecting || connected) return;
-        if (!wallet || !adapter) throw onError(new WalletNotSelectedError());
+        if (!wallet || !adapter) throw handleError(new WalletNotSelectedError());
 
         if (!ready) {
             // Clear the selected wallet
@@ -159,7 +161,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
                 window.open(wallet.url, '_blank');
             }
 
-            throw onError(new WalletNotReadyError());
+            throw handleError(new WalletNotReadyError());
         }
 
         isConnecting.current = true;
@@ -169,13 +171,24 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         } catch (error: any) {
             // Clear the selected wallet
             setName(null);
-            // Rethrow the error, and onError will also be called
+            // Rethrow the error, and handleError will also be called
             throw error;
         } finally {
             setConnecting(false);
             isConnecting.current = false;
         }
-    }, [isConnecting, connecting, disconnecting, connected, wallet, adapter, onError, ready, setConnecting, setName]);
+    }, [
+        isConnecting,
+        connecting,
+        disconnecting,
+        connected,
+        wallet,
+        adapter,
+        handleError,
+        ready,
+        setConnecting,
+        setName,
+    ]);
 
     // Disconnect the adapter from the wallet
     const disconnect = useCallback(async () => {
@@ -189,7 +202,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         } catch (error: any) {
             // Clear the selected wallet
             setName(null);
-            // Rethrow the error, and onError will also be called
+            // Rethrow the error, and handleError will also be called
             throw error;
         } finally {
             setDisconnecting(false);
@@ -200,11 +213,11 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     // Send a transaction using the provided connection
     const sendTransaction = useCallback(
         async (transaction: Transaction, connection: Connection, options?: SendTransactionOptions) => {
-            if (!adapter) throw onError(new WalletNotSelectedError());
-            if (!connected) throw onError(new WalletNotConnectedError());
+            if (!adapter) throw handleError(new WalletNotSelectedError());
+            if (!connected) throw handleError(new WalletNotConnectedError());
             return await adapter.sendTransaction(transaction, connection, options);
         },
-        [adapter, onError, connected]
+        [adapter, handleError, connected]
     );
 
     // Sign a transaction if the wallet supports it
@@ -212,11 +225,11 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         () =>
             adapter && 'signTransaction' in adapter
                 ? async (transaction: Transaction): Promise<Transaction> => {
-                      if (!connected) throw onError(new WalletNotConnectedError());
+                      if (!connected) throw handleError(new WalletNotConnectedError());
                       return await adapter.signTransaction(transaction);
                   }
                 : undefined,
-        [adapter, onError, connected]
+        [adapter, handleError, connected]
     );
 
     // Sign multiple transactions if the wallet supports it
@@ -224,11 +237,11 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         () =>
             adapter && 'signAllTransactions' in adapter
                 ? async (transactions: Transaction[]): Promise<Transaction[]> => {
-                      if (!connected) throw onError(new WalletNotConnectedError());
+                      if (!connected) throw handleError(new WalletNotConnectedError());
                       return await adapter.signAllTransactions(transactions);
                   }
                 : undefined,
-        [adapter, onError, connected]
+        [adapter, handleError, connected]
     );
 
     // Sign an arbitrary message if the wallet supports it
@@ -236,26 +249,26 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         () =>
             adapter && 'signMessage' in adapter
                 ? async (message: Uint8Array): Promise<Uint8Array> => {
-                      if (!connected) throw onError(new WalletNotConnectedError());
+                      if (!connected) throw handleError(new WalletNotConnectedError());
                       return await adapter.signMessage(message);
                   }
                 : undefined,
-        [adapter, onError, connected]
+        [adapter, handleError, connected]
     );
 
     // Setup and teardown event listeners when the adapter changes
     useEffect(() => {
         if (adapter) {
-            adapter.on('connect', onConnect);
-            adapter.on('disconnect', onDisconnect);
-            adapter.on('error', onError);
+            adapter.on('connect', handleConnect);
+            adapter.on('disconnect', handleDisconnect);
+            adapter.on('error', handleError);
             return () => {
-                adapter.off('connect', onConnect);
-                adapter.off('disconnect', onDisconnect);
-                adapter.off('error', onError);
+                adapter.off('connect', handleConnect);
+                adapter.off('disconnect', handleDisconnect);
+                adapter.off('error', handleError);
             };
         }
-    }, [adapter, onConnect, onDisconnect, onError]);
+    }, [adapter, handleConnect, handleDisconnect, handleError]);
 
     return (
         <WalletContext.Provider
