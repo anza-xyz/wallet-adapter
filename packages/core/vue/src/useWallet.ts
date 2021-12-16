@@ -66,8 +66,8 @@ export const provideWallet = (walletStoreProps: WalletStoreProps): void => {
 };
 
 export const initWallet = (walletStoreProps: WalletStoreProps): void => {
-    globalWalletStore = createWalletStore(walletStoreProps)
-}
+    globalWalletStore = createWalletStore(walletStoreProps);
+};
 
 export const createWalletStore = ({
     wallets,
