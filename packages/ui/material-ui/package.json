@@ -22,7 +22,7 @@
     "peerDependencies": {
         "@material-ui/core": "^4.12.1",
         "@material-ui/icons": "^4.11.2",
-        "@solana/wallet-adapter-base": "^0.8.0",
+        "@solana/wallet-adapter-base": "^0.8.1",
         "@solana/wallet-adapter-react": "^0.14.0",
         "@solana/web3.js": "^1.20.0",
         "react": "^17.0.2",
@@ -31,7 +31,7 @@
     "devDependencies": {
         "@material-ui/core": "^4.12.1",
         "@material-ui/icons": "^4.11.2",
-        "@solana/wallet-adapter-base": "^0.8.0",
+        "@solana/wallet-adapter-base": "^0.8.1",
         "@solana/wallet-adapter-react": "^0.14.0",
         "@solana/web3.js": "^1.20.0",
         "@types/react": "^17.0.24",

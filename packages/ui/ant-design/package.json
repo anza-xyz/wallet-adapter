@@ -22,7 +22,7 @@
     },
     "peerDependencies": {
         "@ant-design/icons": "^4.6.3",
-        "@solana/wallet-adapter-base": "^0.8.0",
+        "@solana/wallet-adapter-base": "^0.8.1",
         "@solana/wallet-adapter-react": "^0.14.0",
         "@solana/web3.js": "^1.20.0",
         "antd": "^4.16.11",
@@ -31,7 +31,7 @@
     },
     "devDependencies": {
         "@ant-design/icons": "^4.6.3",
-        "@solana/wallet-adapter-base": "^0.8.0",
+        "@solana/wallet-adapter-base": "^0.8.1",
         "@solana/wallet-adapter-react": "^0.14.0",
         "@solana/web3.js": "^1.20.0",
         "@types/react": "^17.0.24",
