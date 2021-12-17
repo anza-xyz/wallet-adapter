@@ -1,11 +1,13 @@
-import Wallet from '@project-serum/sol-wallet-adapter';
+import type Wallet from '@project-serum/sol-wallet-adapter';
 import {
     BaseMessageSignerWalletAdapter,
     WalletAdapterNetwork,
+    WalletConfigError,
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
     WalletError,
+    WalletLoadError,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletSignMessageError,
@@ -83,10 +85,21 @@ export class SolletWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             const provider = this._provider || window!.sollet!;
 
+            let SolWalletAdapter: typeof import('@project-serum/sol-wallet-adapter');
+            try {
+                SolWalletAdapter = await import('@project-serum/sol-wallet-adapter');
+            } catch (error: any) {
+                throw new WalletLoadError(error?.message, error);
+            }
+
             let wallet: Wallet;
             try {
-                wallet = new Wallet(provider, this._network);
+                wallet = new SolWalletAdapter.default(provider, this._network);
+            } catch (error: any) {
+                throw new WalletConfigError(error?.message, error);
+            }
 
+            try {
                 // HACK: sol-wallet-adapter doesn't reject or emit an event if the popup or extension is closed or blocked
                 const handleDisconnect: (...args: unknown[]) => unknown = (wallet as any).handleDisconnect;
                 let timeout: NodeJS.Timer | undefined;
