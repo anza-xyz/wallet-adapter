@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { walletConfigStore } from '@solana/wallet-adapter-svelte';
+	import { walletStore } from '@solana/wallet-adapter-svelte';
 	import { createEventDispatcher } from 'svelte';
 	import WalletButton from './WalletButton.svelte';
 
@@ -10,7 +10,7 @@
 		container: HTMLDivElement;
 
 	$: numberOfWalletsShown = showMoreOptions
-		? $walletConfigStore.wallets.length
+		? $walletStore.wallets.length
 		: maxNumberOfWallets;
 
 	const dispatch = createEventDispatcher();
@@ -59,7 +59,7 @@
 			</button>
 
 			<ul class="wallet-adapter-modal-list">
-				{#each $walletConfigStore.wallets.slice(0, numberOfWalletsShown) as { name, icon }}
+				{#each $walletStore.wallets.slice(0, numberOfWalletsShown) as { name, icon }}
 					<li>
 						<WalletButton on:click={() => connect(name)}>
 							{name}
@@ -72,7 +72,7 @@
 				{/each}
 			</ul>
 
-			{#if $walletConfigStore.wallets.length > maxNumberOfWallets}
+			{#if $walletStore.wallets.length > maxNumberOfWallets}
 				<button
 					class="wallet-adapter-modal-collapse-button wallet-adapter-button"
 					style="justify-content: space-between"

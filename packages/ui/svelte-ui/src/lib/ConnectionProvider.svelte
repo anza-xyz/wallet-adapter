@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Connection } from '@solana/web3.js';
 	import type { Commitment, ConnectionConfig } from '@solana/web3.js';
-	import { workSpace } from '@solana/wallet-adapter-svelte';
+	import { workSpace } from './workSpace';
 
 	export let network: string,
 		config: Commitment | ConnectionConfig | undefined = 'processed';
