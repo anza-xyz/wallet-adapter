@@ -4,6 +4,10 @@
 
 	globalThis.Buffer = Buffer;
 	globalThis.process = process;
+
+    if (typeof window !== 'undefined') {
+        window.global = window;
+    }
 </script>
 
 <script lang="ts">
@@ -18,9 +22,3 @@
 
 	$: wallets && initialize({ wallets, autoConnect, localStorageKey, onError });
 </script>
-
-<svelte:head>
-	<script>
-		window.global = window;
-	</script>
-</svelte:head>
