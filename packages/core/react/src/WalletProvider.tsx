@@ -53,10 +53,10 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     // Map of wallet names to wallets
     const walletsByName = useMemo(
         () =>
-            wallets.reduce((walletsByName, wallet) => {
+            wallets.reduce<Record<WalletName, Wallet>>((walletsByName, wallet) => {
                 walletsByName[wallet.name] = wallet;
                 return walletsByName;
-            }, {} as { [name: WalletName]: Wallet }),
+            }, {}),
         [wallets]
     );
 
