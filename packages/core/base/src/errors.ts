@@ -12,6 +12,10 @@ export class WalletNotReadyError extends WalletError {
     name = 'WalletNotReadyError';
 }
 
+export class WalletLoadError extends WalletError {
+    name = 'WalletLoadError';
+}
+
 export class WalletConfigError extends WalletError {
     name = 'WalletConfigError';
 }

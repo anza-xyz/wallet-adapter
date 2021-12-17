@@ -1,4 +1,4 @@
-import BloctoSDK, { SolanaProviderInterface } from '@blocto/sdk';
+import type { SolanaProviderInterface } from '@blocto/sdk';
 import {
     BaseWalletAdapter,
     SendTransactionOptions,
@@ -7,6 +7,7 @@ import {
     WalletConfigError,
     WalletConnectionError,
     WalletDisconnectionError,
+    WalletLoadError,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
@@ -51,7 +52,20 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
 
             if (!(await this.ready())) throw new WalletNotReadyError();
 
-            const wallet = new BloctoSDK({ solana: { net: this._network } }).solana;
+            let BloctoSDK: typeof import('@blocto/sdk');
+            try {
+                BloctoSDK = await import('@blocto/sdk');
+            } catch (error: any) {
+                throw new WalletLoadError(error?.message, error);
+            }
+
+            let wallet: SolanaProviderInterface | undefined;
+            try {
+                wallet = new BloctoSDK.default({ solana: { net: this._network } }).solana;
+            } catch (error: any) {
+                throw new WalletConfigError(error?.message, error);
+            }
+
             if (!wallet) throw new WalletConfigError();
 
             if (!wallet.connected) {

@@ -1,5 +1,4 @@
-import { WalletError } from '@solana/wallet-adapter-base';
-import { Wallet } from '@solana/wallet-adapter-base';
+import { Wallet, WalletError } from '@solana/wallet-adapter-base';
 import { defineComponent, PropType } from '@vue/runtime-core';
 import { provideWallet } from './useWallet';
 

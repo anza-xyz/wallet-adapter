@@ -27,7 +27,7 @@
     "dependencies": {
         "@material-ui/core": "^4.12.3",
         "@material-ui/icons": "^4.11.2",
-        "@solana/wallet-adapter-base": "^0.8.0",
+        "@solana/wallet-adapter-base": "^0.8.1",
         "@solana/wallet-adapter-material-ui": "^0.14.0",
         "@solana/wallet-adapter-react": "^0.14.0",
         "@solana/wallet-adapter-wallets": "^0.13.0",

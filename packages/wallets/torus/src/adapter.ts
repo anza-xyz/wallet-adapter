@@ -1,15 +1,17 @@
 import {
     BaseMessageSignerWalletAdapter,
     WalletAccountError,
+    WalletConfigError,
     WalletConnectionError,
     WalletDisconnectionError,
+    WalletLoadError,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
-import Torus, { TorusParams } from '@toruslabs/solana-embed';
+import type { default as Torus, TorusParams } from '@toruslabs/solana-embed';
 
 export interface TorusWalletAdapterConfig {
     params?: TorusParams;
@@ -58,7 +60,19 @@ export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             if (!(await this.ready())) throw new WalletNotReadyError();
 
-            const wallet = window.torus || new Torus();
+            let TorusEmbed: typeof import('@toruslabs/solana-embed');
+            try {
+                TorusEmbed = await import('@toruslabs/solana-embed');
+            } catch (error: any) {
+                throw new WalletLoadError(error?.message, error);
+            }
+
+            let wallet: Torus;
+            try {
+                wallet = window.torus || new TorusEmbed.default();
+            } catch (error: any) {
+                throw new WalletConfigError(error?.message, error);
+            }
 
             if (!wallet.isInitialized) {
                 try {
