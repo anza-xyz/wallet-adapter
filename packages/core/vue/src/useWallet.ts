@@ -3,11 +3,12 @@ import {
     MessageSignerWalletAdapter,
     SendTransactionOptions,
     SignerWalletAdapter,
+    Wallet,
     WalletError,
+    WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
 } from '@solana/wallet-adapter-base';
-import { Wallet, WalletName } from '@solana/wallet-adapter-base';
 import { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
 import { computed, inject, InjectionKey, provide, Ref, ref, watch, watchEffect } from '@vue/runtime-core';
 import { WalletNotSelectedError } from './errors';
