@@ -11,7 +11,7 @@ import { Connection, PublicKey, Transaction } from '@solana/web3.js';
 import React, { FC, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { WalletNotSelectedError } from './errors';
 import { useLocalStorage } from './useLocalStorage';
-import { WalletContext } from './useWallet';
+import { WalletContext, WalletDetails } from './useWallet';
 
 export interface WalletProviderProps {
     children: ReactNode;
@@ -42,6 +42,12 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     onError,
     localStorageKey = 'walletName',
 }) => {
+    const [details, setDetails] = useState(() =>
+        wallets.reduce<Record<WalletName, WalletDetails>>((details, wallet) => {
+            details[wallet.name] = { ready: false };
+            return details;
+        }, {})
+    );
     const [name, setName] = useLocalStorage<WalletName | null>(localStorageKey, null);
     const [{ wallet, adapter, ready, publicKey, connected }, setState] = useState(initialState);
     const [connecting, setConnecting] = useState(false);
@@ -59,6 +65,23 @@ export const WalletProvider: FC<WalletProviderProps> = ({
             }, {}),
         [wallets]
     );
+
+    // When the wallets change, asynchronously derive the details
+    useEffect(() => {
+        (async () => {
+            const waiting = wallets;
+            const ready = await Promise.all(wallets.map((wallet) => wallet.adapter.ready()));
+            // If the wallets haven't changed while waiting, update the details state
+            if (wallets === waiting) {
+                setDetails(
+                    wallets.reduce<Record<WalletName, WalletDetails>>((details, wallet, index) => {
+                        details[wallet.name] = { ready: ready[index] };
+                        return details;
+                    }, {})
+                );
+            }
+        })();
+    }, [wallets]);
 
     // When the selected wallet changes, initialize the state
     useEffect(() => {
@@ -274,6 +297,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         <WalletContext.Provider
             value={{
                 wallets,
+                details,
                 autoConnect,
                 wallet,
                 adapter,

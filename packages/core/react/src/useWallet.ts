@@ -8,8 +8,13 @@ import {
 } from '@solana/wallet-adapter-base';
 import { createContext, useContext } from 'react';
 
+export interface WalletDetails {
+    ready: boolean;
+}
+
 export interface WalletContextState extends Omit<WalletAdapterProps, 'ready'> {
     wallets: Wallet[];
+    details: Record<WalletName, WalletDetails>;
     autoConnect: boolean;
 
     wallet: Wallet | null;
