@@ -1,7 +1,6 @@
 import { MessageSignerWalletAdapter, SignerWalletAdapter, WalletNotConnectedError } from '@solana/wallet-adapter-base';
 import { Transaction } from '@solana/web3.js';
 import { defer, from, Observable, Subject, throwError } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 export const signMessage = (
     adapter: MessageSignerWalletAdapter,
@@ -15,7 +14,7 @@ export const signMessage = (
             return throwError(error);
         }
 
-        return from(defer(() => adapter.signMessage(message))).pipe(map((signature) => signature));
+        return from(defer(() => adapter.signMessage(message)));
     };
 };
 
@@ -31,7 +30,7 @@ export const signTransaction = (
             return throwError(error);
         }
 
-        return from(defer(() => adapter.signTransaction(transaction))).pipe(map((transaction) => transaction));
+        return from(defer(() => adapter.signTransaction(transaction)));
     };
 };
 
@@ -47,6 +46,6 @@ export const signAllTransactions = (
             return throwError(error);
         }
 
-        return from(defer(() => adapter.signAllTransactions(transactions))).pipe(map((transactions) => transactions));
+        return from(defer(() => adapter.signAllTransactions(transactions)));
     };
 };
