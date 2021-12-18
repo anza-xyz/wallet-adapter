@@ -27,7 +27,7 @@
         "lint": "next lint"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.8.0",
+        "@solana/wallet-adapter-base": "^0.8.1",
         "@solana/wallet-adapter-react": "^0.14.0",
         "@solana/wallet-adapter-react-ui": "^0.7.0",
         "@solana/wallet-adapter-wallets": "^0.13.0",
