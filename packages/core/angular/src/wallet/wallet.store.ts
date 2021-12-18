@@ -133,12 +133,21 @@ export class WalletStore extends ComponentStore<WalletState> {
                         connected,
                         ready: false,
                     });
-
-                    // FIXME: Asynchronously update the ready state
                 } else {
                     this.patchState(initialState);
                 }
             })
+        )
+    );
+
+    // Update ready state for newly selected adapter
+    readonly onAdapterChanged = this.effect(() =>
+        this.adapter$.pipe(
+            isNotNull,
+
+            concatMap((adapter) =>
+                from(defer(() => adapter.ready())).pipe(tap((ready) => this.patchState({ ready: !!ready })))
+            )
         )
     );
 
