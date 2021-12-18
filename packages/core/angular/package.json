@@ -13,22 +13,21 @@
         "build": "yarn clean && ng build angular --configuration=production"
     },
     "peerDependencies": {
-        "@angular/common": "^13.0.1",
-        "@angular/core": "^13.0.1",
-        "@ngrx/component-store": "^13.0.2",
         "@solana/wallet-adapter-base": "^0.8.1",
-        "@solana/web3.js": "^1.28.0",
+        "@solana/web3.js": "^1.20.0",
         "rxjs": "^6.6.0"
     },
     "dependencies": {
         "tslib": "^2.3.0"
     },
     "devDependencies": {
-        "typescript": "^4.4.4",
-        "ng-packagr": "^13.0.3",
-        "@angular-devkit/build-angular": "^13.0.2",
-        "@angular/cli": "^13.0.2",
-        "@angular/compiler-cli": "^13.0.1",
-        "@angular/compiler": "^13.0.1"
+        "@angular/common": "^13.1.0",
+        "@angular/core": "^13.1.0",
+        "@ngrx/component-store": "^13.0.2",
+        "ng-packagr": "^13.1.0",
+        "@angular-devkit/build-angular": "^13.1.0",
+        "@angular/cli": "^13.1.0",
+        "@angular/compiler-cli": "^13.1.0",
+        "@angular/compiler": "^13.1.0"
     }
 }
