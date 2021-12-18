@@ -9,7 +9,18 @@ import {
     WalletNotReadyError,
 } from '@solana/wallet-adapter-base';
 import { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
-import { combineLatest, defer, EMPTY, from, fromEvent, Observable, of, Subject, throwError } from 'rxjs';
+import {
+    BehaviorSubject,
+    combineLatest,
+    defer,
+    EMPTY,
+    from,
+    fromEvent,
+    Observable,
+    of,
+    Subject,
+    throwError,
+} from 'rxjs';
 import { catchError, concatMap, filter, finalize, first, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import { fromAdapterEvent, isNotNull } from '../operators';
@@ -45,6 +56,8 @@ export class WalletStore extends ComponentStore<WalletState> {
         this._config?.localStorageKey || 'walletName',
         null
     );
+    private readonly _unloading = new BehaviorSubject(false);
+    private readonly unloading$ = this._unloading.asObservable();
     readonly wallets$ = this.select(({ wallets }) => wallets);
     readonly autoConnect$ = this.select(({ autoConnect }) => autoConnect);
     readonly wallet$ = this.select(({ wallet }) => wallet);
@@ -53,7 +66,6 @@ export class WalletStore extends ComponentStore<WalletState> {
     readonly ready$ = this.select(({ ready }) => ready);
     readonly connecting$ = this.select(({ connecting }) => connecting);
     readonly disconnecting$ = this.select(({ disconnecting }) => disconnecting);
-    readonly unloading$ = this.select(({ unloading }) => unloading);
     readonly connected$ = this.select(({ connected }) => connected);
     readonly name$ = this._name.value$;
     readonly error$ = this._error.asObservable();
@@ -106,7 +118,6 @@ export class WalletStore extends ComponentStore<WalletState> {
             wallets: [],
             connecting: false,
             disconnecting: false,
-            unloading: false,
             autoConnect: this._config?.autoConnect || false,
         });
     }
@@ -157,7 +168,7 @@ export class WalletStore extends ComponentStore<WalletState> {
             return of(null);
         }
 
-        return fromEvent(window, 'beforeunload').pipe(tap(() => this.patchState({ unloading: true })));
+        return fromEvent(window, 'beforeunload').pipe(tap(() => this._unloading.next(true)));
     });
 
     // If autoConnect is enabled, try to connect when the adapter changes and is ready
