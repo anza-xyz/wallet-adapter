@@ -45,6 +45,16 @@ export class WalletStore extends ComponentStore<WalletState> {
         this._config?.localStorageKey || 'walletName',
         null
     );
+    readonly wallets$ = this.select(({ wallets }) => wallets);
+    readonly autoConnect$ = this.select(({ autoConnect }) => autoConnect);
+    readonly wallet$ = this.select(({ wallet }) => wallet);
+    readonly adapter$ = this.select(({ adapter }) => adapter);
+    readonly publicKey$ = this.select(({ publicKey }) => publicKey);
+    readonly ready$ = this.select(({ ready }) => ready);
+    readonly connecting$ = this.select(({ connecting }) => connecting);
+    readonly disconnecting$ = this.select(({ disconnecting }) => disconnecting);
+    readonly unloading$ = this.select(({ unloading }) => unloading);
+    readonly connected$ = this.select(({ connected }) => connected);
     readonly name$ = this._name.value$;
     readonly error$ = this._error.asObservable();
     readonly anchorWallet$ = this.select(
