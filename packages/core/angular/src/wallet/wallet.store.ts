@@ -152,9 +152,13 @@ export class WalletStore extends ComponentStore<WalletState> {
     );
 
     // If the window is closing or reloading, ignore disconnect and error events from the adapter
-    readonly handleUnload = this.effect(() =>
-        fromEvent(window, 'beforeunload').pipe(tap(() => this.patchState({ unloading: true })))
-    );
+    readonly handleUnload = this.effect(() => {
+        if (typeof window === 'undefined') {
+            return of(null);
+        }
+
+        return fromEvent(window, 'beforeunload').pipe(tap(() => this.patchState({ unloading: true })));
+    });
 
     // If autoConnect is enabled, try to connect when the adapter changes and is ready
     readonly autoConnect = this.effect(() => {
