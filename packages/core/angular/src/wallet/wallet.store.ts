@@ -28,12 +28,24 @@ import { LocalStorageService } from './local-storage';
 import { WalletNotSelectedError } from './wallet.errors';
 import { signAllTransactions, signMessage, signTransaction } from './wallet.signer';
 import { WALLET_CONFIG } from './wallet.tokens';
-import { WalletConfig, WalletState } from './wallet.types';
+import { WalletConfig } from './wallet.types';
 
-export const WALLET_DEFAULT_CONFIG: WalletConfig = {
+const WALLET_DEFAULT_CONFIG: WalletConfig = {
     autoConnect: false,
     localStorageKey: 'walletName',
 };
+
+interface WalletState {
+    wallets: Wallet[];
+    wallet: Wallet | null;
+    adapter: Adapter | null;
+    connecting: boolean;
+    disconnecting: boolean;
+    connected: boolean;
+    ready: boolean;
+    publicKey: PublicKey | null;
+    autoConnect: boolean;
+}
 
 const initialState: {
     wallet: Wallet | null;
