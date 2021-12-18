@@ -3634,6 +3634,11 @@
   dependencies:
     buffer "~6.0.3"
 
+"@solana/wallet-adapter-material-ui@^0.14.0":
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/@solana/wallet-adapter-material-ui/-/wallet-adapter-material-ui-0.14.0.tgz#97ab83cc7375282b4890ee87b89203be2e7391da"
+  integrity sha512-ETQKHCpupDGXgGPTMv9aFfkeBcYhefa8lpexwuIFm8PpNfAAROv4XYh5m9qCgn++AMguPlDWZRuKUoFcgH0TTg==
+
 "@solana/web3.js@^1.20.0", "@solana/web3.js@^1.29.2", "@solana/web3.js@^1.30.2":
   version "1.31.0"
   resolved "https://registry.yarnpkg.com/@solana/web3.js/-/web3.js-1.31.0.tgz#7a313d4c1a90b77f27ddbfe845a10d6883e06452"
