@@ -8,7 +8,7 @@ import {
     WalletNotConnectedError,
     WalletNotReadyError,
 } from '@solana/wallet-adapter-base';
-import { Connection, PublicKey, Transaction } from '@solana/web3.js';
+import { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
 import { combineLatest, defer, EMPTY, from, fromEvent, Observable, of, Subject, throwError } from 'rxjs';
 import { catchError, concatMap, filter, finalize, first, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
@@ -331,7 +331,7 @@ export class WalletStore extends ComponentStore<WalletState> {
                 }
 
                 return from(defer(() => adapter.sendTransaction(transaction, connection, options))).pipe(
-                    map((txId) => txId as string)
+                    map((txId) => txId as TransactionSignature)
                 );
             })
         );
