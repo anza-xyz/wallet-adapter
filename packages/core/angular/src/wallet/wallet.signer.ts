@@ -15,7 +15,7 @@ export const signMessage = (
             return throwError(error);
         }
 
-        return from(defer(() => adapter.signMessage(message))).pipe(map((signature) => signature as Uint8Array));
+        return from(defer(() => adapter.signMessage(message))).pipe(map((signature) => signature));
     };
 };
 
@@ -31,9 +31,7 @@ export const signTransaction = (
             return throwError(error);
         }
 
-        return from(defer(() => adapter.signTransaction(transaction))).pipe(
-            map((transaction) => transaction as Transaction)
-        );
+        return from(defer(() => adapter.signTransaction(transaction))).pipe(map((transaction) => transaction));
     };
 };
 
@@ -49,8 +47,6 @@ export const signAllTransactions = (
             return throwError(error);
         }
 
-        return from(defer(() => adapter.signAllTransactions(transactions))).pipe(
-            map((transactions) => transactions as Transaction[])
-        );
+        return from(defer(() => adapter.signAllTransactions(transactions))).pipe(map((transactions) => transactions));
     };
 };
