@@ -105,17 +105,20 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         const adapter = wallet && wallet.adapter;
         if (adapter) {
             const { publicKey, connected } = adapter;
-            setState({ wallet, adapter, connected, publicKey, ready: false });
+            const ready = (name && details[name]?.ready) || false;
+            setState({ wallet, adapter, connected, publicKey, ready });
 
-            // Asynchronously update the ready state
-            const waiting = name;
-            (async function () {
-                const ready = await adapter.ready();
-                // If the selected wallet hasn't changed while waiting, update the ready state
-                if (name === waiting) {
-                    setState((state) => ({ ...state, ready }));
-                }
-            })();
+            // If the adapter isn't ready, asynchronously update the ready state
+            if (!ready) {
+                const waiting = name;
+                (async function () {
+                    const ready = await adapter.ready();
+                    // If the selected wallet hasn't changed while waiting, update the ready state
+                    if (name === waiting) {
+                        setState((state) => ({ ...state, ready }));
+                    }
+                })();
+            }
         } else {
             setState(initialState);
         }
