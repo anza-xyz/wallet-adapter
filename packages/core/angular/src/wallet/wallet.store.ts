@@ -227,7 +227,7 @@ export class WalletStore extends ComponentStore<WalletState> {
     });
 
     // Connect the adapter to the wallet
-    connect(): Observable<void> {
+    connect(): Observable<unknown> {
         return combineLatest([
             this.connecting$,
             this.disconnecting$,
@@ -271,7 +271,7 @@ export class WalletStore extends ComponentStore<WalletState> {
     }
 
     // Disconnect the adapter from the wallet
-    disconnect(): Observable<void> {
+    disconnect(): Observable<unknown> {
         return combineLatest([this.disconnecting$, this.adapter$]).pipe(
             first(),
             filter(([disconnecting]) => !disconnecting),
@@ -310,7 +310,9 @@ export class WalletStore extends ComponentStore<WalletState> {
                     return throwError(error);
                 }
 
-                return from(defer(() => adapter.sendTransaction(transaction, connection, options)));
+                return from(defer(() => adapter.sendTransaction(transaction, connection, options))).pipe(
+                    map((txId) => txId as string)
+                );
             })
         );
     }
