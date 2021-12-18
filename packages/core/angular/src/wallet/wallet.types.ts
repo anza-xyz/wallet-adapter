@@ -8,6 +8,7 @@ export interface WalletState {
     adapter: Adapter | null;
     connecting: boolean;
     disconnecting: boolean;
+    unloading: boolean;
     connected: boolean;
     ready: boolean;
     publicKey: PublicKey | null;

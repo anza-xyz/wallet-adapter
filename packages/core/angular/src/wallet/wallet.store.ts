@@ -9,7 +9,7 @@ import {
     WalletNotReadyError,
 } from '@solana/wallet-adapter-base';
 import { Connection, PublicKey, Transaction } from '@solana/web3.js';
-import { combineLatest, defer, EMPTY, from, Observable, of, Subject, throwError } from 'rxjs';
+import { combineLatest, defer, EMPTY, from, fromEvent, Observable, of, Subject, throwError } from 'rxjs';
 import { catchError, concatMap, filter, finalize, first, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import { fromAdapterEvent, isNotNull } from '../operators';
@@ -107,6 +107,7 @@ export class WalletStore extends ComponentStore<WalletState> {
             name: this._localStorage.value,
             connecting: false,
             disconnecting: false,
+            unloading: false,
             autoConnect: this._config?.autoConnect || false,
         });
     }
@@ -135,6 +136,11 @@ export class WalletStore extends ComponentStore<WalletState> {
                 }
             })
         )
+    );
+
+    // If the window is closing or reloading, ignore disconnect and error events from the adapter
+    readonly handleUnload = this.effect(() =>
+        fromEvent(window, 'beforeunload').pipe(tap(() => this.patchState({ unloading: true })))
     );
 
     // If autoConnect is enabled, try to connect when the adapter changes and is ready
@@ -204,19 +210,19 @@ export class WalletStore extends ComponentStore<WalletState> {
 
     // Handle the adapter's disconnect event
     readonly onDisconnect = this.effect(() => {
-        return this.adapter$.pipe(
-            isNotNull,
-            switchMap((adapter) =>
-                fromAdapterEvent(adapter, 'disconnect').pipe(tap(() => this.patchState({ name: null })))
+        return combineLatest([this.adapter$.pipe(isNotNull), this.unloading$]).pipe(
+            switchMap(([adapter, unloading]) =>
+                fromAdapterEvent(adapter, 'disconnect').pipe(tap(() => !unloading && this._name.setItem(null)))
             )
         );
     });
 
     // Handle the adapter's error event
     readonly onError = this.effect(() => {
-        return this.adapter$.pipe(
-            isNotNull,
-            switchMap((adapter) => fromAdapterEvent(adapter, 'error').pipe(tap((error) => this._error.next(error))))
+        return combineLatest([this.adapter$.pipe(isNotNull), this.unloading$]).pipe(
+            switchMap(([adapter, unloading]) =>
+                fromAdapterEvent(adapter, 'error').pipe(tap((error) => !unloading && this._error.next(error)))
+            )
         );
     });
 
