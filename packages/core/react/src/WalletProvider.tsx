@@ -43,6 +43,24 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     onError,
     localStorageKey = 'walletName',
 }) => {
+    const [name, setName] = useLocalStorage<WalletName | null>(localStorageKey, null);
+    const [{ wallet, adapter, ready, publicKey, connected }, setState] = useState(initialState);
+    const [connecting, setConnecting] = useState(false);
+    const [disconnecting, setDisconnecting] = useState(false);
+    const isConnecting = useRef(false);
+    const isDisconnecting = useRef(false);
+    const isUnloading = useRef(false);
+
+    // When the wallets change, map the wallet names to the wallets
+    const walletsByName = useMemo(
+        () =>
+            wallets.reduce<Record<WalletName, Wallet>>((walletsByName, wallet) => {
+                walletsByName[wallet.name] = wallet;
+                return walletsByName;
+            }, {}),
+        [wallets]
+    );
+
     // When the wallets change, initialize the details
     const [details, setDetails] = useInitialState(
         () =>
@@ -68,25 +86,6 @@ export const WalletProvider: FC<WalletProviderProps> = ({
             }
         })();
     }, [wallets]);
-
-    // When the wallets change, map the wallet names to the wallets
-    const walletsByName = useMemo(
-        () =>
-            wallets.reduce<Record<WalletName, Wallet>>((walletsByName, wallet) => {
-                walletsByName[wallet.name] = wallet;
-                return walletsByName;
-            }, {}),
-        [wallets]
-    );
-
-    // Setup the rest of the state
-    const [name, setName] = useLocalStorage<WalletName | null>(localStorageKey, null);
-    const [{ wallet, adapter, ready, publicKey, connected }, setState] = useState(initialState);
-    const [connecting, setConnecting] = useState(false);
-    const [disconnecting, setDisconnecting] = useState(false);
-    const isConnecting = useRef(false);
-    const isDisconnecting = useRef(false);
-    const isUnloading = useRef(false);
 
     // When the selected wallet changes, initialize the state
     useEffect(() => {
