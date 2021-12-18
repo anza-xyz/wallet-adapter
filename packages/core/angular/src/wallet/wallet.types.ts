@@ -16,7 +16,6 @@ export interface WalletState {
 }
 
 export interface WalletConfig {
-    wallets: Wallet[];
     localStorageKey?: string;
     autoConnect?: boolean;
     onError?: (error: unknown) => void;

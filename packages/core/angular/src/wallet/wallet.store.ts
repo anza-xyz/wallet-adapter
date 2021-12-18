@@ -20,7 +20,6 @@ import { WALLET_CONFIG } from './wallet.tokens';
 import { WalletConfig, WalletState } from './wallet.types';
 
 export const WALLET_DEFAULT_CONFIG: WalletConfig = {
-    wallets: [],
     autoConnect: false,
     localStorageKey: 'walletName',
 };
@@ -103,14 +102,18 @@ export class WalletStore extends ComponentStore<WalletState> {
 
         this.setState({
             ...initialState,
-            wallets: this._config?.wallets || [],
-            name: this._localStorage.value,
+            wallets: [],
             connecting: false,
             disconnecting: false,
             unloading: false,
             autoConnect: this._config?.autoConnect || false,
         });
     }
+
+    // Load wallets
+    readonly loadWallets = this.effect((wallets$: Observable<Wallet[]>) =>
+        wallets$.pipe(tap((wallets) => this.patchState({ wallets })))
+    );
 
     // When the selected wallet changes, initialize the state
     readonly onWalletChanged = this.effect(() =>
