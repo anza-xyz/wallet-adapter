@@ -41,20 +41,11 @@ const initialState: {
 @Injectable()
 export class WalletStore extends ComponentStore<WalletState> {
     private readonly _error = new Subject();
-    private readonly _localStorage = new LocalStorageService<WalletName | null>(
+    private readonly _name = new LocalStorageService<WalletName | null>(
         this._config?.localStorageKey || 'walletName',
         null
     );
-    readonly wallets$ = this.select((state) => state.wallets);
-    readonly autoConnect$ = this.select((state) => state.autoConnect);
-    readonly wallet$ = this.select((state) => state.wallet);
-    readonly adapter$ = this.select((state) => state.adapter);
-    readonly publicKey$ = this.select((state) => state.publicKey);
-    readonly ready$ = this.select((state) => state.ready);
-    readonly connecting$ = this.select((state) => state.connecting);
-    readonly disconnecting$ = this.select((state) => state.disconnecting);
-    readonly connected$ = this.select((state) => state.connected);
-    readonly name$ = this.select((state) => state.name);
+    readonly name$ = this._name.value$;
     readonly error$ = this._error.asObservable();
     readonly anchorWallet$ = this.select(
         this.publicKey$,
@@ -124,8 +115,8 @@ export class WalletStore extends ComponentStore<WalletState> {
 
                 if (adapter) {
                     const { publicKey, connected } = adapter;
+                    this._name.setItem(name);
                     this.patchState({
-                        name,
                         adapter,
                         wallet,
                         publicKey,
@@ -163,7 +154,7 @@ export class WalletStore extends ComponentStore<WalletState> {
                 return from(defer(() => adapter.connect())).pipe(
                     catchError(() => {
                         // Clear the selected wallet
-                        this.patchState({ name: null });
+                        this._name.setItem(null);
                         // Don't throw error, but onError will still be called
                         return of(null);
                     }),
@@ -182,13 +173,13 @@ export class WalletStore extends ComponentStore<WalletState> {
                 if (!adapter) {
                     return of(newName);
                 } else {
-                    return from(defer(() => adapter.disconnect())).pipe(map(() => newName));
+                    return from(defer(() => adapter.disconnect())).pipe(
+                        map(() => newName),
+                        catchError(() => EMPTY)
+                    );
                 }
             }),
-            tap((newName) => {
-                this._localStorage.setItem(newName);
-                this.patchState({ name: newName });
-            })
+            tap((newName) => this._name.setItem(newName))
         );
     });
 
@@ -249,7 +240,7 @@ export class WalletStore extends ComponentStore<WalletState> {
                 }
 
                 if (!ready) {
-                    this.patchState({ name: null });
+                    this._name.setItem(null);
 
                     if (typeof window !== 'undefined') {
                         window.open(wallet.url, '_blank');
@@ -264,7 +255,7 @@ export class WalletStore extends ComponentStore<WalletState> {
 
                 return from(defer(() => adapter.connect())).pipe(
                     catchError((error) => {
-                        this.patchState({ name: null });
+                        this._name.setItem(null);
                         return throwError(error);
                     }),
                     finalize(() => this.patchState({ connecting: false }))
@@ -280,12 +271,15 @@ export class WalletStore extends ComponentStore<WalletState> {
             filter(([disconnecting]) => !disconnecting),
             concatMap(([, adapter]) => {
                 if (!adapter) {
-                    this.patchState({ name: null });
+                    this._name.setItem(null);
                     return EMPTY;
                 } else {
                     this.patchState({ disconnecting: true });
                     return from(defer(() => adapter.disconnect())).pipe(
-                        finalize(() => this.patchState({ disconnecting: false, name: null }))
+                        finalize(() => {
+                            this._name.setItem(null);
+                            this.patchState({ disconnecting: false });
+                        })
                     );
                 }
             })

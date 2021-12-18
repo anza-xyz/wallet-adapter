@@ -1,37 +1,32 @@
+import { BehaviorSubject } from 'rxjs';
+
 export class LocalStorageService<T> {
-    private _value = this._defaultValue;
+    private _value = new BehaviorSubject(this.getInitialValue());
+    value$ = this._value.asObservable();
 
-    constructor(private _key: string, private _defaultValue: T) {}
+    constructor(private _key: string, private _defaultState: T) {}
 
-    get value(): T {
-        if (this._value) return this._value;
-
-        try {
-            const value = localStorage.getItem(this._key);
-            if (value) {
-                this._value = JSON.parse(value) as T;
-                return this._value;
-            }
-        } catch (error) {
-            console.error(error);
+    private getInitialValue(): T {
+        if (typeof localStorage === 'undefined') {
+            return this._defaultState;
         }
 
-        return this._defaultValue;
+        const value = localStorage.getItem(this._key);
+
+        return value ? (JSON.parse(value) as T) : this._defaultState;
     }
 
     setItem(newValue: T): void {
-        if (newValue === this.value) return;
+        const value = this._value.getValue();
 
-        this._value = newValue;
+        if (newValue === value) return;
 
-        try {
-            if (newValue === null) {
-                localStorage.removeItem(this._key);
-            } else {
-                localStorage.setItem(this._key, JSON.stringify(newValue));
-            }
-        } catch (error) {
-            console.error(error);
+        this._value.next(newValue);
+
+        if (newValue === null) {
+            localStorage.removeItem(this._key);
+        } else {
+            localStorage.setItem(this._key, JSON.stringify(newValue));
         }
     }
 }
