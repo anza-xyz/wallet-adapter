@@ -71,25 +71,16 @@ export const WalletProvider: FC<WalletProviderProps> = ({
             const ready = await Promise.all(wallets.map((wallet) => wallet.adapter.ready()));
             // If the wallets haven't changed while waiting, update the details
             if (wallets === waiting) {
-                setDetails(
-                    wallets.reduce<Record<WalletName, WalletDetails>>((details, wallet, index) => {
-                        details[wallet.name] = { ready: ready[index] };
-                        return details;
-                    }, {})
-                );
+                const details = wallets.reduce<Record<WalletName, WalletDetails>>((details, wallet, index) => {
+                    details[wallet.name] = { ready: ready[index] };
+                    return details;
+                }, {});
+                setDetails(details);
             }
         })();
     }, [wallets]);
 
-    const [name, setName] = useLocalStorage<WalletName | null>(localStorageKey, null);
-    const [{ wallet, adapter, ready, publicKey, connected }, setState] = useState(initialState);
-    const [connecting, setConnecting] = useState(false);
-    const [disconnecting, setDisconnecting] = useState(false);
-    const isConnecting = useRef(false);
-    const isDisconnecting = useRef(false);
-    const isUnloading = useRef(false);
-
-    // Map of wallet names to wallets
+    // When the wallets change, map the wallet names to the wallets
     const walletsByName = useMemo(
         () =>
             wallets.reduce<Record<WalletName, Wallet>>((walletsByName, wallet) => {
@@ -98,6 +89,15 @@ export const WalletProvider: FC<WalletProviderProps> = ({
             }, {}),
         [wallets]
     );
+
+    // Setup the rest of the state
+    const [name, setName] = useLocalStorage<WalletName | null>(localStorageKey, null);
+    const [{ wallet, adapter, ready, publicKey, connected }, setState] = useState(initialState);
+    const [connecting, setConnecting] = useState(false);
+    const [disconnecting, setDisconnecting] = useState(false);
+    const isConnecting = useRef(false);
+    const isDisconnecting = useRef(false);
+    const isUnloading = useRef(false);
 
     // When the selected wallet changes, initialize the state
     useEffect(() => {
@@ -179,9 +179,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     const handleError = useCallback(
         (error: WalletError) => {
             // Call onError unless the window is unloading
-            if (!isUnloading.current) {
-                (onError || console.error)(error);
-            }
+            if (!isUnloading.current) (onError || console.error)(error);
             return error;
         },
         [isUnloading, onError]
