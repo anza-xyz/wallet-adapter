@@ -4,16 +4,18 @@ export class LocalStorageService<T> {
     private _value = new BehaviorSubject(this.getInitialValue());
     value$ = this._value.asObservable();
 
-    constructor(private _key: string, private _defaultState: T) {}
+    constructor(private _key: string, private _defaultValue: T) {}
 
     private getInitialValue(): T {
-        if (typeof localStorage === 'undefined') {
-            return this._defaultState;
+        try {
+            const value = localStorage.getItem(this._key);
+
+            return value ? (JSON.parse(value) as T) : this._defaultValue;
+        } catch (error) {
+            console.error(error);
         }
 
-        const value = localStorage.getItem(this._key);
-
-        return value ? (JSON.parse(value) as T) : this._defaultState;
+        return this._defaultValue;
     }
 
     setItem(newValue: T): void {
@@ -23,10 +25,14 @@ export class LocalStorageService<T> {
 
         this._value.next(newValue);
 
-        if (newValue === null) {
-            localStorage.removeItem(this._key);
-        } else {
-            localStorage.setItem(this._key, JSON.stringify(newValue));
+        try {
+            if (newValue === null) {
+                localStorage.removeItem(this._key);
+            } else {
+                localStorage.setItem(this._key, JSON.stringify(newValue));
+            }
+        } catch (error) {
+            console.error(error);
         }
     }
 }
