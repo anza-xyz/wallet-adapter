@@ -14,7 +14,6 @@ export const CONNECTION_DEFAULT_CONFIG: ConnectionConfig = {
 @Injectable()
 export class ConnectionStore extends ComponentStore<ConnectionState> {
     connection$ = this.select(this.state$, ({ connection }) => connection);
-    network$ = this.select(this.state$, ({ network }) => network);
     endpoint$ = this.select(this.state$, ({ endpoint }) => endpoint);
 
     constructor(
@@ -31,15 +30,9 @@ export class ConnectionStore extends ComponentStore<ConnectionState> {
 
         this.setState({
             connection: null,
-            network: WalletAdapterNetwork.Devnet,
             endpoint: clusterApiUrl(WalletAdapterNetwork.Devnet),
         });
     }
-
-    readonly setNetwork = this.updater((state, network: WalletAdapterNetwork) => ({
-        ...state,
-        network,
-    }));
 
     readonly setEndpoint = this.updater((state, endpoint: string) => ({
         ...state,
