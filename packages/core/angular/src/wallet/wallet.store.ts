@@ -134,8 +134,8 @@ export class WalletStore extends ComponentStore<WalletState> {
         });
     }
 
-    // Load wallets
-    readonly loadWallets = this.effect((wallets$: Observable<Wallet[]>) =>
+    // Set wallets
+    readonly setWallets = this.effect((wallets$: Observable<Wallet[]>) =>
         wallets$.pipe(tap((wallets) => this.patchState({ wallets })))
     );
 
