@@ -337,7 +337,7 @@ export class WalletStore extends ComponentStore<WalletState> {
         transaction: Transaction,
         connection: Connection,
         options?: SendTransactionOptions
-    ): Observable<string> {
+    ): Observable<TransactionSignature> {
         return combineLatest([this.adapter$, this.connected$]).pipe(
             first(),
             concatMap(([adapter, connected]) => {
@@ -353,9 +353,7 @@ export class WalletStore extends ComponentStore<WalletState> {
                     return throwError(error);
                 }
 
-                return from(defer(() => adapter.sendTransaction(transaction, connection, options))).pipe(
-                    map((txId) => txId as TransactionSignature)
-                );
+                return from(defer(() => adapter.sendTransaction(transaction, connection, options)));
             })
         );
     }
