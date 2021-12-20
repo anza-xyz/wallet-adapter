@@ -147,6 +147,10 @@ function createWalletStore() {
                     ...store,
                     ready,
                 }));
+
+                if (shouldAutoConnect()) {
+                    autoConnect();
+                }
             }
         })();
     }
@@ -200,10 +204,6 @@ function createWalletStore() {
         }
 
         update((store) => ({ ...store, adapter, signTransaction, signAllTransactions, signMessage }));
-
-        if (shouldAutoConnect()) {
-            autoConnect();
-        }
     }
 
     return {
