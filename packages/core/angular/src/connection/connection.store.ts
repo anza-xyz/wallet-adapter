@@ -5,16 +5,20 @@ import { clusterApiUrl, Connection, ConnectionConfig } from '@solana/web3.js';
 import { tap } from 'rxjs/operators';
 
 import { CONNECTION_CONFIG } from './connection.tokens';
-import { ConnectionState } from './connection.types';
 
 export const CONNECTION_DEFAULT_CONFIG: ConnectionConfig = {
     commitment: 'confirmed',
 };
 
+interface ConnectionState {
+    connection: Connection | null;
+    endpoint: string;
+}
+
 @Injectable()
 export class ConnectionStore extends ComponentStore<ConnectionState> {
-    connection$ = this.select(this.state$, ({ connection }) => connection);
-    endpoint$ = this.select(this.state$, ({ endpoint }) => endpoint);
+    readonly connection$ = this.select(this.state$, ({ connection }) => connection);
+    readonly endpoint$ = this.select(this.state$, ({ endpoint }) => endpoint);
 
     constructor(
         @Optional()
