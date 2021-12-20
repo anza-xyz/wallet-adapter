@@ -171,9 +171,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
-            if (!wallet) throw new WalletNotConnectedError();
-
-            if ('signAndSendTransaction' in wallet) {
+            if (wallet && 'signAndSendTransaction' in wallet && !options?.signers) {
                 const { signature } = await wallet.signAndSendTransaction(transaction, options);
                 return signature;
             }
@@ -182,7 +180,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
             throw error;
         }
 
-        return super.sendTransaction(transaction, connection, options);
+        return await super.sendTransaction(transaction, connection, options);
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {
