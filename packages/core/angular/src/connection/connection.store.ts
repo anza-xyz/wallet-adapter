@@ -1,8 +1,8 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import { clusterApiUrl, Connection, ConnectionConfig } from '@solana/web3.js';
+import { Connection, ConnectionConfig } from '@solana/web3.js';
 import { tap } from 'rxjs/operators';
+import { isNotNull } from 'src/operators';
 
 import { CONNECTION_CONFIG } from './connection.tokens';
 
@@ -12,7 +12,7 @@ export const CONNECTION_DEFAULT_CONFIG: ConnectionConfig = {
 
 interface ConnectionState {
     connection: Connection | null;
-    endpoint: string;
+    endpoint: string | null;
 }
 
 @Injectable()
@@ -34,7 +34,7 @@ export class ConnectionStore extends ComponentStore<ConnectionState> {
 
         this.setState({
             connection: null,
-            endpoint: clusterApiUrl(WalletAdapterNetwork.Devnet),
+            endpoint: null,
         });
     }
 
@@ -45,6 +45,7 @@ export class ConnectionStore extends ComponentStore<ConnectionState> {
 
     readonly onEndpointChange = this.effect(() =>
         this.endpoint$.pipe(
+            isNotNull,
             tap((endpoint) =>
                 this.patchState({
                     connection: new Connection(endpoint, this._config),
