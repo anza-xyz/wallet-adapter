@@ -9,7 +9,7 @@
         "access": "public"
     },
     "scripts": {
-        "clean": "shx rm -rf lib/*",
+        "clean": "shx rm -rf lib/* .angular",
         "build": "yarn clean && ng build angular --configuration=production"
     },
     "peerDependencies": {
