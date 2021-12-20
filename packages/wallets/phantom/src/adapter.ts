@@ -1,6 +1,7 @@
 import {
     BaseMessageSignerWalletAdapter,
     EventEmitter,
+    SendTransactionOptions,
     WalletAccountError,
     WalletConnectionError,
     WalletDisconnectedError,
@@ -12,7 +13,7 @@ import {
     WalletSignTransactionError,
     WalletWindowClosedError,
 } from '@solana/wallet-adapter-base';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import { Connection, PublicKey, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
 
 interface PhantomWalletEvents {
     connect(...args: unknown[]): unknown;
@@ -25,6 +26,10 @@ interface PhantomWallet extends EventEmitter<PhantomWalletEvents> {
     isConnected: boolean;
     signTransaction(transaction: Transaction): Promise<Transaction>;
     signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
+    signAndSendTransaction(
+        transaction: Transaction,
+        options?: SendOptions
+    ): Promise<{ signature: TransactionSignature }>;
     signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
@@ -157,6 +162,26 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
 
         this.emit('disconnect');
+    }
+
+    async sendTransaction(
+        transaction: Transaction,
+        connection: Connection,
+        options?: SendTransactionOptions
+    ): Promise<TransactionSignature> {
+        try {
+            const wallet = this._wallet;
+            // Phantom doesn't handle partial signers, so if they are provided, don't use `signAndSendTransaction`
+            if (wallet && 'signAndSendTransaction' in wallet && !options?.signers) {
+                const { signature } = await wallet.signAndSendTransaction(transaction, options);
+                return signature;
+            }
+        } catch (error: any) {
+            this.emit('error', error);
+            throw error;
+        }
+
+        return await super.sendTransaction(transaction, connection, options);
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {
