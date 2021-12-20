@@ -1,24 +1,22 @@
 export class LocalStorageService<T> {
-    private _value = this._defaultState;
+    private _value = this._defaultValue;
 
-    constructor(private _key: string, private _defaultState: T) {}
+    constructor(private _key: string, private _defaultValue: T) {}
 
     get value(): T {
-        if (typeof localStorage === 'undefined') {
-            return this._defaultState;
+        if (this._value) return this._value;
+
+        try {
+            const value = localStorage.getItem(this._key);
+            if (value) {
+                this._value = JSON.parse(value) as T;
+                return this._value;
+            }
+        } catch (error) {
+            console.error(error);
         }
 
-        if (this._value) {
-            return this._value;
-        }
-
-        const value = localStorage.getItem(this._key);
-        if (value) {
-            this._value = JSON.parse(value) as T;
-            return this._value;
-        }
-
-        return this._defaultState;
+        return this._defaultValue;
     }
 
     setItem(newValue: T): void {
@@ -26,10 +24,14 @@ export class LocalStorageService<T> {
 
         this._value = newValue;
 
-        if (newValue === null) {
-            localStorage.removeItem(this._key);
-        } else {
-            localStorage.setItem(this._key, JSON.stringify(newValue));
+        try {
+            if (newValue === null) {
+                localStorage.removeItem(this._key);
+            } else {
+                localStorage.setItem(this._key, JSON.stringify(newValue));
+            }
+        } catch (error) {
+            console.error(error);
         }
     }
 }

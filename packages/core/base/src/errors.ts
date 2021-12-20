@@ -8,16 +8,16 @@ export class WalletError extends Error {
     }
 }
 
-export class WalletNotFoundError extends WalletError {
-    name = 'WalletNotFoundError';
-}
-
-export class WalletNotInstalledError extends WalletError {
-    name = 'WalletNotInstalledError';
-}
-
 export class WalletNotReadyError extends WalletError {
     name = 'WalletNotReadyError';
+}
+
+export class WalletLoadError extends WalletError {
+    name = 'WalletLoadError';
+}
+
+export class WalletConfigError extends WalletError {
+    name = 'WalletConfigError';
 }
 
 export class WalletConnectionError extends WalletError {

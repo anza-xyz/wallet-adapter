@@ -1,14 +1,15 @@
-import BloctoSDK, { SolanaProviderInterface } from '@blocto/sdk';
+import type { SolanaProviderInterface } from '@blocto/sdk';
 import {
     BaseWalletAdapter,
     SendTransactionOptions,
     WalletAccountError,
     WalletAdapterNetwork,
+    WalletConfigError,
     WalletConnectionError,
     WalletDisconnectionError,
-    WalletError,
+    WalletLoadError,
     WalletNotConnectedError,
-    WalletNotFoundError,
+    WalletNotReadyError,
     WalletPublicKeyError,
     WalletSendTransactionError,
 } from '@solana/wallet-adapter-base';
@@ -36,16 +37,12 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
         return this._publicKey;
     }
 
-    get ready(): boolean {
-        return true;
-    }
-
     get connecting(): boolean {
         return this._connecting;
     }
 
-    get connected(): boolean {
-        return !!this._publicKey;
+    async ready(): Promise<boolean> {
+        return typeof window !== 'undefined';
     }
 
     async connect(): Promise<void> {
@@ -53,8 +50,23 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
-            const wallet = new BloctoSDK({ solana: { net: this._network } }).solana;
-            if (!wallet) throw new WalletNotFoundError();
+            if (!(await this.ready())) throw new WalletNotReadyError();
+
+            let BloctoSDK: typeof import('@blocto/sdk');
+            try {
+                BloctoSDK = await import('@blocto/sdk');
+            } catch (error: any) {
+                throw new WalletLoadError(error?.message, error);
+            }
+
+            let wallet: SolanaProviderInterface | undefined;
+            try {
+                wallet = new BloctoSDK.default({ solana: { net: this._network } }).solana;
+            } catch (error: any) {
+                throw new WalletConfigError(error?.message, error);
+            }
+
+            if (!wallet) throw new WalletConfigError();
 
             if (!wallet.connected) {
                 try {
@@ -123,7 +135,6 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
 
                 return await wallet.signAndSendTransaction(transaction, connection);
             } catch (error: any) {
-                if (error instanceof WalletError) throw error;
                 throw new WalletSendTransactionError(error?.message, error);
             }
         } catch (error: any) {

@@ -25,10 +25,10 @@
         "analyze": "source-map-explorer 'build/static/js/*.js'"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.7.0",
-        "@solana/wallet-adapter-react": "^0.13.0",
-        "@solana/wallet-adapter-react-ui": "^0.6.0",
-        "@solana/wallet-adapter-wallets": "^0.11.0",
+        "@solana/wallet-adapter-base": "^0.8.1",
+        "@solana/wallet-adapter-react": "^0.14.0",
+        "@solana/wallet-adapter-react-ui": "^0.7.0",
+        "@solana/wallet-adapter-wallets": "^0.13.0",
         "@solana/web3.js": "^1.20.0",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
@@ -39,9 +39,10 @@
         "@types/node": "^12.0.0",
         "@types/react": "^17.0.24",
         "@types/react-dom": "^17.0.0",
+        "eslint-config-react-app": "^6.0.0",
         "react-scripts": "^4.0.3",
         "source-map-explorer": "^2.5.2",
-        "typescript": "^4.4.3",
+        "typescript": "^4.4.4",
         "yarn": "^1.22.11"
     },
     "eslintConfig": {

@@ -21,16 +21,14 @@
         "build": "yarn clean && tsc"
     },
     "peerDependencies": {
-        "@solana/wallet-adapter-base": "^0.6.0",
-        "@solana/wallet-adapter-wallets": "^0.10.1",
-        "@solana/web3.js": "^1.29.2",
+        "@solana/wallet-adapter-base": "^0.8.1",
+        "@solana/web3.js": "^1.20.0",
         "eventemitter3": "^4.0.7",
         "svelte": "^3.43.1"
     },
     "devDependencies": {
-        "@solana/wallet-adapter-base": "^0.6.0",
-        "@solana/wallet-adapter-wallets": "^0.10.1",
-        "@solana/web3.js": "^1.29.2",
+        "@solana/wallet-adapter-base": "^0.8.1",
+        "@solana/web3.js": "^1.20.0",
         "eventemitter3": "^4.0.7",
         "svelte": "^3.43.1"
     }

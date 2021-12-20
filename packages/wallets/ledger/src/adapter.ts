@@ -1,11 +1,12 @@
-import Transport from '@ledgerhq/hw-transport';
-import TransportWebHid from '@ledgerhq/hw-transport-webhid';
+import type Transport from '@ledgerhq/hw-transport';
 import {
     BaseSignerWalletAdapter,
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
+    WalletLoadError,
     WalletNotConnectedError,
+    WalletNotReadyError,
     WalletPublicKeyError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
@@ -34,16 +35,12 @@ export class LedgerWalletAdapter extends BaseSignerWalletAdapter {
         return this._publicKey;
     }
 
-    get ready(): boolean {
-        return typeof window !== 'undefined' && !!navigator.hid;
-    }
-
     get connecting(): boolean {
         return this._connecting;
     }
 
-    get connected(): boolean {
-        return !!this._transport;
+    async ready(): Promise<boolean> {
+        return typeof navigator !== 'undefined' && !!navigator.hid;
     }
 
     async connect(): Promise<void> {
@@ -51,9 +48,18 @@ export class LedgerWalletAdapter extends BaseSignerWalletAdapter {
             if (this.connected || this.connecting) return;
             this._connecting = true;
 
+            if (!(await this.ready())) throw new WalletNotReadyError();
+
+            let TransportWebHID: typeof import('@ledgerhq/hw-transport-webhid');
+            try {
+                TransportWebHID = await import('@ledgerhq/hw-transport-webhid');
+            } catch (error: any) {
+                throw new WalletLoadError(error?.message, error);
+            }
+
             let transport: Transport;
             try {
-                transport = await TransportWebHid.create();
+                transport = await TransportWebHID.default.create();
             } catch (error: any) {
                 throw new WalletConnectionError(error?.message, error);
             }
