@@ -20,18 +20,17 @@
         "@solana/web3.js": "^1.20.0",
         "rxjs": "^6.6.0"
     },
-    "dependencies": {
-        "tslib": "^2.3.0"
-    },
     "devDependencies": {
-        "@solana/wallet-adapter-base": "^0.8.1",
-        "@angular/common": "^13.1.0",
-        "@angular/core": "^13.1.0",
-        "@ngrx/component-store": "^13.0.2",
-        "ng-packagr": "^13.1.0",
         "@angular-devkit/build-angular": "^13.1.0",
         "@angular/cli": "^13.1.0",
+        "@angular/common": "^13.1.0",
+        "@angular/compiler": "^13.1.0",
         "@angular/compiler-cli": "^13.1.0",
-        "@angular/compiler": "^13.1.0"
+        "@angular/core": "^13.1.0",
+        "@ngrx/component-store": "^13.0.2",
+        "@solana/wallet-adapter-base": "^0.8.1",
+        "@solana/web3.js": "^1.20.0",
+        "ng-packagr": "^13.1.0",
+        "rxjs": "^6.6.0"
     }
 }
