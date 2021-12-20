@@ -7,6 +7,7 @@ export * from '@solana/wallet-adapter-coinhub';
 export * from '@solana/wallet-adapter-ledger';
 export * from '@solana/wallet-adapter-mathwallet';
 export * from '@solana/wallet-adapter-phantom';
+export * from '@solana/wallet-adapter-onekey';
 export * from '@solana/wallet-adapter-safepal';
 export * from '@solana/wallet-adapter-slope';
 export * from '@solana/wallet-adapter-solflare';
