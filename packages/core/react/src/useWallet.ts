@@ -8,16 +8,15 @@ import {
 } from '@solana/wallet-adapter-base';
 import { createContext, useContext } from 'react';
 
-export interface WalletDetails {
+export interface EnhancedWallet extends Wallet {
     ready: boolean;
 }
 
 export interface WalletContextState extends Omit<WalletAdapterProps, 'ready'> {
-    wallets: Wallet[];
-    details: Record<WalletName, WalletDetails>;
+    wallets: EnhancedWallet[];
+    walletsByName: Record<WalletName, EnhancedWallet>;
     autoConnect: boolean;
-
-    wallet: Wallet | null;
+    wallet: EnhancedWallet | null;
     adapter: Adapter | null;
     ready: boolean;
     disconnecting: boolean;
@@ -26,7 +25,6 @@ export interface WalletContextState extends Omit<WalletAdapterProps, 'ready'> {
 
     signTransaction: SignerWalletAdapterProps['signTransaction'] | undefined;
     signAllTransactions: SignerWalletAdapterProps['signAllTransactions'] | undefined;
-
     signMessage: MessageSignerWalletAdapterProps['signMessage'] | undefined;
 }
 
