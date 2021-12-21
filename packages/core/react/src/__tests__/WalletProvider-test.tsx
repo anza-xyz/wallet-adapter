@@ -9,7 +9,14 @@ import { render, unmountComponentAtNode } from 'react-dom';
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
 import { act } from 'react-dom/test-utils';
 import { WalletProvider, WalletProviderProps } from '../WalletProvider';
-import { BaseWalletAdapter, Wallet, WalletError, WalletName, WalletNotReadyError } from '@solana/wallet-adapter-base';
+import {
+    BaseWalletAdapter,
+    Wallet,
+    WalletError,
+    WalletName,
+    WalletNotReadyError,
+    WalletReadyState,
+} from '@solana/wallet-adapter-base';
 import { PublicKey } from '@solana/web3.js';
 import { useWallet, WalletContextState } from '../useWallet';
 
@@ -53,18 +60,15 @@ describe('WalletProvider', () => {
     abstract class MockWalletAdapter extends BaseWalletAdapter {
         connectionPromise: null | Promise<void> = null;
         disconnectionPromise: null | Promise<void> = null;
-        readyPromise: null | Promise<void> = null;
         connectedValue = false;
         get connected() {
             return this.connectedValue;
         }
+        readyStateValue: WalletReadyState = WalletReadyState.Installed;
+        get readyState() {
+            return this.readyStateValue;
+        }
         connecting = false;
-        ready = jest.fn(async () => {
-            if (this.readyPromise) {
-                await this.readyPromise;
-            }
-            return true;
-        });
         connect = jest.fn(async () => {
             this.connecting = true;
             if (this.connectionPromise) {
@@ -132,27 +136,24 @@ describe('WalletProvider', () => {
         }
     });
     describe('given a selected wallet', () => {
-        let makeReady: () => void;
         beforeEach(async () => {
-            fooWalletAdapter.readyPromise = new Promise((resolve) => {
-                makeReady = resolve;
-            });
+            fooWalletAdapter.readyStateValue = WalletReadyState.NotDetected;
             renderTest({});
             await act(async () => {
                 ref.current?.getWalletContextState().select('FooWallet' as WalletName);
                 await Promise.resolve(); // Flush all promises in effects after calling `select()`.
             });
-            expect(ref.current?.getWalletContextState().ready).toBe(false);
+            expect(ref.current?.getWalletContextState().adapter?.readyState).toBe(WalletReadyState.NotDetected);
         });
         describe('that then becomes ready', () => {
-            beforeEach(async () => {
-                await act(async () => {
-                    makeReady();
-                    await Promise.resolve(); // Flush all promises in effects.
+            beforeEach(() => {
+                act(() => {
+                    fooWalletAdapter.readyStateValue = WalletReadyState.Installed;
+                    fooWalletAdapter.emit('readyStateChange', WalletReadyState.Installed);
                 });
             });
             it('sets `ready` to true', () => {
-                expect(ref.current?.getWalletContextState().ready).toBe(true);
+                expect(ref.current?.getWalletContextState().adapter?.readyState).toBe(WalletReadyState.Installed);
             });
         });
         describe('when the wallet disconnects of its own accord', () => {
@@ -170,7 +171,6 @@ describe('WalletProvider', () => {
                     connected: false,
                     connecting: false,
                     publicKey: null,
-                    ready: false,
                 });
             });
         });
@@ -233,6 +233,7 @@ describe('WalletProvider', () => {
         describe('and auto connect is enabled', () => {
             const props = { autoConnect: true };
             beforeEach(() => {
+                fooWalletAdapter.readyStateValue = WalletReadyState.NotDetected;
                 renderTest(props);
             });
             it('`autoConnect` is `true` on state', () => {
@@ -242,11 +243,16 @@ describe('WalletProvider', () => {
                 it('does not call `connect` on the adapter', () => {
                     expect(fooWalletAdapter.connect).not.toHaveBeenCalled();
                 });
-            });
-            describe('once the adapter becomes ready', () => {
-                beforeEach(() => {
-                    act(() => {
-                        fooWalletAdapter.ready();
+                describe('once the adapter becomes ready', () => {
+                    beforeEach(async () => {
+                        await act(async () => {
+                            fooWalletAdapter.readyStateValue = WalletReadyState.Installed;
+                            fooWalletAdapter.emit('readyStateChange', WalletReadyState.Installed);
+                            await Promise.resolve(); // Flush all promises in effects after calling `select()`.
+                        });
+                    });
+                    it('calls `connect` on the adapter', () => {
+                        expect(fooWalletAdapter.connect).toHaveBeenCalledTimes(1);
                     });
                 });
                 it('calls `connect` on the adapter', () => {
@@ -285,11 +291,12 @@ describe('WalletProvider', () => {
         describe('given a wallet that is not ready', () => {
             beforeEach(async () => {
                 window.open = jest.fn();
+                fooWalletAdapter.readyStateValue = WalletReadyState.NotDetected;
                 renderTest({});
                 act(() => {
                     ref.current?.getWalletContextState().select('FooWallet' as WalletName);
                 });
-                expect(ref.current?.getWalletContextState().ready).toBe(false);
+                expect(ref.current?.getWalletContextState().adapter?.readyState).toBe(WalletReadyState.NotDetected);
                 act(() => {
                     expect(ref.current?.getWalletContextState().connect).rejects.toThrow();
                 });
