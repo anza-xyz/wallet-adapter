@@ -97,6 +97,10 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                 TransitionComponent={Fade}
                 transitionDuration={250}
                 keepMounted
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                }}
             >
                 <WalletMenuItem onClick={() => setAnchor(undefined)}>
                     <Button
