@@ -83,10 +83,10 @@ export class WalletStore extends ComponentStore<WalletState> {
 
     // Map of wallet names to wallets
     private readonly _walletsByName$ = this.select(this.wallets$, (wallets) =>
-        wallets.reduce((walletsByName, wallet) => {
+        wallets.reduce<Record<WalletName, Wallet>>((walletsByName, wallet) => {
             walletsByName[wallet.name] = wallet;
             return walletsByName;
-        }, {} as { [name: WalletName]: Wallet })
+        }, {})
     );
 
     constructor(
