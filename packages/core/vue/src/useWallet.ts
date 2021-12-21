@@ -14,8 +14,6 @@ import { computed, inject, InjectionKey, provide, Ref, ref, watch, watchEffect }
 import { WalletNotSelectedError } from './errors';
 import { useLocalStorage } from './useLocalStorage';
 
-type WalletDictionary = { [walletName: WalletName]: Wallet };
-
 export interface WalletStore {
     // Props.
     wallets: Wallet[];
@@ -110,11 +108,11 @@ export const createWalletStore = ({
     };
 
     // Create a wallet dictionary keyed by their name.
-    const walletsByName = computed<WalletDictionary>(() => {
-        return wallets.reduce((walletsByName, wallet) => {
+    const walletsByName = computed(() => {
+        return wallets.reduce<Record<WalletName, Wallet>>((walletsByName, wallet) => {
             walletsByName[wallet.name] = wallet;
             return walletsByName;
-        }, {} as WalletDictionary);
+        }, {});
     });
 
     // Update the wallet and adapter based on the wallet provider.
