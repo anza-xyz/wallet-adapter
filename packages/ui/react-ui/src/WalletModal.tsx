@@ -22,7 +22,10 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWall
     const [portal, setPortal] = useState<Element | null>(null);
 
     const [featured, more] = useMemo(
-        () => [wallets.slice(0, featuredWallets), wallets.slice(featuredWallets)],
+        () => {
+            const filteredWallets = wallets.filter(wallet => wallet.ready);
+            return [filteredWallets.slice(0, featuredWallets), filteredWallets.slice(featuredWallets)];
+        },
         [wallets, featuredWallets]
     );
 
@@ -129,7 +132,7 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWall
                                     wallet={wallet}
                                 />
                             ))}
-                            {more.length && (
+                            {!!more.length && (
                                 <Collapse expanded={expanded} id="wallet-adapter-modal-collapse">
                                     {more.map((wallet) => (
                                         <WalletListItem
@@ -142,7 +145,7 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWall
                                 </Collapse>
                             )}
                         </ul>
-                        {more.length && (
+                        {!!more.length && (
                             <button
                                 className="wallet-adapter-modal-list-more"
                                 onClick={handleCollapseClick}
