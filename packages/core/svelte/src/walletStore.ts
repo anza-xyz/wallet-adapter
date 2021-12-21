@@ -1,4 +1,3 @@
-import { WalletNotConnectedError, WalletNotReadyError } from '@solana/wallet-adapter-base';
 import type {
     Adapter,
     MessageSignerWalletAdapter,
@@ -6,16 +5,16 @@ import type {
     SendTransactionOptions,
     SignerWalletAdapter,
     SignerWalletAdapterProps,
-    WalletError,
     Wallet,
+    WalletError,
     WalletName,
 } from '@solana/wallet-adapter-base';
+import { WalletNotConnectedError, WalletNotReadyError } from '@solana/wallet-adapter-base';
 import type { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
 import { get, writable } from 'svelte/store';
 import { WalletNotSelectedError } from './errors';
 import { getLocalStorage, setLocalStorage } from './localStorage';
 
-type WalletDictionary = { [walletName: WalletName]: Wallet };
 type ErrorHandler = (error: WalletError) => void;
 type WalletConfig = Pick<WalletStore, 'wallets' | 'autoConnect' | 'localStorageKey' | 'onError'>;
 type WalletStatus = Pick<WalletStore, 'connected' | 'publicKey'>;
@@ -33,7 +32,7 @@ interface WalletStore {
     publicKey: PublicKey | null;
     ready: boolean;
     wallet: Wallet | null;
-    walletsByName: WalletDictionary;
+    walletsByName: Record<WalletName, Wallet>;
     name: WalletName | null;
 
     connect(): Promise<void>;
@@ -115,7 +114,7 @@ function createWalletStore() {
         ready: false,
         wallet: null,
         name: null,
-        walletsByName: {} as WalletDictionary,
+        walletsByName: {},
         connect,
         disconnect,
         select,
@@ -148,6 +147,10 @@ function createWalletStore() {
                     ...store,
                     ready,
                 }));
+
+                if (shouldAutoConnect()) {
+                    autoConnect();
+                }
             }
         })();
     }
@@ -201,10 +204,6 @@ function createWalletStore() {
         }
 
         update((store) => ({ ...store, adapter, signTransaction, signAllTransactions, signMessage }));
-
-        if (shouldAutoConnect()) {
-            autoConnect();
-        }
     }
 
     return {
@@ -213,7 +212,7 @@ function createWalletStore() {
         setDisconnecting: (disconnecting: boolean) => update((store) => ({ ...store, disconnecting })),
         setReady: (ready: boolean) => update((store) => ({ ...store, ready })),
         subscribe,
-        updateConfig: (walletConfig: WalletConfig & { walletsByName: WalletDictionary }) =>
+        updateConfig: (walletConfig: WalletConfig & { walletsByName: Record<WalletName, Wallet> }) =>
             update((store) => ({
                 ...store,
                 ...walletConfig,
@@ -244,10 +243,10 @@ export async function initialize({
     localStorageKey = 'walletAdapter',
     onError = (error: WalletError) => console.error(error),
 }: WalletConfig): Promise<void> {
-    const walletsByName = wallets.reduce((walletsByName, wallet) => {
+    const walletsByName = wallets.reduce<Record<WalletName, Wallet>>((walletsByName, wallet) => {
         walletsByName[wallet.name] = wallet;
         return walletsByName;
-    }, {} as WalletDictionary);
+    }, {});
 
     walletStore.updateConfig({
         wallets,

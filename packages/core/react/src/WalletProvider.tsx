@@ -10,8 +10,9 @@ import {
 import { Connection, PublicKey, Transaction } from '@solana/web3.js';
 import React, { FC, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { WalletNotSelectedError } from './errors';
+import { useInitialState } from './useInitialState';
 import { useLocalStorage } from './useLocalStorage';
-import { WalletContext } from './useWallet';
+import { EnhancedWallet, WalletContext } from './useWallet';
 
 export interface WalletProviderProps {
     children: ReactNode;
@@ -22,7 +23,7 @@ export interface WalletProviderProps {
 }
 
 const initialState: {
-    wallet: Wallet | null;
+    wallet: EnhancedWallet | null;
     adapter: Adapter | null;
     ready: boolean;
     connected: boolean;
@@ -31,8 +32,8 @@ const initialState: {
     wallet: null,
     adapter: null,
     ready: false,
-    publicKey: null,
     connected: false,
+    publicKey: null,
 };
 
 export const WalletProvider: FC<WalletProviderProps> = ({
@@ -50,37 +51,50 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     const isDisconnecting = useRef(false);
     const isUnloading = useRef(false);
 
-    // Map of wallet names to wallets
-    const walletsByName = useMemo(
-        () =>
-            wallets.reduce((walletsByName, wallet) => {
-                walletsByName[wallet.name] = wallet;
-                return walletsByName;
-            }, {} as { [name: WalletName]: Wallet }),
+    // When the wallets change, enhance them with additional properties
+    const [enhancedWallets, setEnhancedWallets] = useInitialState(
+        () => wallets.map((wallet) => ({ ...wallet, ready: false })),
         [wallets]
+    );
+
+    // When the wallets change, asynchronously update the enhanced properties
+    useEffect(() => {
+        (async () => {
+            const waiting = wallets;
+            const ready = await Promise.all(wallets.map((wallet) => wallet.adapter.ready()));
+            // If the wallets haven't changed while waiting, update the enhanced properties
+            if (wallets === waiting) {
+                setEnhancedWallets(wallets.map((wallet, index) => ({ ...wallet, ready: ready[index] })));
+            }
+        })();
+    }, [wallets]);
+
+    // When the enhanced wallets change, map the wallet names to the enhanced wallets
+    const enhancedWalletsByName = useMemo(
+        () =>
+            enhancedWallets.reduce<Record<WalletName, EnhancedWallet>>((enhancedWallets, enhancedWallet) => {
+                enhancedWallets[enhancedWallet.name] = enhancedWallet;
+                return enhancedWallets;
+            }, {}),
+        [enhancedWallets]
     );
 
     // When the selected wallet changes, initialize the state
     useEffect(() => {
-        const wallet = (name && walletsByName[name]) || null;
+        const wallet = (name && enhancedWalletsByName[name]) || null;
         const adapter = wallet && wallet.adapter;
         if (adapter) {
-            const { publicKey, connected } = adapter;
-            setState({ wallet, adapter, connected, publicKey, ready: false });
-
-            // Asynchronously update the ready state
-            const waiting = name;
-            (async function () {
-                const ready = await adapter.ready();
-                // If the selected wallet hasn't changed while waiting, update the ready state
-                if (name === waiting) {
-                    setState((state) => ({ ...state, ready }));
-                }
-            })();
+            setState({
+                wallet,
+                adapter,
+                ready: enhancedWalletsByName[wallet.name].ready,
+                connected: adapter.connected,
+                publicKey: adapter.publicKey,
+            });
         } else {
             setState(initialState);
         }
-    }, [name, walletsByName, setState]);
+    }, [name, enhancedWalletsByName, setState]);
 
     // If autoConnect is enabled, try to connect when the adapter changes and is ready
     useEffect(() => {
@@ -125,9 +139,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     // Handle the adapter's connect event
     const handleConnect = useCallback(() => {
         if (!adapter) return;
-
-        const { connected, publicKey } = adapter;
-        setState((state) => ({ ...state, connected, publicKey }));
+        setState((state) => ({ ...state, connected: adapter.connected, publicKey: adapter.publicKey }));
     }, [adapter, setState]);
 
     // Handle the adapter's disconnect event
@@ -140,9 +152,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     const handleError = useCallback(
         (error: WalletError) => {
             // Call onError unless the window is unloading
-            if (!isUnloading.current) {
-                (onError || console.error)(error);
-            }
+            if (!isUnloading.current) (onError || console.error)(error);
             return error;
         },
         [isUnloading, onError]
@@ -273,7 +283,8 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     return (
         <WalletContext.Provider
             value={{
-                wallets,
+                wallets: enhancedWallets,
+                walletsByName: enhancedWalletsByName,
                 autoConnect,
                 wallet,
                 adapter,
