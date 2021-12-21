@@ -59,14 +59,16 @@ export const WalletProvider: FC<WalletProviderProps> = ({
 
     // When the wallets change, asynchronously update the enhanced properties
     useEffect(() => {
+        let walletsChangedWhileWaiting = false;
         (async () => {
-            const waiting = wallets;
             const ready = await Promise.all(wallets.map((wallet) => wallet.adapter.ready()));
-            // If the wallets haven't changed while waiting, update the enhanced properties
-            if (wallets === waiting) {
+            if (!walletsChangedWhileWaiting) {
                 setEnhancedWallets(wallets.map((wallet, index) => ({ ...wallet, ready: ready[index] })));
             }
         })();
+        return () => {
+            walletsChangedWhileWaiting = true;
+        };
     }, [wallets]);
 
     // When the enhanced wallets change, map the wallet names to the enhanced wallets
