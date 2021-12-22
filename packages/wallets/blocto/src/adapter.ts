@@ -11,6 +11,7 @@ import {
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
+    WalletReadyState,
     WalletSendTransactionError,
 } from '@solana/wallet-adapter-base';
 import { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
@@ -24,6 +25,8 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
     private _wallet: SolanaProviderInterface | null;
     private _publicKey: PublicKey | null;
     private _network: string;
+    private _readyState: WalletReadyState =
+        typeof window !== 'undefined' ? WalletReadyState.Unsupported : WalletReadyState.Loadable;
 
     constructor(config: BloctoWalletAdapterConfig = {}) {
         super();
@@ -41,16 +44,16 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
         return this._connecting;
     }
 
-    async ready(): Promise<boolean> {
-        return typeof window !== 'undefined';
+    get readyState(): WalletReadyState {
+        return this._readyState;
     }
 
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
-            this._connecting = true;
+            if (this._readyState !== WalletReadyState.Loadable) throw new WalletNotReadyError();
 
-            if (!(await this.ready())) throw new WalletNotReadyError();
+            this._connecting = true;
 
             let BloctoSDK: typeof import('@blocto/sdk');
             try {

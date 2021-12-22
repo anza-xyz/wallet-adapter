@@ -1,9 +1,11 @@
 import {
     BaseSignerWalletAdapter,
+    scopePollingDetectionStrategy,
     WalletAccountError,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
+    WalletReadyState,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
@@ -27,12 +29,26 @@ export class CloverWalletAdapter extends BaseSignerWalletAdapter {
     private _connecting: boolean;
     private _wallet: CloverWallet | null;
     private _publicKey: PublicKey | null;
+    private _readyState: WalletReadyState =
+        typeof window === 'undefined' || typeof document === 'undefined'
+            ? WalletReadyState.Unsupported
+            : WalletReadyState.NotDetected;
 
     constructor(config: CloverWalletAdapterConfig = {}) {
         super();
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
+        if (this._readyState !== WalletReadyState.Unsupported) {
+            scopePollingDetectionStrategy(() => {
+                if (window.clover_solana?.isCloverWallet) {
+                    this._readyState = WalletReadyState.Installed;
+                    this.emit('readyStateChange', this._readyState);
+                    return true;
+                }
+                return false;
+            });
+        }
     }
 
     get publicKey(): PublicKey | null {
@@ -43,27 +59,16 @@ export class CloverWalletAdapter extends BaseSignerWalletAdapter {
         return this._connecting;
     }
 
-    async ready(): Promise<boolean> {
-        if (typeof window === 'undefined' || typeof document === 'undefined') return false;
-
-        if (document.readyState === 'complete') return !!window.clover_solana?.isCloverWallet;
-
-        return new Promise((resolve) => {
-            function listener() {
-                window.removeEventListener('load', listener);
-                resolve(!!window.clover_solana?.isCloverWallet);
-            }
-
-            window.addEventListener('load', listener);
-        });
+    get readyState(): WalletReadyState {
+        return this._readyState;
     }
 
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
-            this._connecting = true;
+            if (this._readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
 
-            if (!(await this.ready())) throw new WalletNotReadyError();
+            this._connecting = true;
 
             const wallet = window!.clover_solana!;
 

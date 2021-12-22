@@ -1,6 +1,7 @@
 import type Wallet from '@project-serum/sol-wallet-adapter';
 import {
     BaseMessageSignerWalletAdapter,
+    scopePollingDetectionStrategy,
     WalletAdapterNetwork,
     WalletConfigError,
     WalletConnectionError,
@@ -10,6 +11,7 @@ import {
     WalletLoadError,
     WalletNotConnectedError,
     WalletNotReadyError,
+    WalletReadyState,
     WalletSignMessageError,
     WalletSignTransactionError,
     WalletTimeoutError,
@@ -37,6 +39,10 @@ export class SolletWalletAdapter extends BaseMessageSignerWalletAdapter {
     private _provider: string | SolletWallet | undefined;
     private _network: WalletAdapterNetwork;
     private _connecting: boolean;
+    private _readyState: WalletReadyState =
+        typeof window === 'undefined' || typeof document === 'undefined'
+            ? WalletReadyState.Unsupported
+            : WalletReadyState.NotDetected;
     private _wallet: Wallet | null;
 
     constructor(config: SolletWalletAdapterConfig = {}) {
@@ -45,6 +51,20 @@ export class SolletWalletAdapter extends BaseMessageSignerWalletAdapter {
         this._network = config.network || WalletAdapterNetwork.Mainnet;
         this._connecting = false;
         this._wallet = null;
+        if (this._readyState !== WalletReadyState.Unsupported) {
+            if (typeof this._provider === 'string') {
+                this._readyState = WalletReadyState.Loadable;
+            } else {
+                scopePollingDetectionStrategy(() => {
+                    if (typeof window.sollet?.postMessage === 'function') {
+                        this._readyState = WalletReadyState.Installed;
+                        this.emit('readyStateChange', this._readyState);
+                        return true;
+                    }
+                    return false;
+                });
+            }
+        }
     }
 
     get publicKey(): PublicKey | null {
@@ -59,29 +79,16 @@ export class SolletWalletAdapter extends BaseMessageSignerWalletAdapter {
         return !!this._wallet?.connected;
     }
 
-    async ready(): Promise<boolean> {
-        if (typeof window === 'undefined' || typeof document === 'undefined') return false;
-
-        if (typeof this._provider === 'string' || typeof this._provider?.postMessage === 'function') return true;
-
-        if (document.readyState === 'complete') return typeof window.sollet?.postMessage === 'function';
-
-        return new Promise((resolve) => {
-            function listener() {
-                window.removeEventListener('load', listener);
-                resolve(typeof window.sollet?.postMessage === 'function');
-            }
-
-            window.addEventListener('load', listener);
-        });
+    get readyState(): WalletReadyState {
+        return this._readyState;
     }
 
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
-            this._connecting = true;
+            if (this._readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
 
-            if (!(await this.ready())) throw new WalletNotReadyError();
+            this._connecting = true;
 
             const provider = this._provider || window!.sollet!;
 

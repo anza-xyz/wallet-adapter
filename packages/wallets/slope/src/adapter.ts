@@ -1,5 +1,6 @@
 import {
     BaseMessageSignerWalletAdapter,
+    scopePollingDetectionStrategy,
     WalletAccountError,
     WalletConnectionError,
     WalletDisconnectionError,
@@ -7,6 +8,7 @@ import {
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
+    WalletReadyState,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
@@ -51,12 +53,26 @@ export class SlopeWalletAdapter extends BaseMessageSignerWalletAdapter {
     private _connecting: boolean;
     private _wallet: SlopeWallet | null;
     private _publicKey: PublicKey | null;
+    private _readyState: WalletReadyState =
+        typeof window === 'undefined' || typeof document === 'undefined'
+            ? WalletReadyState.Unsupported
+            : WalletReadyState.NotDetected;
 
     constructor(config: SlopeWalletAdapterConfig = {}) {
         super();
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
+        if (this._readyState !== WalletReadyState.Unsupported) {
+            scopePollingDetectionStrategy(() => {
+                if (typeof window.Slope === 'function') {
+                    this._readyState = WalletReadyState.Installed;
+                    this.emit('readyStateChange', this._readyState);
+                    return true;
+                }
+                return false;
+            });
+        }
     }
 
     get publicKey(): PublicKey | null {
@@ -67,27 +83,16 @@ export class SlopeWalletAdapter extends BaseMessageSignerWalletAdapter {
         return this._connecting;
     }
 
-    async ready(): Promise<boolean> {
-        if (typeof window === 'undefined' || typeof document === 'undefined') return false;
-
-        if (document.readyState === 'complete') return typeof window.Slope === 'function';
-
-        return new Promise((resolve) => {
-            function listener() {
-                window.removeEventListener('load', listener);
-                resolve(typeof window.Slope === 'function');
-            }
-
-            window.addEventListener('load', listener);
-        });
+    get readyState(): WalletReadyState {
+        return this._readyState;
     }
 
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
-            this._connecting = true;
+            if (this._readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
 
-            if (!(await this.ready())) throw new WalletNotReadyError();
+            this._connecting = true;
 
             const wallet = new window!.Slope!();
 

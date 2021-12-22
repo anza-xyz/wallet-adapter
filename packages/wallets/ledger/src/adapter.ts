@@ -8,6 +8,7 @@ import {
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
+    WalletReadyState,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
@@ -22,6 +23,8 @@ export class LedgerWalletAdapter extends BaseSignerWalletAdapter {
     private _connecting: boolean;
     private _transport: Transport | null;
     private _publicKey: PublicKey | null;
+    private _readyState: WalletReadyState =
+        typeof navigator === 'undefined' || !navigator.hid ? WalletReadyState.Unsupported : WalletReadyState.Loadable;
 
     constructor(config: LedgerWalletAdapterConfig = {}) {
         super();
@@ -39,16 +42,16 @@ export class LedgerWalletAdapter extends BaseSignerWalletAdapter {
         return this._connecting;
     }
 
-    async ready(): Promise<boolean> {
-        return typeof navigator !== 'undefined' && !!navigator.hid;
+    get readyState(): WalletReadyState {
+        return this._readyState;
     }
 
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
-            this._connecting = true;
+            if (this._readyState === WalletReadyState.Unsupported) throw new WalletNotReadyError();
 
-            if (!(await this.ready())) throw new WalletNotReadyError();
+            this._connecting = true;
 
             let TransportWebHID: typeof import('@ledgerhq/hw-transport-webhid');
             try {

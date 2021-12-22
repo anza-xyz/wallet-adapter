@@ -8,6 +8,7 @@ import {
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
+    WalletReadyState,
     WalletSignTransactionError,
     WalletWindowClosedError,
 } from '@solana/wallet-adapter-base';
@@ -36,6 +37,8 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
     private _options: ClientOptions;
     private _params: ClientTypes.ConnectParams;
     private _client: WalletConnectClient | undefined;
+    private _readyState: WalletReadyState =
+        typeof window !== 'undefined' ? WalletReadyState.Unsupported : WalletReadyState.Loadable;
 
     constructor(config: WalletConnectWalletAdapterConfig) {
         super();
@@ -59,16 +62,16 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
         return this._connecting;
     }
 
-    async ready(): Promise<boolean> {
-        return typeof window !== 'undefined';
+    get readyState(): WalletReadyState {
+        return this._readyState;
     }
 
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
-            this._connecting = true;
+            if (this._readyState !== WalletReadyState.Loadable) throw new WalletNotReadyError();
 
-            if (!(await this.ready())) throw new WalletNotReadyError();
+            this._connecting = true;
 
             let client: WalletConnectClient;
             let session: SessionTypes.Settled;
