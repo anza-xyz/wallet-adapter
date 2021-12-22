@@ -27,7 +27,7 @@ export function useLocalStorage<T>(key: string, defaultState: T): [T, (newValue:
                 console.error(error);
             }
         },
-        [value, key]
+        [value, setValue, key]
     );
 
     return [value, setLocalStorage];
