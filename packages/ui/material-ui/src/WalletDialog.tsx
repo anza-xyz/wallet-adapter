@@ -1,3 +1,6 @@
+import CloseIcon from '@mui/icons-material/Close';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 import {
     Button,
     Collapse,
@@ -8,70 +11,64 @@ import {
     IconButton,
     List,
     ListItem,
-    makeStyles,
     Theme,
-} from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { WalletName } from '@solana/wallet-adapter-base';
 import { useWallet } from '@solana/wallet-adapter-react';
 import React, { FC, ReactElement, SyntheticEvent, useCallback, useMemo, useState } from 'react';
 import { useWalletDialog } from './useWalletDialog';
 import { WalletListItem } from './WalletListItem';
 
-const useStyles = makeStyles((theme: Theme) => ({
-    root: {
-        '& .MuiDialog-paper': {
-            width: theme.spacing(40),
-            margin: 0,
+const RootDialog = styled(Dialog)(({ theme }: { theme: Theme }) => ({
+    '& .MuiDialog-paper': {
+        width: theme.spacing(40),
+        margin: 0,
+    },
+    '& .MuiDialogTitle-root': {
+        backgroundColor: theme.palette.primary.main,
+        display: 'flex',
+        justifyContent: 'space-between',
+        lineHeight: theme.spacing(5),
+        '& .MuiIconButton-root': {
+            flexShrink: 1,
+            padding: theme.spacing(),
+            marginRight: theme.spacing(-1),
+            color: theme.palette.grey[500],
         },
-        '& .MuiDialogTitle-root': {
-            backgroundColor: theme.palette.primary.main,
-            '& .MuiTypography-root': {
-                display: 'flex',
-                justifyContent: 'space-between',
-                lineHeight: theme.spacing(5) + 'px',
-            },
-            '& .MuiIconButton-root': {
-                flexShrink: 1,
-                padding: theme.spacing(),
-                marginRight: theme.spacing(-1),
-                color: theme.palette.grey[500],
-            },
-        },
-        '& .MuiDialogContent-root': {
-            padding: 0,
-            '& .MuiCollapse-root': {
-                '& .MuiList-root': {
-                    background: theme.palette.grey[900],
-                },
-            },
+    },
+    '& .MuiDialogContent-root': {
+        padding: 0,
+        '& .MuiCollapse-root': {
             '& .MuiList-root': {
                 background: theme.palette.grey[900],
-                padding: 0,
             },
-            '& .MuiListItem-root': {
-                boxShadow: 'inset 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.1)',
-                '&:hover': {
-                    boxShadow:
-                        'inset 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.1)' + ', 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.05)',
-                },
-                padding: 0,
-                '& .MuiButton-endIcon': {
-                    margin: 0,
-                },
-                '& .MuiButton-root': {
-                    flexGrow: 1,
-                    justifyContent: 'space-between',
-                    padding: theme.spacing(1, 3),
-                    borderRadius: undefined,
-                    fontSize: '1rem',
-                    fontWeight: 400,
-                },
-                '& .MuiSvgIcon-root': {
-                    color: theme.palette.grey[500],
-                },
+        },
+        '& .MuiList-root': {
+            background: theme.palette.grey[900],
+            padding: 0,
+        },
+        '& .MuiListItem-root': {
+            boxShadow: 'inset 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.1)',
+            '&:hover': {
+                boxShadow:
+                    'inset 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.1)' + ', 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.05)',
+            },
+            padding: 0,
+            '& .MuiButton-endIcon': {
+                margin: 0,
+            },
+            '& .MuiButton-root': {
+                color: theme.palette.text.primary,
+                flexGrow: 1,
+                justifyContent: 'space-between',
+                padding: theme.spacing(1, 3),
+                borderRadius: undefined,
+                fontSize: '1rem',
+                fontWeight: 400,
+            },
+            '& .MuiSvgIcon-root': {
+                color: theme.palette.grey[500],
             },
         },
     },
@@ -83,12 +80,11 @@ export interface WalletDialogProps extends Omit<DialogProps, 'title' | 'open'> {
 }
 
 export const WalletDialog: FC<WalletDialogProps> = ({
-    title = 'Select your wallet',
-    featuredWallets = 3,
-    onClose,
-    ...props
-}) => {
-    const styles = useStyles();
+                                                        title = 'Select your wallet',
+                                                        featuredWallets = 3,
+                                                        onClose,
+                                                        ...props
+                                                    }) => {
     const { wallets, select } = useWallet();
     const { open, setOpen } = useWalletDialog();
     const [expanded, setExpanded] = useState(false);
@@ -117,10 +113,10 @@ export const WalletDialog: FC<WalletDialogProps> = ({
     const handleExpandClick = useCallback(() => setExpanded(!expanded), [setExpanded, expanded]);
 
     return (
-        <Dialog open={open} onClose={handleClose} className={styles.root} {...props}>
+        <RootDialog open={open} onClose={handleClose} {...props}>
             <DialogTitle>
                 {title}
-                <IconButton onClick={handleClose}>
+                <IconButton onClick={handleClose} size="large">
                     <CloseIcon />
                 </IconButton>
             </DialogTitle>
@@ -156,6 +152,6 @@ export const WalletDialog: FC<WalletDialogProps> = ({
                     ) : null}
                 </List>
             </DialogContent>
-        </Dialog>
+        </RootDialog>
     );
 };
