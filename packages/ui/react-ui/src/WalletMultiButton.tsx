@@ -28,18 +28,14 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
         }
     }, [base58]);
 
-    const openDropdown = useCallback(() => {
-        setActive(true);
-    }, []);
+    const openDropdown = useCallback(() => setActive(true), [setActive]);
 
-    const closeDropdown = useCallback(() => {
-        setActive(false);
-    }, []);
+    const closeDropdown = useCallback(() => setActive(false), [setActive]);
 
     const openModal = useCallback(() => {
         setVisible(true);
         closeDropdown();
-    }, [closeDropdown]);
+    }, [setVisible, closeDropdown]);
 
     useEffect(() => {
         const listener = (event: MouseEvent | TouchEvent) => {
