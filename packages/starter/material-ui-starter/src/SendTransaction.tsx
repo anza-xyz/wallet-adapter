@@ -6,8 +6,9 @@ import { useNotify } from './notify';
 
 export const SendTransaction: FC = () => {
     const { connection } = useConnection();
-    const { publicKey, sendTransaction } = useWallet();
+    const { publicKey, sendTransaction, wallet } = useWallet();
     const notify = useNotify();
+    console.log(wallet);
 
     const onClick = useCallback(async () => {
         if (!publicKey) {
@@ -25,10 +26,11 @@ export const SendTransaction: FC = () => {
                     lamports: 1,
                 })
             );
+
             signature = await sendTransaction(transaction, connection);
             notify('info', 'Transaction sent:', signature);
 
-            await connection.confirmTransaction(signature, 'confirmed');
+            await connection.confirmTransaction(signature, 'processed');
             notify('success', 'Transaction successful!', signature);
         } catch (error: any) {
             notify('error', `Transaction failed! ${error?.message}`, signature);
@@ -38,7 +40,7 @@ export const SendTransaction: FC = () => {
 
     return (
         <Button variant="contained" color="secondary" onClick={onClick} disabled={!publicKey}>
-            Send Transaction (devnet)
+            Send Transaction
         </Button>
     );
 };

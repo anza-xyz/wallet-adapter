@@ -13,9 +13,12 @@ import {
 import { clusterApiUrl } from '@solana/web3.js';
 import { useSnackbar } from 'notistack';
 import React, { FC, useCallback, useMemo } from 'react';
-import { Navigation } from './Navigation';
 
-export const Wallet: FC = () => {
+type Props = {
+    children: React.ReactNode
+};
+
+export const Wallet: FC<Props> = (props: Props) => {
     // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
     const network = WalletAdapterNetwork.Devnet;
 
@@ -51,7 +54,7 @@ export const Wallet: FC = () => {
         <ConnectionProvider endpoint={endpoint}>
             <WalletProvider wallets={wallets} onError={onError} autoConnect>
                 <WalletDialogProvider>
-                    <Navigation />
+                    {props.children}
                 </WalletDialogProvider>
             </WalletProvider>
         </ConnectionProvider>

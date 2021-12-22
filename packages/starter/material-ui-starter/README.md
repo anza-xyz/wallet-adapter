@@ -2,15 +2,23 @@
 
 <!-- @TODO -->
 
-Coming soon.
+# Material UI Starter Example
 
-# Getting Started with Create React App
+This is a basic example that demonstrates how to allow users to connect their wallets to your application and how to have users sign transactions.
+
+1. Your application logic needs to be within the context of a wallet provider. You can see how that works in [Wallet.tsx](src/Wallet.tsx), which is set up to have children passed into it.
+2. In this basic example, the application logic, which is just the button to send a single lamport to a random devnet address, is in [Layout.tsx](src/Layout.tsx).
+2. Make sure your browser extension / add-in wallet are set to devnet before launching the demo.
+
+## Scripts
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
-
 In the project directory, you can run:
+
+### `yarn install`
+
+Installs dependencies.
 
 ### `yarn start`
 

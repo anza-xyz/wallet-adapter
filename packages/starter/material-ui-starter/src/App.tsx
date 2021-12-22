@@ -3,6 +3,7 @@ import { deepPurple } from '@mui/material/colors';
 import { SnackbarProvider } from 'notistack';
 import React, { FC } from 'react';
 import { Wallet } from './Wallet';
+import { Layout } from './Layout';
 
 // Use require instead of import, and order matters
 require('./App.css');
@@ -44,7 +45,9 @@ const App: FC = () => {
         <StyledEngineProvider injectFirst>
             <ThemeProvider theme={theme}>
                 <SnackbarProvider>
-                    <Wallet />
+                    <Wallet>
+                        <Layout />
+                    </Wallet>
                 </SnackbarProvider>
             </ThemeProvider>
         </StyledEngineProvider>
