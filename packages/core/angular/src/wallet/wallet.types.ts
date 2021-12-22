@@ -9,7 +9,6 @@ export interface WalletState {
     connecting: boolean;
     disconnecting: boolean;
     connected: boolean;
-    ready: boolean;
     publicKey: PublicKey | null;
     autoConnect: boolean;
 }

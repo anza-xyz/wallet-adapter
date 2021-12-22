@@ -7,6 +7,7 @@ import {
     WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
+    WalletReadyState,
 } from '@solana/wallet-adapter-base';
 import { Connection, PublicKey, Transaction } from '@solana/web3.js';
 import { combineLatest, defer, EMPTY, from, Observable, of, Subject, throwError } from 'rxjs';
@@ -28,13 +29,11 @@ export const WALLET_DEFAULT_CONFIG: WalletConfig = {
 const initialState: {
     wallet: Wallet | null;
     adapter: Adapter | null;
-    ready: boolean;
     connected: boolean;
     publicKey: PublicKey | null;
 } = {
     wallet: null,
     adapter: null,
-    ready: false,
     connected: false,
     publicKey: null,
 };
@@ -51,7 +50,6 @@ export class WalletStore extends ComponentStore<WalletState> {
     readonly wallet$ = this.select((state) => state.wallet);
     readonly adapter$ = this.select((state) => state.adapter);
     readonly publicKey$ = this.select((state) => state.publicKey);
-    readonly ready$ = this.select((state) => state.ready);
     readonly connecting$ = this.select((state) => state.connecting);
     readonly disconnecting$ = this.select((state) => state.disconnecting);
     readonly connected$ = this.select((state) => state.connected);
@@ -126,7 +124,6 @@ export class WalletStore extends ComponentStore<WalletState> {
                         wallet,
                         publicKey,
                         connected,
-                        ready: false,
                     });
 
                     // FIXME: Asynchronously update the ready state
@@ -142,12 +139,16 @@ export class WalletStore extends ComponentStore<WalletState> {
         return combineLatest([
             this.autoConnect$,
             this.adapter$.pipe(isNotNull),
-            this.ready$,
             this.connecting$,
             this.connected$,
         ]).pipe(
             filter(
-                ([autoConnect, , ready, connecting, connected]) => autoConnect && ready && !connecting && !connected
+                ([autoConnect, adapter, connecting, connected]) =>
+                    autoConnect &&
+                    (adapter.readyState === WalletReadyState.Installed ||
+                        adapter.readyState === WalletReadyState.Loadable) &&
+                    !connecting &&
+                    !connected
             ),
             concatMap(([, adapter]) => {
                 this.patchState({ connecting: true });
@@ -228,18 +229,22 @@ export class WalletStore extends ComponentStore<WalletState> {
             this.connected$,
             this.wallet$,
             this.adapter$,
-            this.ready$,
         ]).pipe(
             first(),
             filter(([connecting, disconnecting, connected]) => !connected && !connecting && !disconnecting),
-            concatMap(([, , , wallet, adapter, ready]) => {
+            concatMap(([, , , wallet, adapter]) => {
                 if (!wallet || !adapter) {
                     const error = new WalletNotSelectedError();
                     this._error.next(error);
                     return throwError(error);
                 }
 
-                if (!ready) {
+                if (
+                    !(
+                        adapter.readyState === WalletReadyState.Installed ||
+                        adapter.readyState === WalletReadyState.Loadable
+                    )
+                ) {
                     this.patchState({ name: null });
 
                     if (typeof window !== 'undefined') {
