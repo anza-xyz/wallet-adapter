@@ -12,6 +12,7 @@ import { createContext, useContext } from 'react';
 export interface WalletWithReadyState extends Wallet {
     readyState: WalletReadyState;
 }
+
 export interface WalletContextState extends Omit<WalletAdapterProps, 'readyState'> {
     wallets: WalletWithReadyState[];
     autoConnect: boolean;
