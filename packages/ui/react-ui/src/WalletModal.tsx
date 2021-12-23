@@ -35,7 +35,7 @@ export const WalletModal: FC<WalletModalProps> = ({
     const hideModal = useCallback(() => {
         setFadeIn(false);
         setTimeout(() => setVisible(false), 150);
-    }, [setFadeIn, setVisible]);
+    }, []);
 
     const handleClose = useCallback(
         (event: MouseEvent) => {
@@ -53,7 +53,9 @@ export const WalletModal: FC<WalletModalProps> = ({
         [select, handleClose]
     );
 
-    const handleCollapseClick = useCallback(() => setExpanded(!expanded), [setExpanded, expanded]);
+    const handleCollapseClick = useCallback(() => {
+        setExpanded(!expanded);
+    }, [expanded]);
 
     const handleTabKey = useCallback(
         (event: KeyboardEvent) => {
@@ -107,7 +109,9 @@ export const WalletModal: FC<WalletModalProps> = ({
         };
     }, [hideModal, handleTabKey]);
 
-    useLayoutEffect(() => setPortal(document.querySelector(container)), [setPortal, container]);
+    useLayoutEffect(() => {
+        setPortal(document.querySelector(container));
+    }, [container]);
 
     return (
         portal &&
