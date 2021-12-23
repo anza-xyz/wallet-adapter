@@ -145,9 +145,10 @@ describe('WalletProvider', () => {
             expect(ref.current?.getWalletContextState().ready).toBe(false);
         });
         describe('that then becomes ready', () => {
-            beforeEach(() => {
-                act(() => {
+            beforeEach(async () => {
+                await act(async () => {
                     makeReady();
+                    await Promise.resolve(); // Flush all promises in effects.
                 });
             });
             it('sets `ready` to true', () => {
