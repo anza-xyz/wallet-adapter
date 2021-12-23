@@ -132,10 +132,9 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     const select = useCallback(
         async (walletName: WalletName | null) => {
             if (name === walletName) return;
-            if (adapter) await adapter.disconnect();
             setName(walletName);
         },
-        [name, adapter, setName]
+        [name]
     );
 
     // Handle the adapter's connect event
@@ -281,6 +280,13 @@ export const WalletProvider: FC<WalletProviderProps> = ({
             };
         }
     }, [adapter, handleConnect, handleDisconnect, handleError]);
+
+    // When the adapter changes, disconnect the old one.
+    useEffect(() => {
+        return () => {
+            adapter?.disconnect();
+        };
+    }, [adapter]);
 
     return (
         <WalletContext.Provider
