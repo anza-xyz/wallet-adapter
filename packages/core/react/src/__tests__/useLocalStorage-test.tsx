@@ -171,6 +171,25 @@ describe('useLocalStorage', () => {
                 });
                 expect(ref.current?.getPersistedValue()).toBe(NEW_VALUE);
             });
+            describe('many times in a row', () => {
+                it('sets the new value in local storage once', () => {
+                    act(() => {
+                        ref.current?.persistValue(NEW_VALUE);
+                        ref.current?.persistValue(NEW_VALUE);
+                    });
+                    expect(window.localStorage.setItem).toHaveBeenCalledTimes(1);
+                    expect(window.localStorage.setItem).toHaveBeenCalledWith(STORAGE_KEY, JSON.stringify(NEW_VALUE));
+                });
+            });
+            describe('multiple times ending with the current value', () => {
+                it("does not call local storage's setter", () => {
+                    act(() => {
+                        ref.current?.persistValue(NEW_VALUE);
+                        ref.current?.persistValue(DEFAULT_VALUE);
+                    });
+                    expect(window.localStorage.setItem).toHaveBeenCalledTimes(0);
+                });
+            });
         });
         describe('when setting to `null`', () => {
             beforeEach(() => {
