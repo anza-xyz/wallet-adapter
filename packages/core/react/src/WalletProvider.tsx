@@ -128,15 +128,6 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         return () => window.removeEventListener('beforeunload', listener);
     }, [isUnloading]);
 
-    // Select a wallet by name
-    const select = useCallback(
-        async (walletName: WalletName | null) => {
-            if (name === walletName) return;
-            setName(walletName);
-        },
-        [name]
-    );
-
     // Handle the adapter's connect event
     const handleConnect = useCallback(() => {
         if (!adapter) return;
@@ -290,7 +281,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
                 connected,
                 connecting,
                 disconnecting,
-                select,
+                select: setName,
                 connect,
                 disconnect,
                 sendTransaction,
