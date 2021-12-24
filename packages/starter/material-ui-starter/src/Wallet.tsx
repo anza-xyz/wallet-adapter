@@ -2,13 +2,13 @@ import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
 import { WalletDialogProvider } from '@solana/wallet-adapter-material-ui';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import {
-    getLedgerWallet,
-    getPhantomWallet,
-    getSlopeWallet,
-    getSolflareWallet,
-    getSolletExtensionWallet,
-    getSolletWallet,
-    getTorusWallet,
+    LedgerWalletAdapter,
+    PhantomWalletAdapter,
+    SlopeWalletAdapter,
+    SolflareWalletAdapter,
+    SolletExtensionWalletAdapter,
+    SolletWalletAdapter,
+    TorusWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 import { useSnackbar } from 'notistack';
@@ -27,13 +27,13 @@ export const Wallet: FC = () => {
     // of wallets that your users connect to will be loaded
     const wallets = useMemo(
         () => [
-            getPhantomWallet(),
-            getSlopeWallet(),
-            getSolflareWallet(),
-            getTorusWallet(),
-            getLedgerWallet(),
-            getSolletWallet({ network }),
-            getSolletExtensionWallet({ network }),
+            new PhantomWalletAdapter(),
+            new SlopeWalletAdapter(),
+            new SolflareWalletAdapter(),
+            new TorusWalletAdapter(),
+            new LedgerWalletAdapter(),
+            new SolletWalletAdapter({ network }),
+            new SolletExtensionWalletAdapter({ network }),
         ],
         [network]
     );

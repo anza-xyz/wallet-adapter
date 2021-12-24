@@ -1,16 +1,15 @@
 import { createTheme, StyledEngineProvider, ThemeProvider } from '@mui/material';
-
 import { deepPurple, pink } from '@mui/material/colors';
 import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import {
-    getLedgerWallet,
-    getPhantomWallet,
-    getSlopeWallet,
-    getSolflareWallet,
-    getSolletExtensionWallet,
-    getSolletWallet,
-    getTorusWallet,
+    LedgerWalletAdapter,
+    PhantomWalletAdapter,
+    SlopeWalletAdapter,
+    SolflareWalletAdapter,
+    SolletExtensionWalletAdapter,
+    SolletWalletAdapter,
+    TorusWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 import { SnackbarProvider, useSnackbar } from 'notistack';
@@ -66,13 +65,13 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     // of wallets that your users connect to will be loaded
     const wallets = useMemo(
         () => [
-            getPhantomWallet(),
-            getSlopeWallet(),
-            getSolflareWallet(),
-            getTorusWallet(),
-            getLedgerWallet(),
-            getSolletWallet({ network }),
-            getSolletExtensionWallet({ network }),
+            new PhantomWalletAdapter(),
+            new SlopeWalletAdapter(),
+            new SolflareWalletAdapter(),
+            new TorusWalletAdapter(),
+            new LedgerWalletAdapter(),
+            new SolletWalletAdapter({ network }),
+            new SolletExtensionWalletAdapter({ network }),
         ],
         [network]
     );
