@@ -142,7 +142,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._wallet = wallet;
             this._publicKey = publicKey;
 
-            this.emit('connect');
+            this.emit('connect', publicKey);
         } catch (error: any) {
             this.emit('error', error);
             throw error;

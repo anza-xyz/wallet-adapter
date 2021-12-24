@@ -5,7 +5,7 @@ import { WalletError } from './errors';
 export { EventEmitter };
 
 export interface WalletAdapterEvents {
-    connect(): void;
+    connect(publicKey: PublicKey): void;
     disconnect(): void;
     error(error: WalletError): void;
     readyStateChange(readyState: WalletReadyState): void;

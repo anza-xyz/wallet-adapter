@@ -133,7 +133,7 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
             this._publicKey = publicKey;
             this._client = client;
 
-            this.emit('connect');
+            this.emit('connect', publicKey);
         } catch (error: any) {
             this.emit('error', error);
             throw error;
