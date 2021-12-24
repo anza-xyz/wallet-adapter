@@ -15,11 +15,18 @@ export interface SendTransactionOptions extends SendOptions {
     signers?: Signer[];
 }
 
+// WalletName is a nominal type that wallet adapters should use, e.g. `'MyCryptoWallet' as WalletName`
+// https://medium.com/@KevinBGreene/surviving-the-typescript-ecosystem-branding-and-type-tagging-6cf6e516523d
+export type WalletName = string & { __brand__: 'WalletName' };
+
 export interface WalletAdapterProps {
+    name: WalletName;
+    url: string;
+    icon: string;
+    readyState: WalletReadyState;
     publicKey: PublicKey | null;
     connecting: boolean;
     connected: boolean;
-    readyState: WalletReadyState;
 
     connect(): Promise<void>;
     disconnect(): Promise<void>;
@@ -62,6 +69,10 @@ export enum WalletReadyState {
 }
 
 export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
+    abstract name: WalletName;
+    abstract url: string;
+    abstract icon: string;
+    abstract readyState: WalletReadyState;
     abstract publicKey: PublicKey | null;
     abstract connecting: boolean;
 
@@ -69,7 +80,6 @@ export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents
         return !!this.publicKey;
     }
 
-    abstract readyState: WalletReadyState;
     abstract connect(): Promise<void>;
     abstract disconnect(): Promise<void>;
     abstract sendTransaction(
@@ -77,12 +87,6 @@ export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents
         connection: Connection,
         options?: SendTransactionOptions
     ): Promise<TransactionSignature>;
-}
-
-export enum WalletAdapterNetwork {
-    Mainnet = 'mainnet-beta',
-    Testnet = 'testnet',
-    Devnet = 'devnet',
 }
 
 export function scopePollingDetectionStrategy(performDetection: () => boolean): void {
