@@ -97,21 +97,6 @@ The other methods are optional APIs, so you have to feature-detect them before u
 
 Please see [issue #72](https://github.com/solana-labs/wallet-adapter/issues/72#issuecomment-919232595).
 
-### Torus wallet doesn't connect / `registering module Get a client ID @ https://developer.tor.us`
-
-This can happen if you're using one of the starter projects and you didn't configure Torus for your dApp.
-
-Go to https://developer.tor.us to sign up for your own unique client ID. Then use this ID in your configuration:
-```tsx
-    const wallets = useMemo(() => [
-        // ...
-        getTorusWallet({
-            options: { clientId: '<YOUR CLIENT ID>' },
-        }),
-        // ...
-    ], [network]);
-```
-
 ## How can I sign and verify messages?
 
 Some wallet adapters provide a `signMessage` method for signing arbitrary bytes:
