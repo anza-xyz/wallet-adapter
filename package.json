@@ -7,7 +7,9 @@
     "type": "module",
     "workspaces": {
         "packages": [
-            "packages/*/*"
+            "packages/core/base",
+            "packages/core/react",
+            "packages/wallets/*"
         ],
         "nohoist": [
             "**/babel-loader",
