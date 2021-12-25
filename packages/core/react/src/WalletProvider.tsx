@@ -71,15 +71,15 @@ export const WalletProvider: FC<WalletProviderProps> = ({
                 ];
             });
         }
-        for (const wallet of wallets) {
-            wallet.adapter.on('readyStateChange', handleReadyStateChange, wallet);
+        for (const adapter of adapters) {
+            adapter.on('readyStateChange', handleReadyStateChange, adapter);
         }
         return () => {
-            for (const wallet of wallets) {
-                wallet.adapter.off('readyStateChange', handleReadyStateChange, wallet);
+            for (const adapter of adapters) {
+                adapter.off('readyStateChange', handleReadyStateChange, adapter);
             }
         };
-    }, [wallets]);
+    }, [adapters]);
 
     // When the selected wallet changes, initialize the state
     useEffect(() => {
