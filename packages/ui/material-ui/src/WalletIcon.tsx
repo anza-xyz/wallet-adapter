@@ -1,6 +1,6 @@
 import { Theme } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Wallet } from '@solana/wallet-adapter-base';
+import { Wallet } from '@solana/wallet-adapter-react';
 import React, { DetailedHTMLProps, FC, ImgHTMLAttributes } from 'react';
 
 const Img = styled('img')(({ theme }: { theme: Theme }) => ({
@@ -13,5 +13,5 @@ export interface WalletIconProps extends DetailedHTMLProps<ImgHTMLAttributes<HTM
 }
 
 export const WalletIcon: FC<WalletIconProps> = ({ wallet, ...props }) => {
-    return wallet && <Img src={wallet.icon} alt={`${wallet.name} icon`} {...props} />;
+    return wallet && <Img src={wallet.adapter.icon} alt={`${wallet.adapter.name} icon`} {...props} />;
 };

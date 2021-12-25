@@ -1,4 +1,4 @@
-import { Wallet } from '@solana/wallet-adapter-base';
+import { Wallet } from '@solana/wallet-adapter-react';
 import React, { DetailedHTMLProps, FC, ImgHTMLAttributes } from 'react';
 
 export interface WalletIconProps extends DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
@@ -6,5 +6,5 @@ export interface WalletIconProps extends DetailedHTMLProps<ImgHTMLAttributes<HTM
 }
 
 export const WalletIcon: FC<WalletIconProps> = ({ wallet, ...props }) => {
-    return wallet && <img src={wallet.icon} alt={`${wallet.name} icon`} {...props} />;
+    return wallet && <img src={wallet.adapter.icon} alt={`${wallet.adapter.name} icon`} {...props} />;
 };

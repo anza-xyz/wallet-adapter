@@ -124,8 +124,8 @@ export const WalletDialog: FC<WalletDialogProps> = ({
                 <List>
                     {featured.map((wallet) => (
                         <WalletListItem
-                            key={wallet.name}
-                            onClick={(event) => handleWalletClick(event, wallet.name)}
+                            key={wallet.adapter.name}
+                            onClick={(event) => handleWalletClick(event, wallet.adapter.name)}
                             wallet={wallet}
                         />
                     ))}
@@ -135,8 +135,8 @@ export const WalletDialog: FC<WalletDialogProps> = ({
                                 <List>
                                     {more.map((wallet) => (
                                         <WalletListItem
-                                            key={wallet.name}
-                                            onClick={(event) => handleWalletClick(event, wallet.name)}
+                                            key={wallet.adapter.name}
+                                            onClick={(event) => handleWalletClick(event, wallet.adapter.name)}
                                             wallet={wallet}
                                         />
                                     ))}
