@@ -112,7 +112,7 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                         fullWidth
                         {...props}
                     >
-                        {wallet.name}
+                        {wallet.adapter.name}
                     </Button>
                 </WalletMenuItem>
                 <Collapse in={!!anchor}>

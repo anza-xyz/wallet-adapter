@@ -1,10 +1,10 @@
 {
     "extends": "../../../tsconfig.json",
+    "include": ["src"],
     "compilerOptions": {
         "noEmit": false,
         "outDir": "lib",
         "types": ["vue"],
         "isolatedModules": false
-    },
-    "include": ["src"]
+    }
 }

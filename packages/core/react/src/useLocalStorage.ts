@@ -11,6 +11,7 @@ export function useLocalStorage<T>(key: string, defaultState: T): [T, React.Disp
 
         return defaultState;
     });
+    const value = state[0];
 
     const isFirstRender = useRef(true);
     useEffect(() => {
@@ -19,15 +20,15 @@ export function useLocalStorage<T>(key: string, defaultState: T): [T, React.Disp
             return;
         }
         try {
-            if (state[0] === null) {
+            if (value === null) {
                 localStorage.removeItem(key);
             } else {
-                localStorage.setItem(key, JSON.stringify(state[0]));
+                localStorage.setItem(key, JSON.stringify(value));
             }
         } catch (error) {
             console.error(error);
         }
-    }, [state[0]]);
+    }, [value]);
 
     return state;
 }

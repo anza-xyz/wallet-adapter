@@ -38,11 +38,13 @@ const MAX_PAYLOAD = 255;
 
 const LEDGER_CLA = 0xe0;
 
+/** @internal */
 export async function getPublicKey(transport: Transport, derivationPath: Buffer): Promise<PublicKey> {
     const bytes = await send(transport, INS_GET_PUBKEY, P1_NON_CONFIRM, derivationPath);
     return new PublicKey(bytes);
 }
 
+/** @internal */
 export async function signTransaction(
     transport: Transport,
     transaction: Transaction,

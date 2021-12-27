@@ -80,11 +80,11 @@ export interface WalletDialogProps extends Omit<DialogProps, 'title' | 'open'> {
 }
 
 export const WalletDialog: FC<WalletDialogProps> = ({
-                                                        title = 'Select your wallet',
-                                                        featuredWallets = 3,
-                                                        onClose,
-                                                        ...props
-                                                    }) => {
+    title = 'Select your wallet',
+    featuredWallets = 3,
+    onClose,
+    ...props
+}) => {
     const { wallets, select } = useWallet();
     const { open, setOpen } = useWalletDialog();
     const [expanded, setExpanded] = useState(false);
@@ -124,8 +124,8 @@ export const WalletDialog: FC<WalletDialogProps> = ({
                 <List>
                     {featured.map((wallet) => (
                         <WalletListItem
-                            key={wallet.name}
-                            onClick={(event) => handleWalletClick(event, wallet.name)}
+                            key={wallet.adapter.name}
+                            onClick={(event) => handleWalletClick(event, wallet.adapter.name)}
                             wallet={wallet}
                         />
                     ))}
@@ -135,8 +135,8 @@ export const WalletDialog: FC<WalletDialogProps> = ({
                                 <List>
                                     {more.map((wallet) => (
                                         <WalletListItem
-                                            key={wallet.name}
-                                            onClick={(event) => handleWalletClick(event, wallet.name)}
+                                            key={wallet.adapter.name}
+                                            onClick={(event) => handleWalletClick(event, wallet.adapter.name)}
                                             wallet={wallet}
                                         />
                                     ))}

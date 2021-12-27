@@ -1,2 +1,2 @@
+export * from './base';
 export * from './adapter';
-export * from './wallet';

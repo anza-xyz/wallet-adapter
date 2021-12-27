@@ -1,12 +1,16 @@
 import {
+    Adapter,
     BaseMessageSignerWalletAdapter,
+    scopePollingDetectionStrategy,
     WalletAccountError,
     WalletConnectionError,
     WalletDisconnectionError,
     WalletError,
+    WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
+    WalletReadyState,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
@@ -47,16 +51,37 @@ declare const window: SlopeWindow;
 
 export interface SlopeWalletAdapterConfig {}
 
+export const SlopeWalletName = 'Slope' as WalletName;
+
 export class SlopeWalletAdapter extends BaseMessageSignerWalletAdapter {
+    name = SlopeWalletName;
+    url = 'https://slope.finance';
+    icon =
+        'data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBoZWlnaHQ9IjEyOCIgdmlld0JveD0iMCAwIDEyOCAxMjgiIHdpZHRoPSIxMjgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iNjQiIGN5PSI2NCIgZmlsbD0iIzZlNjZmYSIgcj0iNjQiLz48ZyBmaWxsPSIjZmZmIj48cGF0aCBkPSJtMzUuMTk2MyA1NC4zOTk4aDE5LjJ2MTkuMmgtMTkuMnoiLz48cGF0aCBkPSJtNzMuNTk3IDU0LjM5OTgtMTkuMiAxOS4ydi0xOS4ybDE5LjItMTkuMnoiIGZpbGwtb3BhY2l0eT0iLjQiLz48cGF0aCBkPSJtNzMuNTk3IDczLjU5OTgtMTkuMiAxOS4ydi0xOS4ybDE5LjItMTkuMnoiIGZpbGwtb3BhY2l0eT0iLjc1Ii8+PHBhdGggZD0ibTczLjYwNCA1NC4zOTk4aDE5LjJ2MTkuMmgtMTkuMnoiLz48cGF0aCBkPSJtNTQuMzk2OCAzNS4yIDE5LjItMTkuMnYxOS4ybC0xOS4yIDE5LjJoLTE5LjJ6IiBmaWxsLW9wYWNpdHk9Ii43NSIvPjxwYXRoIGQ9Im03My41OTE1IDkyLjgtMTkuMiAxOS4ydi0xOS4ybDE5LjItMTkuMmgxOS4yeiIgZmlsbC1vcGFjaXR5PSIuNCIvPjwvZz48L3N2Zz4=';
+
     private _connecting: boolean;
     private _wallet: SlopeWallet | null;
     private _publicKey: PublicKey | null;
+    private _readyState: WalletReadyState =
+        typeof window === 'undefined' || typeof document === 'undefined'
+            ? WalletReadyState.Unsupported
+            : WalletReadyState.NotDetected;
 
     constructor(config: SlopeWalletAdapterConfig = {}) {
         super();
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
+        if (this._readyState !== WalletReadyState.Unsupported) {
+            scopePollingDetectionStrategy(() => {
+                if (typeof window.Slope === 'function') {
+                    this._readyState = WalletReadyState.Installed;
+                    this.emit('readyStateChange', this._readyState);
+                    return true;
+                }
+                return false;
+            });
+        }
     }
 
     get publicKey(): PublicKey | null {
@@ -67,27 +92,16 @@ export class SlopeWalletAdapter extends BaseMessageSignerWalletAdapter {
         return this._connecting;
     }
 
-    async ready(): Promise<boolean> {
-        if (typeof window === 'undefined' || typeof document === 'undefined') return false;
-
-        if (document.readyState === 'complete') return typeof window.Slope === 'function';
-
-        return new Promise((resolve) => {
-            function listener() {
-                window.removeEventListener('load', listener);
-                resolve(typeof window.Slope === 'function');
-            }
-
-            window.addEventListener('load', listener);
-        });
+    get readyState(): WalletReadyState {
+        return this._readyState;
     }
 
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
-            this._connecting = true;
+            if (this._readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
 
-            if (!(await this.ready())) throw new WalletNotReadyError();
+            this._connecting = true;
 
             const wallet = new window!.Slope!();
 
@@ -110,7 +124,7 @@ export class SlopeWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._wallet = wallet;
             this._publicKey = publicKey;
 
-            this.emit('connect');
+            this.emit('connect', publicKey);
         } catch (error: any) {
             this.emit('error', error);
             throw error;
