@@ -1,4 +1,4 @@
-import {
+import type {
     Adapter,
     MessageSignerWalletAdapter,
     MessageSignerWalletAdapterProps,
@@ -8,7 +8,6 @@ import {
     Wallet,
     WalletError,
     WalletName,
-    WalletReadyState,
 } from '@solana/wallet-adapter-base';
 import { WalletNotConnectedError, WalletNotReadyError } from '@solana/wallet-adapter-base';
 import type { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
@@ -31,6 +30,7 @@ interface WalletStore {
     localStorageKey: string;
     onError: ErrorHandler;
     publicKey: PublicKey | null;
+    ready: boolean;
     wallet: Wallet | null;
     walletsByName: Record<WalletName, Wallet>;
     name: WalletName | null;
@@ -78,12 +78,12 @@ async function autoConnect() {
 }
 
 async function connect(): Promise<void> {
-    const { connected, connecting, disconnecting, wallet, adapter } = get(walletStore);
+    const { connected, connecting, disconnecting, wallet, ready, adapter } = get(walletStore);
     if (connected || connecting || disconnecting) return;
 
     if (!wallet || !adapter) throw newError(new WalletNotSelectedError());
 
-    if (!(adapter.readyState === WalletReadyState.Installed || adapter.readyState === WalletReadyState.Loadable)) {
+    if (!ready) {
         walletStore.resetWallet();
         window.open(wallet.url, '_blank');
         throw newError(new WalletNotReadyError());
@@ -111,6 +111,7 @@ function createWalletStore() {
         localStorageKey: 'walletAdapter',
         onError: (error: WalletError) => console.error(error),
         publicKey: null,
+        ready: false,
         wallet: null,
         name: null,
         walletsByName: {},
@@ -129,15 +130,29 @@ function createWalletStore() {
             ...store,
             name: wallet?.name || null,
             wallet,
+            ready: false,
             publicKey: adapter?.publicKey || null,
             connected: adapter?.connected || false,
         }));
 
         if (!(wallet?.name && adapter)) return;
 
-        if (shouldAutoConnect()) {
-            autoConnect();
-        }
+        // Asynchronously update the ready state
+        const waiting = wallet.name;
+        (async function () {
+            const ready = await adapter.ready();
+            // If the selected wallet hasn't changed while waiting, update the ready state
+            if (wallet.name === waiting) {
+                update((store) => ({
+                    ...store,
+                    ready,
+                }));
+
+                if (shouldAutoConnect()) {
+                    autoConnect();
+                }
+            }
+        })();
     }
 
     function updateWalletName(name: WalletName | null) {
@@ -192,12 +207,10 @@ function createWalletStore() {
     }
 
     return {
-        forceUpdate() {
-            update((store) => ({ ...store }));
-        },
         resetWallet: () => updateWalletName(null),
         setConnecting: (connecting: boolean) => update((store) => ({ ...store, connecting })),
         setDisconnecting: (disconnecting: boolean) => update((store) => ({ ...store, disconnecting })),
+        setReady: (ready: boolean) => update((store) => ({ ...store, ready })),
         subscribe,
         updateConfig: (walletConfig: WalletConfig & { walletsByName: Record<WalletName, Wallet> }) =>
             update((store) => ({
@@ -234,10 +247,6 @@ export async function initialize({
         walletsByName[wallet.name] = wallet;
         return walletsByName;
     }, {});
-
-    wallets.forEach((wallet) => {
-        wallet.adapter.on('readyStateChange', walletStore.forceUpdate);
-    });
 
     walletStore.updateConfig({
         wallets,
@@ -305,15 +314,9 @@ async function sendTransaction(
 }
 
 function shouldAutoConnect(): boolean {
-    const { adapter, autoConnect, connected, connecting } = get(walletStore);
+    const { adapter, autoConnect, ready, connected, connecting } = get(walletStore);
 
-    return !(
-        !autoConnect ||
-        !adapter ||
-        !(adapter.readyState === WalletReadyState.Installed || adapter.readyState === WalletReadyState.Loadable) ||
-        connected ||
-        connecting
-    );
+    return !(!autoConnect || !adapter || !ready || connected || connecting);
 }
 
 if (typeof window !== 'undefined') {
