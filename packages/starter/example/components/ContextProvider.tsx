@@ -1,9 +1,16 @@
-import { createTheme, ThemeProvider } from '@material-ui/core';
-import deepPurple from '@material-ui/core/colors/deepPurple';
-import pink from '@material-ui/core/colors/pink';
+import { createTheme, StyledEngineProvider, ThemeProvider } from '@mui/material';
+import { deepPurple, pink } from '@mui/material/colors';
 import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
-import { getWallets } from '@solana/wallet-adapter-wallets';
+import {
+    LedgerWalletAdapter,
+    PhantomWalletAdapter,
+    SlopeWalletAdapter,
+    SolflareWalletAdapter,
+    SolletExtensionWalletAdapter,
+    SolletWalletAdapter,
+    TorusWalletAdapter,
+} from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 import { SnackbarProvider, useSnackbar } from 'notistack';
 import { FC, ReactNode, useCallback, useMemo } from 'react';
@@ -11,7 +18,7 @@ import { AutoConnectProvider, useAutoConnect } from './AutoConnectProvider';
 
 const theme = createTheme({
     palette: {
-        type: 'dark',
+        mode: 'dark',
         primary: {
             main: deepPurple[700],
         },
@@ -19,22 +26,26 @@ const theme = createTheme({
             main: pink[700],
         },
     },
-    overrides: {
+    components: {
         MuiButtonBase: {
-            root: {
-                justifyContent: 'flex-start',
+            styleOverrides: {
+                root: {
+                    justifyContent: 'flex-start',
+                },
             },
         },
         MuiButton: {
-            root: {
-                textTransform: undefined,
-                padding: '12px 16px',
-            },
-            startIcon: {
-                marginRight: 8,
-            },
-            endIcon: {
-                marginLeft: 8,
+            styleOverrides: {
+                root: {
+                    textTransform: 'none',
+                    padding: '12px 16px',
+                },
+                startIcon: {
+                    marginRight: 8,
+                },
+                endIcon: {
+                    marginLeft: 8,
+                },
             },
         },
     },
@@ -52,7 +63,18 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     // @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking and lazy loading --
     // Only the wallets you configure here will be compiled into your application, and only the dependencies
     // of wallets that your users connect to will be loaded
-    const wallets = useMemo(() => getWallets({ network }), [network]);
+    const wallets = useMemo(
+        () => [
+            new PhantomWalletAdapter(),
+            new SlopeWalletAdapter(),
+            new SolflareWalletAdapter(),
+            new TorusWalletAdapter(),
+            new LedgerWalletAdapter(),
+            new SolletWalletAdapter({ network }),
+            new SolletExtensionWalletAdapter({ network }),
+        ],
+        [network]
+    );
 
     const { enqueueSnackbar } = useSnackbar();
     const onError = useCallback(
@@ -74,12 +96,14 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
 export const ContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     return (
-        <ThemeProvider theme={theme}>
-            <SnackbarProvider>
-                <AutoConnectProvider>
-                    <WalletContextProvider>{children}</WalletContextProvider>
-                </AutoConnectProvider>
-            </SnackbarProvider>
-        </ThemeProvider>
+        <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>
+                <SnackbarProvider>
+                    <AutoConnectProvider>
+                        <WalletContextProvider>{children}</WalletContextProvider>
+                    </AutoConnectProvider>
+                </SnackbarProvider>
+            </ThemeProvider>
+        </StyledEngineProvider>
     );
 };

@@ -1,5 +1,5 @@
-import { createTheme, ThemeProvider } from '@material-ui/core';
-import { deepPurple } from '@material-ui/core/colors';
+import { createTheme, StyledEngineProvider, ThemeProvider } from '@mui/material';
+import { deepPurple } from '@mui/material/colors';
 import { SnackbarProvider } from 'notistack';
 import React, { FC } from 'react';
 import { Wallet } from './Wallet';
@@ -9,27 +9,31 @@ require('./App.css');
 
 const theme = createTheme({
     palette: {
-        type: 'dark',
+        mode: 'dark',
         primary: {
             main: deepPurple[700],
         },
     },
-    overrides: {
+    components: {
         MuiButtonBase: {
-            root: {
-                justifyContent: 'flex-start',
+            styleOverrides: {
+                root: {
+                    justifyContent: 'flex-start',
+                },
             },
         },
         MuiButton: {
-            root: {
-                textTransform: undefined,
-                padding: '12px 16px',
-            },
-            startIcon: {
-                marginRight: 8,
-            },
-            endIcon: {
-                marginLeft: 8,
+            styleOverrides: {
+                root: {
+                    textTransform: 'none',
+                    padding: '12px 16px',
+                },
+                startIcon: {
+                    marginRight: 8,
+                },
+                endIcon: {
+                    marginLeft: 8,
+                },
             },
         },
     },
@@ -37,11 +41,13 @@ const theme = createTheme({
 
 const App: FC = () => {
     return (
-        <ThemeProvider theme={theme}>
-            <SnackbarProvider>
-                <Wallet />
-            </SnackbarProvider>
-        </ThemeProvider>
+        <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>
+                <SnackbarProvider>
+                    <Wallet />
+                </SnackbarProvider>
+            </ThemeProvider>
+        </StyledEngineProvider>
     );
 };
 

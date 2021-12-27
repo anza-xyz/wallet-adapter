@@ -1,7 +1,7 @@
-import { useCallback, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-export function useLocalStorage<T>(key: string, defaultState: T): [T, (newValue: T) => void] {
-    const [value, setValue] = useState<T>(() => {
+export function useLocalStorage<T>(key: string, defaultState: T): [T, React.Dispatch<React.SetStateAction<T>>] {
+    const state = useState<T>(() => {
         try {
             const value = localStorage.getItem(key);
             if (value) return JSON.parse(value) as T;
@@ -11,24 +11,24 @@ export function useLocalStorage<T>(key: string, defaultState: T): [T, (newValue:
 
         return defaultState;
     });
+    const value = state[0];
 
-    const setLocalStorage = useCallback(
-        (newValue: T) => {
-            if (newValue === value) return;
-            setValue(newValue);
-
-            try {
-                if (newValue === null) {
-                    localStorage.removeItem(key);
-                } else {
-                    localStorage.setItem(key, JSON.stringify(newValue));
-                }
-            } catch (error) {
-                console.error(error);
+    const isFirstRender = useRef(true);
+    useEffect(() => {
+        if (isFirstRender.current === true) {
+            isFirstRender.current = false;
+            return;
+        }
+        try {
+            if (value === null) {
+                localStorage.removeItem(key);
+            } else {
+                localStorage.setItem(key, JSON.stringify(value));
             }
-        },
-        [value, setValue, key]
-    );
+        } catch (error) {
+            console.error(error);
+        }
+    }, [value]);
 
-    return [value, setLocalStorage];
+    return state;
 }

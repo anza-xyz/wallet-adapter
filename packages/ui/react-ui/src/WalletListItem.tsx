@@ -1,4 +1,5 @@
-import { Wallet } from '@solana/wallet-adapter-base';
+import { WalletReadyState } from '@solana/wallet-adapter-base';
+import { Wallet } from '@solana/wallet-adapter-react';
 import React, { FC, MouseEventHandler } from 'react';
 import { Button } from './Button';
 import { WalletIcon } from './WalletIcon';
@@ -13,7 +14,8 @@ export const WalletListItem: FC<WalletListItemProps> = ({ handleClick, tabIndex,
     return (
         <li>
             <Button onClick={handleClick} startIcon={<WalletIcon wallet={wallet} />} tabIndex={tabIndex}>
-                {wallet.name}
+                {wallet.adapter.name}
+                {wallet.readyState === WalletReadyState.Installed ? ' (detected)' : null}
             </Button>
         </li>
     );

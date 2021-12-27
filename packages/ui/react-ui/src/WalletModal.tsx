@@ -1,6 +1,6 @@
-import { WalletName } from '@solana/wallet-adapter-base';
-import { useWallet } from '@solana/wallet-adapter-react';
-import React, { FC, MouseEvent, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { WalletName, WalletReadyState } from '@solana/wallet-adapter-base';
+import { useWallet, Wallet } from '@solana/wallet-adapter-react';
+import React, { FC, MouseEvent, ReactNode, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Button } from './Button';
 import { Collapse } from './Collapse';
@@ -21,18 +21,27 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWall
     const [fadeIn, setFadeIn] = useState(false);
     const [portal, setPortal] = useState<Element | null>(null);
 
-    const [featured, more] = useMemo(
-        () => {
-            const filteredWallets = wallets.filter(wallet => wallet.ready);
-            return [filteredWallets.slice(0, featuredWallets), filteredWallets.slice(featuredWallets)];
-        },
-        [wallets, featuredWallets]
-    );
+    const [featured, more] = useMemo(() => {
+        const installedWallets: Wallet[] = [];
+        const otherWallets: Wallet[] = [];
+        wallets.forEach((wallet: Wallet) => {
+            if (wallet.readyState === WalletReadyState.Installed) {
+                installedWallets.push(wallet);
+            } else {
+                otherWallets.push(wallet);
+            }
+        });
+        const remainingFeaturedSpots = Math.max(0, featuredWallets - installedWallets.length);
+        return [
+            [...installedWallets, ...otherWallets.slice(0, remainingFeaturedSpots)],
+            otherWallets.slice(remainingFeaturedSpots),
+        ];
+    }, [wallets, featuredWallets]);
 
     const hideModal = useCallback(() => {
         setFadeIn(false);
         setTimeout(() => setVisible(false), 150);
-    }, [setFadeIn, setVisible]);
+    }, []);
 
     const handleClose = useCallback(
         (event: MouseEvent) => {
@@ -50,7 +59,9 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWall
         [select, handleClose]
     );
 
-    const handleCollapseClick = useCallback(() => setExpanded(!expanded), [setExpanded, expanded]);
+    const handleCollapseClick = useCallback(() => {
+        setExpanded(!expanded);
+    }, [expanded]);
 
     const handleTabKey = useCallback(
         (event: KeyboardEvent) => {
@@ -104,7 +115,9 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWall
         };
     }, [hideModal, handleTabKey]);
 
-    useLayoutEffect(() => setPortal(document.querySelector(container)), [setPortal, container]);
+    useLayoutEffect(() => {
+        setPortal(document.querySelector(container));
+    }, [container]);
 
     return (
         portal &&
@@ -127,8 +140,8 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWall
                         <ul className="wallet-adapter-modal-list">
                             {featured.map((wallet) => (
                                 <WalletListItem
-                                    key={wallet.name}
-                                    handleClick={(event) => handleWalletClick(event, wallet.name)}
+                                    key={wallet.adapter.name}
+                                    handleClick={(event) => handleWalletClick(event, wallet.adapter.name)}
                                     wallet={wallet}
                                 />
                             ))}
@@ -136,8 +149,8 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWall
                                 <Collapse expanded={expanded} id="wallet-adapter-modal-collapse">
                                     {more.map((wallet) => (
                                         <WalletListItem
-                                            key={wallet.name}
-                                            handleClick={(event) => handleWalletClick(event, wallet.name)}
+                                            key={wallet.adapter.name}
+                                            handleClick={(event) => handleWalletClick(event, wallet.adapter.name)}
                                             tabIndex={expanded ? 0 : -1}
                                             wallet={wallet}
                                         />

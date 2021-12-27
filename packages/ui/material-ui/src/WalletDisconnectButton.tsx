@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from '@material-ui/core';
+import { Button, ButtonProps } from '@mui/material';
 import { useWallet } from '@solana/wallet-adapter-react';
 import React, { FC, MouseEventHandler, useCallback, useMemo } from 'react';
 import { WalletIcon } from './WalletIcon';

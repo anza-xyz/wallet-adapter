@@ -1,4 +1,4 @@
-import { Wallet } from '@solana/wallet-adapter-base';
+import { Wallet } from '@solana/wallet-adapter-react';
 import { Button, Menu, MenuItemProps } from 'antd';
 import React, { FC, MouseEventHandler } from 'react';
 import { WalletIcon } from './WalletIcon';
@@ -19,7 +19,7 @@ export const WalletMenuItem: FC<WalletMenuItemProps> = ({ onClick, wallet, ...pr
                 htmlType="button"
                 block
             >
-                {wallet.name}
+                {wallet.adapter.name}
             </Button>
         </Menu.Item>
     );

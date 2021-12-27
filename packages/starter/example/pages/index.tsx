@@ -1,4 +1,4 @@
-import { FormControlLabel, Switch, Table, TableBody, TableCell, TableHead, TableRow, Tooltip } from '@material-ui/core';
+import { FormControlLabel, Switch, Table, TableBody, TableCell, TableHead, TableRow, Tooltip } from '@mui/material';
 import {
     WalletConnectButton as AntDesignWalletConnectButton,
     WalletDisconnectButton as AntDesignWalletDisconnectButton,

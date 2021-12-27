@@ -1,17 +1,8 @@
-import {
-    Button,
-    ButtonProps,
-    Collapse,
-    Fade,
-    ListItemIcon,
-    makeStyles,
-    Menu,
-    MenuItem,
-    Theme,
-} from '@material-ui/core';
-import CopyIcon from '@material-ui/icons/FileCopy';
-import DisconnectIcon from '@material-ui/icons/LinkOff';
-import SwitchIcon from '@material-ui/icons/SwapHoriz';
+import CopyIcon from '@mui/icons-material/FileCopy';
+import DisconnectIcon from '@mui/icons-material/LinkOff';
+import SwitchIcon from '@mui/icons-material/SwapHoriz';
+import { Button, ButtonProps, Collapse, Fade, ListItemIcon, Menu, MenuItem, Theme } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useWallet } from '@solana/wallet-adapter-react';
 import React, { FC, useMemo, useState } from 'react';
 import { useWalletDialog } from './useWalletDialog';
@@ -19,34 +10,34 @@ import { WalletConnectButton } from './WalletConnectButton';
 import { WalletDialogButton } from './WalletDialogButton';
 import { WalletIcon } from './WalletIcon';
 
-const useStyles = makeStyles((theme: Theme) => ({
-    root: {},
-    menu: {
-        '& .MuiList-root': {
-            padding: 0,
+const StyledMenu = styled(Menu)(({ theme }: { theme: Theme }) => ({
+    '& .MuiList-root': {
+        padding: 0,
+    },
+    '& .MuiListItemIcon-root': {
+        marginRight: theme.spacing(),
+        minWidth: 'unset',
+        '& .MuiSvgIcon-root': {
+            width: 20,
+            height: 20,
         },
-        '& .MuiMenuItem-root': {
-            padding: theme.spacing(1, 2),
-            boxShadow: 'inset 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.1)',
-            '&:not(.MuiButtonBase-root)': {
-                padding: 0,
-                '& .MuiButton-root': {
-                    borderRadius: 0,
-                },
-            },
-            '&:hover': {
-                boxShadow:
-                    'inset 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.1)' + ', 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.05)',
-            },
-        },
-        '& .MuiListItemIcon-root': {
-            marginRight: theme.spacing(),
-            minWidth: 'unset',
-            '& .MuiSvgIcon-root': {
-                width: 20,
-                height: 20,
-            },
-        },
+    },
+}));
+
+const WalletActionMenuItem = styled(MenuItem)(({ theme }: { theme: Theme }) => ({
+    padding: theme.spacing(1, 2),
+    boxShadow: 'inset 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.1)',
+
+    '&:hover': {
+        boxShadow: 'inset 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.1)' + ', 0 1px 0 0 ' + 'rgba(255, 255, 255, 0.05)',
+    },
+}));
+
+const WalletMenuItem = styled(WalletActionMenuItem)(({ theme }: { theme: Theme }) => ({
+    padding: 0,
+
+    '& .MuiButton-root': {
+        borderRadius: 0,
     },
 }));
 
@@ -57,7 +48,6 @@ export const WalletMultiButton: FC<ButtonProps> = ({
     children,
     ...props
 }) => {
-    const styles = useStyles();
     const { publicKey, wallet, disconnect } = useWallet();
     const { setOpen } = useWalletDialog();
     const [anchor, setAnchor] = useState<HTMLElement>();
@@ -94,38 +84,39 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                 onClick={(event) => setAnchor(event.currentTarget)}
                 aria-controls="wallet-menu"
                 aria-haspopup="true"
-                className={styles.root}
                 {...props}
             >
                 {content}
             </Button>
-            <Menu
+            <StyledMenu
                 id="wallet-menu"
                 anchorEl={anchor}
                 open={!!anchor}
                 onClose={() => setAnchor(undefined)}
-                className={styles.menu}
                 marginThreshold={0}
                 TransitionComponent={Fade}
                 transitionDuration={250}
                 keepMounted
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                }}
             >
-                <MenuItem onClick={() => setAnchor(undefined)} button={false}>
+                <WalletMenuItem onClick={() => setAnchor(undefined)}>
                     <Button
                         color={color}
                         variant={variant}
                         type={type}
                         startIcon={<WalletIcon wallet={wallet} />}
-                        className={styles.root}
                         onClick={(event) => setAnchor(undefined)}
                         fullWidth
                         {...props}
                     >
-                        {wallet.name}
+                        {wallet.adapter.name}
                     </Button>
-                </MenuItem>
+                </WalletMenuItem>
                 <Collapse in={!!anchor}>
-                    <MenuItem
+                    <WalletActionMenuItem
                         onClick={async () => {
                             setAnchor(undefined);
                             await navigator.clipboard.writeText(base58);
@@ -135,8 +126,8 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                             <CopyIcon />
                         </ListItemIcon>
                         Copy address
-                    </MenuItem>
-                    <MenuItem
+                    </WalletActionMenuItem>
+                    <WalletActionMenuItem
                         onClick={() => {
                             setAnchor(undefined);
                             setOpen(true);
@@ -146,8 +137,8 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                             <SwitchIcon />
                         </ListItemIcon>
                         Connect a different wallet
-                    </MenuItem>
-                    <MenuItem
+                    </WalletActionMenuItem>
+                    <WalletActionMenuItem
                         onClick={() => {
                             setAnchor(undefined);
                             // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -160,9 +151,9 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                             <DisconnectIcon />
                         </ListItemIcon>
                         Disconnect
-                    </MenuItem>
+                    </WalletActionMenuItem>
                 </Collapse>
-            </Menu>
+            </StyledMenu>
         </>
     );
 };

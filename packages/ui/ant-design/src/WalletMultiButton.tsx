@@ -57,7 +57,7 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                             block
                             {...props}
                         >
-                            {wallet.name}
+                            {wallet.adapter.name}
                         </Button>
                     </Menu.Item>
                     <Menu.Item
