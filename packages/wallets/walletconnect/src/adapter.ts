@@ -47,7 +47,7 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
     private _params: ClientTypes.ConnectParams;
     private _client: WalletConnectClient | undefined;
     private _readyState: WalletReadyState =
-        typeof window !== 'undefined' ? WalletReadyState.Unsupported : WalletReadyState.Loadable;
+        typeof window === 'undefined' ? WalletReadyState.Unsupported : WalletReadyState.Loadable;
 
     constructor(config: WalletConnectWalletAdapterConfig) {
         super();
