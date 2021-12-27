@@ -7,13 +7,7 @@
     "type": "module",
     "workspaces": {
         "packages": [
-            "packages/core/base",
-            "packages/core/react",
-            "packages/starter/*",
-            "packages/ui/ant-design",
-            "packages/ui/material-ui",
-            "packages/ui/react-ui",
-            "packages/wallets/*"
+            "packages/*/*"
         ],
         "nohoist": [
             "**/babel-loader",
