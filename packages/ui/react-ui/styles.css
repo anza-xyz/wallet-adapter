@@ -152,7 +152,7 @@
     display: flex;
     align-items: center;
     height: 3.5rem;
-    padding: 0 2.625rem 0 1rem;
+    padding: 0 2rem 0 1rem;
     background-color: transparent;
     font-size: 1.25rem;
     line-height: 1.5rem;
@@ -160,7 +160,7 @@
     color: rgba(255, 255, 255, 0.9);
     cursor: pointer;
     text-align: left;
-    justify-content: flex-start !important;
+    justify-content: flex-start;
 }
 
 .wallet-adapter-button:hover,
@@ -187,6 +187,10 @@
     line-height: 1.5rem;
     color: #5c6c7f;
     font-family: 'DM Sans', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.wallet-adapter-button-end-icon {
+    margin-left: auto;
 }
 
 .wallet-adapter-modal-list-more {
