@@ -38,6 +38,12 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWall
         ];
     }, [wallets, featuredWallets]);
 
+    const getStartedWallet = useMemo(()=>{
+        if(wallets.some(wallet => wallet.adapter.name==='Torus'))
+        return "Torus" as WalletName;
+        else return featured[0].adapter.name;
+    }, [wallets, featured]);
+
     const hideModal = useCallback(() => {
         setFadeIn(false);
         setTimeout(() => setVisible(false), 150);
@@ -187,7 +193,7 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWall
                             <button
                                 type="button"
                                 className="wallet-adapter-modal-bottom-button"
-                                onClick={(event) => handleWalletClick(event, 'Torus' as WalletName)}
+                                onClick={(event) => handleWalletClick(event, getStartedWallet)}
                             >
                                 Get started
                             </button>
