@@ -31,7 +31,7 @@ export const Wallet: FC = () => {
             new PhantomWalletAdapter(),
             new SlopeWalletAdapter(),
             new SolflareWalletAdapter(),
-            new TorusWalletAdapter(),
+            new TorusWalletAdapter({params:{ showTorusButton: false }}),
             new LedgerWalletAdapter(),
             new SolletWalletAdapter({ network }),
             new SolletExtensionWalletAdapter({ network }),
