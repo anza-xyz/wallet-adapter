@@ -6,12 +6,12 @@ import dts from 'vite-plugin-dts';
 // https://vitejs.dev/config/
 export default defineConfig({
     build: {
-        target: 'esnext',
-        outDir: 'lib/esm',
+        target: 'es6',
+        outDir: 'lib/cjs',
         lib: {
             entry: path.resolve(__dirname, 'src/index.ts'),
             name: 'vue-ui',
-            formats: ['es'],
+            formats: ['cjs'],
             fileName: () => 'index.js',
         },
         rollupOptions: {
@@ -25,5 +25,5 @@ export default defineConfig({
         sourcemap: true,
         minify: false,
     },
-    plugins: [vue(), dts({ tsConfigFilePath: 'tsconfig.json' })],
+    plugins: [vue(), dts({ tsConfigFilePath: 'tsconfig-cjs.json' })],
 });
