@@ -136,8 +136,9 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                transaction.feePayer ||= this.publicKey || undefined;
-                transaction.recentBlockhash ||= (await connection.getRecentBlockhash('finalized')).blockhash;
+                transaction.feePayer = transaction.feePayer || this.publicKey || undefined;
+                transaction.recentBlockhash =
+                    transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
 
                 const { signers } = options;
                 if (signers?.length) {

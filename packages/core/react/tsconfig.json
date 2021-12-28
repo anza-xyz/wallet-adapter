@@ -4,6 +4,6 @@
     "exclude": ["node_modules", "src/**/__tests__"],
     "compilerOptions": {
         "noEmit": false,
-        "outDir": "lib"
+        "outDir": "lib/esm"
     }
 }
