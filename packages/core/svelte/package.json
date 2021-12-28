@@ -5,8 +5,15 @@
     "author": "Silvestre Vivo <silvestrevivomillan@gmail.com>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
+    "type": "module",
+    "sideEffects": false,
     "main": "lib/cjs/index.js",
+    "module": "lib/esm/index.js",
     "types": "lib/esm/index.d.ts",
+    "exports": {
+        "import": "./lib/esm/index.js",
+        "require": "./lib/cjs/index.js"
+    },
     "files": [
         "lib",
         "src",
@@ -31,11 +38,5 @@
         "@solana/web3.js": "^1.20.0",
         "eventemitter3": "^4.0.7",
         "svelte": "^3.43.1"
-    },
-    "exports": {
-        "import": "./lib/esm/index.js",
-        "require": "./lib/cjs/index.js"
-    },
-    "type": "module",
-    "module": "lib/esm/index.js"
+    }
 }

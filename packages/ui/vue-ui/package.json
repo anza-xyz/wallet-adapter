@@ -4,9 +4,15 @@
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
-    "main": "lib/index.js",
-    "esnext": "lib/index.js",
-    "types": "lib/src/index.d.ts",
+    "type": "module",
+    "sideEffects": false,
+    "main": "lib/cjs/index.js",
+    "module": "lib/esm/index.js",
+    "types": "lib/esm/index.d.ts",
+    "exports": {
+        "import": "./lib/esm/index.js",
+        "require": "./lib/cjs/index.js"
+    },
     "files": [
         "lib",
         "src",

@@ -7,7 +7,12 @@
     "type": "module",
     "sideEffects": false,
     "main": "lib/cjs/index.js",
+    "module": "lib/esm/index.js",
     "types": "lib/esm/index.d.ts",
+    "exports": {
+        "import": "./lib/esm/index.js",
+        "require": "./lib/cjs/index.js"
+    },
     "files": [
         "lib",
         "src",
@@ -30,10 +35,5 @@
         "@solana/wallet-adapter-base": "^0.8.1",
         "@solana/web3.js": "^1.20.0",
         "vue": "^3.0.0"
-    },
-    "exports": {
-        "import": "./lib/esm/index.js",
-        "require": "./lib/cjs/index.js"
-    },
-    "module": "lib/esm/index.js"
+    }
 }
