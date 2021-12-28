@@ -27,20 +27,32 @@ export const WalletModal: FC<WalletModalProps> = ({
     const [fadeIn, setFadeIn] = useState(false);
     const [portal, setPortal] = useState<Element | null>(null);
 
+    /*
+        Filter based on Wallet Ready State (Installable = Installed + Undetected)
+        [Installable.first, Loadable.first, Installable.rest, Loadable.rest, UnsupportedWallets]
+    */
     const [featured, more] = useMemo(() => {
         const installedWallets: Wallet[] = [];
-        const otherWallets: Wallet[] = [];
+        const undetectedWallets: Wallet[] = [];
+        const loadableWallets: Wallet[] = [];
+        const unsupportedWallets: Wallet[] = [];
         wallets.forEach((wallet) => {
             if (wallet.readyState === WalletReadyState.Installed) {
                 installedWallets.push(wallet);
+            } else if(wallet.readyState === WalletReadyState.NotDetected) {
+                undetectedWallets.push(wallet);
+            } else if (wallet.readyState === WalletReadyState.Loadable) {
+                loadableWallets.push(wallet);
             } else {
-                otherWallets.push(wallet);
+                unsupportedWallets.push(wallet);
             }
         });
-        const remainingFeaturedSpots = Math.max(0, featuredWallets - installedWallets.length);
+        const installableWallets = installedWallets.concat(undetectedWallets);
+        const remainingFeaturedSpots = Math.max(0, featuredWallets - (installableWallets.length && 1) - (loadableWallets.length && 1)); 
+        const otherWallets = installableWallets.slice(1).concat(loadableWallets.slice(1), unsupportedWallets);
         return [
-            [...installedWallets, ...otherWallets.slice(0, remainingFeaturedSpots)],
-            otherWallets.slice(remainingFeaturedSpots),
+            [...installableWallets.slice(0,1), ...loadableWallets.slice(0,1), ...otherWallets.slice(0, remainingFeaturedSpots)],
+            otherWallets.slice(remainingFeaturedSpots)
         ];
     }, [wallets, featuredWallets]);
 
