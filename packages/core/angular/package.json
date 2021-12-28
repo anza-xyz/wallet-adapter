@@ -18,7 +18,8 @@
     "fesm2015": "lib/fesm2015/solana-wallet-adapter-angular.js",
     "files": [
         "lib",
-        "src"
+        "src",
+        "LICENSE"
     ],
     "scripts": {
         "clean": "shx rm -rf lib/*",

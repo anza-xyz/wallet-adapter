@@ -7,12 +7,10 @@
     "files": [
         "public",
         "src",
-        ".env",
+        "craco.config.js",
         "LICENSE",
-        "package.json",
         "README.md",
-        "tsconfig.json",
-        "yarn.lock"
+        "tsconfig.json"
     ],
     "publishConfig": {
         "access": "public"
