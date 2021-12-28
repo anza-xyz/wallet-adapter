@@ -35,7 +35,7 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
     private _publicKey: PublicKey | null;
     private _network: string;
     private _readyState: WalletReadyState =
-        typeof window !== 'undefined' ? WalletReadyState.Unsupported : WalletReadyState.Loadable;
+        typeof window === 'undefined' ? WalletReadyState.Unsupported : WalletReadyState.Loadable;
 
     constructor(config: BloctoWalletAdapterConfig = {}) {
         super();
