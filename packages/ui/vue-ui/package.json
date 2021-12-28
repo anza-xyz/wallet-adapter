@@ -26,14 +26,9 @@
         "clean": "shx rm -rf lib/*",
         "build": "yarn clean && vite build"
     },
-    "peerDependencies": {
+    "dependencies": {
         "@solana/wallet-adapter-base": "^0.8.1",
-        "@solana/wallet-adapter-vue": "^0.4.0",
-        "vue": "^3.0.0"
-    },
-    "devDependencies": {
-        "@solana/wallet-adapter-base": "^0.8.1",
-        "@solana/wallet-adapter-vue": "^0.4.0",
+        "@solana/wallet-adapter-vue": "^0.4.1",
         "@vitejs/plugin-vue": "^1.9.3",
         "vite": "^2.6.4",
         "vite-plugin-dts": "^0.8.2",

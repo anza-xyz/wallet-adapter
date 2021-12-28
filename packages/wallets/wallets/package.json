@@ -26,10 +26,8 @@
         "build": "yarn clean && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
-    "peerDependencies": {
-        "@solana/wallet-adapter-base": "^0.9.0"
-    },
     "dependencies": {
+        "@solana/wallet-adapter-base": "^0.9.0",
         "@solana/wallet-adapter-bitkeep": "^0.3.0",
         "@solana/wallet-adapter-bitpie": "^0.5.0",
         "@solana/wallet-adapter-blocto": "^0.5.0",
@@ -46,8 +44,5 @@
         "@solana/wallet-adapter-solong": "^0.9.0",
         "@solana/wallet-adapter-tokenpocket": "^0.4.0",
         "@solana/wallet-adapter-torus": "^0.11.0"
-    },
-    "devDependencies": {
-        "@solana/wallet-adapter-base": "^0.9.0"
     }
 }

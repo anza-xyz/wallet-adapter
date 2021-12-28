@@ -27,18 +27,10 @@
         "build": "yarn clean && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
-    "peerDependencies": {
+    "dependencies": {
         "@solana/wallet-adapter-base": "^0.9.0",
         "@solana/wallet-adapter-react": "^0.15.0",
         "@solana/web3.js": "^1.20.0",
-        "react": "^17.0.2",
-        "react-dom": "^17.0.2"
-    },
-    "devDependencies": {
-        "@solana/wallet-adapter-base": "^0.9.0",
-        "@solana/wallet-adapter-react": "^0.15.0",
-        "@solana/web3.js": "^1.20.0",
-        "@types/react": "^17.0.24",
         "react": "^17.0.2",
         "react-dom": "^17.0.2"
     }
