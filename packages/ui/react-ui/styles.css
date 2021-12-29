@@ -45,6 +45,11 @@
 .wallet-modal-h-52 {
     height: 52rem !important;
 }
+.wallet-modal-h-reset {
+    min-height: auto !important;
+    max-height: auto !important;
+    height: auto !important;
+}
 .wallet-modal-pb-2 {
     padding-bottom: 2rem !important;
 }

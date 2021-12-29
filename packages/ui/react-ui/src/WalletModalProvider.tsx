@@ -1,5 +1,5 @@
 import { WalletReadyState } from '@solana/wallet-adapter-base';
-import { useWallet } from '@solana/wallet-adapter-react';
+import { useWallet, Wallet } from '@solana/wallet-adapter-react';
 import React, { FC, ReactNode, useLayoutEffect, useState } from 'react';
 import { WalletModalContext } from './useWalletModal';
 import { WalletModal, WalletModalProps } from './WalletModal';
@@ -11,7 +11,7 @@ export interface WalletModalProviderProps extends WalletModalProps {
 
 export const WalletModalProvider: FC<WalletModalProviderProps> = ({ children, ...props }) => {
     const [visible, setVisible] = useState(false);
-    const { wallets } = useWallet();
+    const { wallets } : {wallets: Wallet[]}= useWallet();
     const [anyWalletDetected, setAnyWalletDetected] = useState(false);
 
     useLayoutEffect(() => {

@@ -1,4 +1,4 @@
-import { WalletName, WalletReadyState } from '@solana/wallet-adapter-base';
+import { WalletReadyState } from '@solana/wallet-adapter-base';
 import { useWallet, Wallet } from '@solana/wallet-adapter-react';
 import React, { FC, MouseEvent, ReactNode, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -15,7 +15,7 @@ export interface WalletModalProps {
 
 export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWallets = 3, container = 'body' }) => {
     const ref = useRef<HTMLDivElement>(null);
-    const { wallets, select } = useWallet();
+    const { wallets, select } : {wallets: Wallet[], select: any}= useWallet();
     const { setVisible } = useWalletModal();
     const [expanded, setExpanded] = useState(false);
     const [fadeIn, setFadeIn] = useState(false);
@@ -23,25 +23,34 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWall
 
     const [featured, more] = useMemo(() => {
         const installedWallets: Wallet[] = [];
-        const otherWallets: Wallet[] = [];
+        const undetectedWallets: Wallet[] = [];
+        const loadableWallets: Wallet[] = [];
+        const unsupportedWallets: Wallet[] = [];
         wallets.forEach((wallet: Wallet) => {
             if (wallet.readyState === WalletReadyState.Installed) {
                 installedWallets.push(wallet);
+            } else if(wallet.readyState === WalletReadyState.NotDetected) {
+                undetectedWallets.push(wallet);
+            } else if (wallet.readyState === WalletReadyState.Loadable) {
+                loadableWallets.push(wallet);
             } else {
-                otherWallets.push(wallet);
+                unsupportedWallets.push(wallet);
             }
         });
-        const remainingFeaturedSpots = Math.max(0, featuredWallets - installedWallets.length);
+        const installableWallets = installedWallets.concat(undetectedWallets);
+        const remainingFeaturedSpots = Math.max(0, featuredWallets - (installableWallets.length && 1) - (loadableWallets.length && 1)); 
+        const otherWallets = installableWallets.slice(1).concat(loadableWallets.slice(1), unsupportedWallets);
         return [
-            [...installedWallets, ...otherWallets.slice(0, remainingFeaturedSpots)],
-            otherWallets.slice(remainingFeaturedSpots),
+            [...installableWallets.slice(0,1), ...loadableWallets.slice(0,1), ...otherWallets.slice(0, remainingFeaturedSpots)],
+            otherWallets.slice(remainingFeaturedSpots)
         ];
     }, [wallets, featuredWallets]);
 
     const getStartedWallet = useMemo(()=>{
-        if(wallets.some(wallet => wallet.adapter.name==='Torus'))
-        return "Torus" as WalletName;
-        else return featured[0].adapter.name;
+        if (wallets.some(wallet=> wallet.adapter.name==='Torus'))
+            return "Torus";
+        const loadable = wallets.filter(wallet => wallet.readyState === WalletReadyState.Loadable);
+        return loadable[0]?.adapter.name || featured[0]?.adapter.name || null; 
     }, [wallets, featured]);
 
     const hideModal = useCallback(() => {
@@ -58,7 +67,7 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWall
     );
 
     const handleWalletClick = useCallback(
-        (event: MouseEvent, walletName: WalletName) => {
+        (event: MouseEvent, walletName) => {
             select(walletName);
             handleClose(event);
         },
