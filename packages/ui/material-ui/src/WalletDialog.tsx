@@ -1,6 +1,4 @@
-import CloseIcon from '@mui/icons-material/Close';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
+import { Close as CloseIcon, ExpandLess as CollapseIcon, ExpandMore as ExpandIcon } from '@mui/icons-material';
 import {
     Button,
     Collapse,
@@ -145,7 +143,7 @@ export const WalletDialog: FC<WalletDialogProps> = ({
                             <ListItem>
                                 <Button onClick={handleExpandClick}>
                                     {expanded ? 'Less' : 'More'} options
-                                    {expanded ? <ExpandLess /> : <ExpandMore />}
+                                    {expanded ? <CollapseIcon /> : <ExpandIcon />}
                                 </Button>
                             </ListItem>
                         </>
