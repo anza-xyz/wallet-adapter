@@ -85,7 +85,11 @@ async function connect(): Promise<void> {
 
     if (!ready) {
         walletStore.resetWallet();
-        window.open(wallet.url, '_blank');
+
+        if (typeof window !== 'undefined') {
+            window.open(wallet.url, '_blank');
+        }
+
         throw newError(new WalletNotReadyError());
     }
 
