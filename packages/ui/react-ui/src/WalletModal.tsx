@@ -1,4 +1,4 @@
-import { WalletReadyState } from '@solana/wallet-adapter-base';
+import { WalletName, WalletReadyState } from '@solana/wallet-adapter-base';
 import { useWallet, Wallet } from '@solana/wallet-adapter-react';
 import React, { FC, MouseEvent, ReactNode, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -15,7 +15,7 @@ export interface WalletModalProps {
 
 export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWallets = 3, container = 'body' }) => {
     const ref = useRef<HTMLDivElement>(null);
-    const { wallets, select } : {wallets: Wallet[], select: any}= useWallet();
+    const { wallets, select } = useWallet();
     const { setVisible } = useWalletModal();
     const [expanded, setExpanded] = useState(false);
     const [fadeIn, setFadeIn] = useState(false);
@@ -33,8 +33,6 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWall
                 undetectedWallets.push(wallet);
             } else if (wallet.readyState === WalletReadyState.Loadable) {
                 loadableWallets.push(wallet);
-            } else {
-                unsupportedWallets.push(wallet);
             }
         });
         const installableWallets = installedWallets.concat(undetectedWallets);
@@ -46,9 +44,10 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWall
         ];
     }, [wallets, featuredWallets]);
 
-    const getStartedWallet = useMemo(()=>{
-        if (wallets.some(wallet=> wallet.adapter.name==='Torus'))
-            return "Torus";
+    const getStartedWallet = useMemo(() => {
+        const torusWallet = wallets.find(wallet=> wallet.adapter.name === 'Torus')
+        if (torusWallet) return torusWallet;
+
         const loadable = wallets.filter(wallet => wallet.readyState === WalletReadyState.Loadable);
         return loadable[0]?.adapter.name || featured[0]?.adapter.name || null; 
     }, [wallets, featured]);
@@ -67,7 +66,7 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWall
     );
 
     const handleWalletClick = useCallback(
-        (event: MouseEvent, walletName) => {
+        (event: MouseEvent, walletName: WalletName) => {
             select(walletName);
             handleClose(event);
         },

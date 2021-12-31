@@ -29,7 +29,7 @@ export const Wallet: FC = () => {
     const wallets = useMemo(
         () => [
             new PhantomWalletAdapter(),
-            new TorusWalletAdapter({params:{ showTorusButton: false }}),
+            new TorusWalletAdapter(),
             new SlopeWalletAdapter(),
             new SolflareWalletAdapter(),
             new LedgerWalletAdapter(),

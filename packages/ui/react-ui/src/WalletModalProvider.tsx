@@ -11,7 +11,7 @@ export interface WalletModalProviderProps extends WalletModalProps {
 
 export const WalletModalProvider: FC<WalletModalProviderProps> = ({ children, ...props }) => {
     const [visible, setVisible] = useState(false);
-    const { wallets } : {wallets: Wallet[]}= useWallet();
+    const { wallets } = useWallet();
     const [anyWalletDetected, setAnyWalletDetected] = useState(false);
 
     useLayoutEffect(() => {
