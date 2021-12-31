@@ -32,7 +32,7 @@
         "@solana/wallet-adapter-react-ui": "^0.8.0",
         "@solana/wallet-adapter-wallets": "^0.14.0",
         "@solana/web3.js": "^1.20.0",
-        "next": "^11.1.2",
+        "next": "^11.1.3",
         "react": "^17.0.2",
         "react-dom": "^17.0.2"
     },
