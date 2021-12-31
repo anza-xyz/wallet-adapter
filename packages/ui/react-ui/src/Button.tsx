@@ -8,7 +8,6 @@ export interface ButtonProps {
     startIcon?: ReactElement;
     style?: CSSProperties;
     tabIndex?: number;
-    endText?: string;
 }
 
 export const Button: FC<ButtonProps> = (props) => {
@@ -23,7 +22,6 @@ export const Button: FC<ButtonProps> = (props) => {
             {props.startIcon && <i className="wallet-adapter-button-start-icon">{props.startIcon}</i>}
             {props.children}
             {props.endIcon && <i className="wallet-adapter-button-end-icon">{props.endIcon}</i>}
-            {props.endText && <span className="wallet-adapter-button-end-text">{props.endText}</span>}
         </button>
     );
 };
