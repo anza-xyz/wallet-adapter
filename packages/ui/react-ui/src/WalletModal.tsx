@@ -2,7 +2,7 @@ import { WalletName, WalletReadyState } from '@solana/wallet-adapter-base';
 import { useWallet, Wallet } from '@solana/wallet-adapter-react';
 import React, { FC, MouseEvent, ReactNode, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { WalletUIAlt } from '.';
+import { WalletUIAlt } from './WalletUIAlt';
 import { Button } from './Button';
 import { Collapse } from './Collapse';
 import { useWalletModal } from './useWalletModal';
