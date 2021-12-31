@@ -39,7 +39,7 @@ export function getWalletAdapters({ network = WalletAdapterNetwork.Mainnet }: Wa
         new SafePalWalletAdapter(),
         new SolongWalletAdapter(),
         new TokenPocketWalletAdapter(),
-        new TorusWalletAdapter({ params: { showTorusButton: false } }),
+        new TorusWalletAdapter(),
         new LedgerWalletAdapter(),
         new SolletWalletAdapter({ network }),
         new SolflareWebWalletAdapter({ network }),

@@ -45,11 +45,11 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWall
     }, [wallets, featuredWallets]);
 
     const getStartedWallet = useMemo(() => {
-        const torusWallet = wallets.find(wallet=> wallet.adapter.name === 'Torus')
-        if (torusWallet) return torusWallet;
+        const torusWallet = wallets.find((wallet: { adapter: { name: WalletName; }; })=> wallet.adapter.name === 'Torus')
+        if (torusWallet) return torusWallet.adapter.name;
 
-        const loadable = wallets.filter(wallet => wallet.readyState === WalletReadyState.Loadable);
-        return loadable[0]?.adapter.name || featured[0]?.adapter.name || null; 
+        const loadable = wallets.filter((wallet: { readyState: any; }) => wallet.readyState === WalletReadyState.Loadable);
+        return loadable[0]?.adapter.name || featured[0]?.adapter.name
     }, [wallets, featured]);
 
     const hideModal = useCallback(() => {
