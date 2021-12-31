@@ -10,17 +10,23 @@ module.exports = function (phase, ...args) {
             [
                 transpileModules,
                 [
+                    // external
                     '@blocto/sdk',
+                    '@mui/icons-material',
+                    '@mui/material',
                     '@project-serum/sol-wallet-adapter',
+                    // core
                     '@solana/wallet-adapter-angular',
                     '@solana/wallet-adapter-base',
                     '@solana/wallet-adapter-react',
                     '@solana/wallet-adapter-svelte',
                     '@solana/wallet-adapter-vue',
+                    // ui
                     '@solana/wallet-adapter-ant-design',
                     '@solana/wallet-adapter-material-ui',
                     '@solana/wallet-adapter-react-ui',
                     '@solana/wallet-adapter-vue-ui',
+                    // wallets
                     '@solana/wallet-adapter-bitkeep',
                     '@solana/wallet-adapter-bitpie',
                     '@solana/wallet-adapter-blocto',
@@ -38,6 +44,7 @@ module.exports = function (phase, ...args) {
                     '@solana/wallet-adapter-tokenpocket',
                     '@solana/wallet-adapter-torus',
                     '@solana/wallet-adapter-walletconnect',
+                    '@solana/wallet-adapter-wallets',
                 ],
             ],
             [
