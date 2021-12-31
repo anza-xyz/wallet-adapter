@@ -129,28 +129,28 @@ export const WalletDialog: FC<WalletDialogProps> = ({
                             wallet={wallet}
                         />
                     ))}
-                    {more.length ? (
-                        <>
-                            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                                <List>
-                                    {more.map((wallet) => (
-                                        <WalletListItem
-                                            key={wallet.adapter.name}
-                                            onClick={(event) => handleWalletClick(event, wallet.adapter.name)}
-                                            wallet={wallet}
-                                        />
-                                    ))}
-                                </List>
-                            </Collapse>
-                            <ListItem>
-                                <Button onClick={handleExpandClick}>
-                                    {expanded ? 'Less' : 'More'} options
-                                    {expanded ? <ExpandLess /> : <ExpandMore />}
-                                </Button>
-                            </ListItem>
-                        </>
-                    ) : null}
                 </List>
+                {more.length ? (
+                    <>
+                        <Collapse in={expanded} timeout="auto" unmountOnExit>
+                            <List>
+                                {more.map((wallet) => (
+                                    <WalletListItem
+                                        key={wallet.adapter.name}
+                                        onClick={(event) => handleWalletClick(event, wallet.adapter.name)}
+                                        wallet={wallet}
+                                    />
+                                ))}
+                            </List>
+                        </Collapse>
+                        <ListItem>
+                            <Button onClick={handleExpandClick}>
+                                {expanded ? 'Less' : 'More'} options
+                                {expanded ? <ExpandLess /> : <ExpandMore />}
+                            </Button>
+                        </ListItem>
+                    </>
+                ) : null}
             </DialogContent>
         </RootDialog>
     );

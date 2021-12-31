@@ -2,8 +2,8 @@
     "include": ["packages/*/*/src"],
     "exclude": ["node_modules", "packages/*/*/node_modules"],
     "compilerOptions": {
-        "target": "esnext",
-        "module": "esnext",
+        "target": "es6",
+        "module": "es2020",
         "noEmit": true,
         "declaration": true,
         "sourceMap": true,
