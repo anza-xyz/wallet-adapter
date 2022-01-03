@@ -87,7 +87,8 @@ export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAda
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
-            if (this._readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
+            if (!(this._readyState === WalletReadyState.Loadable || this._readyState === WalletReadyState.Installed))
+                throw new WalletNotReadyError();
 
             this._connecting = true;
 
