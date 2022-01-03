@@ -50,11 +50,13 @@ export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAda
 
     constructor(config: SolletWalletAdapterConfig = {}) {
         super();
+
         this._provider = config.provider || this._provider;
         this._network = config.network || this._network;
         this._timeout = config.timeout || this._timeout;
         this._connecting = false;
         this._wallet = null;
+
         if (this._readyState !== WalletReadyState.Unsupported) {
             if (typeof this._provider === 'string') {
                 this._readyState = WalletReadyState.Loadable;
