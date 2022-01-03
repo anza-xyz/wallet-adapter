@@ -39,20 +39,20 @@ export interface SolletWalletAdapterConfig {
 
 export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAdapter {
     protected _provider: string | SolletWallet | undefined;
-    protected _network: WalletAdapterNetwork;
-    protected _timeout: number;
-    protected _connecting: boolean;
+    protected _network: WalletAdapterNetwork = WalletAdapterNetwork.Mainnet;
+    protected _timeout: number = 10000;
     protected _readyState: WalletReadyState =
         typeof window === 'undefined' || typeof document === 'undefined'
             ? WalletReadyState.Unsupported
             : WalletReadyState.NotDetected;
+    protected _connecting: boolean;
     protected _wallet: Wallet | null;
 
     constructor(config: SolletWalletAdapterConfig = {}) {
         super();
-        this._provider = config.provider;
-        this._network = config.network || WalletAdapterNetwork.Mainnet;
-        this._timeout = config.timeout || 10000;
+        this._provider = config.provider || this._provider;
+        this._network = config.network || this._network;
+        this._timeout = config.timeout || this._timeout;
         this._connecting = false;
         this._wallet = null;
         if (this._readyState !== WalletReadyState.Unsupported) {
