@@ -39,8 +39,8 @@ export interface SolletWalletAdapterConfig {
 
 export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAdapter {
     protected _provider: string | SolletWallet | undefined;
-    protected _network: WalletAdapterNetwork = WalletAdapterNetwork.Mainnet;
-    protected _timeout: number = 10000;
+    protected _network: WalletAdapterNetwork;
+    protected _timeout: number;
     protected _readyState: WalletReadyState =
         typeof window === 'undefined' || typeof document === 'undefined'
             ? WalletReadyState.Unsupported
@@ -48,12 +48,12 @@ export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAda
     protected _connecting: boolean;
     protected _wallet: Wallet | null;
 
-    constructor(config: SolletWalletAdapterConfig = {}) {
+    constructor({ provider, network = WalletAdapterNetwork.Mainnet, timeout = 10000 }: SolletWalletAdapterConfig = {}) {
         super();
 
-        this._provider = config.provider || this._provider;
-        this._network = config.network || this._network;
-        this._timeout = config.timeout || this._timeout;
+        this._provider = provider;
+        this._network = network;
+        this._timeout = timeout;
         this._connecting = false;
         this._wallet = null;
 
