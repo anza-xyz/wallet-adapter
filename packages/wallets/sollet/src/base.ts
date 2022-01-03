@@ -34,11 +34,13 @@ declare const window: SolletWindow;
 export interface SolletWalletAdapterConfig {
     provider?: string | SolletWallet;
     network?: WalletAdapterNetwork;
+    timeout?: number;
 }
 
 export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAdapter {
     protected _provider: string | SolletWallet | undefined;
     protected _network: WalletAdapterNetwork;
+    protected _timeout: number;
     protected _connecting: boolean;
     protected _readyState: WalletReadyState =
         typeof window === 'undefined' || typeof document === 'undefined'
@@ -50,6 +52,7 @@ export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAda
         super();
         this._provider = config.provider;
         this._network = config.network || WalletAdapterNetwork.Mainnet;
+        this._timeout = config.timeout || 10000;
         this._connecting = false;
         this._wallet = null;
         if (this._readyState !== WalletReadyState.Unsupported) {
@@ -149,7 +152,7 @@ export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAda
                             }, 100);
                         } else {
                             // HACK: sol-wallet-adapter doesn't reject or emit an event if the extension is closed or ignored
-                            timeout = setTimeout(() => reject(new WalletTimeoutError()), 10000);
+                            timeout = setTimeout(() => reject(new WalletTimeoutError()), this._timeout);
                         }
                     });
                 } finally {
