@@ -30,31 +30,42 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWall
         wallets.forEach((wallet: Wallet) => {
             if (wallet.readyState === WalletReadyState.Installed) {
                 installedWallets.push(wallet);
-            } else if(wallet.readyState === WalletReadyState.NotDetected) {
+            } else if (wallet.readyState === WalletReadyState.NotDetected) {
                 undetectedWallets.push(wallet);
             } else if (wallet.readyState === WalletReadyState.Loadable) {
                 loadableWallets.push(wallet);
             }
         });
         const installableWallets = installedWallets.concat(undetectedWallets);
-        const remainingFeaturedSpots = Math.max(0, featuredWallets - (installableWallets.length && 1) - (loadableWallets.length && 1)); 
+        const remainingFeaturedSpots = Math.max(
+            0,
+            featuredWallets - (installableWallets.length && 1) - (loadableWallets.length && 1)
+        );
         const otherWallets = installableWallets.slice(1).concat(loadableWallets.slice(1));
         return [
-            [...installableWallets.slice(0,1), ...loadableWallets.slice(0,1), ...otherWallets.slice(0, remainingFeaturedSpots)],
-            otherWallets.slice(remainingFeaturedSpots)
+            [
+                ...installableWallets.slice(0, 1),
+                ...loadableWallets.slice(0, 1),
+                ...otherWallets.slice(0, remainingFeaturedSpots),
+            ],
+            otherWallets.slice(remainingFeaturedSpots),
         ];
     }, [wallets, featuredWallets]);
 
     const getStartedWallet = useMemo(() => {
-        const torusWallet = wallets.find((wallet: { adapter: { name: WalletName; }; })=> wallet.adapter.name === 'Torus')
+        const torusWallet = wallets.find(
+            (wallet: { adapter: { name: WalletName } }) => wallet.adapter.name === 'Torus'
+        );
         if (torusWallet) return torusWallet.adapter.name;
 
-        const loadable = wallets.filter((wallet: { readyState: any; }) => wallet.readyState === WalletReadyState.Loadable);
-        return loadable[0]?.adapter.name || featured[0]?.adapter.name
+        const loadable = wallets.filter(
+            (wallet: { readyState: any }) => wallet.readyState === WalletReadyState.Loadable
+        );
+        return loadable[0]?.adapter.name || featured[0]?.adapter.name;
     }, [wallets, featured]);
 
     const installedWalletDetected = useMemo(() => {
-        if(wallets.some(wallet => wallet.readyState === WalletReadyState.Installed)) return true;
+        if (wallets.some((wallet) => wallet.readyState === WalletReadyState.Installed)) return true;
         return false;
     }, [wallets]);
 
@@ -110,18 +121,32 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWall
         [ref]
     );
 
-    const uiProps = useMemo(()=>({
-        className,
-        fadeIn,
-        wallets,
-        featured,
-        getStartedWallet,
-        more,
-        expanded,
-        handleClose,
-        handleWalletClick,
-        handleCollapseClick,
-    }), [className, fadeIn, wallets, featured, getStartedWallet, more, expanded, handleClose, handleWalletClick, handleCollapseClick]);
+    const uiProps = useMemo(
+        () => ({
+            className,
+            fadeIn,
+            wallets,
+            featured,
+            getStartedWallet,
+            more,
+            expanded,
+            handleClose,
+            handleWalletClick,
+            handleCollapseClick,
+        }),
+        [
+            className,
+            fadeIn,
+            wallets,
+            featured,
+            getStartedWallet,
+            more,
+            expanded,
+            handleClose,
+            handleWalletClick,
+            handleCollapseClick,
+        ]
+    );
 
     useLayoutEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -154,9 +179,6 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', featuredWall
 
     return (
         portal &&
-        createPortal(
-            installedWalletDetected ? <WalletUIMain {...uiProps}  /> : <WalletUIAlt {...uiProps} />,
-            portal
-        )
+        createPortal(installedWalletDetected ? <WalletUIMain {...uiProps} /> : <WalletUIAlt {...uiProps} />, portal)
     );
 };

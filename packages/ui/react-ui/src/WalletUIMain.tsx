@@ -1,4 +1,4 @@
-import {  WalletName } from '@solana/wallet-adapter-base';
+import { WalletName } from '@solana/wallet-adapter-base';
 import { Wallet } from '@solana/wallet-adapter-react';
 import React, { MouseEvent } from 'react';
 import { Collapse } from './Collapse';
@@ -11,23 +11,27 @@ export interface WalletUIMain {
     getStartedWallet: WalletName;
     more: Wallet[];
     expanded: boolean;
-    handleClose: (arg0: MouseEvent)=>void;
-    handleWalletClick: (arg0: MouseEvent, arg1: WalletName)=>void;
-    handleCollapseClick: ()=>void;
+    handleClose: (arg0: MouseEvent) => void;
+    handleWalletClick: (arg0: MouseEvent, arg1: WalletName) => void;
+    handleCollapseClick: () => void;
 }
 
-export const WalletUIMain = React.forwardRef<HTMLDivElement, WalletUIMain>(({
-    className = '',
-    fadeIn,
-    featured,
-    getStartedWallet,
-    more,
-    expanded,
-    handleClose,
-    handleWalletClick,
-    handleCollapseClick,
-}, ref) => {
-    return (
+export const WalletUIMain = React.forwardRef<HTMLDivElement, WalletUIMain>(
+    (
+        {
+            className = '',
+            fadeIn,
+            featured,
+            getStartedWallet,
+            more,
+            expanded,
+            handleClose,
+            handleWalletClick,
+            handleCollapseClick,
+        },
+        ref
+    ) => {
+        return (
             <div
                 aria-labelledby="wallet-adapter-modal-title"
                 aria-modal="true"
@@ -102,5 +106,6 @@ export const WalletUIMain = React.forwardRef<HTMLDivElement, WalletUIMain>(({
                 </div>
                 <div className="wallet-adapter-modal-overlay" onMouseDown={handleClose} />
             </div>
-    );
-});
+        );
+    }
+);

@@ -15,7 +15,9 @@ export const WalletListItem: FC<WalletListItemProps> = ({ handleClick, tabIndex,
         <li>
             <Button onClick={handleClick} startIcon={<WalletIcon wallet={wallet} />} tabIndex={tabIndex}>
                 {wallet.adapter.name}
-                {wallet.readyState === WalletReadyState.Installed && <span className="wallet-adapter-button-end-text">Detected</span>}
+                {wallet.readyState === WalletReadyState.Installed && (
+                    <span className="wallet-adapter-button-end-text">Detected</span>
+                )}
             </Button>
         </li>
     );
