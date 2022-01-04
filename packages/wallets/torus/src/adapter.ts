@@ -40,7 +40,7 @@ export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
     private _params: TorusParams;
     private _defaultParams: TorusParams = { showTorusButton: false };
     private _readyState: WalletReadyState =
-        typeof window !== 'undefined' ? WalletReadyState.Unsupported : WalletReadyState.Loadable;
+        typeof window === 'undefined' ? WalletReadyState.Unsupported : WalletReadyState.Loadable;
 
     constructor(config: TorusWalletAdapterConfig = {}) {
         super();

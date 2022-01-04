@@ -6,8 +6,13 @@
     "license": "Apache-2.0",
     "type": "module",
     "sideEffects": false,
-    "main": "lib/index.js",
-    "types": "lib/index.d.ts",
+    "main": "lib/cjs/index.js",
+    "module": "lib/esm/index.js",
+    "types": "lib/esm/index.d.ts",
+    "exports": {
+        "import": "./lib/esm/index.js",
+        "require": "./lib/cjs/index.js"
+    },
     "files": [
         "lib",
         "src",
@@ -18,15 +23,11 @@
     },
     "scripts": {
         "clean": "shx rm -rf lib/*",
-        "build": "yarn clean && tsc"
-    },
-    "peerDependencies": {
-        "@solana/web3.js": "^1.20.0"
+        "build": "yarn clean && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
+        "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
     "dependencies": {
+        "@solana/web3.js": "^1.20.0",
         "eventemitter3": "^4.0.7"
-    },
-    "devDependencies": {
-        "@solana/web3.js": "^1.20.0"
     }
 }

@@ -4,9 +4,15 @@
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
-    "main": "lib/index.js",
-    "esnext": "lib/index.js",
-    "types": "lib/src/index.d.ts",
+    "type": "module",
+    "sideEffects": false,
+    "main": "lib/cjs/index.js",
+    "module": "lib/esm/index.js",
+    "types": "lib/esm/src/index.d.ts",
+    "exports": {
+        "import": "./lib/esm/index.js",
+        "require": "./lib/cjs/index.js"
+    },
     "files": [
         "lib",
         "src",
@@ -18,19 +24,17 @@
     },
     "scripts": {
         "clean": "shx rm -rf lib/*",
-        "build": "yarn clean && vite build"
+        "build": "yarn clean && vite build --config vite.config.ts && vite build --config vite.config-cjs.ts",
+        "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
-    "peerDependencies": {
+    "dependencies": {
         "@solana/wallet-adapter-base": "^0.8.1",
-        "@solana/wallet-adapter-vue": "^0.4.0",
+        "@solana/wallet-adapter-vue": "^0.4.1",
         "vue": "^3.0.0"
     },
     "devDependencies": {
-        "@solana/wallet-adapter-base": "^0.8.1",
-        "@solana/wallet-adapter-vue": "^0.4.0",
-        "@vitejs/plugin-vue": "^1.9.3",
-        "vite": "^2.6.4",
-        "vite-plugin-dts": "^0.8.2",
-        "vue": "^3.0.0"
+        "@vitejs/plugin-vue": "^2.0.1",
+        "vite": "^2.7.9",
+        "vite-plugin-dts": "^0.9.6"
     }
 }

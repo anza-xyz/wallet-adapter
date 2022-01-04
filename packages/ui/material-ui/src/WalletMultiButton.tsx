@@ -1,6 +1,4 @@
-import CopyIcon from '@mui/icons-material/FileCopy';
-import DisconnectIcon from '@mui/icons-material/LinkOff';
-import SwitchIcon from '@mui/icons-material/SwapHoriz';
+import { FileCopy as CopyIcon, LinkOff as DisconnectIcon, SwapHoriz as SwitchIcon } from '@mui/icons-material';
 import { Button, ButtonProps, Collapse, Fade, ListItemIcon, Menu, MenuItem, Theme } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useWallet } from '@solana/wallet-adapter-react';

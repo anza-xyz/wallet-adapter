@@ -8,5 +8,6 @@
             "@solana/web3.js": "@solana/web3.js",
             "@solana/wallet-adapter-base": "@solana/wallet-adapter-base"
         }
-    }
+    },
+    "allowedNonPeerDependencies": ["."]
 }

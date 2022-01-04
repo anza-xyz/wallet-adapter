@@ -10,9 +10,9 @@
         "public",
         "styles",
         ".eslintrc.json",
+        "LICENSE",
         "next.config.js",
         "next-env.d.ts",
-        "package.json",
         "README.md",
         "tsconfig.json"
     ],

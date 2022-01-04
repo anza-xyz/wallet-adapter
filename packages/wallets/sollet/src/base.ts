@@ -34,24 +34,29 @@ declare const window: SolletWindow;
 export interface SolletWalletAdapterConfig {
     provider?: string | SolletWallet;
     network?: WalletAdapterNetwork;
+    timeout?: number;
 }
 
 export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAdapter {
     protected _provider: string | SolletWallet | undefined;
     protected _network: WalletAdapterNetwork;
-    protected _connecting: boolean;
+    protected _timeout: number;
     protected _readyState: WalletReadyState =
         typeof window === 'undefined' || typeof document === 'undefined'
             ? WalletReadyState.Unsupported
             : WalletReadyState.NotDetected;
+    protected _connecting: boolean;
     protected _wallet: Wallet | null;
 
-    constructor(config: SolletWalletAdapterConfig = {}) {
+    constructor({ provider, network = WalletAdapterNetwork.Mainnet, timeout = 10000 }: SolletWalletAdapterConfig = {}) {
         super();
-        this._provider = config.provider;
-        this._network = config.network || WalletAdapterNetwork.Mainnet;
+
+        this._provider = provider;
+        this._network = network;
+        this._timeout = timeout;
         this._connecting = false;
         this._wallet = null;
+
         if (this._readyState !== WalletReadyState.Unsupported) {
             if (typeof this._provider === 'string') {
                 this._readyState = WalletReadyState.Loadable;
@@ -87,7 +92,8 @@ export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAda
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
-            if (this._readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
+            if (!(this._readyState === WalletReadyState.Loadable || this._readyState === WalletReadyState.Installed))
+                throw new WalletNotReadyError();
 
             this._connecting = true;
 
@@ -148,7 +154,7 @@ export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAda
                             }, 100);
                         } else {
                             // HACK: sol-wallet-adapter doesn't reject or emit an event if the extension is closed or ignored
-                            timeout = setTimeout(() => reject(new WalletTimeoutError()), 10000);
+                            timeout = setTimeout(() => reject(new WalletTimeoutError()), this._timeout);
                         }
                     });
                 } finally {

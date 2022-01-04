@@ -6,7 +6,8 @@ import dts from 'vite-plugin-dts';
 // https://vitejs.dev/config/
 export default defineConfig({
     build: {
-        outDir: 'lib',
+        target: 'esnext',
+        outDir: 'lib/esm',
         lib: {
             entry: path.resolve(__dirname, 'src/index.ts'),
             name: 'vue-ui',
@@ -22,6 +23,7 @@ export default defineConfig({
             },
         },
         sourcemap: true,
+        minify: false,
     },
-    plugins: [vue(), dts()],
+    plugins: [vue(), dts({ tsConfigFilePath: 'tsconfig.json' })],
 });

@@ -35,7 +35,7 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
     private _publicKey: PublicKey | null;
     private _network: string;
     private _readyState: WalletReadyState =
-        typeof window !== 'undefined' ? WalletReadyState.Unsupported : WalletReadyState.Loadable;
+        typeof window === 'undefined' ? WalletReadyState.Unsupported : WalletReadyState.Loadable;
 
     constructor(config: BloctoWalletAdapterConfig = {}) {
         super();
@@ -136,8 +136,9 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                transaction.feePayer ||= this.publicKey || undefined;
-                transaction.recentBlockhash ||= (await connection.getRecentBlockhash('finalized')).blockhash;
+                transaction.feePayer = transaction.feePayer || this.publicKey || undefined;
+                transaction.recentBlockhash =
+                    transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
 
                 const { signers } = options;
                 if (signers?.length) {

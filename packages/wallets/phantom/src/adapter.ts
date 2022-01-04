@@ -187,6 +187,11 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
             const wallet = this._wallet;
             // Phantom doesn't handle partial signers, so if they are provided, don't use `signAndSendTransaction`
             if (wallet && 'signAndSendTransaction' in wallet && !options?.signers) {
+                // HACK: Phantom's `signAndSendTransaction` should always set these, but doesn't yet
+                transaction.feePayer = transaction.feePayer || this.publicKey || undefined;
+                transaction.recentBlockhash =
+                    transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
+
                 const { signature } = await wallet.signAndSendTransaction(transaction, options);
                 return signature;
             }
