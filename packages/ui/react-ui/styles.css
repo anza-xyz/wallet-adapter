@@ -42,20 +42,8 @@
     }
 }
 
-.wallet-modal-h-52 {
-    height: 52rem !important;
-}
-.wallet-modal-h-reset {
-    min-height: auto !important;
-    max-height: auto !important;
-    height: auto !important;
-}
-.wallet-modal-pb-2 {
-    padding-bottom: 2rem !important;
-}
-
 .wallet-adapter-modal-wrapper {
-    height: 43.5rem;
+    height: auto;
     box-sizing: border-box;
     position: relative;
     display: flex;
@@ -124,10 +112,6 @@
     line-height: 1.5rem;
     font-weight: 500;
     align-self: flex-start;
-}
-
-.wallet-modal-mt-24 {
-    margin-top: 1.5rem !important;
 }
 
 .wallet-adapter-modal-list {
@@ -206,25 +190,18 @@
     background-color: transparent;
     font-size: 1.125rem;
     line-height: 1.5rem;
-    color: rgba(214, 164, 255, 1);
     cursor: pointer;
     border: none;
 }
 
-.wallet-adapter-modal-list-more:hover * {
-    color: rgba(214, 164, 255, 0.6);
-    fill: rgba(214, 164, 255, 0.6);
-    transition: all 0.1s ease;
-}
-
 .wallet-adapter-modal-list-more svg {
-    fill: rgba(214, 164, 255, 1);
+    transition: all 0.1s ease;
+    fill: rgba(255, 255, 255, 1);
     margin-left: 0.5rem;
-    transform: rotate(0deg);
 }
 
 .wallet-adapter-modal-list-more-icon-rotate {
-    transform: rotate(180deg) !important;
+    transform: rotate(180deg);
 }
 
 .wallet-adapter-modal-bottom {
