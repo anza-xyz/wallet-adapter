@@ -1,4 +1,6 @@
-import React, { FC, ReactNode, useState } from 'react';
+import { WalletReadyState } from '@solana/wallet-adapter-base';
+import { useWallet, Wallet } from '@solana/wallet-adapter-react';
+import React, { FC, ReactNode, useLayoutEffect, useState } from 'react';
 import { WalletModalContext } from './useWalletModal';
 import { WalletModal, WalletModalProps } from './WalletModal';
 

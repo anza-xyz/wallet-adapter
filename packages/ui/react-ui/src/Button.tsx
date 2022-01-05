@@ -11,14 +11,11 @@ export interface ButtonProps {
 }
 
 export const Button: FC<ButtonProps> = (props) => {
-    const justifyContent = props.endIcon || props.startIcon ? 'space-between' : 'center';
-
     return (
         <button
             className={`wallet-adapter-button ${props.className || ''}`}
             disabled={props.disabled}
             onClick={props.onClick}
-            style={{ justifyContent, ...props.style }}
             tabIndex={props.tabIndex || 0}
             type="button"
         >

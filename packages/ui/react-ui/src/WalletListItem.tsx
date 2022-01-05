@@ -13,9 +13,9 @@ export interface WalletListItemProps {
 export const WalletListItem: FC<WalletListItemProps> = ({ handleClick, tabIndex, wallet }) => {
     return (
         <li>
-            <Button onClick={handleClick} endIcon={<WalletIcon wallet={wallet} />} tabIndex={tabIndex}>
+            <Button onClick={handleClick} startIcon={<WalletIcon wallet={wallet} />} tabIndex={tabIndex}>
                 {wallet.adapter.name}
-                {wallet.readyState === WalletReadyState.Installed ? ' (detected)' : null}
+                {wallet.readyState === WalletReadyState.Installed && <span>Detected</span>}
             </Button>
         </li>
     );

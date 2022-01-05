@@ -6,3 +6,5 @@ export * from './WalletModalProvider';
 export * from './WalletDisconnectButton';
 export * from './WalletIcon';
 export * from './WalletMultiButton';
+export * from './WalletUIAlt';
+export * from './WalletUIMain';
