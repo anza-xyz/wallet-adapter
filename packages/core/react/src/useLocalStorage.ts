@@ -15,7 +15,7 @@ export function useLocalStorage<T>(key: string, defaultState: T): [T, React.Disp
 
     const isFirstRender = useRef(true);
     useEffect(() => {
-        if (isFirstRender.current === true) {
+        if (isFirstRender.current) {
             isFirstRender.current = false;
             return;
         }
