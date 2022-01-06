@@ -103,6 +103,7 @@ export class SlopeWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             this._connecting = true;
 
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const wallet = new window!.Slope!();
 
             let data: { publicKey?: string | undefined };

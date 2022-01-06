@@ -84,6 +84,7 @@ export class BitKeepWalletAdapter extends BaseSignerWalletAdapter {
 
             this._connecting = true;
 
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const wallet = window!.bitkeep!.solana!;
 
             let account: string;
