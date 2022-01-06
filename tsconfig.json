@@ -2,7 +2,7 @@
     "include": ["packages/*/*/src"],
     "exclude": ["node_modules", "packages/*/*/node_modules"],
     "compilerOptions": {
-        "target": "esnext",
+        "target": "es2019",
         "module": "esnext",
         "noEmit": true,
         "declaration": true,
