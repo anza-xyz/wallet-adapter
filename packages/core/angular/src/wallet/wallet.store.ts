@@ -3,26 +3,25 @@ import { ComponentStore } from '@ngrx/component-store';
 import {
     Adapter,
     SendTransactionOptions,
-    Wallet,
     WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
+    WalletReadyState,
 } from '@solana/wallet-adapter-base';
 import { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
+import { combineLatest, defer, EMPTY, from, fromEvent, merge, Observable, of, Subject, throwError } from 'rxjs';
 import {
-    BehaviorSubject,
-    combineLatest,
-    defer,
-    EMPTY,
-    from,
-    fromEvent,
-    Observable,
-    of,
-    Subject,
-    throwError,
-} from 'rxjs';
-import { catchError, concatMap, filter, finalize, first, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-
+    catchError,
+    concatMap,
+    filter,
+    finalize,
+    first,
+    map,
+    pairwise,
+    switchMap,
+    tap,
+    withLatestFrom,
+} from 'rxjs/operators';
 import { fromAdapterEvent, isNotNull } from '../operators';
 import { LocalStorageService } from './local-storage';
 import { WalletNotSelectedError } from './wallet.errors';
@@ -35,14 +34,21 @@ const WALLET_DEFAULT_CONFIG: WalletConfig = {
     localStorageKey: 'walletName',
 };
 
+export interface Wallet {
+    adapter: Adapter;
+    readyState: WalletReadyState;
+}
+
 interface WalletState {
+    adapters: Adapter[];
     wallets: Wallet[];
     wallet: Wallet | null;
     adapter: Adapter | null;
     connecting: boolean;
     disconnecting: boolean;
+    unloading: boolean;
     connected: boolean;
-    ready: boolean;
+    readyState: WalletReadyState | null;
     publicKey: PublicKey | null;
     autoConnect: boolean;
 }
@@ -68,22 +74,25 @@ export class WalletStore extends ComponentStore<WalletState> {
         this._config?.localStorageKey || 'walletName',
         null
     );
-    private readonly _unloading = new BehaviorSubject(false);
-    private readonly unloading$ = this._unloading.asObservable();
+    private readonly _unloading$ = this.select(({ unloading }) => unloading);
+    private readonly _adapters$ = this.select(({ adapters }) => adapters);
+    private readonly _adapter$ = this.select(({ adapter }) => adapter);
+    private readonly _name$ = this._name.value$;
+    private readonly _readyState$ = this.select(
+        this._adapter$,
+        (adapter) => adapter?.readyState || WalletReadyState.Unsupported
+    );
     readonly wallets$ = this.select(({ wallets }) => wallets);
     readonly autoConnect$ = this.select(({ autoConnect }) => autoConnect);
     readonly wallet$ = this.select(({ wallet }) => wallet);
-    readonly adapter$ = this.select(({ adapter }) => adapter);
     readonly publicKey$ = this.select(({ publicKey }) => publicKey);
-    readonly ready$ = this.select(({ ready }) => ready);
     readonly connecting$ = this.select(({ connecting }) => connecting);
     readonly disconnecting$ = this.select(({ disconnecting }) => disconnecting);
     readonly connected$ = this.select(({ connected }) => connected);
-    readonly name$ = this._name.value$;
     readonly error$ = this._error.asObservable();
     readonly anchorWallet$ = this.select(
         this.publicKey$,
-        this.adapter$,
+        this._adapter$,
         this.connected$,
         (publicKey, adapter, connected) => {
             const adapterSignTransaction =
@@ -105,14 +114,6 @@ export class WalletStore extends ComponentStore<WalletState> {
         { debounce: true }
     );
 
-    // Map of wallet names to wallets
-    private readonly _walletsByName$ = this.select(this.wallets$, (wallets) =>
-        wallets.reduce<Record<WalletName, Wallet>>((walletsByName, wallet) => {
-            walletsByName[wallet.name] = wallet;
-            return walletsByName;
-        }, {})
-    );
-
     constructor(
         @Optional()
         @Inject(WALLET_CONFIG)
@@ -128,33 +129,52 @@ export class WalletStore extends ComponentStore<WalletState> {
         this.setState({
             ...initialState,
             wallets: [],
+            adapters: [],
             connecting: false,
             disconnecting: false,
+            unloading: false,
             autoConnect: this._config?.autoConnect || false,
+            readyState: null,
         });
     }
 
+    // Set adapters
+    readonly setAdapters = this.updater((state, adapters: Adapter[]) => ({
+        ...state,
+        adapters,
+        wallets: adapters.map((adapter) => ({
+            adapter,
+            readyState: adapter.readyState,
+        })),
+    }));
+
     // Set wallets
-    readonly setWallets = this.effect((wallets$: Observable<Wallet[]>) =>
-        wallets$.pipe(tap((wallets) => this.patchState({ wallets })))
+    readonly setWallets = this.updater((state, wallets: Wallet[]) => ({
+        ...state,
+        wallets,
+    }));
+
+    // Update ready state for newly selected adapter
+    readonly onAdapterChangeDisconnectPreviousAdapter = this.effect(() =>
+        this._adapter$.pipe(
+            isNotNull,
+            pairwise(),
+            concatMap(([adapter]) => from(defer(() => adapter.disconnect())))
+        )
     );
 
     // When the selected wallet changes, initialize the state
     readonly onWalletChanged = this.effect(() =>
-        combineLatest([this.name$, this._walletsByName$]).pipe(
-            tap(([name, walletsByName]) => {
-                const wallet = (name && walletsByName[name]) || null;
-                const adapter = wallet && wallet.adapter;
+        combineLatest([this._name$, this.wallets$]).pipe(
+            tap(([name, wallets]) => {
+                const wallet = wallets.find(({ adapter }) => adapter.name === name);
 
-                if (adapter) {
-                    const { publicKey, connected } = adapter;
-                    this._name.setItem(name);
+                if (wallet) {
                     this.patchState({
-                        adapter,
                         wallet,
-                        publicKey,
-                        connected,
-                        ready: false,
+                        adapter: wallet.adapter,
+                        connected: wallet.adapter.connected,
+                        publicKey: wallet.adapter.publicKey,
                     });
                 } else {
                     this.patchState(initialState);
@@ -163,37 +183,21 @@ export class WalletStore extends ComponentStore<WalletState> {
         )
     );
 
-    // Update ready state for newly selected adapter
-    readonly onAdapterChanged = this.effect(() =>
-        this.adapter$.pipe(
-            isNotNull,
-
-            concatMap((adapter) =>
-                from(defer(() => adapter.ready())).pipe(tap((ready) => this.patchState({ ready: !!ready })))
-            )
-        )
-    );
-
-    // If the window is closing or reloading, ignore disconnect and error events from the adapter
-    readonly handleUnload = this.effect(() => {
-        if (typeof window === 'undefined') {
-            return of(null);
-        }
-
-        return fromEvent(window, 'beforeunload').pipe(tap(() => this._unloading.next(true)));
-    });
-
     // If autoConnect is enabled, try to connect when the adapter changes and is ready
-    readonly autoConnect = this.effect(() => {
+    readonly onAutoConnect = this.effect(() => {
         return combineLatest([
             this.autoConnect$,
-            this.adapter$.pipe(isNotNull),
-            this.ready$,
+            this._adapter$.pipe(isNotNull),
+            this._readyState$,
             this.connecting$,
             this.connected$,
         ]).pipe(
             filter(
-                ([autoConnect, , ready, connecting, connected]) => autoConnect && ready && !connecting && !connected
+                ([autoConnect, , readyState, connecting, connected]) =>
+                    autoConnect &&
+                    (readyState === WalletReadyState.Installed || readyState === WalletReadyState.Loadable) &&
+                    !connecting &&
+                    !connected
             ),
             concatMap(([, adapter]) => {
                 this.patchState({ connecting: true });
@@ -202,7 +206,7 @@ export class WalletStore extends ComponentStore<WalletState> {
                         // Clear the selected wallet
                         this._name.setItem(null);
                         // Don't throw error, but onError will still be called
-                        return of(null);
+                        return EMPTY;
                     }),
                     finalize(() => this.patchState({ connecting: false }))
                 );
@@ -210,39 +214,27 @@ export class WalletStore extends ComponentStore<WalletState> {
         );
     });
 
-    // Select a wallet by name
-    readonly selectWallet = this.effect((newName$: Observable<WalletName | null>) => {
-        return newName$.pipe(
-            concatMap((action) => of(action).pipe(withLatestFrom(this.name$, this.adapter$))),
-            filter(([newName, name]) => newName !== name),
-            concatMap(([newName, , adapter]) => {
-                if (!adapter) {
-                    return of(newName);
-                } else {
-                    return from(defer(() => adapter.disconnect())).pipe(
-                        map(() => newName),
-                        catchError(() => EMPTY)
-                    );
-                }
-            }),
-            tap((newName) => this._name.setItem(newName))
-        );
+    // If the window is closing or reloading, ignore disconnect and error events from the adapter
+    readonly onWindowUnload = this.effect(() => {
+        if (typeof window === 'undefined') {
+            return of(null);
+        }
+
+        return fromEvent(window, 'beforeunload').pipe(tap(() => this.patchState({ unloading: true })));
     });
 
     // Handle the adapter's connect event
     readonly onConnect = this.effect(() => {
-        return this.adapter$.pipe(
+        return this._adapter$.pipe(
             isNotNull,
             switchMap((adapter) =>
                 fromAdapterEvent(adapter, 'connect').pipe(
-                    tap(() => {
-                        const { connected, publicKey } = adapter;
-
+                    tap(() =>
                         this.patchState({
-                            connected,
-                            publicKey,
-                        });
-                    })
+                            connected: adapter.connected,
+                            publicKey: adapter.publicKey,
+                        })
+                    )
                 )
             )
         );
@@ -250,21 +242,64 @@ export class WalletStore extends ComponentStore<WalletState> {
 
     // Handle the adapter's disconnect event
     readonly onDisconnect = this.effect(() => {
-        return combineLatest([this.adapter$.pipe(isNotNull), this.unloading$]).pipe(
-            switchMap(([adapter, unloading]) =>
-                fromAdapterEvent(adapter, 'disconnect').pipe(tap(() => !unloading && this._name.setItem(null)))
+        return this._adapter$.pipe(
+            isNotNull,
+            switchMap((adapter) =>
+                fromAdapterEvent(adapter, 'disconnect').pipe(
+                    concatMap(() => of(null).pipe(withLatestFrom(this._unloading$))),
+                    filter(([, unloading]) => !unloading),
+                    tap(() => this._name.setItem(null))
+                )
             )
         );
     });
 
     // Handle the adapter's error event
     readonly onError = this.effect(() => {
-        return combineLatest([this.adapter$.pipe(isNotNull), this.unloading$]).pipe(
-            switchMap(([adapter, unloading]) =>
-                fromAdapterEvent(adapter, 'error').pipe(tap((error) => !unloading && this._error.next(error)))
+        return this._adapter$.pipe(
+            isNotNull,
+            switchMap((adapter) =>
+                fromAdapterEvent(adapter, 'error').pipe(
+                    concatMap((error) => of(error).pipe(withLatestFrom(this._unloading$))),
+                    filter(([, unloading]) => !unloading),
+                    tap(([error]) => this._error.next(error))
+                )
             )
         );
     });
+
+    // Handle all adapters ready state change events
+    readonly onReadyStateChanges = this.effect(() => {
+        return this._adapters$.pipe(
+            switchMap((adapters) =>
+                merge(
+                    adapters.map((adapter) =>
+                        fromAdapterEvent(adapter, 'readyStateChange').pipe(
+                            concatMap((readyState) => of(readyState).pipe(withLatestFrom(this.wallets$))),
+                            map(([readyState, prevWallets]) => {
+                                const walletIndex = prevWallets.findIndex(
+                                    (wallet) => wallet.adapter.name === adapter.name
+                                );
+                                if (walletIndex === -1) return prevWallets;
+
+                                return [
+                                    ...prevWallets.slice(0, walletIndex),
+                                    { ...prevWallets[walletIndex], readyState },
+                                    ...prevWallets.slice(walletIndex + 1),
+                                ];
+                            }),
+                            tap((wallets) => this.setWallets(wallets))
+                        )
+                    )
+                )
+            )
+        );
+    });
+
+    // Select a new wallet
+    selectWallet(walletName: WalletName | null) {
+        this._name.setItem(walletName);
+    }
 
     // Connect the adapter to the wallet
     connect(): Observable<unknown> {
@@ -272,24 +307,23 @@ export class WalletStore extends ComponentStore<WalletState> {
             this.connecting$,
             this.disconnecting$,
             this.connected$,
-            this.wallet$,
-            this.adapter$,
-            this.ready$,
+            this._adapter$,
+            this._readyState$,
         ]).pipe(
             first(),
             filter(([connecting, disconnecting, connected]) => !connected && !connecting && !disconnecting),
-            concatMap(([, , , wallet, adapter, ready]) => {
-                if (!wallet || !adapter) {
+            concatMap(([, , , adapter, readyState]) => {
+                if (!adapter) {
                     const error = new WalletNotSelectedError();
                     this._error.next(error);
                     return throwError(error);
                 }
 
-                if (!ready) {
+                if (!(readyState === WalletReadyState.Installed || readyState === WalletReadyState.Loadable)) {
                     this._name.setItem(null);
 
                     if (typeof window !== 'undefined') {
-                        window.open(wallet.url, '_blank');
+                        window.open(adapter.url, '_blank');
                     }
 
                     const error = new WalletNotReadyError();
@@ -312,22 +346,26 @@ export class WalletStore extends ComponentStore<WalletState> {
 
     // Disconnect the adapter from the wallet
     disconnect(): Observable<unknown> {
-        return combineLatest([this.disconnecting$, this.adapter$]).pipe(
+        return combineLatest([this.disconnecting$, this._adapter$]).pipe(
             first(),
             filter(([disconnecting]) => !disconnecting),
             concatMap(([, adapter]) => {
                 if (!adapter) {
                     this._name.setItem(null);
                     return EMPTY;
-                } else {
-                    this.patchState({ disconnecting: true });
-                    return from(defer(() => adapter.disconnect())).pipe(
-                        finalize(() => {
-                            this._name.setItem(null);
-                            this.patchState({ disconnecting: false });
-                        })
-                    );
                 }
+
+                this.patchState({ disconnecting: true });
+                return from(defer(() => adapter.disconnect())).pipe(
+                    catchError((error) => {
+                        this._name.setItem(null);
+                        // Rethrow the error, and handleError will also be called
+                        return throwError(error);
+                    }),
+                    finalize(() => {
+                        this.patchState({ disconnecting: false });
+                    })
+                );
             })
         );
     }
@@ -338,7 +376,7 @@ export class WalletStore extends ComponentStore<WalletState> {
         connection: Connection,
         options?: SendTransactionOptions
     ): Observable<TransactionSignature> {
-        return combineLatest([this.adapter$, this.connected$]).pipe(
+        return combineLatest([this._adapter$, this.connected$]).pipe(
             first(),
             concatMap(([adapter, connected]) => {
                 if (!adapter) {

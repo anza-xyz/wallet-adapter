@@ -2,8 +2,7 @@ import { Inject, Injectable, Optional } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { Connection, ConnectionConfig } from '@solana/web3.js';
 import { tap } from 'rxjs/operators';
-import { isNotNull } from 'src/operators';
-
+import { isNotNull } from '../operators';
 import { CONNECTION_CONFIG } from './connection.tokens';
 
 export const CONNECTION_DEFAULT_CONFIG: ConnectionConfig = {
