@@ -1,17 +1,20 @@
-import { MessageSignerWalletAdapter, SignerWalletAdapter, WalletNotConnectedError } from '@solana/wallet-adapter-base';
+import {
+    MessageSignerWalletAdapter,
+    SignerWalletAdapter,
+    WalletError,
+    WalletNotConnectedError,
+} from '@solana/wallet-adapter-base';
 import { Transaction } from '@solana/web3.js';
-import { defer, from, Observable, Subject, throwError } from 'rxjs';
+import { defer, from, Observable, throwError } from 'rxjs';
 
 export const signMessage = (
     adapter: MessageSignerWalletAdapter,
     connected: boolean,
-    errorSubject: Subject<unknown>
+    errorHandler: (error: WalletError) => WalletError
 ): ((message: Uint8Array) => Observable<Uint8Array>) => {
     return (message: Uint8Array) => {
         if (!connected) {
-            const error = new WalletNotConnectedError();
-            errorSubject.next(error);
-            return throwError(error);
+            return throwError(errorHandler(new WalletNotConnectedError()));
         }
 
         return from(defer(() => adapter.signMessage(message)));
@@ -21,13 +24,11 @@ export const signMessage = (
 export const signTransaction = (
     adapter: SignerWalletAdapter,
     connected: boolean,
-    errorSubject: Subject<unknown>
+    errorHandler: (error: WalletError) => WalletError
 ): ((transaction: Transaction) => Observable<Transaction>) => {
     return (transaction: Transaction) => {
         if (!connected) {
-            const error = new WalletNotConnectedError();
-            errorSubject.next(error);
-            return throwError(error);
+            return throwError(errorHandler(new WalletNotConnectedError()));
         }
 
         return from(defer(() => adapter.signTransaction(transaction)));
@@ -37,13 +38,11 @@ export const signTransaction = (
 export const signAllTransactions = (
     adapter: SignerWalletAdapter,
     connected: boolean,
-    errorSubject: Subject<unknown>
+    errorHandler: (error: WalletError) => WalletError
 ): ((transactions: Transaction[]) => Observable<Transaction[]>) => {
     return (transactions: Transaction[]) => {
         if (!connected) {
-            const error = new WalletNotConnectedError();
-            errorSubject.next(error);
-            return throwError(error);
+            return throwError(errorHandler(new WalletNotConnectedError()));
         }
 
         return from(defer(() => adapter.signAllTransactions(transactions)));
