@@ -33,6 +33,19 @@ import {
     WalletNotSelectedError,
 } from './internals';
 
+/*
+
+
+    THINGS TO DO:
+
+
+    1: Fix publish command to work with lerna publish
+    2: Improve signing logic (signTransaction, signAllTransactions, signMessage)
+    3: Move anchorWallet logic to another file
+
+
+*/
+
 export interface Wallet {
     adapter: Adapter;
     readyState: WalletReadyState;
@@ -87,7 +100,7 @@ export class WalletStore extends ComponentStore<WalletState> {
     private readonly _unloading$ = this.select(({ unloading }) => unloading);
     private readonly _adapters$ = this.select(({ adapters }) => adapters);
     private readonly _adapter$ = this.select(({ adapter }) => adapter);
-    private readonly _name$ = this.select(this._name.asObservable(), (name) => name);
+    private readonly _name$ = this._name.asObservable();
     private readonly _readyState$ = this.select(
         this._adapter$,
         (adapter) => adapter?.readyState || WalletReadyState.Unsupported
@@ -164,6 +177,7 @@ export class WalletStore extends ComponentStore<WalletState> {
         this._adapter$.pipe(
             isNotNull,
             pairwise(),
+            filter(([adapter]) => adapter.connected),
             concatMap(([adapter]) => from(defer(() => adapter.disconnect())))
         )
     );
