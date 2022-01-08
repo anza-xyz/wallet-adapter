@@ -3646,10 +3646,10 @@
     keccak "^3.0.2"
     randombytes "^2.1.0"
 
-"@toruslabs/solana-embed@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@toruslabs/solana-embed/-/solana-embed-0.0.8.tgz#101b1e7125aa9e2ee49b61b633391a45deea42e7"
-  integrity sha512-xA/xwj5O3fkYYD8Em8c/RWtAtS2gQOf4b2zzM3YZBI/KyzZvNWXbTjTdvf1Zw+xZASzaxNcvHWVZnFjy7PMhCQ==
+"@toruslabs/solana-embed@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@toruslabs/solana-embed/-/solana-embed-0.0.9.tgz#356c02179a9cdc6bc386455bb700d1d3e52dd864"
+  integrity sha512-FDWRoK9uwP88roQ5IWvHQWrrPj7B8VqnXteZxQnrDVQ6uVZIwkj8XRXsT9Tnb5YJXUVdS0Mcsu18EeSXcmKGvg==
   dependencies:
     "@solana/web3.js" "^1.31.0"
     "@toruslabs/base-controllers" "^1.4.2"
