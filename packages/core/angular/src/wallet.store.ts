@@ -1,4 +1,4 @@
-import { Inject, Injectable, Optional } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import {
     Adapter,
@@ -10,7 +10,7 @@ import {
     WalletReadyState,
 } from '@solana/wallet-adapter-base';
 import { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
-import { combineLatest, defer, EMPTY, from, fromEvent, merge, Observable, of, Subject, throwError } from 'rxjs';
+import { combineLatest, defer, EMPTY, from, fromEvent, merge, Observable, of, throwError } from 'rxjs';
 import {
     catchError,
     concatMap,
@@ -23,22 +23,36 @@ import {
     tap,
     withLatestFrom,
 } from 'rxjs/operators';
-import { fromAdapterEvent, isNotNull } from '../operators';
-import { LocalStorageService } from './local-storage';
-import { WalletNotSelectedError } from './wallet.errors';
-import { signAllTransactions, signMessage, signTransaction } from './wallet.signer';
-import { WALLET_CONFIG } from './wallet.tokens';
-import { WalletConfig } from './wallet.types';
-
-const WALLET_DEFAULT_CONFIG: WalletConfig = {
-    autoConnect: false,
-    localStorageKey: 'walletName',
-};
+import {
+    fromAdapterEvent,
+    isNotNull,
+    LocalStorageSubject,
+    signAllTransactions,
+    signMessage,
+    signTransaction,
+    WalletNotSelectedError,
+} from './internals';
 
 export interface Wallet {
     adapter: Adapter;
     readyState: WalletReadyState;
 }
+
+export interface WalletConfig {
+    localStorageKey: string;
+    autoConnect: boolean;
+}
+
+export const WALLET_CONFIG = new InjectionToken<WalletConfig>('walletConfig');
+
+export const walletConfigProviderFactory = (config: Partial<WalletConfig>) => ({
+    provide: WALLET_CONFIG,
+    useValue: {
+        autoConnect: false,
+        localStorageKey: 'walletName',
+        ...config,
+    },
+});
 
 interface WalletState {
     adapters: Adapter[];
@@ -69,14 +83,11 @@ const initialState: {
 
 @Injectable()
 export class WalletStore extends ComponentStore<WalletState> {
-    private readonly _name = new LocalStorageService<WalletName | null>(
-        this._config?.localStorageKey || 'walletName',
-        null
-    );
+    private readonly _name = new LocalStorageSubject<WalletName>(this._config.localStorageKey);
     private readonly _unloading$ = this.select(({ unloading }) => unloading);
     private readonly _adapters$ = this.select(({ adapters }) => adapters);
     private readonly _adapter$ = this.select(({ adapter }) => adapter);
-    private readonly _name$ = this._name.value$;
+    private readonly _name$ = this.select(this._name.asObservable(), (name) => name);
     private readonly _readyState$ = this.select(
         this._adapter$,
         (adapter) => adapter?.readyState || WalletReadyState.Unsupported
@@ -116,25 +127,17 @@ export class WalletStore extends ComponentStore<WalletState> {
     );
 
     constructor(
-        @Optional()
         @Inject(WALLET_CONFIG)
         private _config: WalletConfig
     ) {
-        super();
-
-        this._config = {
-            ...WALLET_DEFAULT_CONFIG,
-            ...this._config,
-        };
-
-        this.setState({
+        super({
             ...initialState,
             wallets: [],
             adapters: [],
             connecting: false,
             disconnecting: false,
             unloading: false,
-            autoConnect: this._config?.autoConnect || false,
+            autoConnect: _config.autoConnect || false,
             readyState: null,
             error: null,
         });
@@ -206,7 +209,7 @@ export class WalletStore extends ComponentStore<WalletState> {
                 return from(defer(() => adapter.connect())).pipe(
                     catchError(() => {
                         // Clear the selected wallet
-                        this._name.setItem(null);
+                        this.clearWallet();
                         // Don't throw error, but onError will still be called
                         return EMPTY;
                     }),
@@ -250,7 +253,7 @@ export class WalletStore extends ComponentStore<WalletState> {
                 fromAdapterEvent(adapter, 'disconnect').pipe(
                     concatMap(() => of(null).pipe(withLatestFrom(this._unloading$))),
                     filter(([, unloading]) => !unloading),
-                    tap(() => this._name.setItem(null))
+                    tap(() => this.clearWallet())
                 )
             )
         );
@@ -306,7 +309,12 @@ export class WalletStore extends ComponentStore<WalletState> {
 
     // Select a new wallet
     selectWallet(walletName: WalletName | null) {
-        this._name.setItem(walletName);
+        this._name.next(walletName);
+    }
+
+    // Clear the selected wallet
+    clearWallet() {
+        this._name.next(null);
     }
 
     // Connect the adapter to the wallet
@@ -326,7 +334,7 @@ export class WalletStore extends ComponentStore<WalletState> {
                 }
 
                 if (!(readyState === WalletReadyState.Installed || readyState === WalletReadyState.Loadable)) {
-                    this._name.setItem(null);
+                    this.clearWallet();
 
                     if (typeof window !== 'undefined') {
                         window.open(adapter.url, '_blank');
@@ -339,7 +347,7 @@ export class WalletStore extends ComponentStore<WalletState> {
 
                 return from(defer(() => adapter.connect())).pipe(
                     catchError((error) => {
-                        this._name.setItem(null);
+                        this.clearWallet();
                         return throwError(error);
                     }),
                     finalize(() => this.patchState({ connecting: false }))
@@ -355,14 +363,14 @@ export class WalletStore extends ComponentStore<WalletState> {
             filter(([disconnecting]) => !disconnecting),
             concatMap(([, adapter]) => {
                 if (!adapter) {
-                    this._name.setItem(null);
+                    this.clearWallet();
                     return EMPTY;
                 }
 
                 this.patchState({ disconnecting: true });
                 return from(defer(() => adapter.disconnect())).pipe(
                     catchError((error) => {
-                        this._name.setItem(null);
+                        this.clearWallet();
                         // Rethrow the error, and handleError will also be called
                         return throwError(error);
                     }),

@@ -1,13 +1,18 @@
-import { Inject, Injectable, Optional } from '@angular/core';
+import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { Connection, ConnectionConfig } from '@solana/web3.js';
 import { tap } from 'rxjs/operators';
-import { isNotNull } from '../operators';
-import { CONNECTION_CONFIG } from './connection.tokens';
+import { isNotNull } from './internals';
 
-export const CONNECTION_DEFAULT_CONFIG: ConnectionConfig = {
-    commitment: 'confirmed',
-};
+export const CONNECTION_CONFIG = new InjectionToken<ConnectionConfig>('connectionConfig');
+
+export const connectionConfigProviderFactory = (config: ConnectionConfig = {}) => ({
+    provide: CONNECTION_CONFIG,
+    useValue: {
+        commitment: 'confirmed',
+        ...config,
+    },
+});
 
 interface ConnectionState {
     connection: Connection | null;
@@ -16,22 +21,15 @@ interface ConnectionState {
 
 @Injectable()
 export class ConnectionStore extends ComponentStore<ConnectionState> {
+    private readonly _endpoint$ = this.select(this.state$, ({ endpoint }) => endpoint);
     readonly connection$ = this.select(this.state$, ({ connection }) => connection);
-    readonly endpoint$ = this.select(this.state$, ({ endpoint }) => endpoint);
 
     constructor(
         @Optional()
         @Inject(CONNECTION_CONFIG)
         private _config: ConnectionConfig
     ) {
-        super();
-
-        this._config = {
-            ...CONNECTION_DEFAULT_CONFIG,
-            ...this._config,
-        };
-
-        this.setState({
+        super({
             connection: null,
             endpoint: null,
         });
@@ -43,7 +41,7 @@ export class ConnectionStore extends ComponentStore<ConnectionState> {
     }));
 
     readonly onEndpointChange = this.effect(() =>
-        this.endpoint$.pipe(
+        this._endpoint$.pipe(
             isNotNull,
             tap((endpoint) =>
                 this.patchState({

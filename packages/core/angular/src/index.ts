@@ -1,2 +1,3 @@
-export * from './connection';
-export * from './wallet';
+export * from './wallet.store';
+export * from './connection.store';
+export * from './wallet-adapter.module';
