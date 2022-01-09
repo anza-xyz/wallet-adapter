@@ -13,7 +13,9 @@ export class LocalStorageService<T> {
                 return this._value;
             }
         } catch (error) {
-            console.error(error);
+            if (typeof window !== 'undefined') {
+                console.error(error);
+            }
         }
 
         return this._defaultValue;
@@ -31,7 +33,9 @@ export class LocalStorageService<T> {
                 localStorage.setItem(this._key, JSON.stringify(newValue));
             }
         } catch (error) {
-            console.error(error);
+            if (typeof window !== 'undefined') {
+                console.error(error);
+            }
         }
     }
 }
