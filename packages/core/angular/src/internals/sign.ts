@@ -10,7 +10,7 @@ import { defer, from, Observable, throwError } from 'rxjs';
 export const signMessage = (
     adapter: MessageSignerWalletAdapter,
     connected: boolean,
-    errorHandler: (error: WalletError) => WalletError
+    errorHandler: (error: WalletError) => unknown
 ): ((message: Uint8Array) => Observable<Uint8Array>) => {
     return (message: Uint8Array) => {
         if (!connected) {
@@ -24,7 +24,7 @@ export const signMessage = (
 export const signTransaction = (
     adapter: SignerWalletAdapter,
     connected: boolean,
-    errorHandler: (error: WalletError) => WalletError
+    errorHandler: (error: WalletError) => unknown
 ): ((transaction: Transaction) => Observable<Transaction>) => {
     return (transaction: Transaction) => {
         if (!connected) {
@@ -38,7 +38,7 @@ export const signTransaction = (
 export const signAllTransactions = (
     adapter: SignerWalletAdapter,
     connected: boolean,
-    errorHandler: (error: WalletError) => WalletError
+    errorHandler: (error: WalletError) => unknown
 ): ((transactions: Transaction[]) => Observable<Transaction[]>) => {
     return (transactions: Transaction[]) => {
         if (!connected) {
