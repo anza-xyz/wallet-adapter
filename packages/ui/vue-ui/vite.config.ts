@@ -12,7 +12,7 @@ export default defineConfig({
             entry: path.resolve(__dirname, 'src/index.ts'),
             name: 'vue-ui',
             formats: ['es'],
-            fileName: () => 'index.js',
+            fileName: () => 'index.mjs',
         },
         rollupOptions: {
             external: ['@solana/wallet-adapter-base', '@solana/wallet-adapter-vue', 'vue'],
