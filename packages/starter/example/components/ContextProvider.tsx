@@ -1,7 +1,10 @@
 import { createTheme, StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { deepPurple, pink } from '@mui/material/colors';
+import { WalletModalProvider as AntDesignWalletModalProvider } from '@solana/wallet-adapter-ant-design';
 import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
+import { WalletDialogProvider as MaterialUIWalletDialogProvider } from '@solana/wallet-adapter-material-ui';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
+import { WalletModalProvider as ReactUIWalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import {
     LedgerWalletAdapter,
     PhantomWalletAdapter,
@@ -88,7 +91,11 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     return (
         <ConnectionProvider endpoint={endpoint}>
             <WalletProvider wallets={wallets} onError={onError} autoConnect={autoConnect}>
-                {children}
+                <MaterialUIWalletDialogProvider>
+                    <AntDesignWalletModalProvider>
+                        <ReactUIWalletModalProvider>{children}</ReactUIWalletModalProvider>
+                    </AntDesignWalletModalProvider>
+                </MaterialUIWalletDialogProvider>
             </WalletProvider>
         </ConnectionProvider>
     );
