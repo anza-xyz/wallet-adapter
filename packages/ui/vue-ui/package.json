@@ -1,16 +1,16 @@
 {
     "name": "@solana/wallet-adapter-vue-ui",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
     "type": "module",
     "sideEffects": false,
     "main": "lib/cjs/index.js",
-    "module": "lib/esm/index.js",
+    "module": "lib/esm/index.mjs",
     "types": "lib/esm/src/index.d.ts",
     "exports": {
-        "import": "./lib/esm/index.js",
+        "import": "./lib/esm/index.mjs",
         "require": "./lib/cjs/index.js"
     },
     "files": [
@@ -24,7 +24,7 @@
     },
     "scripts": {
         "clean": "shx rm -rf lib/*",
-        "build": "yarn clean && vite build --config vite.config.ts && vite build --config vite.config-cjs.ts",
+        "build": "yarn clean && vite build --config vite.config.ts; tsc-esm -p tsconfig.cjs.json && vite build --config vite.config.cjs.ts",
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
     "dependencies": {

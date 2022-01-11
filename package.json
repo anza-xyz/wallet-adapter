@@ -57,6 +57,7 @@
         "shx": "^0.3.3",
         "tslib": "^2.3.0",
         "typedoc": "^0.22.10",
-        "typescript": "~4.4.4"
+        "typescript": "~4.4.4",
+        "typescript-esm": "^2.0.0"
     }
 }

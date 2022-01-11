@@ -25,5 +25,5 @@ export default defineConfig({
         sourcemap: true,
         minify: false,
     },
-    plugins: [vue(), dts({ tsConfigFilePath: 'tsconfig-cjs.json' })],
+    plugins: [vue(), dts({ tsConfigFilePath: 'tsconfig.cjs.json' })],
 });
