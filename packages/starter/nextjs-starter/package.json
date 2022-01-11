@@ -5,7 +5,6 @@
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
     "files": [
-        "components",
         "pages",
         "public",
         "styles",
@@ -21,7 +20,7 @@
     },
     "scripts": {
         "clean": "shx rm -rf .next",
-        "dev": "next dev",
+        "dev": "NODE_OPTIONS='--inspect' next dev",
         "build": "yarn clean && next build",
         "start": "next start",
         "lint": "next lint"
