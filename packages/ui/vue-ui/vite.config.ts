@@ -6,13 +6,13 @@ import dts from 'vite-plugin-dts';
 // https://vitejs.dev/config/
 export default defineConfig({
     build: {
-        target: 'esnext',
+        target: 'es2019',
         outDir: 'lib/esm',
         lib: {
             entry: path.resolve(__dirname, 'src/index.ts'),
             name: 'vue-ui',
             formats: ['es'],
-            fileName: () => 'index.js',
+            fileName: () => 'index.mjs',
         },
         rollupOptions: {
             external: ['@solana/wallet-adapter-base', '@solana/wallet-adapter-vue', 'vue'],
