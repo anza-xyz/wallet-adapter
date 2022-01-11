@@ -26,6 +26,9 @@
         "build": "yarn clean && tsc -p tsconfig.json; tsc-esm -p tsconfig.json && tsc -p tsconfig.cjs.json",
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
+    "peerDependencies": {
+        "@solana/wallet-adapter-wallets": "^0.13.0"
+    },
     "dependencies": {
         "@solana/wallet-adapter-base": "^0.8.1",
         "@solana/web3.js": "^1.20.0",
