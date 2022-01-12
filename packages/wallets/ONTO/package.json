@@ -1,5 +1,5 @@
 {
-    "name": "@solana/wallet-adapter-ONTO",
+    "name": "@solana/wallet-adapter-onto",
     "version": "0.4.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",

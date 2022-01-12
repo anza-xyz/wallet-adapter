@@ -1,5 +1,3 @@
-# `@solana/wallet-adapter-ONTO`
+# `@solana/wallet-adapter-onto`
 
 <!-- @TODO -->
-
-Coming soon.

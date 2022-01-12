@@ -15,13 +15,13 @@ import {
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 
-interface ONTOWalletEvents {
+interface ontoWalletEvents {
     connect(...args: unknown[]): unknown;
     disconnect(...args: unknown[]): unknown;
 }
 
-interface ONTOWallet extends EventEmitter<ONTOWalletEvents> {
-    isONTO?: boolean;
+interface ontoWallet extends EventEmitter<ontoWalletEvents> {
+    isOnto?: boolean;
     publicKey?: { toBytes(): Uint8Array };
     isConnected: boolean;
     signTransaction(transaction: Transaction): Promise<Transaction>;
@@ -31,37 +31,37 @@ interface ONTOWallet extends EventEmitter<ONTOWalletEvents> {
     disconnect(): Promise<void>;
 }
 
-interface ONTOWindow extends Window {
-    solana?: ONTOWallet;
+interface ontoWalletWindow extends Window {
+    solana?: ontoWallet;
 }
 
-declare const window: ONTOWindow;
+declare const window: ontoWalletWindow;
 
-export interface ONTOWalletAdapterConfig {}
+export interface ontoWalletAdapterConfig {}
 
-export const ONTOWalletName = 'ONTO' as WalletName;
+export const ontoWalletName = 'ONTO' as WalletName;
 
-export class ONTOWalletAdapter extends BaseMessageSignerWalletAdapter {
-    name = ONTOWalletName;
+export class ontoWalletAdapter extends BaseMessageSignerWalletAdapter {
+    name = ontoWalletName;
     url = 'https://onto.app/';
     icon = 'data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyODggMjg4Ij4KICA8dGl0bGU+T05UTyBMT0dPXzI4OHgyODg8L3RpdGxlPgogIDxnIGlkPSJMT0dPIj4KICAgIDxwYXRoIGlkPSLlvaLnirbnu5PlkIgiIGQ9Ik0zMCwxMS4xNSw3MS4xOSw1Mi4zMkExMTUsMTE1LDAsMCwxLDI1OCwxMzguNjdMMjU4LDE0MlYyNzYuODVsLTQxLjE5LTQxLjE2QTExNSwxMTUsMCwwLDEsMzAuMDUsMTQ5LjM0TDMwLDE0NlptMjguMTcsNjhWMTQ2YTg2Ljc5LDg2Ljc5LDAsMCwwLDEzNS4xNSw3MmwyLjIzLTEuNTVMNjMuNjcsODQuNjVaTTk0LjY4LDcwbC0yLjIzLDEuNTVMMjI0LjMzLDIwMy4zNmw1LjUsNS41VjE0MkE4Ni43OSw4Ni43OSwwLDAsMCw5NC42OCw3MFoiLz4KICA8L2c+Cjwvc3ZnPg==';
 
     private _connecting: boolean;
-    private _wallet: ONTOWallet | null;
+    private _wallet: ontoWallet | null;
     private _publicKey: PublicKey | null;
     private _readyState: WalletReadyState =
         typeof window === 'undefined' || typeof document === 'undefined'
             ? WalletReadyState.Unsupported
             : WalletReadyState.NotDetected;
 
-    constructor(config: ONTOWalletAdapterConfig = {}) {
+    constructor(config: ontoWalletAdapterConfig = {}) {
         super();
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
         if (this._readyState !== WalletReadyState.Unsupported) {
             scopePollingDetectionStrategy(() => {
-                if (window.solana?.isONTO) {
+                if (window.solana?.isOnto) {
                     this._readyState = WalletReadyState.Installed;
                     this.emit('readyStateChange', this._readyState);
                     return true;
