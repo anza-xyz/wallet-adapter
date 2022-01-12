@@ -198,7 +198,7 @@ You can use the [wallets](https://github.com/solana-labs/wallet-adapter/tree/mas
 | [tokenpocket](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/tokenpocket)        | Adapter for [TokenPocket](https://tokenpocket.pro)     | [`@solana/wallet-adapter-tokenpocket`](https://npmjs.com/package/@solana/wallet-adapter-tokenpocket)     |
 | [torus](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/torus)                    | Adapter for [Torus](https://tor.us)                    | [`@solana/wallet-adapter-torus`](https://npmjs.com/package/@solana/wallet-adapter-torus)                 |
 | [walletconnect](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/walletconnect) \* | Adapter for [WalletConnect](https://walletconnect.org) | [`@solana/wallet-adapter-walletconnect`](https://npmjs.com/package/@solana/wallet-adapter-walletconnect) |
-| [ONTO](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/ONTO)        | Adapter for [ONTO](https://onto.app) | [`@solana/wallet-adapter-ONTO`](https://npmjs.com/package/@solana/wallet-adapter-ONTO)  |
+| [onto](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/onto)        | Adapter for [ONTO](https://onto.app) | [`@solana/wallet-adapter-onto`](https://npmjs.com/package/@solana/wallet-adapter-onto)  |
 
 \* Package has not been published to NPM yet.
 
