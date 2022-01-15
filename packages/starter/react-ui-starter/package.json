@@ -33,7 +33,9 @@
         "@solana/wallet-adapter-react": "^0.15.2",
         "@solana/wallet-adapter-react-ui": "^0.9.3",
         "@solana/wallet-adapter-wallets": "^0.14.2",
-        "@solana/web3.js": "^1.31.0"
+        "@solana/web3.js": "^1.31.0",
+        "react": "^17.0.0",
+        "react-dom": "^17.0.0"
     },
     "devDependencies": {
         "@types/eslint": "^8.2.2",
