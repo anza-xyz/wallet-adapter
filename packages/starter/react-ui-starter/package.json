@@ -2,7 +2,7 @@
     "name": "@solana/wallet-adapter-react-ui-starter",
     "version": "0.9.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
-    "repository": "https://github.com/solana-labs/solana-pay",
+    "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
     "publishConfig": {
         "access": "public"
