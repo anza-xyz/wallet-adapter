@@ -15,9 +15,6 @@ import { useSnackbar } from 'notistack';
 import React, { FC, ReactNode, useCallback, useMemo } from 'react';
 import { Theme } from './Theme';
 
-// Default styles that can be overridden by your app
-require('@solana/wallet-adapter-react-ui/styles.css');
-
 export const App: FC = () => {
     return (
         <Theme>
