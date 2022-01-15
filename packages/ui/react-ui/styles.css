@@ -79,6 +79,7 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 200ms ease, transform 200ms ease, visibility 200ms;
+    font-family: 'DM Sans', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .wallet-adapter-dropdown-list-active {
