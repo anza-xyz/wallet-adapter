@@ -1,12 +1,12 @@
-import { Wallet, WalletError } from '@solana/wallet-adapter-base';
-import { defineComponent, PropType } from '@vue/runtime-core';
+import { WalletAdapter, WalletError } from '@solana/wallet-adapter-base';
+import { defineComponent, PropType } from 'vue';
 import { provideWallet } from './useWallet';
 
 export const WalletProvider = defineComponent({
     name: 'wallet-provider',
     props: {
         wallets: {
-            type: Array as PropType<Wallet[]>,
+            type: Array as PropType<WalletAdapter[]>,
             default: () => [],
         },
         autoConnect: {

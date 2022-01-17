@@ -3,25 +3,25 @@ import {
     MessageSignerWalletAdapter,
     SendTransactionOptions,
     SignerWalletAdapter,
-    Wallet,
+    WalletAdapter,
     WalletError,
     WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
+    WalletReadyState
 } from '@solana/wallet-adapter-base';
 import { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
-import { computed, inject, InjectionKey, provide, Ref, ref, watch, watchEffect } from '@vue/runtime-core';
+import { computed, inject, InjectionKey, provide, Ref, ref, watch, watchEffect } from 'vue';
 import { WalletNotSelectedError } from './errors';
 import { useLocalStorage } from './useLocalStorage';
 
 export interface WalletStore {
     // Props.
-    wallets: Wallet[];
+    wallets: WalletAdapter[];
     autoConnect: boolean;
 
     // Data.
-    wallet: Ref<Wallet | null>;
-    adapter: Ref<Adapter | null>;
+    wallet: Ref<WalletAdapter | null>;
     publicKey: Ref<PublicKey | null>;
     ready: Ref<boolean>;
     connected: Ref<boolean>;
@@ -44,7 +44,7 @@ export interface WalletStore {
 }
 
 export interface WalletStoreProps {
-    wallets: Wallet[];
+    wallets: WalletAdapter[];
     autoConnect?: boolean;
     onError?: (error: WalletError) => void;
     localStorageKey?: string;
@@ -75,7 +75,7 @@ export const createWalletStore = ({
     localStorageKey = 'walletName',
 }: WalletStoreProps): WalletStore => {
     const name: Ref<WalletName | null> = useLocalStorage<WalletName>(localStorageKey);
-    const wallet = ref<Wallet | null>(null);
+    const wallet = ref<WalletAdapter | null>(null);
     const adapter = ref<Adapter | null>(null);
     const publicKey = ref<PublicKey | null>(null);
     const ready = ref<boolean>(false);
@@ -85,14 +85,12 @@ export const createWalletStore = ({
 
     // Helper methods to set and reset the main state variables.
     const setState = (state: {
-        wallet: Wallet | null;
-        adapter: Adapter | null;
+        wallet: WalletAdapter | null;
         publicKey: PublicKey | null;
         ready: boolean;
         connected: boolean;
     }) => {
         wallet.value = state.wallet;
-        adapter.value = state.adapter;
         ready.value = state.ready;
         publicKey.value = state.publicKey;
         connected.value = state.connected;
@@ -100,7 +98,6 @@ export const createWalletStore = ({
     const resetState = () => {
         setState({
             wallet: null,
-            adapter: null,
             ready: false,
             publicKey: null,
             connected: false,
@@ -109,7 +106,7 @@ export const createWalletStore = ({
 
     // Create a wallet dictionary keyed by their name.
     const walletsByName = computed(() => {
-        return wallets.reduce<Record<WalletName, Wallet>>((walletsByName, wallet) => {
+        return wallets.reduce<Record<WalletName, WalletAdapter>>((walletsByName, wallet) => {
             walletsByName[wallet.name] = wallet;
             return walletsByName;
         }, {});
@@ -120,25 +117,17 @@ export const createWalletStore = ({
         name,
         (): void => {
             const wallet = walletsByName.value?.[name.value as WalletName] ?? null;
-            const adapter = wallet && wallet.adapter;
-            if (adapter) {
+            if (wallet) {
                 setState({
                     wallet,
-                    adapter,
                     ready: false,
-                    publicKey: adapter.publicKey,
-                    connected: adapter.connected,
+                    publicKey: wallet.publicKey,
+                    connected: wallet.connected,
                 });
 
-                // Asynchronously update the ready state
-                const waiting = name;
-                (async function () {
-                    const readyValue = await adapter.ready();
-                    // If the selected wallet hasn't changed while waiting, update the ready state
-                    if (name === waiting) {
-                        ready.value = readyValue;
-                    }
-                })();
+                wallet.on("readyStateChange", () => {
+                    ready.value = wallet.readyState == WalletReadyState.Installed;
+                }, adapter)
             } else {
                 resetState();
             }
@@ -149,16 +138,15 @@ export const createWalletStore = ({
     // Select a wallet by name.
     const select = async (walletName: WalletName): Promise<void> => {
         if (name.value === walletName) return;
-        if (adapter.value) await adapter.value.disconnect();
         name.value = walletName;
     };
 
     // Handle the adapter events.
     const onDisconnect = () => (name.value = null);
     const onConnect = () => {
-        if (!adapter.value) return;
-        publicKey.value = adapter.value.publicKey;
-        connected.value = adapter.value.connected;
+        if (!wallet?.value) return;
+        publicKey.value = wallet.value.publicKey;
+        connected.value = wallet.value.connected;
     };
     const invalidateListeners = watchEffect((onInvalidate) => {
         const _adapter = adapter.value;
@@ -187,10 +175,10 @@ export const createWalletStore = ({
         return error;
     };
 
-    // Connect the adapter to the wallet.
+    // Connect the wallet.
     const connect = async (): Promise<void> => {
         if (connected.value || connecting.value || disconnecting.value) return;
-        if (!wallet.value || !adapter.value) throw newError(new WalletNotSelectedError());
+        if (!wallet.value) throw newError(new WalletNotSelectedError());
 
         if (!ready.value) {
             name.value = null;
@@ -204,7 +192,7 @@ export const createWalletStore = ({
 
         try {
             connecting.value = true;
-            await adapter.value.connect();
+            await wallet.value.connect();
         } catch (error: any) {
             name.value = null;
             throw error;
@@ -294,7 +282,6 @@ export const createWalletStore = ({
 
         // Data.
         wallet,
-        adapter,
         publicKey,
         ready,
         connected,
