@@ -27,6 +27,7 @@
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
     "dependencies": {
+        "buffer": "npm:buffer-browserify@^0.2.5",
         "@ledgerhq/hw-transport": "^6.11.2",
         "@ledgerhq/hw-transport-webhid": "^6.11.2",
         "@solana/wallet-adapter-base": "^0.9.1",
