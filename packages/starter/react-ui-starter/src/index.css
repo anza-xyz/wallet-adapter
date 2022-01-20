@@ -1,13 +1,12 @@
 @import './reset.css';
 
 html, body {
-    background: #333333;
+    background-color: #303030;
     color: #FFFFFF;
 }
 
 #app {
-    width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
