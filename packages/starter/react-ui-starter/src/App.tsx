@@ -13,9 +13,6 @@ import {
 import { clusterApiUrl } from '@solana/web3.js';
 import React, { FC, ReactNode, useMemo } from 'react';
 
-// Default styles that can be overridden by your app
-require('@solana/wallet-adapter-react-ui/styles.css');
-
 export const App: FC = () => {
     return (
         <Context>
