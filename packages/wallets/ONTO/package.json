@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-onto",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -27,7 +27,9 @@
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
     "dependencies": {
+        "@types/bs58": "^4.0.1",
         "@solana/wallet-adapter-base": "^0.9.0",
-        "@solana/web3.js": "^1.20.0"
+        "@solana/web3.js": "^1.20.0",
+        "bs58": "^4.0.1"
     }
 }
