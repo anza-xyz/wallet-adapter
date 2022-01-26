@@ -4,6 +4,7 @@
 - [Can I use this with ___?](#can-i-use-this-with-___)
 - [What does this error mean?](#what-does-this-error-mean)
 - [How can I sign and verify messages?](#how-can-i-sign-and-verify-messages)
+- [How can I fetch Project Serum Provider?](#how-can-i-fetch-project-serum-provider)
 
 ## How can I get support?
 
@@ -141,4 +142,27 @@ export const SignMessageButton: FC = () => {
 
     return signMessage ? (<button onClick={onClick} disabled={!publicKey}>Sign Message</button>) : null;
 };
+```
+
+## How can I fetch Project Serum Provider?
+Project Serum's [Provider](https://project-serum.github.io/anchor/ts/classes/Provider.html) is a common object used for integrating with wallets. You should be able to use a combination of [useAnchorWallet](https://github.com/solana-labs/wallet-adapter/blob/master/packages/core/react/src/useAnchorWallet.ts) and [useConnection](https://github.com/solana-labs/wallet-adapter/blob/master/packages/core/react/src/useConnection.tsx) to create a provider. You can see a further discussion [here](https://github.com/solana-labs/wallet-adapter/issues/270).
+
+```tsx
+import {
+  useConnection,
+  useAnchorWallet,
+} from "@solana/wallet-adapter-react";
+import { Provider } from "@project-serum/anchor";
+
+const { connection } = useConnection();
+const anchorWallet = useAnchorWallet();
+
+useEffect(() => {
+  if (anchorWallet && connection) {
+    const provider = new Provider(connection, anchorWallet, {
+      preflightCommitment: "processed",
+    });
+    // use your newly created provider...
+  }
+}, [anchorWallet, connection]);
 ```
