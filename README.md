@@ -196,7 +196,7 @@ These packages provide components for common UI frameworks.
 
 ### Starter Projects
 These packages provide projects that you can use to start building a dApp with built-in wallet support.
-Alternatively, check out [dapp-scaffold](https://github.com/solana-labs/dapp-scaffold) for a more complete framework.
+Alternatively, check out [solana-dapp-next](https://github.com/lisenmayben/solana-dapp-next) for a more complete framework.
 
 | package                                                                                                               | description                                                                | npm                                                                                                                  |
 | --------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
