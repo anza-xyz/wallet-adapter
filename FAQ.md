@@ -34,7 +34,7 @@ Yes, see the [ant-design](https://github.com/solana-labs/wallet-adapter/tree/mas
 Yes, see the [vue](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/vue) package.
 
 ### Angular / RxJS
-Yes, see the [angular](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/angular) package.
+Yes, see the [angular](https://github.com/heavy-duty/platform/tree/master/libs/wallet-adapter) package.
 
 ### Webpack / Gatsby
 Yes, but you may need to set up polyfills for certain imported modules.

@@ -30,8 +30,8 @@
         "assert": "npm:assert@^2.0.0",
         "@solana/wallet-adapter-base": "^0.9.1",
         "@solana/web3.js": "^1.20.0",
+        "@toruslabs/solana-embed": "^0.1.0",
         "stream": "npm:stream-browserify@^3.0.0",
-        "@toruslabs/solana-embed": "^0.0.9",
         "@types/keccak": "^3.0.1",
         "@types/readable-stream": "^2.3.11"
     }

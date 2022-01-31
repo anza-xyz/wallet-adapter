@@ -1,8 +1,8 @@
 <script lang="ts">
-import { useWallet } from "@solana/wallet-adapter-vue";
-import { computed, defineComponent } from "vue";
-import WalletButton from "./WalletButton.vue";
-import WalletIcon from "./WalletIcon.vue";
+import { useWallet } from '@solana/wallet-adapter-vue';
+import { computed, defineComponent } from 'vue';
+import WalletButton from './WalletButton.vue';
+import WalletIcon from './WalletIcon.vue';
 
 export default defineComponent({
     name: 'wallet-connect-button',
@@ -13,7 +13,7 @@ export default defineComponent({
     props: {
         disabled: Boolean,
     },
-    setup ({ disabled }, { emit }) {
+    setup({ disabled }, { emit }) {
         const { wallet, connect, connecting, connected } = useWallet();
 
         const content = computed(() => {
@@ -44,7 +44,7 @@ export default defineComponent({
 <template>
     <wallet-button
         class="wallet-adapter-button-trigger"
-        :disabled="disabled || ! wallet || connecting || connected"
+        :disabled="disabled || !wallet || connecting || connected"
         @click="handleClick"
     >
         <template #start-icon v-if="wallet">

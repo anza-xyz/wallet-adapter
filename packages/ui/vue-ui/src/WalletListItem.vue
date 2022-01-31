@@ -1,8 +1,8 @@
 <script lang="ts">
-import { Wallet } from "@solana/wallet-adapter-base";
-import { defineComponent, PropType } from "vue";
-import WalletButton from "./WalletButton.vue";
-import WalletIcon from "./WalletIcon.vue";
+import { Wallet } from '@solana/wallet-adapter-base';
+import { defineComponent, PropType } from 'vue';
+import WalletButton from './WalletButton.vue';
+import WalletIcon from './WalletIcon.vue';
 
 export default defineComponent({
     name: 'wallet-list-item',
@@ -13,7 +13,7 @@ export default defineComponent({
     props: {
         wallet: Object as PropType<Wallet>,
     },
-    setup ({ wallet }) {
+    setup({ wallet }) {
         return { wallet };
     },
 });

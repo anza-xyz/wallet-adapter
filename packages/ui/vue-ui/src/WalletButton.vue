@@ -1,10 +1,10 @@
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
     name: 'wallet-button',
-    setup (props, { slots }) {
-        const justifyContent = (slots['end-icon'] || slots['start-icon']) ? 'space-between' : 'center';
+    setup(props, { slots }) {
+        const justifyContent = slots['end-icon'] || slots['start-icon'] ? 'space-between' : 'center';
 
         return { justifyContent };
     },

@@ -1,7 +1,7 @@
 <script lang="ts">
-import { defineComponent } from "vue";
-import { initWalletModal } from "./useWalletModal";
-import WalletModal from "./WalletModal.vue";
+import { defineComponent } from 'vue';
+import { initWalletModal } from './useWalletModal';
+import WalletModal from './WalletModal.vue';
 
 export default defineComponent({
     name: 'wallet-modal-provider',
@@ -11,7 +11,7 @@ export default defineComponent({
     props: {
         visible: Boolean,
     },
-    setup ({ visible }) {
+    setup({ visible }) {
         initWalletModal(visible);
     },
 });
