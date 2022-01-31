@@ -134,7 +134,7 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                         <ListItemIcon>
                             <SwitchIcon />
                         </ListItemIcon>
-                        Connect a different wallet
+                        Change wallet
                     </WalletActionMenuItem>
                     <WalletActionMenuItem
                         onClick={() => {

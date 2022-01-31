@@ -74,7 +74,7 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                         icon={<SwitchIcon className=".wallet-adapter-multi-button-icon" />}
                         className="wallet-adapter-multi-button-item"
                     >
-                        Connect a different wallet
+                        Change wallet
                     </Menu.Item>
                     <Menu.Item
                         onClick={() => {
