@@ -27,11 +27,13 @@
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
     "dependencies": {
-        "assert": "npm:assert@^2.0.0",
         "@solana/wallet-adapter-base": "^0.9.1",
         "@solana/web3.js": "^1.20.0",
         "@toruslabs/solana-embed": "^0.1.0",
-        "stream": "npm:stream-browserify@^3.0.0",
+        "assert": "npm:assert@^2.0.0",
+        "stream": "npm:stream-browserify@^3.0.0"
+    },
+    "devDependencies": {
         "@types/keccak": "^3.0.1",
         "@types/readable-stream": "^2.3.11"
     }
