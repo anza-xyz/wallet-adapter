@@ -29,10 +29,10 @@
         "nuke": "shx rm -rf node_modules yarn.lock"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.9.2",
-        "@solana/wallet-adapter-react": "^0.15.2",
-        "@solana/wallet-adapter-react-ui": "^0.9.3",
-        "@solana/wallet-adapter-wallets": "^0.14.2",
+        "@solana/wallet-adapter-base": "^0.9.3",
+        "@solana/wallet-adapter-react": "^0.15.3",
+        "@solana/wallet-adapter-react-ui": "^0.9.5",
+        "@solana/wallet-adapter-wallets": "^0.14.3",
         "@solana/web3.js": "^1.31.0",
         "react": "^17.0.0",
         "react-dom": "^17.0.0"

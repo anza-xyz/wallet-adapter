@@ -29,7 +29,7 @@
     "dependencies": {
         "@ledgerhq/hw-transport": "^6.11.2",
         "@ledgerhq/hw-transport-webhid": "^6.11.2",
-        "@solana/wallet-adapter-base": "^0.9.1",
+        "@solana/wallet-adapter-base": "^0.9.3",
         "@solana/web3.js": "^1.20.0",
         "buffer": "npm:buffer@^6.0.3"
     },

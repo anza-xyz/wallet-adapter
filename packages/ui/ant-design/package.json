@@ -32,8 +32,8 @@
     },
     "dependencies": {
         "@ant-design/icons": "^4.0.0",
-        "@solana/wallet-adapter-base": "^0.9.1",
-        "@solana/wallet-adapter-react": "^0.15.1",
+        "@solana/wallet-adapter-base": "^0.9.3",
+        "@solana/wallet-adapter-react": "^0.15.3",
         "@solana/web3.js": "^1.20.0",
         "antd": "~4.16.13",
         "react": "^17.0.0",
