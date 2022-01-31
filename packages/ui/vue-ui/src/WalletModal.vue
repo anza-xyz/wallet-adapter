@@ -1,10 +1,10 @@
 <script lang="ts">
-import { WalletName } from "@solana/wallet-adapter-base";
-import { useWallet } from "@solana/wallet-adapter-vue";
-import { computed, defineComponent, ref, watch } from "vue";
-import { useWalletModal } from "./useWalletModal";
-import WalletButton from "./WalletButton.vue";
-import WalletListItem from "./WalletListItem.vue";
+import { WalletName } from '@solana/wallet-adapter-base';
+import { useWallet } from '@solana/wallet-adapter-vue';
+import { computed, defineComponent, ref, watch } from 'vue';
+import { useWalletModal } from './useWalletModal';
+import WalletButton from './WalletButton.vue';
+import WalletListItem from './WalletListItem.vue';
 
 export default defineComponent({
     name: 'wallet-modal',
@@ -17,7 +17,7 @@ export default defineComponent({
         container: { type: String, default: 'body' },
         logo: String,
     },
-    setup ({ featuredWallets: featuredWalletsNumber, container, logo }) {
+    setup({ featuredWallets: featuredWalletsNumber, container, logo }) {
         const { wallets, select } = useWallet();
         const { visible, hideModal } = useWalletModal();
         const modal = ref<Element>();
@@ -54,37 +54,41 @@ export default defineComponent({
             }
         };
 
-        watch(visible, (newVisible, oldVisible, onInvalidate) => {
-            const handleKeyDown = (event: KeyboardEvent) => {
-                if (event.key === 'Escape') {
-                    hideModal();
-                } else if (event.key === 'Tab') {
-                    handleTabKey(event);
+        watch(
+            visible,
+            (newVisible, oldVisible, onInvalidate) => {
+                const handleKeyDown = (event: KeyboardEvent) => {
+                    if (event.key === 'Escape') {
+                        hideModal();
+                    } else if (event.key === 'Tab') {
+                        handleTabKey(event);
+                    }
+                };
+
+                // Get original overflow
+                let overflow = window.getComputedStyle(document.body).overflow;
+
+                if (newVisible) {
+                    // Refetch original overflow
+                    overflow = window.getComputedStyle(document.body).overflow;
+                    // Prevent scrolling on mount
+                    document.body.style.overflow = 'hidden';
+                    // Listen for keydown events
+                    window.addEventListener('keydown', handleKeyDown, false);
+                } else {
+                    // Re-enable scrolling when component unmounts
+                    document.body.style.overflow = overflow;
+                    window.removeEventListener('keydown', handleKeyDown, false);
                 }
-            };
 
-            // Get original overflow
-            let overflow = window.getComputedStyle(document.body).overflow;
-
-            if (newVisible) {
-                // Refetch original overflow
-                overflow = window.getComputedStyle(document.body).overflow;
-                // Prevent scrolling on mount
-                document.body.style.overflow = 'hidden';
-                // Listen for keydown events
-                window.addEventListener('keydown', handleKeyDown, false);
-            } else {
-                // Re-enable scrolling when component unmounts
-                document.body.style.overflow = overflow;
-                window.removeEventListener('keydown', handleKeyDown, false);
-            }
-
-            onInvalidate(() => {
-                // Re-enable scrolling when component unmounts
-                document.body.style.overflow = overflow;
-                window.removeEventListener('keydown', handleKeyDown, false);
-            });
-        }, { immediate: true });
+                onInvalidate(() => {
+                    // Re-enable scrolling when component unmounts
+                    document.body.style.overflow = overflow;
+                    window.removeEventListener('keydown', handleKeyDown, false);
+                });
+            },
+            { immediate: true }
+        );
 
         return {
             container,
@@ -96,7 +100,7 @@ export default defineComponent({
             modal,
             selectWallet,
             hideModal,
-        }
+        };
     },
 });
 </script>
@@ -111,18 +115,21 @@ export default defineComponent({
             role="dialog"
         >
             <div class="wallet-adapter-modal-container">
-                <div class="wallet-adapter-modal-wrapper" :class="{ 'wallet-adapter-modal-wrapper-no-logo': ! $slots.logo }">
+                <div
+                    class="wallet-adapter-modal-wrapper"
+                    :class="{ 'wallet-adapter-modal-wrapper-no-logo': !$slots.logo }"
+                >
                     <div class="wallet-adapter-modal-logo-wrapper" v-if="$slots.logo">
                         <slot name="logo">
                             <img alt="logo" class="wallet-adapter-modal-logo" :src="logo" />
                         </slot>
                     </div>
-                    <h1 class="wallet-adapter-modal-title" id="wallet-adapter-modal-title">
-                        Connect Wallet
-                    </h1>
+                    <h1 class="wallet-adapter-modal-title" id="wallet-adapter-modal-title">Connect Wallet</h1>
                     <button @click.prevent="hideModal" class="wallet-adapter-modal-button-close">
                         <svg width="14" height="14">
-                            <path d="M14 12.461 8.3 6.772l5.234-5.233L12.006 0 6.772 5.234 1.54 0 0 1.539l5.234 5.233L0 12.006l1.539 1.528L6.772 8.3l5.69 5.7L14 12.461z" />
+                            <path
+                                d="M14 12.461 8.3 6.772l5.234-5.233L12.006 0 6.772 5.234 1.54 0 0 1.539l5.234 5.233L0 12.006l1.539 1.528L6.772 8.3l5.69 5.7L14 12.461z"
+                            />
                         </svg>
                     </button>
                     <ul class="wallet-adapter-modal-list">
@@ -147,12 +154,14 @@ export default defineComponent({
                             :aria-expanded="expanded"
                             class="wallet-adapter-modal-collapse-button"
                             :class="{ 'wallet-adapter-modal-collapse-button-active': expanded }"
-                            @click="expanded = ! expanded"
+                            @click="expanded = !expanded"
                         >
                             {{ expanded ? 'Less' : 'More' }} options
                             <template #end-icon>
                                 <svg width="11" height="6" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="m5.938 5.73 4.28-4.126a.915.915 0 0 0 0-1.322 1 1 0 0 0-1.371 0L5.253 3.736 1.659.272a1 1 0 0 0-1.371 0A.93.93 0 0 0 0 .932c0 .246.1.48.288.662l4.28 4.125a.99.99 0 0 0 1.37.01z" />
+                                    <path
+                                        d="m5.938 5.73 4.28-4.126a.915.915 0 0 0 0-1.322 1 1 0 0 0-1.371 0L5.253 3.736 1.659.272a1 1 0 0 0-1.371 0A.93.93 0 0 0 0 .932c0 .246.1.48.288.662l4.28 4.125a.99.99 0 0 0 1.37.01z"
+                                    />
                                 </svg>
                             </template>
                         </wallet-button>
