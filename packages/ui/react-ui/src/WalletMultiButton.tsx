@@ -85,7 +85,7 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
                     {copied ? 'Copied' : 'Copy address'}
                 </li>
                 <li onClick={openModal} className="wallet-adapter-dropdown-list-item" role="menuitem">
-                    Connect a different wallet
+                    Change wallet
                 </li>
                 <li onClick={disconnect} className="wallet-adapter-dropdown-list-item" role="menuitem">
                     Disconnect

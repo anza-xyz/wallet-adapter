@@ -1,14 +1,14 @@
 <script lang="ts">
-import { defineComponent } from "vue";
-import { useWalletModal } from "./useWalletModal";
-import WalletButton from "./WalletButton.vue";
+import { defineComponent } from 'vue';
+import { useWalletModal } from './useWalletModal';
+import WalletButton from './WalletButton.vue';
 
 export default defineComponent({
     name: 'wallet-modal-button',
     components: {
         WalletButton,
     },
-    setup () {
+    setup() {
         const { showModal } = useWalletModal();
 
         return { showModal };
