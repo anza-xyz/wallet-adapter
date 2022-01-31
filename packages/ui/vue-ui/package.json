@@ -27,9 +27,6 @@
         "build": "yarn clean && vite build --config vite.config.ts && vite build --config vite.config.cjs.ts",
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
-    "peerDependencies": {
-        "@solana/wallet-adapter-wallets": "^0.13.0"
-    },
     "dependencies": {
         "@solana/wallet-adapter-base": "^0.8.1",
         "@solana/wallet-adapter-vue": "^0.4.2",

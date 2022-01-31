@@ -30,9 +30,11 @@
     "dependencies": {
         "@solana/wallet-adapter-base": "^0.9.1",
         "@solana/web3.js": "^1.20.0",
-        "@types/pino": "^6.3.11",
         "@walletconnect/client": "^2.0.0-beta.17",
-        "@walletconnect/qrcode-modal": "^2.0.0-alpha.20",
+        "@walletconnect/qrcode-modal": "^2.0.0-alpha.20"
+    },
+    "devDependencies": {
+        "@types/pino": "^6.3.11",
         "@walletconnect/types": "^2.0.0-beta.17"
     }
 }
