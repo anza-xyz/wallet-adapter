@@ -1,3 +1,5 @@
+import './polyfills/index';
+
 import Transport, { StatusCodes, TransportStatusError } from '@ledgerhq/hw-transport';
 import { PublicKey, Transaction } from '@solana/web3.js';
 

@@ -1,11 +1,11 @@
 <script lang="ts">
-import { useWallet } from "@solana/wallet-adapter-vue";
-import { computed, defineComponent, ref, watchEffect } from "vue";
-import { useWalletModal } from "./useWalletModal";
-import WalletButton from "./WalletButton.vue";
-import WalletConnectButton from "./WalletConnectButton.vue";
-import WalletIcon from "./WalletIcon.vue";
-import WalletModalButton from "./WalletModalButton.vue";
+import { useWallet } from '@solana/wallet-adapter-vue';
+import { computed, defineComponent, ref, watchEffect } from 'vue';
+import { useWalletModal } from './useWalletModal';
+import WalletButton from './WalletButton.vue';
+import WalletConnectButton from './WalletConnectButton.vue';
+import WalletIcon from './WalletIcon.vue';
+import WalletModalButton from './WalletModalButton.vue';
 
 export default defineComponent({
     name: 'wallet-multi-button',
@@ -15,7 +15,7 @@ export default defineComponent({
         WalletButton,
         WalletIcon,
     },
-    setup () {
+    setup() {
         const { publicKey, wallet, disconnect } = useWallet();
         const { showModal } = useWalletModal();
         const copied = ref(false);
@@ -24,30 +24,30 @@ export default defineComponent({
 
         const base58 = computed(() => publicKey.value?.toBase58());
         const content = computed(() => {
-            if (! wallet.value || ! base58.value) return null;
+            if (!wallet.value || !base58.value) return null;
             return base58.value.slice(0, 4) + '..' + base58.value.slice(-4);
         });
 
         const copyAddress = async () => {
-            if (! base58.value) return;
+            if (!base58.value) return;
             await navigator.clipboard.writeText(base58.value);
             copied.value = true;
-            setTimeout(() => copied.value = false, 400);
+            setTimeout(() => (copied.value = false), 400);
         };
 
-        const openDropdown = () => active.value = true;
-        const closeDropdown = () => active.value = false;
+        const openDropdown = () => (active.value = true);
+        const closeDropdown = () => (active.value = false);
         const openModal = () => {
             showModal();
             closeDropdown();
         };
 
         // Close the dropdown when clicking outside of it.
-        watchEffect(onInvalidate => {
+        watchEffect((onInvalidate) => {
             const listener = (event: MouseEvent | TouchEvent) => {
                 const node = dropdown.value;
                 // Do nothing if clicking dropdown or its descendants
-                if (! node || node.contains(event.target as Node)) return;
+                if (!node || node.contains(event.target as Node)) return;
                 closeDropdown();
             };
             document.addEventListener('mousedown', listener);
@@ -75,10 +75,10 @@ export default defineComponent({
 </script>
 
 <template>
-    <wallet-modal-button v-if="! wallet">
+    <wallet-modal-button v-if="!wallet">
         <slot></slot>
     </wallet-modal-button>
-    <wallet-connect-button v-else-if="! base58">
+    <wallet-connect-button v-else-if="!base58">
         <slot></slot>
     </wallet-connect-button>
     <div v-else class="wallet-adapter-dropdown">
@@ -103,12 +103,8 @@ export default defineComponent({
             <li @click="copyAddress" class="wallet-adapter-dropdown-list-item" role="menuitem">
                 {{ copied ? 'Copied' : 'Copy address' }}
             </li>
-            <li @click="openModal" class="wallet-adapter-dropdown-list-item" role="menuitem">
-                Connect a different wallet
-            </li>
-            <li @click="disconnect" class="wallet-adapter-dropdown-list-item" role="menuitem">
-                Disconnect
-            </li>
+            <li @click="openModal" class="wallet-adapter-dropdown-list-item" role="menuitem">Change wallet</li>
+            <li @click="disconnect" class="wallet-adapter-dropdown-list-item" role="menuitem">Disconnect</li>
         </ul>
     </div>
 </template>

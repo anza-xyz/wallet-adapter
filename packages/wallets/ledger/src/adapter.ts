@@ -1,3 +1,5 @@
+import './polyfills/index';
+
 import type Transport from '@ledgerhq/hw-transport';
 import {
     Adapter,
