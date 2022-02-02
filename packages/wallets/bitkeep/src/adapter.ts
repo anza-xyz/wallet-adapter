@@ -1,15 +1,14 @@
 import {
     BaseSignerWalletAdapter,
+    scopePollingDetectionStrategy,
     WalletAccountError,
     WalletDisconnectionError,
+    WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
     WalletSignTransactionError,
-    scopePollingDetectionStrategy,
-    WalletName,
-    Adapter,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 

@@ -1,5 +1,4 @@
 import {
-    Adapter,
     BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
     WalletAccountError,

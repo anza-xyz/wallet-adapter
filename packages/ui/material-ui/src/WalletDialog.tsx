@@ -9,9 +9,9 @@ import {
     IconButton,
     List,
     ListItem,
+    styled,
     Theme,
 } from '@mui/material';
-import { styled } from '@mui/material';
 import { WalletName } from '@solana/wallet-adapter-base';
 import { useWallet } from '@solana/wallet-adapter-react';
 import React, { FC, ReactElement, SyntheticEvent, useCallback, useMemo, useState } from 'react';

@@ -1,6 +1,5 @@
 import type { SolanaProviderInterface } from '@blocto/sdk';
 import {
-    Adapter,
     BaseWalletAdapter,
     SendTransactionOptions,
     WalletAccountError,

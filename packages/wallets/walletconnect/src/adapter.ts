@@ -1,5 +1,4 @@
 import {
-    Adapter,
     BaseSignerWalletAdapter,
     WalletAccountError,
     WalletConnectionError,

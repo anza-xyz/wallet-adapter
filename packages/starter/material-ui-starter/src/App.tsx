@@ -1,6 +1,6 @@
 import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
-import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletDialogProvider, WalletMultiButton } from '@solana/wallet-adapter-material-ui';
+import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import {
     LedgerWalletAdapter,
     PhantomWalletAdapter,

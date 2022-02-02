@@ -11,11 +11,7 @@ import { PhantomWalletAdapter } from '@solana/wallet-adapter-phantom';
 import { SafePalWalletAdapter } from '@solana/wallet-adapter-safepal';
 import { SlopeWalletAdapter } from '@solana/wallet-adapter-slope';
 import { SolflareWalletAdapter } from '@solana/wallet-adapter-solflare';
-import {
-    SolflareWebWalletAdapter,
-    SolletExtensionWalletAdapter,
-    SolletWalletAdapter,
-} from '@solana/wallet-adapter-sollet';
+import { SolletExtensionWalletAdapter, SolletWalletAdapter } from '@solana/wallet-adapter-sollet';
 import { SolongWalletAdapter } from '@solana/wallet-adapter-solong';
 import { TokenPocketWalletAdapter } from '@solana/wallet-adapter-tokenpocket';
 import { TorusWalletAdapter } from '@solana/wallet-adapter-torus';

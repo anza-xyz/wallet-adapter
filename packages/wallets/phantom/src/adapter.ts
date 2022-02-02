@@ -1,5 +1,4 @@
 import {
-    Adapter,
     BaseMessageSignerWalletAdapter,
     EventEmitter,
     scopePollingDetectionStrategy,

@@ -1,8 +1,5 @@
-import './polyfills/index';
-
 import type Transport from '@ledgerhq/hw-transport';
 import {
-    Adapter,
     BaseSignerWalletAdapter,
     WalletConnectionError,
     WalletDisconnectedError,
@@ -16,6 +13,7 @@ import {
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
+import './polyfills/index';
 import { getDerivationPath, getPublicKey, signTransaction } from './util';
 
 export interface LedgerWalletAdapterConfig {
