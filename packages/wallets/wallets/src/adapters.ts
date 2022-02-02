@@ -24,7 +24,7 @@ export function getWalletAdapters({ network = WalletAdapterNetwork.Mainnet }: Wa
     return [
         new PhantomWalletAdapter(),
         new SlopeWalletAdapter(),
-        new SolflareWalletAdapter(),
+        new SolflareWalletAdapter({ network }),
         new SolletExtensionWalletAdapter({ network }),
         new BitKeepWalletAdapter(),
         new BitpieWalletAdapter(),
@@ -38,7 +38,6 @@ export function getWalletAdapters({ network = WalletAdapterNetwork.Mainnet }: Wa
         new TorusWalletAdapter(),
         new LedgerWalletAdapter(),
         new SolletWalletAdapter({ network }),
-        new SolflareWebWalletAdapter({ network }),
         new BloctoWalletAdapter({ network }),
     ];
 }

@@ -32,7 +32,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
         () => [
             new PhantomWalletAdapter(),
             new SlopeWalletAdapter(),
-            new SolflareWalletAdapter(),
+            new SolflareWalletAdapter({ network }),
             new TorusWalletAdapter(),
             new LedgerWalletAdapter(),
             new SolletWalletAdapter({ network }),
