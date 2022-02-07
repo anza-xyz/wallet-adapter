@@ -8,6 +8,8 @@ export interface ButtonProps {
     startIcon?: ReactElement;
     style?: CSSProperties;
     tabIndex?: number;
+    type?: string;
+    id?: string;
 }
 
 export const Button: FC<ButtonProps> = (props) => {
@@ -17,7 +19,8 @@ export const Button: FC<ButtonProps> = (props) => {
             disabled={props.disabled}
             onClick={props.onClick}
             tabIndex={props.tabIndex || 0}
-            type="button"
+            type={props.type || "button"}
+            id={props.id}
         >
             {props.startIcon && <i className="wallet-adapter-button-start-icon">{props.startIcon}</i>}
             {props.children}
