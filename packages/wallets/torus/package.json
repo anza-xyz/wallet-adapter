@@ -1,0 +1,48 @@
+{
+    "name": "@solana/wallet-adapter-torus",
+    "version": "0.11.10",
+    "author": "Solana Maintainers <maintainers@solana.foundation>",
+    "repository": "https://github.com/solana-labs/wallet-adapter",
+    "license": "Apache-2.0",
+    "type": "module",
+    "sideEffects": false,
+    "main": "lib/cjs/index.js",
+    "module": "lib/esm/index.mjs",
+    "types": "lib/esm/index.d.ts",
+    "exports": {
+        "import": "./lib/esm/index.mjs",
+        "require": "./lib/cjs/index.js"
+    },
+    "files": [
+        "lib",
+        "src",
+        "LICENSE"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "clean": "shx rm -rf lib/*",
+        "build": "yarn clean && tsc -p tsconfig.json; tsc-esm -p tsconfig.json && tsc -p tsconfig.cjs.json",
+        "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
+    },
+    "dependencies": {
+        "@solana/wallet-adapter-base": "^0.9.3",
+        "@solana/web3.js": "^1.20.0",
+        "@toruslabs/solana-embed": "^0.1.0",
+        "assert": "^2.0.0",
+        "process": "^0.11.10",
+        "stream-browserify": "^3.0.0"
+    },
+    "devDependencies": {
+        "@types/keccak": "^3.0.1",
+        "@types/readable-stream": "^2.3.11"
+    },
+    "overrides": {
+        "@toruslabs/solana-embed": {
+            "assert": "npm:assert@^2.0.0",
+            "process": "npm:process@^0.11.10",
+            "stream": "npm:stream-browserify@^3.0.0"
+        }
+    }
+}
