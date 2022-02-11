@@ -8,10 +8,6 @@
     "workspaces": {
         "packages": [
             "packages/*/*"
-        ],
-        "nohoist": [
-            "**/@parcel",
-            "**/@parcel/**"
         ]
     },
     "engines": {
