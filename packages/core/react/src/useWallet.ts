@@ -1,24 +1,39 @@
 import {
+    Adapter,
     MessageSignerWalletAdapterProps,
+    SendTransactionOptions,
     SignerWalletAdapterProps,
-    WalletAdapterProps,
+    WalletName,
+    WalletReadyState,
 } from '@solana/wallet-adapter-base';
-import { Wallet, WalletName } from '@solana/wallet-adapter-wallets';
+import { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
 import { createContext, useContext } from 'react';
 
-export interface WalletContextState extends WalletAdapterProps {
-    wallets: Wallet[];
-    autoConnect: boolean;
+export interface Wallet {
+    adapter: Adapter;
+    readyState: WalletReadyState;
+}
 
+export interface WalletContextState {
+    autoConnect: boolean;
+    wallets: Wallet[];
     wallet: Wallet | null;
-    adapter: ReturnType<Wallet['adapter']> | null;
+    publicKey: PublicKey | null;
+    connecting: boolean;
+    connected: boolean;
     disconnecting: boolean;
 
     select(walletName: WalletName): void;
+    connect(): Promise<void>;
+    disconnect(): Promise<void>;
+    sendTransaction(
+        transaction: Transaction,
+        connection: Connection,
+        options?: SendTransactionOptions
+    ): Promise<TransactionSignature>;
 
     signTransaction: SignerWalletAdapterProps['signTransaction'] | undefined;
     signAllTransactions: SignerWalletAdapterProps['signAllTransactions'] | undefined;
-
     signMessage: MessageSignerWalletAdapterProps['signMessage'] | undefined;
 }
 

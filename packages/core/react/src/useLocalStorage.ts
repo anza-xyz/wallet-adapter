@@ -1,35 +1,38 @@
-import { useCallback, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-export function useLocalStorage<T>(key: string, defaultState: T): [T, (newValue: T) => void] {
-    const [value, setValue] = useState<T>(() => {
-        if (typeof localStorage === 'undefined') return defaultState;
-
-        const value = localStorage.getItem(key);
+export function useLocalStorage<T>(key: string, defaultState: T): [T, React.Dispatch<React.SetStateAction<T>>] {
+    const state = useState<T>(() => {
         try {
-            return value ? (JSON.parse(value) as T) : defaultState;
+            const value = localStorage.getItem(key);
+            if (value) return JSON.parse(value) as T;
         } catch (error) {
-            console.warn(error);
-            return defaultState;
+            if (typeof window !== 'undefined') {
+                console.error(error);
+            }
         }
+
+        return defaultState;
     });
+    const value = state[0];
 
-    const setLocalStorage = useCallback(
-        (newValue: T) => {
-            if (newValue === value) return;
-            setValue(newValue);
-
-            if (newValue === null) {
+    const isFirstRender = useRef(true);
+    useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
+        try {
+            if (value === null) {
                 localStorage.removeItem(key);
             } else {
-                try {
-                    localStorage.setItem(key, JSON.stringify(newValue));
-                } catch (error) {
-                    console.error(error);
-                }
+                localStorage.setItem(key, JSON.stringify(value));
             }
-        },
-        [value, setValue, key]
-    );
+        } catch (error) {
+            if (typeof window !== 'undefined') {
+                console.error(error);
+            }
+        }
+    }, [value]);
 
-    return [value, setLocalStorage];
+    return state;
 }

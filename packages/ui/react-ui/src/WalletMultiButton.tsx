@@ -28,14 +28,18 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
         }
     }, [base58]);
 
-    const openDropdown = useCallback(() => setActive(true), [setActive]);
+    const openDropdown = useCallback(() => {
+        setActive(true);
+    }, []);
 
-    const closeDropdown = useCallback(() => setActive(false), [setActive]);
+    const closeDropdown = useCallback(() => {
+        setActive(false);
+    }, []);
 
     const openModal = useCallback(() => {
         setVisible(true);
         closeDropdown();
-    }, [setVisible, closeDropdown]);
+    }, [closeDropdown]);
 
     useEffect(() => {
         const listener = (event: MouseEvent | TouchEvent) => {
@@ -81,7 +85,7 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
                     {copied ? 'Copied' : 'Copy address'}
                 </li>
                 <li onClick={openModal} className="wallet-adapter-dropdown-list-item" role="menuitem">
-                    Connect a different wallet
+                    Change wallet
                 </li>
                 <li onClick={disconnect} className="wallet-adapter-dropdown-list-item" role="menuitem">
                     Disconnect

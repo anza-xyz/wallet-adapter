@@ -10,7 +10,7 @@ export const WalletModalButton: FC<ButtonProps> = ({ children = 'Select Wallet',
             if (onClick) onClick(event);
             if (!event.defaultPrevented) setVisible(!visible);
         },
-        [onClick, setVisible, visible]
+        [onClick, visible]
     );
 
     return (

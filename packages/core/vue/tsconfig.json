@@ -1,9 +1,0 @@
-{
-    "extends": "../../../tsconfig.json",
-    "compilerOptions": {
-        "noEmit": false,
-        "outDir": "lib",
-        "isolatedModules": false
-    },
-    "include": ["src"]
-}

@@ -1,5 +1,5 @@
+import { WalletName } from '@solana/wallet-adapter-base';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { WalletName } from '@solana/wallet-adapter-wallets';
 import { Menu, Modal, ModalProps } from 'antd';
 import React, { FC, MouseEvent, useCallback, useMemo, useState } from 'react';
 import { useWalletModal } from './useWalletModal';
@@ -56,8 +56,8 @@ export const WalletModal: FC<WalletModalProps> = ({
             <Menu className="wallet-adapter-modal-menu" inlineIndent={0} mode="inline" onOpenChange={onOpenChange}>
                 {featured.map((wallet) => (
                     <WalletMenuItem
-                        key={wallet.name}
-                        onClick={(event) => handleWalletClick(event, wallet.name)}
+                        key={wallet.adapter.name}
+                        onClick={(event) => handleWalletClick(event, wallet.adapter.name)}
                         wallet={wallet}
                     />
                 ))}
@@ -65,8 +65,8 @@ export const WalletModal: FC<WalletModalProps> = ({
                     <Menu.SubMenu key="wallet-adapter-modal-submenu" title={`${expanded ? 'Less' : 'More'} options`}>
                         {more.map((wallet) => (
                             <WalletMenuItem
-                                key={wallet.name}
-                                onClick={(event) => handleWalletClick(event, wallet.name)}
+                                key={wallet.adapter.name}
+                                onClick={(event) => handleWalletClick(event, wallet.adapter.name)}
                                 wallet={wallet}
                             />
                         ))}

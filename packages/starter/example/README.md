@@ -6,20 +6,12 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, install the dependencies:
+First, run the development server:
 
 ```bash
-yarn install
-# or
-npm install
-```
-
-Then run the development server:
-
-```bash
-yarn dev
-# or
 npm run dev
+# or
+yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

@@ -1,52 +1,48 @@
-import { Link, makeStyles } from '@material-ui/core';
-import LaunchIcon from '@material-ui/icons/Launch';
+import LaunchIcon from '@mui/icons-material/Launch';
+import { Link } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useSnackbar, VariantType } from 'notistack';
 import { useCallback } from 'react';
 
-const useStyles = makeStyles({
-    notification: {
-        display: 'flex',
-        alignItems: 'center',
+const Notification = styled('span')(() => ({
+    display: 'flex',
+    alignItems: 'center',
+}));
+
+const StyledLink = styled(Link)(() => ({
+    color: '#ffffff',
+    display: 'flex',
+    alignItems: 'center',
+    marginLeft: 16,
+    textDecoration: 'underline',
+    '&:hover': {
+        color: '#000000',
     },
-    link: {
-        color: '#ffffff',
-        display: 'flex',
-        alignItems: 'center',
-        marginLeft: 16,
-        textDecoration: 'underline',
-        '&:hover': {
-            color: '#000000',
-        },
-    },
-    icon: {
-        fontSize: 20,
-        marginLeft: 8,
-    },
-});
+}));
+
+const StyledLaunchIcon = styled(LaunchIcon)(() => ({
+    fontSize: 20,
+    marginLeft: 8,
+}));
 
 export function useNotify() {
-    const styles = useStyles();
     const { enqueueSnackbar } = useSnackbar();
 
     return useCallback(
         (variant: VariantType, message: string, signature?: string) => {
             enqueueSnackbar(
-                <span className={styles.notification}>
+                <Notification>
                     {message}
                     {signature && (
-                        <Link
-                            className={styles.link}
-                            href={`https://explorer.solana.com/tx/${signature}?cluster=devnet`}
-                            target="_blank"
-                        >
+                        <StyledLink href={`https://explorer.solana.com/tx/${signature}?cluster=devnet`} target="_blank">
                             Transaction
-                            <LaunchIcon className={styles.icon} />
-                        </Link>
+                            <StyledLaunchIcon />
+                        </StyledLink>
                     )}
-                </span>,
+                </Notification>,
                 { variant }
             );
         },
-        [enqueueSnackbar, styles]
+        [enqueueSnackbar]
     );
 }
