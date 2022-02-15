@@ -30,17 +30,17 @@
         "@solana/wallet-adapter-react": "^0.15.3",
         "@solana/wallet-adapter-react-ui": "^0.9.5",
         "@solana/wallet-adapter-wallets": "^0.15.2",
-        "next": "12.0.7",
+        "next": "12.0.10",
         "react": "17.0.2",
         "react-dom": "17.0.2"
     },
     "devDependencies": {
-        "@types/node": "17.0.8",
+        "@types/node": "17.0.17",
         "@types/react": "^17.0.0",
         "@types/react-dom": "^17.0.0",
-        "eslint": "^8.6.0",
+        "eslint": "^8.8.0",
         "eslint-config-next": "^12.0.7",
         "shx": "^0.3.3",
-        "typescript": "~4.4.4"
+        "typescript": "~4.5.5"
     }
 }

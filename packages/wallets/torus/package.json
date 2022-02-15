@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-torus",
-    "version": "0.11.9",
+    "version": "0.11.10",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -39,8 +39,10 @@
         "@types/readable-stream": "^2.3.11"
     },
     "overrides": {
-        "assert": "npm:assert@^2.0.0",
-        "process": "npm:process@^0.11.10",
-        "stream": "npm:stream-browserify@^3.0.0"
+        "@toruslabs/solana-embed": {
+            "assert": "npm:assert@^2.0.0",
+            "process": "npm:process@^0.11.10",
+            "stream": "npm:stream-browserify@^3.0.0"
+        }
     }
 }
