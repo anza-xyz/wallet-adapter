@@ -1,6 +1,6 @@
 {
-    "name": "@solana/wallet-adapter-huobiwallet",
-    "version": "0.4.3",
+    "name": "@solana/wallet-adapter-huobi",
+    "version": "0.1.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
