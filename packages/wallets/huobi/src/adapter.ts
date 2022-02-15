@@ -31,7 +31,7 @@ interface HuobiWallet extends EventEmitter<HuobiWalletEvents> {
 }
 
 interface HuobiWalletWindow extends Window {
-    solana?: HuobiWallet;
+    huobiWallet?: HuobiWallet;
 }
 
 declare const window: HuobiWalletWindow;
@@ -61,7 +61,7 @@ export class HuobiWalletAdapter extends BaseMessageSignerWalletAdapter {
         this._publicKey = null;
         if (this._readyState !== WalletReadyState.Unsupported) {
             scopePollingDetectionStrategy(() => {
-                if (window.solana?.isHuobiWallet) {
+                if (window.huobiWallet?.isHuobiWallet) {
                     this._readyState = WalletReadyState.Installed;
                     this.emit('readyStateChange', this._readyState);
                     return true;
@@ -95,7 +95,7 @@ export class HuobiWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.solana!;
+            const wallet = window!.huobiWallet!;
 
             try {
                 await wallet.connect();
