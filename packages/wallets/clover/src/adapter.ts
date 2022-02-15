@@ -1,5 +1,5 @@
 import {
-    BaseSignerWalletAdapter,
+    BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
     WalletAccountError,
     WalletName,
@@ -16,6 +16,7 @@ interface CloverWallet {
     getAccount(): Promise<string>;
     signTransaction(transaction: Transaction): Promise<Transaction>;
     signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
+    signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
 }
 
 interface CloverWalletWindow extends Window {
@@ -28,7 +29,7 @@ export interface CloverWalletAdapterConfig {}
 
 export const CloverWalletName = 'Clover' as WalletName;
 
-export class CloverWalletAdapter extends BaseSignerWalletAdapter {
+export class CloverWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = CloverWalletName;
     url = 'https://clover.finance';
     icon =
@@ -139,6 +140,23 @@ export class CloverWalletAdapter extends BaseSignerWalletAdapter {
 
             try {
                 return (await wallet.signAllTransactions(transactions)) || transactions;
+            } catch (error: any) {
+                throw new WalletSignTransactionError(error?.message, error);
+            }
+        } catch (error: any) {
+            this.emit('error', error);
+            throw error;
+        }
+    }
+
+    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+        try {
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
+
+            try {
+                const { signature } = await wallet.signMessage(message);
+                return Uint8Array.from(signature);
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
