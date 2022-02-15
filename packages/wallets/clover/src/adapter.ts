@@ -1,5 +1,5 @@
 import {
-    BaseSignerWalletAdapter,
+    BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
     WalletAccountError,
     WalletName,
@@ -29,7 +29,7 @@ export interface CloverWalletAdapterConfig {}
 
 export const CloverWalletName = 'Clover' as WalletName;
 
-export class CloverWalletAdapter extends BaseSignerWalletAdapter {
+export class CloverWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = CloverWalletName;
     url = 'https://clover.finance';
     icon =
