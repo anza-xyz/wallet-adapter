@@ -9,7 +9,7 @@ import {
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
-    WalletSignTransactionError,
+    WalletSignTransactionError
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 
@@ -38,6 +38,8 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
         this._publicKey = null;
         this._wallet = null;
         this._config = config;
+
+        this._scheduleDetection();
     }
 
     get publicKey(): PublicKey | null {
@@ -59,7 +61,9 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
-            if (this._readyState !== WalletReadyState.Loadable) throw new WalletNotReadyError();
+            if (this._readyState !== WalletReadyState.Loadable && this._readyState !== WalletReadyState.Installed) {
+                throw new WalletNotReadyError();
+            }
 
             if (!this._wallet) {
                 const Solflare = (await import('@solflare-wallet/sdk')).default;
@@ -165,6 +169,29 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
             throw error;
         }
     }
+
+    private _detectWallet = async () => {
+        const Solflare = (await import('@solflare-wallet/sdk')).default;
+        const wallet = new Solflare();
+        const isDetected = await wallet.detectWallet();
+        if (isDetected) {
+            this._readyState = WalletReadyState.Installed;
+            this.emit('readyStateChange', this._readyState);
+        }
+    }
+
+    private _scheduleDetection = () => {
+        if (typeof window === 'undefined' || typeof document === 'undefined') return;
+        if (document.readyState === 'complete') {
+            this._detectWallet();
+            return;
+        }
+        const listener = () => {
+            window.removeEventListener('load', listener);
+            this._detectWallet();
+        };
+        window.addEventListener('load', listener);
+    };
 
     private _disconnected = () => {
         const wallet = this._wallet;
