@@ -1,5 +1,6 @@
 import {
     BaseMessageSignerWalletAdapter,
+    scopePollingDetectionStrategy,
     WalletAdapterNetwork,
     WalletConnectionError,
     WalletDisconnectedError,
@@ -9,9 +10,18 @@ import {
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
-    WalletSignTransactionError,
+    WalletSignTransactionError
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
+
+interface SolflareWindow extends Window {
+    solflare?: {
+        isSolflare: boolean;
+    };
+    SolflareApp?: unknown;
+}
+
+declare const window: SolflareWindow;
 
 export interface SolflareWalletAdapterConfig {
     network?: WalletAdapterNetwork;
@@ -38,6 +48,17 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
         this._publicKey = null;
         this._wallet = null;
         this._config = config;
+
+        if (this._readyState !== WalletReadyState.Unsupported) {
+            scopePollingDetectionStrategy(() => {
+                if (window.solflare?.isSolflare || window.SolflareApp) {
+                    this._readyState = WalletReadyState.Installed;
+                    this.emit('readyStateChange', this._readyState);
+                    return true;
+                }
+                return false;
+            });
+        }
     }
 
     get publicKey(): PublicKey | null {
@@ -59,7 +80,9 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
-            if (this._readyState !== WalletReadyState.Loadable) throw new WalletNotReadyError();
+            if (this._readyState !== WalletReadyState.Loadable && this._readyState !== WalletReadyState.Installed) {
+                throw new WalletNotReadyError();
+            }
 
             if (!this._wallet) {
                 const Solflare = (await import('@solflare-wallet/sdk')).default;
