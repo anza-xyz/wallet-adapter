@@ -2,12 +2,14 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button, ButtonProps } from './Button';
 import { useWalletModal } from './useWalletModal';
+import { useNetworkModal } from './useNetworkModal';
 import { WalletConnectButton } from './WalletConnectButton';
 import { WalletIcon } from './WalletIcon';
 import { WalletModalButton } from './WalletModalButton';
 
 export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
     const { publicKey, wallet, disconnect } = useWallet();
+    const { setModalVisible } = useNetworkModal();
     const { setVisible } = useWalletModal();
     const [copied, setCopied] = useState(false);
     const [active, setActive] = useState(false);
@@ -40,6 +42,11 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
         setVisible(true);
         closeDropdown();
     }, [closeDropdown]);
+
+    const openNetworkModal = useCallback(() => {
+        setModalVisible(true);
+        closeDropdown();
+    }, []);
 
     useEffect(() => {
         const listener = (event: MouseEvent | TouchEvent) => {
@@ -83,6 +90,9 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
             >
                 <li onClick={copyAddress} className="wallet-adapter-dropdown-list-item" role="menuitem">
                     {copied ? 'Copied' : 'Copy address'}
+                </li>
+                <li onClick={openNetworkModal} className="wallet-adapter-dropdown-list-item" role="menuitem">
+                    Change network
                 </li>
                 <li onClick={openModal} className="wallet-adapter-dropdown-list-item" role="menuitem">
                     Change wallet
