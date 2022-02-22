@@ -1,5 +1,6 @@
 import {
     BaseMessageSignerWalletAdapter,
+    scopePollingDetectionStrategy,
     WalletAdapterNetwork,
     WalletConnectionError,
     WalletDisconnectedError,
@@ -12,6 +13,15 @@ import {
     WalletSignTransactionError
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
+
+interface SolflareWindow extends Window {
+    solflare?: {
+        isSolflare: boolean;
+    };
+    SolflareApp?: unknown;
+}
+
+declare const window: SolflareWindow;
 
 export interface SolflareWalletAdapterConfig {
     network?: WalletAdapterNetwork;
@@ -39,7 +49,16 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
         this._wallet = null;
         this._config = config;
 
-        this._scheduleDetection();
+        if (this._readyState !== WalletReadyState.Unsupported) {
+            scopePollingDetectionStrategy(() => {
+                if (window.solflare?.isSolflare || window.SolflareApp) {
+                    this._readyState = WalletReadyState.Installed;
+                    this.emit('readyStateChange', this._readyState);
+                    return true;
+                }
+                return false;
+            });
+        }
     }
 
     get publicKey(): PublicKey | null {
@@ -169,29 +188,6 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
             throw error;
         }
     }
-
-    private _detectWallet = async () => {
-        const Solflare = (await import('@solflare-wallet/sdk')).default;
-        const wallet = new Solflare();
-        const isDetected = await wallet.detectWallet();
-        if (isDetected) {
-            this._readyState = WalletReadyState.Installed;
-            this.emit('readyStateChange', this._readyState);
-        }
-    }
-
-    private _scheduleDetection = () => {
-        if (typeof window === 'undefined' || typeof document === 'undefined') return;
-        if (document.readyState === 'complete') {
-            this._detectWallet();
-            return;
-        }
-        const listener = () => {
-            window.removeEventListener('load', listener);
-            this._detectWallet();
-        };
-        window.addEventListener('load', listener);
-    };
 
     private _disconnected = () => {
         const wallet = this._wallet;
