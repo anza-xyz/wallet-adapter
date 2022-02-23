@@ -44,6 +44,7 @@ interface SlopeWindow extends Window {
     Slope?: {
         new (): SlopeWallet;
     };
+    slopeApp?: unknown;
 }
 
 declare const window: SlopeWindow;
@@ -73,7 +74,7 @@ export class SlopeWalletAdapter extends BaseMessageSignerWalletAdapter {
         this._publicKey = null;
         if (this._readyState !== WalletReadyState.Unsupported) {
             scopePollingDetectionStrategy(() => {
-                if (typeof window.Slope === 'function') {
+                if (typeof window.Slope === 'function' || window.slopeApp) {
                     this._readyState = WalletReadyState.Installed;
                     this.emit('readyStateChange', this._readyState);
                     return true;
