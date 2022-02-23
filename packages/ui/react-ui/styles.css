@@ -293,3 +293,115 @@
     border-radius: 8px;
     color: #fff;
 }
+
+.network-modal-wrapper {
+    padding: 0 40px 30px 40px;
+}
+
+.wallet-adapter-select-container {
+    position: relative;
+    margin: 0 0 20px 0;
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.wallet-adapter-select {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #1a1f2e;
+    border-radius: 5px;
+    height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.63);
+    padding: 0 10px;
+    color: white;
+    width: 100%;
+}
+
+.wallet-adapter-select svg {
+    fill: #777;
+    transition: fill 200ms ease 0s;
+}
+
+.wallet-adapter-select:hover svg {
+    fill: #fff;
+}
+
+.wallet-adapter-select-options {
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    margin-top: 0.2rem;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    max-height: 300px;
+    overflow-y: scroll;
+    left: 0;
+    border-radius: 6px;
+    padding: 4px;
+    background-color: #1a1f2e;
+}
+
+.wallet-adapter-select-option {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    padding: 0.75rem;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.863);
+    background-color: #1a1f2e;
+    outline: none;
+    border: none;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    margin-bottom: 10px;
+    height: 44px;
+    transition: all .2s ease-in;
+}
+
+.wallet-adapter-select-option:hover {
+    background: #512da8;
+    border-radius: 4px;
+}
+
+.wallet-adapter-input-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.wallet-adapter-custom-network-input {
+    height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.23);
+    padding: 0 10px;
+    color: #fff;
+    background-color: #1a1f2e;
+    border-radius: 5px;
+    transition: all .2s ease-in;
+    outline: none;
+    font-size: 16px;
+    width: 100%;
+}
+
+.wallet-adapter-custom-network-input:focus {
+    border-color: rgba(255, 255, 255, 0.63);
+}
+
+.wallet-adapter-input-label {
+    color: rgba(255, 255, 255, 0.863);
+    margin-bottom: 10px;
+    letter-spacing: 0.05em;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.wallet-adapter-modal-save-button {
+    background-color: #512da8;
+    justify-content: center;
+}

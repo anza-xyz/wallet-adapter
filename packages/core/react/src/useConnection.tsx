@@ -3,6 +3,8 @@ import React, { createContext, useContext } from 'react';
 
 export interface ConnectionContextState {
     connection: Connection;
+    endpoint: string;
+    updateConnection: (network: string, isURL: boolean) => void;
 }
 
 export const ConnectionContext = createContext<ConnectionContextState>({} as ConnectionContextState);
