@@ -59,6 +59,7 @@ export class HuobiWalletAdapter extends BaseMessageSignerWalletAdapter {
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
+
         if (this._readyState !== WalletReadyState.Unsupported) {
             scopePollingDetectionStrategy(() => {
                 if (window.huobiWallet?.isHuobiWallet) {
