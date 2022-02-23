@@ -1,8 +1,8 @@
-import React, { FC, MouseEvent, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { FC, MouseEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { useConnection } from '@solana/wallet-adapter-react';
 import { useNetworkModal } from './useNetworkModal';
 import { Select } from './Select';
-import { Button } from './Button';
 
 export interface NetworkModalProps {
   className?: string;
@@ -18,6 +18,7 @@ export const WalletAdapterNetworks = [
 export const NetworkModal: FC<NetworkModalProps> = ({ className = '', container = 'body'}) => {
   const ref = useRef<HTMLDivElement>(null);
   const { setModalVisible } = useNetworkModal();
+  const { endpoint, updateConnection } = useConnection();
   const [fadeIn, setFadeIn] = useState(false);
   const [portal, setPortal] = useState<Element | null>(null);
   const [network, setNetwork] = useState<{label: string, value: string}>(WalletAdapterNetworks[0]);
@@ -35,6 +36,16 @@ export const NetworkModal: FC<NetworkModalProps> = ({ className = '', container 
     },
     [hideModal]
   );
+
+  const saveNetwork = () => {
+    if(network.label === "Custom" && validateCustomEndpoint()) {
+      updateConnection(customEndpoint, true);
+      setModalVisible(false);
+    } else {
+      updateConnection(network.value, false);
+      setModalVisible(false);
+    }
+  }
 
   const validateCustomEndpoint = () => {
     let url;
@@ -73,6 +84,19 @@ export const NetworkModal: FC<NetworkModalProps> = ({ className = '', container 
     [ref]
   );
 
+   const determineCluster = () => {
+     if(endpoint === 'https://api.devnet.solana.com' || endpoint === 'http://api.devnet.solana.com') {
+        setNetwork(WalletAdapterNetworks[2])
+     } else if(endpoint === 'https://api.testnet.solana.com' || endpoint === 'http://testnet.solana.com') {
+       setNetwork(WalletAdapterNetworks[1])
+     } else if(endpoint === 'https://api.mainnet-beta.solana.com/' || endpoint === 'http://api.mainnet-beta.solana.com/') {
+       setNetwork(WalletAdapterNetworks[0])
+     } else {
+       setNetwork({ label: "Custom", value: "Custom" });
+       setCustomEndpoint(endpoint);
+     }
+   }
+
   useLayoutEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
         if (event.key === 'Escape') {
@@ -99,6 +123,10 @@ export const NetworkModal: FC<NetworkModalProps> = ({ className = '', container 
   }, [hideModal, handleTabKey]);
 
   useLayoutEffect(() => setPortal(document.querySelector(container)), [container]);
+
+  useEffect(() => {
+    determineCluster();
+  }, [])
 
   return (
     portal && 
@@ -137,7 +165,7 @@ export const NetworkModal: FC<NetworkModalProps> = ({ className = '', container 
             )}
             <button
               className="wallet-adapter-button wallet-adapter-modal-save-button"
-
+              onClick={saveNetwork}
             >
               Save
             </button>
