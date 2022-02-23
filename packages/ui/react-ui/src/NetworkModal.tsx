@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { useConnection } from '@solana/wallet-adapter-react';
 import { useNetworkModal } from './useNetworkModal';
 import { Select } from './Select';
+import { Collapse } from './Collapse';
 
 export interface NetworkModalProps {
   className?: string;
@@ -151,7 +152,7 @@ export const NetworkModal: FC<NetworkModalProps> = ({ className = '', container 
               onChange={setNetwork}
               options={[...WalletAdapterNetworks, { label: "Custom", value: "Custom" }]}
             />
-            {network.label === "Custom" && (
+            <Collapse expanded={network.label === "Custom"} id="wallet-adapter-modal-collapse">
               <div className="wallet-adapter-input-container">
                 <label className="wallet-adapter-input-label">
                   RPC Node URL
@@ -162,7 +163,7 @@ export const NetworkModal: FC<NetworkModalProps> = ({ className = '', container 
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCustomEndpoint(e.target.value)}
                 />
               </div>
-            )}
+            </Collapse>
             <button
               className="wallet-adapter-button wallet-adapter-modal-save-button"
               onClick={saveNetwork}
