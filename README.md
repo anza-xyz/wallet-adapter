@@ -48,6 +48,7 @@ import React, { FC, useMemo } from 'react';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {
+    GlowWalletAdapter,
     LedgerWalletAdapter,
     PhantomWalletAdapter,
     SlopeWalletAdapter,
@@ -78,6 +79,7 @@ export const Wallet: FC = () => {
     // of wallets that your users connect to will be loaded.
     const wallets = useMemo(
         () => [
+            new GlowWalletAdapter(),
             new PhantomWalletAdapter(),
             new SlopeWalletAdapter(),
             new SolflareWalletAdapter({ network }),
