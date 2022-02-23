@@ -3,6 +3,7 @@ import React, { createContext, useContext } from 'react';
 
 export interface ConnectionContextState {
     connection: Connection;
+    endpoint: string;
     updateConnection: (cluster: Cluster, endpoint: string) => void;
 }
 
