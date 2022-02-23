@@ -14,18 +14,19 @@ export const ConnectionProvider: FC<ConnectionProviderProps> = ({
     config = { commitment: 'confirmed' },
 }) => {
     const [connection, setConnection] = useState<Connection>(new Connection(endpoint, config));
-
-    const updateConnection = (cluster?: Cluster, newEndpoint?: string) => {
-        if(!cluster && newEndpoint) {
-            const newConnection = new Connection(newEndpoint, config);
+    const [url, setUrl] = useState<string>(endpoint);
+    const updateConnection = (network: string, isURL: boolean) => {
+        if(isURL) {
+            const newConnection = new Connection(network, config);
+            setUrl(network);
             setConnection(newConnection);
-        } else if (cluster) {
-            const clusterUrl = clusterApiUrl(cluster);
+        } else {
+            const clusterUrl = clusterApiUrl(network as Cluster);
             const newConnection = new Connection(clusterUrl);
             setConnection(newConnection);
+            setUrl(clusterUrl);
         }
-        
     };
 
-    return <ConnectionContext.Provider value={{ connection, updateConnection, endpoint }}>{children}</ConnectionContext.Provider>;
+    return <ConnectionContext.Provider value={{ connection, updateConnection, endpoint: url }}>{children}</ConnectionContext.Provider>;
 };

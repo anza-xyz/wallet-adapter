@@ -1,10 +1,10 @@
-import { Connection, Cluster } from '@solana/web3.js';
+import { Connection } from '@solana/web3.js';
 import React, { createContext, useContext } from 'react';
 
 export interface ConnectionContextState {
     connection: Connection;
     endpoint: string;
-    updateConnection: (cluster: Cluster, endpoint: string) => void;
+    updateConnection: (network: string, isURL: boolean) => void;
 }
 
 export const ConnectionContext = createContext<ConnectionContextState>({} as ConnectionContextState);
