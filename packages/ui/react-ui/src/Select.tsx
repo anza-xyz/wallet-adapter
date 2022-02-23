@@ -23,12 +23,6 @@ export const Select: FC<SelectProps> = (props) => {
     setShowOptions(false);
   }
 
-  useEffect(() => {
-    if(showOptions) {
-      optionsRef.current?.focus();
-    }
-  }, [showOptions])
-
   return (
     <ul
       ref={containerRef}  
