@@ -73,10 +73,24 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
         this._wallet = null;
         this._publicKey = null;
         if (this._readyState !== WalletReadyState.Unsupported) {
+            const handler = (event: MessageEvent<any>) => {
+                if (typeof event.data === 'object' && event.data.__glow_loaded) {
+                    if (this._readyState !== WalletReadyState.Installed) {
+                        this._readyState = WalletReadyState.Installed;
+                        this.emit('readyStateChange', this._readyState);
+                    }
+                    window.removeEventListener('message', handler);
+                }
+            };
+
+            window.addEventListener('message', handler);
+
             scopePollingDetectionStrategy(() => {
                 if (window.solana?.isGlow) {
-                    this._readyState = WalletReadyState.Installed;
-                    this.emit('readyStateChange', this._readyState);
+                    if (this._readyState !== WalletReadyState.Installed) {
+                        this._readyState = WalletReadyState.Installed;
+                        this.emit('readyStateChange', this._readyState);
+                    }
                     return true;
                 }
                 return false;
