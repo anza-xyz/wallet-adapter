@@ -90,14 +90,31 @@ export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents
 }
 
 export function scopePollingDetectionStrategy(performDetection: () => boolean): void {
+    // Early return when server-side rendering
     if (typeof window === 'undefined' || typeof document === 'undefined') return;
+
+    const onDocumentLoaded = () => {
+        if (performDetection()) {
+            // Wallet detected, nothing more to do
+            return;
+        }
+        // Wallet not detected yet, try detecting every second
+        let repeatingTimer = setInterval(() => {
+            if (performDetection()) {
+                // Wallet detected, nothing more to do
+                clearInterval(repeatingTimer);
+            }
+        }, 1000);
+    };
+
     if (document.readyState === 'complete') {
-        performDetection();
+        onDocumentLoaded();
         return;
     }
+
     function listener() {
         window.removeEventListener('load', listener);
-        performDetection();
+        onDocumentLoaded();
     }
     window.addEventListener('load', listener);
 }
