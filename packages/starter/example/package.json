@@ -31,7 +31,7 @@
         "@mui/icons-material": "^5.0.0",
         "@mui/material": "^5.0.0",
         "@solana/wallet-adapter-ant-design": "^0.11.3",
-        "@solana/wallet-adapter-base": "^0.9.3",
+        "@solana/wallet-adapter-base": "^0.9.4",
         "@solana/wallet-adapter-material-ui": "^0.16.4",
         "@solana/wallet-adapter-react": "^0.15.3",
         "@solana/wallet-adapter-react-ui": "^0.9.5",
