@@ -1,6 +1,6 @@
 {
-    "name": "@solana/wallet-adapter-react-ui",
-    "version": "0.9.5",
+    "name": "@solana/wallet-adapter-huobi",
+    "version": "0.1.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -10,17 +10,13 @@
     "module": "lib/esm/index.mjs",
     "types": "lib/esm/index.d.ts",
     "exports": {
-        ".": {
-            "import": "./lib/esm/index.mjs",
-            "require": "./lib/cjs/index.js"
-        },
-        "./styles.css": "./styles.css"
+        "import": "./lib/esm/index.mjs",
+        "require": "./lib/cjs/index.js"
     },
     "files": [
         "lib",
         "src",
-        "LICENSE",
-        "styles.css"
+        "LICENSE"
     ],
     "publishConfig": {
         "access": "public"
@@ -32,13 +28,6 @@
     },
     "dependencies": {
         "@solana/wallet-adapter-base": "^0.9.4",
-        "@solana/wallet-adapter-react": "^0.15.3",
-        "@solana/web3.js": "^1.20.0",
-        "react": "^17.0.0",
-        "react-dom": "^17.0.0"
-    },
-    "devDependencies": {
-        "@types/react": "^17.0.0",
-        "@types/react-dom": "^17.0.0"
+        "@solana/web3.js": "^1.20.0"
     }
 }

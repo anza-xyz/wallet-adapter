@@ -89,15 +89,31 @@ export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents
     ): Promise<TransactionSignature>;
 }
 
-export function scopePollingDetectionStrategy(performDetection: () => boolean): void {
+export function scopePollingDetectionStrategy(detect: () => boolean): void {
+    // Early return when server-side rendering
     if (typeof window === 'undefined' || typeof document === 'undefined') return;
+
+    const poll = () => {
+        // Wallet detected, nothing more to do
+        if (detect()) return;
+
+        // Wallet not detected yet, try detecting every second
+        const interval = setInterval(() => {
+            // Wallet detected, nothing more to do
+            if (detect()) {
+                clearInterval(interval);
+            }
+        }, 1000);
+    };
+
     if (document.readyState === 'complete') {
-        performDetection();
+        poll();
         return;
     }
+
     function listener() {
         window.removeEventListener('load', listener);
-        performDetection();
+        poll();
     }
     window.addEventListener('load', listener);
 }

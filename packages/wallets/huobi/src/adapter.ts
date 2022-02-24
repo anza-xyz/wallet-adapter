@@ -1,7 +1,10 @@
 import {
     BaseMessageSignerWalletAdapter,
+    EventEmitter,
     scopePollingDetectionStrategy,
     WalletAccountError,
+    WalletConnectionError,
+    WalletDisconnectedError,
     WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
@@ -11,39 +14,47 @@ import {
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 
-interface CloverWallet {
-    isCloverWallet?: boolean;
-    getAccount(): Promise<string>;
+interface HuobiWalletEvents {
+    connect(...args: unknown[]): unknown;
+    disconnect(...args: unknown[]): unknown;
+}
+
+interface HuobiWallet extends EventEmitter<HuobiWalletEvents> {
+    isHuobiWallet?: boolean;
+    publicKey?: { toBytes(): Uint8Array };
+    isConnected: boolean;
     signTransaction(transaction: Transaction): Promise<Transaction>;
     signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
     signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
+    connect(): Promise<void>;
+    disconnect(): Promise<void>;
 }
 
-interface CloverWalletWindow extends Window {
-    clover_solana?: CloverWallet;
+interface HuobiWalletWindow extends Window {
+    huobiWallet?: HuobiWallet;
 }
 
-declare const window: CloverWalletWindow;
+declare const window: HuobiWalletWindow;
 
-export interface CloverWalletAdapterConfig {}
+export interface HuobiWalletAdapterConfig {}
 
-export const CloverWalletName = 'Clover' as WalletName;
+export const HuobiWalletName = 'HuobiWallet' as WalletName;
 
-export class CloverWalletAdapter extends BaseMessageSignerWalletAdapter {
-    name = CloverWalletName;
-    url = 'https://clover.finance';
+export class HuobiWalletAdapter extends BaseMessageSignerWalletAdapter {
+    name = HuobiWalletName;
+    url = 'https://www.huobiwallet.io';
     icon =
-        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzQiIGhlaWdodD0iNzQiIHZpZXdCb3g9IjAgMCA3NCA3NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTczLjg5NDcgMTguNTc4OEM3My44OTQ3IDI4Ljc4MTUgNjUuNjIzOCAzNy4wNTI1IDU1LjQyMTEgMzcuMDUyNUM0NS4yNTczIDM3LjA1MjUgMzcuMDEwNiAyOC44NDQ2IDM2Ljk0NzcgMTguNjk1NkMzNi44ODUzIDI4LjgxMyAyOC42ODk5IDM3LjAwMTUgMTguNTY5OSAzNy4wNTI3QzI4LjcyODQgMzcuMTA0NSAzNi45NDc0IDQ1LjM1NTUgMzYuOTQ3NCA1NS41MjYyQzM2Ljk0NzQgNjUuNzI4OSAyOC42NzY0IDczLjk5OTggMTguNDczNyA3My45OTk4QzguMjcwOTUgNzMuOTk5OCAwIDY1LjcyODkgMCA1NS41MjYyQzAgNDUuMzU1MyA4LjIxOTM5IDM3LjEwNDEgMTguMzc4MiAzNy4wNTI3QzguMjE5NzIgMzcuMDAwOSAwLjAwMDcxOTU3MiAyOC43NDk5IDAuMDAwNzE5NTcyIDE4LjU3OTNDMC4wMDA3MTk1NzIgOC4zNzY1NCA4LjI3MTY3IDAuMTA1NTkxIDE4LjQ3NDQgMC4xMDU1OTFDMjguNjM4MiAwLjEwNTU5MSAzNi44ODQ5IDguMzEzNDggMzYuOTQ3NyAxOC40NjI1QzM3LjAxMDMgOC4zMTMyNiA0NS4yNTcxIDAuMTA1MTAzIDU1LjQyMTEgMC4xMDUxMDNDNjUuNjIzOCAwLjEwNTEwMyA3My44OTQ3IDguMzc2MDUgNzMuODk0NyAxOC41Nzg4Wk01NS40MjExIDM3LjA1MjVDNDUuMjE4MyAzNy4wNTI1IDM2Ljk0NzQgNDUuMzIzNCAzNi45NDc0IDU1LjUyNjJDMzYuOTQ3NCA2NS43Mjg5IDQ1LjIxODMgNzMuOTk5OCA1NS40MjExIDczLjk5OThDNjUuNjIzOCA3My45OTk4IDczLjg5NDcgNjUuNzI4OSA3My44OTQ3IDU1LjUyNjJDNzMuODk0NyA0NS4zMjM0IDY1LjYyMzggMzcuMDUyNSA1NS40MjExIDM3LjA1MjVaIiBmaWxsPSIjMjdBNTc3Ii8+PC9zdmc+Cg==';
+        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjI0IiBoZWlnaHQ9IjIyNCIgdmlld0JveD0iMCAwIDIyNCAyMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMCAwTDIyNCAwVjIyNEgwTDAgMFoiIGZpbGw9IiMyMTU3RTIiLz4KPHBhdGggZD0iTTEzMS4wNTkgODEuMTc3MUMxMzEuMDU5IDU3Ljc1MzEgMTE5LjQ1OCAzNy42MzE1IDExMC42MjUgMzEuMDcyOEMxMTAuNjI1IDMxLjA3MjggMTA5Ljk1MyAzMC43MDQyIDExMCAzMS42MjU4VjMxLjYyNThDMTA5LjI2NSA3Ni44MzAzIDg1Ljc2NzIgODkuMDg3NSA3Mi44MzggMTA1LjU4NEM0My4wMjQxIDE0My42NzcgNzAuNzU4NyAxODUuNDU2IDk4Ljk5MzUgMTkzLjEzNkMxMTQuNzk5IDE5Ny40NTIgOTUuMzUwOCAxODUuNDU2IDkyLjg0OTQgMTYwLjIzNUM4OS44MDA3IDEyOS43NDUgMTMxLjA1OSAxMDYuNDQ0IDEzMS4wNTkgODEuMTc3MVoiIGZpbGw9InVybCgjcGFpbnQwX2xpbmVhcl8xMTAxXzEyNSkiLz4KPHBhdGggZD0iTTE0My41OTcgOTYuMzE3NEMxNDMuNDA5IDk2LjE5NDMgMTQzLjE1OCA5Ni4xMDIgMTQyLjk4NiA5Ni4zOTQzQzE0Mi40ODQgMTAyLjEwMiAxMzYuNTYgMTE0LjI4NiAxMjkuMDM3IDEyNS40ODZDMTAzLjU1MiAxNjMuNDU1IDExOC4wNjUgMTgxLjc2MiAxMjYuMjQ3IDE5MS42MzlDMTMwLjk0OSAxOTcuMzQ3IDEyNi4yNDcgMTkxLjYzOSAxMzguMDk2IDE4NS44MDhDMTUyLjczNSAxNzcuMDkyIDE2Mi4yMzQgMTYyLjAyIDE2My42NDMgMTQ1LjI3QzE2NS4yMzMgMTI2Ljc1OCAxNTcuNzk4IDEwOC42IDE0My41OTcgOTYuMzE3NFoiIGZpbGw9InVybCgjcGFpbnQxX2xpbmVhcl8xMTAxXzEyNSkiLz4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0icGFpbnQwX2xpbmVhcl8xMTAxXzEyNSIgeDE9IjEyMi40MDEiIHkxPSIyMDkuMjk1IiB4Mj0iMTc4LjY2MiIgeTI9IjExMC40NDciIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agc3RvcC1jb2xvcj0iI0Y3RjZGRiIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IndoaXRlIi8+CjwvbGluZWFyR3JhZGllbnQ+CjxsaW5lYXJHcmFkaWVudCBpZD0icGFpbnQxX2xpbmVhcl8xMTAxXzEyNSIgeDE9IjE1Ny44NjEiIHkxPSIyMDMuMTc3IiB4Mj0iMTg5LjAxNCIgeTI9IjE0MC4wMjIiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agc3RvcC1jb2xvcj0iI0Y3RjZGRiIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IndoaXRlIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPC9zdmc+Cg==';
 
     private _connecting: boolean;
-    private _wallet: CloverWallet | null;
+    private _wallet: HuobiWallet | null;
     private _publicKey: PublicKey | null;
     private _readyState: WalletReadyState =
         typeof window === 'undefined' || typeof document === 'undefined'
             ? WalletReadyState.Unsupported
             : WalletReadyState.NotDetected;
 
-    constructor(config: CloverWalletAdapterConfig = {}) {
+    constructor(config: HuobiWalletAdapterConfig = {}) {
         super();
         this._connecting = false;
         this._wallet = null;
@@ -51,7 +62,7 @@ export class CloverWalletAdapter extends BaseMessageSignerWalletAdapter {
 
         if (this._readyState !== WalletReadyState.Unsupported) {
             scopePollingDetectionStrategy(() => {
-                if (window.clover_solana?.isCloverWallet) {
+                if (window.huobiWallet?.isHuobiWallet) {
                     this._readyState = WalletReadyState.Installed;
                     this.emit('readyStateChange', this._readyState);
                     return true;
@@ -69,6 +80,10 @@ export class CloverWalletAdapter extends BaseMessageSignerWalletAdapter {
         return this._connecting;
     }
 
+    get connected(): boolean {
+        return !!this._wallet?.isConnected;
+    }
+
     get readyState(): WalletReadyState {
         return this._readyState;
     }
@@ -81,21 +96,24 @@ export class CloverWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.clover_solana!;
+            const wallet = window!.huobiWallet!;
 
-            let account: string;
             try {
-                account = await wallet.getAccount();
+                await wallet.connect();
             } catch (error: any) {
-                throw new WalletAccountError(error?.message, error);
+                throw new WalletConnectionError(error?.message, error);
             }
+
+            if (!wallet.publicKey) throw new WalletAccountError();
 
             let publicKey: PublicKey;
             try {
-                publicKey = new PublicKey(account);
+                publicKey = new PublicKey(wallet.publicKey.toBytes());
             } catch (error: any) {
                 throw new WalletPublicKeyError(error?.message, error);
             }
+
+            wallet.on('disconnect', this._disconnected);
 
             this._wallet = wallet;
             this._publicKey = publicKey;
@@ -110,12 +128,15 @@ export class CloverWalletAdapter extends BaseMessageSignerWalletAdapter {
     }
 
     async disconnect(): Promise<void> {
-        if (this._wallet) {
+        const wallet = this._wallet;
+        if (wallet) {
+            wallet.off('disconnect', this._disconnected);
+
             this._wallet = null;
             this._publicKey = null;
-        }
 
-        this.emit('disconnect');
+            this.emit('disconnect');
+        }
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {
@@ -157,7 +178,7 @@ export class CloverWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             try {
                 const { signature } = await wallet.signMessage(message);
-                return Uint8Array.from(signature);
+                return signature;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -166,4 +187,17 @@ export class CloverWalletAdapter extends BaseMessageSignerWalletAdapter {
             throw error;
         }
     }
+
+    private _disconnected = () => {
+        const wallet = this._wallet;
+        if (wallet) {
+            wallet.off('disconnect', this._disconnected);
+
+            this._wallet = null;
+            this._publicKey = null;
+
+            this.emit('error', new WalletDisconnectedError());
+            this.emit('disconnect');
+        }
+    };
 }
