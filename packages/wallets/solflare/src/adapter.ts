@@ -1,4 +1,3 @@
-import type Solflare from '@solflare-wallet/sdk';
 import {
     BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
@@ -16,6 +15,7 @@ import {
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
+import type Solflare from '@solflare-wallet/sdk';
 
 interface SolflareWindow extends Window {
     SolflareApp?: Solflare;
