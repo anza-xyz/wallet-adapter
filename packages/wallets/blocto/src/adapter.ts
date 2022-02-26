@@ -1,5 +1,4 @@
-import type Blocto from '@blocto/sdk';
-import type { SolanaProviderInterface } from '@blocto/sdk';
+import type { default as Blocto, SolanaProviderInterface } from '@blocto/sdk';
 import {
     BaseWalletAdapter,
     SendTransactionOptions,
