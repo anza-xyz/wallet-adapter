@@ -3320,6 +3320,26 @@
     superstruct "^0.14.2"
     tweetnacl "^1.0.0"
 
+"@solana/web3.js@^1.34.0":
+  version "1.35.1"
+  resolved "https://registry.yarnpkg.com/@solana/web3.js/-/web3.js-1.35.1.tgz#777b039a3b51e63c347712a57c7db87c9d1db832"
+  integrity sha512-3bDawFFI0KcvgI8Ae4N4hdQ8+Bg9gu6q+IkhPrYxOF6RYnB3U+9A4u+DhHZWLvTvgoTyesi/m5HzlleKtFEqRQ==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+    "@ethersproject/sha2" "^5.5.0"
+    "@solana/buffer-layout" "^3.0.0"
+    bn.js "^5.0.0"
+    borsh "^0.4.0"
+    bs58 "^4.0.1"
+    buffer "6.0.1"
+    cross-fetch "^3.1.4"
+    jayson "^3.4.4"
+    js-sha3 "^0.8.0"
+    rpc-websockets "^7.4.2"
+    secp256k1 "^4.0.2"
+    superstruct "^0.14.2"
+    tweetnacl "^1.0.0"
+
 "@solflare-wallet/sdk@^1.0.11":
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/@solflare-wallet/sdk/-/sdk-1.0.11.tgz#2eaf3d5935f96dc4286ae356c4c83f6866947ff2"
@@ -3591,12 +3611,12 @@
     keccak "^3.0.2"
     randombytes "^2.1.0"
 
-"@toruslabs/solana-embed@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@toruslabs/solana-embed/-/solana-embed-0.1.0.tgz#38572aec64239d3b4b18fb223e26f86e0bf74df2"
-  integrity sha512-jQyw7X0YJVlY2UuZVcGd+CynF1PlXvlAzFj6/gxMAAPzhU0OjkWgWQQtrbKNuZ/d7kaGcpL/h460FbZVWI7NDA==
+"@toruslabs/solana-embed@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@toruslabs/solana-embed/-/solana-embed-0.1.5.tgz#3b65090c056e9b6d8552d88bb407f82551a2c5ef"
+  integrity sha512-EVqOwqGGDwC1xgfgNv51y+xTy7tsSoZ3DXaCC2lFqWGnKWJ6W17dV4uD7/mBjMmHYUKaq3yJ+EDpnSSZ3xy6Dg==
   dependencies:
-    "@solana/web3.js" "^1.31.0"
+    "@solana/web3.js" "^1.34.0"
     "@toruslabs/base-controllers" "^1.4.2"
     "@toruslabs/http-helpers" "^2.1.4"
     "@toruslabs/openlogin-jrpc" "^1.3.3"
