@@ -45,7 +45,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     const readyState = adapter?.readyState || WalletReadyState.Unsupported;
     const [connecting, setConnecting] = useState(false);
     const [disconnecting, setDisconnecting] = useState(false);
-    const isConnecting = useRef(false);
+    const isConnecting = useRef(autoConnect);
     const isDisconnecting = useRef(false);
     const isUnloading = useRef(false);
 
