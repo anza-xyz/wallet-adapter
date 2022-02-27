@@ -8,3 +8,4 @@ export * from './WalletIcon';
 export * from './WalletMultiButton';
 export * from './NetworkModalProvider';
 export * from './NetworkModal';
+export * from "./NetworkButton";
