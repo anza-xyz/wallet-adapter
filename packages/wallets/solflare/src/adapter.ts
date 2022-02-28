@@ -18,10 +18,10 @@ import { PublicKey, Transaction } from '@solana/web3.js';
 import type Solflare from '@solflare-wallet/sdk';
 
 interface SolflareWindow extends Window {
-    SolflareApp?: Solflare;
     solflare?: {
         isSolflare: boolean;
     };
+    SolflareApp?: unknown;
 }
 
 declare const window: SolflareWindow;
@@ -54,7 +54,7 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
 
         if (this._readyState !== WalletReadyState.Unsupported) {
             scopePollingDetectionStrategy(() => {
-                if (window.SolflareApp || window.solflare?.isSolflare) {
+                if (window.solflare?.isSolflare || window.SolflareApp) {
                     this._readyState = WalletReadyState.Installed;
                     this.emit('readyStateChange', this._readyState);
                     return true;
@@ -86,22 +86,18 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (this._readyState !== WalletReadyState.Loadable && this._readyState !== WalletReadyState.Installed)
                 throw new WalletNotReadyError();
 
-            let wallet: Solflare;
-            if (window.SolflareApp) {
-                wallet = window.SolflareApp;
-            } else {
-                let SolflareClass: typeof Solflare;
-                try {
-                    ({ default: SolflareClass } = await import('@solflare-wallet/sdk'));
-                } catch (error: any) {
-                    throw new WalletLoadError(error?.message, error);
-                }
+            let SolflareClass: typeof Solflare;
+            try {
+                ({ default: SolflareClass } = await import('@solflare-wallet/sdk'));
+            } catch (error: any) {
+                throw new WalletLoadError(error?.message, error);
+            }
 
-                try {
-                    wallet = new SolflareClass({ network: this._config.network });
-                } catch (error: any) {
-                    throw new WalletConfigError(error?.message, error);
-                }
+            let wallet: Solflare;
+            try {
+                wallet = new SolflareClass({ network: this._config.network });
+            } catch (error: any) {
+                throw new WalletConfigError(error?.message, error);
             }
 
             this._connecting = true;
