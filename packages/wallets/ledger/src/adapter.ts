@@ -1,4 +1,5 @@
 import type Transport from '@ledgerhq/hw-transport';
+import type TransportWebHID from '@ledgerhq/hw-transport-webhid';
 import {
     BaseSignerWalletAdapter,
     WalletConnectionError,
@@ -62,16 +63,16 @@ export class LedgerWalletAdapter extends BaseSignerWalletAdapter {
 
             this._connecting = true;
 
-            let TransportWebHID: typeof import('@ledgerhq/hw-transport-webhid');
+            let TransportWebHIDClass: typeof TransportWebHID;
             try {
-                TransportWebHID = await import('@ledgerhq/hw-transport-webhid');
+                ({ default: TransportWebHIDClass } = await import('@ledgerhq/hw-transport-webhid'));
             } catch (error: any) {
                 throw new WalletLoadError(error?.message, error);
             }
 
             let transport: Transport;
             try {
-                transport = await TransportWebHID.default.create();
+                transport = await TransportWebHIDClass.create();
             } catch (error: any) {
                 throw new WalletConnectionError(error?.message, error);
             }

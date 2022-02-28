@@ -44,6 +44,7 @@ interface SlopeWindow extends Window {
     Slope?: {
         new (): SlopeWallet;
     };
+    slopeApp?: unknown;
 }
 
 declare const window: SlopeWindow;
@@ -74,7 +75,7 @@ export class SlopeWalletAdapter extends BaseMessageSignerWalletAdapter {
 
         if (this._readyState !== WalletReadyState.Unsupported) {
             scopePollingDetectionStrategy(() => {
-                if (typeof window.Slope === 'function') {
+                if (typeof window.Slope === 'function' || window.slopeApp) {
                     this._readyState = WalletReadyState.Installed;
                     this.emit('readyStateChange', this._readyState);
                     return true;
@@ -99,12 +100,11 @@ export class SlopeWalletAdapter extends BaseMessageSignerWalletAdapter {
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
-            if (this._readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
+            if (this._readyState !== WalletReadyState.Installed || !window.Slope) throw new WalletNotReadyError();
 
             this._connecting = true;
 
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = new window!.Slope!();
+            const wallet = new window.Slope();
 
             let data: { publicKey?: string | undefined };
             try {

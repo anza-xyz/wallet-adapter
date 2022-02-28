@@ -1,4 +1,4 @@
-import type { SolanaProviderInterface } from '@blocto/sdk';
+import type { default as Blocto, SolanaProviderInterface } from '@blocto/sdk';
 import {
     BaseWalletAdapter,
     SendTransactionOptions,
@@ -63,16 +63,16 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
 
             this._connecting = true;
 
-            let BloctoSDK: typeof import('@blocto/sdk');
+            let BloctoClass: typeof Blocto;
             try {
-                BloctoSDK = await import('@blocto/sdk');
+                ({ default: BloctoClass } = await import('@blocto/sdk'));
             } catch (error: any) {
                 throw new WalletLoadError(error?.message, error);
             }
 
             let wallet: SolanaProviderInterface | undefined;
             try {
-                wallet = new BloctoSDK.default({ solana: { net: this._network } }).solana;
+                wallet = new BloctoClass({ solana: { net: this._network } }).solana;
             } catch (error: any) {
                 throw new WalletConfigError(error?.message, error);
             }
