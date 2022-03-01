@@ -91,6 +91,7 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
                         this._readyState = WalletReadyState.Installed;
                         this.emit('readyStateChange', this._readyState);
                     }
+                    window.removeEventListener('message', handler);
                     return true;
                 }
                 return false;
