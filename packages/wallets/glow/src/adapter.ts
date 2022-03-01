@@ -44,7 +44,7 @@ interface GlowWallet extends EventEmitter<GlowWalletEvents> {
 }
 
 interface GlowWindow extends Window {
-    solana?: GlowWallet;
+    glowSolana?: GlowWallet;
 }
 
 declare const window: GlowWindow;
@@ -86,7 +86,7 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
             window.addEventListener('message', handler);
 
             scopePollingDetectionStrategy(() => {
-                if (window.solana?.isGlow) {
+                if (window.glowSolana?.isGlow) {
                     if (this._readyState !== WalletReadyState.Installed) {
                         this._readyState = WalletReadyState.Installed;
                         this.emit('readyStateChange', this._readyState);
@@ -116,17 +116,13 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
 
     async connect(): Promise<void> {
         try {
-            if (this.connected || this.connecting) {
-                return;
-            }
-            if (this._readyState !== WalletReadyState.Installed) {
-                throw new WalletNotReadyError();
-            }
+            if (this.connected || this.connecting) return;
+            if (this._readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
 
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.solana!;
+            const wallet = window!.glowSolana!;
 
             try {
                 await wallet.connect()
