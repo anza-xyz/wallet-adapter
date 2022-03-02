@@ -9,7 +9,7 @@
     "sideEffects": false,
     "main": "lib/cjs/index.js",
     "module": "lib/esm/index.mjs",
-    "types": "lib/esm/index.d.ts",
+    "types": "lib/types/index.d.ts",
     "exports": {
         "import": "./lib/esm/index.mjs",
         "require": "./lib/cjs/index.js"
