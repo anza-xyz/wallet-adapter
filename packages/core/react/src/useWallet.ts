@@ -8,6 +8,7 @@ import {
 } from '@solana/wallet-adapter-base';
 import { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
 import { createContext, useContext } from 'react';
+import { missingProviderErrorMessage } from './helpers';
 
 export interface Wallet {
     adapter: Adapter;
@@ -46,106 +47,56 @@ const DEFAULT_CONTEXT = {
     connected: false,
     disconnecting: false,
     select(_name: WalletName) {
-        console.error(
-            'You have tried to call `select` on a `WalletContext` ' +
-                'without providing one. Make sure to render a ' +
-                '`<WalletProvider>` as an ancestor of the component ' +
-                'that uses `WalletContext`.' 
-        );
+        console.error(missingProviderErrorMessage("select", "WalletContext", "WalletProvider", "call"));
     },
     connect() {
         return Promise.reject(
-            console.error(
-                'You have tried to call `connect` on a `WalletContext` ' +
-                    'without providing one. Make sure to render a ' +
-                    '`<WalletProvider>` as an ancestor of the component ' +
-                    'that uses `WalletContext`.' 
-            )
-        )
+            console.error(missingProviderErrorMessage("connect", "WalletContext", "WalletProvider", "call"))
+        );
     },
     disconnect() {
         return Promise.reject(
-            console.error(
-                'You have tried to call `disconnect` on a `WalletContext` ' +
-                    'without providing one. Make sure to render a ' +
-                    '`<WalletProvider>` as an ancestor of the component ' +
-                    'that uses `WalletContext`.' 
-            )
+            console.error(missingProviderErrorMessage("disconnect", "WalletContext", "WalletProvider", "call"))
         )
     },
     sendTransaction(
         _transaction: Transaction, _connection: Connection, _options?: SendTransactionOptions
     ) {
         return Promise.reject(
-            console.error(
-                'You have tried to call `sendTransaction` on a `WalletContext` ' +
-                    'without providing one. Make sure to render a ' +
-                    '`<WalletProvider>` as an ancestor of the component ' +
-                    'that uses `WalletContext`.' 
-            )
+            console.error(missingProviderErrorMessage("sendTransaction", "WalletContext", "WalletProvider", "call"))
         )
     },
     signTransaction(_transaction: Transaction) {
         return Promise.reject(
-            console.error(
-                'You have tried to call `signTransaction` on a `WalletContext` ' +
-                    'without providing one. Make sure to render a ' +
-                    '`<WalletProvider>` as an ancestor of the component ' +
-                    'that uses `WalletContext`.' 
-            )
+            console.error(missingProviderErrorMessage("signTransaction", "WalletContext", "WalletProvider", "call"))
         )
     },
     signAllTransactions(_transaction: Transaction[]) {
         return Promise.reject(
-            console.error(
-                'You have tried to call `signAllTransactions` on a `WalletContext` ' +
-                    'without providing one. Make sure to render a ' +
-                    '`<WalletProvider>` as an ancestor of the component ' +
-                    'that uses `WalletContext`.' 
-            )
+            console.error(missingProviderErrorMessage("signAllTransactions", "WalletContext", "WalletProvider", "call"))
         )
     },
     signMessage(_message: Uint8Array) {
         return Promise.reject(
-            console.error(
-                'You have tried to call `signMessage` on a `WalletContext` ' +
-                    'without providing one. Make sure to render a ' +
-                    '`<WalletProvider>` as an ancestor of the component ' +
-                    'that uses `WalletContext`.' 
-            )
+            console.error(missingProviderErrorMessage("signMessage", "WalletContext", "WalletProvider", "call"))
         )
     }
 };
 Object.defineProperty(DEFAULT_CONTEXT, 'wallets', {
     get() {
-        console.error(
-            'You have tried to read `wallets` on a `WalletContext` ' +
-                'without providing one. Make sure to render a ' +
-                '`<WalletProvider>` as an ancestor of the component ' +
-                'that uses `WalletContext`.' 
-        );
+        console.error(missingProviderErrorMessage("wallets", "WalletContext", "WalletProvider", "read"));
         return false;
     }
 });
 Object.defineProperty(DEFAULT_CONTEXT, 'wallet', {
     get() {
-        console.error(
-            'You have tried to read `wallet` on a `WalletContext` ' +
-                'without providing one. Make sure to render a ' +
-                '`<WalletProvider>` as an ancestor of the component ' +
-                'that uses `WalletContext`.' 
-        );
+        console.error(missingProviderErrorMessage("wallet", "WalletContext", "WalletProvider", "read"));
         return false
     }
 });
 Object.defineProperty(DEFAULT_CONTEXT, 'publicKey', {
     get() {
-        console.error(
-            'You have tried to read `publicKey` on a `WalletContext` ' +
-                'without providing one. Make sure to render a ' +
-                '`<WalletProvider>` as an ancestor of the component ' +
-                'that uses `WalletContext`.' 
-        );
+        console.error(missingProviderErrorMessage("publicKey", "WalletContext", "WalletProvider", "read"));
         return false
     }
 })
