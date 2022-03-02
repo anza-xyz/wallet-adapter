@@ -5,6 +5,7 @@ import { BloctoWalletAdapter } from '@solana/wallet-adapter-blocto';
 import { CloverWalletAdapter } from '@solana/wallet-adapter-clover';
 import { Coin98WalletAdapter } from '@solana/wallet-adapter-coin98';
 import { CoinhubWalletAdapter } from '@solana/wallet-adapter-coinhub';
+import { HuobiWalletAdapter } from '@solana/wallet-adapter-huobi';
 import { LedgerWalletAdapter } from '@solana/wallet-adapter-ledger';
 import { MathWalletAdapter } from '@solana/wallet-adapter-mathwallet';
 import { GlowWalletAdapter } from '@solana/wallet-adapter-glow';
@@ -23,8 +24,8 @@ export interface WalletsConfig {
 
 export function getWalletAdapters({ network = WalletAdapterNetwork.Mainnet }: WalletsConfig = {}): Adapter[] {
     return [
-        new GlowWalletAdapter(),
         new PhantomWalletAdapter(),
+        new GlowWalletAdapter(),
         new SlopeWalletAdapter(),
         new SolflareWalletAdapter({ network }),
         new SolletExtensionWalletAdapter({ network }),
@@ -33,6 +34,7 @@ export function getWalletAdapters({ network = WalletAdapterNetwork.Mainnet }: Wa
         new CloverWalletAdapter(),
         new Coin98WalletAdapter(),
         new CoinhubWalletAdapter(),
+        new HuobiWalletAdapter(),
         new MathWalletAdapter(),
         new SafePalWalletAdapter(),
         new SolongWalletAdapter(),
