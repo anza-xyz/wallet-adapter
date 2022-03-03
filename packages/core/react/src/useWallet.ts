@@ -8,7 +8,6 @@ import {
 } from '@solana/wallet-adapter-base';
 import { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
 import { createContext, useContext } from 'react';
-import { missingProviderErrorMessage } from './helpers';
 
 export interface Wallet {
     adapter: Adapter;
@@ -38,6 +37,8 @@ export interface WalletContextState {
     signMessage: MessageSignerWalletAdapterProps['signMessage'] | undefined;
 }
 
+const EMPTY_ARRAY: ReadonlyArray<never> = [];
+
 const DEFAULT_CONTEXT = {
     autoConnect: false,
     wallets: [],
@@ -47,59 +48,56 @@ const DEFAULT_CONTEXT = {
     connected: false,
     disconnecting: false,
     select(_name: WalletName) {
-        console.error(missingProviderErrorMessage("select", "WalletContext", "WalletProvider", "call"));
+        console.error(constructMissingProviderErrorMessage('get', 'select'));
     },
     connect() {
-        return Promise.reject(
-            console.error(missingProviderErrorMessage("connect", "WalletContext", "WalletProvider", "call"))
-        );
+        return Promise.reject(console.error(constructMissingProviderErrorMessage('get', 'connect')));
     },
     disconnect() {
-        return Promise.reject(
-            console.error(missingProviderErrorMessage("disconnect", "WalletContext", "WalletProvider", "call"))
-        )
+        return Promise.reject(console.error(constructMissingProviderErrorMessage('get', 'disconnect')));
     },
-    sendTransaction(
-        _transaction: Transaction, _connection: Connection, _options?: SendTransactionOptions
-    ) {
-        return Promise.reject(
-            console.error(missingProviderErrorMessage("sendTransaction", "WalletContext", "WalletProvider", "call"))
-        )
+    sendTransaction(_transaction: Transaction, _connection: Connection, _options?: SendTransactionOptions) {
+        return Promise.reject(console.error(constructMissingProviderErrorMessage('get', 'sendTransaction')));
     },
     signTransaction(_transaction: Transaction) {
-        return Promise.reject(
-            console.error(missingProviderErrorMessage("signTransaction", "WalletContext", "WalletProvider", "call"))
-        )
+        return Promise.reject(console.error(constructMissingProviderErrorMessage('get', 'signTransaction')));
     },
     signAllTransactions(_transaction: Transaction[]) {
-        return Promise.reject(
-            console.error(missingProviderErrorMessage("signAllTransactions", "WalletContext", "WalletProvider", "call"))
-        )
+        return Promise.reject(console.error(constructMissingProviderErrorMessage('get', 'signAllTransactions')));
     },
     signMessage(_message: Uint8Array) {
-        return Promise.reject(
-            console.error(missingProviderErrorMessage("signMessage", "WalletContext", "WalletProvider", "call"))
-        )
-    }
+        return Promise.reject(console.error(constructMissingProviderErrorMessage('get', 'signMessage')));
+    },
 };
 Object.defineProperty(DEFAULT_CONTEXT, 'wallets', {
     get() {
-        console.error(missingProviderErrorMessage("wallets", "WalletContext", "WalletProvider", "read"));
-        return false;
-    }
+        console.error(constructMissingProviderErrorMessage('read', 'wallets'));
+        return EMPTY_ARRAY;
+    },
 });
 Object.defineProperty(DEFAULT_CONTEXT, 'wallet', {
     get() {
-        console.error(missingProviderErrorMessage("wallet", "WalletContext", "WalletProvider", "read"));
-        return false
-    }
+        console.error(constructMissingProviderErrorMessage('read', 'wallet'));
+        return null;
+    },
 });
 Object.defineProperty(DEFAULT_CONTEXT, 'publicKey', {
     get() {
-        console.error(missingProviderErrorMessage("publicKey", "WalletContext", "WalletProvider", "read"));
-        return false
-    }
-})
+        console.error(constructMissingProviderErrorMessage('read', 'publicKey'));
+        return null;
+    },
+});
+
+function constructMissingProviderErrorMessage(action: string, valueName: string) {
+    return (
+        'You have tried to ' +
+        ` ${action} "${valueName}"` +
+        ' on a WalletContext without providing one.' +
+        ' Make sure to render a WalletProvider' +
+        ' as an ancestor of the component that uses ' +
+        'WalletContext'
+    );
+}
 
 export const WalletContext = createContext<WalletContextState>(DEFAULT_CONTEXT as WalletContextState);
 
