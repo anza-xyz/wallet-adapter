@@ -106,14 +106,24 @@ export function scopePollingDetectionStrategy(detect: () => boolean): void {
         }, 1000);
     };
 
+    function windowDOMContentLoadedListener() {
+        window.removeEventListener('DOMContentLoaded', windowDOMContentLoadedListener);
+        poll();
+    }
+
+    if (document.readyState === 'loading') {
+        window.addEventListener('DOMContentLoaded', windowDOMContentLoadedListener);
+        return;
+    }
+
     if (document.readyState === 'complete') {
         poll();
         return;
     }
 
-    function listener() {
-        window.removeEventListener('load', listener);
+    function windowLoadListener() {
+        window.removeEventListener('load', windowLoadListener);
         poll();
     }
-    window.addEventListener('load', listener);
+    window.addEventListener('load', windowLoadListener);
 }
