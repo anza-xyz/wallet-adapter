@@ -41,9 +41,6 @@ const EMPTY_ARRAY: ReadonlyArray<never> = [];
 
 const DEFAULT_CONTEXT = {
     autoConnect: false,
-    wallets: [],
-    wallet: null,
-    publicKey: null,
     connecting: false,
     connected: false,
     disconnecting: false,
@@ -68,7 +65,7 @@ const DEFAULT_CONTEXT = {
     signMessage(_message: Uint8Array) {
         return Promise.reject(console.error(constructMissingProviderErrorMessage('get', 'signMessage')));
     },
-};
+} as WalletContextState;
 Object.defineProperty(DEFAULT_CONTEXT, 'wallets', {
     get() {
         console.error(constructMissingProviderErrorMessage('read', 'wallets'));
