@@ -1,12 +1,18 @@
 {
     "name": "@solana/wallet-adapter-coin98",
-    "version": "0.2.0",
+    "version": "0.5.3",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
-    "main": "lib/index.js",
-    "esnext": "lib/index.js",
-    "types": "lib/index.d.ts",
+    "type": "module",
+    "sideEffects": false,
+    "main": "lib/cjs/index.js",
+    "module": "lib/esm/index.mjs",
+    "types": "lib/types/index.d.ts",
+    "exports": {
+        "import": "./lib/esm/index.mjs",
+        "require": "./lib/cjs/index.js"
+    },
     "files": [
         "lib",
         "src",
@@ -17,18 +23,15 @@
     },
     "scripts": {
         "clean": "shx rm -rf lib/*",
-        "build": "yarn clean && tsc"
-    },
-    "peerDependencies": {
-        "@solana/wallet-adapter-base": "^0.6.0",
-        "@solana/web3.js": "^1.20.0"
+        "build": "yarn clean && tsc -p tsconfig.json && tsc-esm -p tsconfig.json && tsc -p tsconfig.cjs.json",
+        "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
     "dependencies": {
-        "@types/bs58": "^4.0.1",
-        "bs58": "^4.0.1"
+        "@solana/wallet-adapter-base": "^0.9.4",
+        "@solana/web3.js": "^1.20.0",
+        "bs58": "^4.0.0"
     },
     "devDependencies": {
-        "@solana/wallet-adapter-base": "^0.6.0",
-        "@solana/web3.js": "^1.20.0"
+        "@types/bs58": "^4.0.1"
     }
 }
