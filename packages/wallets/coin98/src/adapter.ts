@@ -21,7 +21,7 @@ interface Coin98Wallet {
     request(params: { method: string; params: string | string[] | unknown }): Promise<{
         signature: string;
         publicKey: string;
-        sig?: string;
+        signatures: string[];
     }>;
 }
 
@@ -40,7 +40,7 @@ export const Coin98WalletName = 'Coin98' as WalletName;
 export class Coin98WalletAdapter extends BaseMessageSignerWalletAdapter {
     name = Coin98WalletName;
     url = 'https://coin98.com';
-    icon = 'data:image/png;base64,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';
+    icon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA3NiA3NSI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImEiIHgxPSIxMDEuNjgxJSIgeDI9Ii0xLjU1NyUiIHkxPSIxNS4yNjglIiB5Mj0iODQuOTE3JSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNGMUQ5NjEiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjQ0RBMTQ2Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgPHJlY3Qgd2lkdGg9Ijc1IiBoZWlnaHQ9Ijc1IiBmaWxsPSIjMDAwIiByeD0iMTYiLz4KICAgIDxwYXRoIGZpbGw9InVybCgjYSkiIGZpbGwtcnVsZT0ibm9uemVybyIgZD0iTTYxLjQ0IDBhMTMuNzE0IDEzLjcxNCAwIDAgMSA5LjY4IDQuMDEgMTMuNjYxIDEzLjY2MSAwIDAgMSA0LjAwOCA5LjY2OHY0Ny42NDZhMTMuNjYgMTMuNjYgMCAwIDEtNC4wMDcgOS42NjZBMTMuNzEzIDEzLjcxMyAwIDAgMSA2MS40NCA3NUgxMy42ODZhMTMuNzEzIDEzLjcxMyAwIDAgMS05LjY4LTQuMDFBMTMuNjYgMTMuNjYgMCAwIDEgMCA2MS4zMjRWMTMuNjc4YzAtMy42MjUgMS40NC03LjEwMiA0LjAwNy05LjY2N0ExMy43MTQgMTMuNzE0IDAgMCAxIDEzLjY4NyAwWk0yMC4wNjMgNDYuMjMxaC00LjgyNWExMC4wMzIgMTAuMDMyIDAgMCAwIDIuOTQ2IDcuMDg2IDEwLjA3IDEwLjA3IDAgMCAwIDcuMSAyLjk0MiAxMC4wNjUgMTAuMDY1IDAgMCAwIDcuMTA4LTIuOTM1IDEwLjAzIDEwLjAzIDAgMCAwIDIuOTQ2LTcuMDkzaC00LjgyNGE1LjIwNyA1LjIwNyAwIDAgMS0xLjUzIDMuNjg4IDUuMjI1IDUuMjI1IDAgMCAxLTMuNjk2IDEuNTI4IDUuMjM0IDUuMjM0IDAgMCAxLTMuNjk1LTEuNTI4IDUuMjEzIDUuMjEzIDAgMCAxLTEuNTMtMy42ODhaTTU0LjMzIDMzLjcxNmExMS43NjMgMTEuNzYzIDAgMCAwLTEyLjc5OSAyLjUzOEExMS42OTcgMTEuNjk3IDAgMCAwIDM4Ljk5IDQ5LjAzYTExLjcyMyAxMS43MjMgMCAwIDAgNC4zMjggNS4yNTkgMTEuNzU3IDExLjc1NyAwIDAgMCA2LjUyNiAxLjk3IDExLjc2NiAxMS43NjYgMCAwIDAgOC4yOS0zLjQzNSAxMS43MiAxMS43MiAwIDAgMCAzLjQ0Mi04LjI3NCAxMS43MDIgMTEuNzAyIDAgMCAwLTEuOTc1LTYuNTE0IDExLjczNiAxMS43MzYgMCAwIDAtNS4yNjktNC4zMlptLTQuNDg4IDMuOTJhNi45MzcgNi45MzcgMCAwIDEgNC45IDIuMDI1IDYuOTEgNi45MSAwIDAgMSAyLjAyOCA0Ljg5MiA2Ljg5NyA2Ljg5NyAwIDAgMS0xLjE3IDMuODM0IDYuOTMyIDYuOTMyIDAgMCAxLTEwLjY0MyAxLjA0MiA2LjkwMiA2LjkwMiAwIDAgMS0xLjUtNy41MjIgNi45MDkgNi45MDkgMCAwIDEgMi41NDQtMy4xIDYuOTI4IDYuOTI4IDAgMCAxIDMuODQxLTEuMTY3Wm0uMTcgNC41NTJhMi40MzEgMi40MzEgMCAwIDAtMi4yNDEgMS4xNTQgMi40MTggMi40MTggMCAwIDAtLjM1NiAxLjI1NyAyLjM5NSAyLjM5NSAwIDAgMCAxLjYxOSAyLjI5djEuNzUzaDEuNjE4di0xLjc1NGEyLjQyNyAyLjQyNyAwIDAgMCAxLjU5NC0xLjk1IDIuNDE4IDIuNDE4IDAgMCAwLTEtMi4zMSAyLjQzMSAyLjQzMSAwIDAgMC0xLjIzNC0uNDRabS0yMC4yMi0yMi41NTJhMTEuNzYyIDExLjc2MiAwIDAgMC0xMi43OTYgMi41MzEgMTEuNjk3IDExLjY5NyAwIDAgMC0yLjU1NCAxMi43NjkgMTEuNzIzIDExLjcyMyAwIDAgMCA0LjMyIDUuMjYyIDExLjc1NyAxMS43NTcgMCAwIDAgMTQuODI1LTEuNDQ2IDExLjcxNyAxMS43MTcgMCAwIDAgMy40NDUtOC4yODQgMTEuNzAzIDExLjcwMyAwIDAgMC0xLjk3NC02LjUxMiAxMS43MzYgMTEuNzM2IDAgMCAwLTUuMjY2LTQuMzJabS00LjUxIDMuOTE3YTYuOTQ1IDYuOTQ1IDAgMCAxIDQuODk3IDIuMDI5IDYuOTE4IDYuOTE4IDAgMCAxIDIuMDMyIDQuODg2IDYuOTA2IDYuOTA2IDAgMCAxLTEuMTY4IDMuODQyIDYuOTQgNi45NCAwIDAgMS0xMC42NiAxLjA0OCA2LjkxMSA2LjkxMSAwIDAgMS0xLjUtNy41MzYgNi45MTggNi45MTggMCAwIDEgMi41NS0zLjEwMyA2LjkzNyA2LjkzNyAwIDAgMSAzLjg1LTEuMTY2Wm0yNC41Ni00LjgxYTEwLjA1OSAxMC4wNTkgMCAwIDAtNy4xMDMgMi45NCAxMC4wMiAxMC4wMiAwIDAgMC0yLjk0IDcuMDkgOS45IDkuOSAwIDAgMCAxLjIzIDQuNzk1IDEzLjU3NSAxMy41NzUgMCAwIDEgNC4yMTQtMi4zMjIgNS4wODIgNS4wODIgMCAwIDEtLjYyNS0yLjQ3NyA1LjIwNiA1LjIwNiAwIDAgMSAxLjUwMy0zLjczNiA1LjIyMyA1LjIyMyAwIDAgMSAzLjcyMi0xLjU1NCA1LjIzNCA1LjIzNCAwIDAgMSAzLjcyIDEuNTU0IDUuMjEzIDUuMjEzIDAgMCAxIDEuNTA1IDMuNzM2IDUuMjc5IDUuMjc5IDAgMCAxLS42MjMgMi40NzMgMTMuNTc0IDEzLjU3NCAwIDAgMSA0LjIxMyAyLjMyMiA5LjkwMyA5LjkwMyAwIDAgMCAxLjIzLTQuNzk1IDEwLjAzMiAxMC4wMzIgMCAwIDAtMi45NDYtNy4wODYgMTAuMDcgMTAuMDcgMCAwIDAtNy4xLTIuOTRabS0yMy43NSA3Ljk5aC0xLjYxN3YxLjc1YTIuNDE5IDIuNDE5IDAgMCAwLTEuNTgyIDIuNjg3IDIuNDE0IDIuNDE0IDAgMCAwIDIuMzkgMi4wMDYgMi40NSAyLjQ1IDAgMCAwIDEuNTU1LS41NzQgMi40MTQgMi40MTQgMCAwIDAtLjc0Ni00LjExOXYtMS43NVoiLz4KICA8L2c+Cjwvc3ZnPgo=";
 
     private _connecting: boolean;
     private _wallet: Coin98Wallet | null;
@@ -155,26 +155,38 @@ export class Coin98WalletAdapter extends BaseMessageSignerWalletAdapter {
     }
 
     async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
-        const signedTransactions: Transaction[] = [];
-        for (const transaction of transactions) {
-            signedTransactions.push(await this.signTransaction(transaction));
-            await this.sleep()
-        }
-        return signedTransactions;
-    }
-
-
-    async signMessage(message: Uint8Array): Promise<Uint8Array> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                const decodedMessage = new TextDecoder().decode(message)
+                const response = await wallet.request({ method: 'sol_signAllTransaction', params: [transactions] });
+                const publicKey = new PublicKey(response.publicKey);
+                const signatures = response.signature
                 
-                const response = await wallet.request({ method: 'sol_sign', params: [decodedMessage] });
+                const signedTransactions: Transaction[] = transactions.map((transaction: Transaction, index) => {
+                    const decodedSignature = bs58.decode(signatures[index])
+                    transaction.addSignature(publicKey,decodedSignature)
+                    return transaction
+                });
+                
+                return signedTransactions;
+            } catch (error: any) {
+                throw new WalletSignTransactionError(error?.message, error);
+            }
+        } catch (error: any) {
+            this.emit('error', error);
+            throw error;
+        }
+    }
 
-                const signature = new TextEncoder().encode(response.sig);
+    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+        try {
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
+            try {
+                const response = await wallet.request({ method: 'sol_signMessage', params: [message] });
+                const signature = bs58.decode(response.signature);
 
                 return signature;
             } catch (error: any) {
@@ -185,10 +197,4 @@ export class Coin98WalletAdapter extends BaseMessageSignerWalletAdapter {
             throw error;
         }
     }
-
-    //Ultilities
-    sleep(ms = 500): Promise<boolean>{
-        return new Promise(resolve => setTimeout(resolve, ms))
-    }
-
 }

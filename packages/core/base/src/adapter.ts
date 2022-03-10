@@ -89,41 +89,52 @@ export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents
     ): Promise<TransactionSignature>;
 }
 
+type DisposeFn = () => void;
+
 export function scopePollingDetectionStrategy(detect: () => boolean): void {
     // Early return when server-side rendering
     if (typeof window === 'undefined' || typeof document === 'undefined') return;
 
-    const poll = () => {
-        // Wallet detected, nothing more to do
-        if (detect()) return;
-
-        // Wallet not detected yet, try detecting every second
-        const interval = setInterval(() => {
-            // Wallet detected, nothing more to do
-            if (detect()) {
-                clearInterval(interval);
-            }
-        }, 1000);
-    };
-
-    function windowDOMContentLoadedListener() {
-        window.removeEventListener('DOMContentLoaded', windowDOMContentLoadedListener);
-        poll();
+    function performDetection() {
+        const wasDetected = detect();
+        if (wasDetected) {
+            disposeHandles.forEach((disposeFn) => disposeFn());
+            disposeHandles.length = 0;
+        }
     }
 
-    if (document.readyState === 'loading') {
-        window.addEventListener('DOMContentLoaded', windowDOMContentLoadedListener);
-        return;
+    const disposeHandles: DisposeFn[] = [];
+
+    // Strategy #1: Try detecting every second.
+    const intervalId =
+        // TODO: #334 Replace with idle callback strategy.
+        setInterval(performDetection, 1000);
+    disposeHandles.push(() => {
+        clearInterval(intervalId);
+    });
+
+    // Strategy #2: Detect as soon as the DOM becomes 'ready'/'interactive'.
+    if (
+        // Implies that `DOMContentLoaded` has not yet fired.
+        document.readyState === 'loading'
+    ) {
+        document.addEventListener('DOMContentLoaded', performDetection, { once: true });
+        disposeHandles.push(() => {
+            document.removeEventListener('DOMContentLoaded', performDetection);
+        });
     }
 
-    if (document.readyState === 'complete') {
-        poll();
-        return;
+    // Strategy #3: Detect after the `window` has fully loaded.
+    if (
+        // If the `complete` state has been reached, we're too late.
+        document.readyState !== 'complete'
+    ) {
+        window.addEventListener('load', performDetection, { once: true });
+        disposeHandles.push(() => {
+            window.removeEventListener('load', performDetection);
+        });
     }
 
-    function windowLoadListener() {
-        window.removeEventListener('load', windowLoadListener);
-        poll();
-    }
-    window.addEventListener('load', windowLoadListener);
+    // Strategy #4: Run the detector synchronously, now.
+    performDetection();
 }
