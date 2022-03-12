@@ -160,9 +160,9 @@ export class Coin98WalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                const response = await wallet.request({ method: 'sol_signAllTransaction', params: [transactions] });
+                const response = await wallet.request({ method: 'sol_signAllTransactions', params: [transactions] });
                 const publicKey = new PublicKey(response.publicKey);
-                const signatures = response.signature
+                const signatures = response.signatures
                 
                 const signedTransactions: Transaction[] = transactions.map((transaction: Transaction, index) => {
                     const decodedSignature = bs58.decode(signatures[index])
