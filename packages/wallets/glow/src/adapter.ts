@@ -15,13 +15,7 @@ import {
     WalletReadyState,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import {
-    Connection,
-    PublicKey,
-    SendOptions,
-    Transaction,
-    TransactionSignature,
-} from '@solana/web3.js';
+import { Connection, PublicKey, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
 
 interface GlowWalletEvents {
     connect(...args: unknown[]): unknown;
@@ -126,7 +120,7 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
             const wallet = window!.glowSolana!;
 
             try {
-                await wallet.connect()
+                await wallet.connect();
             } catch (error: any) {
                 if (error instanceof WalletError) {
                     throw error;
