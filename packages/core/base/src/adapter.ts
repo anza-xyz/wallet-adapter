@@ -89,39 +89,34 @@ export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents
     ): Promise<TransactionSignature>;
 }
 
-type DisposeFn = () => void;
-
 export function scopePollingDetectionStrategy(detect: () => boolean): void {
     // Early return when server-side rendering
     if (typeof window === 'undefined' || typeof document === 'undefined') return;
 
-    function performDetection() {
-        const wasDetected = detect();
-        if (wasDetected) {
-            disposeHandles.forEach((disposeFn) => disposeFn());
-            disposeHandles.length = 0;
+    const disposers: (() => void)[] = [];
+
+    function detectAndDispose() {
+        const detected = detect();
+        if (detected) {
+            for (const dispose of disposers) {
+                dispose();
+            }
         }
     }
 
-    const disposeHandles: DisposeFn[] = [];
-
     // Strategy #1: Try detecting every second.
-    const intervalId =
+    const interval =
         // TODO: #334 Replace with idle callback strategy.
-        setInterval(performDetection, 1000);
-    disposeHandles.push(() => {
-        clearInterval(intervalId);
-    });
+        setInterval(detectAndDispose, 1000);
+    disposers.push(() => clearInterval(interval));
 
     // Strategy #2: Detect as soon as the DOM becomes 'ready'/'interactive'.
     if (
         // Implies that `DOMContentLoaded` has not yet fired.
         document.readyState === 'loading'
     ) {
-        document.addEventListener('DOMContentLoaded', performDetection, { once: true });
-        disposeHandles.push(() => {
-            document.removeEventListener('DOMContentLoaded', performDetection);
-        });
+        document.addEventListener('DOMContentLoaded', detectAndDispose, { once: true });
+        disposers.push(() => document.removeEventListener('DOMContentLoaded', detectAndDispose));
     }
 
     // Strategy #3: Detect after the `window` has fully loaded.
@@ -129,12 +124,10 @@ export function scopePollingDetectionStrategy(detect: () => boolean): void {
         // If the `complete` state has been reached, we're too late.
         document.readyState !== 'complete'
     ) {
-        window.addEventListener('load', performDetection, { once: true });
-        disposeHandles.push(() => {
-            window.removeEventListener('load', performDetection);
-        });
+        window.addEventListener('load', detectAndDispose, { once: true });
+        disposers.push(() => window.removeEventListener('load', detectAndDispose));
     }
 
-    // Strategy #4: Run the detector synchronously, now.
-    performDetection();
+    // Strategy #4: Detect synchronously, now.
+    detectAndDispose();
 }
