@@ -30,17 +30,21 @@
         "build": "yarn clean && tsc -p tsconfig.json && tsc-esm -p tsconfig.json && tsc -p tsconfig.cjs.json",
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
+    "peerDependencies": {
+        "react": "^17.0.0",
+        "react-dom": "^17.0.0"
+    },
     "dependencies": {
         "@ant-design/icons": "^4.0.0",
         "@solana/wallet-adapter-base": "^0.9.4",
         "@solana/wallet-adapter-react": "^0.15.3",
-        "@solana/web3.js": "^1.20.0",
-        "antd": "^4.18.6",
-        "react": "^17.0.0",
-        "react-dom": "^17.0.0"
+        "@solana/web3.js": "^1.36.0",
+        "antd": "^4.19.1"
     },
     "devDependencies": {
-        "@types/react": "^17.0.0",
-        "@types/react-dom": "^17.0.0"
+        "@types/react": "^17.0.40",
+        "@types/react-dom": "^17.0.0",
+        "react": "^17.0.0",
+        "react-dom": "^17.0.0"
     }
 }
