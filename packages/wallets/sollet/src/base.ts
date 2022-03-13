@@ -1,4 +1,4 @@
-import type Wallet from '@project-serum/sol-wallet-adapter';
+import type SolWalletAdapter from '@project-serum/sol-wallet-adapter';
 import {
     BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
@@ -46,7 +46,7 @@ export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAda
             ? WalletReadyState.Unsupported
             : WalletReadyState.NotDetected;
     protected _connecting: boolean;
-    protected _wallet: Wallet | null;
+    protected _wallet: SolWalletAdapter | null;
 
     constructor({ provider, network = WalletAdapterNetwork.Mainnet, timeout = 10000 }: SolletWalletAdapterConfig = {}) {
         super();
@@ -100,16 +100,16 @@ export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAda
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const provider = this._provider || window!.sollet!;
 
-            let SolWalletAdapter: typeof import('@project-serum/sol-wallet-adapter');
+            let SolWalletAdapterClass: typeof SolWalletAdapter;
             try {
-                SolWalletAdapter = await import('@project-serum/sol-wallet-adapter');
+                ({ default: SolWalletAdapterClass } = await import('@project-serum/sol-wallet-adapter'));
             } catch (error: any) {
                 throw new WalletLoadError(error?.message, error);
             }
 
-            let wallet: Wallet;
+            let wallet: SolWalletAdapter;
             try {
-                wallet = new SolWalletAdapter.default(provider, this._network);
+                wallet = new SolWalletAdapterClass(provider, this._network);
             } catch (error: any) {
                 throw new WalletConfigError(error?.message, error);
             }

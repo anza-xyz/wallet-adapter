@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-ledger",
-    "version": "0.9.6",
+    "version": "0.9.9",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -8,7 +8,7 @@
     "sideEffects": false,
     "main": "lib/cjs/index.js",
     "module": "lib/esm/index.mjs",
-    "types": "lib/esm/index.d.ts",
+    "types": "lib/types/index.d.ts",
     "exports": {
         "import": "./lib/esm/index.mjs",
         "require": "./lib/cjs/index.js"
@@ -23,19 +23,25 @@
     },
     "scripts": {
         "clean": "shx rm -rf lib/*",
-        "build": "yarn clean && tsc -p tsconfig.json; tsc-esm -p tsconfig.json && tsc -p tsconfig.cjs.json",
+        "build": "yarn clean && tsc -p tsconfig.json && tsc-esm -p tsconfig.json && tsc -p tsconfig.cjs.json",
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
     "dependencies": {
         "@ledgerhq/hw-transport": "^6.11.2",
         "@ledgerhq/hw-transport-webhid": "^6.11.2",
-        "@solana/wallet-adapter-base": "^0.9.3",
-        "@solana/web3.js": "^1.20.0"
+        "@solana/wallet-adapter-base": "^0.9.4",
+        "@solana/web3.js": "^1.36.0",
+        "buffer": "^6.0.3"
     },
     "devDependencies": {
         "@types/w3c-web-hid": "^1.0.2"
     },
     "overrides": {
-        "buffer": "npm:buffer@^6.0.3"
+        "@ledgerhq/hw-transport": {
+            "buffer": "npm:buffer@^6.0.3"
+        },
+        "@ledgerhq/hw-transport-webhid": {
+            "buffer": "npm:buffer@^6.0.3"
+        }
     }
 }

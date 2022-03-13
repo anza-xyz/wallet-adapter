@@ -4,12 +4,12 @@
     "compilerOptions": {
         "target": "es2019",
         "module": "esnext",
+        "moduleResolution": "node",
         "noEmit": true,
         "declaration": true,
         "sourceMap": true,
         "noEmitOnError": true,
         "stripInternal": true,
-        "moduleResolution": "node",
         "jsx": "react",
         "strict": true,
         "esModuleInterop": true,

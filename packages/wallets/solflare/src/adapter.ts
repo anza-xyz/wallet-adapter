@@ -1,9 +1,12 @@
 import {
     BaseMessageSignerWalletAdapter,
+    scopePollingDetectionStrategy,
     WalletAdapterNetwork,
+    WalletConfigError,
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
+    WalletLoadError,
     WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
@@ -12,6 +15,16 @@ import {
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
+import type Solflare from '@solflare-wallet/sdk';
+
+interface SolflareWindow extends Window {
+    solflare?: {
+        isSolflare: boolean;
+    };
+    SolflareApp?: unknown;
+}
+
+declare const window: SolflareWindow;
 
 export interface SolflareWalletAdapterConfig {
     network?: WalletAdapterNetwork;
@@ -38,6 +51,17 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
         this._publicKey = null;
         this._wallet = null;
         this._config = config;
+
+        if (this._readyState !== WalletReadyState.Unsupported) {
+            scopePollingDetectionStrategy(() => {
+                if (window.solflare?.isSolflare || window.SolflareApp) {
+                    this._readyState = WalletReadyState.Installed;
+                    this.emit('readyStateChange', this._readyState);
+                    return true;
+                }
+                return false;
+            });
+        }
     }
 
     get publicKey(): PublicKey | null {
@@ -59,16 +83,24 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
-            if (this._readyState !== WalletReadyState.Loadable) throw new WalletNotReadyError();
+            if (this._readyState !== WalletReadyState.Loadable && this._readyState !== WalletReadyState.Installed)
+                throw new WalletNotReadyError();
 
-            if (!this._wallet) {
-                const Solflare = (await import('@solflare-wallet/sdk')).default;
-                this._wallet = new Solflare({ network: this._config.network });
+            let SolflareClass: typeof Solflare;
+            try {
+                ({ default: SolflareClass } = await import('@solflare-wallet/sdk'));
+            } catch (error: any) {
+                throw new WalletLoadError(error?.message, error);
+            }
+
+            let wallet: Solflare;
+            try {
+                wallet = new SolflareClass({ network: this._config.network });
+            } catch (error: any) {
+                throw new WalletConfigError(error?.message, error);
             }
 
             this._connecting = true;
-
-            const wallet = this._wallet;
 
             if (!wallet.connected) {
                 try {
