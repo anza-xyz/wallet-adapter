@@ -24,7 +24,7 @@
         "deploy": "yarn deploy:docs && yarn deploy:example",
         "deploy:docs": "yarn docs && gh-pages --dist docs --dotfiles",
         "deploy:example": "gh-pages --dist packages/starter/example/out --dest example --dotfiles",
-        "docs": "shx rm -rf docs && NODE_OPTIONS=--max_old_space_size=8192 typedoc && shx cp ./{.nojekyll,wallets.png} docs/",
+        "docs": "shx rm -rf docs && NODE_OPTIONS=--max_old_space_size=12288 typedoc && shx cp ./{.nojekyll,wallets.png} docs/",
         "fmt": "prettier --write '{*,**/*}.{js,ts,jsx,tsx,json,vue}'",
         "lint": "eslint --ext .ts . && prettier --check '{*,**/*}.{js,ts,jsx,tsx,json,vue}'",
         "lint:fix": "eslint --fix --ext .ts . && yarn fmt",
