@@ -19,9 +19,10 @@ Modular TypeScript wallet adapters and components for Solana applications.
     + [Usage](#usage)
 - [Packages](#packages)
     + [Core](#core)
+    + [Wallets](#wallets)
     + [UI Components](#ui-components)
     + [Starter Projects](#starter-projects)
-    + [Wallets](#wallets)
+    + [Community](#community)
 - [Build from Source](#build-from-source)
 
 ## Quick Setup (using React UI)
@@ -150,8 +151,6 @@ These packages are what most projects can use to support wallets on Solana.
 | ------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
 | [base](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/base)        | Adapter interfaces, error types, and common utilities     | [`@solana/wallet-adapter-base`](https://npmjs.com/package/@solana/wallet-adapter-base)         |
 | [react](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/react)      | Contexts and hooks for React dApps                        | [`@solana/wallet-adapter-react`](https://npmjs.com/package/@solana/wallet-adapter-react)       |
-| [angular](https://github.com/heavy-duty/platform/tree/master/libs/wallet-adapter)           | Stores and configuration for Angular dApps                | [`@heavy-duty/wallet-adapter`](https://www.npmjs.com/package/@heavy-duty/wallet-adapter)       |
-| [vue](https://github.com/lorisleiva/solana-wallets-vue)                                     | Stores, composables, and components for Vue 2 and 3 dApps | [`solana-wallets-vue`](https://npmjs.com/package/solana-wallets-vue)                           |
 
 ### Wallets
 These packages provide adapters for each wallet.
@@ -201,6 +200,13 @@ Alternatively, check out [solana-dapp-next](https://github.com/lisenmayben/solan
 | [material-ui-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/material-ui-starter) | [Create React App](https://create-react-app.dev) project using Material UI | [`@solana/wallet-adapter-material-ui-starter`](https://npmjs.com/package/@solana/wallet-adapter-material-ui-starter) |
 | [react-ui-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/react-ui-starter)       | [Create React App](https://create-react-app.dev) project using React UI    | [`@solana/wallet-adapter-react-ui-starter`](https://npmjs.com/package/@solana/wallet-adapter-react-ui-starter)       |
 | [nextjs-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/nextjs-starter)           | [Next.js](https://nextjs.org) project using React                          | [`@solana/wallet-adapter-nextjs-starter`](https://npmjs.com/package/@solana/wallet-adapter-nextjs-starter)           |
+
+### Community
+Several packages are maintained by the community to support additional frontend frameworks.
+
+- [Vue](https://github.com/lorisleiva/solana-wallets-vue)
+- [Angular](https://github.com/heavy-duty/platform/tree/master/libs/wallet-adapter)
+- [Svelte](https://github.com/svelte-on-solana/wallet-adapter)
 
 ## Build from Source
 
