@@ -81,11 +81,11 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             scopePollingDetectionStrategy(() => {
                 if (window.glowSolana?.isGlow) {
+                    window.removeEventListener('message', handler);
                     if (this._readyState !== WalletReadyState.Installed) {
                         this._readyState = WalletReadyState.Installed;
                         this.emit('readyStateChange', this._readyState);
                     }
-                    window.removeEventListener('message', handler);
                     return true;
                 }
                 return false;
