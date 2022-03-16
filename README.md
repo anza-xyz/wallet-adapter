@@ -49,6 +49,7 @@ import React, { FC, useMemo } from 'react';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {
+    GlowWalletAdapter,
     LedgerWalletAdapter,
     PhantomWalletAdapter,
     SlopeWalletAdapter,
@@ -79,6 +80,7 @@ export const Wallet: FC = () => {
     // of wallets that your users connect to will be loaded.
     const wallets = useMemo(
         () => [
+            new GlowWalletAdapter(),
             new PhantomWalletAdapter(),
             new SlopeWalletAdapter(),
             new SolflareWalletAdapter({ network }),
@@ -167,6 +169,7 @@ You can use the [wallets](https://github.com/solana-labs/wallet-adapter/tree/mas
 | [coinhub](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/coinhub)         | Adapter for [Coinhub](https://coinhub.org)            | [`@solana/wallet-adapter-coinhub`](https://npmjs.com/package/@solana/wallet-adapter-coinhub)         |
 | [glow](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/glow)               | Adapter for [Glow](https://glow.app)                  | [`@solana/wallet-adapter-glow`](https://npmjs.com/package/@solana/wallet-adapter-glow)               |
 | [huobi](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/huobi)             | Adapter for [HuobiWallet](https://www.huobiwallet.io) | [`@solana/wallet-adapter-huobi`](https://npmjs.com/package/@solana/wallet-adapter-huobi)             |
+| [glow](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/glow)                      | Adapter for [Glow](https://glow.app)                   | [`@solana/wallet-adapter-glow`](https://npmjs.com/package/@solana/wallet-adapter-glow)                   |
 | [ledger](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/ledger)           | Adapter for [Ledger](https://ledger.com)              | [`@solana/wallet-adapter-ledger`](https://npmjs.com/package/@solana/wallet-adapter-ledger)           |
 | [mathwallet](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/mathwallet)   | Adapter for [MathWallet](https://mathwallet.org)      | [`@solana/wallet-adapter-mathwallet`](https://npmjs.com/package/@solana/wallet-adapter-mathwallet)   |
 | [phantom](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/phantom)         | Adapter for [Phantom](https://phantom.app)            | [`@solana/wallet-adapter-phantom`](https://npmjs.com/package/@solana/wallet-adapter-phantom)         |
