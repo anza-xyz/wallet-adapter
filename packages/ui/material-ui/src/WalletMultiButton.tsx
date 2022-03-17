@@ -1,6 +1,5 @@
 import { FileCopy as CopyIcon, LinkOff as DisconnectIcon, SwapHoriz as SwitchIcon } from '@mui/icons-material';
-import { Button, ButtonProps, Collapse, Fade, ListItemIcon, Menu, MenuItem, Theme } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Button, ButtonProps, Collapse, Fade, ListItemIcon, Menu, MenuItem, styled, Theme } from '@mui/material';
 import { useWallet } from '@solana/wallet-adapter-react';
 import React, { FC, useMemo, useState } from 'react';
 import { useWalletDialog } from './useWalletDialog';
@@ -134,7 +133,7 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                         <ListItemIcon>
                             <SwitchIcon />
                         </ListItemIcon>
-                        Connect a different wallet
+                        Change wallet
                     </WalletActionMenuItem>
                     <WalletActionMenuItem
                         onClick={() => {

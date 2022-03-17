@@ -5,17 +5,15 @@ import { BloctoWalletAdapter } from '@solana/wallet-adapter-blocto';
 import { CloverWalletAdapter } from '@solana/wallet-adapter-clover';
 import { Coin98WalletAdapter } from '@solana/wallet-adapter-coin98';
 import { CoinhubWalletAdapter } from '@solana/wallet-adapter-coinhub';
+import { GlowWalletAdapter } from '@solana/wallet-adapter-glow';
+import { HuobiWalletAdapter } from '@solana/wallet-adapter-huobi';
 import { LedgerWalletAdapter } from '@solana/wallet-adapter-ledger';
 import { MathWalletAdapter } from '@solana/wallet-adapter-mathwallet';
 import { PhantomWalletAdapter } from '@solana/wallet-adapter-phantom';
 import { SafePalWalletAdapter } from '@solana/wallet-adapter-safepal';
 import { SlopeWalletAdapter } from '@solana/wallet-adapter-slope';
 import { SolflareWalletAdapter } from '@solana/wallet-adapter-solflare';
-import {
-    SolflareWebWalletAdapter,
-    SolletExtensionWalletAdapter,
-    SolletWalletAdapter,
-} from '@solana/wallet-adapter-sollet';
+import { SolletExtensionWalletAdapter, SolletWalletAdapter } from '@solana/wallet-adapter-sollet';
 import { SolongWalletAdapter } from '@solana/wallet-adapter-solong';
 import { TokenPocketWalletAdapter } from '@solana/wallet-adapter-tokenpocket';
 import { TorusWalletAdapter } from '@solana/wallet-adapter-torus';
@@ -27,14 +25,16 @@ export interface WalletsConfig {
 export function getWalletAdapters({ network = WalletAdapterNetwork.Mainnet }: WalletsConfig = {}): Adapter[] {
     return [
         new PhantomWalletAdapter(),
+        new GlowWalletAdapter(),
         new SlopeWalletAdapter(),
-        new SolflareWalletAdapter(),
+        new SolflareWalletAdapter({ network }),
         new SolletExtensionWalletAdapter({ network }),
         new BitKeepWalletAdapter(),
         new BitpieWalletAdapter(),
         new CloverWalletAdapter(),
         new Coin98WalletAdapter(),
         new CoinhubWalletAdapter(),
+        new HuobiWalletAdapter(),
         new MathWalletAdapter(),
         new SafePalWalletAdapter(),
         new SolongWalletAdapter(),
@@ -42,7 +42,6 @@ export function getWalletAdapters({ network = WalletAdapterNetwork.Mainnet }: Wa
         new TorusWalletAdapter(),
         new LedgerWalletAdapter(),
         new SolletWalletAdapter({ network }),
-        new SolflareWebWalletAdapter({ network }),
         new BloctoWalletAdapter({ network }),
     ];
 }

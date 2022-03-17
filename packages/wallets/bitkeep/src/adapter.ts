@@ -1,15 +1,14 @@
 import {
     BaseSignerWalletAdapter,
+    scopePollingDetectionStrategy,
     WalletAccountError,
     WalletDisconnectionError,
+    WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
     WalletSignTransactionError,
-    scopePollingDetectionStrategy,
-    WalletName,
-    Adapter,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 
@@ -53,6 +52,7 @@ export class BitKeepWalletAdapter extends BaseSignerWalletAdapter {
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
+
         if (this._readyState !== WalletReadyState.Unsupported) {
             scopePollingDetectionStrategy(() => {
                 if (window.bitkeep?.solana?.isBitKeep) {
@@ -84,6 +84,7 @@ export class BitKeepWalletAdapter extends BaseSignerWalletAdapter {
 
             this._connecting = true;
 
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const wallet = window!.bitkeep!.solana!;
 
             let account: string;

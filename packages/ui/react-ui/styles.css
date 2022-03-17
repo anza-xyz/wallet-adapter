@@ -79,6 +79,7 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 200ms ease, transform 200ms ease, visibility 200ms;
+    font-family: 'DM Sans', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .wallet-adapter-dropdown-list-active {
@@ -258,6 +259,7 @@
     display: flex;
     align-items: center;
     background-color: transparent;
+    color: #fff;
 }
 
 .wallet-adapter-modal-list-more svg {
@@ -276,6 +278,7 @@
     flex-direction: column;
     align-items: center;
     padding: 0 24px 24px 24px;
+    box-sizing: border-box;
 }
 
 .wallet-adapter-modal-middle-button {
@@ -288,4 +291,5 @@
     font-size: 18px;
     border: none;
     border-radius: 8px;
+    color: #fff;
 }

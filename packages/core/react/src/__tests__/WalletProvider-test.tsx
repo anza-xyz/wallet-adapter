@@ -4,11 +4,6 @@
 
 'use strict';
 
-import 'jest-localstorage-mock';
-import { render, unmountComponentAtNode } from 'react-dom';
-import React, { createRef, forwardRef, useImperativeHandle } from 'react';
-import { act } from 'react-dom/test-utils';
-import { WalletProvider, WalletProviderProps } from '../WalletProvider';
 import {
     Adapter,
     BaseWalletAdapter,
@@ -18,7 +13,12 @@ import {
     WalletReadyState,
 } from '@solana/wallet-adapter-base';
 import { PublicKey } from '@solana/web3.js';
+import 'jest-localstorage-mock';
+import React, { createRef, forwardRef, useImperativeHandle } from 'react';
+import { render, unmountComponentAtNode } from 'react-dom';
+import { act } from 'react-dom/test-utils';
 import { useWallet, WalletContextState } from '../useWallet';
+import { WalletProvider, WalletProviderProps } from '../WalletProvider';
 
 type TestRefType = {
     getWalletContextState(): WalletContextState;

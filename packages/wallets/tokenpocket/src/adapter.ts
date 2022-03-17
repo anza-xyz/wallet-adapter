@@ -1,5 +1,4 @@
 import {
-    Adapter,
     BaseMessageSignerWalletAdapter,
     EventEmitter,
     scopePollingDetectionStrategy,
@@ -60,6 +59,7 @@ export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
+
         if (this._readyState !== WalletReadyState.Unsupported) {
             scopePollingDetectionStrategy(() => {
                 if (window.solana?.isTokenPocket) {
@@ -95,6 +95,7 @@ export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             this._connecting = true;
 
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const wallet = window!.solana!;
 
             try {

@@ -1,5 +1,4 @@
 import {
-    Adapter,
     BaseSignerWalletAdapter,
     scopePollingDetectionStrategy,
     WalletAccountError,
@@ -48,6 +47,7 @@ export class CoinhubWalletAdapter extends BaseSignerWalletAdapter {
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
+
         if (this._readyState !== WalletReadyState.Unsupported) {
             scopePollingDetectionStrategy(() => {
                 if (window.coinhub?.isCoinhubWallet) {
@@ -79,6 +79,7 @@ export class CoinhubWalletAdapter extends BaseSignerWalletAdapter {
 
             this._connecting = true;
 
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const wallet = window!.coinhub!;
 
             let account: string;
