@@ -1,7 +1,7 @@
 {
     "private": true,
     "name": "@solana/wallet-adapter-walletconnect",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -30,11 +30,13 @@
     "dependencies": {
         "@solana/wallet-adapter-base": "^0.9.4",
         "@solana/web3.js": "^1.36.0",
-        "@walletconnect/client": "^2.0.0-beta.17",
-        "@walletconnect/qrcode-modal": "^2.0.0-alpha.20"
+        "@walletconnect/client": "2.0.0-beta.23",
+        "@walletconnect/qrcode-modal": "^2.0.0-alpha.20",
+        "@walletconnect/utils": "2.0.0-beta.23",
+        "solana-wallet": "^1.0.1"
     },
     "devDependencies": {
         "@types/pino": "^6.3.11",
-        "@walletconnect/types": "^2.0.0-beta.17"
+        "@walletconnect/types": "2.0.0-beta.23"
     }
 }

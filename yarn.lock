@@ -3293,14 +3293,7 @@
   dependencies:
     buffer "~6.0.3"
 
-"@solana/wallet-adapter-base@^0.8.1":
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/@solana/wallet-adapter-base/-/wallet-adapter-base-0.8.1.tgz#df425abb5c14b93baefd449bbe62ebfb685803fe"
-  integrity sha512-Qq4YQg2lDpbWhReY+r6h7YlcgUgr505lgiq8lvIfI5brTwH44yenKRUxYOPViUvCLOTVhy4r2TC5YsS2Ta1O3g==
-  dependencies:
-    eventemitter3 "^4.0.7"
-
-"@solana/web3.js@^1.30.2", "@solana/web3.js@^1.34.0", "@solana/web3.js@^1.36.0":
+"@solana/web3.js@^1.30.2", "@solana/web3.js@^1.34.0", "@solana/web3.js@^1.35.1", "@solana/web3.js@^1.36.0":
   version "1.36.0"
   resolved "https://registry.yarnpkg.com/@solana/web3.js/-/web3.js-1.36.0.tgz#79d7d5217b49b80139f4de68953adc5b9a9a264f"
   integrity sha512-RNT1451iRR7TyW7EJKMCrH/0OXawIe4zVm0DWQASwXlR/u1jmW6FrmH0lujIh7cGTlfOVbH+2ZU9AVUPLBFzwA==
@@ -4140,7 +4133,7 @@
     "@typescript-eslint/types" "5.14.0"
     eslint-visitor-keys "^3.0.0"
 
-"@walletconnect/client@^2.0.0-beta.17":
+"@walletconnect/client@2.0.0-beta.23":
   version "2.0.0-beta.23"
   resolved "https://registry.yarnpkg.com/@walletconnect/client/-/client-2.0.0-beta.23.tgz#934f91beb66ec7bb1a79afc1973fcd48481ccbc5"
   integrity sha512-ATKrYpCiGkhy1ukmEgYtOPX9WJXBoyBcXSfRH7MJKibDbPkNf9eUfp4ZeGadn7YLy40qxHEdZtK2zGGikn84pQ==
@@ -4268,7 +4261,7 @@
   resolved "https://registry.yarnpkg.com/@walletconnect/safe-json/-/safe-json-1.0.0.tgz#12eeb11d43795199c045fafde97e3c91646683b2"
   integrity sha512-QJzp/S/86sUAgWY6eh5MKYmSfZaRpIlmCJdi5uG4DJlKkZrHEF7ye7gA+VtbVzvTtpM/gRwO2plQuiooIeXjfg==
 
-"@walletconnect/types@^2.0.0-alpha.20", "@walletconnect/types@^2.0.0-beta.17", "@walletconnect/types@^2.0.0-beta.23":
+"@walletconnect/types@2.0.0-beta.23", "@walletconnect/types@^2.0.0-alpha.20", "@walletconnect/types@^2.0.0-beta.23":
   version "2.0.0-beta.23"
   resolved "https://registry.yarnpkg.com/@walletconnect/types/-/types-2.0.0-beta.23.tgz#3adf5c8329b7807d8c8d4aa1419e470eab72445c"
   integrity sha512-zYn26dvp/HsZJMUCFsJoK255yLp+Z9tGIomVO4outiZM1wa0tAUwma2QzoGyKDSgK4EbsYHFcWjSUX2kqh8quQ==
@@ -4278,7 +4271,7 @@
     pino "^6.7.0"
     pino-pretty "^4.3.0"
 
-"@walletconnect/utils@^2.0.0-alpha.20", "@walletconnect/utils@^2.0.0-beta.23":
+"@walletconnect/utils@2.0.0-beta.23", "@walletconnect/utils@^2.0.0-alpha.20", "@walletconnect/utils@^2.0.0-beta.23":
   version "2.0.0-beta.23"
   resolved "https://registry.yarnpkg.com/@walletconnect/utils/-/utils-2.0.0-beta.23.tgz#005e4409a7014a66dda30389e4b1f31d186ebd0e"
   integrity sha512-AH38tD5P6wWo5+D+pMJYePHdu0008fI6bE8NlFy0/o7qxzCVs7GAGWnyDNSHFUg7zgu+N120jsq2mBg2bNFxLQ==
@@ -5151,6 +5144,11 @@ base-x@^3.0.2, base-x@^3.0.6, base-x@^3.0.8:
   dependencies:
     safe-buffer "^5.0.1"
 
+base-x@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/base-x/-/base-x-4.0.0.tgz#d0e3b7753450c73f8ad2389b5c018a4af7b2224a"
+  integrity sha512-FuwxlW4H5kh37X/oW59pwTzzTKRzfrrQwhmyspRM7swOEZcHtDZSCt45U6oKgtuFE+WYPblePMVIPR4RZrh/hw==
+
 base64-js@^1.3.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.5.1.tgz#1b1b440160a5bf7ad40b650f095963481903930a"
@@ -5382,6 +5380,13 @@ bs58@^4.0.0, bs58@^4.0.1:
   integrity sha1-vhYedsNU9veIrkBx9j806MTwpCo=
   dependencies:
     base-x "^3.0.2"
+
+bs58@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/bs58/-/bs58-5.0.0.tgz#865575b4d13c09ea2a84622df6c8cbeb54ffc279"
+  integrity sha512-r+ihvQJvahgYT50JD05dyJNKlmmSlMoOGwn1lCcEzanPglg7TxYjioQUYehQ9mAR/+hOSd2jRc/Z2y5UxBymvQ==
+  dependencies:
+    base-x "^4.0.0"
 
 bs58check@^2.1.2:
   version "2.1.2"
@@ -13619,6 +13624,15 @@ socks@^2.3.3, socks@^2.6.1:
     ip "^1.1.5"
     smart-buffer "^4.2.0"
 
+solana-wallet@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/solana-wallet/-/solana-wallet-1.0.1.tgz#4e1bfebbb99640105ed42abd1445baab4f6e0b57"
+  integrity sha512-rkYu9gwayAdVMhWGdZSz6a+IaOJXs3TNtYXWuSQsdMJUndkQ+puy7cB9/u5pwZTjqzxtd1DN9cbAFKFH5648xQ==
+  dependencies:
+    "@solana/web3.js" "^1.35.1"
+    bs58 "^5.0.0"
+    tweetnacl "^1.0.3"
+
 sonic-boom@^1.0.2:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/sonic-boom/-/sonic-boom-1.4.1.tgz#d35d6a74076624f12e6f917ade7b9d75e918f53e"
@@ -14072,11 +14086,6 @@ supports-preserve-symlinks-flag@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
-
-svelte@^3.0.0:
-  version "3.46.4"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.46.4.tgz#0c46bc4a3e20a2617a1b7dc43a722f9d6c084a38"
-  integrity sha512-qKJzw6DpA33CIa+C/rGp4AUdSfii0DOTCzj/2YpSKKayw5WGSS624Et9L1nU1k2OVRS9vaENQXp2CVZNU+xvIg==
 
 svg-parser@^2.0.2:
   version "2.0.4"

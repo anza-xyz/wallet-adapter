@@ -17,6 +17,7 @@ import { SolletExtensionWalletAdapter, SolletWalletAdapter } from '@solana/walle
 import { SolongWalletAdapter } from '@solana/wallet-adapter-solong';
 import { TokenPocketWalletAdapter } from '@solana/wallet-adapter-tokenpocket';
 import { TorusWalletAdapter } from '@solana/wallet-adapter-torus';
+import { WalletConnectWalletAdapter } from '@solana/wallet-adapter-walletconnect';
 
 export interface WalletsConfig {
     network?: WalletAdapterNetwork;
@@ -43,5 +44,18 @@ export function getWalletAdapters({ network = WalletAdapterNetwork.Mainnet }: Wa
         new LedgerWalletAdapter(),
         new SolletWalletAdapter({ network }),
         new BloctoWalletAdapter({ network }),
+        new WalletConnectWalletAdapter({
+            options: {
+                relayUrl: 'wss://relay.walletconnect.com',
+                // example WC dapp project ID
+                projectId: 'e899c82be21d4acca2c8aec45e893598',
+                metadata: {
+                    name: 'Example Dapp',
+                    description: 'Example Dapp',
+                    url: 'https://github.com/solana-labs/wallet-adapter',
+                    icons: ['https://avatars.githubusercontent.com/u/35608259?s=200'],
+                },
+            },
+        }),
     ];
 }
