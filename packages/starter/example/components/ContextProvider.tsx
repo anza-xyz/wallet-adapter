@@ -12,6 +12,7 @@ import {
     SolflareWalletAdapter,
     TorusWalletAdapter,
     WalletConnectWalletAdapter,
+    SpotWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 import { SnackbarProvider, useSnackbar } from 'notistack';
@@ -85,6 +86,7 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
                     },
                 },
             }),
+            new SpotWalletAdapter(),
         ],
         [network]
     );
