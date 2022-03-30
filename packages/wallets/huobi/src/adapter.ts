@@ -38,7 +38,7 @@ declare const window: HuobiWalletWindow;
 
 export interface HuobiWalletAdapterConfig {}
 
-export const HuobiWalletName = 'HuobiWallet' as WalletName;
+export const HuobiWalletName = 'HuobiWallet' as WalletName<'HuobiWallet'>;
 
 export class HuobiWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = HuobiWalletName;

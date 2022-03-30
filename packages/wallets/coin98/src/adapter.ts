@@ -35,7 +35,7 @@ declare const window: Coin98Window;
 
 export interface Coin98WalletAdapterConfig {}
 
-export const Coin98WalletName = 'Coin98' as WalletName;
+export const Coin98WalletName = 'Coin98' as WalletName<'Coin98'>;
 
 export class Coin98WalletAdapter extends BaseMessageSignerWalletAdapter {
     name = Coin98WalletName;

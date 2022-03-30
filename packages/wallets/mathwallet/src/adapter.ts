@@ -27,7 +27,7 @@ declare const window: MathWalletWindow;
 
 export interface MathWalletAdapterConfig {}
 
-export const MathWalletName = 'MathWallet' as WalletName;
+export const MathWalletName = 'MathWallet' as WalletName<'MathWallet'>;
 
 export class MathWalletAdapter extends BaseSignerWalletAdapter {
     name = MathWalletName;

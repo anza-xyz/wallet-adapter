@@ -26,7 +26,7 @@ declare const window: SafePalWalletWindow;
 
 export interface SafePalWalletAdapterConfig {}
 
-export const SafePalWalletName = 'SafePal' as WalletName;
+export const SafePalWalletName = 'SafePal' as WalletName<'SafePal'>;
 
 export class SafePalWalletAdapter extends BaseSignerWalletAdapter {
     name = SafePalWalletName;

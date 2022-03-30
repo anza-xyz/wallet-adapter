@@ -25,7 +25,7 @@ declare const window: SolongWindow;
 
 export interface SolongWalletAdapterConfig {}
 
-export const SolongWalletName = 'Solong' as WalletName;
+export const SolongWalletName = 'Solong' as WalletName<'Solong'>;
 
 export class SolongWalletAdapter extends BaseSignerWalletAdapter {
     name = SolongWalletName;

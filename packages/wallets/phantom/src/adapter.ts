@@ -47,7 +47,7 @@ declare const window: PhantomWindow;
 
 export interface PhantomWalletAdapterConfig {}
 
-export const PhantomWalletName = 'Phantom' as WalletName;
+export const PhantomWalletName = 'Phantom' as WalletName<'Phantom'>;
 
 export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = PhantomWalletName;
