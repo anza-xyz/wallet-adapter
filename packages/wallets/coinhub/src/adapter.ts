@@ -26,7 +26,7 @@ declare const window: CoinhubWalletWindow;
 
 export interface CoinhubWalletAdapterConfig {}
 
-export const CoinhubWalletName = 'Coinhub' as WalletName;
+export const CoinhubWalletName = 'Coinhub' as WalletName<'Coinhub'>;
 
 export class CoinhubWalletAdapter extends BaseSignerWalletAdapter {
     name = CoinhubWalletName;

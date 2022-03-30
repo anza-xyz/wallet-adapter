@@ -89,19 +89,19 @@ describe('WalletProvider', () => {
         sendTransaction = jest.fn();
     }
     class FooWalletAdapter extends MockWalletAdapter {
-        name = 'FooWallet' as WalletName;
+        name = 'FooWallet' as WalletName<'FooWallet'>;
         url = 'https://foowallet.com';
         icon = 'foo.png';
         publicKey = new PublicKey('Foo11111111111111111111111111111111111111111');
     }
     class BarWalletAdapter extends MockWalletAdapter {
-        name = 'BarWallet' as WalletName;
+        name = 'BarWallet' as WalletName<'BarWallet'>;
         url = 'https://barwallet.com';
         icon = 'bar.png';
         publicKey = new PublicKey('Bar11111111111111111111111111111111111111111');
     }
     class BazWalletAdapter extends MockWalletAdapter {
-        name = 'BazWallet' as WalletName;
+        name = 'BazWallet' as WalletName<'BazWallet'>;
         url = 'https://bazwallet.com';
         icon = 'baz.png';
         publicKey = new PublicKey('Baz11111111111111111111111111111111111111111');
@@ -130,7 +130,7 @@ describe('WalletProvider', () => {
             fooWalletAdapter.readyStateValue = WalletReadyState.NotDetected;
             renderTest({});
             await act(async () => {
-                ref.current?.getWalletContextState().select('FooWallet' as WalletName);
+                ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
                 await Promise.resolve(); // Flush all promises in effects after calling `select()`.
             });
             expect(ref.current?.getWalletContextState().wallet?.readyState).toBe(WalletReadyState.NotDetected);
@@ -255,7 +255,7 @@ describe('WalletProvider', () => {
             handleError = jest.fn();
             renderTest({ onError: handleError });
             await act(async () => {
-                ref.current?.getWalletContextState().select('FooWallet' as WalletName);
+                ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
                 await Promise.resolve(); // Flush all promises in effects after calling `select()`.
             });
         });
@@ -281,7 +281,7 @@ describe('WalletProvider', () => {
                 fooWalletAdapter.readyStateValue = WalletReadyState.NotDetected;
                 renderTest({});
                 act(() => {
-                    ref.current?.getWalletContextState().select('FooWallet' as WalletName);
+                    ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
                 });
                 expect(ref.current?.getWalletContextState().wallet?.readyState).toBe(WalletReadyState.NotDetected);
                 act(() => {
@@ -310,7 +310,7 @@ describe('WalletProvider', () => {
             beforeEach(async () => {
                 renderTest({});
                 await act(async () => {
-                    ref.current?.getWalletContextState().select('FooWallet' as WalletName);
+                    ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
                     await Promise.resolve(); // Flush all promises in effects after calling `select()`.
                 });
                 fooWalletAdapter.connectionPromise = new Promise<void>((resolve) => {
@@ -351,7 +351,7 @@ describe('WalletProvider', () => {
                 window.open = jest.fn();
                 renderTest({});
                 await act(async () => {
-                    ref.current?.getWalletContextState().select('FooWallet' as WalletName);
+                    ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
                     await Promise.resolve(); // Flush all promises in effects after calling `select()`.
                 });
                 act(() => {
@@ -395,7 +395,7 @@ describe('WalletProvider', () => {
                 beforeEach(async () => {
                     renderTest({});
                     await act(async () => {
-                        ref.current?.getWalletContextState().select('FooWallet' as WalletName);
+                        ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
                         await Promise.resolve(); // Flush all promises in effects after calling `select()`.
                     });
                 });
@@ -417,14 +417,14 @@ describe('WalletProvider', () => {
                 });
                 renderTest({});
                 await act(async () => {
-                    ref.current?.getWalletContextState().select('FooWallet' as WalletName);
+                    ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
                     await Promise.resolve(); // Flush all promises in effects after calling `select()`.
                 });
             });
             describe('and you select a different wallet', () => {
                 beforeEach(async () => {
                     await act(async () => {
-                        ref.current?.getWalletContextState().select('BarWallet' as WalletName);
+                        ref.current?.getWalletContextState().select('BarWallet' as WalletName<'BarWallet'>);
                         await Promise.resolve(); // Flush all promises in effects after calling `select()`.
                     });
                 });
@@ -442,7 +442,7 @@ describe('WalletProvider', () => {
                 describe('then change your mind before the first one has disconnected', () => {
                     beforeEach(async () => {
                         await act(async () => {
-                            ref.current?.getWalletContextState().select('BazWallet' as WalletName);
+                            ref.current?.getWalletContextState().select('BazWallet' as WalletName<'BazWallet'>);
                             await Promise.resolve(); // Flush all promises in effects after calling `select()`.
                         });
                         act(() => {

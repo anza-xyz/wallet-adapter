@@ -45,7 +45,7 @@ declare const window: GlowWindow;
 
 export interface GlowWalletAdapterConfig {}
 
-export const GlowWalletName = 'Glow' as WalletName;
+export const GlowWalletName = 'Glow' as WalletName<'Glow'>;
 
 export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = GlowWalletName;

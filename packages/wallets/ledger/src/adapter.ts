@@ -21,7 +21,7 @@ export interface LedgerWalletAdapterConfig {
     derivationPath?: Buffer;
 }
 
-export const LedgerWalletName = 'Ledger' as WalletName;
+export const LedgerWalletName = 'Ledger' as WalletName<'Ledger'>;
 
 export class LedgerWalletAdapter extends BaseSignerWalletAdapter {
     name = LedgerWalletName;

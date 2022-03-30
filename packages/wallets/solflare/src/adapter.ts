@@ -30,7 +30,7 @@ export interface SolflareWalletAdapterConfig {
     network?: WalletAdapterNetwork;
 }
 
-export const SolflareWalletName = 'Solflare' as WalletName;
+export const SolflareWalletName = 'Solflare' as WalletName<'Solflare'>;
 
 export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = SolflareWalletName;

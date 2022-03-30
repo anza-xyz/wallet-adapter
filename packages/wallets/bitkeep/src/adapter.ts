@@ -31,7 +31,7 @@ declare const window: BitKeepWindow;
 
 export interface BitKeepWalletAdapterConfig {}
 
-export const BitKeepWalletName = 'BitKeep' as WalletName;
+export const BitKeepWalletName = 'BitKeep' as WalletName<'BitKeep'>;
 
 export class BitKeepWalletAdapter extends BaseSignerWalletAdapter {
     name = BitKeepWalletName;
