@@ -1,6 +1,5 @@
 {
     "private": true,
-    "version": "0.0.1",
     "name": "@solana/wallet-adapter",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
