@@ -17,6 +17,7 @@ import { SolletExtensionWalletAdapter, SolletWalletAdapter } from '@solana/walle
 import { SolongWalletAdapter } from '@solana/wallet-adapter-solong';
 import { TokenPocketWalletAdapter } from '@solana/wallet-adapter-tokenpocket';
 import { TorusWalletAdapter } from '@solana/wallet-adapter-torus';
+import { StreambirdWalletAdapter } from '@solana/wallet-adapter-streambird';
 
 export interface WalletsConfig {
     network?: WalletAdapterNetwork;
@@ -43,5 +44,6 @@ export function getWalletAdapters({ network = WalletAdapterNetwork.Mainnet }: Wa
         new LedgerWalletAdapter(),
         new SolletWalletAdapter({ network }),
         new BloctoWalletAdapter({ network }),
+        new StreambirdWalletAdapter()
     ];
 }
