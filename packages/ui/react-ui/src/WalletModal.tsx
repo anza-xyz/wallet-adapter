@@ -10,9 +10,10 @@ import { WalletSVG } from './WalletSVG';
 export interface WalletModalProps {
     className?: string;
     container?: string;
+    defaultGetStartedWallet?: Wallet;
 }
 
-export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 'body' }) => {
+export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 'body', defaultGetStartedWallet }) => {
     const ref = useRef<HTMLDivElement>(null);
     const { wallets, select } = useWallet();
     const { setVisible } = useWalletModal();
@@ -41,10 +42,10 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
     const getStartedWallet = useMemo(() => {
         return installedWallets.length
             ? installedWallets[0]
-            : wallets.find((wallet: { adapter: { name: WalletName } }) => wallet.adapter.name === 'Torus') ||
+            : defaultGetStartedWallet ?? (wallets.find((wallet: { adapter: { name: WalletName } }) => wallet.adapter.name === 'Torus') ||
                   wallets.find((wallet: { adapter: { name: WalletName } }) => wallet.adapter.name === 'Phantom') ||
                   wallets.find((wallet: { readyState: any }) => wallet.readyState === WalletReadyState.Loadable) ||
-                  otherWallets[0];
+                  otherWallets[0]);
     }, [installedWallets, wallets, otherWallets]);
 
     const hideModal = useCallback(() => {
