@@ -167,7 +167,12 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
                                         <ul>
                                             <li>
                                                 Participate in Fractal tournaments live{' '}
-                                                <a href="https://ev.io?ref=fractal" style={{ color: '#F2059F' }}>
+                                                <a
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                    href="https://fractal.is/ev"
+                                                    style={{ color: '#F2059F' }}
+                                                >
                                                     ev.io
                                                 </a>
                                                 .

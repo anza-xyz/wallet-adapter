@@ -2,7 +2,7 @@
     "name": "@solana/wallet-adapter-wallets",
     "version": "0.15.5",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
-    "repository": "https://github.com/solana-labs/wallet-adapter",
+    "repository": "https://github.com/fractalwagmi/wallet-adapter",
     "license": "Apache-2.0",
     "type": "module",
     "sideEffects": false,

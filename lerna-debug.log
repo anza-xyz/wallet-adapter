@@ -1,0 +1,27 @@
+0 silly argv {
+0 silly argv   _: [ 'version' ],
+0 silly argv   lernaVersion: '4.0.0',
+0 silly argv   '$0': '/Users/dan/fractal/wallet-adapter/node_modules/.bin/lerna'
+0 silly argv }
+1 notice cli v4.0.0
+2 verbose rootPath /Users/dan/fractal/wallet-adapter
+3 info versioning independent
+4 silly isAnythingCommitted
+5 verbose isAnythingCommitted 1
+6 silly getCurrentBranch
+7 verbose currentBranch master
+8 silly remoteBranchExists
+9 silly isBehindUpstream
+10 error Error: Command failed with exit code 1: git remote update
+10 error fatal: remote error:
+10 error   The unauthenticated git protocol on port 9418 is no longer supported.
+10 error Please see https://github.blog/2021-09-01-improving-git-protocol-security-github/ for more information.
+10 error error: Could not fetch upstream
+10 error Fetching origin
+10 error Fetching upstream
+10 error     at makeError (/Users/dan/fractal/wallet-adapter/node_modules/execa/lib/error.js:60:11)
+10 error     at Function.module.exports.sync (/Users/dan/fractal/wallet-adapter/node_modules/execa/index.js:194:17)
+10 error     at Object.execSync (/Users/dan/fractal/wallet-adapter/node_modules/@lerna/child-process/index.js:39:16)
+10 error     at updateRemote (/Users/dan/fractal/wallet-adapter/node_modules/@lerna/version/lib/is-behind-upstream.js:34:16)
+10 error     at isBehindUpstream (/Users/dan/fractal/wallet-adapter/node_modules/@lerna/version/lib/is-behind-upstream.js:16:3)
+10 error     at VersionCommand.initialize (/Users/dan/fractal/wallet-adapter/node_modules/@lerna/version/index.js:153:9)

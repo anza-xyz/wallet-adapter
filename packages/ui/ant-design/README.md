@@ -1,7 +1,7 @@
 # `@solana/wallet-adapter-ant-design`
 
 # Quick Setup (using Create-React-App with craco-less)
-See the [example](https://github.com/solana-labs/wallet-adapter/tree/master/packages/example) package for more usage.
+See the [example](https://github.com/fractalwagmi/wallet-adapter/tree/master/packages/example) package for more usage.
 
 ## Install
 
@@ -45,7 +45,7 @@ yarn add @solana/wallet-adapter-wallets \
 
 
 ## Usage
-Check out usage in the [example](https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/example) package.
+Check out usage in the [example](https://github.com/fractalwagmi/wallet-adapter/tree/master/packages/starter/example) package.
 
 ## Overrides
 

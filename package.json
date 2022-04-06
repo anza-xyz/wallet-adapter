@@ -1,8 +1,8 @@
 {
     "private": true,
-    "name": "@solana/wallet-adapter",
-    "author": "Solana Maintainers <maintainers@solana.foundation>",
-    "repository": "https://github.com/solana-labs/wallet-adapter",
+    "name": "@fractalwagmi/wallet-adapter",
+    "author": "Dan Borstelmann",
+    "repository": "https://github.com/fractalwagmi/wallet-adapter",
     "license": "Apache-2.0",
     "type": "module",
     "workspaces": {
