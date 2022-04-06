@@ -4,9 +4,10 @@ import { WalletModal, WalletModalProps } from './WalletModal';
 
 export interface WalletModalProviderProps extends WalletModalProps {
     children: ReactNode;
+    fractalClick?: () => void;
 }
 
-export const WalletModalProvider: FC<WalletModalProviderProps> = ({ children, ...props }) => {
+export const WalletModalProvider: FC<WalletModalProviderProps> = ({ children, fractalClick, ...props }) => {
     const [visible, setVisible] = useState(false);
 
     return (
@@ -14,6 +15,7 @@ export const WalletModalProvider: FC<WalletModalProviderProps> = ({ children, ..
             value={{
                 visible,
                 setVisible,
+                fractalClick,
             }}
         >
             {children}

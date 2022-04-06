@@ -51,7 +51,7 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
     return (
         <ConnectionProvider endpoint={endpoint}>
             <WalletProvider wallets={wallets} autoConnect>
-                <WalletModalProvider>{children}</WalletModalProvider>
+                <WalletModalProvider fractalClick={() => {}}>{children}</WalletModalProvider>
             </WalletProvider>
         </ConnectionProvider>
     );

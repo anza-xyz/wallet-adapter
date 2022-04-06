@@ -16,6 +16,15 @@
     border-radius: 4px;
 }
 
+.fractal-info {
+    display: flex;
+    flex-direction: column;
+    font-family: 'DM Sans', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 6px 24px 12px;
+}
+
 .wallet-adapter-button-trigger {
     background-color: #512da8;
 }
