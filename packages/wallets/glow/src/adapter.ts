@@ -45,7 +45,7 @@ declare const window: GlowWindow;
 
 export interface GlowWalletAdapterConfig {}
 
-export const GlowWalletName = 'Glow' as WalletName;
+export const GlowWalletName = 'Glow' as WalletName<'Glow'>;
 
 // This detects if it's possible to install Glow on this device.
 // https://stackoverflow.com/questions/9038625/detect-if-device-is-ios
