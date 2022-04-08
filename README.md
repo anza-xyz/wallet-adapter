@@ -50,6 +50,7 @@ import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {
     GlowWalletAdapter,
+    ExodusWalletAdapter,
     LedgerWalletAdapter,
     PhantomWalletAdapter,
     SlopeWalletAdapter,
@@ -81,6 +82,7 @@ export const Wallet: FC = () => {
     const wallets = useMemo(
         () => [
             new PhantomWalletAdapter(),
+            new ExodusWalletAdapter(),
             new GlowWalletAdapter(),
             new SlopeWalletAdapter(),
             new SolflareWalletAdapter({ network }),
@@ -164,6 +166,7 @@ You can use the [wallets](https://github.com/solana-labs/wallet-adapter/tree/mas
 | [clover](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/clover)           | Adapter for [Clover](https://clover.finance)          | [`@solana/wallet-adapter-clover`](https://npmjs.com/package/@solana/wallet-adapter-clover)           |
 | [coin98](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/coin98)           | Adapter for [Coin98](https://coin98.com)              | [`@solana/wallet-adapter-coin98`](https://npmjs.com/package/@solana/wallet-adapter-coin98)           |
 | [coinhub](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/coinhub)         | Adapter for [Coinhub](https://coinhub.org)            | [`@solana/wallet-adapter-coinhub`](https://npmjs.com/package/@solana/wallet-adapter-coinhub)         |
+| [exodus](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/exodus)           | Adapter for [Exodus](https://exodus.com)              | [`@solana/wallet-adapter-exodus`](https://npmjs.com/package/@solana/wallet-adapter-exodus)           |
 | [glow](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/glow)               | Adapter for [Glow](https://glow.app)                  | [`@solana/wallet-adapter-glow`](https://npmjs.com/package/@solana/wallet-adapter-glow)               |
 | [huobi](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/huobi)             | Adapter for [HuobiWallet](https://www.huobiwallet.io) | [`@solana/wallet-adapter-huobi`](https://npmjs.com/package/@solana/wallet-adapter-huobi)             |
 | [glow](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/glow)                      | Adapter for [Glow](https://glow.app)                   | [`@solana/wallet-adapter-glow`](https://npmjs.com/package/@solana/wallet-adapter-glow)                   |
