@@ -28,11 +28,11 @@
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
     "peerDependencies": {
-        "react": "^17.0.0"
+        "react": "^17.0.0",
+        "@solana/web3.js": "^1.36.0"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.9.4",
-        "@solana/web3.js": "^1.36.0"
+        "@solana/wallet-adapter-base": "^0.9.4"
     },
     "devDependencies": {
         "@types/jest": "^27.0.0",
