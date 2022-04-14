@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-streambird",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "author": "Streambird Engineers <dev@streambird.io>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -29,6 +29,6 @@
     "dependencies": {
         "@solana/wallet-adapter-base": "^0.9.4",
         "@solana/web3.js": "^1.36.0",
-        "@streambird/solana-wallet-sdk": "^0.0.122"
+        "@streambird/solana-embed-sdk": "^1.0.0"
     }
 }

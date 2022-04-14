@@ -12,7 +12,7 @@ import {
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
-import { default as Streambird, StreambirdParams } from '@streambird/solana-wallet-sdk';
+import { default as Streambird, StreambirdParams } from '@streambird/solana-embed-sdk';
 
 interface StreambirdWindow extends Window {
   streambird?: Streambird | null;
@@ -71,7 +71,7 @@ export class StreambirdWalletAdapter extends BaseMessageSignerWalletAdapter {
       let StreambirdClass: typeof Streambird;
 
       try {
-        ({ default: StreambirdClass } = await import('@streambird/solana-wallet-sdk'));
+        ({ default: StreambirdClass } = await import('@streambird/solana-embed-sdk'));
       } catch (error: any) {
         throw new WalletLoadError(error?.message, error);
       }
