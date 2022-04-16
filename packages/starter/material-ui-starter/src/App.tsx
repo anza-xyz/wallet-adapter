@@ -3,12 +3,9 @@ import { WalletDialogProvider, WalletMultiButton } from '@solana/wallet-adapter-
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import {
     GlowWalletAdapter,
-    LedgerWalletAdapter,
     PhantomWalletAdapter,
     SlopeWalletAdapter,
     SolflareWalletAdapter,
-    SolletExtensionWalletAdapter,
-    SolletWalletAdapter,
     TorusWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
