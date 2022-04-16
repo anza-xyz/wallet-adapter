@@ -1,6 +1,6 @@
 {
     "private": true,
-    "name": "create-react-app-starter",
+    "name": "@solana/wallet-adapter-create-react-app-starter",
     "version": "0.1.0",
     "dependencies": {
         "@solana/wallet-adapter-base": "^0.9.4",
