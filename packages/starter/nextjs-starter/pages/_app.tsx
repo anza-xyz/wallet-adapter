@@ -31,14 +31,11 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
     // of wallets that your users connect to will be loaded
     const wallets = useMemo(
         () => [
-            new GlowWalletAdapter(),
             new PhantomWalletAdapter(),
+            new GlowWalletAdapter(),
             new SlopeWalletAdapter(),
             new SolflareWalletAdapter({ network }),
             new TorusWalletAdapter(),
-            new LedgerWalletAdapter(),
-            new SolletWalletAdapter({ network }),
-            new SolletExtensionWalletAdapter({ network }),
         ],
         [network]
     );
