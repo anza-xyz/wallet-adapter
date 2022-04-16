@@ -47,6 +47,19 @@ export interface GlowWalletAdapterConfig {}
 
 export const GlowWalletName = 'Glow' as WalletName<'Glow'>;
 
+// This detects if it's possible to install Glow on this device.
+// https://stackoverflow.com/questions/9038625/detect-if-device-is-ios
+export const isIOS = (): boolean => {
+    return [
+        'iPad Simulator',
+        'iPhone Simulator',
+        'iPod Simulator',
+        'iPad',
+        'iPhone',
+        'iPod'
+    ].includes(navigator.platform);
+}
+
 export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = GlowWalletName;
     url = 'https://glow.app';
