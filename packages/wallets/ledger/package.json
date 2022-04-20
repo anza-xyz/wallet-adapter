@@ -36,6 +36,7 @@
         "buffer": "^6.0.3"
     },
     "devDependencies": {
+        "@solana/web3.js": "^1.36.0",
         "@types/w3c-web-hid": "^1.0.2"
     },
     "overrides": {

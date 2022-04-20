@@ -29,6 +29,9 @@
     "peerDependencies": {
         "@solana/web3.js": "^1.36.0"
     },
+    "devDependencies": {
+        "@solana/web3.js": "^1.36.0"
+    },
     "dependencies": {
         "eventemitter3": "^4.0.0"
     }
