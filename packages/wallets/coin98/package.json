@@ -34,6 +34,7 @@
         "bs58": "^4.0.0"
     },
     "devDependencies": {
+        "@solana/web3.js": "^1.36.0",
         "@types/bs58": "^4.0.1"
     }
 }
