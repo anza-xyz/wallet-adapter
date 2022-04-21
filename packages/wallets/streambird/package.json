@@ -29,6 +29,6 @@
     "dependencies": {
         "@solana/wallet-adapter-base": "^0.9.4",
         "@solana/web3.js": "^1.36.0",
-        "@streambird/solana-embed-sdk": "^1.0.0"
+        "@streambird/solana-embed-sdk": "^1.0.4"
     }
 }

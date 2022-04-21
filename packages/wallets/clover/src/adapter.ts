@@ -27,7 +27,7 @@ declare const window: CloverWalletWindow;
 
 export interface CloverWalletAdapterConfig {}
 
-export const CloverWalletName = 'Clover' as WalletName;
+export const CloverWalletName = 'Clover' as WalletName<'Clover'>;
 
 export class CloverWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = CloverWalletName;

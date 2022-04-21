@@ -51,7 +51,7 @@ declare const window: SlopeWindow;
 
 export interface SlopeWalletAdapterConfig {}
 
-export const SlopeWalletName = 'Slope' as WalletName;
+export const SlopeWalletName = 'Slope' as WalletName<'Slope'>;
 
 export class SlopeWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = SlopeWalletName;

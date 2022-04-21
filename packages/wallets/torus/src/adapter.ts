@@ -25,7 +25,7 @@ interface TorusWindow extends Window {
 
 declare const window: TorusWindow;
 
-export const TorusWalletName = 'Torus' as WalletName;
+export const TorusWalletName = 'Torus' as WalletName<'Torus'>;
 
 export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = TorusWalletName;

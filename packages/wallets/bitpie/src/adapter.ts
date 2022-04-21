@@ -25,7 +25,7 @@ declare const window: BitpieWalletWindow;
 
 export interface BitpieWalletAdapterConfig {}
 
-export const BitpieWalletName = 'Bitpie' as WalletName;
+export const BitpieWalletName = 'Bitpie' as WalletName<'Bitpie'>;
 
 export class BitpieWalletAdapter extends BaseSignerWalletAdapter {
     name = BitpieWalletName;

@@ -21,7 +21,7 @@ export interface BloctoWalletAdapterConfig {
     network?: WalletAdapterNetwork;
 }
 
-export const BloctoWalletName = 'Blocto' as WalletName;
+export const BloctoWalletName = 'Blocto' as WalletName<'Blocto'>;
 
 export class BloctoWalletAdapter extends BaseWalletAdapter {
     name = BloctoWalletName;

@@ -15,12 +15,12 @@ export interface SendTransactionOptions extends SendOptions {
     signers?: Signer[];
 }
 
-// WalletName is a nominal type that wallet adapters should use, e.g. `'MyCryptoWallet' as WalletName`
+// WalletName is a nominal type that wallet adapters should use, e.g. `'MyCryptoWallet' as WalletName<'MyCryptoWallet'>`
 // https://medium.com/@KevinBGreene/surviving-the-typescript-ecosystem-branding-and-type-tagging-6cf6e516523d
-export type WalletName = string & { __brand__: 'WalletName' };
+export type WalletName<T extends string = string> = T & { __brand__: 'WalletName' };
 
-export interface WalletAdapterProps {
-    name: WalletName;
+export interface WalletAdapterProps<Name extends string = string> {
+    name: WalletName<Name>;
     url: string;
     icon: string;
     readyState: WalletReadyState;
@@ -37,7 +37,7 @@ export interface WalletAdapterProps {
     ): Promise<TransactionSignature>;
 }
 
-export type WalletAdapter = WalletAdapterProps & EventEmitter<WalletAdapterEvents>;
+export type WalletAdapter<Name extends string = string> = WalletAdapterProps<Name> & EventEmitter<WalletAdapterEvents>;
 
 /**
  * A wallet's readiness describes a series of states that the wallet can be in,
