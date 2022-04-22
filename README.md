@@ -49,6 +49,7 @@ import React, { FC, useMemo } from 'react';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {
+    BananaWalletAdapter,
     GlowWalletAdapter,
     LedgerWalletAdapter,
     PhantomWalletAdapter,
@@ -81,6 +82,7 @@ export const Wallet: FC = () => {
     const wallets = useMemo(
         () => [
             new PhantomWalletAdapter(),
+            new BananaWalletAdapter({ cluster: network }),
             new GlowWalletAdapter(),
             new SlopeWalletAdapter(),
             new SolflareWalletAdapter({ network }),
@@ -158,6 +160,7 @@ You can use the [wallets](https://github.com/solana-labs/wallet-adapter/tree/mas
 | package                                                                                               | description                                           | npm                                                                                                  |
 |-------------------------------------------------------------------------------------------------------|-------------------------------------------------------|------------------------------------------------------------------------------------------------------|
 | [wallets](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/wallets)         | Includes all the wallets (with tree shaking)          | [`@solana/wallet-adapter-wallets`](https://npmjs.com/package/@solana/wallet-adapter-wallets)         |
+| [banana](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/banana)           | Adapter for [Banana](https://bananawallet.io)         | [`@solana/wallet-adapter-banana`](https://npmjs.com/package/@solana/wallet-adapter-banana)           |
 | [bitkeep](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/bitkeep)         | Adapter for [BitKeep](https://bitkeep.com)            | [`@solana/wallet-adapter-bitkeep`](https://npmjs.com/package/@solana/wallet-adapter-bitkeep)         |
 | [bitpie](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/bitpie)           | Adapter for [Bitpie](https://bitpie.com)              | [`@solana/wallet-adapter-bitpie`](https://npmjs.com/package/@solana/wallet-adapter-bitpie)           |
 | [blocto](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/blocto)           | Adapter for [Blocto](https://blocto.app)              | [`@solana/wallet-adapter-blocto`](https://npmjs.com/package/@solana/wallet-adapter-blocto)           |

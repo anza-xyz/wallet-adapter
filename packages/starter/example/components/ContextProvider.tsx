@@ -6,6 +6,7 @@ import { WalletDialogProvider as MaterialUIWalletDialogProvider } from '@solana/
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider as ReactUIWalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import {
+    BananaWalletAdapter,
     GlowWalletAdapter,
     PhantomWalletAdapter,
     SlopeWalletAdapter,
@@ -66,6 +67,7 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     // of wallets that your users connect to will be loaded
     const wallets = useMemo(
         () => [
+            new BananaWalletAdapter({ cluster: network }),
             new PhantomWalletAdapter(),
             new GlowWalletAdapter(),
             new SlopeWalletAdapter(),
