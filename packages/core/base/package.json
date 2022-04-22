@@ -26,8 +26,13 @@
         "build": "yarn clean && tsc -p tsconfig.json && tsc-esm -p tsconfig.json && tsc -p tsconfig.cjs.json",
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
+    "peerDependencies": {
+        "@solana/web3.js": "^1.36.0"
+    },
     "dependencies": {
-        "@solana/web3.js": "^1.36.0",
         "eventemitter3": "^4.0.0"
+    },
+    "devDependencies": {
+        "@solana/web3.js": "^1.36.0"
     }
 }
