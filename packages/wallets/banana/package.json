@@ -31,7 +31,7 @@
     },
     "dependencies": {
         "@solana/wallet-adapter-base": "^0.9.4",
-        "@banana-wallet/adapter": "^1.1.4"
+        "@banana-wallet/adapter": "^1.1.6"
     },
     "devDependencies": {
         "@solana/web3.js": "^1.36.0"
