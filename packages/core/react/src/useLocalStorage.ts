@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export function useLocalStorage<T>(key: string, defaultState: T): [T, React.Dispatch<React.SetStateAction<T>>] {
     const state = useState<T>(() => {
@@ -15,12 +15,7 @@ export function useLocalStorage<T>(key: string, defaultState: T): [T, React.Disp
     });
     const value = state[0];
 
-    const isFirstRender = useRef(true);
     useEffect(() => {
-        if (isFirstRender.current) {
-            isFirstRender.current = false;
-            return;
-        }
         try {
             if (value === null) {
                 localStorage.removeItem(key);
