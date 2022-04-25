@@ -38,7 +38,7 @@ declare const window: TokenPocketWindow;
 
 export interface TokenPocketWalletAdapterConfig {}
 
-export const TokenPocketWalletName = 'TokenPocket' as WalletName;
+export const TokenPocketWalletName = 'TokenPocket' as WalletName<'TokenPocket'>;
 
 export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = TokenPocketWalletName;

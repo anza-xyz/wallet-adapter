@@ -49,6 +49,7 @@ import React, { FC, useMemo } from 'react';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {
+    GlowWalletAdapter,
     LedgerWalletAdapter,
     PhantomWalletAdapter,
     SlopeWalletAdapter,
@@ -80,12 +81,10 @@ export const Wallet: FC = () => {
     const wallets = useMemo(
         () => [
             new PhantomWalletAdapter(),
+            new GlowWalletAdapter(),
             new SlopeWalletAdapter(),
             new SolflareWalletAdapter({ network }),
             new TorusWalletAdapter(),
-            new LedgerWalletAdapter(),
-            new SolletWalletAdapter({ network }),
-            new SolletExtensionWalletAdapter({ network }),
         ],
         [network]
     );
@@ -177,7 +176,6 @@ You can use the [wallets](https://github.com/solana-labs/wallet-adapter/tree/mas
 | [torus](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/torus)                    | Adapter for [Torus](https://tor.us)                    | [`@solana/wallet-adapter-torus`](https://npmjs.com/package/@solana/wallet-adapter-torus)                 |
 | [walletconnect](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/walletconnect) \* | Adapter for [WalletConnect](https://walletconnect.org) | [`@solana/wallet-adapter-walletconnect`](https://npmjs.com/package/@solana/wallet-adapter-walletconnect) |
 | [onto](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/onto)        | Adapter for [onto](https://onto.app) | [`@solana/wallet-adapter-onto`](https://npmjs.com/package/@solana/wallet-adapter-onto)  |
-
 
 ### UI Components
 These packages provide components for common UI frameworks.
