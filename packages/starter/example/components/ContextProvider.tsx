@@ -1,21 +1,23 @@
-import { createTheme, StyledEngineProvider, ThemeProvider } from '@mui/material';
-import { deepPurple, pink } from '@mui/material/colors';
-import { WalletModalProvider as AntDesignWalletModalProvider } from '@solana/wallet-adapter-ant-design';
-import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
-import { WalletDialogProvider as MaterialUIWalletDialogProvider } from '@solana/wallet-adapter-material-ui';
+import { AutoConnectProvider, useAutoConnect } from './AutoConnectProvider';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
-import { WalletModalProvider as ReactUIWalletModalProvider } from '@solana/wallet-adapter-react-ui';
+import { FC, ReactNode, useCallback, useMemo } from 'react';
 import {
     GlowWalletAdapter,
     PhantomWalletAdapter,
+    SkyWalletAdapter,
     SlopeWalletAdapter,
     SolflareWalletAdapter,
     TorusWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
-import { clusterApiUrl } from '@solana/web3.js';
 import { SnackbarProvider, useSnackbar } from 'notistack';
-import { FC, ReactNode, useCallback, useMemo } from 'react';
-import { AutoConnectProvider, useAutoConnect } from './AutoConnectProvider';
+import { StyledEngineProvider, ThemeProvider, createTheme } from '@mui/material';
+import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
+import { deepPurple, pink } from '@mui/material/colors';
+
+import { WalletModalProvider as AntDesignWalletModalProvider } from '@solana/wallet-adapter-ant-design';
+import { WalletDialogProvider as MaterialUIWalletDialogProvider } from '@solana/wallet-adapter-material-ui';
+import { WalletModalProvider as ReactUIWalletModalProvider } from '@solana/wallet-adapter-react-ui';
+import { clusterApiUrl } from '@solana/web3.js';
 
 const theme = createTheme({
     palette: {
@@ -66,6 +68,7 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     // of wallets that your users connect to will be loaded
     const wallets = useMemo(
         () => [
+            new SkyWalletAdapter(),
             new PhantomWalletAdapter(),
             new GlowWalletAdapter(),
             new SlopeWalletAdapter(),
