@@ -52,6 +52,7 @@ import {
     GlowWalletAdapter,
     LedgerWalletAdapter,
     PhantomWalletAdapter,
+    SalmonWalletAdapter,
     SlopeWalletAdapter,
     SolflareWalletAdapter,
     SolletExtensionWalletAdapter,
@@ -82,6 +83,7 @@ export const Wallet: FC = () => {
         () => [
             new PhantomWalletAdapter(),
             new GlowWalletAdapter(),
+            new SalmonWalletAdapter({ network }),
             new SlopeWalletAdapter(),
             new SolflareWalletAdapter({ network }),
             new TorusWalletAdapter(),
@@ -171,6 +173,7 @@ You can use the [wallets](https://github.com/solana-labs/wallet-adapter/tree/mas
 | [mathwallet](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/mathwallet)   | Adapter for [MathWallet](https://mathwallet.org)      | [`@solana/wallet-adapter-mathwallet`](https://npmjs.com/package/@solana/wallet-adapter-mathwallet)   |
 | [phantom](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/phantom)         | Adapter for [Phantom](https://phantom.app)            | [`@solana/wallet-adapter-phantom`](https://npmjs.com/package/@solana/wallet-adapter-phantom)         |
 | [safepal](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/safepal)         | Adapter for [SafePal](https://safepal.io)             | [`@solana/wallet-adapter-safepal`](https://npmjs.com/package/@solana/wallet-adapter-safepal)         |
+| [salmon](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/salmon)           | Adapter for [Salmon](https://www.salmonwallet.io)           | [`@solana/wallet-adapter-salmon`](https://npmjs.com/package/@solana/wallet-adapter-salmon)           |
 | [slope](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/slope)             | Adapter for [Slope](https://slope.finance)            | [`@solana/wallet-adapter-slope`](https://npmjs.com/package/@solana/wallet-adapter-slope)             |
 | [solflare](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/solflare)       | Adapter for [Solflare](https://solflare.com)          | [`@solana/wallet-adapter-solflare`](https://npmjs.com/package/@solana/wallet-adapter-solflare)       |
 | [sollet](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/sollet)           | Adapter for [Sollet](https://www.sollet.io)           | [`@solana/wallet-adapter-sollet`](https://npmjs.com/package/@solana/wallet-adapter-sollet)           |

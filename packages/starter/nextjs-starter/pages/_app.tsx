@@ -4,6 +4,7 @@ import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import {
     GlowWalletAdapter,
     PhantomWalletAdapter,
+    SalmonWalletAdapter,
     SlopeWalletAdapter,
     SolflareWalletAdapter,
     TorusWalletAdapter,
@@ -30,6 +31,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
         () => [
             new PhantomWalletAdapter(),
             new GlowWalletAdapter(),
+            new SalmonWalletAdapter({ network }),
             new SlopeWalletAdapter(),
             new SolflareWalletAdapter({ network }),
             new TorusWalletAdapter(),

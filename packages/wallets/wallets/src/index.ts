@@ -9,6 +9,7 @@ export * from '@solana/wallet-adapter-mathwallet';
 export * from '@solana/wallet-adapter-glow';
 export * from '@solana/wallet-adapter-phantom';
 export * from '@solana/wallet-adapter-safepal';
+export * from '@solana/wallet-adapter-salmon';
 export * from '@solana/wallet-adapter-slope';
 export * from '@solana/wallet-adapter-solflare';
 export * from '@solana/wallet-adapter-sollet';

@@ -4,6 +4,7 @@ import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-r
 import {
     GlowWalletAdapter,
     PhantomWalletAdapter,
+    SalmonWalletAdapter,
     SlopeWalletAdapter,
     SolflareWalletAdapter,
     TorusWalletAdapter,
@@ -37,6 +38,7 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
         () => [
             new PhantomWalletAdapter(),
             new GlowWalletAdapter(),
+            new SalmonWalletAdapter({ network }),
             new SlopeWalletAdapter(),
             new SolflareWalletAdapter({ network }),
             new TorusWalletAdapter(),
