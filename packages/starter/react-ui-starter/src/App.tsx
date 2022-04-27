@@ -4,12 +4,13 @@ import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-r
 import {
     FractalWalletAdapter,
     LedgerWalletAdapter,
+    GlowWalletAdapter,
     PhantomWalletAdapter,
     SlopeWalletAdapter,
     SolflareWalletAdapter,
-    SolletExtensionWalletAdapter,
-    SolletWalletAdapter,
     TorusWalletAdapter,
+    SolletWalletAdapter,
+    SolletExtensionWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 import React, { FC, ReactNode, useMemo } from 'react';
@@ -35,6 +36,7 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
     const wallets = useMemo(
         () => [
             new PhantomWalletAdapter(),
+            new GlowWalletAdapter(),
             new SlopeWalletAdapter(),
             new SolflareWalletAdapter({ network }),
             new TorusWalletAdapter(),
