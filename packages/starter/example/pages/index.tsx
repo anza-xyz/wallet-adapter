@@ -17,12 +17,25 @@ import {
     WalletModalButton as ReactUIWalletModalButton,
     WalletMultiButton as ReactUIWalletMultiButton,
 } from '@solana/wallet-adapter-react-ui';
+import { Message, Transaction } from '@solana/web3.js';
+import base58 from 'bs58';
 import { NextPage } from 'next';
 import { useAutoConnect } from '../components/AutoConnectProvider';
 import { RequestAirdrop } from '../components/RequestAirdrop';
 import { SendTransaction } from '../components/SendTransaction';
 import { SignMessage } from '../components/SignMessage';
 import pkg from '../package.json';
+
+function testTransferTxn(): Transaction {
+    const msg = Message.from(
+        Buffer.from(
+            base58.decode(
+                'QwE1XY3GgqxyfNbYPTA6ZSRXMiaE7CsNoepXhcxScVLyhpnNbzxDowsvi1DHABqMLaAyefJSfkj1DtsWcG4yFcNWZprpLL1Lt4hxPvBSRbp9HQ5jH6naWAocb2ouZdVMoNcTy337rZ1QYLsqkk7SSVmRbcWDwEhD'
+            )
+        )
+    );
+    return Transaction.populate(msg);
+}
 
 const Index: NextPage = () => {
     const { autoConnect, setAutoConnect } = useAutoConnect();

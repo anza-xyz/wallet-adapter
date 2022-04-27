@@ -10,9 +10,9 @@ import {
     SolflareWalletAdapter,
     TorusWalletAdapter,
     SolletWalletAdapter,
-    SolletExtensionWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
-import { clusterApiUrl } from '@solana/web3.js';
+import { clusterApiUrl, Message, Transaction } from '@solana/web3.js';
+import base58 from 'bs58';
 import React, { FC, ReactNode, useMemo } from 'react';
 
 export const App: FC = () => {
@@ -42,7 +42,6 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
             new TorusWalletAdapter(),
             new LedgerWalletAdapter(),
             new SolletWalletAdapter({ network }),
-            new SolletExtensionWalletAdapter({ network }),
             new FractalWalletAdapter({ network }),
         ],
         [network]
@@ -57,6 +56,39 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
     );
 };
 
+function testTransferTxn(): Transaction {
+    const msg = Message.from(
+        Buffer.from(
+            base58.decode(
+                'QwE1XY3GgqxyfNbYPTA6ZSRXMiaE7CsNoepXhcxScVLyhpnNbzxDowsvi1DHABqMLaAyefJSfkj1DtsWcG4yFcNWZprpLL1Lt4hxPvBSRbp9HQ5jH6naWAocb2ouZdVMoNcTy337rZ1QYLsqkk7SSVmRbcWDwEhD'
+            )
+        )
+    );
+    return Transaction.populate(msg);
+}
+
 const Content: FC = () => {
-    return <WalletMultiButton />;
+    const wallet = useWallet();
+    return (
+        <>
+            <button onClick={() => wallet?.signMessage && wallet.signMessage(Buffer.from('hi')).then(console.log)}>
+                Test signing
+            </button>
+            <button
+                onClick={() => wallet?.signTransaction && wallet.signTransaction(testTransferTxn()).then(console.log)}
+            >
+                Test Txn
+            </button>
+            <button
+                onClick={() =>
+                    wallet?.signAllTransactions &&
+                    wallet.signAllTransactions([testTransferTxn(), testTransferTxn()]).then(console.log)
+                }
+            >
+                Test Txns
+            </button>
+
+            <WalletMultiButton />
+        </>
+    );
 };
