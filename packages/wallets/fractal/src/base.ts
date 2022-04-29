@@ -75,7 +75,11 @@ class Popup {
             }
         }, 500);
 
-        const popup = window.open(url, 'fractal-wallet-popup', 'location,resizable,width=460,height=675');
+        const popup = window.open(
+            url,
+            'fractal-wallet-popup',
+            `location,resizable,width=460,height=675,left=${document.documentElement.clientWidth - 460}`
+        );
         if (!popup) {
             throw new WalletConnectionError('popup is null');
         }
