@@ -293,11 +293,9 @@ export abstract class BaseFractalWalletAdapter extends BaseMessageSignerWalletAd
     async signTransaction(transaction: Transaction): Promise<Transaction> {
         try {
             await this.connect();
-
             if (!this._popup) {
                 throw new WalletNotConnectedError();
             }
-
             try {
                 const res = (await this._popup.sendRequest({
                     method: 'signTransaction',
@@ -319,10 +317,55 @@ export abstract class BaseFractalWalletAdapter extends BaseMessageSignerWalletAd
     }
 
     async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
+        try {
+            await this.connect();
+            if (!this._popup) {
+                throw new WalletNotConnectedError();
+            }
+            try {
+                const res = (await this._popup.sendRequest({
+                    method: 'signTransactions',
+                    params: {
+                        messages: transactions.map((txn) => base58.encode(txn.serializeMessage())),
+                    },
+                })) as { signatures: string[]; publicKey: string };
+                const pk = new PublicKey(res.publicKey);
+                transactions.map((txn, idx) => {
+                    txn.addSignature(pk, base58.decode(res.signatures[idx]));
+                });
+            } catch (error: any) {
+                throw new WalletSignTransactionError(error?.message, error);
+            }
+        } catch (error: any) {
+            this.emit('error', error);
+            throw error;
+        }
         return transactions;
     }
 
-    async signMessage(message: Uint8Array): Promise<Uint8Array> {
-        return message;
+    async signMessage(data: Uint8Array): Promise<Uint8Array> {
+        try {
+            await this.connect();
+            if (!this._popup) {
+                throw new WalletNotConnectedError();
+            }
+            try {
+                const res = (await this._popup.sendRequest({
+                    method: 'sign',
+                    params: {
+                        data,
+                        display: 'utf8',
+                    },
+                })) as { signature: string; publicKey: string };
+                const sig = base58.decode(res.signature);
+
+                return sig;
+            } catch (error: any) {
+                throw new WalletSignTransactionError(error?.message, error);
+            }
+        } catch (error: any) {
+            this.emit('error', error);
+            throw error;
+        }
     }
 }
