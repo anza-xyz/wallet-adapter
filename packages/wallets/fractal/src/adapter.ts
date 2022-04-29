@@ -4,7 +4,7 @@ import { BaseFractalWalletAdapter, FractalWalletAdapterConfig } from './base';
 export const FractalWalletName = 'Fractal' as WalletName<'Fractal'>;
 
 // const WALLET_BASE_URL = 'https://fractal.is/wallet-popup';
-const WALLET_BASE_URL = 'http://localhost:3000/wallet-popup';
+export const WALLET_BASE_URL = 'http://localhost:3000/wallet-popup';
 
 export class FractalWalletAdapter extends BaseFractalWalletAdapter {
     name = FractalWalletName;

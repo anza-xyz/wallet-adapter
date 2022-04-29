@@ -1,4 +1,5 @@
 import type SolWalletAdapter from '@project-serum/sol-wallet-adapter';
+import base58 from 'bs58';
 import {
     BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
@@ -21,6 +22,7 @@ import {
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 
+//  used in the future when Fractal Wallet adds an extension
 interface FractalWallet {
     postMessage(...args: unknown[]): unknown;
 }
@@ -32,13 +34,135 @@ interface FractalWindow extends Window {
 declare const window: FractalWindow;
 
 export interface FractalWalletAdapterConfig {
-    provider?: string | FractalWallet;
+    provider?: string;
     network?: WalletAdapterNetwork;
     timeout?: number;
 }
 
+interface Request {
+    method: string;
+    params: Record<string, unknown>;
+}
+
+interface PopupHandler {
+    onClose: () => void;
+    onConnect: (publicKey: PublicKey, autoApprove: boolean) => void;
+    onDisconnect: () => void;
+}
+class Popup {
+    private _popup: WindowProxy;
+    private _timerHandle: NodeJS.Timeout;
+    private _network: string;
+    private _url: URL;
+    private _handler: PopupHandler;
+    private _pendingRequests: Record<string, { resolve: (res: unknown) => void; reject: (err: Error) => void }>;
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    private _connectedRes: () => void = () => {};
+    private _connectedPromise: Promise<void>;
+    private _autoApprove = false;
+
+    constructor(
+        url: string,
+        network: string,
+        handler: PopupHandler,
+        //  TODO: handle this
+        oneOffRequest?: Request
+    ) {
+        this._timerHandle = setInterval(() => {
+            if (this._popup.closed) {
+                handler.onClose();
+                clearInterval(this._timerHandle);
+            }
+        }, 500);
+
+        const popup = window.open(url, 'fractal-wallet-popup', 'location,resizable,width=460,height=675');
+        if (!popup) {
+            throw new WalletConnectionError('popup is null');
+        }
+        this._popup = popup;
+        this._network = network;
+        this._url = new URL(url);
+        this._pendingRequests = {};
+        this._handler = handler;
+
+        this._connectedPromise = new Promise((res, rej) => {
+            this._connectedRes = res;
+        });
+
+        window.addEventListener('message', this.handleMessage.bind(this));
+    }
+
+    handleMessage(
+        ev: MessageEvent<{
+            id: string;
+            method: string;
+            params: {
+                autoApprove: boolean;
+                publicKey: string;
+            };
+            result?: unknown;
+            error?: string;
+        }>
+    ) {
+        if (ev.origin !== this._url.origin) {
+            return;
+        }
+        if (this._pendingRequests[ev.data.id]) {
+            const { resolve, reject } = this._pendingRequests[ev.data.id];
+            if (ev.data.result) {
+                resolve(ev.data.result as object);
+            } else if (ev.data.error) {
+                reject(new Error(ev.data.error));
+            }
+            delete this._pendingRequests[ev.data.id];
+        }
+        if (ev.data.method === 'connected') {
+            this._autoApprove = ev.data.params.autoApprove;
+            const newPublicKey = new PublicKey(ev.data.params.publicKey);
+            this._handler.onConnect(newPublicKey, !!ev.data.params.autoApprove);
+            this._connectedRes();
+        }
+        if (ev.data.method === 'disconnected') {
+            this._handler.onDisconnect();
+        }
+    }
+
+    async sendRequest(req: Request): Promise<unknown> {
+        await this._connectedPromise;
+        const reqId = crypto.randomUUID();
+        this._popup.postMessage(
+            {
+                jsonrpc: '2.0',
+                id: reqId,
+                method: req.method,
+                params: {
+                    network: this._network,
+                    ...req.params,
+                },
+            },
+            this._url.origin
+        );
+        const promise = new Promise<unknown>((res, rej) => {
+            this._pendingRequests[reqId] = { resolve: res, reject: rej };
+        });
+        if (!this._autoApprove) {
+            this._popup.focus();
+        }
+        return promise;
+    }
+
+    close() {
+        this._popup.close();
+        clearInterval(this._timerHandle);
+        for (const [id, { reject }] of Object.entries(this._pendingRequests)) {
+            reject(new WalletDisconnectedError('popup closed with pending request'));
+            delete this._pendingRequests[id];
+        }
+    }
+}
+
 export abstract class BaseFractalWalletAdapter extends BaseMessageSignerWalletAdapter {
-    protected _provider: string | FractalWallet | undefined;
+    protected _provider: string;
     protected _network: WalletAdapterNetwork;
     protected _timeout: number;
     protected _readyState: WalletReadyState =
@@ -46,16 +170,31 @@ export abstract class BaseFractalWalletAdapter extends BaseMessageSignerWalletAd
             ? WalletReadyState.Unsupported
             : WalletReadyState.NotDetected;
     protected _connecting: boolean;
-    protected _wallet: SolWalletAdapter | null;
+    //  NOTE: we allow the wallet to remain "connected" even after the popup is
+    //  closed so that the user doesn't have to keep it open
+    protected _connected = false;
+    protected _publicKey: PublicKey | null;
 
-    constructor({ provider, network = WalletAdapterNetwork.Mainnet, timeout = 10000 }: FractalWalletAdapterConfig = {}) {
+    protected _popup: Popup | null;
+
+    constructor({
+        provider,
+        network = WalletAdapterNetwork.Mainnet,
+        timeout = 10000,
+    }: FractalWalletAdapterConfig = {}) {
         super();
+
+        if (!provider) {
+            throw new WalletConfigError('no provider specified');
+        }
 
         this._provider = provider;
         this._network = network;
         this._timeout = timeout;
         this._connecting = false;
-        this._wallet = null;
+        this._publicKey = null;
+
+        this._popup = null;
 
         if (this._readyState !== WalletReadyState.Unsupported) {
             if (typeof this._provider === 'string') {
@@ -74,7 +213,7 @@ export abstract class BaseFractalWalletAdapter extends BaseMessageSignerWalletAd
     }
 
     get publicKey(): PublicKey | null {
-        return this._wallet?.publicKey || null;
+        return this._publicKey;
     }
 
     get connecting(): boolean {
@@ -82,7 +221,7 @@ export abstract class BaseFractalWalletAdapter extends BaseMessageSignerWalletAd
     }
 
     get connected(): boolean {
-        return !!this._wallet?.connected;
+        return this._connected;
     }
 
     get readyState(): WalletReadyState {
@@ -90,152 +229,86 @@ export abstract class BaseFractalWalletAdapter extends BaseMessageSignerWalletAd
     }
 
     async connect(): Promise<void> {
-        try {
-            if (this.connected || this.connecting) return;
-            if (!(this._readyState === WalletReadyState.Loadable || this._readyState === WalletReadyState.Installed))
-                throw new WalletNotReadyError();
+        this._connect();
+    }
 
-            this._connecting = true;
+    private async _connect(oneOffRequest?: Request) {
+        if (this._popup) return;
+        if (!(this._readyState === WalletReadyState.Loadable || this._readyState === WalletReadyState.Installed))
+            throw new WalletNotReadyError();
 
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const provider = this._provider || window!.fractal!;
+        this._connecting = true;
 
-            let SolWalletAdapterClass: typeof SolWalletAdapter;
-            try {
-                ({ default: SolWalletAdapterClass } = await import('@project-serum/sol-wallet-adapter'));
-            } catch (error: any) {
-                throw new WalletLoadError(error?.message, error);
-            }
+        const provider = this._provider;
 
-            let wallet: SolWalletAdapter;
-            try {
-                wallet = new SolWalletAdapterClass(provider, this._network);
-            } catch (error: any) {
-                throw new WalletConfigError(error?.message, error);
-            }
+        let connRes: () => void;
+        let connRej: (_: Error) => void;
+        const connPromise = new Promise<void>((res, rej) => {
+            connRes = res;
+            connRej = rej;
+        });
 
-            try {
-                // HACK: sol-wallet-adapter doesn't reject or emit an event if the popup or extension is closed or blocked
-                const handleDisconnect: (...args: unknown[]) => unknown = (wallet as any).handleDisconnect;
-                let timeout: NodeJS.Timer | undefined;
-                let interval: NodeJS.Timer | undefined;
-                try {
-                    await new Promise<void>((resolve, reject) => {
-                        const connect = () => {
-                            if (timeout) clearTimeout(timeout);
-                            wallet.off('connect', connect);
-                            resolve();
-                        };
+        this._popup = new Popup(
+            provider,
+            this._network,
+            {
+                onClose: () => {
+                    console.log('closed');
+                    connRej(new Error('closed'));
+                    this._popup = null;
+                    this._connecting = false;
+                },
+                onConnect: (publicKey: PublicKey, autoApprove: boolean) => {
+                    this._connecting = false;
+                    this._connected = true;
+                    this._publicKey = publicKey;
+                    this.emit('connect', publicKey);
+                    connRes();
+                    console.log('connected');
+                },
+                onDisconnect: () => {
+                    connRej(new Error('disconnected'));
+                    console.log('disconnected');
+                    this.disconnect();
+                },
+            },
+            oneOffRequest
+        );
 
-                        (wallet as any).handleDisconnect = (...args: unknown[]): unknown => {
-                            wallet.off('connect', connect);
-                            reject(new WalletWindowClosedError());
-                            return handleDisconnect.apply(wallet, args);
-                        };
-
-                        wallet.on('connect', connect);
-
-                        wallet.connect().catch((reason: any) => {
-                            wallet.off('connect', connect);
-                            reject(reason);
-                        });
-
-                        if (typeof provider === 'string') {
-                            let count = 0;
-
-                            interval = setInterval(() => {
-                                const popup = (wallet as any)._popup;
-                                if (popup) {
-                                    if (popup.closed) reject(new WalletWindowClosedError());
-                                } else {
-                                    if (count > 50) reject(new WalletWindowBlockedError());
-                                }
-
-                                count++;
-                            }, 100);
-                        } else {
-                            // HACK: sol-wallet-adapter doesn't reject or emit an event if the extension is closed or ignored
-                            timeout = setTimeout(() => reject(new WalletTimeoutError()), this._timeout);
-                        }
-                    });
-                } finally {
-                    (wallet as any).handleDisconnect = handleDisconnect;
-                    if (interval) clearInterval(interval);
-                }
-            } catch (error: any) {
-                if (error instanceof WalletError) throw error;
-                throw new WalletConnectionError(error?.message, error);
-            }
-
-            if (!wallet.publicKey) throw new WalletPublicKeyError();
-
-            wallet.on('disconnect', this._disconnected);
-
-            this._wallet = wallet;
-
-            this.emit('connect', wallet.publicKey);
-        } catch (error: any) {
-            this.emit('error', error);
-            throw error;
-        } finally {
-            this._connecting = false;
-        }
+        return connPromise.catch((e) => {
+            this.emit('error', e);
+            throw e;
+        });
     }
 
     async disconnect(): Promise<void> {
-        const wallet = this._wallet;
-        if (wallet) {
-            wallet.off('disconnect', this._disconnected);
-
-            this._wallet = null;
-
-            // HACK: sol-wallet-adapter doesn't reliably fulfill its promise or emit an event on disconnect
-            const handleDisconnect: (...args: unknown[]) => unknown = (wallet as any).handleDisconnect;
-            try {
-                await new Promise<void>((resolve, reject) => {
-                    const timeout = setTimeout(() => resolve(), 250);
-
-                    (wallet as any).handleDisconnect = (...args: unknown[]): unknown => {
-                        clearTimeout(timeout);
-                        resolve();
-                        // HACK: sol-wallet-adapter rejects with an uncaught promise error
-                        (wallet as any)._responsePromises = new Map();
-                        return handleDisconnect.apply(wallet, args);
-                    };
-
-                    wallet.disconnect().then(
-                        () => {
-                            clearTimeout(timeout);
-                            resolve();
-                        },
-                        (error) => {
-                            clearTimeout(timeout);
-                            // HACK: sol-wallet-adapter rejects with an error on disconnect
-                            if (error?.message === 'Wallet disconnected') {
-                                resolve();
-                            } else {
-                                reject(error);
-                            }
-                        }
-                    );
-                });
-            } catch (error: any) {
-                this.emit('error', new WalletDisconnectionError(error?.message, error));
-            } finally {
-                (wallet as any).handleDisconnect = handleDisconnect;
-            }
-        }
+        this._popup?.close();
+        this._popup = null;
+        this._connecting = false;
+        this._connected = false;
 
         this.emit('disconnect');
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {
         try {
-            const wallet = this._wallet;
-            if (!wallet) throw new WalletNotConnectedError();
+            await this.connect();
+
+            if (!this._popup) {
+                throw new WalletNotConnectedError();
+            }
 
             try {
-                return (await wallet.signTransaction(transaction)) || transaction;
+                const res = (await this._popup.sendRequest({
+                    method: 'signTransaction',
+                    params: {
+                        message: base58.encode(transaction.serializeMessage()),
+                    },
+                })) as { signature: string; publicKey: string };
+                const sig = base58.decode(res.signature);
+                transaction.addSignature(new PublicKey(res.publicKey), sig);
+
+                return transaction;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -246,47 +319,10 @@ export abstract class BaseFractalWalletAdapter extends BaseMessageSignerWalletAd
     }
 
     async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
-        try {
-            const wallet = this._wallet;
-            if (!wallet) throw new WalletNotConnectedError();
-
-            try {
-                return (await wallet.signAllTransactions(transactions)) || transactions;
-            } catch (error: any) {
-                throw new WalletSignTransactionError(error?.message, error);
-            }
-        } catch (error: any) {
-            this.emit('error', error);
-            throw error;
-        }
+        return transactions;
     }
 
     async signMessage(message: Uint8Array): Promise<Uint8Array> {
-        try {
-            const wallet = this._wallet;
-            if (!wallet) throw new WalletNotConnectedError();
-
-            try {
-                const { signature } = await wallet.sign(message, 'utf8');
-                return Uint8Array.from(signature);
-            } catch (error: any) {
-                throw new WalletSignMessageError(error?.message, error);
-            }
-        } catch (error: any) {
-            this.emit('error', error);
-            throw error;
-        }
+        return message;
     }
-
-    private _disconnected = () => {
-        const wallet = this._wallet;
-        if (wallet) {
-            wallet.off('disconnect', this._disconnected);
-
-            this._wallet = null;
-
-            this.emit('error', new WalletDisconnectedError());
-            this.emit('disconnect');
-        }
-    };
 }
