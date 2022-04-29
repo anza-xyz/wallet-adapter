@@ -72,7 +72,7 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
             new SlopeWalletAdapter(),
             new SolflareWalletAdapter({ network }),
             new TorusWalletAdapter(),
-            new FractalWalletAdapter(),
+            new FractalWalletAdapter({ network }),
         ],
         [network]
     );

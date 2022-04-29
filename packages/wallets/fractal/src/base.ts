@@ -75,8 +75,11 @@ class Popup {
             }
         }, 500);
 
+        this._url = new URL(url);
+        this._url.hash = new URLSearchParams({ network }).toString();
+
         const popup = window.open(
-            url,
+            this._url,
             'fractal-wallet-popup',
             `location,resizable,width=460,height=675,left=${document.documentElement.clientWidth - 460}`
         );
@@ -85,7 +88,6 @@ class Popup {
         }
         this._popup = popup;
         this._network = network;
-        this._url = new URL(url);
         this._pendingRequests = {};
         this._handler = handler;
 
