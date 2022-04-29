@@ -65,7 +65,7 @@ class Popup {
         url: string,
         network: string,
         handler: PopupHandler,
-        //  TODO: handle this
+        //  TODO: make this a "wait for one request, then close when no more requests" bool
         oneOffRequest?: Request
     ) {
         this._timerHandle = setInterval(() => {
