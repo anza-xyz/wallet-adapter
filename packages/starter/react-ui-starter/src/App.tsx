@@ -1,5 +1,5 @@
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import { ConnectionProvider, useWallet, WalletProvider } from '@solana/wallet-adapter-react';
+import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import {
     FractalWalletAdapter,
@@ -11,8 +11,7 @@ import {
     TorusWalletAdapter,
     SolletWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
-import { clusterApiUrl, Message, Transaction } from '@solana/web3.js';
-import base58 from 'bs58';
+import { clusterApiUrl } from '@solana/web3.js';
 import React, { FC, ReactNode, useMemo } from 'react';
 
 export const App: FC = () => {
@@ -56,38 +55,9 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
     );
 };
 
-function testTransferTxn(): Transaction {
-    const msg = Message.from(
-        Buffer.from(
-            base58.decode(
-                'QwE1XY3GgqxyfNbYPTA6ZSRXMiaE7CsNoepXhcxScVLyhpnNbzxDowsvi1DHABqMLaAyefJSfkj1DtsWcG4yFcNWZprpLL1Lt4hxPvBSRbp9HQ5jH6naWAocb2ouZdVMoNcTy337rZ1QYLsqkk7SSVmRbcWDwEhD'
-            )
-        )
-    );
-    return Transaction.populate(msg);
-}
-
 const Content: FC = () => {
-    const wallet = useWallet();
     return (
         <>
-            <button onClick={() => wallet?.signMessage && wallet.signMessage(Buffer.from('hi')).then(console.log)}>
-                Test signing
-            </button>
-            <button
-                onClick={() => wallet?.signTransaction && wallet.signTransaction(testTransferTxn()).then(console.log)}
-            >
-                Test Txn
-            </button>
-            <button
-                onClick={() =>
-                    wallet?.signAllTransactions &&
-                    wallet.signAllTransactions([testTransferTxn(), testTransferTxn()]).then(console.log)
-                }
-            >
-                Test Txns
-            </button>
-
             <WalletMultiButton />
         </>
     );
