@@ -52,14 +52,7 @@ class Popup {
     private _connectedPromise: Promise<void>;
     private _autoApprove = false;
 
-    constructor(
-        url: string,
-        network: string,
-        handler: PopupHandler,
-        //  TODO: make this a "wait for one request, then close when no more requests" bool
-
-        waitForRequest: boolean
-    ) {
+    constructor(url: string, network: string, handler: PopupHandler, waitForRequest: boolean) {
         this._timerHandle = setInterval(() => {
             if (this._popup.closed) {
                 handler.onClose();
