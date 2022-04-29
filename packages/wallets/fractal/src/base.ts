@@ -79,6 +79,7 @@ class Popup {
         this._url.hash = new URLSearchParams({ network }).toString();
 
         //  TODO: auto-connect doesn't work because we can't open a popup without user gesture
+        //  maybe we should iframe wallet-popup and get their public key if this site is approved?
         const popup = window.open(
             this._url,
             'fractal-wallet-popup',
