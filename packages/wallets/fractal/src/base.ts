@@ -1,4 +1,3 @@
-import type SolWalletAdapter from '@project-serum/sol-wallet-adapter';
 import base58 from 'bs58';
 import {
     BaseMessageSignerWalletAdapter,
@@ -7,18 +6,10 @@ import {
     WalletConfigError,
     WalletConnectionError,
     WalletDisconnectedError,
-    WalletDisconnectionError,
-    WalletError,
-    WalletLoadError,
     WalletNotConnectedError,
     WalletNotReadyError,
-    WalletPublicKeyError,
     WalletReadyState,
-    WalletSignMessageError,
     WalletSignTransactionError,
-    WalletTimeoutError,
-    WalletWindowBlockedError,
-    WalletWindowClosedError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
 
@@ -66,17 +57,22 @@ class Popup {
         network: string,
         handler: PopupHandler,
         //  TODO: make this a "wait for one request, then close when no more requests" bool
-        oneOffRequest?: Request
+
+        waitForRequest: boolean
     ) {
         this._timerHandle = setInterval(() => {
             if (this._popup.closed) {
                 handler.onClose();
                 clearInterval(this._timerHandle);
             }
-        }, 500);
+        }, 250);
 
         this._url = new URL(url);
-        this._url.hash = new URLSearchParams({ network }).toString();
+        const hashParams: Record<string, string> = { network };
+        if (waitForRequest) {
+            hashParams.waitForRequest = 'true';
+        }
+        this._url.hash = new URLSearchParams(hashParams).toString();
 
         //  TODO: auto-connect doesn't work because we can't open a popup without user gesture
         //  maybe we should iframe wallet-popup and get their public key if this site is approved?
@@ -237,10 +233,10 @@ export abstract class BaseFractalWalletAdapter extends BaseMessageSignerWalletAd
     }
 
     async connect(): Promise<void> {
-        this._connect();
+        this._connect(false);
     }
 
-    private async _connect(oneOffRequest?: Request) {
+    private async _connect(waitForRequest: boolean) {
         if (this._popup) return;
         if (!(this._readyState === WalletReadyState.Loadable || this._readyState === WalletReadyState.Installed))
             throw new WalletNotReadyError();
@@ -280,7 +276,7 @@ export abstract class BaseFractalWalletAdapter extends BaseMessageSignerWalletAd
                     this.disconnect();
                 },
             },
-            oneOffRequest
+            waitForRequest
         );
 
         return connPromise.catch((e) => {
@@ -300,7 +296,7 @@ export abstract class BaseFractalWalletAdapter extends BaseMessageSignerWalletAd
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {
         try {
-            await this.connect();
+            await this._connect(true);
             if (!this._popup) {
                 throw new WalletNotConnectedError();
             }
@@ -326,7 +322,7 @@ export abstract class BaseFractalWalletAdapter extends BaseMessageSignerWalletAd
 
     async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
         try {
-            await this.connect();
+            await this._connect(true);
             if (!this._popup) {
                 throw new WalletNotConnectedError();
             }
@@ -353,7 +349,7 @@ export abstract class BaseFractalWalletAdapter extends BaseMessageSignerWalletAd
 
     async signMessage(data: Uint8Array): Promise<Uint8Array> {
         try {
-            await this.connect();
+            await this._connect(true);
             if (!this._popup) {
                 throw new WalletNotConnectedError();
             }
