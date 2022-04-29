@@ -56,9 +56,5 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 const Content: FC = () => {
-    return (
-        <>
-            <WalletMultiButton />
-        </>
-    );
+    return <WalletMultiButton />;
 };
