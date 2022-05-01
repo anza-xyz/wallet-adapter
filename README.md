@@ -149,7 +149,7 @@ These packages are what most projects can use to support wallets on Solana.
 | package                                                                                     | description                                               | npm                                                                                            |
 | ------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
 | [base](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/base)        | Adapter interfaces, error types, and common utilities     | [`@solana/wallet-adapter-base`](https://npmjs.com/package/@solana/wallet-adapter-base)         |
-| [react](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/react)      | Contexts and hooks for React dApps                        | [`@solana/wallet-adapter-react`](https://npmjs.com/package/@solana/wallet-adapter-react)       |
+| [react](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/react)      | Contexts and hooks for React Apps                         | [`@solana/wallet-adapter-react`](https://npmjs.com/package/@solana/wallet-adapter-react)       |
 
 ### Wallets
 These packages provide adapters for each wallet.
