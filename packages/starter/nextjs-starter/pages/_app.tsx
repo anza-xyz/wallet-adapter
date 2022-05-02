@@ -2,7 +2,6 @@ import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import {
-    ExodusWalletAdapter,
     GlowWalletAdapter,
     PhantomWalletAdapter,
     SlopeWalletAdapter,
@@ -30,7 +29,6 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
     const wallets = useMemo(
         () => [
             new PhantomWalletAdapter(),
-            new ExodusWalletAdapter(),
             new GlowWalletAdapter(),
             new SlopeWalletAdapter(),
             new SolflareWalletAdapter({ network }),

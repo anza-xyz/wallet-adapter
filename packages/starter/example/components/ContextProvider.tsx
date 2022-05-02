@@ -6,7 +6,6 @@ import { WalletDialogProvider as MaterialUIWalletDialogProvider } from '@solana/
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider as ReactUIWalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import {
-    ExodusWalletAdapter,
     GlowWalletAdapter,
     PhantomWalletAdapter,
     SlopeWalletAdapter,
@@ -68,7 +67,6 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const wallets = useMemo(
         () => [
             new PhantomWalletAdapter(),
-            new ExodusWalletAdapter(),
             new GlowWalletAdapter(),
             new SlopeWalletAdapter(),
             new SolflareWalletAdapter({ network }),
