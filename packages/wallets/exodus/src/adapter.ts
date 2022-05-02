@@ -24,7 +24,7 @@ interface ExodusWalletEvents {
 }
 
 interface ExodusWallet extends EventEmitter<ExodusWalletEvents> {
-    isExodus?: boolean;
+    isExodus: boolean;
     publicKey?: { toBytes(): Uint8Array };
     isConnected: boolean;
     signTransaction(transaction: Transaction): Promise<Transaction>;
