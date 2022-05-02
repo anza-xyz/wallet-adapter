@@ -27,6 +27,8 @@ interface ExodusWallet extends EventEmitter<ExodusWalletEvents> {
     isExodus: boolean;
     publicKey?: { toBytes(): Uint8Array };
     isConnected: boolean;
+    connect(): Promise<void>;
+    disconnect(): Promise<void>;
     signTransaction(transaction: Transaction): Promise<Transaction>;
     signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
     signAndSendTransaction(
@@ -34,9 +36,6 @@ interface ExodusWallet extends EventEmitter<ExodusWalletEvents> {
         options?: SendOptions
     ): Promise<{ signature: TransactionSignature }>;
     signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
-    connect(): Promise<void>;
-    disconnect(): Promise<void>;
-    _handleDisconnect(...args: unknown[]): unknown;
 }
 
 interface ExodusWindow extends Window {
@@ -110,19 +109,11 @@ export class ExodusWalletAdapter extends BaseMessageSignerWalletAdapter {
             const wallet = window!.exodus!.solana!;
 
             if (!wallet.isConnected) {
-                // HACK: Exodus doesn't reject or emit an event if the popup is closed
-                const handleDisconnect = wallet._handleDisconnect;
                 try {
                     await new Promise<void>((resolve, reject) => {
                         const connect = () => {
                             wallet.off('connect', connect);
                             resolve();
-                        };
-
-                        wallet._handleDisconnect = (...args: unknown[]) => {
-                            wallet.off('connect', connect);
-                            reject(new WalletWindowClosedError());
-                            return handleDisconnect.apply(wallet, args);
                         };
 
                         wallet.on('connect', connect);
@@ -135,8 +126,6 @@ export class ExodusWalletAdapter extends BaseMessageSignerWalletAdapter {
                 } catch (error: any) {
                     if (error instanceof WalletError) throw error;
                     throw new WalletConnectionError(error?.message, error);
-                } finally {
-                    wallet._handleDisconnect = handleDisconnect;
                 }
             }
 
