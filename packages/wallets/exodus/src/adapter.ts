@@ -40,7 +40,9 @@ interface ExodusWallet extends EventEmitter<ExodusWalletEvents> {
 }
 
 interface ExodusWindow extends Window {
-    solana?: ExodusWallet;
+    exodus?: {
+        solana?: ExodusWallet;
+    };
 }
 
 declare const window: ExodusWindow;
@@ -71,7 +73,7 @@ export class ExodusWalletAdapter extends BaseMessageSignerWalletAdapter {
 
         if (this._readyState !== WalletReadyState.Unsupported) {
             scopePollingDetectionStrategy(() => {
-                if (window.solana?.isExodus) {
+                if (window.exodus?.solana) {
                     this._readyState = WalletReadyState.Installed;
                     this.emit('readyStateChange', this._readyState);
                     return true;
@@ -105,7 +107,7 @@ export class ExodusWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.solana!;
+            const wallet = window!.exodus!.solana!;
 
             if (!wallet.isConnected) {
                 // HACK: Exodus doesn't reject or emit an event if the popup is closed
