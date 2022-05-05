@@ -22,12 +22,14 @@ interface GlowWalletEvents {
     disconnect(...args: unknown[]): unknown;
 }
 
+type Network = 'mainnet' | 'devnet'
+
 interface GlowWallet extends EventEmitter<GlowWalletEvents> {
     isGlow?: boolean;
     publicKey?: { toBytes(): Uint8Array };
     isConnected: boolean;
-    signTransaction(transaction: Transaction): Promise<Transaction>;
-    signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
+    signTransaction(transaction: Transaction, network?: Network): Promise<Transaction>;
+    signAllTransactions(transactions: Transaction[], network?: Network): Promise<Transaction[]>;
     signAndSendTransaction(
         transaction: Transaction,
         options?: SendOptions
@@ -174,7 +176,7 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
     async sendTransaction(
         transaction: Transaction,
         connection: Connection,
-        options?: SendTransactionOptions
+        options?: SendTransactionOptions & { network: Network }
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
@@ -197,13 +199,13 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
         return await super.sendTransaction(transaction, connection, options);
     }
 
-    async signTransaction(transaction: Transaction): Promise<Transaction> {
+    async signTransaction(transaction: Transaction, network?: Network): Promise<Transaction> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return (await wallet.signTransaction(transaction)) || transaction;
+                return (await wallet.signTransaction(transaction, network)) || transaction;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -213,13 +215,13 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
+    async signAllTransactions(transactions: Transaction[], network?: Network): Promise<Transaction[]> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return (await wallet.signAllTransactions(transactions)) || transactions;
+                return (await wallet.signAllTransactions(transactions, network)) || transactions;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
