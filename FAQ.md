@@ -101,6 +101,8 @@ Please see [issue #72](https://github.com/solana-labs/wallet-adapter/issues/72#i
 
 Some wallet adapters provide a `signMessage` method for signing arbitrary bytes:
 
+- [Exodus](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/exodus)
+- [Glow](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/glow)
 - [Phantom](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/phantom)
 - [Solflare](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/solflare)
 - [Slope](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/slope)

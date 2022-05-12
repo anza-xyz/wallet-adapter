@@ -4,9 +4,10 @@ export * from '@solana/wallet-adapter-blocto';
 export * from '@solana/wallet-adapter-clover';
 export * from '@solana/wallet-adapter-coin98';
 export * from '@solana/wallet-adapter-coinhub';
+export * from '@solana/wallet-adapter-exodus';
+export * from '@solana/wallet-adapter-glow';
 export * from '@solana/wallet-adapter-ledger';
 export * from '@solana/wallet-adapter-mathwallet';
-export * from '@solana/wallet-adapter-glow';
 export * from '@solana/wallet-adapter-phantom';
 export * from '@solana/wallet-adapter-safepal';
 export * from '@solana/wallet-adapter-slope';
@@ -16,5 +17,3 @@ export * from '@solana/wallet-adapter-solong';
 export * from '@solana/wallet-adapter-tokenpocket';
 export * from '@solana/wallet-adapter-torus';
 export * from '@solana/wallet-adapter-walletconnect';
-
-export * from './adapters';
