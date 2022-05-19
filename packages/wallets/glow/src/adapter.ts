@@ -109,10 +109,37 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
         return this._readyState;
     }
 
+    private async awaitReadyState() {
+        if (this._readyState === WalletReadyState.Installed) {
+            return;
+        }
+
+        // Some webpages try to connect to wallet before
+        // it is registered. Let's wait 3 seconds
+        // for wallet registration.
+        const MAX_RETRIES = 3;
+        const RETRY_EVERY_MS = 1_000;
+
+        let numRetries = 0;
+        while (numRetries < MAX_RETRIES) {
+            if (this._readyState === WalletReadyState.Installed) {
+                break;
+            }
+            // Wait 1 second
+            await new Promise((resolve) => setTimeout(resolve, RETRY_EVERY_MS));
+            numRetries += 1;
+        }
+        // We could have used up all retries or we could have detected
+        // the wallet is registered, let's check.
+        if (this._readyState !== WalletReadyState.Installed) {
+            throw new WalletNotReadyError();
+        }
+    }
+
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
-            if (this._readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
+            await this.awaitReadyState();
 
             this._connecting = true;
 
