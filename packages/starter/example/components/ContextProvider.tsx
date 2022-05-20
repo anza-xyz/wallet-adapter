@@ -7,6 +7,7 @@ import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react
 import { WalletModalProvider as ReactUIWalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import {
     GlowWalletAdapter,
+    NightlyWalletAdapter,
     PhantomWalletAdapter,
     SlopeWalletAdapter,
     SolflareWalletAdapter,
@@ -67,6 +68,7 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     // of wallets that your users connect to will be loaded
     const wallets = useMemo(
         () => [
+            new NightlyWalletAdapter(),
             new PhantomWalletAdapter(),
             new GlowWalletAdapter(),
             new SlopeWalletAdapter(),
