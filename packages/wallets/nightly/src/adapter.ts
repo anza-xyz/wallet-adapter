@@ -141,16 +141,19 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     async disconnect() {
-        if (this._wallet) {
+        const wallet = this._wallet;
+
+        if (wallet) {
+            this._publicKey = null;
+            this._wallet = null;
+
             try {
-                await this._wallet.disconnect();
+                await wallet.disconnect();
             } catch (_error) {
                 this.emit('error', new WalletDisconnectedError());
             }
-
-            this._publicKey = null;
-
-            this.emit('disconnect');
         }
+
+        this.emit('disconnect');
     }
 }
