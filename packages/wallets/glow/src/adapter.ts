@@ -139,9 +139,9 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
+            this._connecting = true;
             await this.awaitReadyState();
 
-            this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const wallet = window!.glowSolana!;
