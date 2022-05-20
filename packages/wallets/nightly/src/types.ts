@@ -26,3 +26,9 @@ export declare class SolanaNightly {
     signTransaction(tx: SolanaTx): Promise<SolanaTx>;
     signAllTransactions(txs: SolanaTx[]): Promise<SolanaTx[]>;
 }
+
+export interface NightlyWindow extends Window {
+    nightly?: {
+        solana?: SolanaNightly
+    };
+}
