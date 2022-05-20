@@ -8,6 +8,7 @@ export declare class Nightly {
 }
 
 export declare class SolanaNightly {
+    isConnected?: boolean
     publicKey: SolanaPublicKey;
     _onDisconnect: () => void;
     private readonly _nightlyEventsMap;

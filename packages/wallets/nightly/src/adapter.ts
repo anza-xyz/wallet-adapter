@@ -8,6 +8,7 @@ import {
     WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
+    WalletPublicKeyError,
     WalletReadyState,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
@@ -32,11 +33,9 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
             ? WalletReadyState.Unsupported
             : WalletReadyState.NotDetected;
 
-    _connected: boolean;
     constructor() {
         super();
         this._connecting = false;
-        this._connected = false;
         this._publicKey = null;
         this._wallet = null;
 
@@ -52,8 +51,8 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
         }
     }
 
-    get connected() {
-        return this._connected;
+    get connected(): boolean {
+        return !!this._wallet?.isConnected;
     }
 
     get connecting(): boolean {
@@ -107,28 +106,37 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
             if (this.connected || this.connecting) return;
             if (this._readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
 
-            const wallet = window?.nightly?.solana;
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const wallet = window!.nightly!.solana!;
 
-            if (!wallet || !wallet?.publicKey) throw new WalletAccountError();
-
-            try {
-                this._connecting = true;
-                const pk = await wallet.connect(onDisconnect);
-                this._publicKey = pk;
-
-                this.emit('connect', pk);
-
-                this._connecting = false;
-                this._wallet = wallet
-                this._connected = true;
-            } catch (error: any) {
-                this._connecting = false;
-                if (error instanceof WalletError) throw error;
-                throw new WalletConnectionError(error?.message, error);
+            if (!wallet?.isConnected) {
+                try {
+                    this._connecting = true;
+                    await wallet.connect(onDisconnect);
+                } catch (error: any) {
+                    if (error instanceof WalletError) throw error;
+                    throw new WalletConnectionError(error?.message, error);
+                }
             }
+
+            if (!wallet?.publicKey) throw new WalletAccountError();
+
+            let publicKey: PublicKey;
+            try {
+                publicKey = new PublicKey(wallet.publicKey.toBytes());
+            } catch (error: any) {
+                throw new WalletPublicKeyError(error?.message, error);
+            }
+
+            this._wallet = wallet;
+            this._publicKey = publicKey;
+
+            this.emit('connect', publicKey);
         } catch (error: any) {
             this.emit('error', error);
             throw error;
+        } finally {
+            this._connecting = false;
         }
     }
 
@@ -141,7 +149,6 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
             }
 
             this._publicKey = null;
-            this._connected = false;
 
             this.emit('disconnect');
         }
