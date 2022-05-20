@@ -1,14 +1,5 @@
 import { PublicKey as SolanaPublicKey, Transaction as SolanaTx } from '@solana/web3.js';
 
-export interface WalletAdapter {
-    publicKey: SolanaPublicKey;
-    connected: boolean;
-    signTransaction: (transaction: SolanaTx) => Promise<SolanaTx>;
-    signAllTransactions: (transaction: SolanaTx[]) => Promise<SolanaTx[]>;
-    connect: () => any;
-    disconnect: () => any;
-}
-
 export declare class Nightly {
     solana: SolanaNightly;
     private readonly _nightlyEventsMap;
