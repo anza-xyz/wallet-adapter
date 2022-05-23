@@ -1,14 +1,12 @@
 import {
     BaseSignerWalletAdapter,
     scopePollingDetectionStrategy,
-    WalletAccountError,
     WalletConnectionError,
     WalletDisconnectedError,
     WalletError,
     WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
-    WalletPublicKeyError,
     WalletReadyState,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
@@ -111,30 +109,19 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const wallet = window!.nightly!.solana!;
 
-            if (!wallet?.isConnected) {
-                try {
-                    this._connecting = true;
-                    await wallet.connect(onDisconnect);
-                } catch (error: any) {
-                    if (error instanceof WalletError) throw error;
-                    throw new WalletConnectionError(error?.message, error);
-                }
-            }
-
-            if (!wallet?.publicKey) throw new WalletAccountError();
-
-            let publicKey: PublicKey;
             try {
-                publicKey = new PublicKey(wallet.publicKey.toBytes());
+                this._connecting = true;
+                await wallet.connect(onDisconnect);
             } catch (error: any) {
-                throw new WalletPublicKeyError(error?.message, error);
+                if (error instanceof WalletError) throw error;
+                throw new WalletConnectionError(error?.message, error);
             }
 
             this._connected = true;
             this._wallet = wallet;
-            this._publicKey = publicKey;
+            this._publicKey = wallet.publicKey;
 
-            this.emit('connect', publicKey);
+            this.emit('connect', wallet.publicKey);
         } catch (error: any) {
             this.emit('error', error);
             throw error;
@@ -146,14 +133,14 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
     async disconnect() {
         const wallet = this._wallet;
 
-        if (wallet !== null) {
+        if (wallet) {
             this._publicKey = null;
             this._wallet = null;
-            this._connected = false
+            this._connected = false;
 
             try {
                 await wallet.disconnect();
-            } catch (_error) {
+            } catch (error) {
                 this.emit('error', new WalletDisconnectedError());
             }
         }
