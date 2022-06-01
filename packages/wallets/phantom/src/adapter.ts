@@ -21,6 +21,7 @@ import { Connection, PublicKey, SendOptions, Transaction, TransactionSignature }
 interface PhantomWalletEvents {
     connect(...args: unknown[]): unknown;
     disconnect(...args: unknown[]): unknown;
+    accountChanged(publicKey: PublicKey): void;
 }
 
 interface PhantomWallet extends EventEmitter<PhantomWalletEvents> {
