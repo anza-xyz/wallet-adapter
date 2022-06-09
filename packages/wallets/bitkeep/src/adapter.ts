@@ -1,5 +1,5 @@
 import {
-    BaseSignerWalletAdapter,
+    BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
     WalletAccountError,
     WalletDisconnectionError,
@@ -34,7 +34,7 @@ export interface BitKeepWalletAdapterConfig {}
 
 export const BitKeepWalletName = 'BitKeep' as WalletName<'BitKeep'>;
 
-export class BitKeepWalletAdapter extends BaseSignerWalletAdapter {
+export class BitKeepWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = BitKeepWalletName;
     url = 'https://bitkeep.com';
     icon =
