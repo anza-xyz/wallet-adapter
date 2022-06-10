@@ -36,7 +36,6 @@
         "process": "^0.11.10",
         "stream-browserify": "^3.0.0",
         "crypto-browserify": "^3.12.0"
-
     },
     "devDependencies": {
         "@types/keccak": "^3.0.1",
