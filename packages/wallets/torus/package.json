@@ -27,17 +27,20 @@
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.43.0"
+        "@solana/web3.js": "^1.36.0"
     },
     "dependencies": {
         "@solana/wallet-adapter-base": "^0.9.4",
         "@toruslabs/solana-embed": "^0.2.1",
         "assert": "^2.0.0",
         "process": "^0.11.10",
-        "stream-browserify": "^3.0.0"
+        "stream-browserify": "^3.0.0",
+        "crypto-browserify": "^3.12.0"
+
     },
     "devDependencies": {
         "@types/keccak": "^3.0.1",
+        "@types/node-fetch": "^2.6.1",
         "@types/readable-stream": "^2.3.11",
         "@solana/web3.js": "^1.36.0"
     },
@@ -46,18 +49,7 @@
             "assert": "npm:assert@^2.0.0",
             "process": "npm:process@^0.11.10",
             "stream": "npm:stream-browserify@^3.0.0",
-            "crypto": "npm:crypto-browserify",
-            "@toruslabs/eccrypto" : {
-                "crypto": "npm:crypto-browserify"
-            },
-            "@solana/web3.js": "1.36.0"
-        },
-            "@solana/web3.js": "1.36.0"
-    },
-    "resolutions": {
-        "@toruslabs/solana-embed": {
-            "@solana/web3.js": "1.36.0"
-        },
-        "@toruslabs/solana-embed/@solana/web3.js": "1.36.0"
+            "crypto": "npm:crypto-browserify@^3.12.0"
+        }
     }
 }
