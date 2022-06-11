@@ -54,6 +54,6 @@
         "typescript-esm": "^2.0.0"
     },
     "resolutions": {
-        "**/@toruslabs/solana-embed/@solana/web3.js": "=1.36.0"
+        "**/@toruslabs/solana-embed/@solana/web3.js": "^1.36.0"
     }
 }
