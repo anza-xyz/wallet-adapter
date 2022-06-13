@@ -3407,7 +3407,7 @@
   dependencies:
     buffer "~6.0.3"
 
-"@solana/web3.js@=1.36.0", "@solana/web3.js@^1.30.2", "@solana/web3.js@^1.35.1", "@solana/web3.js@^1.36.0", "@solana/web3.js@^1.43.0":
+"@solana/web3.js@^1.30.2", "@solana/web3.js@^1.35.1", "@solana/web3.js@^1.36.0":
   version "1.36.0"
   resolved "https://registry.yarnpkg.com/@solana/web3.js/-/web3.js-1.36.0.tgz#79d7d5217b49b80139f4de68953adc5b9a9a264f"
   integrity sha512-RNT1451iRR7TyW7EJKMCrH/0OXawIe4zVm0DWQASwXlR/u1jmW6FrmH0lujIh7cGTlfOVbH+2ZU9AVUPLBFzwA==
@@ -3737,12 +3737,12 @@
     keccak "^3.0.2"
     randombytes "^2.1.0"
 
-"@toruslabs/solana-embed@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@toruslabs/solana-embed/-/solana-embed-0.2.1.tgz#4ca665b84111d28a2d84661463f908079974e6ae"
-  integrity sha512-1XyJ+1dZ43GUxPTasVe1H+bp/pMs3V3Mu+Stoo4tTZctesWNDxdNAyBfKZYbotIl//JE/1cCXLy7HfE5sZS4+Q==
+"@toruslabs/solana-embed@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@toruslabs/solana-embed/-/solana-embed-0.2.2.tgz#4bb5784c769050a2e41051b0085632606862c904"
+  integrity sha512-it2CEzyH7l9yFdnCzV0Fc8wJX6fPFbhb8jmOipQqwvdT3NXwYsGbyB4I93Yi+1devm7m7UObhCsLO2qQebr+xg==
   dependencies:
-    "@solana/web3.js" "^1.43.0"
+    "@solana/web3.js" "^1.36.0"
     "@toruslabs/base-controllers" "^2.0.0"
     "@toruslabs/http-helpers" "^3.0.0"
     "@toruslabs/openlogin-jrpc" "^2.0.0"
