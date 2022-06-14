@@ -42,9 +42,6 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
             new SlopeWalletAdapter(),
             new SolflareWalletAdapter({ network }),
             new TorusWalletAdapter(),
-            new LedgerWalletAdapter(),
-            new SolletWalletAdapter({ network }),
-            new SolletExtensionWalletAdapter({ network }),
             new SaifuWalletAdapter(),
         ],
         [network]

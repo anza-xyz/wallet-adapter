@@ -21,5 +21,3 @@ export * from '@solana/wallet-adapter-tokenpocket';
 export * from '@solana/wallet-adapter-torus';
 export * from '@solana/wallet-adapter-walletconnect';
 export * from '@solana/wallet-adapter-saifu';
-
-export * from './adapters';
