@@ -176,6 +176,7 @@ You can use the [wallets](https://github.com/solana-labs/wallet-adapter/tree/mas
 | [solong](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/solong)           | Adapter for [Solong](https://solongwallet.com)        | [`@solana/wallet-adapter-solong`](https://npmjs.com/package/@solana/wallet-adapter-solong)           |
 | [tokenpocket](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/tokenpocket) | Adapter for [TokenPocket](https://tokenpocket.pro)    | [`@solana/wallet-adapter-tokenpocket`](https://npmjs.com/package/@solana/wallet-adapter-tokenpocket) |
 | [torus](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/torus)             | Adapter for [Torus](https://tor.us)                   | [`@solana/wallet-adapter-torus`](https://npmjs.com/package/@solana/wallet-adapter-torus)             |
+| [particlenetwork](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/particlenetwork)      | Adapter for [Particle Network](https://particle.network/)    | [`@solana/wallet-adapter-particle`](https://npmjs.com/package/@solana/wallet-adapter-particle)    |
 
 ### UI Components
 These packages provide components for common UI frameworks.
