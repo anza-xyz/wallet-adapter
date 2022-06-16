@@ -199,7 +199,6 @@ You can use the [wallets](https://github.com/solana-labs/wallet-adapter/tree/mas
 | [torus](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/torus)             | Adapter for [Torus](https://tor.us)                   | [`@solana/wallet-adapter-torus`](https://npmjs.com/package/@solana/wallet-adapter-torus)             |
 | [trust](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/trust)             | Adapter for [Trust Wallet](https://trustwallet.com/)  | [`@solana/wallet-adapter-trust`](https://npmjs.com/package/@solana/wallet-adapter-trust)             |
 
-
 ### UI Components
 These packages provide components for common UI frameworks.
 
