@@ -2,21 +2,18 @@ import {
     BaseMessageSignerWalletAdapter,
     EventEmitter,
     scopePollingDetectionStrategy,
-    SendTransactionOptions,
     WalletAccountError,
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
-    WalletError,
     WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
     WalletSignTransactionError,
-    WalletWindowClosedError,
 } from '@solana/wallet-adapter-base';
-import { Connection, PublicKey, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
+import {PublicKey, SendOptions, Transaction, TransactionSignature} from '@solana/web3.js';
 
 interface SaifuWalletEvents {
     connect(...args: unknown[]): unknown;
@@ -40,13 +37,13 @@ interface SaifuWallet extends EventEmitter<SaifuWalletEvents> {
 }
 
 interface SolanaWindow extends Window {
-    solana?: SaifuWallet;
-    saifu?: SaifuWallet;
+    saifu: SaifuWallet;
 }
 
 declare const window: SolanaWindow;
 
-export interface SaifuWalletAdapterConfig {}
+export interface SaifuWalletAdapterConfig {
+}
 
 export const SaifuWalletName = 'Saifu' as WalletName;
 
@@ -72,7 +69,7 @@ export class SaifuWalletAdapter extends BaseMessageSignerWalletAdapter {
 
         if (this._readyState !== WalletReadyState.Unsupported) {
             scopePollingDetectionStrategy(() => {
-                if (window.solana?.isSaifu || window.saifu) {
+                if (window.saifu) {
                     this._readyState = WalletReadyState.Installed;
                     this.emit('readyStateChange', this._readyState);
                     return true;
@@ -105,40 +102,13 @@ export class SaifuWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             this._connecting = true;
 
-            const wallet = window.saifu || window.solana;
+            const wallet = window.saifu;
 
-            // just bail
-            if (!wallet) {
-                throw new WalletNotReadyError();
-            }
-
-            if (!wallet.isConnected) {
-                const handleDisconnect = wallet._handleDisconnect;
+            if (!wallet?.isConnected) {
                 try {
-                    await new Promise<void>((resolve, reject) => {
-                        const connect = () => {
-                            wallet.off('connect', connect);
-                            resolve();
-                        };
-
-                        wallet._handleDisconnect = (...args: unknown[]) => {
-                            wallet.off('connect', connect);
-                            reject(new WalletWindowClosedError());
-                            return handleDisconnect.apply(wallet, args);
-                        };
-
-                        wallet.on('connect', connect);
-
-                        wallet.connect().catch((reason: any) => {
-                            wallet.off('connect', connect);
-                            reject(reason);
-                        });
-                    });
+                    await wallet.connect()
                 } catch (error: any) {
-                    if (error instanceof WalletError) throw error;
                     throw new WalletConnectionError(error?.message, error);
-                } finally {
-                    wallet._handleDisconnect = handleDisconnect;
                 }
             }
 
@@ -183,29 +153,6 @@ export class SaifuWalletAdapter extends BaseMessageSignerWalletAdapter {
         this.emit('disconnect');
     }
 
-    async sendTransaction(
-        transaction: Transaction,
-        connection: Connection,
-        options?: SendTransactionOptions
-    ): Promise<TransactionSignature> {
-        try {
-            const wallet = this._wallet;
-            if (wallet && 'signAndSendTransaction' in wallet && !options?.signers) {
-                transaction.feePayer = transaction.feePayer || this.publicKey || undefined;
-                transaction.recentBlockhash =
-                    transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
-
-                const { signature } = await wallet.signAndSendTransaction(transaction, options);
-                return signature;
-            }
-        } catch (error: any) {
-            this.emit('error', error);
-            throw error;
-        }
-
-        return await super.sendTransaction(transaction, connection, options);
-    }
-
     async signTransaction(transaction: Transaction): Promise<Transaction> {
         try {
             const wallet = this._wallet;
@@ -244,7 +191,7 @@ export class SaifuWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                const { signature } = await wallet.signMessage(message);
+                const {signature} = await wallet.signMessage(message);
                 return signature;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
