@@ -4,6 +4,8 @@ import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-r
 import {
     GlowWalletAdapter,
     PhantomWalletAdapter,
+    BitKeepWalletAdapter,
+    HyperPayWalletAdapter,
     SlopeWalletAdapter,
     SolflareWalletAdapter,
     TorusWalletAdapter,
@@ -32,6 +34,8 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
     const wallets = useMemo(
         () => [
             new PhantomWalletAdapter(),
+            new BitKeepWalletAdapter(),
+            new HyperPayWalletAdapter(),
             new GlowWalletAdapter(),
             new SlopeWalletAdapter(),
             new SolflareWalletAdapter({ network }),

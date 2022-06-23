@@ -1,6 +1,7 @@
 export * from '@solana/wallet-adapter-bitkeep';
 export * from '@solana/wallet-adapter-bitpie';
 export * from '@solana/wallet-adapter-blocto';
+export * from '@solana/wallet-adapter-hyperpay';
 export * from '@solana/wallet-adapter-clover';
 export * from '@solana/wallet-adapter-coin98';
 export * from '@solana/wallet-adapter-coinhub';

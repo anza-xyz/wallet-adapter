@@ -28,6 +28,7 @@
     },
     "dependencies": {
         "@solana/wallet-adapter-base": "^0.9.4",
+        "@solana/wallet-adapter-hyperpay": "^0.0.1",
         "@solana/wallet-adapter-bitkeep": "^0.3.2",
         "@solana/wallet-adapter-bitpie": "^0.5.2",
         "@solana/wallet-adapter-blocto": "^0.5.2",
