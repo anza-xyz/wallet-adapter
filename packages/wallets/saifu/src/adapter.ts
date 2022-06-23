@@ -6,12 +6,14 @@ import {
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
+    WalletError,
     WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
     WalletSignTransactionError,
+    WalletWindowClosedError,
 } from '@solana/wallet-adapter-base';
 import {PublicKey, SendOptions, Transaction, TransactionSignature} from '@solana/web3.js';
 
@@ -106,8 +108,36 @@ export class SaifuWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             if (!wallet?.isConnected) {
                 try {
-                    await wallet.connect()
+                    // connection flow:
+                    // 1. Bind 'connect' for post auth
+                    // 2. Call wallet.connect()
+                    // 3. Wallet with authorize the user and emit 'connect'
+                    // 4. 'connect' will resolve the full promise
+                    await new Promise<void>((resolve, reject) => {
+
+                        // connect will get called post auth
+                        // resolving this promise will unblock the outer part
+                        // so this should happen last
+                        const connect = () => {
+                            wallet.off('connect', connect);
+                            resolve();
+                        };
+
+                        wallet._handleDisconnect = (...args: unknown[]) => {
+                            wallet.off('connect', connect);
+                            reject(new WalletWindowClosedError());
+                        };
+
+                        // saifu will emit 'connect' once connection has been established
+                        wallet.on('connect', connect);
+
+                        wallet.connect().catch((reason: any) => {
+                            wallet.off('connect', connect);
+                            reject(reason);
+                        });
+                    });
                 } catch (error: any) {
+                    if (error instanceof WalletError) throw error;
                     throw new WalletConnectionError(error?.message, error);
                 }
             }
