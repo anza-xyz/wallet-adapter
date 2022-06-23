@@ -1,17 +1,32 @@
 import {
     BaseSignerWalletAdapter,
     scopePollingDetectionStrategy,
+    WalletAccountError,
     WalletConnectionError,
     WalletDisconnectedError,
     WalletError,
     WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
+    WalletPublicKeyError,
     WalletReadyState,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
-import { NightlyWindow, SolanaNightly } from './types';
+
+interface SolanaNightly {
+    publicKey: PublicKey;
+    connect(onDisconnect?: () => void): Promise<PublicKey>;
+    disconnect(): Promise<void>;
+    signTransaction(tx: Transaction): Promise<Transaction>;
+    signAllTransactions(txs: Transaction[]): Promise<Transaction[]>;
+}
+
+interface NightlyWindow extends Window {
+    nightly?: {
+        solana?: SolanaNightly
+    };
+}
 
 export const NightlyWalletName = 'Nightly' as WalletName;
 
@@ -63,45 +78,11 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
         return this._readyState;
     }
 
-    public async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
-        try {
-            if (!this._wallet) {
-                throw new WalletNotConnectedError();
-            }
-
-            try {
-                return await this._wallet.signAllTransactions(transactions);
-            } catch (error: any) {
-                throw new WalletSignTransactionError(error?.message, error);
-            }
-        } catch (error: any) {
-            this.emit('error', error);
-            throw error;
-        }
-    }
-
     get publicKey() {
         return this._publicKey;
     }
 
-    async signTransaction(transaction: Transaction) {
-        try {
-            if (!this._wallet) {
-                throw new WalletNotConnectedError();
-            }
-
-            try {
-                return await this._wallet.signTransaction(transaction);
-            } catch (error: any) {
-                throw new WalletSignTransactionError(error?.message, error);
-            }
-        } catch (error: any) {
-            this.emit('error', error);
-            throw error;
-        }
-    }
-
-    async connect(onDisconnect?: () => void) {
+    async connect() {
         try {
             if (this.connected || this.connecting) return;
             if (this._readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
@@ -111,17 +92,26 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
 
             try {
                 this._connecting = true;
-                await wallet.connect(onDisconnect);
+                await wallet.connect();
             } catch (error: any) {
                 if (error instanceof WalletError) throw error;
                 throw new WalletConnectionError(error?.message, error);
             }
 
+            if (!wallet.publicKey) throw new WalletAccountError();
+
+            let publicKey: PublicKey;
+            try {
+                publicKey = new PublicKey(wallet.publicKey.toString());
+            } catch (error: any) {
+                throw new WalletPublicKeyError(error?.message, error);
+            }
+
             this._connected = true;
             this._wallet = wallet;
-            this._publicKey = wallet.publicKey;
+            this._publicKey = publicKey
 
-            this.emit('connect', wallet.publicKey);
+            this.emit('connect', publicKey);
         } catch (error: any) {
             this.emit('error', error);
             throw error;
@@ -146,5 +136,39 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
         }
 
         this.emit('disconnect');
+    }
+
+    async signTransaction(transaction: Transaction) {
+        try {
+            if (!this._wallet) {
+                throw new WalletNotConnectedError();
+            }
+
+            try {
+                return await this._wallet.signTransaction(transaction);
+            } catch (error: any) {
+                throw new WalletSignTransactionError(error?.message, error);
+            }
+        } catch (error: any) {
+            this.emit('error', error);
+            throw error;
+        }
+    }
+
+    public async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
+        try {
+            if (!this._wallet) {
+                throw new WalletNotConnectedError();
+            }
+
+            try {
+                return await this._wallet.signAllTransactions(transactions);
+            } catch (error: any) {
+                throw new WalletSignTransactionError(error?.message, error);
+            }
+        } catch (error: any) {
+            this.emit('error', error);
+            throw error;
+        }
     }
 }
