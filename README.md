@@ -56,7 +56,6 @@ import {
     SolletExtensionWalletAdapter,
     SolletWalletAdapter,
     TorusWalletAdapter,
-    SaifuWalletAdapter
 } from '@solana/wallet-adapter-wallets';
 import {
     WalletModalProvider,
@@ -84,7 +83,6 @@ export const Wallet: FC = () => {
             new GlowWalletAdapter(),
             new SlopeWalletAdapter(),
             new SolflareWalletAdapter({ network }),
-            new SaifuWalletAdapter(),
             new TorusWalletAdapter(),
         ],
         [network]
