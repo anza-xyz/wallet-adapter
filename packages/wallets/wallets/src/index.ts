@@ -16,6 +16,6 @@ export * from '@solana/wallet-adapter-sollet';
 export * from '@solana/wallet-adapter-solong';
 export * from '@solana/wallet-adapter-tokenpocket';
 export * from '@solana/wallet-adapter-torus';
-export * from '@solana/wallet-adapter-skywallet'
+export * from '@solana/wallet-adapter-sky'
 export * from '@solana/wallet-adapter-walletconnect';
 

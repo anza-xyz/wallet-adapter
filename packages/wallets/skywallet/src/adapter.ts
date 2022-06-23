@@ -1,7 +1,6 @@
 import {
     BaseMessageSignerWalletAdapter,
     EventEmitter,
-    SendTransactionOptions,
     WalletAccountError,
     WalletConnectionError,
     WalletDisconnectedError,
@@ -12,11 +11,14 @@ import {
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSendTransactionError,
     WalletSignTransactionError,
     WalletWindowClosedError,
     scopePollingDetectionStrategy,
 } from '@solana/wallet-adapter-base';
 import { Connection, PublicKey, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
+
+import { SendTransactionOptions } from '@solana/wallet-adapter-base';
 
 interface SkyWalletEvents {
     connect(...args: unknown[]): unknown;
@@ -47,7 +49,7 @@ declare const window: SkyWalletWindow;
 
 export interface SkyWalletAdapterConfig {}
 
-export const SkyWalletName = 'SKY Wallet' as WalletName;
+export const SkyWalletName = 'SKY Wallet' as WalletName<'SKY Wallet'>;
 
 export class SkyWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = SkyWalletName;
@@ -106,39 +108,18 @@ export class SkyWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const wallet = window!.skySolana!;
-
-            if (!wallet.isConnected) {
-                // HACK: SkyWallet doesn't reject or emit an event if the popup is closed
-                const handleDisconnect = wallet._handleDisconnect;
-                try {
-                    await new Promise<void>((resolve, reject) => {
-                        const connect = () => {
-                            wallet.off('connect', connect);
-                            resolve();
-                        };
-
-                        wallet._handleDisconnect = (...args: unknown[]) => {
-                            wallet.off('connect', connect);
-                            reject(new WalletWindowClosedError());
-                            return handleDisconnect.apply(wallet, args);
-                        };
-
-                        wallet.on('connect', connect);
-
-                        wallet.connect().catch((reason: any) => {
-                            wallet.off('connect', connect);
-                            reject(reason);
-                        });
-                    });
-                } catch (error: any) {
-                    if (error instanceof WalletError) throw error;
-                    throw new WalletConnectionError(error?.message, error);
-                } finally {
-                    wallet._handleDisconnect = handleDisconnect;
+            try {
+                await wallet.connect();
+            } catch (error: any) {
+                if (error instanceof WalletError) {
+                    throw error;
                 }
+                throw new WalletConnectionError(error?.message, error);
             }
 
-            if (!wallet.publicKey) throw new WalletAccountError();
+            if (!wallet.publicKey) {
+                throw new WalletAccountError();
+            }
 
             let publicKey: PublicKey;
             try {
@@ -159,6 +140,7 @@ export class SkyWalletAdapter extends BaseMessageSignerWalletAdapter {
         } finally {
             this._connecting = false;
         }
+           
     }
 
     async disconnect(): Promise<void> {
@@ -182,20 +164,37 @@ export class SkyWalletAdapter extends BaseMessageSignerWalletAdapter {
     async sendTransaction(
         transaction: Transaction,
         connection: Connection,
-        options?: SendTransactionOptions
+        options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
+        let emit = true;
         try {
-            const wallet = this._wallet;
-            if (wallet && 'signAndSendTransaction' in wallet && !options?.signers) {
-                const { signature } = await wallet.signAndSendTransaction(transaction, options);
-                return signature;
+            try {
+                transaction.feePayer = transaction.feePayer || this.publicKey || undefined;
+                transaction.recentBlockhash =
+                    transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
+
+                const { signers, ...sendOptions } = options;
+
+                signers?.length && transaction.partialSign(...signers);
+
+                transaction = await this.signTransaction(transaction);
+
+                const rawTransaction = transaction.serialize();
+
+                return await connection.sendRawTransaction(rawTransaction, sendOptions);
+            } catch (error: any) {
+                if (error instanceof WalletError) {
+                    emit = false;
+                    throw error;
+                }
+                throw new WalletSendTransactionError(error?.message, error);
             }
         } catch (error: any) {
-            this.emit('error', error);
+            if (emit) {
+                this.emit('error', error);
+            }
             throw error;
         }
-
-        return await super.sendTransaction(transaction, connection, options);
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {

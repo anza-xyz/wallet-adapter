@@ -4,7 +4,6 @@ import { FC, ReactNode, useCallback, useMemo } from 'react';
 import {
     GlowWalletAdapter,
     PhantomWalletAdapter,
-    SkyWalletAdapter,
     SlopeWalletAdapter,
     SolflareWalletAdapter,
     TorusWalletAdapter,
@@ -69,7 +68,6 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     // of wallets that your users connect to will be loaded
     const wallets = useMemo(
         () => [
-            new SkyWalletAdapter(),
             new PhantomWalletAdapter(),
             new GlowWalletAdapter(),
             new SlopeWalletAdapter(),

@@ -47,7 +47,7 @@
         "@solana/wallet-adapter-solong": "^0.9.2",
         "@solana/wallet-adapter-tokenpocket": "^0.4.2",
         "@solana/wallet-adapter-torus": "^0.11.12",
-        "@solana/wallet-adapter-skywallet": "^0.1.0",
+        "@solana/wallet-adapter-sky": "^0.1.0",
         "@solana/wallet-adapter-walletconnect": "^0.1.0"
     }
 }

@@ -1,4 +1,4 @@
-# `@solana/wallet-adapter-skywallet`
+# `@solana/wallet-adapter-sky`
 
 <!-- @TODO -->
 

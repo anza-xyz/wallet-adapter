@@ -1,5 +1,5 @@
 {
-    "name": "@solana/wallet-adapter-skywallet",
+    "name": "@solana/wallet-adapter-sky",
     "version": "0.1.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
@@ -31,9 +31,5 @@
     },
     "dependencies": {
         "@solana/wallet-adapter-base": "^0.9.4"
-    },
-    "devDependencies": {
-        "@solana/wallet-adapter-base": "^0.9.5",
-        "@solana/web3.js": "^1.36.0"
     }
 }
