@@ -29,18 +29,13 @@ interface NekoWallet extends EventEmitter<NekoWalletEvents> {
     isConnected: boolean;
     signTransaction(transaction: Transaction): Promise<Transaction>;
     signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
-    signAndSendTransaction(
-        transaction: Transaction,
-        options?: SendOptions
-    ): Promise<{ signature: TransactionSignature }>;
     signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
-    _handleDisconnect(...args: unknown[]): unknown;
 }
 
 interface NekoWalletWindow extends Window {
-    solana?: NekoWallet;
+    neko?: NekoWallet;
 }
 
 declare const window: NekoWalletWindow;
@@ -51,7 +46,7 @@ export const NekoWalletName = 'Neko (Mobile)' as WalletName<'Neko (Mobile)'>;
 
 export class NekoWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = NekoWalletName;
-    url = 'https://nekowallet.com/';
+    url = 'https://nekowallet.com';
     icon = 'https://cdn.discordapp.com/attachments/953573404395585596/960393815208914964/Group_7996_1.png';
 
     private _connecting: boolean;
@@ -70,7 +65,7 @@ export class NekoWalletAdapter extends BaseMessageSignerWalletAdapter {
 
         if (this._readyState !== WalletReadyState.Unsupported) {
             scopePollingDetectionStrategy(() => {
-                if (window.solana?.isNeko) {
+                if (window.neko?.isNeko) {
                     this._readyState = WalletReadyState.Installed;
                     this.emit('readyStateChange', this._readyState);
                     return true;
@@ -104,36 +99,14 @@ export class NekoWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.solana!;
+            const wallet = window!.neko!;
 
             if (!wallet.isConnected) {
-                // HACK: Neko doesn't reject or emit an event if the popup is closed
-                const handleDisconnect = wallet._handleDisconnect;
                 try {
-                    await new Promise<void>((resolve, reject) => {
-                        const connect = () => {
-                            wallet.off('connect', connect);
-                            resolve();
-                        };
-
-                        wallet._handleDisconnect = (...args: unknown[]) => {
-                            wallet.off('connect', connect);
-                            reject(new WalletWindowClosedError());
-                            return handleDisconnect.apply(wallet, args);
-                        };
-
-                        wallet.on('connect', connect);
-
-                        wallet.connect().catch((reason: any) => {
-                            wallet.off('connect', connect);
-                            reject(reason);
-                        });
-                    });
+                    await wallet.connect();
                 } catch (error: any) {
                     if (error instanceof WalletError) throw error;
                     throw new WalletConnectionError(error?.message, error);
-                } finally {
-                    wallet._handleDisconnect = handleDisconnect;
                 }
             }
 
@@ -176,31 +149,6 @@ export class NekoWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
 
         this.emit('disconnect');
-    }
-
-    async sendTransaction(
-        transaction: Transaction,
-        connection: Connection,
-        options?: SendTransactionOptions
-    ): Promise<TransactionSignature> {
-        try {
-            const wallet = this._wallet;
-            // Neko doesn't handle partial signers, so if they are provided, don't use `signAndSendTransaction`
-            if (wallet && 'signAndSendTransaction' in wallet && !options?.signers) {
-                // HACK: Neko's `signAndSendTransaction` should always set these, but doesn't yet
-                transaction.feePayer = transaction.feePayer || this.publicKey || undefined;
-                transaction.recentBlockhash =
-                    transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
-
-                const { signature } = await wallet.signAndSendTransaction(transaction, options);
-                return signature;
-            }
-        } catch (error: any) {
-            this.emit('error', error);
-            throw error;
-        }
-
-        return await super.sendTransaction(transaction, connection, options);
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {
