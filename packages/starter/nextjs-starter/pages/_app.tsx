@@ -1,3 +1,4 @@
+import { SolanaMobileWalletAdapter, createDefaultAuthorizationResultCache } from '@solana-mobile/wallet-adapter-mobile';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
@@ -28,6 +29,10 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
     // of wallets that your users connect to will be loaded
     const wallets = useMemo(
         () => [
+            new SolanaMobileWalletAdapter({
+                appIdentity: { name: 'Solana Next.js Starter App' },
+                authorizationResultCache: createDefaultAuthorizationResultCache(),
+            }),
             new PhantomWalletAdapter(),
             new GlowWalletAdapter(),
             new SlopeWalletAdapter(),

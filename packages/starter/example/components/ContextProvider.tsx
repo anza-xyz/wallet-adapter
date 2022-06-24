@@ -14,6 +14,7 @@ import {
     WalletConnectWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
+import { createDefaultAuthorizationResultCache, SolanaMobileWalletAdapter } from '@solana-mobile/wallet-adapter-mobile';
 import { SnackbarProvider, useSnackbar } from 'notistack';
 import { FC, ReactNode, useCallback, useMemo } from 'react';
 import { AutoConnectProvider, useAutoConnect } from './AutoConnectProvider';
@@ -67,6 +68,10 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     // of wallets that your users connect to will be loaded
     const wallets = useMemo(
         () => [
+            new SolanaMobileWalletAdapter({
+                appIdentity: { name: 'Solana Wallet Adapter Example App' },
+                authorizationResultCache: createDefaultAuthorizationResultCache(),
+            }),
             new PhantomWalletAdapter(),
             new GlowWalletAdapter(),
             new SlopeWalletAdapter(),
