@@ -4,7 +4,6 @@ import {
     WalletAccountError,
     WalletConnectionError,
     WalletDisconnectedError,
-    WalletError,
     WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
@@ -94,7 +93,6 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
                 this._connecting = true;
                 await wallet.connect();
             } catch (error: any) {
-                if (error instanceof WalletError) throw error;
                 throw new WalletConnectionError(error?.message, error);
             }
 
@@ -102,7 +100,7 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
 
             let publicKey: PublicKey;
             try {
-                publicKey = new PublicKey(wallet.publicKey.toString());
+                publicKey = new PublicKey(wallet.publicKey.toBytes());
             } catch (error: any) {
                 throw new WalletPublicKeyError(error?.message, error);
             }
