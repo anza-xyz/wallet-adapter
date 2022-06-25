@@ -1,6 +1,10 @@
-import { AutoConnectProvider, useAutoConnect } from './AutoConnectProvider';
+import { createTheme, StyledEngineProvider, ThemeProvider } from '@mui/material';
+import { deepPurple, pink } from '@mui/material/colors';
+import { WalletModalProvider as AntDesignWalletModalProvider } from '@solana/wallet-adapter-ant-design';
+import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
+import { WalletDialogProvider as MaterialUIWalletDialogProvider } from '@solana/wallet-adapter-material-ui';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
-import { FC, ReactNode, useCallback, useMemo } from 'react';
+import { WalletModalProvider as ReactUIWalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import {
     GlowWalletAdapter,
     PhantomWalletAdapter,
@@ -9,18 +13,11 @@ import {
     TorusWalletAdapter,
     WalletConnectWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
-
 import { clusterApiUrl } from '@solana/web3.js';
 import { createDefaultAuthorizationResultCache, SolanaMobileWalletAdapter } from '@solana-mobile/wallet-adapter-mobile';
 import { SnackbarProvider, useSnackbar } from 'notistack';
-import { StyledEngineProvider, ThemeProvider, createTheme } from '@mui/material';
-import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
-import { deepPurple, pink } from '@mui/material/colors';
-
-import { WalletModalProvider as AntDesignWalletModalProvider } from '@solana/wallet-adapter-ant-design';
-import { WalletDialogProvider as MaterialUIWalletDialogProvider } from '@solana/wallet-adapter-material-ui';
-import { WalletModalProvider as ReactUIWalletModalProvider } from '@solana/wallet-adapter-react-ui';
-
+import { FC, ReactNode, useCallback, useMemo } from 'react';
+import { AutoConnectProvider, useAutoConnect } from './AutoConnectProvider';
 
 const theme = createTheme({
     palette: {
