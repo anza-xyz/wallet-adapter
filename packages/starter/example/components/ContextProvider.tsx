@@ -1,10 +1,6 @@
-import { createTheme, StyledEngineProvider, ThemeProvider } from '@mui/material';
-import { deepPurple, pink } from '@mui/material/colors';
-import { WalletModalProvider as AntDesignWalletModalProvider } from '@solana/wallet-adapter-ant-design';
-import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
-import { WalletDialogProvider as MaterialUIWalletDialogProvider } from '@solana/wallet-adapter-material-ui';
+import { AutoConnectProvider, useAutoConnect } from './AutoConnectProvider';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
-import { WalletModalProvider as ReactUIWalletModalProvider } from '@solana/wallet-adapter-react-ui';
+import { FC, ReactNode, useCallback, useMemo } from 'react';
 import {
     GlowWalletAdapter,
     PhantomWalletAdapter,
@@ -13,11 +9,16 @@ import {
     TorusWalletAdapter,
     WalletConnectWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
-import { clusterApiUrl } from '@solana/web3.js';
-import { createDefaultAuthorizationResultCache, SolanaMobileWalletAdapter } from '@solana-mobile/wallet-adapter-mobile';
 import { SnackbarProvider, useSnackbar } from 'notistack';
-import { FC, ReactNode, useCallback, useMemo } from 'react';
-import { AutoConnectProvider, useAutoConnect } from './AutoConnectProvider';
+import { SolanaMobileWalletAdapter, createDefaultAuthorizationResultCache } from '@solana-mobile/wallet-adapter-mobile';
+import { StyledEngineProvider, ThemeProvider, createTheme } from '@mui/material';
+import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
+import { deepPurple, pink } from '@mui/material/colors';
+
+import { WalletModalProvider as AntDesignWalletModalProvider } from '@solana/wallet-adapter-ant-design';
+import { WalletDialogProvider as MaterialUIWalletDialogProvider } from '@solana/wallet-adapter-material-ui';
+import { WalletModalProvider as ReactUIWalletModalProvider } from '@solana/wallet-adapter-react-ui';
+import { clusterApiUrl } from '@solana/web3.js';
 
 const theme = createTheme({
     palette: {
@@ -129,3 +130,5 @@ export const ContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
         </StyledEngineProvider>
     );
 };
+
+//for revert
