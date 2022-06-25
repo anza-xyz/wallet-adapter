@@ -123,11 +123,6 @@ export class SaifuWalletAdapter extends BaseMessageSignerWalletAdapter {
                             resolve();
                         };
 
-                        wallet._handleDisconnect = (...args: unknown[]) => {
-                            wallet.off('connect', connect);
-                            reject(new WalletWindowClosedError());
-                        };
-
                         // saifu will emit 'connect' once connection has been established
                         wallet.on('connect', connect);
 
