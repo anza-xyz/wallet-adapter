@@ -9,6 +9,9 @@ import {
     TorusWalletAdapter,
     WalletConnectWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
+
+import { clusterApiUrl } from '@solana/web3.js';
+import { createDefaultAuthorizationResultCache, SolanaMobileWalletAdapter } from '@solana-mobile/wallet-adapter-mobile';
 import { SnackbarProvider, useSnackbar } from 'notistack';
 import { StyledEngineProvider, ThemeProvider, createTheme } from '@mui/material';
 import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
@@ -17,7 +20,7 @@ import { deepPurple, pink } from '@mui/material/colors';
 import { WalletModalProvider as AntDesignWalletModalProvider } from '@solana/wallet-adapter-ant-design';
 import { WalletDialogProvider as MaterialUIWalletDialogProvider } from '@solana/wallet-adapter-material-ui';
 import { WalletModalProvider as ReactUIWalletModalProvider } from '@solana/wallet-adapter-react-ui';
-import { clusterApiUrl } from '@solana/web3.js';
+
 
 const theme = createTheme({
     palette: {
@@ -68,6 +71,10 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     // of wallets that your users connect to will be loaded
     const wallets = useMemo(
         () => [
+            new SolanaMobileWalletAdapter({
+                appIdentity: { name: 'Solana Wallet Adapter Example App' },
+                authorizationResultCache: createDefaultAuthorizationResultCache(),
+            }),
             new PhantomWalletAdapter(),
             new GlowWalletAdapter(),
             new SlopeWalletAdapter(),
