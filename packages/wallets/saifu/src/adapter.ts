@@ -2,6 +2,7 @@ import {
     BaseMessageSignerWalletAdapter,
     EventEmitter,
     scopePollingDetectionStrategy,
+    SendTransactionOptions,
     WalletAccountError,
     WalletConnectionError,
     WalletDisconnectedError,
@@ -15,7 +16,7 @@ import {
     WalletSignTransactionError,
     WalletWindowClosedError,
 } from '@solana/wallet-adapter-base';
-import {PublicKey, SendOptions, Transaction, TransactionSignature} from '@solana/web3.js';
+import {Connection, PublicKey, SendOptions, Transaction, TransactionSignature} from '@solana/web3.js';
 
 interface SaifuWalletEvents {
     connect(...args: unknown[]): unknown;
@@ -176,6 +177,28 @@ export class SaifuWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
 
         this.emit('disconnect');
+    }
+
+    async sendTransaction(
+        transaction: Transaction,
+        connection: Connection,
+        options: SendTransactionOptions = {}
+    ): Promise<TransactionSignature> {
+        try {
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
+
+            // fallback to parent if not implemented yet
+            if (!('signAndSendTransaction' in wallet)) {
+                return super.sendTransaction(transaction, connection, options);
+            }
+
+            const { signature } = await wallet.signAndSendTransaction(transaction, options);
+            return signature;
+        } catch (error: any) {
+            this.emit('error', error);
+            throw error;
+        }
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {
