@@ -168,7 +168,7 @@ export class SkyWalletAdapter extends BaseMessageSignerWalletAdapter {
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
-            if (wallet && 'signAndSendTransaction' in wallet && !options?.signers) {
+            if (wallet && 'signAndSendTransaction' in wallet && options?.signers) {
                 // HACK: Phantom's `signAndSendTransaction` should always set these, but doesn't yet
                 transaction.feePayer = transaction.feePayer || this.publicKey || undefined;
                 transaction.recentBlockhash =
