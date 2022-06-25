@@ -23,7 +23,7 @@ interface SolanaNightly {
 
 interface NightlyWindow extends Window {
     nightly?: {
-        solana?: SolanaNightly
+        solana?: SolanaNightly;
     };
 }
 
@@ -96,7 +96,9 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
                 throw new WalletConnectionError(error?.message, error);
             }
 
-            if (!wallet.publicKey) throw new WalletAccountError();
+            if (wallet.publicKey.toString() === '11111111111111111111111111111111') {
+                throw new WalletAccountError();
+            }
 
             let publicKey: PublicKey;
             try {
@@ -107,7 +109,7 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
 
             this._connected = true;
             this._wallet = wallet;
-            this._publicKey = publicKey
+            this._publicKey = publicKey;
 
             this.emit('connect', publicKey);
         } catch (error: any) {
