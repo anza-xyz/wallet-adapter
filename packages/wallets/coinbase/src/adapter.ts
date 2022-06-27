@@ -7,12 +7,12 @@ import {
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
-    WalletError,
     WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSendTransactionError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import { Connection, PublicKey, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
@@ -101,24 +101,9 @@ export class CoinbaseWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const wallet = window!.coinbaseSolana!;
-            try {
-                await new Promise<void>((resolve, reject) => {
-                    const connect = () => {
-                        wallet.off('connect', connect);
-                        resolve();
-                    };
-
-                    wallet.on('connect', connect);
-
-                    wallet.connect().then(resolve).catch((reason: any) => {
-                        wallet.off('connect', connect);
-                        reject(reason);
-                    });
-                });
-            } catch (error: any) {
-                if (error instanceof WalletError) throw error;
+            await wallet.connect().catch((error: any) => {
                 throw new WalletConnectionError(error?.message, error);
-            }
+            });
 
             if (!wallet.publicKey) throw new WalletAccountError();
 
@@ -168,22 +153,21 @@ export class CoinbaseWalletAdapter extends BaseMessageSignerWalletAdapter {
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
-            // Coinbase doesn't handle partial signers, so if they are provided, don't use `signAndSendTransaction`
-            if (wallet && 'signAndSendTransaction' in wallet && !options?.signers) {
-                // HACK: Coinbase's `signAndSendTransaction` should always set these, but doesn't yet
+            if (!wallet) throw new WalletNotConnectedError();
+            if (!transaction.feePayer && !this.publicKey) throw new WalletSendTransactionError('Missing feePayer');
+            try {
                 transaction.feePayer = transaction.feePayer || this.publicKey || undefined;
                 transaction.recentBlockhash =
-                    transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
-
+                    transaction.recentBlockhash || (await connection.getLatestBlockhash('finalized')).blockhash;
                 const { signature } = await wallet.signAndSendTransaction(transaction, options);
                 return signature;
+            } catch (error: any) {
+                throw new WalletSendTransactionError(error?.message, error);
             }
         } catch (error: any) {
             this.emit('error', error);
             throw error;
         }
-
-        return await super.sendTransaction(transaction, connection, options);
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {
