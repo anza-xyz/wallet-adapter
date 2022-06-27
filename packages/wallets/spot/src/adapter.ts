@@ -108,9 +108,6 @@ export class SpotWalletAdapter extends BaseMessageSignerWalletAdapter {
             try {
                 await wallet.connect();
             } catch (error: any) {
-                if (error instanceof WalletError) {
-                    throw error;
-                }
                 throw new WalletConnectionError(error?.message, error);
             }
 
@@ -164,13 +161,7 @@ export class SpotWalletAdapter extends BaseMessageSignerWalletAdapter {
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
-            // Spot doesn't handle partial signers, so if they are provided, don't use `signAndSendTransaction`
-            if (wallet && 'signAndSendTransaction' in wallet && !options?.signers) {
-                // HACK: Spot's `signAndSendTransaction` should always set these, but doesn't yet
-                transaction.feePayer = transaction.feePayer || this.publicKey || undefined;
-                transaction.recentBlockhash =
-                    transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
-
+            if (wallet && 'signAndSendTransaction' in wallet) {
                 const { signature } = await wallet.signAndSendTransaction(transaction, options);
                 return signature;
             }
