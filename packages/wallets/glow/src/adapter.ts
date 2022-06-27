@@ -192,7 +192,10 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
                 transaction.recentBlockhash =
                     transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
 
-                const { signature } = await wallet.signAndSendTransaction(transaction, { ...options, network: this._network });
+                const { signature } = await wallet.signAndSendTransaction(transaction, {
+                    ...options,
+                    network: this._network,
+                });
                 return signature;
             }
         } catch (error: any) {
