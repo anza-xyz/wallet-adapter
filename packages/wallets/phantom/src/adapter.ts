@@ -41,6 +41,10 @@ interface PhantomWallet extends EventEmitter<PhantomWalletEvents> {
 }
 
 interface PhantomWindow extends Window {
+    // NOTE: If you are contributing a wallet adapter, **DO NOT COPY** this.
+    // Multiple wallet adapters cannot be detected properly if they all try to write to the same window global.
+    // All wallets that currently do this have committed to migrating away from using `window.solana`.
+    // This must be changed to `window.yourWalletName` in your adapter, and must not use `window.solana`.
     solana?: PhantomWallet;
 }
 
@@ -109,6 +113,10 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
             const wallet = window!.solana!;
 
             if (!wallet.isConnected) {
+                // NOTE: If you are contributing a wallet adapter, **DO NOT COPY** this.
+                // The Phantom adapter code has hacks because the Promise returned by `wallet.connect()` is not rejected if the user closes the window.
+                // If your adapter fulfills the Promise correctly, you don't need events, or the hacky override of the private `_handleDisconnect` API.
+                //
                 // HACK: Phantom doesn't reject or emit an event if the popup is closed
                 const handleDisconnect = wallet._handleDisconnect;
                 try {
@@ -187,6 +195,11 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
+            // NOTE: If you are contributing a wallet adapter, **DO NOT COPY** this.
+            // Phantom didn't always have a `signAndSendTransaction` method, so this code checks for older versions.
+            // Phantom also doesn't handle additional signers when provided, and your adapter should do this.
+            // Phantom also doesn't set the fee payer and recent blockhash, and your adapter should do this.
+            //
             // Phantom doesn't handle partial signers, so if they are provided, don't use `signAndSendTransaction`
             if (wallet && 'signAndSendTransaction' in wallet && !options?.signers) {
                 // HACK: Phantom's `signAndSendTransaction` should always set these, but doesn't yet
