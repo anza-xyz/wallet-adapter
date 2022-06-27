@@ -195,6 +195,9 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
+            const publicKey = this.publicKey;
+            if (!wallet || !publicKey) throw new WalletNotConnectedError();
+
             // NOTE: If you are contributing a wallet adapter, **DO NOT COPY** this.
             // Phantom didn't always have a `signAndSendTransaction` method, so this code checks for older versions.
             // Phantom also doesn't handle additional signers when provided, and your adapter should do this.
@@ -203,7 +206,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
             // HACK: Phantom doesn't handle partial signers, so if they are provided, don't use `signAndSendTransaction`
             if (wallet && 'signAndSendTransaction' in wallet && !options?.signers) {
                 // HACK: Phantom's `signAndSendTransaction` should always set these, but doesn't yet
-                transaction.feePayer = transaction.feePayer || this.publicKey || undefined;
+                transaction.feePayer = transaction.feePayer || publicKey;
                 transaction.recentBlockhash =
                     transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
 

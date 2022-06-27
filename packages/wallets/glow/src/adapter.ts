@@ -184,11 +184,14 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
+            const publicKey = this.publicKey;
+            if (!wallet || !publicKey) throw new WalletNotConnectedError();
+
             // HACK: Glow doesn't handle partial signers, so if they are provided, don't use `signAndSendTransaction`
             if (wallet && 'signAndSendTransaction' in wallet && !options?.signers) {
                 // TODO: update glow to fix this
                 // HACK: Glow's `signAndSendTransaction` should always set these, but doesn't yet
-                transaction.feePayer = transaction.feePayer || this.publicKey || undefined;
+                transaction.feePayer = transaction.feePayer || publicKey;
                 transaction.recentBlockhash =
                     transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
 

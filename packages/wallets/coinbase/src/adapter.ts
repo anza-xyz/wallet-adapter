@@ -100,9 +100,12 @@ export class CoinbaseWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const wallet = window!.coinbaseSolana!;
-            await wallet.connect().catch((error: any) => {
+
+            try {
+                await wallet.connect();
+            } catch (error: any) {
                 throw new WalletConnectionError(error?.message, error);
-            });
+            }
 
             if (!wallet.publicKey) throw new WalletAccountError();
 
@@ -152,12 +155,14 @@ export class CoinbaseWalletAdapter extends BaseMessageSignerWalletAdapter {
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
-            if (!wallet) throw new WalletNotConnectedError();
-            if (!transaction.feePayer && !this.publicKey) throw new WalletSendTransactionError('Missing feePayer');
+            const publicKey = this.publicKey;
+            if (!wallet || !publicKey) throw new WalletNotConnectedError();
+
             try {
-                transaction.feePayer = transaction.feePayer || this.publicKey || undefined;
+                transaction.feePayer = transaction.feePayer || publicKey;
                 transaction.recentBlockhash =
-                    transaction.recentBlockhash || (await connection.getLatestBlockhash('finalized')).blockhash;
+                    transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
+
                 const { signature } = await wallet.signAndSendTransaction(transaction, options);
                 return signature;
             } catch (error: any) {

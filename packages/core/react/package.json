@@ -28,19 +28,19 @@
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
     "peerDependencies": {
-        "react": "^17.0.0 || ^18.0.0",
-        "@solana/web3.js": "^1.36.0"
+        "@solana/web3.js": "^1.44.3",
+        "react": "*"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.9.4"
+        "@solana/wallet-adapter-base": "^0.9.5"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.36.0",
-        "@types/jest": "^27.0.0",
-        "@types/react": "^17.0.40",
-        "jest": "^27.0.0",
+        "@solana/web3.js": "^1.44.3",
+        "@types/jest": "^28.1.3",
+        "@types/react": "^18.0.0",
+        "jest": "^28.1.1",
         "jest-localstorage-mock": "^2.4.18",
-        "react": "^17.0.0",
-        "ts-jest": "^27.0.0"
+        "react": "^18.0.0",
+        "ts-jest": "^28.0.5"
     }
 }
