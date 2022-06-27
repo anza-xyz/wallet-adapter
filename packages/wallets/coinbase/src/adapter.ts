@@ -33,7 +33,6 @@ interface CoinbaseWallet extends EventEmitter<CoinbaseWalletEvents> {
     signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
-    _handleDisconnect(...args: unknown[]): unknown;
 }
 
 interface CoinbaseWindow extends Window {
