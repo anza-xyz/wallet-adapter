@@ -40,7 +40,7 @@ interface BraveWallet extends EventEmitter<BraveWalletEvents> {
 }
 
 interface BraveWindow extends Window {
-    solana?: BraveWallet;
+    braveSolana?: BraveWallet;
 }
 
 declare const window: BraveWindow;
@@ -71,7 +71,7 @@ export class BraveWalletAdapter extends BaseMessageSignerWalletAdapter {
 
         if (this._readyState !== WalletReadyState.Unsupported) {
             scopePollingDetectionStrategy(() => {
-                if (window.solana?.isBraveWallet) {
+                if (window.braveSolana?.isBraveWallet) {
                     this._readyState = WalletReadyState.Installed;
                     this.emit('readyStateChange', this._readyState);
                     return true;
@@ -105,7 +105,7 @@ export class BraveWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.solana!;
+            const wallet = window!.braveSolana!;
 
             if (!wallet.isConnected) {
                 try {
