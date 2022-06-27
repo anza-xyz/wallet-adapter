@@ -100,9 +100,12 @@ export class CoinbaseWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const wallet = window!.coinbaseSolana!;
-            await wallet.connect().catch((error: any) => {
+
+            try {
+                await wallet.connect();
+            } catch (error: any) {
                 throw new WalletConnectionError(error?.message, error);
-            });
+            }
 
             if (!wallet.publicKey) throw new WalletAccountError();
 
