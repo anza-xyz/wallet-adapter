@@ -15,7 +15,7 @@ import { PublicKey, Transaction } from '@solana/web3.js';
 
 interface SolanaNightly {
     publicKey: PublicKey;
-    connect(onDisconnect?: () => void): Promise<PublicKey>;
+    connect(): Promise<PublicKey>;
     disconnect(): Promise<void>;
     signTransaction(tx: Transaction): Promise<Transaction>;
     signAllTransactions(txs: Transaction[]): Promise<Transaction[]>;
