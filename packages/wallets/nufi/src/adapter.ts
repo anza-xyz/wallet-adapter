@@ -159,21 +159,8 @@ export class NufiWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             if (!wallet.isConnected) {
                 try {
-                    await new Promise<void>((resolve, reject) => {
-                        const connect = () => {
-                            wallet.off('connect', connect);
-                            resolve();
-                        };
-
-                        wallet.on('connect', connect);
-
-                        wallet.connect().catch((reason: any) => {
-                            wallet.off('connect', connect);
-                            reject(reason);
-                        });
-                    });
+                    await wallet.connect();
                 } catch (error: any) {
-                    if (error instanceof WalletError) throw error;
                     throw new WalletConnectionError(error?.message, error);
                 }
             }
@@ -226,12 +213,7 @@ export class NufiWalletAdapter extends BaseMessageSignerWalletAdapter {
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
-            // Partial signers are not handled, so if they are provided, don't use `signAndSendTransaction`
-            if (wallet && !options?.signers) {
-                transaction.feePayer = transaction.feePayer || this.publicKey || undefined;
-                transaction.recentBlockhash =
-                    transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
-
+            if (wallet) {
                 const { signature } = await wallet.signAndSendTransaction(transaction);
                 return signature;
             }
