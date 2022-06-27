@@ -31,6 +31,7 @@
         "@solana/wallet-adapter-bitkeep": "^0.3.2",
         "@solana/wallet-adapter-bitpie": "^0.5.2",
         "@solana/wallet-adapter-blocto": "^0.5.2",
+        "@solana/wallet-adapter-brave": "^0.1.0",
         "@solana/wallet-adapter-clover": "^0.4.2",
         "@solana/wallet-adapter-coin98": "^0.5.2",
         "@solana/wallet-adapter-coinhub": "^0.3.2",
