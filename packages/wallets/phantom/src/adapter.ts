@@ -200,7 +200,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
             // Phantom also doesn't handle additional signers when provided, and your adapter should do this.
             // Phantom also doesn't set the fee payer and recent blockhash, and your adapter should do this.
             //
-            // Phantom doesn't handle partial signers, so if they are provided, don't use `signAndSendTransaction`
+            // HACK: Phantom doesn't handle partial signers, so if they are provided, don't use `signAndSendTransaction`
             if (wallet && 'signAndSendTransaction' in wallet && !options?.signers) {
                 // HACK: Phantom's `signAndSendTransaction` should always set these, but doesn't yet
                 transaction.feePayer = transaction.feePayer || this.publicKey || undefined;
