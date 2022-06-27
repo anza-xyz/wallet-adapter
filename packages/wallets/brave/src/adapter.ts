@@ -162,16 +162,14 @@ export class BraveWalletAdapter extends BaseMessageSignerWalletAdapter {
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
-            if (!wallet) throw new WalletNotConnectedError();
+            const publicKey = this.publicKey;
+            if (!wallet || !publicKey) throw new WalletNotConnectedError();
 
             try {
-                // transaction.serializeMessage() requires feePayer and
-                // recentBlockhash to be set.
-                // Brave will set both here when caller doesn't set any of them.
-                // Otherwise, request would be rejected.
-                transaction.feePayer = transaction.feePayer || this.publicKey || undefined;
+                transaction.feePayer = transaction.feePayer || publicKey;
                 transaction.recentBlockhash =
                     transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
+
                 const { signature } = await wallet.signAndSendTransaction(transaction, options);
                 return signature;
             } catch (error: any) {
