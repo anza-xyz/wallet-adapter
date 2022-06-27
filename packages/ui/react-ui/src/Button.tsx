@@ -1,6 +1,6 @@
-import React, { CSSProperties, FC, MouseEvent, ReactElement } from 'react';
+import React, { CSSProperties, FC, MouseEvent, PropsWithChildren, ReactElement } from 'react';
 
-export interface ButtonProps {
+export type ButtonProps = PropsWithChildren<{
     className?: string;
     disabled?: boolean;
     endIcon?: ReactElement;
@@ -8,7 +8,7 @@ export interface ButtonProps {
     startIcon?: ReactElement;
     style?: CSSProperties;
     tabIndex?: number;
-}
+}>;
 
 export const Button: FC<ButtonProps> = (props) => {
     return (
