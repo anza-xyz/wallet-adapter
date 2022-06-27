@@ -10,6 +10,7 @@ import {
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSignMessageError,
     WalletSignTransactionError,
     WalletWindowClosedError,
 } from '@solana/wallet-adapter-base';
@@ -17,9 +18,9 @@ import { PublicKey, Transaction } from '@solana/web3.js';
 import WalletConnectClient, { CLIENT_EVENTS } from '@walletconnect/client';
 import QRCodeModal from '@walletconnect/qrcode-modal';
 import { ClientOptions, ClientTypes, PairingTypes, SessionTypes } from '@walletconnect/types';
-import { serialiseTransaction } from 'solana-wallet';
-import base58 from 'bs58';
 import { ERROR } from '@walletconnect/utils';
+import base58 from 'bs58';
+import { serialiseTransaction } from 'solana-wallet';
 
 export enum WalletConnectChainID {
     Mainnet = 'solana:4sGjMW1sUnHzSxGspuhpqLDx6wiyjNtZ',
@@ -252,7 +253,7 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
                 });
                 return base58.decode(signature);
             } catch (error: any) {
-                throw new WalletSignTransactionError(error?.message, error);
+                throw new WalletSignMessageError(error?.message, error);
             }
         } catch (error: any) {
             this.emit('error', error);
