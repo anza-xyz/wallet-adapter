@@ -97,9 +97,7 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
                 throw new WalletConnectionError(error?.message, error);
             }
 
-            if (wallet.publicKey.toString() === '11111111111111111111111111111111') {
-                throw new WalletAccountError();
-            }
+            if (wallet.publicKey.toString() === '11111111111111111111111111111111') throw new WalletAccountError();
 
             let publicKey: PublicKey;
             try {
