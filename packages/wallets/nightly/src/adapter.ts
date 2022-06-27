@@ -86,11 +86,12 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
             if (this.connected || this.connecting) return;
             if (this._readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
 
+            this._connecting = true;
+
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const wallet = window!.nightly!.solana!;
 
             try {
-                this._connecting = true;
                 await wallet.connect();
             } catch (error: any) {
                 throw new WalletConnectionError(error?.message, error);
