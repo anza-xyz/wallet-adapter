@@ -4,6 +4,7 @@ import {
     scopePollingDetectionStrategy,
     SendTransactionOptions,
     WalletAccountError,
+    WalletAdapterNetwork,
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
@@ -27,11 +28,11 @@ interface GlowWallet extends EventEmitter<GlowWalletEvents> {
     isGlow?: boolean;
     publicKey?: { toBytes(): Uint8Array };
     isConnected: boolean;
-    signTransaction(transaction: Transaction): Promise<Transaction>;
-    signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
+    signTransaction(transaction: Transaction, network?: WalletAdapterNetwork | null): Promise<Transaction>;
+    signAllTransactions(transactions: Transaction[], network?: WalletAdapterNetwork | null): Promise<Transaction[]>;
     signAndSendTransaction(
         transaction: Transaction,
-        options?: SendOptions
+        options?: SendOptions & { network?: WalletAdapterNetwork | null }
     ): Promise<{ signature: TransactionSignature }>;
     signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
     connect(): Promise<void>;
@@ -44,7 +45,9 @@ interface GlowWindow extends Window {
 
 declare const window: GlowWindow;
 
-export interface GlowWalletAdapterConfig {}
+export interface GlowWalletAdapterConfig {
+    network?: WalletAdapterNetwork;
+}
 
 export const GlowWalletName = 'Glow' as WalletName<'Glow'>;
 
@@ -57,6 +60,7 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
     private _connecting: boolean;
     private _wallet: GlowWallet | null;
     private _publicKey: PublicKey | null;
+    private _network: WalletAdapterNetwork | null;
     private _readyState: WalletReadyState =
         typeof window === 'undefined' || typeof document === 'undefined'
             ? WalletReadyState.Unsupported
@@ -67,6 +71,7 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
+        this._network = _config.network ?? null;
         if (this._readyState !== WalletReadyState.Unsupported) {
             const handler = (event: MessageEvent<any>) => {
                 if (typeof event.data === 'object' && event.data.__glow_loaded) {
@@ -187,7 +192,7 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
                 transaction.recentBlockhash =
                     transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
 
-                const { signature } = await wallet.signAndSendTransaction(transaction, options);
+                const { signature } = await wallet.signAndSendTransaction(transaction, { ...options, network: this._network });
                 return signature;
             }
         } catch (error: any) {
@@ -204,7 +209,7 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return (await wallet.signTransaction(transaction)) || transaction;
+                return (await wallet.signTransaction(transaction, this._network)) || transaction;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -220,7 +225,7 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return (await wallet.signAllTransactions(transactions)) || transactions;
+                return (await wallet.signAllTransactions(transactions, this._network)) || transactions;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
