@@ -177,7 +177,7 @@ export class ExodusWalletAdapter extends BaseMessageSignerWalletAdapter {
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
-            // Exodus doesn't handle partial signers, so if they are provided, don't use `signAndSendTransaction`
+            // HACK: Exodus doesn't handle partial signers, so if they are provided, don't use `signAndSendTransaction`
             if (wallet && 'signAndSendTransaction' in wallet && !options?.signers) {
                 const { signature } = await wallet.signAndSendTransaction(transaction, options);
                 return signature;
