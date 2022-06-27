@@ -17,8 +17,8 @@ interface SolanaNightly {
     publicKey: PublicKey;
     connect(): Promise<PublicKey>;
     disconnect(): Promise<void>;
-    signTransaction(tx: Transaction): Promise<Transaction>;
-    signAllTransactions(txs: Transaction[]): Promise<Transaction[]>;
+    signTransaction(transaction: Transaction): Promise<Transaction>;
+    signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
 }
 
 interface NightlyWindow extends Window {
