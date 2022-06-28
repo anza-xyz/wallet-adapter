@@ -6,7 +6,6 @@ import {
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
-    WalletError,
     WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
@@ -105,7 +104,6 @@ export class NekoWalletAdapter extends BaseMessageSignerWalletAdapter {
                 try {
                     await wallet.connect();
                 } catch (error: any) {
-                    if (error instanceof WalletError) throw error;
                     throw new WalletConnectionError(error?.message, error);
                 }
             }
