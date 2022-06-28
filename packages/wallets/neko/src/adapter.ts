@@ -2,7 +2,6 @@ import {
     BaseMessageSignerWalletAdapter,
     EventEmitter,
     scopePollingDetectionStrategy,
-    SendTransactionOptions,
     WalletAccountError,
     WalletConnectionError,
     WalletDisconnectedError,
@@ -13,11 +12,10 @@ import {
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
-    WalletSignTransactionError,
-    WalletWindowClosedError,
     WalletSignMessageError,
+    WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import { Connection, PublicKey, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
+import { PublicKey, Transaction } from '@solana/web3.js';
 
 interface NekoWalletEvents {
     connect(...args: unknown[]): unknown;
