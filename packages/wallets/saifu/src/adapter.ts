@@ -106,28 +106,7 @@ export class SaifuWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             if (!wallet?.isConnected) {
                 try {
-                    // connection flow:
-                    // 1. Bind 'connect' for post auth
-                    // 2. Call wallet.connect()
-                    // 3. Wallet with authorize the user and emit 'connect'
-                    // 4. 'connect' will resolve the full promise
-                    await new Promise<void>((resolve, reject) => {
-                        // connect will get called post auth
-                        // resolving this promise will unblock the outer part
-                        // so this should happen last
-                        const connect = () => {
-                            wallet.off('connect', connect);
-                            resolve();
-                        };
-
-                        // saifu will emit 'connect' once connection has been established
-                        wallet.on('connect', connect);
-
-                        wallet.connect().catch((reason: any) => {
-                            wallet.off('connect', connect);
-                            reject(reason);
-                        });
-                    });
+                    await wallet.connect();
                 } catch (error: any) {
                     throw new WalletConnectionError(error?.message, error);
                 }
