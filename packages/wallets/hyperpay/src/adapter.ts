@@ -31,7 +31,9 @@ interface HyperPayWallet extends EventEmitter<HyperPayWalletEvents> {
 }
 
 interface HyperPayWindow extends Window {
-    solana?: HyperPayWallet;
+    hyperPay?: {
+        solana?: HyperPayWallet;
+    };
 }
 
 declare const window: HyperPayWindow;
@@ -62,7 +64,7 @@ export class HyperPayWalletAdapter extends BaseMessageSignerWalletAdapter {
 
         if (this._readyState !== WalletReadyState.Unsupported) {
             scopePollingDetectionStrategy(() => {
-                if (window.solana?.isHyperPay) {
+                if (window.hyperPay?.solana?.isHyperPay) {
                     this._readyState = WalletReadyState.Installed;
                     this.emit('readyStateChange', this._readyState);
                     return true;
@@ -96,7 +98,7 @@ export class HyperPayWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.solana!;
+            const wallet = window!.hyperPay!.solana!;
 
             try {
                 await wallet.connect();
