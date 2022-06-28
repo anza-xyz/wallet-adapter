@@ -30,7 +30,7 @@
         "@solana/web3.js": "^1.44.3"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.9.5"
+        "@solana/wallet-adapter-base": "^0.9.6"
     },
     "devDependencies": {
         "@solana/web3.js": "^1.44.3"
