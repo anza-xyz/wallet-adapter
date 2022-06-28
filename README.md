@@ -39,6 +39,7 @@ yarn add @solana/wallet-adapter-base \
          @solana/wallet-adapter-react-ui \
          @solana/wallet-adapter-wallets \
          @solana/web3.js \
+         @solana-mobile/wallet-adapter-mobile \
          react
 ```
 
@@ -63,6 +64,7 @@ import {
     WalletMultiButton
 } from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
+import { createDefaultAuthorizationResultCache, SolanaMobileWalletAdapter } from '@solana-mobile/wallet-adapter-mobile';
 
 // Default styles that can be overridden by your app
 require('@solana/wallet-adapter-react-ui/styles.css');
@@ -79,6 +81,10 @@ export const Wallet: FC = () => {
     // of wallets that your users connect to will be loaded.
     const wallets = useMemo(
         () => [
+            new SolanaMobileWalletAdapter({
+                appIdentity: { name: 'Solana Wallet Adapter App' },
+                authorizationResultCache: createDefaultAuthorizationResultCache(),
+            }),
             new PhantomWalletAdapter(),
             new GlowWalletAdapter(),
             new SlopeWalletAdapter(),
