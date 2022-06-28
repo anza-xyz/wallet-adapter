@@ -14,6 +14,7 @@ export * from '@solana/wallet-adapter-nightly';
 export * from '@solana/wallet-adapter-nufi';
 export * from '@solana/wallet-adapter-phantom';
 export * from '@solana/wallet-adapter-safepal';
+export * from '@solana/wallet-adapter-saifu';
 export * from '@solana/wallet-adapter-slope';
 export * from '@solana/wallet-adapter-solflare';
 export * from '@solana/wallet-adapter-sollet';
