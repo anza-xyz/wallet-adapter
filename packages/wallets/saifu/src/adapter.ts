@@ -163,10 +163,7 @@ export class SaifuWalletAdapter extends BaseMessageSignerWalletAdapter {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
-            // fallback to parent if not implemented yet
-            if (!wallet.signAndSendTransaction) {
-                return super.sendTransaction(transaction, connection, options);
-            }
+            if (!wallet.signAndSendTransaction) return super.sendTransaction(transaction, connection, options);
 
             const { signature } = await wallet.signAndSendTransaction(transaction, options);
             return signature;
