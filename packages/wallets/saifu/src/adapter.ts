@@ -38,7 +38,7 @@ interface SaifuWallet extends EventEmitter<SaifuWalletEvents> {
 }
 
 interface SolanaWindow extends Window {
-    saifu: SaifuWallet;
+    saifu?: SaifuWallet;
 }
 
 declare const window: SolanaWindow;
@@ -102,9 +102,10 @@ export class SaifuWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             this._connecting = true;
 
-            const wallet = window.saifu;
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const wallet = window!.saifu!;
 
-            if (!wallet?.isConnected) {
+            if (!wallet.isConnected) {
                 try {
                     await wallet.connect();
                 } catch (error: any) {
