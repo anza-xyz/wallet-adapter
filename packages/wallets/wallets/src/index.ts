@@ -17,5 +17,6 @@ export * from '@solana/wallet-adapter-slope';
 export * from '@solana/wallet-adapter-solflare';
 export * from '@solana/wallet-adapter-sollet';
 export * from '@solana/wallet-adapter-solong';
+export * from '@solana/wallet-adapter-spot';
 export * from '@solana/wallet-adapter-tokenpocket';
 export * from '@solana/wallet-adapter-torus';
