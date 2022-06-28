@@ -1,5 +1,6 @@
 import {
     BaseMessageSignerWalletAdapter,
+    EventEmitter,
     scopePollingDetectionStrategy,
     SendTransactionOptions,
     WalletAccountError,
@@ -17,17 +18,15 @@ import {
 } from '@solana/wallet-adapter-base';
 import { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
 
-interface NufiEvents {
+interface NufiWalletEvents {
     connect(): void;
     disconnect(): void;
 }
 
-interface NufiWallet {
-    isNufi: boolean;
-    publicKey: undefined | { toBytes(): Uint8Array };
+interface NufiWallet extends EventEmitter<NufiWalletEvents> {
+    isNufi?: boolean;
+    publicKey?: { toBytes(): Uint8Array };
     isConnected: boolean;
-    on: <T extends keyof NufiEvents>(event: T, fn: NufiEvents[T]) => void;
-    off: <T extends keyof NufiEvents>(event: T, fn: NufiEvents[T]) => void;
     signTransaction(transaction: Transaction): Promise<Transaction>;
     signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
     signAndSendTransaction(transaction: Transaction): Promise<{ signature: TransactionSignature }>;
