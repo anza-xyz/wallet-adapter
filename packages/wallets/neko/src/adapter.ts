@@ -15,6 +15,7 @@ import {
     WalletReadyState,
     WalletSignTransactionError,
     WalletWindowClosedError,
+    WalletSignMessageError
 } from '@solana/wallet-adapter-base';
 import { Connection, PublicKey, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
 
