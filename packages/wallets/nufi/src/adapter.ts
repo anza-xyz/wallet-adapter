@@ -13,8 +13,9 @@ import {
     WalletReadyState,
     WalletSignMessageError,
     WalletSignTransactionError,
+    WalletSendTransactionError,
 } from '@solana/wallet-adapter-base';
-import { Connection, PublicKey, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
+import { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
 
 interface NufiEvents {
     connect(): void;
@@ -156,16 +157,18 @@ export class NufiWalletAdapter extends BaseMessageSignerWalletAdapter {
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
-            if (wallet) {
+            if (!wallet) throw new WalletNotConnectedError();
+
+            try {
                 const { signature } = await wallet.signAndSendTransaction(transaction);
                 return signature;
+            } catch (error: any) {
+                throw new WalletSendTransactionError(error?.message, error);
             }
         } catch (error: any) {
             this.emit('error', error);
             throw error;
         }
-
-        return await super.sendTransaction(transaction, connection, options);
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {
