@@ -7,14 +7,13 @@ import {
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
-    WalletError,
     WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSignMessageError,
     WalletSignTransactionError,
-    WalletWindowClosedError,
 } from '@solana/wallet-adapter-base';
 import { Connection, PublicKey, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
 
@@ -152,25 +151,6 @@ export class SpotWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
 
         this.emit('disconnect');
-    }
-
-    async sendTransaction(
-        transaction: Transaction,
-        connection: Connection,
-        options?: SendTransactionOptions
-    ): Promise<TransactionSignature> {
-        try {
-            const wallet = this._wallet;
-            if (wallet && 'signAndSendTransaction' in wallet) {
-                const { signature } = await wallet.signAndSendTransaction(transaction, options);
-                return signature;
-            }
-        } catch (error: any) {
-            this.emit('error', error);
-            throw error;
-        }
-
-        return await super.sendTransaction(transaction, connection, options);
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {
