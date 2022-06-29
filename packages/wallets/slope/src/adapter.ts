@@ -142,13 +142,14 @@ export class SlopeWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._publicKey = null;
 
             try {
-                const { msg } = await wallet.disconnect();
+                let msg: string;
+                try {
+                    ({ msg } = await wallet.disconnect());
+                } catch (error: any) {
+                    throw new WalletDisconnectionError(error?.message, error);
+                }
                 if (msg !== 'ok') throw new WalletDisconnectionError(msg);
             } catch (error: any) {
-                if (!(error instanceof WalletError)) {
-                    // eslint-disable-next-line no-ex-assign
-                    error = new WalletDisconnectionError(error?.message, error);
-                }
                 this.emit('error', error);
             }
         }

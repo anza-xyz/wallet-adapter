@@ -72,6 +72,7 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
         this._wallet = null;
         this._publicKey = null;
         this._network = _config.network ?? null;
+
         if (this._readyState !== WalletReadyState.Unsupported) {
             const handler = (event: MessageEvent<any>) => {
                 if (typeof event.data === 'object' && event.data.__glow_loaded) {
@@ -128,15 +129,10 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
             try {
                 await wallet.connect();
             } catch (error: any) {
-                if (error instanceof WalletError) {
-                    throw error;
-                }
                 throw new WalletConnectionError(error?.message, error);
             }
 
-            if (!wallet.publicKey) {
-                throw new WalletAccountError();
-            }
+            if (!wallet.publicKey) throw new WalletAccountError();
 
             let publicKey: PublicKey;
             try {

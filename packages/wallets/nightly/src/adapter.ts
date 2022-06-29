@@ -121,7 +121,6 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
 
     async disconnect() {
         const wallet = this._wallet;
-
         if (wallet) {
             this._publicKey = null;
             this._wallet = null;
@@ -139,12 +138,11 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
 
     async signTransaction(transaction: Transaction) {
         try {
-            if (!this._wallet) {
-                throw new WalletNotConnectedError();
-            }
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return await this._wallet.signTransaction(transaction);
+                return await wallet.signTransaction(transaction);
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -156,12 +154,11 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
 
     public async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
         try {
-            if (!this._wallet) {
-                throw new WalletNotConnectedError();
-            }
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return await this._wallet.signAllTransactions(transactions);
+                return await wallet.signAllTransactions(transactions);
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }

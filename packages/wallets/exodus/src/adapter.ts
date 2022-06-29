@@ -124,7 +124,6 @@ export class ExodusWalletAdapter extends BaseMessageSignerWalletAdapter {
                         });
                     });
                 } catch (error: any) {
-                    if (error instanceof WalletError) throw error;
                     throw new WalletConnectionError(error?.message, error);
                 }
             }

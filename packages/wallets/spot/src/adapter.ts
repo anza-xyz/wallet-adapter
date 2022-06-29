@@ -14,7 +14,7 @@ import {
     WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import { PublicKey, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
+import { PublicKey, Transaction } from '@solana/web3.js';
 
 interface SpotWalletEvents {
     connect(...args: unknown[]): unknown;
