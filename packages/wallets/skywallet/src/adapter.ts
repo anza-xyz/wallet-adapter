@@ -167,13 +167,7 @@ export class SkyWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             if (options.signers?.length) {
                 // handling partial signing 
-                const { signers, ...sendOptions } = options;
-                transaction.partialSign(...signers);
-                transaction = await this.signTransaction(transaction);
-                const rawTransaction = transaction.serialize(); 
-  
-                const signature = await connection.sendRawTransaction(rawTransaction, sendOptions); 
-                return signature
+                return await super.sendTransaction(transaction, connection, options);
             }
             // base case if there are no partial signers
             const { signature } = await wallet.signAndSendTransaction(transaction, options);
