@@ -9,6 +9,7 @@ export * from '@solana/wallet-adapter-coinhub';
 export * from '@solana/wallet-adapter-exodus';
 export * from '@solana/wallet-adapter-glow';
 export * from '@solana/wallet-adapter-huobi';
+export * from '@solana/wallet-adapter-hyperpay';
 export * from '@solana/wallet-adapter-ledger';
 export * from '@solana/wallet-adapter-mathwallet';
 export * from '@solana/wallet-adapter-neko';
