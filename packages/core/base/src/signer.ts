@@ -1,6 +1,6 @@
 import { Connection, Transaction, TransactionSignature } from '@solana/web3.js';
 import { BaseWalletAdapter, SendTransactionOptions, WalletAdapter } from './adapter';
-import { WalletError, WalletSendTransactionError } from './errors';
+import { WalletError, WalletSendTransactionError, WalletSignTransactionError } from './errors';
 
 export interface SignerWalletAdapterProps {
     signTransaction(transaction: Transaction): Promise<Transaction>;
@@ -18,9 +18,7 @@ export abstract class BaseSignerWalletAdapter extends BaseWalletAdapter implemen
         let emit = true;
         try {
             try {
-                transaction.feePayer = transaction.feePayer || this.publicKey || undefined;
-                transaction.recentBlockhash =
-                    transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
+                transaction = await this.prepareTransaction(transaction, connection);
 
                 const { signers, ...sendOptions } = options;
                 signers?.length && transaction.partialSign(...signers);
@@ -32,7 +30,7 @@ export abstract class BaseSignerWalletAdapter extends BaseWalletAdapter implemen
                 return await connection.sendRawTransaction(rawTransaction, sendOptions);
             } catch (error: any) {
                 // If the error was thrown by `signTransaction`, rethrow it and don't emit a duplicate event
-                if (error instanceof WalletError) {
+                if (error instanceof WalletSignTransactionError) {
                     emit = false;
                     throw error;
                 }
