@@ -37,7 +37,6 @@
         "@solana/wallet-adapter-exodus": "^0.1.0",
         "@solana/wallet-adapter-glow": "^0.1.0",
         "@solana/wallet-adapter-huobi": "^0.1.0",
-        "@solana/wallet-adapter-hyperpay": "^0.1.0",
         "@solana/wallet-adapter-ledger": "^0.9.8",
         "@solana/wallet-adapter-mathwallet": "^0.9.2",
         "@solana/wallet-adapter-phantom": "^0.9.2",
