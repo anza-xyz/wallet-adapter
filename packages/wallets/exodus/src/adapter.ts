@@ -13,6 +13,7 @@ import {
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSendTransactionError,
     WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
@@ -172,21 +173,28 @@ export class ExodusWalletAdapter extends BaseMessageSignerWalletAdapter {
     async sendTransaction(
         transaction: Transaction,
         connection: Connection,
-        options?: SendTransactionOptions
+        options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
-            // HACK: Exodus doesn't handle partial signers, so if they are provided, don't use `signAndSendTransaction`
-            if (wallet && 'signAndSendTransaction' in wallet && !options?.signers) {
-                const { signature } = await wallet.signAndSendTransaction(transaction, options);
+            if (!wallet) throw new WalletNotConnectedError();
+
+            try {
+                transaction = await this.prepareTransaction(transaction, connection);
+
+                const { signers, ...sendOptions } = options;
+                signers?.length && transaction.partialSign(...signers);
+
+                const { signature } = await wallet.signAndSendTransaction(transaction, sendOptions);
                 return signature;
+            } catch (error: any) {
+                if (error instanceof WalletError) throw error;
+                throw new WalletSendTransactionError(error?.message, error);
             }
         } catch (error: any) {
             this.emit('error', error);
             throw error;
         }
-
-        return await super.sendTransaction(transaction, connection, options);
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {

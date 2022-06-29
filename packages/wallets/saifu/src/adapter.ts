@@ -7,11 +7,13 @@ import {
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
+    WalletError,
     WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSendTransactionError,
     WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
@@ -163,14 +165,26 @@ export class SaifuWalletAdapter extends BaseMessageSignerWalletAdapter {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
-            if (!wallet.signAndSendTransaction) return super.sendTransaction(transaction, connection, options);
+            if (wallet.signAndSendTransaction) {
+                try {
+                    transaction = await this.prepareTransaction(transaction, connection);
 
-            const { signature } = await wallet.signAndSendTransaction(transaction, options);
-            return signature;
+                    const { signers, ...sendOptions } = options;
+                    signers?.length && transaction.partialSign(...signers);
+
+                    const { signature } = await wallet.signAndSendTransaction(transaction, sendOptions);
+                    return signature;
+                } catch (error: any) {
+                    if (error instanceof WalletError) throw error;
+                    throw new WalletSendTransactionError(error?.message, error);
+                }
+            }
         } catch (error: any) {
             this.emit('error', error);
             throw error;
         }
+
+        return await super.sendTransaction(transaction, connection, options);
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {

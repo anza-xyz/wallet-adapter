@@ -7,6 +7,7 @@ import {
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
+    WalletError,
     WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
@@ -153,21 +154,22 @@ export class CoinbaseWalletAdapter extends BaseMessageSignerWalletAdapter {
     async sendTransaction(
         transaction: Transaction,
         connection: Connection,
-        options?: SendTransactionOptions
+        options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
-            const publicKey = this.publicKey;
-            if (!wallet || !publicKey) throw new WalletNotConnectedError();
+            if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                transaction.feePayer = transaction.feePayer || publicKey;
-                transaction.recentBlockhash =
-                    transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
+                transaction = await this.prepareTransaction(transaction, connection);
 
-                const { signature } = await wallet.signAndSendTransaction(transaction, options);
+                const { signers, ...sendOptions } = options;
+                signers?.length && transaction.partialSign(...signers);
+
+                const { signature } = await wallet.signAndSendTransaction(transaction, sendOptions);
                 return signature;
             } catch (error: any) {
+                if (error instanceof WalletError) throw error;
                 throw new WalletSendTransactionError(error?.message, error);
             }
         } catch (error: any) {

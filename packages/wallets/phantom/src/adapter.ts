@@ -13,6 +13,7 @@ import {
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSendTransactionError,
     WalletSignMessageError,
     WalletSignTransactionError,
     WalletWindowClosedError,
@@ -191,34 +192,28 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
     async sendTransaction(
         transaction: Transaction,
         connection: Connection,
-        options?: SendTransactionOptions
+        options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
-            const publicKey = this.publicKey;
-            if (!wallet || !publicKey) throw new WalletNotConnectedError();
+            if (!wallet) throw new WalletNotConnectedError();
 
-            // NOTE: If you are contributing a wallet adapter, **DO NOT COPY** this.
-            // Phantom didn't always have a `signAndSendTransaction` method, so this code checks for older versions.
-            // Phantom also doesn't handle additional signers when provided, and your adapter should do this.
-            // Phantom also doesn't set the fee payer and recent blockhash, and your adapter should do this.
-            //
-            // HACK: Phantom doesn't handle partial signers, so if they are provided, don't use `signAndSendTransaction`
-            if (wallet && 'signAndSendTransaction' in wallet && !options?.signers) {
-                // HACK: Phantom's `signAndSendTransaction` should always set these, but doesn't yet
-                transaction.feePayer = transaction.feePayer || publicKey;
-                transaction.recentBlockhash =
-                    transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
+            try {
+                transaction = await this.prepareTransaction(transaction, connection);
 
-                const { signature } = await wallet.signAndSendTransaction(transaction, options);
+                const { signers, ...sendOptions } = options;
+                signers?.length && transaction.partialSign(...signers);
+
+                const { signature } = await wallet.signAndSendTransaction(transaction, sendOptions);
                 return signature;
+            } catch (error: any) {
+                if (error instanceof WalletError) throw error;
+                throw new WalletSendTransactionError(error?.message, error);
             }
         } catch (error: any) {
             this.emit('error', error);
             throw error;
         }
-
-        return await super.sendTransaction(transaction, connection, options);
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {

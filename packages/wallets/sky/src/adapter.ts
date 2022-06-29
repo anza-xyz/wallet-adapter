@@ -13,6 +13,7 @@ import {
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSendTransactionError,
     WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
@@ -162,17 +163,19 @@ export class SkyWalletAdapter extends BaseMessageSignerWalletAdapter {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
-            //SKY wallet will try to setup defaults in case user has not provided feePayer and blockhash values in the transaction
-            transaction.feePayer = transaction.feePayer || this.publicKey || undefined
-            transaction.recentBlockhash = transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
 
-            if (options.signers?.length) {
-                // handling partial signing 
-                return await super.sendTransaction(transaction, connection, options);
+            try {
+                transaction = await this.prepareTransaction(transaction, connection);
+
+                const { signers, ...sendOptions } = options;
+                signers?.length && transaction.partialSign(...signers);
+
+                const { signature } = await wallet.signAndSendTransaction(transaction, sendOptions);
+                return signature;
+            } catch (error: any) {
+                if (error instanceof WalletError) throw error;
+                throw new WalletSendTransactionError(error?.message, error);
             }
-            // base case if there are no partial signers
-            const { signature } = await wallet.signAndSendTransaction(transaction, options);
-            return signature;
         } catch (error: any) {
             this.emit('error', error);
             throw error;
