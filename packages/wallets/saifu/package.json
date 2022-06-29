@@ -1,6 +1,5 @@
 {
-    "private": true,
-    "name": "@solana/wallet-adapter-walletconnect",
+    "name": "@solana/wallet-adapter-saifu",
     "version": "0.1.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
@@ -28,18 +27,12 @@
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.36.0"
+        "@solana/web3.js": "^1.44.3"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.9.4",
-        "@walletconnect/client": "^2.0.0-beta.26",
-        "@walletconnect/qrcode-modal": "2.0.0-alpha.20",
-        "@walletconnect/utils": "^2.0.0-beta.26",
-        "solana-wallet": "^1.0.1"
+        "@solana/wallet-adapter-base": "^0.9.6"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.36.0",
-        "@types/pino": "^6.3.11",
-        "@walletconnect/types": "^2.0.0-beta.26"
+        "@solana/web3.js": "^1.44.3"
     }
 }

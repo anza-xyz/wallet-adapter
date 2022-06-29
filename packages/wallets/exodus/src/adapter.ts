@@ -1,6 +1,7 @@
 import {
     BaseMessageSignerWalletAdapter,
     EventEmitter,
+    scopePollingDetectionStrategy,
     SendTransactionOptions,
     WalletAccountError,
     WalletConnectionError,
@@ -12,9 +13,8 @@ import {
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSignMessageError,
     WalletSignTransactionError,
-    WalletWindowClosedError,
-    scopePollingDetectionStrategy,
 } from '@solana/wallet-adapter-base';
 import { Connection, PublicKey, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
 
@@ -177,7 +177,7 @@ export class ExodusWalletAdapter extends BaseMessageSignerWalletAdapter {
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
-            // Exodus doesn't handle partial signers, so if they are provided, don't use `signAndSendTransaction`
+            // HACK: Exodus doesn't handle partial signers, so if they are provided, don't use `signAndSendTransaction`
             if (wallet && 'signAndSendTransaction' in wallet && !options?.signers) {
                 const { signature } = await wallet.signAndSendTransaction(transaction, options);
                 return signature;
@@ -231,7 +231,7 @@ export class ExodusWalletAdapter extends BaseMessageSignerWalletAdapter {
                 const { signature } = await wallet.signMessage(message);
                 return signature;
             } catch (error: any) {
-                throw new WalletSignTransactionError(error?.message, error);
+                throw new WalletSignMessageError(error?.message, error);
             }
         } catch (error: any) {
             this.emit('error', error);

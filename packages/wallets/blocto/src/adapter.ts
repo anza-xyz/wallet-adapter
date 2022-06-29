@@ -132,10 +132,11 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
-            if (!wallet) throw new WalletNotConnectedError();
+            const publicKey = this.publicKey;
+            if (!wallet || !publicKey) throw new WalletNotConnectedError();
 
             try {
-                transaction.feePayer = transaction.feePayer || this.publicKey || undefined;
+                transaction.feePayer = transaction.feePayer || publicKey;
                 transaction.recentBlockhash =
                     transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
 
