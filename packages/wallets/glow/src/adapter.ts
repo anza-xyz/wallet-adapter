@@ -14,6 +14,7 @@ import {
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSendTransactionError,
     WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
@@ -176,33 +177,31 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
     async sendTransaction(
         transaction: Transaction,
         connection: Connection,
-        options?: SendTransactionOptions
+        options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
-            const publicKey = this.publicKey;
-            if (!wallet || !publicKey) throw new WalletNotConnectedError();
+            if (!wallet) throw new WalletNotConnectedError();
 
-            // HACK: Glow doesn't handle partial signers, so if they are provided, don't use `signAndSendTransaction`
-            if (wallet && 'signAndSendTransaction' in wallet && !options?.signers) {
-                // TODO: update glow to fix this
-                // HACK: Glow's `signAndSendTransaction` should always set these, but doesn't yet
-                transaction.feePayer = transaction.feePayer || publicKey;
-                transaction.recentBlockhash =
-                    transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
+            try {
+                transaction = await this.prepareTransaction(transaction, connection);
+
+                const { signers, ...sendOptions } = options;
+                signers?.length && transaction.partialSign(...signers);
 
                 const { signature } = await wallet.signAndSendTransaction(transaction, {
-                    ...options,
+                    ...sendOptions,
                     network: this._network,
                 });
                 return signature;
+            } catch (error: any) {
+                if (error instanceof WalletError) throw error;
+                throw new WalletSendTransactionError(error?.message, error);
             }
         } catch (error: any) {
             this.emit('error', error);
             throw error;
         }
-
-        return await super.sendTransaction(transaction, connection, options);
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {

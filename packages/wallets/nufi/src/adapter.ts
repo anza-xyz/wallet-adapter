@@ -7,6 +7,7 @@ import {
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
+    WalletError,
     WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
@@ -152,16 +153,22 @@ export class NufiWalletAdapter extends BaseMessageSignerWalletAdapter {
     async sendTransaction(
         transaction: Transaction,
         connection: Connection,
-        options?: SendTransactionOptions
+        options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
+                transaction = await this.prepareTransaction(transaction, connection);
+
+                const { signers } = options;
+                signers?.length && transaction.partialSign(...signers);
+
                 const { signature } = await wallet.signAndSendTransaction(transaction);
                 return signature;
             } catch (error: any) {
+                if (error instanceof WalletError) throw error;
                 throw new WalletSendTransactionError(error?.message, error);
             }
         } catch (error: any) {
