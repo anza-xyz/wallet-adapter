@@ -60,6 +60,7 @@
 <a href="_solana_wallet_adapter_coinbase.CoinbaseWalletAdapter.html#off" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>off</span></a>
 <a href="_solana_wallet_adapter_coinbase.CoinbaseWalletAdapter.html#on" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>on</span></a>
 <a href="_solana_wallet_adapter_coinbase.CoinbaseWalletAdapter.html#once" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>once</span></a>
+<a href="_solana_wallet_adapter_coinbase.CoinbaseWalletAdapter.html#prepareTransaction" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>prepare<wbr/>Transaction</span></a>
 <a href="_solana_wallet_adapter_coinbase.CoinbaseWalletAdapter.html#removeAllListeners" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>remove<wbr/>All<wbr/>Listeners</span></a>
 <a href="_solana_wallet_adapter_coinbase.CoinbaseWalletAdapter.html#removeListener" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>remove<wbr/>Listener</span></a>
 <a href="_solana_wallet_adapter_coinbase.CoinbaseWalletAdapter.html#sendTransaction" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>send<wbr/>Transaction</span></a>
@@ -88,40 +89,40 @@
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>_connecting</span><a href="#_connecting" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">_connecting<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/b4e2ac67/packages/wallets/coinbase/src/adapter.ts#L53">packages/wallets/coinbase/src/adapter.ts:53</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/713f4476/packages/wallets/coinbase/src/adapter.ts#L55">packages/wallets/coinbase/src/adapter.ts:55</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="_publicKey" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>_public<wbr/>Key</span><a href="#_publicKey" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">_public<wbr/>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PublicKey</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/b4e2ac67/packages/wallets/coinbase/src/adapter.ts#L55">packages/wallets/coinbase/src/adapter.ts:55</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/713f4476/packages/wallets/coinbase/src/adapter.ts#L57">packages/wallets/coinbase/src/adapter.ts:57</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="_readyState" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>_ready<wbr/>State</span><a href="#_readyState" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">_ready<wbr/>State<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">WalletReadyState</span><span class="tsd-signature-symbol"> = ...</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/b4e2ac67/packages/wallets/coinbase/src/adapter.ts#L56">packages/wallets/coinbase/src/adapter.ts:56</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/713f4476/packages/wallets/coinbase/src/adapter.ts#L58">packages/wallets/coinbase/src/adapter.ts:58</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="_wallet" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>_wallet</span><a href="#_wallet" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">_wallet<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CoinbaseWallet</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/b4e2ac67/packages/wallets/coinbase/src/adapter.ts#L54">packages/wallets/coinbase/src/adapter.ts:54</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/713f4476/packages/wallets/coinbase/src/adapter.ts#L56">packages/wallets/coinbase/src/adapter.ts:56</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="icon" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>icon</span><a href="#icon" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">icon<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &#39;data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAyNCIgaGVpZ2h0PSIxMDI0IiB2aWV3Qm94PSIwIDAgMTAyNCAxMDI0IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8Y2lyY2xlIGN4PSI1MTIiIGN5PSI1MTIiIHI9IjUxMiIgZmlsbD0iIzAwNTJGRiIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTE1MiA1MTJDMTUyIDcxMC44MjMgMzEzLjE3NyA4NzIgNTEyIDg3MkM3MTAuODIzIDg3MiA4NzIgNzEwLjgyMyA4NzIgNTEyQzg3MiAzMTMuMTc3IDcxMC44MjMgMTUyIDUxMiAxNTJDMzEzLjE3NyAxNTIgMTUyIDMxMy4xNzcgMTUyIDUxMlpNNDIwIDM5NkM0MDYuNzQ1IDM5NiAzOTYgNDA2Ljc0NSAzOTYgNDIwVjYwNEMzOTYgNjE3LjI1NSA0MDYuNzQ1IDYyOCA0MjAgNjI4SDYwNEM2MTcuMjU1IDYyOCA2MjggNjE3LjI1NSA2MjggNjA0VjQyMEM2MjggNDA2Ljc0NSA2MTcuMjU1IDM5NiA2MDQgMzk2SDQyMFoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=&#39;</span></div><aside class="tsd-sources">
 <p>Overrides BaseMessageSignerWalletAdapter.icon</p>
 <ul>
-<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/b4e2ac67/packages/wallets/coinbase/src/adapter.ts#L51">packages/wallets/coinbase/src/adapter.ts:51</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/713f4476/packages/wallets/coinbase/src/adapter.ts#L52">packages/wallets/coinbase/src/adapter.ts:52</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="name" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>name</span><a href="#name" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">WalletName</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = CoinbaseWalletName</span></div><aside class="tsd-sources">
 <p>Overrides BaseMessageSignerWalletAdapter.name</p>
 <ul>
-<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/b4e2ac67/packages/wallets/coinbase/src/adapter.ts#L49">packages/wallets/coinbase/src/adapter.ts:49</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/713f4476/packages/wallets/coinbase/src/adapter.ts#L50">packages/wallets/coinbase/src/adapter.ts:50</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="url" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>url</span><a href="#url" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &#39;https://chrome.google.com/webstore/detail/coinbase-wallet-extension/hnfanknocfeofbddgcijnmhnfnkdnaad&#39;</span></div><aside class="tsd-sources">
 <p>Overrides BaseMessageSignerWalletAdapter.url</p>
 <ul>
-<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/b4e2ac67/packages/wallets/coinbase/src/adapter.ts#L50">packages/wallets/coinbase/src/adapter.ts:50</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/713f4476/packages/wallets/coinbase/src/adapter.ts#L51">packages/wallets/coinbase/src/adapter.ts:51</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a id="prefixed" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>prefixed</span><a href="#prefixed" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">prefixed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span></div><aside class="tsd-sources">
@@ -397,6 +398,21 @@ listeners.</p>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> context: <span class="tsd-signature-type">any</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="_solana_wallet_adapter_coinbase.CoinbaseWalletAdapter.html" class="tsd-signature-type" data-tsd-kind="Class">CoinbaseWalletAdapter</a></h4><aside class="tsd-sources">
 <p>Inherited from BaseMessageSignerWalletAdapter.once</p></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="prepareTransaction" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>prepare<wbr/>Transaction</span><a href="#prepareTransaction" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
+<li class="tsd-signature" id="prepareTransaction.prepareTransaction-1">prepare<wbr/>Transaction<span class="tsd-signature-symbol">(</span>transaction<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Transaction</span>, connection<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Connection</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Transaction</span><span class="tsd-signature-symbol">&gt;</span></li></ul>
+<ul class="tsd-descriptions">
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>transaction: <span class="tsd-signature-type">Transaction</span></h5></li>
+<li>
+<h5>connection: <span class="tsd-signature-type">Connection</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Transaction</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<p>Inherited from BaseMessageSignerWalletAdapter.prepareTransaction</p></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a id="removeAllListeners" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>remove<wbr/>All<wbr/>Listeners</span><a href="#removeAllListeners" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -464,7 +480,7 @@ listeners.</p>
 <li>
 <h5>connection: <span class="tsd-signature-type">Connection</span></h5></li>
 <li>
-<h5><code class="tsd-tag ts-flagOptional">Optional</code> options: <span class="tsd-signature-type">SendTransactionOptions</span></h5></li></ul></div>
+<h5>options: <span class="tsd-signature-type">SendTransactionOptions</span><span class="tsd-signature-symbol"> = {}</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Overrides BaseMessageSignerWalletAdapter.sendTransaction</p></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="signAllTransactions" class="tsd-anchor"></a>
@@ -542,6 +558,7 @@ listeners.</p>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_exodus.html">@solana/wallet-<wbr/>adapter-<wbr/>exodus</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_glow.html">@solana/wallet-<wbr/>adapter-<wbr/>glow</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_huobi.html">@solana/wallet-<wbr/>adapter-<wbr/>huobi</a></li>
+<li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_hyperpay.html">@solana/wallet-<wbr/>adapter-<wbr/>hyperpay</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_ledger.html">@solana/wallet-<wbr/>adapter-<wbr/>ledger</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_material_ui.html">@solana/wallet-<wbr/>adapter-<wbr/>material-<wbr/>ui</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_mathwallet.html">@solana/wallet-<wbr/>adapter-<wbr/>mathwallet</a></li>
@@ -553,6 +570,7 @@ listeners.</p>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_react_ui.html">@solana/wallet-<wbr/>adapter-<wbr/>react-<wbr/>ui</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_safepal.html">@solana/wallet-<wbr/>adapter-<wbr/>safepal</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_saifu.html">@solana/wallet-<wbr/>adapter-<wbr/>saifu</a></li>
+<li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_sky.html">@solana/wallet-<wbr/>adapter-<wbr/>sky</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_slope.html">@solana/wallet-<wbr/>adapter-<wbr/>slope</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_solflare.html">@solana/wallet-<wbr/>adapter-<wbr/>solflare</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_sollet.html">@solana/wallet-<wbr/>adapter-<wbr/>sollet</a></li>
@@ -589,6 +607,7 @@ listeners.</p>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_solana_wallet_adapter_coinbase.CoinbaseWalletAdapter.html#off" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>off</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_solana_wallet_adapter_coinbase.CoinbaseWalletAdapter.html#on" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>on</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_solana_wallet_adapter_coinbase.CoinbaseWalletAdapter.html#once" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>once</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a href="_solana_wallet_adapter_coinbase.CoinbaseWalletAdapter.html#prepareTransaction" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>prepare<wbr/>Transaction</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_solana_wallet_adapter_coinbase.CoinbaseWalletAdapter.html#removeAllListeners" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>remove<wbr/>All<wbr/>Listeners</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_solana_wallet_adapter_coinbase.CoinbaseWalletAdapter.html#removeListener" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>remove<wbr/>Listener</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="_solana_wallet_adapter_coinbase.CoinbaseWalletAdapter.html#sendTransaction" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>send<wbr/>Transaction</a></li>

@@ -28,6 +28,7 @@
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Properties</h3>
 <div class="tsd-index-list"><a href="_solana_wallet_adapter_base.SendTransactionOptions.html#maxRetries" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF984D" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-1024-path"></rect><path d="M9.354 16V7.24H12.174C12.99 7.24 13.638 7.476 14.118 7.948C14.606 8.412 14.85 9.036 14.85 9.82C14.85 10.604 14.606 11.232 14.118 11.704C13.638 12.168 12.99 12.4 12.174 12.4H10.434V16H9.354ZM10.434 11.428H12.174C12.646 11.428 13.022 11.284 13.302 10.996C13.59 10.7 13.734 10.308 13.734 9.82C13.734 9.324 13.59 8.932 13.302 8.644C13.022 8.356 12.646 8.212 12.174 8.212H10.434V11.428Z" fill="var(--color-text)" id="icon-1024-text"></path></svg><span>max<wbr/>Retries</span></a>
+<a href="_solana_wallet_adapter_base.SendTransactionOptions.html#minContextSlot" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>min<wbr/>Context<wbr/>Slot</span></a>
 <a href="_solana_wallet_adapter_base.SendTransactionOptions.html#preflightCommitment" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>preflight<wbr/>Commitment</span></a>
 <a href="_solana_wallet_adapter_base.SendTransactionOptions.html#signers" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>signers</span></a>
 <a href="_solana_wallet_adapter_base.SendTransactionOptions.html#skipPreflight" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>skip<wbr/>Preflight</span></a>
@@ -42,6 +43,14 @@
 <p>Inherited from SendOptions.maxRetries</p>
 <ul>
 <li>Defined in node_modules/@solana/web3.js/lib/index.d.ts:582</li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a id="minContextSlot" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>min<wbr/>Context<wbr/>Slot</span><a href="#minContextSlot" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">min<wbr/>Context<wbr/>Slot<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span></div>
+<div class="tsd-comment tsd-typography"><p>The minimum slot that the request can be evaluated at</p>
+</div><aside class="tsd-sources">
+<p>Inherited from SendOptions.minContextSlot</p>
+<ul>
+<li>Defined in node_modules/@solana/web3.js/lib/index.d.ts:584</li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a id="preflightCommitment" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>preflight<wbr/>Commitment</span><a href="#preflightCommitment" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">preflight<wbr/>Commitment<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">Commitment</span></div>
@@ -54,7 +63,7 @@
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>signers</span><a href="#signers" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">signers<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">Signer</span><span class="tsd-signature-symbol">[]</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/b4e2ac67/packages/core/base/src/adapter.ts#L15">packages/core/base/src/adapter.ts:15</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/713f4476/packages/core/base/src/adapter.ts#L15">packages/core/base/src/adapter.ts:15</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a id="skipPreflight" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>skip<wbr/>Preflight</span><a href="#skipPreflight" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">skip<wbr/>Preflight<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">boolean</span></div>
@@ -99,6 +108,7 @@
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_exodus.html">@solana/wallet-<wbr/>adapter-<wbr/>exodus</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_glow.html">@solana/wallet-<wbr/>adapter-<wbr/>glow</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_huobi.html">@solana/wallet-<wbr/>adapter-<wbr/>huobi</a></li>
+<li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_hyperpay.html">@solana/wallet-<wbr/>adapter-<wbr/>hyperpay</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_ledger.html">@solana/wallet-<wbr/>adapter-<wbr/>ledger</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_material_ui.html">@solana/wallet-<wbr/>adapter-<wbr/>material-<wbr/>ui</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_mathwallet.html">@solana/wallet-<wbr/>adapter-<wbr/>mathwallet</a></li>
@@ -110,6 +120,7 @@
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_react_ui.html">@solana/wallet-<wbr/>adapter-<wbr/>react-<wbr/>ui</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_safepal.html">@solana/wallet-<wbr/>adapter-<wbr/>safepal</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_saifu.html">@solana/wallet-<wbr/>adapter-<wbr/>saifu</a></li>
+<li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_sky.html">@solana/wallet-<wbr/>adapter-<wbr/>sky</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_slope.html">@solana/wallet-<wbr/>adapter-<wbr/>slope</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_solflare.html">@solana/wallet-<wbr/>adapter-<wbr/>solflare</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_sollet.html">@solana/wallet-<wbr/>adapter-<wbr/>sollet</a></li>
@@ -123,6 +134,7 @@
 <li class="current tsd-kind-interface tsd-parent-kind-module"><a href="_solana_wallet_adapter_base.SendTransactionOptions.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-interface)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-256-path"></rect><path d="M9.51 16V15.016H11.298V8.224H9.51V7.24H14.19V8.224H12.402V15.016H14.19V16H9.51Z" fill="var(--color-text)" id="icon-256-text"></path></svg><span>Send<wbr/>Transaction<wbr/>Options</span></a>
 <ul>
 <li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="_solana_wallet_adapter_base.SendTransactionOptions.html#maxRetries" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>max<wbr/>Retries</a></li>
+<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="_solana_wallet_adapter_base.SendTransactionOptions.html#minContextSlot" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>min<wbr/>Context<wbr/>Slot</a></li>
 <li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="_solana_wallet_adapter_base.SendTransactionOptions.html#preflightCommitment" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>preflight<wbr/>Commitment</a></li>
 <li class="tsd-kind-property tsd-parent-kind-interface"><a href="_solana_wallet_adapter_base.SendTransactionOptions.html#signers" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>signers</a></li>
 <li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="_solana_wallet_adapter_base.SendTransactionOptions.html#skipPreflight" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>skip<wbr/>Preflight</a></li></ul></li></ul></nav></div></div>
