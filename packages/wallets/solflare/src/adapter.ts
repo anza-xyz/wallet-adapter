@@ -20,7 +20,7 @@ import type Solflare from '@solflare-wallet/sdk';
 
 interface SolflareWindow extends Window {
     solflare?: {
-        isSolflare: boolean;
+        isSolflare?: boolean;
     };
     SolflareApp?: unknown;
 }

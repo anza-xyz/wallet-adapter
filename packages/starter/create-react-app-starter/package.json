@@ -1,12 +1,27 @@
 {
-    "private": true,
     "name": "@solana/wallet-adapter-create-react-app-starter",
     "version": "0.1.0",
+    "author": "Solana Maintainers <maintainers@solana.foundation>",
+    "repository": "https://github.com/solana-labs/wallet-adapter",
+    "license": "Apache-2.0",
+    "publishConfig": {
+        "access": "public"
+    },
+    "files": [
+        "src",
+        "public",
+        ".gitignore",
+        "config-overrides.js",
+        "LICENSE",
+        "package.json",
+        "README.md",
+        "tsconfig.json"
+    ],
     "dependencies": {
         "@solana-mobile/wallet-adapter-mobile": "^0.0.1-alpha.0",
-        "@solana/wallet-adapter-base": "^0.9.5",
-        "@solana/wallet-adapter-react": "^0.15.3",
-        "@solana/wallet-adapter-react-ui": "^0.9.5",
+        "@solana/wallet-adapter-base": "^0.9.6",
+        "@solana/wallet-adapter-react": "^0.15.6",
+        "@solana/wallet-adapter-react-ui": "^0.9.8",
         "@solana/wallet-adapter-wallets": "^0.16.2",
         "@solana/web3.js": "^1.44.3",
         "react": "^18.0.0",

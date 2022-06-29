@@ -22,7 +22,7 @@ import {
 import { PublicKey, Transaction } from '@solana/web3.js';
 
 interface SolletWallet {
-    postMessage(...args: unknown[]): unknown;
+    postMessage?(...args: unknown[]): unknown;
 }
 
 interface SolletWindow extends Window {
