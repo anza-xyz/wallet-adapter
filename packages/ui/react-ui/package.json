@@ -36,7 +36,7 @@
         "react-dom": "*"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.9.6",
+        "@solana/wallet-adapter-base": "^0.9.7",
         "@solana/wallet-adapter-react": "^0.15.6"
     },
     "devDependencies": {

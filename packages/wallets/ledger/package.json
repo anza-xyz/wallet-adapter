@@ -32,7 +32,7 @@
     "dependencies": {
         "@ledgerhq/hw-transport": "^6.11.2",
         "@ledgerhq/hw-transport-webhid": "^6.11.2",
-        "@solana/wallet-adapter-base": "^0.9.6",
+        "@solana/wallet-adapter-base": "^0.9.7",
         "buffer": "^6.0.3"
     },
     "devDependencies": {

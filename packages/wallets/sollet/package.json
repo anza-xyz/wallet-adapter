@@ -31,7 +31,7 @@
     },
     "dependencies": {
         "@project-serum/sol-wallet-adapter": "^0.2.6",
-        "@solana/wallet-adapter-base": "^0.9.6"
+        "@solana/wallet-adapter-base": "^0.9.7"
     },
     "devDependencies": {
         "@solana/web3.js": "^1.44.3"
