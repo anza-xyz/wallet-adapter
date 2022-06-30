@@ -50,6 +50,7 @@ import React, { FC, useMemo } from 'react';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {
+    CoinbaseWalletAdapter,
     GlowWalletAdapter,
     PhantomWalletAdapter,
     SlopeWalletAdapter,
@@ -85,6 +86,7 @@ export const Wallet: FC = () => {
                 appIdentity: { name: 'Solana Wallet Adapter App' },
                 authorizationResultCache: createDefaultAuthorizationResultCache(),
             }),
+            new CoinbaseWalletAdapter(),
             new PhantomWalletAdapter(),
             new GlowWalletAdapter(),
             new SlopeWalletAdapter(),
