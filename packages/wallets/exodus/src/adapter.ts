@@ -111,19 +111,7 @@ export class ExodusWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             if (!wallet.isConnected) {
                 try {
-                    await new Promise<void>((resolve, reject) => {
-                        const connect = () => {
-                            wallet.off('connect', connect);
-                            resolve();
-                        };
-
-                        wallet.on('connect', connect);
-
-                        wallet.connect().catch((reason: any) => {
-                            wallet.off('connect', connect);
-                            reject(reason);
-                        });
-                    });
+                    await wallet.connect();
                 } catch (error: any) {
                     throw new WalletConnectionError(error?.message, error);
                 }
