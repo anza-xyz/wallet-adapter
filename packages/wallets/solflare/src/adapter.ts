@@ -12,6 +12,7 @@ import {
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
@@ -19,7 +20,7 @@ import type Solflare from '@solflare-wallet/sdk';
 
 interface SolflareWindow extends Window {
     solflare?: {
-        isSolflare: boolean;
+        isSolflare?: boolean;
     };
     SolflareApp?: unknown;
 }
@@ -190,7 +191,7 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
             try {
                 return await wallet.signMessage(message, 'utf8');
             } catch (error: any) {
-                throw new WalletSignTransactionError(error?.message, error);
+                throw new WalletSignMessageError(error?.message, error);
             }
         } catch (error: any) {
             this.emit('error', error);

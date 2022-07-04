@@ -7,6 +7,7 @@ import {
     WalletConfigError,
     WalletConnectionError,
     WalletDisconnectionError,
+    WalletError,
     WalletLoadError,
     WalletName,
     WalletNotConnectedError,
@@ -135,9 +136,7 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                transaction.feePayer = transaction.feePayer || this.publicKey || undefined;
-                transaction.recentBlockhash =
-                    transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
+                transaction = await this.prepareTransaction(transaction, connection);
 
                 const { signers } = options;
                 if (signers?.length) {
@@ -147,6 +146,7 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
 
                 return await wallet.signAndSendTransaction(transaction, connection);
             } catch (error: any) {
+                if (error instanceof WalletError) throw error;
                 throw new WalletSendTransactionError(error?.message, error);
             }
         } catch (error: any) {
