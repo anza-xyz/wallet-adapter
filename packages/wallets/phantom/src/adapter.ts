@@ -13,6 +13,8 @@ import {
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSendTransactionError,
+    WalletSignMessageError,
     WalletSignTransactionError,
     WalletWindowClosedError,
 } from '@solana/wallet-adapter-base';
@@ -40,6 +42,10 @@ interface PhantomWallet extends EventEmitter<PhantomWalletEvents> {
 }
 
 interface PhantomWindow extends Window {
+    // NOTE: If you are contributing a wallet adapter, **DO NOT COPY** this.
+    // Multiple wallet adapters cannot be detected properly if they all try to write to the same window global.
+    // All wallets that currently do this have committed to migrating away from using `window.solana`.
+    // This must be changed to `window.yourWalletName` in your adapter, and must not use `window.solana`.
     solana?: PhantomWallet;
 }
 
@@ -108,6 +114,10 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
             const wallet = window!.solana!;
 
             if (!wallet.isConnected) {
+                // NOTE: If you are contributing a wallet adapter, **DO NOT COPY** this.
+                // The Phantom adapter code has hacks because the Promise returned by `wallet.connect()` is not rejected if the user closes the window.
+                // If your adapter fulfills the Promise correctly, you don't need events, or the hacky override of the private `_handleDisconnect` API.
+                //
                 // HACK: Phantom doesn't reject or emit an event if the popup is closed
                 const handleDisconnect = wallet._handleDisconnect;
                 try {
@@ -182,26 +192,28 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
     async sendTransaction(
         transaction: Transaction,
         connection: Connection,
-        options?: SendTransactionOptions
+        options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
-            // Phantom doesn't handle partial signers, so if they are provided, don't use `signAndSendTransaction`
-            if (wallet && 'signAndSendTransaction' in wallet && !options?.signers) {
-                // HACK: Phantom's `signAndSendTransaction` should always set these, but doesn't yet
-                transaction.feePayer = transaction.feePayer || this.publicKey || undefined;
-                transaction.recentBlockhash =
-                    transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
+            if (!wallet) throw new WalletNotConnectedError();
 
-                const { signature } = await wallet.signAndSendTransaction(transaction, options);
+            try {
+                transaction = await this.prepareTransaction(transaction, connection);
+
+                const { signers, ...sendOptions } = options;
+                signers?.length && transaction.partialSign(...signers);
+
+                const { signature } = await wallet.signAndSendTransaction(transaction, sendOptions);
                 return signature;
+            } catch (error: any) {
+                if (error instanceof WalletError) throw error;
+                throw new WalletSendTransactionError(error?.message, error);
             }
         } catch (error: any) {
             this.emit('error', error);
             throw error;
         }
-
-        return await super.sendTransaction(transaction, connection, options);
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {
@@ -245,7 +257,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
                 const { signature } = await wallet.signMessage(message);
                 return signature;
             } catch (error: any) {
-                throw new WalletSignTransactionError(error?.message, error);
+                throw new WalletSignMessageError(error?.message, error);
             }
         } catch (error: any) {
             this.emit('error', error);

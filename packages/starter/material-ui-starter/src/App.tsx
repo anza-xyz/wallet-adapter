@@ -1,3 +1,4 @@
+import { createDefaultAuthorizationResultCache, SolanaMobileWalletAdapter } from '@solana-mobile/wallet-adapter-mobile';
 import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
 import { WalletDialogProvider, WalletMultiButton } from '@solana/wallet-adapter-material-ui';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
@@ -36,6 +37,10 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
     // of wallets that your users connect to will be loaded.
     const wallets = useMemo(
         () => [
+            new SolanaMobileWalletAdapter({
+                appIdentity: { name: 'Material UI Starter App' },
+                authorizationResultCache: createDefaultAuthorizationResultCache(),
+            }),
             new PhantomWalletAdapter(),
             new GlowWalletAdapter(),
             new SalmonWalletAdapter({ network }),

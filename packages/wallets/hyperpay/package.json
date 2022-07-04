@@ -1,0 +1,38 @@
+{
+    "name": "@solana/wallet-adapter-hyperpay",
+    "version": "0.1.0",
+    "author": "Solana Maintainers <maintainers@solana.foundation>",
+    "repository": "https://github.com/solana-labs/wallet-adapter",
+    "license": "Apache-2.0",
+    "type": "module",
+    "sideEffects": false,
+    "main": "lib/cjs/index.js",
+    "module": "lib/esm/index.mjs",
+    "types": "lib/types/index.d.ts",
+    "exports": {
+        "import": "./lib/esm/index.mjs",
+        "require": "./lib/cjs/index.js"
+    },
+    "files": [
+        "lib",
+        "src",
+        "LICENSE"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "clean": "shx rm -rf lib/*",
+        "build": "yarn clean && tsc -p tsconfig.json && tsc-esm -p tsconfig.json && tsc -p tsconfig.cjs.json",
+        "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
+    },
+    "peerDependencies": {
+        "@solana/web3.js": "^1.44.3"
+    },
+    "dependencies": {
+        "@solana/wallet-adapter-base": "^0.9.7"
+    },
+    "devDependencies": {
+        "@solana/web3.js": "^1.44.3"
+    }
+}

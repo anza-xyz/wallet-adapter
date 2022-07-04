@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-torus",
-    "version": "0.11.11",
+    "version": "0.11.12",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -27,25 +27,28 @@
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.36.0"
+        "@solana/web3.js": "^1.44.3"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.9.4",
-        "@toruslabs/solana-embed": "^0.1.5",
+        "@solana/wallet-adapter-base": "^0.9.7",
+        "@toruslabs/solana-embed": "^0.2.2",
         "assert": "^2.0.0",
+        "crypto-browserify": "^3.12.0",
         "process": "^0.11.10",
         "stream-browserify": "^3.0.0"
     },
     "devDependencies": {
+        "@solana/web3.js": "^1.44.3",
         "@types/keccak": "^3.0.1",
-        "@types/readable-stream": "^2.3.11",
-        "@solana/web3.js": "^1.36.0"
+        "@types/node-fetch": "^2.6.1",
+        "@types/readable-stream": "^2.3.11"
     },
     "overrides": {
         "@toruslabs/solana-embed": {
             "assert": "npm:assert@^2.0.0",
             "process": "npm:process@^0.11.10",
-            "stream": "npm:stream-browserify@^3.0.0"
+            "stream": "npm:stream-browserify@^3.0.0",
+            "crypto": "npm:crypto-browserify@^3.12.0"
         }
     }
 }
