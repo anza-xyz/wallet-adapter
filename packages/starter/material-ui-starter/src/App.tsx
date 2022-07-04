@@ -5,7 +5,6 @@ import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react
 import {
     GlowWalletAdapter,
     PhantomWalletAdapter,
-    SalmonWalletAdapter,
     SlopeWalletAdapter,
     SolflareWalletAdapter,
     TorusWalletAdapter,
@@ -43,7 +42,6 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
             }),
             new PhantomWalletAdapter(),
             new GlowWalletAdapter(),
-            new SalmonWalletAdapter({ network }),
             new SlopeWalletAdapter(),
             new SolflareWalletAdapter({ network }),
             new TorusWalletAdapter(),
