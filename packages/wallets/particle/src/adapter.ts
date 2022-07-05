@@ -1,11 +1,10 @@
-import { ParticleNetwork, Config } from '@particle-network/auth';
-import { SolanaWallet } from '@particle-network/solana-wallet';
 import {
     BaseMessageSignerWalletAdapter,
     WalletAccountError,
     WalletConfigError,
     WalletConnectionError,
     WalletDisconnectionError,
+    WalletLoadError,
     WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
@@ -15,9 +14,11 @@ import {
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
+import { SolanaWallet } from '@particle-network/solana-wallet';
+import type { default as ParticleNetwork, Config } from '@particle-network/auth';
 
 interface ParticleWindow extends Window {
-    particle?: ParticleNetwork;
+    particle?: SolanaWallet;
 }
 
 declare const window: ParticleWindow;
@@ -64,23 +65,25 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
     }
 
     async connect(): Promise<void> {
-        console.log('connect');
         try {
             if (this.connected || this.connecting) return;
             if (this._readyState !== WalletReadyState.Loadable) throw new WalletNotReadyError();
 
             this._connecting = true;
 
-            if (!window.particle) {
-                try {
-                    new ParticleNetwork(this._config);
-                } catch (error: any) {
-                    throw new WalletConfigError(error?.message, error);
-                }
+            let ParticleClass: typeof ParticleNetwork;
+            try {
+                ({ default: ParticleClass } = await import('@particle-network/auth'));
+            } catch (error: any) {
+                throw new WalletLoadError(error?.message, error);
             }
 
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = new SolanaWallet(window.particle!.auth);
+            let wallet: SolanaWallet;
+            try {
+                wallet = window.particle || new SolanaWallet(new ParticleClass(this._config).auth);
+            } catch (error: any) {
+                throw new WalletConfigError(error?.message, error);
+            }
 
             try {
                 await wallet.connect();
