@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-particle",
-    "version": "0.0.1",
+    "version": "0.1.1",
     "author": "Particle Developers <developers@particle.com>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -30,7 +30,8 @@
         "@solana/web3.js": "^1.36.0"
     },
     "dependencies": {
-        "@particle-network/provider": "^0.1.8",
+        "@particle-network/auth": "^0.4.1",
+        "@particle-network/solana-wallet": "^0.4.2",
         "@solana/wallet-adapter-base": "^0.9.4"
     },
     "devDependencies": {
