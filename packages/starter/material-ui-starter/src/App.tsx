@@ -8,6 +8,7 @@ import {
     SlopeWalletAdapter,
     SolflareWalletAdapter,
     TorusWalletAdapter,
+    ParticleAdapter,
 } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 import { useSnackbar } from 'notistack';
@@ -39,6 +40,13 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
             new SolanaMobileWalletAdapter({
                 appIdentity: { name: 'Material UI Starter App' },
                 authorizationResultCache: createDefaultAuthorizationResultCache(),
+            }),
+            new ParticleAdapter({
+                projectId: '34c6b829-5b89-44e8-90a9-6d982787b9c9',
+                clientKey: 'c6Z44Ml4TQeNhctvwYgdSv6DBzfjf6t6CB0JDscR',
+                appId: '64f36641-b68c-4b19-aa10-5c5304d0eab3',
+                chainName: 'solana',
+                chainId: 103,
             }),
             new PhantomWalletAdapter(),
             new GlowWalletAdapter(),

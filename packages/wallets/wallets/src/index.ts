@@ -26,3 +26,4 @@ export * from '@solana/wallet-adapter-solong';
 export * from '@solana/wallet-adapter-spot';
 export * from '@solana/wallet-adapter-tokenpocket';
 export * from '@solana/wallet-adapter-torus';
+export * from '@solana/wallet-adapter-particle';
