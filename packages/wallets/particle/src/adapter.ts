@@ -14,8 +14,8 @@ import {
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
-import { SolanaWallet } from '@particle-network/solana-wallet';
-import type { default as ParticleNetwork, Config } from '@particle-network/auth';
+import type { SolanaWallet } from '@particle-network/solana-wallet';
+import type { ParticleNetwork, Config } from '@particle-network/auth';
 
 interface ParticleWindow extends Window {
     particle?: SolanaWallet;
@@ -72,15 +72,21 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             let ParticleClass: typeof ParticleNetwork;
+            let WalletClass: typeof SolanaWallet;
             try {
-                ({ default: ParticleClass } = await import('@particle-network/auth'));
+                const classes = await Promise.all([
+                    import('@particle-network/auth'),
+                    import('@particle-network/solana-wallet'),
+                ]);
+                ParticleClass = classes[0].ParticleNetwork;
+                WalletClass = classes[1].SolanaWallet;
             } catch (error: any) {
                 throw new WalletLoadError(error?.message, error);
             }
 
             let wallet: SolanaWallet;
             try {
-                wallet = window.particle || new SolanaWallet(new ParticleClass(this._config).auth);
+                wallet = window.particle || new WalletClass(new ParticleClass(this._config).auth);
             } catch (error: any) {
                 throw new WalletConfigError(error?.message, error);
             }
@@ -91,12 +97,12 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
                 throw new WalletConnectionError(error?.message, error);
             }
 
-            if (!wallet.publicKey()) throw new WalletAccountError();
+            const account = wallet.publicKey();
+            if (!account) throw new WalletAccountError();
 
             let publicKey: PublicKey;
             try {
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                publicKey = wallet.publicKey()!;
+                publicKey = new PublicKey(account.toBytes());
             } catch (error: any) {
                 throw new WalletPublicKeyError(error?.message, error);
             }
