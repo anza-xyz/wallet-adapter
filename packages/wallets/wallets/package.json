@@ -45,6 +45,7 @@
         "@solana/wallet-adapter-neko": "^0.1.0",
         "@solana/wallet-adapter-nightly": "^0.1.1",
         "@solana/wallet-adapter-nufi": "^0.1.1",
+        "@solana/wallet-adapter-particle": "^0.1.0",
         "@solana/wallet-adapter-phantom": "^0.9.5",
         "@solana/wallet-adapter-safepal": "^0.5.4",
         "@solana/wallet-adapter-saifu": "^0.1.1",
@@ -55,7 +56,6 @@
         "@solana/wallet-adapter-solong": "^0.9.4",
         "@solana/wallet-adapter-spot": "^0.1.1",
         "@solana/wallet-adapter-tokenpocket": "^0.4.5",
-        "@solana/wallet-adapter-torus": "^0.11.12",
-        "@solana/wallet-adapter-particle": "^0.1.1"
+        "@solana/wallet-adapter-torus": "^0.11.12"
     }
 }
