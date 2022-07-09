@@ -126,9 +126,6 @@ export const WalletProvider: FC<WalletProviderProps> = ({
 
     // If the window is closing or reloading, ignore disconnect and error events from the adapter
     useEffect(() => {
-        if (typeof window.addEventListener !== 'function') {
-            return;
-        }
         function listener() {
             isUnloading.current = true;
         }
