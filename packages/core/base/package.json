@@ -10,8 +10,11 @@
     "module": "lib/esm/index.mjs",
     "types": "lib/types/index.d.ts",
     "exports": {
-        "import": "./lib/esm/index.mjs",
-        "require": "./lib/cjs/index.js"
+        ".": {
+            "import": "./lib/esm/index.mjs",
+            "require": "./lib/cjs/index.js"
+        },
+        "./package.json": "./package.json"
     },
     "files": [
         "lib",
