@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-react",
-    "version": "0.15.6",
+    "version": "0.15.7",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -10,8 +10,11 @@
     "module": "lib/esm/index.mjs",
     "types": "lib/types/index.d.ts",
     "exports": {
-        "import": "./lib/esm/index.mjs",
-        "require": "./lib/cjs/index.js"
+        ".": {
+            "import": "./lib/esm/index.mjs",
+            "require": "./lib/cjs/index.js"
+        },
+        "./package.json": "./package.json"
     },
     "files": [
         "lib",
@@ -32,7 +35,7 @@
         "react": "*"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.9.7"
+        "@solana/wallet-adapter-base": "^0.9.8"
     },
     "devDependencies": {
         "@solana/web3.js": "^1.44.3",
