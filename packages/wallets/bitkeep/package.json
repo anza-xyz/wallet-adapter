@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-bitkeep",
-    "version": "0.3.5",
+    "version": "0.3.6",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -30,7 +30,7 @@
         "@solana/web3.js": "^1.44.3"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.9.7"
+        "@solana/wallet-adapter-base": "^0.9.8"
     },
     "devDependencies": {
         "@solana/web3.js": "^1.44.3"

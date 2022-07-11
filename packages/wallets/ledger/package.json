@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-ledger",
-    "version": "0.9.10",
+    "version": "0.9.11",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -32,7 +32,7 @@
     "dependencies": {
         "@ledgerhq/hw-transport": "^6.11.2",
         "@ledgerhq/hw-transport-webhid": "^6.11.2",
-        "@solana/wallet-adapter-base": "^0.9.7",
+        "@solana/wallet-adapter-base": "^0.9.8",
         "buffer": "^6.0.3"
     },
     "devDependencies": {
