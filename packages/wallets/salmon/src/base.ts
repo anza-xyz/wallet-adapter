@@ -1,4 +1,5 @@
-import type SolWalletAdapter from '@project-serum/sol-wallet-adapter';
+import type Salmon from 'salmon-adapter-sdk';
+import { SalmonWallet } from 'salmon-adapter-sdk';
 import {
     BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
@@ -7,7 +8,6 @@ import {
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
-    WalletError,
     WalletLoadError,
     WalletNotConnectedError,
     WalletNotReadyError,
@@ -15,15 +15,8 @@ import {
     WalletReadyState,
     WalletSignMessageError,
     WalletSignTransactionError,
-    WalletTimeoutError,
-    WalletWindowBlockedError,
-    WalletWindowClosedError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
-
-interface SalmonWallet {
-    postMessage(...args: unknown[]): unknown;
-}
 
 interface SalmonWindow extends Window {
     salmon?: SalmonWallet;
@@ -34,26 +27,23 @@ declare const window: SalmonWindow;
 export interface SalmonWalletAdapterConfig {
     provider?: string | SalmonWallet;
     network?: WalletAdapterNetwork;
-    timeout?: number;
 }
 
 export abstract class BaseSalmonWalletAdapter extends BaseMessageSignerWalletAdapter {
     protected _provider: string | SalmonWallet | undefined;
     protected _network: WalletAdapterNetwork;
-    protected _timeout: number;
     protected _readyState: WalletReadyState =
         typeof window === 'undefined' || typeof document === 'undefined'
             ? WalletReadyState.Unsupported
             : WalletReadyState.NotDetected;
     protected _connecting: boolean;
-    protected _wallet: SolWalletAdapter | null;
+    protected _wallet: Salmon | null;
 
-    constructor({ provider, network = WalletAdapterNetwork.Mainnet, timeout = 10000 }: SalmonWalletAdapterConfig = {}) {
+    constructor({ provider, network = WalletAdapterNetwork.Mainnet }: SalmonWalletAdapterConfig = {}) {
         super();
 
         this._provider = provider;
         this._network = network;
-        this._timeout = timeout;
         this._connecting = false;
         this._wallet = null;
 
@@ -100,71 +90,26 @@ export abstract class BaseSalmonWalletAdapter extends BaseMessageSignerWalletAda
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const provider = this._provider || window!.salmon!;
 
-            let SolWalletAdapterClass: typeof SolWalletAdapter;
+            let SalmonClass: typeof Salmon;
             try {
-                ({ default: SolWalletAdapterClass } = await import('@project-serum/sol-wallet-adapter'));
+                ({ default: SalmonClass } = await import('salmon-adapter-sdk'));
             } catch (error: any) {
                 throw new WalletLoadError(error?.message, error);
             }
 
-            let wallet: SolWalletAdapter;
+            let wallet: Salmon;
             try {
-                wallet = new SolWalletAdapterClass(provider, this._network);
+                wallet = new SalmonClass({ provider, network: this._network });
             } catch (error: any) {
                 throw new WalletConfigError(error?.message, error);
             }
 
-            try {
-                // HACK: sol-wallet-adapter doesn't reject or emit an event if the popup or extension is closed or blocked
-                const handleDisconnect: (...args: unknown[]) => unknown = (wallet as any).handleDisconnect;
-                let timeout: NodeJS.Timer | undefined;
-                let interval: NodeJS.Timer | undefined;
+            if (!wallet.connected) {
                 try {
-                    await new Promise<void>((resolve, reject) => {
-                        const connect = () => {
-                            if (timeout) clearTimeout(timeout);
-                            wallet.off('connect', connect);
-                            resolve();
-                        };
-
-                        (wallet as any).handleDisconnect = (...args: unknown[]): unknown => {
-                            wallet.off('connect', connect);
-                            reject(new WalletWindowClosedError());
-                            return handleDisconnect.apply(wallet, args);
-                        };
-
-                        wallet.on('connect', connect);
-
-                        wallet.connect().catch((reason: any) => {
-                            wallet.off('connect', connect);
-                            reject(reason);
-                        });
-
-                        if (typeof provider === 'string') {
-                            let count = 0;
-
-                            interval = setInterval(() => {
-                                const popup = (wallet as any)._popup;
-                                if (popup) {
-                                    if (popup.closed) reject(new WalletWindowClosedError());
-                                } else {
-                                    if (count > 50) reject(new WalletWindowBlockedError());
-                                }
-
-                                count++;
-                            }, 100);
-                        } else {
-                            // HACK: sol-wallet-adapter doesn't reject or emit an event if the extension is closed or ignored
-                            timeout = setTimeout(() => reject(new WalletTimeoutError()), this._timeout);
-                        }
-                    });
-                } finally {
-                    (wallet as any).handleDisconnect = handleDisconnect;
-                    if (interval) clearInterval(interval);
+                    await wallet.connect();
+                } catch (error: any) {
+                    throw new WalletConnectionError(error?.message, error);
                 }
-            } catch (error: any) {
-                if (error instanceof WalletError) throw error;
-                throw new WalletConnectionError(error?.message, error);
             }
 
             if (!wallet.publicKey) throw new WalletPublicKeyError();
@@ -189,40 +134,10 @@ export abstract class BaseSalmonWalletAdapter extends BaseMessageSignerWalletAda
 
             this._wallet = null;
 
-            // HACK: sol-wallet-adapter doesn't reliably fulfill its promise or emit an event on disconnect
-            const handleDisconnect: (...args: unknown[]) => unknown = (wallet as any).handleDisconnect;
             try {
-                await new Promise<void>((resolve, reject) => {
-                    const timeout = setTimeout(() => resolve(), 250);
-
-                    (wallet as any).handleDisconnect = (...args: unknown[]): unknown => {
-                        clearTimeout(timeout);
-                        resolve();
-                        // HACK: sol-wallet-adapter rejects with an uncaught promise error
-                        (wallet as any)._responsePromises = new Map();
-                        return handleDisconnect.apply(wallet, args);
-                    };
-
-                    wallet.disconnect().then(
-                        () => {
-                            clearTimeout(timeout);
-                            resolve();
-                        },
-                        (error) => {
-                            clearTimeout(timeout);
-                            // HACK: sol-wallet-adapter rejects with an error on disconnect
-                            if (error?.message === 'Wallet disconnected') {
-                                resolve();
-                            } else {
-                                reject(error);
-                            }
-                        }
-                    );
-                });
+                await wallet.disconnect();
             } catch (error: any) {
                 this.emit('error', new WalletDisconnectionError(error?.message, error));
-            } finally {
-                (wallet as any).handleDisconnect = handleDisconnect;
             }
         }
 
@@ -267,8 +182,7 @@ export abstract class BaseSalmonWalletAdapter extends BaseMessageSignerWalletAda
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                const { signature } = await wallet.sign(message, 'utf8');
-                return Uint8Array.from(signature);
+                return await wallet.signMessage(message, 'utf8');
             } catch (error: any) {
                 throw new WalletSignMessageError(error?.message, error);
             }
