@@ -50,5 +50,6 @@
             "stream": "npm:stream-browserify@^3.0.0",
             "crypto": "npm:crypto-browserify@^3.12.0"
         }
-    }
+    },
+    "gitHead": "389767182619fc76ab939920f75cc7194ff77340"
 }

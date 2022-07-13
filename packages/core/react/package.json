@@ -46,5 +46,6 @@
         "jest-localstorage-mock": "^2.4.18",
         "react": "^18.0.0",
         "ts-jest": "^28.0.5"
-    }
+    },
+    "gitHead": "389767182619fc76ab939920f75cc7194ff77340"
 }

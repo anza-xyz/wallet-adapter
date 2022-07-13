@@ -33,5 +33,6 @@
     },
     "devDependencies": {
         "@solana/web3.js": "^1.44.3"
-    }
+    },
+    "gitHead": "389767182619fc76ab939920f75cc7194ff77340"
 }
