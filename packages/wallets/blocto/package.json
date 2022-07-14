@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-blocto",
-    "version": "0.5.7",
+    "version": "0.5.8",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -31,9 +31,10 @@
     },
     "dependencies": {
         "@blocto/sdk": "^0.2.21",
-        "@solana/wallet-adapter-base": "^0.9.8"
+        "@solana/wallet-adapter-base": "^0.9.9"
     },
     "devDependencies": {
         "@solana/web3.js": "^1.44.3"
-    }
+    },
+    "gitHead": "389767182619fc76ab939920f75cc7194ff77340"
 }

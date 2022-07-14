@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-react-ui-starter",
-    "version": "0.9.5",
+    "version": "0.9.6",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -30,10 +30,10 @@
     },
     "dependencies": {
         "@solana-mobile/wallet-adapter-mobile": "^0.0.1-alpha.0",
-        "@solana/wallet-adapter-base": "^0.9.8",
-        "@solana/wallet-adapter-react": "^0.15.7",
-        "@solana/wallet-adapter-react-ui": "^0.9.9",
-        "@solana/wallet-adapter-wallets": "^0.16.7",
+        "@solana/wallet-adapter-base": "^0.9.9",
+        "@solana/wallet-adapter-react": "^0.15.8",
+        "@solana/wallet-adapter-react-ui": "^0.9.10",
+        "@solana/wallet-adapter-wallets": "^0.16.8",
         "@solana/web3.js": "^1.44.3",
         "react": "^18.0.0",
         "react-dom": "^18.0.0"
@@ -57,5 +57,6 @@
         "shx": "^0.3.4",
         "tslib": "^2.3.1",
         "typescript": "^4.5.4"
-    }
+    },
+    "gitHead": "389767182619fc76ab939920f75cc7194ff77340"
 }

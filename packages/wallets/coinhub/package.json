@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-coinhub",
-    "version": "0.3.5",
+    "version": "0.3.6",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -30,9 +30,10 @@
         "@solana/web3.js": "^1.44.3"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.9.8"
+        "@solana/wallet-adapter-base": "^0.9.9"
     },
     "devDependencies": {
         "@solana/web3.js": "^1.44.3"
-    }
+    },
+    "gitHead": "389767182619fc76ab939920f75cc7194ff77340"
 }

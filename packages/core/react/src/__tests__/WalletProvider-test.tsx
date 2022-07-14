@@ -15,7 +15,7 @@ import {
 import { PublicKey } from '@solana/web3.js';
 import 'jest-localstorage-mock';
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { act } from 'react-dom/test-utils';
 import { useWallet, WalletContextState } from '../useWallet';
 import { WalletProvider, WalletProviderProps } from '../WalletProvider';
@@ -39,8 +39,9 @@ const TestComponent = forwardRef(function TestComponentImpl(props, ref) {
 });
 
 describe('WalletProvider', () => {
-    let container: HTMLDivElement | null;
     let ref: React.RefObject<TestRefType>;
+    let root: ReturnType<typeof createRoot>;
+    let container: HTMLElement;
     let fooWalletAdapter: MockWalletAdapter;
     let barWalletAdapter: MockWalletAdapter;
     let bazWalletAdapter: MockWalletAdapter;
@@ -48,11 +49,10 @@ describe('WalletProvider', () => {
 
     function renderTest(props: Omit<WalletProviderProps, 'children' | 'wallets'>) {
         act(() => {
-            render(
+            root.render(
                 <WalletProvider {...props} wallets={adapters}>
                     <TestComponent ref={ref} />
-                </WalletProvider>,
-                container
+                </WalletProvider>
             );
         });
     }
@@ -76,7 +76,9 @@ describe('WalletProvider', () => {
             }
             this.connecting = false;
             this.connectedValue = true;
-            this.emit('connect', this.publicKey!);
+            act(() => {
+                this.emit('connect', this.publicKey!);
+            });
         });
         disconnect = jest.fn(async () => {
             this.connecting = false;
@@ -84,7 +86,9 @@ describe('WalletProvider', () => {
                 await this.disconnectionPromise;
             }
             this.connectedValue = false;
-            this.emit('disconnect');
+            act(() => {
+                this.emit('disconnect');
+            });
         });
         sendTransaction = jest.fn();
     }
@@ -112,6 +116,7 @@ describe('WalletProvider', () => {
         jest.resetAllMocks();
         container = document.createElement('div');
         document.body.appendChild(container);
+        root = createRoot(container);
         ref = createRef();
         fooWalletAdapter = new FooWalletAdapter();
         barWalletAdapter = new BarWalletAdapter();
@@ -119,10 +124,8 @@ describe('WalletProvider', () => {
         adapters = [fooWalletAdapter, barWalletAdapter, bazWalletAdapter];
     });
     afterEach(() => {
-        if (container) {
-            unmountComponentAtNode(container);
-            container.remove();
-            container = null;
+        if (root) {
+            root.unmount();
         }
     });
     describe('given a selected wallet', () => {
@@ -316,7 +319,7 @@ describe('WalletProvider', () => {
                 fooWalletAdapter.connectionPromise = new Promise<void>((resolve) => {
                     commitConnection = resolve;
                 });
-                act(() => {
+                await act(() => {
                     ref.current?.getWalletContextState().connect();
                 });
             });
@@ -330,8 +333,8 @@ describe('WalletProvider', () => {
                 });
             });
             describe('once connected', () => {
-                beforeEach(() => {
-                    act(() => {
+                beforeEach(async () => {
+                    await act(() => {
                         commitConnection();
                     });
                 });
@@ -354,13 +357,13 @@ describe('WalletProvider', () => {
                     ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
                     await Promise.resolve(); // Flush all promises in effects after calling `select()`.
                 });
-                act(() => {
+                await act(() => {
                     ref.current?.getWalletContextState().connect();
                 });
                 fooWalletAdapter.disconnectionPromise = new Promise<void>((resolve) => {
                     commitDisconnection = resolve;
                 });
-                act(() => {
+                await act(() => {
                     ref.current?.getWalletContextState().disconnect();
                 });
             });
@@ -370,8 +373,8 @@ describe('WalletProvider', () => {
                 });
             });
             describe('once disconnected', () => {
-                beforeEach(() => {
-                    act(() => {
+                beforeEach(async () => {
+                    await act(() => {
                         commitDisconnection();
                     });
                 });
