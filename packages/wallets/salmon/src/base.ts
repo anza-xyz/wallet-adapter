@@ -1,5 +1,5 @@
 import type Salmon from 'salmon-adapter-sdk';
-import { SalmonWallet } from 'salmon-adapter-sdk';
+import type { SalmonWallet } from 'salmon-adapter-sdk';
 import {
     BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
