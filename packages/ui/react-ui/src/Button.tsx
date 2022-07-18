@@ -1,6 +1,9 @@
-import React, { CSSProperties, FC, MouseEvent, PropsWithChildren, ReactElement } from 'react';
+import React, { ReactNode, CSSProperties, FC, MouseEvent, PropsWithChildren, ReactElement } from 'react';
 
 export type ButtonProps = PropsWithChildren<{
+    children?: ReactNode;
+    buttonText?: string;
+    address?: string;
     className?: string;
     disabled?: boolean;
     endIcon?: ReactElement;
@@ -20,6 +23,7 @@ export const Button: FC<ButtonProps> = (props) => {
             type="button"
         >
             {props.startIcon && <i className="wallet-adapter-button-start-icon">{props.startIcon}</i>}
+            {props.address !== undefined ? props.address : props.buttonText}
             {props.children}
             {props.endIcon && <i className="wallet-adapter-button-end-icon">{props.endIcon}</i>}
         </button>
