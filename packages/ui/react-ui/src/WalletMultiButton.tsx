@@ -14,11 +14,15 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
     const ref = useRef<HTMLUListElement>(null);
 
     const base58 = useMemo(() => publicKey?.toBase58(), [publicKey]);
+
     const content = useMemo(() => {
         if (children) return children;
+    }, [children]);
+    
+    const address = useMemo(() => {
         if (!wallet || !base58) return null;
         return base58.slice(0, 4) + '..' + base58.slice(-4);
-    }, [children, wallet, base58]);
+    }, [wallet, base58]);
 
     const copyAddress = useCallback(async () => {
         if (base58) {
@@ -73,7 +77,7 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
                 startIcon={<WalletIcon wallet={wallet} />}
                 {...props}
             >
-                {content}
+                {address ?? content}
             </Button>
             <ul
                 aria-label="dropdown-list"
