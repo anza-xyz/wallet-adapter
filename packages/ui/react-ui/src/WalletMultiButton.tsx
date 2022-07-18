@@ -6,7 +6,7 @@ import { WalletConnectButton } from './WalletConnectButton';
 import { WalletIcon } from './WalletIcon';
 import { WalletModalButton } from './WalletModalButton';
 
-export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
+export const WalletMultiButton: FC<ButtonProps> = ({ children, buttonText, ...props }) => {
     const { publicKey, wallet, disconnect } = useWallet();
     const { setVisible } = useWalletModal();
     const [copied, setCopied] = useState(false);
@@ -75,9 +75,11 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
                 style={{ pointerEvents: active ? 'none' : 'auto', ...props.style }}
                 onClick={openDropdown}
                 startIcon={<WalletIcon wallet={wallet} />}
+                buttonText={buttonText}
+                address={address}
                 {...props}
             >
-                {address ?? content}
+                {content}
             </Button>
             <ul
                 aria-label="dropdown-list"
