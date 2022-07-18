@@ -1,7 +1,6 @@
 import React, { ReactNode, CSSProperties, FC, MouseEvent, PropsWithChildren, ReactElement } from 'react';
 
 export type ButtonProps = PropsWithChildren<{
-    children?: ReactNode;
     buttonText?: string;
     address?: string;
     className?: string;
