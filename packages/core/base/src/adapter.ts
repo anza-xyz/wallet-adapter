@@ -94,7 +94,7 @@ export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents
 
         transaction.feePayer = transaction.feePayer || publicKey;
         transaction.recentBlockhash =
-            transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
+            transaction.recentBlockhash || (await connection.getLatestBlockhash('confirmed')).blockhash;
 
         return transaction;
     }
