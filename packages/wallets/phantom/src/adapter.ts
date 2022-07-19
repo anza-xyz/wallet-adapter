@@ -46,7 +46,9 @@ interface PhantomWindow extends Window {
     // Multiple wallet adapters cannot be detected properly if they all try to write to the same window global.
     // All wallets that currently do this have committed to migrating away from using `window.solana`.
     // This must be changed to `window.yourWalletName` in your adapter, and must not use `window.solana`.
-    solana?: PhantomWallet;
+    phantom?:{
+        solana?: PhantomWallet
+    };
 }
 
 declare const window: PhantomWindow;
@@ -77,7 +79,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
 
         if (this._readyState !== WalletReadyState.Unsupported) {
             scopePollingDetectionStrategy(() => {
-                if (window.solana?.isPhantom) {
+                if (window.phantom?.solana?.isPhantom) {
                     this._readyState = WalletReadyState.Installed;
                     this.emit('readyStateChange', this._readyState);
                     return true;
@@ -111,7 +113,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.solana!;
+            const wallet = window!.phantom!.solana!;
 
             if (!wallet.isConnected) {
                 // NOTE: If you are contributing a wallet adapter, **DO NOT COPY** this.

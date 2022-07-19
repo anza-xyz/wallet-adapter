@@ -44,7 +44,7 @@ declare const window: CoinbaseWindow;
 
 export interface CoinbaseWalletAdapterConfig {}
 
-export const CoinbaseWalletName = 'Coinbase' as WalletName;
+export const CoinbaseWalletName = 'Coinbase Wallet' as WalletName;
 
 export class CoinbaseWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = CoinbaseWalletName;
