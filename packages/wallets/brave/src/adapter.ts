@@ -189,7 +189,7 @@ export class BraveWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return (await wallet.signTransaction(transaction)) || transaction;
+                return (await wallet.signTransaction(transaction));
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -205,7 +205,7 @@ export class BraveWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return (await wallet.signAllTransactions(transactions)) || transactions;
+                return (await wallet.signAllTransactions(transactions));
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
