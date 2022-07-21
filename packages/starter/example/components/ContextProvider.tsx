@@ -7,6 +7,7 @@ import { WalletDialogProvider as MaterialUIWalletDialogProvider } from '@solana/
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider as ReactUIWalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import {
+    BraveWalletAdapter,
     GlowWalletAdapter,
     PhantomWalletAdapter,
     SlopeWalletAdapter,
@@ -72,6 +73,7 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
                 authorizationResultCache: createDefaultAuthorizationResultCache(),
             }),
             new PhantomWalletAdapter(),
+            new BraveWalletAdapter(),
             new GlowWalletAdapter(),
             new SlopeWalletAdapter(),
             new SolflareWalletAdapter({ network }),

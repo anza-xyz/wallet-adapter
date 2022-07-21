@@ -3,6 +3,7 @@ import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
 import { WalletDialogProvider, WalletMultiButton } from '@solana/wallet-adapter-material-ui';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import {
+    BraveWalletAdapter,
     GlowWalletAdapter,
     PhantomWalletAdapter,
     SlopeWalletAdapter,
@@ -41,6 +42,7 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
                 authorizationResultCache: createDefaultAuthorizationResultCache(),
             }),
             new PhantomWalletAdapter(),
+            new BraveWalletAdapter(),
             new GlowWalletAdapter(),
             new SlopeWalletAdapter(),
             new SolflareWalletAdapter({ network }),
