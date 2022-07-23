@@ -43,7 +43,6 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
             ? installedWallets[0]
             : wallets.find((wallet: { adapter: { name: WalletName } }) => wallet.adapter.name === 'Torus') ||
                   wallets.find((wallet: { adapter: { name: WalletName } }) => wallet.adapter.name === 'Phantom') ||
-                  wallets.find((wallet: { adapter: { name: WalletName } }) => wallet.adapter.name === 'Backpack') ||
                   wallets.find((wallet: { readyState: any }) => wallet.readyState === WalletReadyState.Loadable) ||
                   otherWallets[0];
     }, [installedWallets, wallets, otherWallets]);
