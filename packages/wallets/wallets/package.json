@@ -27,6 +27,7 @@
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
     "dependencies": {
+        "@solana/wallet-adapter-backpack": "^0.1.0",
         "@solana/wallet-adapter-base": "^0.9.9",
         "@solana/wallet-adapter-bitkeep": "^0.3.7",
         "@solana/wallet-adapter-bitpie": "^0.5.6",
