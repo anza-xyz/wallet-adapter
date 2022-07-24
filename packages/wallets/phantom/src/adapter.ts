@@ -116,37 +116,10 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
             const wallet = window!.phantom!.solana!;
 
             if (!wallet.isConnected) {
-                // NOTE: If you are contributing a wallet adapter, **DO NOT COPY** this.
-                // The Phantom adapter code has hacks because the Promise returned by `wallet.connect()` is not rejected if the user closes the window.
-                // If your adapter fulfills the Promise correctly, you don't need events, or the hacky override of the private `_handleDisconnect` API.
-                //
-                // HACK: Phantom doesn't reject or emit an event if the popup is closed
-                const handleDisconnect = wallet._handleDisconnect;
                 try {
-                    await new Promise<void>((resolve, reject) => {
-                        const connect = () => {
-                            wallet.off('connect', connect);
-                            resolve();
-                        };
-
-                        wallet._handleDisconnect = (...args: unknown[]) => {
-                            wallet.off('connect', connect);
-                            reject(new WalletWindowClosedError());
-                            return handleDisconnect.apply(wallet, args);
-                        };
-
-                        wallet.on('connect', connect);
-
-                        wallet.connect().catch((reason: any) => {
-                            wallet.off('connect', connect);
-                            reject(reason);
-                        });
-                    });
+                    return await wallet.connect();
                 } catch (error: any) {
-                    if (error instanceof WalletError) throw error;
                     throw new WalletConnectionError(error?.message, error);
-                } finally {
-                    wallet._handleDisconnect = handleDisconnect;
                 }
             }
 
