@@ -170,7 +170,6 @@ export class BackpackWalletAdapter extends BaseMessageSignerWalletAdapter {
             try {
                 return await wallet.send(transaction, signers, sendOptions, connection);
             } catch (error: any) {
-                if (error instanceof WalletError) throw error;
                 throw new WalletSendTransactionError(error?.message, error);
             }
         } catch (error: any) {
