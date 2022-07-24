@@ -158,14 +158,14 @@ export class BackpackWalletAdapter extends BaseMessageSignerWalletAdapter {
 
     async sendTransaction(
         transaction: Transaction,
-        connection?: Connection,
-        options?: SendTransactionOptions
+        connection: Connection,
+        options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
-            const { signers, ...sendOptions } = options ? options : { signers: undefined };
+            const { signers, ...sendOptions } = options;
 
             try {
                 return await wallet.send(transaction, signers, sendOptions, connection);
