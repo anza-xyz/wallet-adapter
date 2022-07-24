@@ -13,9 +13,9 @@ import {
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSendTransactionError,
     WalletSignMessageError,
     WalletSignTransactionError,
-    WalletWindowClosedError,
 } from '@solana/wallet-adapter-base';
 import { Signer, Connection, PublicKey, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
 
@@ -103,31 +103,16 @@ export class BackpackWalletAdapter extends BaseMessageSignerWalletAdapter {
         try {
             if (this.connected || this.connecting) return;
             if (this._readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
+
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const wallet = window!.backpack!;
 
-            if (!wallet.isConnected) {
-                try {
-                    await new Promise<void>((resolve, reject) => {
-                        const handleConnect = () => {
-                            wallet.off('connect', handleConnect);
-                            resolve();
-                        };
-
-                        // Backpack emits a connect event when it is ready
-                        wallet.on('connect', handleConnect);
-
-                        wallet.connect().catch(() => {
-                            wallet.off('connect', handleConnect);
-                            reject(new WalletWindowClosedError());
-                        });
-                    });
-                } catch (error: any) {
-                    if (error instanceof WalletError) throw error;
-                    throw new WalletConnectionError(error?.message, error);
-                }
+            try {
+                await wallet.connect();
+            } catch (error: any) {
+                throw new WalletConnectionError(error?.message, error);
             }
 
             if (!wallet.publicKey) throw new WalletAccountError();
@@ -138,6 +123,7 @@ export class BackpackWalletAdapter extends BaseMessageSignerWalletAdapter {
             } catch (error: any) {
                 throw new WalletPublicKeyError(error?.message, error);
             }
+
             wallet.on('disconnect', this._disconnected);
 
             this._wallet = wallet;
@@ -181,11 +167,12 @@ export class BackpackWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             const { signers, ...sendOptions } = options ? options : { signers: undefined };
 
-            const resp = await wallet.send(transaction, signers, sendOptions, connection);
-            if (!resp) {
-                throw new WalletWindowClosedError();
+            try {
+                return await wallet.send(transaction, signers, sendOptions, connection);
+            } catch (error: any) {
+                if (error instanceof WalletError) throw error;
+                throw new WalletSendTransactionError(error?.message, error);
             }
-            return resp;
         } catch (error: any) {
             this.emit('error', error);
             throw error;
@@ -230,11 +217,7 @@ export class BackpackWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                const signature = await wallet.signMessage(message);
-                if (!signature) {
-                    throw new Error('User denied signature request');
-                }
-                return signature;
+                return await wallet.signMessage(message);
             } catch (error: any) {
                 throw new WalletSignMessageError(error?.message, error);
             }
