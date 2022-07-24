@@ -46,8 +46,8 @@ interface PhantomWindow extends Window {
     // Multiple wallet adapters cannot be detected properly if they all try to write to the same window global.
     // All wallets that currently do this have committed to migrating away from using `window.solana`.
     // This must be changed to `window.yourWalletName` in your adapter, and must not use `window.solana`.
-    phantom?:{
-        solana?: PhantomWallet
+    phantom?: {
+        solana?: PhantomWallet;
     };
 }
 
