@@ -36,7 +36,7 @@ interface BackpackWallet extends EventEmitter<BackpackWalletEvents> {
         options?: SendOptions,
         connection?: Connection
     ): Promise<TransactionSignature>;
-    signMessage(message: Uint8Array): Promise<Uint8Array | null>;
+    signMessage(message: Uint8Array): Promise<Uint8Array>;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
 }
