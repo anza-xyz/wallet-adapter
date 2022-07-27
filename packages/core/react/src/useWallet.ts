@@ -1,4 +1,4 @@
-import {
+import type {
     Adapter,
     MessageSignerWalletAdapterProps,
     SendTransactionOptions,
