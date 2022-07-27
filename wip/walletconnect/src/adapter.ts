@@ -181,6 +181,7 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
 
             try {
                 await client.disconnect({
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     topic: this._session!.topic,
                     reason: ERROR.USER_DISCONNECTED.format(),
                 });
