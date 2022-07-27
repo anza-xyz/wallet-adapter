@@ -1,7 +1,7 @@
 import type { default as Blocto, SolanaProviderInterface } from '@blocto/sdk';
+import type { SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseWalletAdapter,
-    SendTransactionOptions,
     WalletAccountError,
     WalletAdapterNetwork,
     WalletConfigError,
@@ -9,14 +9,14 @@ import {
     WalletDisconnectionError,
     WalletError,
     WalletLoadError,
-    WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
     WalletSendTransactionError,
 } from '@solana/wallet-adapter-base';
-import { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { Connection, Transaction, TransactionSignature } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 
 export interface BloctoWalletAdapterConfig {
     network?: WalletAdapterNetwork;

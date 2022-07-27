@@ -7,7 +7,7 @@ import {
     WalletNotReadyError,
     WalletReadyState,
 } from '@solana/wallet-adapter-base';
-import { Connection, PublicKey, Transaction } from '@solana/web3.js';
+import type { Connection, PublicKey, Transaction } from '@solana/web3.js';
 import React, { FC, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { WalletNotSelectedError } from './errors';
 import { useLocalStorage } from './useLocalStorage';

@@ -1,14 +1,12 @@
+import type { EventEmitter, SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
-    EventEmitter,
     scopePollingDetectionStrategy,
-    SendTransactionOptions,
     WalletAccountError,
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
     WalletError,
-    WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
@@ -17,7 +15,8 @@ import {
     WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import { Signer, Connection, PublicKey, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { Signer, Connection, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 
 interface BackpackWalletEvents {
     connect(...args: unknown[]): unknown;
@@ -49,7 +48,7 @@ declare const window: BackpackWindow;
 
 export interface BackpackWalletAdapterConfig {}
 
-export const BackpackWalletName = 'Backpack' as WalletName;
+export const BackpackWalletName = 'Backpack' as WalletName<'Backpack'>;
 
 export class BackpackWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = BackpackWalletName;
