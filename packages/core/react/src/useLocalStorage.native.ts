@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocalStorage as baseUseLocalStorage } from './useLocalStorage';
+import type { useLocalStorage as baseUseLocalStorage } from './useLocalStorage';
 
 export const useLocalStorage: typeof baseUseLocalStorage = function useLocalStorage<T>(
     _key: string,

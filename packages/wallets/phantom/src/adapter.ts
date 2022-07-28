@@ -1,14 +1,12 @@
+import type { EventEmitter, SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
-    EventEmitter,
     scopePollingDetectionStrategy,
-    SendTransactionOptions,
     WalletAccountError,
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
     WalletError,
-    WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
@@ -16,9 +14,9 @@ import {
     WalletSendTransactionError,
     WalletSignMessageError,
     WalletSignTransactionError,
-    WalletWindowClosedError,
 } from '@solana/wallet-adapter-base';
-import { Connection, PublicKey, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { Connection, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 
 interface PhantomWalletEvents {
     connect(...args: unknown[]): unknown;
@@ -42,11 +40,9 @@ interface PhantomWallet extends EventEmitter<PhantomWalletEvents> {
 }
 
 interface PhantomWindow extends Window {
-    // NOTE: If you are contributing a wallet adapter, **DO NOT COPY** this.
-    // Multiple wallet adapters cannot be detected properly if they all try to write to the same window global.
-    // All wallets that currently do this have committed to migrating away from using `window.solana`.
-    // This must be changed to `window.yourWalletName` in your adapter, and must not use `window.solana`.
-    solana?: PhantomWallet;
+    phantom?: {
+        solana?: PhantomWallet;
+    };
 }
 
 declare const window: PhantomWindow;
@@ -77,7 +73,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
 
         if (this._readyState !== WalletReadyState.Unsupported) {
             scopePollingDetectionStrategy(() => {
-                if (window.solana?.isPhantom) {
+                if (window.phantom?.solana?.isPhantom) {
                     this._readyState = WalletReadyState.Installed;
                     this.emit('readyStateChange', this._readyState);
                     return true;
@@ -111,40 +107,13 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.solana!;
+            const wallet = window!.phantom!.solana!;
 
             if (!wallet.isConnected) {
-                // NOTE: If you are contributing a wallet adapter, **DO NOT COPY** this.
-                // The Phantom adapter code has hacks because the Promise returned by `wallet.connect()` is not rejected if the user closes the window.
-                // If your adapter fulfills the Promise correctly, you don't need events, or the hacky override of the private `_handleDisconnect` API.
-                //
-                // HACK: Phantom doesn't reject or emit an event if the popup is closed
-                const handleDisconnect = wallet._handleDisconnect;
                 try {
-                    await new Promise<void>((resolve, reject) => {
-                        const connect = () => {
-                            wallet.off('connect', connect);
-                            resolve();
-                        };
-
-                        wallet._handleDisconnect = (...args: unknown[]) => {
-                            wallet.off('connect', connect);
-                            reject(new WalletWindowClosedError());
-                            return handleDisconnect.apply(wallet, args);
-                        };
-
-                        wallet.on('connect', connect);
-
-                        wallet.connect().catch((reason: any) => {
-                            wallet.off('connect', connect);
-                            reject(reason);
-                        });
-                    });
+                    return await wallet.connect();
                 } catch (error: any) {
-                    if (error instanceof WalletError) throw error;
                     throw new WalletConnectionError(error?.message, error);
-                } finally {
-                    wallet._handleDisconnect = handleDisconnect;
                 }
             }
 

@@ -1,19 +1,19 @@
 import type Transport from '@ledgerhq/hw-transport';
 import type TransportWebHID from '@ledgerhq/hw-transport-webhid';
+import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseSignerWalletAdapter,
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
     WalletLoadError,
-    WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import type { PublicKey, Transaction } from '@solana/web3.js';
 import './polyfills/index';
 import { getDerivationPath, getPublicKey, signTransaction } from './util';
 

@@ -1,17 +1,18 @@
+import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseSignerWalletAdapter,
     scopePollingDetectionStrategy,
     WalletAccountError,
     WalletConnectionError,
     WalletDisconnectedError,
-    WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import type { Transaction } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 
 interface SolanaNightly {
     publicKey: PublicKey;

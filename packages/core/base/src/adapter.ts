@@ -1,6 +1,7 @@
-import { Connection, PublicKey, SendOptions, Signer, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { Connection, PublicKey, SendOptions, Signer, Transaction, TransactionSignature } from '@solana/web3.js';
 import EventEmitter from 'eventemitter3';
-import { WalletError, WalletNotConnectedError } from './errors';
+import type { WalletError } from './errors';
+import { WalletNotConnectedError } from './errors';
 
 export { EventEmitter };
 
@@ -94,7 +95,7 @@ export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents
 
         transaction.feePayer = transaction.feePayer || publicKey;
         transaction.recentBlockhash =
-            transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
+            transaction.recentBlockhash || (await connection.getLatestBlockhash('confirmed')).blockhash;
 
         return transaction;
     }

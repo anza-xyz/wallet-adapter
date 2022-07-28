@@ -1,3 +1,4 @@
+import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseSignerWalletAdapter,
     WalletAccountError,
@@ -5,7 +6,6 @@ import {
     WalletDisconnectedError,
     WalletDisconnectionError,
     WalletError,
-    WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
@@ -14,10 +14,11 @@ import {
     WalletSignTransactionError,
     WalletWindowClosedError,
 } from '@solana/wallet-adapter-base';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import type { Transaction } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 import WalletConnectClient, { CLIENT_EVENTS } from '@walletconnect/client';
 import QRCodeModal from '@walletconnect/qrcode-modal';
-import { ClientOptions, ClientTypes, PairingTypes, SessionTypes } from '@walletconnect/types';
+import type { ClientOptions, ClientTypes, PairingTypes, SessionTypes } from '@walletconnect/types';
 import { ERROR } from '@walletconnect/utils';
 import base58 from 'bs58';
 import { serialiseTransaction } from 'solana-wallet';
@@ -180,6 +181,7 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
 
             try {
                 await client.disconnect({
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     topic: this._session!.topic,
                     reason: ERROR.USER_DISCONNECTED.format(),
                 });
