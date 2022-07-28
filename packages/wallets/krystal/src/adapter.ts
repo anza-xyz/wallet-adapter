@@ -11,7 +11,6 @@ import {
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import { PublicKey, Transaction } from '@solana/web3.js';
-import bs58 from 'bs58';
 
 interface KrystalWallet {
     isConnected(): boolean;
