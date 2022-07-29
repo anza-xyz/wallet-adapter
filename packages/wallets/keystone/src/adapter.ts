@@ -1,17 +1,20 @@
+import type { DefaultKeyring } from '@keystonehq/sol-keyring';
 import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
+    WalletAccountError,
     WalletLoadError,
     WalletNotConnectedError,
+    WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import type { Transaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
-import type { DefaultKeyring } from '@keystonehq/sol-keyring';
 
 export interface KeystoneWalletAdapterConfig {}
+
 export const KeystoneWalletName = 'Keystone' as WalletName<'Keystone'>;
 
 export class KeystoneWalletAdapter extends BaseMessageSignerWalletAdapter {
@@ -41,15 +44,21 @@ export class KeystoneWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (this._readyState !== WalletReadyState.Loadable) throw new WalletNotReadyError();
 
             this._connecting = true;
-            let account: string;
+
             let keyring: DefaultKeyring;
             try {
                 const { DefaultKeyring } = await import('@keystonehq/sol-keyring');
                 keyring = DefaultKeyring.getEmptyKeyring();
+            } catch (error: any) {
+                throw new WalletLoadError(error?.message, error);
+            }
+
+            let account: string;
+            try {
                 await keyring.readKeyring();
                 account = keyring.getAccounts()[0].pubKey;
             } catch (error: any) {
-                throw new WalletLoadError(error?.message, error);
+                throw new WalletAccountError(error?.message, error);
             }
 
             let publicKey: PublicKey;
@@ -95,6 +104,7 @@ export class KeystoneWalletAdapter extends BaseMessageSignerWalletAdapter {
             const keyring = this._keyring;
             const publicKey = this._publicKey?.toString();
             if (!keyring || !publicKey) throw new WalletNotConnectedError();
+
             try {
                 return keyring.signTransaction(publicKey, transaction);
             } catch (error: any) {
@@ -128,7 +138,8 @@ export class KeystoneWalletAdapter extends BaseMessageSignerWalletAdapter {
             const keyring = this._keyring;
             const publicKey = this._publicKey?.toString();
             if (!keyring || !publicKey) throw new WalletNotConnectedError();
-            const signedTransactions = [];
+
+            const signedTransactions: Transaction[] = [];
             try {
                 for (const transaction of transactions) {
                     signedTransactions.push(await keyring.signTransaction(publicKey, transaction));

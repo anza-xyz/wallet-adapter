@@ -140,8 +140,7 @@ export class KrystalWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                const signedTransaction = await wallet.signTransaction(transaction);
-                return signedTransaction;
+                return await wallet.signTransaction(transaction);
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -157,8 +156,7 @@ export class KrystalWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                const signedTransactions = await wallet.signAllTransactions(transactions)
-                return signedTransactions;
+                return await wallet.signAllTransactions(transactions);
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -174,7 +172,7 @@ export class KrystalWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
             try {
                 const { signature } = await wallet.signMessage(message);
-                return signature
+                return signature;
             } catch (error: any) {
                 throw new WalletSignMessageError(error?.message, error);
             }
