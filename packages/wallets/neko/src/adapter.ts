@@ -40,7 +40,7 @@ declare const window: NekoWalletWindow;
 
 export interface NekoWalletAdapterConfig {}
 
-export const NekoWalletName = 'Neko (Mobile)' as WalletName<'Neko (Mobile)'>;
+export const NekoWalletName = 'Neko' as WalletName<'Neko'>;
 
 export class NekoWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = NekoWalletName;
