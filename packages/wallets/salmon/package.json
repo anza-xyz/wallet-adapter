@@ -27,13 +27,13 @@
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.36.0"
+        "@solana/web3.js": "^1.44.3"
     },
     "dependencies": {
         "salmon-adapter-sdk": "^1.0.0",
         "@solana/wallet-adapter-base": "^0.9.4"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.36.0"
+        "@solana/web3.js": "^1.44.3"
     }
 }
