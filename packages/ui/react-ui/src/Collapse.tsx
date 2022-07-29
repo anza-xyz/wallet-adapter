@@ -1,4 +1,5 @@
-import React, { FC, PropsWithChildren, useLayoutEffect, useRef } from 'react';
+import type { FC, PropsWithChildren } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 
 export type CollapseProps = PropsWithChildren<{
     expanded: boolean;

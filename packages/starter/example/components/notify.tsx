@@ -1,7 +1,8 @@
 import LaunchIcon from '@mui/icons-material/Launch';
 import { Link } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { useSnackbar, VariantType } from 'notistack';
+import type { VariantType } from 'notistack';
+import { useSnackbar } from 'notistack';
 import { useCallback } from 'react';
 
 const Notification = styled('span')(() => ({

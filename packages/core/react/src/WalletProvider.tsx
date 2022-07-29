@@ -1,17 +1,12 @@
-import {
-    Adapter,
-    SendTransactionOptions,
-    WalletError,
-    WalletName,
-    WalletNotConnectedError,
-    WalletNotReadyError,
-    WalletReadyState,
-} from '@solana/wallet-adapter-base';
+import type { Adapter, SendTransactionOptions, WalletError, WalletName } from '@solana/wallet-adapter-base';
+import { WalletNotConnectedError, WalletNotReadyError, WalletReadyState } from '@solana/wallet-adapter-base';
 import type { Connection, PublicKey, Transaction } from '@solana/web3.js';
-import React, { FC, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type { FC, ReactNode } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { WalletNotSelectedError } from './errors';
 import { useLocalStorage } from './useLocalStorage';
-import { Wallet, WalletContext } from './useWallet';
+import type { Wallet } from './useWallet';
+import { WalletContext } from './useWallet';
 
 export interface WalletProviderProps {
     children: ReactNode;

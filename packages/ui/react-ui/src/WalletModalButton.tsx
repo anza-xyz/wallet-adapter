@@ -1,5 +1,7 @@
-import React, { FC, MouseEvent, useCallback } from 'react';
-import { Button, ButtonProps } from './Button';
+import type { FC, MouseEvent } from 'react';
+import React, { useCallback } from 'react';
+import type { ButtonProps } from './Button';
+import { Button } from './Button';
 import { useWalletModal } from './useWalletModal';
 
 export const WalletModalButton: FC<ButtonProps> = ({ children = 'Select Wallet', onClick, ...props }) => {

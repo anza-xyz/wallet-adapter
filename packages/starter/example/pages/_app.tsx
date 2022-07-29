@@ -1,6 +1,6 @@
-import { AppProps } from 'next/app';
+import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { ContextProvider } from '../components/ContextProvider';
 
 // Use require instead of import since order matters
