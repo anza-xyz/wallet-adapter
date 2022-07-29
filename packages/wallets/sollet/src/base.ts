@@ -41,12 +41,12 @@ export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAda
     protected _provider: string | SolletWallet | undefined;
     protected _network: WalletAdapterNetwork;
     protected _timeout: number;
+    protected _connecting: boolean;
+    protected _wallet: SolWalletAdapter | null;
     protected _readyState: WalletReadyState =
         typeof window === 'undefined' || typeof document === 'undefined'
             ? WalletReadyState.Unsupported
             : WalletReadyState.NotDetected;
-    protected _connecting: boolean;
-    protected _wallet: SolWalletAdapter | null;
 
     constructor({ provider, network = WalletAdapterNetwork.Mainnet, timeout = 10000 }: SolletWalletAdapterConfig = {}) {
         super();
@@ -92,7 +92,7 @@ export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAda
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
-            if (!(this._readyState === WalletReadyState.Loadable || this._readyState === WalletReadyState.Installed))
+            if (this._readyState !== WalletReadyState.Loadable && this._readyState !== WalletReadyState.Installed)
                 throw new WalletNotReadyError();
 
             this._connecting = true;

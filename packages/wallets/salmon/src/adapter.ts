@@ -81,7 +81,7 @@ export class SalmonWalletAdapter extends BaseMessageSignerWalletAdapter {
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
-            if (!(this._readyState === WalletReadyState.Loadable || this._readyState === WalletReadyState.Installed))
+            if (this._readyState !== WalletReadyState.Loadable && this._readyState !== WalletReadyState.Installed)
                 throw new WalletNotReadyError();
 
             this._connecting = true;

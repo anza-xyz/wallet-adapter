@@ -44,7 +44,9 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
     private _publicKey: PublicKey | null;
     private _config: SolflareWalletAdapterConfig;
     private _readyState: WalletReadyState =
-        typeof window === 'undefined' ? WalletReadyState.Unsupported : WalletReadyState.Loadable;
+        typeof window === 'undefined' || typeof document === 'undefined'
+            ? WalletReadyState.Unsupported
+            : WalletReadyState.Loadable;
 
     constructor(config: SolflareWalletAdapterConfig = {}) {
         super();

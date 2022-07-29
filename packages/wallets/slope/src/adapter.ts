@@ -102,7 +102,8 @@ export class SlopeWalletAdapter extends BaseMessageSignerWalletAdapter {
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
-            if (this._readyState !== WalletReadyState.Installed || !window.Slope) throw new WalletNotReadyError();
+            if (this._readyState !== WalletReadyState.Installed || typeof window.Slope !== 'function')
+                throw new WalletNotReadyError();
 
             this._connecting = true;
 

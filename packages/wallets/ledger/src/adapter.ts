@@ -34,7 +34,12 @@ export class LedgerWalletAdapter extends BaseSignerWalletAdapter {
     private _transport: Transport | null;
     private _publicKey: PublicKey | null;
     private _readyState: WalletReadyState =
-        typeof navigator === 'undefined' || !navigator.hid ? WalletReadyState.Unsupported : WalletReadyState.Loadable;
+        typeof window === 'undefined' ||
+        typeof document === 'undefined' ||
+        typeof navigator === 'undefined' ||
+        !navigator.hid
+            ? WalletReadyState.Unsupported
+            : WalletReadyState.Loadable;
 
     constructor(config: LedgerWalletAdapterConfig = {}) {
         super();
@@ -59,7 +64,7 @@ export class LedgerWalletAdapter extends BaseSignerWalletAdapter {
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
-            if (this._readyState === WalletReadyState.Unsupported) throw new WalletNotReadyError();
+            if (this._readyState !== WalletReadyState.Loadable) throw new WalletNotReadyError();
 
             this._connecting = true;
 

@@ -23,7 +23,10 @@ export class KeystoneWalletAdapter extends BaseMessageSignerWalletAdapter {
     private _keyring: DefaultKeyring | null;
     private _publicKey: PublicKey | null;
     private _connecting: boolean;
-    private _readyState: WalletReadyState = WalletReadyState.Installed;
+    private _readyState: WalletReadyState =
+        typeof window === 'undefined' || typeof document === 'undefined'
+            ? WalletReadyState.Unsupported
+            : WalletReadyState.Loadable;
 
     constructor(config: KeystoneWalletAdapterConfig = {}) {
         super();
@@ -35,6 +38,8 @@ export class KeystoneWalletAdapter extends BaseMessageSignerWalletAdapter {
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
+            if (this._readyState !== WalletReadyState.Loadable) throw new WalletNotReadyError();
+
             this._connecting = true;
             let account: string;
             let keyring: DefaultKeyring;
