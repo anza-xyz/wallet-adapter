@@ -2,6 +2,7 @@ import {
     BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
     WalletAccountError,
+    WalletDisconnectionError,
     WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
@@ -123,7 +124,11 @@ export class KrystalWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._wallet = null;
             this._publicKey = null;
 
-            await wallet.disconnect();
+            try {
+                await wallet.disconnect();
+            } catch (error: any) {
+                this.emit('error', new WalletDisconnectionError(error?.message, error));
+            }
         }
 
         this.emit('disconnect');
