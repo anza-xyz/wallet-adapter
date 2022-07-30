@@ -39,6 +39,7 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
             new SolanaMobileWalletAdapter({
                 appIdentity: { name: 'Solana Create React App Starter App' },
                 authorizationResultCache: createDefaultAuthorizationResultCache(),
+                cluster: network
             }),
             new PhantomWalletAdapter(),
             new GlowWalletAdapter(),
