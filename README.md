@@ -58,6 +58,7 @@ import {
     SolletExtensionWalletAdapter,
     SolletWalletAdapter,
     TorusWalletAdapter,
+    MagicEdenWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
 import {
     WalletModalProvider,
@@ -86,6 +87,7 @@ export const Wallet: FC = () => {
                 appIdentity: { name: 'Solana Wallet Adapter App' },
                 authorizationResultCache: createDefaultAuthorizationResultCache(),
             }),
+            new MagicEdenWalletAdapter(),
             new CoinbaseWalletAdapter(),
             new PhantomWalletAdapter(),
             new GlowWalletAdapter(),
@@ -180,6 +182,7 @@ You can use the [wallets](https://github.com/solana-labs/wallet-adapter/tree/mas
 | [hyperpay](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/hyperpay)       | Adapter for [HyperPay](https://hyperpay.io)           | [`@solana/wallet-adapter-hyperpay`](https://npmjs.com/package/@solana/wallet-adapter-hyperpay)       |
  | [keystone](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/keystone)       | Adapter for [keystone](https://keyst.one)             | [`@solana/wallet-adapter-keystone`](https://npmjs.com/package/@solana/wallet-adapter-keystone)       |
 | [ledger](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/ledger)           | Adapter for [Ledger](https://ledger.com)              | [`@solana/wallet-adapter-ledger`](https://npmjs.com/package/@solana/wallet-adapter-ledger)           |
+| [magiceden](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/magiceden)   | Adapter for [Magic Eden](https://magiceden.io)      | [`@solana/wallet-adapter-magiceden`](https://npmjs.com/package/@solana/wallet-adapter-magiceden)   |
 | [mathwallet](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/mathwallet)   | Adapter for [MathWallet](https://mathwallet.org)      | [`@solana/wallet-adapter-mathwallet`](https://npmjs.com/package/@solana/wallet-adapter-mathwallet)   |
 | [neko](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/neko)               | Adapter for [Neko](https://nekowallet.com)            | [`@solana/wallet-adapter-neko`](https://npmjs.com/package/@solana/wallet-adapter-neko)               |
 | [nightly](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/nightly)         | Adapter for [Nightly](https://nightly.app)            | [`@solana/wallet-adapter-nightly`](https://npmjs.com/package/@solana/wallet-adapter-nightly)         |
