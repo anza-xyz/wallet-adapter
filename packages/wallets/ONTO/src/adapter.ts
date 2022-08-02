@@ -1,33 +1,33 @@
+import type { WalletName } from '@solana/wallet-adapter-base';
 import {
-    Adapter,
-    BaseSignerWalletAdapter,
+    BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
     WalletAccountError,
-    WalletName,
+    WalletDisconnectionError,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
     WalletSignTransactionError,
+
 } from '@solana/wallet-adapter-base';
-import { PublicKey, Transaction } from '@solana/web3.js';
-import bs58 from 'bs58';
+import type { Transaction } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 
 interface OntoWallet {
-    isOnto?: boolean;
-    signTransaction(transaction: Transaction): Promise<Transaction>;
-    isConnected(): boolean;
-    connect(): Promise<string[]>;
+    isONTO?: boolean;
+    connect(): Promise<void>;
     disconnect(): Promise<void>;
-    request(params: { method: string; params: string | string[] | unknown }): Promise<{
-        signature: string;
-        publicKey: string;
-    }>;
+    getAccount(): Promise<string>;
+    signTransaction(transaction: Transaction): Promise<Transaction>;
+    signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
+    signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
+    isConnected(): boolean;
 }
 
 interface OntoWindow extends Window {
     onto?: {
-        sol?: OntoWallet;
+        solana?: OntoWallet;
     };
 }
 
@@ -35,9 +35,9 @@ declare const window: OntoWindow;
 
 export interface OntoWalletAdapterConfig {}
 
-export const OntoWalletName = 'ONTO' as WalletName;
+export const OntoWalletName = 'ONTO' as WalletName<'ONTO'>;
 
-export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
+export class OntoWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = OntoWalletName;
     url = 'https://onto.app/';
     icon = 'data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyODggMjg4Ij4KICA8dGl0bGU+T05UTyBMT0dPXzI4OHgyODg8L3RpdGxlPgogIDxnIGlkPSJMT0dPIj4KICAgIDxwYXRoIGlkPSLlvaLnirbnu5PlkIgiIGQ9Ik0zMCwxMS4xNSw3MS4xOSw1Mi4zMkExMTUsMTE1LDAsMCwxLDI1OCwxMzguNjdMMjU4LDE0MlYyNzYuODVsLTQxLjE5LTQxLjE2QTExNSwxMTUsMCwwLDEsMzAuMDUsMTQ5LjM0TDMwLDE0NlptMjguMTcsNjhWMTQ2YTg2Ljc5LDg2Ljc5LDAsMCwwLDEzNS4xNSw3MmwyLjIzLTEuNTVMNjMuNjcsODQuNjVaTTk0LjY4LDcwbC0yLjIzLDEuNTVMMjI0LjMzLDIwMy4zNmw1LjUsNS41VjE0MkE4Ni43OSw4Ni43OSwwLDAsMCw5NC42OCw3MFoiLz4KICA8L2c+Cjwvc3ZnPg==';
@@ -57,7 +57,7 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
         this._publicKey = null;
         if (this._readyState !== WalletReadyState.Unsupported) {
             scopePollingDetectionStrategy(() => {
-                if (window.onto?.sol) {
+                if (window.onto?.solana?.isONTO) {
                     this._readyState = WalletReadyState.Installed;
                     this.emit('readyStateChange', this._readyState);
                     return true;
@@ -90,11 +90,12 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
 
             this._connecting = true;
 
-            const wallet = window!.onto!.sol!;
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const wallet = window!.onto!.solana!;
 
             let account: string;
             try {
-                [account] = await wallet.connect();
+                account = await wallet.getAccount();
             } catch (error: any) {
                 throw new WalletAccountError(error?.message, error);
             }
@@ -136,13 +137,7 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                const response = await wallet.request({ method: 'sol_sign', params: [transaction] });
-
-                const publicKey = new PublicKey(response.publicKey);
-                const signature = bs58.decode(response.signature);
-
-                transaction.addSignature(publicKey, signature);
-                return transaction;
+                return (await wallet.signTransaction(transaction)) || transaction;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -153,10 +148,37 @@ export class Coin98WalletAdapter extends BaseSignerWalletAdapter {
     }
 
     async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
-        const signedTransactions: Transaction[] = [];
-        for (const transaction of transactions) {
-            signedTransactions.push(await this.signTransaction(transaction));
+        try {
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
+
+            try {
+                return (await wallet.signAllTransactions(transactions)) || transactions;
+            } catch (error: any) {
+                throw new WalletSignTransactionError(error?.message, error);
+            }
+        } catch (error: any) {
+            this.emit('error', error);
+            throw error;
         }
-        return signedTransactions;
     }
+
+    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+        try {
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
+
+            try {
+                const { signature } = await wallet.signMessage(message);
+                return signature;
+            } catch (error: any) {
+                throw new WalletSignTransactionError(error?.message, error);
+            }
+        } catch (error: any) {
+            this.emit('error', error);
+            throw error;
+        }
+    }
+
+
 }
