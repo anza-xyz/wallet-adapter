@@ -77,23 +77,19 @@ export const Wallet: FC = () => {
     // You can also provide a custom RPC endpoint.
     const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 
-    // @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking and lazy loading --
-    // Only the wallets you configure here will be compiled into your application, and only the dependencies
-    // of wallets that your users connect to will be loaded.
     const wallets = useMemo(
         () => [
-            new SolanaMobileWalletAdapter({
-                appIdentity: { name: 'Solana Wallet Adapter App' },
-                authorizationResultCache: createDefaultAuthorizationResultCache(),
-            }),
-            new CoinbaseWalletAdapter(),
-            new PhantomWalletAdapter(),
-            new GlowWalletAdapter(),
-            new SlopeWalletAdapter(),
-            new SolflareWalletAdapter({ network }),
-            new TorusWalletAdapter(),
+            /**
+             * Select the wallets you wish to support, by instantiating wallet adapters here.
+             *
+             * Common adapters can be found in the npm package `@solana/wallet-adapter-wallets`.
+             * That package supports tree shaking and lazy loading -- only the wallets you import
+             * will be compiled into your application, and only the dependencies of wallets that
+             * your users connect to will be loaded.
+             */
+            new FakeWalletAdapter(),
         ],
-        [network]
+        []
     );
 
     return (

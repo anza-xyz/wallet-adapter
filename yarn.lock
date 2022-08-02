@@ -3891,20 +3891,6 @@
   resolved "https://registry.yarnpkg.com/@socket.io/component-emitter/-/component-emitter-3.1.0.tgz#96116f2a912e0c02817345b3c10751069920d553"
   integrity sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==
 
-"@solana-mobile/mobile-wallet-adapter-protocol@^0.0.1-alpha.0":
-  version "0.0.1-alpha.0"
-  resolved "https://registry.yarnpkg.com/@solana-mobile/mobile-wallet-adapter-protocol/-/mobile-wallet-adapter-protocol-0.0.1-alpha.0.tgz#5e3087abee41c5f050bfc392a9b4d27b9a22a93b"
-  integrity sha512-gFYd+oiiF+dYsXPXHs8jHKitSWZrzheoT7OzlJZK6aa65lv3B1yLZz5PFUt9r/C60du0FajeXoAM21IKHWCQnw==
-
-"@solana-mobile/wallet-adapter-mobile@^0.0.1-alpha.0":
-  version "0.0.1-alpha.0"
-  resolved "https://registry.yarnpkg.com/@solana-mobile/wallet-adapter-mobile/-/wallet-adapter-mobile-0.0.1-alpha.0.tgz#b34281846c756ad854e2e95d6ccbc047fdf8a266"
-  integrity sha512-/WxoD2ffvxPwv6QRIO2dMoMnSRlYSgyhaouhTf07VI2XkYfce4H9ZIidPP9inRLYNv4f0N/C2F9LZDBb5wbC3A==
-  dependencies:
-    "@solana-mobile/mobile-wallet-adapter-protocol" "^0.0.1-alpha.0"
-    "@solana/wallet-adapter-base" "^0.9.0"
-    "@solana/web3.js" "^1.20.0"
-
 "@solana/buffer-layout@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@solana/buffer-layout/-/buffer-layout-4.0.0.tgz#75b1b11adc487234821c81dfae3119b73a5fd734"
@@ -3912,7 +3898,7 @@
   dependencies:
     buffer "~6.0.3"
 
-"@solana/web3.js@^1.20.0", "@solana/web3.js@^1.36.0", "@solana/web3.js@^1.44.3":
+"@solana/web3.js@^1.36.0", "@solana/web3.js@^1.44.3":
   version "1.46.0"
   resolved "https://registry.yarnpkg.com/@solana/web3.js/-/web3.js-1.46.0.tgz#74364b277a0d01026deaf6f97edf49c07a271405"
   integrity sha512-JzuWfrmoxfgczpgA7dK7gELpLxvn1KssFridn9I/OPfFxVGgcc68U8rux/q1mPem6hmP2K8kbQ0xL3SYxlQaHg==
