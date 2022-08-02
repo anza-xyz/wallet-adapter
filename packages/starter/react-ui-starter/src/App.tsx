@@ -8,7 +8,6 @@ import {
     SlopeWalletAdapter,
     SolflareWalletAdapter,
     TorusWalletAdapter,
-    MagicEdenWalletAdapter
 } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 import React, { FC, ReactNode, useMemo } from 'react';
@@ -42,7 +41,6 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
             new SlopeWalletAdapter(),
             new SolflareWalletAdapter({ network }),
             new TorusWalletAdapter(),
-            new MagicEdenWalletAdapter(),
         ],
         [network]
     );

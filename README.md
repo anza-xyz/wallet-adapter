@@ -58,7 +58,6 @@ import {
     SolletExtensionWalletAdapter,
     SolletWalletAdapter,
     TorusWalletAdapter,
-    MagicEdenWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
 import {
     WalletModalProvider,
@@ -87,7 +86,6 @@ export const Wallet: FC = () => {
                 appIdentity: { name: 'Solana Wallet Adapter App' },
                 authorizationResultCache: createDefaultAuthorizationResultCache(),
             }),
-            new MagicEdenWalletAdapter(),
             new CoinbaseWalletAdapter(),
             new PhantomWalletAdapter(),
             new GlowWalletAdapter(),
