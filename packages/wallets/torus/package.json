@@ -38,10 +38,10 @@
         "stream-browserify": "^3.0.0"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.44.3",
+        "@solana/web3.js": "^1.50.1",
         "@types/keccak": "^3.0.1",
         "@types/node-fetch": "^2.6.1",
-        "@types/readable-stream": "^2.3.11"
+        "@types/readable-stream": "^2.3.14"
     },
     "overrides": {
         "@toruslabs/solana-embed": {

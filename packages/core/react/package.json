@@ -38,14 +38,14 @@
         "@solana/wallet-adapter-base": "^0.9.9"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.44.3",
-        "@types/jest": "^28.1.3",
-        "@types/react": "^18.0.0",
-        "jest": "^28.1.1",
-        "jest-environment-jsdom": "^28.1.2",
+        "@solana/web3.js": "^1.50.1",
+        "@types/jest": "^28.1.6",
+        "@types/react": "^18.0.15",
+        "jest": "^28.1.3",
+        "jest-environment-jsdom": "^28.1.3",
         "jest-localstorage-mock": "^2.4.18",
         "react": "^18.0.0",
-        "ts-jest": "^28.0.5"
+        "ts-jest": "^28.0.7"
     },
     "gitHead": "389767182619fc76ab939920f75cc7194ff77340"
 }

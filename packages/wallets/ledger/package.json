@@ -30,13 +30,13 @@
         "@solana/web3.js": "^1.44.3"
     },
     "dependencies": {
-        "@ledgerhq/hw-transport": "^6.11.2",
-        "@ledgerhq/hw-transport-webhid": "^6.11.2",
+        "@ledgerhq/hw-transport": "^6.27.2",
+        "@ledgerhq/hw-transport-webhid": "^6.27.2",
         "@solana/wallet-adapter-base": "^0.9.9",
         "buffer": "^6.0.3"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.44.3",
+        "@solana/web3.js": "^1.50.1",
         "@types/w3c-web-hid": "^1.0.2"
     },
     "overrides": {

@@ -39,12 +39,12 @@
         "@ant-design/icons": "^4.0.0",
         "@solana/wallet-adapter-base": "^0.9.9",
         "@solana/wallet-adapter-react": "^0.15.8",
-        "antd": "^4.19.1"
+        "antd": "^4.22.3"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.44.3",
-        "@types/react": "^18.0.0",
-        "@types/react-dom": "^18.0.0",
+        "@solana/web3.js": "^1.50.1",
+        "@types/react": "^18.0.15",
+        "@types/react-dom": "^18.0.6",
         "react": "^18.0.0",
         "react-dom": "^18.0.0"
     },
