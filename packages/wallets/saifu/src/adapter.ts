@@ -171,6 +171,8 @@ export class SaifuWalletAdapter extends BaseMessageSignerWalletAdapter {
                     const { signers, ...sendOptions } = options;
                     signers?.length && transaction.partialSign(...signers);
 
+                    sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;
+
                     const { signature } = await wallet.signAndSendTransaction(transaction, sendOptions);
                     return signature;
                 } catch (error: any) {

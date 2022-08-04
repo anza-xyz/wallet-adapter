@@ -164,6 +164,8 @@ export class NufiWalletAdapter extends BaseMessageSignerWalletAdapter {
                 const { signers } = options;
                 signers?.length && transaction.partialSign(...signers);
 
+                sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;
+
                 const { signature } = await wallet.signAndSendTransaction(transaction);
                 return signature;
             } catch (error: any) {
