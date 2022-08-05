@@ -30,10 +30,10 @@
         "@solana/web3.js": "^1.44.3"
     },
     "dependencies": {
-        "salmon-adapter-sdk": "^1.0.0",
-        "@solana/wallet-adapter-base": "^0.9.4"
+        "@solana/wallet-adapter-base": "^0.9.4",
+        "salmon-adapter-sdk": "^1.0.0"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.44.3"
+        "@solana/web3.js": "^1.50.1"
     }
 }

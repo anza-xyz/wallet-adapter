@@ -26,21 +26,20 @@
         "lint": "next lint"
     },
     "dependencies": {
-        "@solana-mobile/wallet-adapter-mobile": "^0.0.1-alpha.0",
         "@solana/wallet-adapter-base": "^0.9.9",
         "@solana/wallet-adapter-react": "^0.15.8",
         "@solana/wallet-adapter-react-ui": "^0.9.10",
         "@solana/wallet-adapter-wallets": "^0.17.0",
-        "next": "^12.1.0",
+        "next": "^12.2.3",
         "react": "^18.0.0",
         "react-dom": "^18.0.0"
     },
     "devDependencies": {
-        "@types/node": "^18.0.0",
-        "@types/react": "^18.0.0",
-        "@types/react-dom": "^18.0.0",
-        "eslint": "^8.11.0",
-        "eslint-config-next": "^12.0.7",
+        "@types/node": "^18.6.3",
+        "@types/react": "^18.0.15",
+        "@types/react-dom": "^18.0.6",
+        "eslint": "^8.21.0",
+        "eslint-config-next": "^12.2.3",
         "shx": "^0.3.3",
         "typescript": "^4.6.2"
     },

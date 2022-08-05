@@ -77,23 +77,19 @@ export const Wallet: FC = () => {
     // You can also provide a custom RPC endpoint.
     const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 
-    // @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking and lazy loading --
-    // Only the wallets you configure here will be compiled into your application, and only the dependencies
-    // of wallets that your users connect to will be loaded.
     const wallets = useMemo(
         () => [
-            new SolanaMobileWalletAdapter({
-                appIdentity: { name: 'Solana Wallet Adapter App' },
-                authorizationResultCache: createDefaultAuthorizationResultCache(),
-            }),
-            new CoinbaseWalletAdapter(),
-            new PhantomWalletAdapter(),
-            new GlowWalletAdapter(),
-            new SlopeWalletAdapter(),
-            new SolflareWalletAdapter({ network }),
-            new TorusWalletAdapter(),
+            /**
+             * Select the wallets you wish to support, by instantiating wallet adapters here.
+             *
+             * Common adapters can be found in the npm package `@solana/wallet-adapter-wallets`.
+             * That package supports tree shaking and lazy loading -- only the wallets you import
+             * will be compiled into your application, and only the dependencies of wallets that
+             * your users connect to will be loaded.
+             */
+            new FakeWalletAdapter(),
         ],
-        [network]
+        []
     );
 
     return (
@@ -180,6 +176,7 @@ You can use the [wallets](https://github.com/solana-labs/wallet-adapter/tree/mas
 | [hyperpay](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/hyperpay)       | Adapter for [HyperPay](https://hyperpay.io)           | [`@solana/wallet-adapter-hyperpay`](https://npmjs.com/package/@solana/wallet-adapter-hyperpay)       |
  | [keystone](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/keystone)       | Adapter for [keystone](https://keyst.one)             | [`@solana/wallet-adapter-keystone`](https://npmjs.com/package/@solana/wallet-adapter-keystone)       |
 | [ledger](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/ledger)           | Adapter for [Ledger](https://ledger.com)              | [`@solana/wallet-adapter-ledger`](https://npmjs.com/package/@solana/wallet-adapter-ledger)           |
+| [magiceden](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/magiceden)   | Adapter for [Magic Eden](https://magiceden.io)      | [`@solana/wallet-adapter-magiceden`](https://npmjs.com/package/@solana/wallet-adapter-magiceden)   |
 | [mathwallet](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/mathwallet)   | Adapter for [MathWallet](https://mathwallet.org)      | [`@solana/wallet-adapter-mathwallet`](https://npmjs.com/package/@solana/wallet-adapter-mathwallet)   |
 | [neko](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/neko)               | Adapter for [Neko](https://nekowallet.com)            | [`@solana/wallet-adapter-neko`](https://npmjs.com/package/@solana/wallet-adapter-neko)               |
 | [nightly](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/nightly)         | Adapter for [Nightly](https://nightly.app)            | [`@solana/wallet-adapter-nightly`](https://npmjs.com/package/@solana/wallet-adapter-nightly)         |
