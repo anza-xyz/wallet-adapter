@@ -27,7 +27,7 @@
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.44.3",
+        "@solana/web3.js": "^1.50.1",
         "react": "*",
         "react-dom": "*"
     },
@@ -43,6 +43,5 @@
         "@types/react-dom": "^18.0.6",
         "react": "^18.0.0",
         "react-dom": "^18.0.0"
-    },
-    "gitHead": "389767182619fc76ab939920f75cc7194ff77340"
+    }
 }

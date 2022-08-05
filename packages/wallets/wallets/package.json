@@ -65,6 +65,5 @@
         "@solana/wallet-adapter-tokenpocket": "^0.4.7",
         "@solana/wallet-adapter-torus": "^0.11.15",
         "@solana/wallet-adapter-trust": "^0.1.0"
-    },
-    "gitHead": "389767182619fc76ab939920f75cc7194ff77340"
+    }
 }

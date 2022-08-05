@@ -28,7 +28,7 @@
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.44.3"
+        "@solana/web3.js": "^1.50.1"
     },
     "dependencies": {
         "@solana/wallet-adapter-base": "^0.9.7",
@@ -38,7 +38,7 @@
         "solana-wallet": "^1.0.1"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.44.3",
+        "@solana/web3.js": "^1.50.1",
         "@types/pino": "^6.3.11",
         "@walletconnect/types": "^2.0.0-beta.26"
     }
