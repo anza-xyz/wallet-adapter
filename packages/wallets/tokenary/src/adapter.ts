@@ -16,7 +16,6 @@ import {
     WalletSendTransactionError,
     WalletSignMessageError,
     WalletSignTransactionError,
-    WalletWindowClosedError,
 } from '@solana/wallet-adapter-base';
 import { Connection, PublicKey, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
 
@@ -38,7 +37,6 @@ interface TokenaryWallet extends EventEmitter<TokenaryWalletEvents> {
     signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
-    _handleDisconnect(...args: unknown[]): unknown;
 }
 
 interface TokenaryWindow extends Window {
@@ -170,6 +168,8 @@ export class TokenaryWalletAdapter extends BaseMessageSignerWalletAdapter {
 
                 const { signers, ...sendOptions } = options;
                 signers?.length && transaction.partialSign(...signers);
+
+                sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;
 
                 const { signature } = await wallet.signAndSendTransaction(transaction, sendOptions);
                 return signature;
