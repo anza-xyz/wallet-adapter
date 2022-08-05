@@ -40,7 +40,7 @@ interface TrustWallet extends EventEmitter<TrustWalletEvents> {
 
 interface TrustWindow extends Window {
     trust?: {
-        solana?: TrustWindow;
+        solana?: TrustWallet;
     };
 }
 
