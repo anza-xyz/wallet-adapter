@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-ant-design",
-    "version": "0.11.8",
+    "version": "0.11.9",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -31,22 +31,21 @@
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.44.3",
+        "@solana/web3.js": "^1.50.1",
         "react": "*",
         "react-dom": "*"
     },
     "dependencies": {
         "@ant-design/icons": "^4.0.0",
-        "@solana/wallet-adapter-base": "^0.9.9",
-        "@solana/wallet-adapter-react": "^0.15.8",
-        "antd": "^4.19.1"
+        "@solana/wallet-adapter-base": "^0.9.10",
+        "@solana/wallet-adapter-react": "^0.15.9",
+        "antd": "^4.22.3"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.44.3",
-        "@types/react": "^18.0.0",
-        "@types/react-dom": "^18.0.0",
+        "@solana/web3.js": "^1.50.1",
+        "@types/react": "^18.0.15",
+        "@types/react-dom": "^18.0.6",
         "react": "^18.0.0",
         "react-dom": "^18.0.0"
-    },
-    "gitHead": "389767182619fc76ab939920f75cc7194ff77340"
+    }
 }

@@ -99,15 +99,7 @@ Please see [issue #72](https://github.com/solana-labs/wallet-adapter/issues/72#i
 
 ## How can I sign and verify messages?
 
-Some wallet adapters provide a `signMessage` method for signing arbitrary bytes:
-
-- [Coinbase](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/coinbase)
-- [Exodus](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/exodus)
-- [Glow](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/glow)
-- [Phantom](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/phantom)
-- [Solflare](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/solflare)
-- [Slope](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/slope)
-- [TokenPocket](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/tokenpocket)
+Some wallet adapters provide a `signMessage` method for signing arbitrary bytes.
 
 The signature string returned by this method can be verified using [tweetnacl-js](https://github.com/dchest/tweetnacl-js/blob/master/README.md#naclsigndetachedverifymessage-signature-publickey) using the public key from the adapter.
 
