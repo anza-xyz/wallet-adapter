@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-nightly",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -30,7 +30,7 @@
         "@solana/web3.js": "^1.50.1"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.9.9"
+        "@solana/wallet-adapter-base": "^0.9.10"
     },
     "devDependencies": {
         "@solana/web3.js": "^1.50.1"
