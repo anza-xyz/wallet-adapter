@@ -36,7 +36,6 @@
         "uuid": "^8.3.2"
     },
     "devDependencies": {
-        "@types/bs58": "^4.0.1",
-        "@types/uuid": "^8.3.4"
+        "@solana/web3.js": "^1.44.3"
     }
 }

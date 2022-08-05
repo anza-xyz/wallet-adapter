@@ -21,7 +21,7 @@ import {
 import type { StrikeWallet } from '@strike-protocols/solana-wallet-adapter';
 
 interface StrikeWindow extends Window {
-    strike?: StrikeWallet | null;
+    strike?: StrikeWallet;
 }
 
 declare const window: StrikeWindow;
@@ -40,7 +40,7 @@ export class StrikeWalletAdapter extends BaseSignerWalletAdapter {
     private _wallet: StrikeWallet | null;
     private _publicKey: PublicKey | null;
     private _readyState: WalletReadyState =
-        typeof window === 'undefined' ? WalletReadyState.Unsupported : WalletReadyState.Loadable;
+        typeof window === 'undefined' || typeof document === 'undefined' ? WalletReadyState.Unsupported : WalletReadyState.Loadable;
 
 
     constructor(config: StrikeWalletAdapterConfig = {}) {
@@ -48,17 +48,6 @@ export class StrikeWalletAdapter extends BaseSignerWalletAdapter {
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
-
-        if (this._readyState !== WalletReadyState.Unsupported) {
-            scopePollingDetectionStrategy(() => {
-                if (this._wallet) {
-                    this._readyState = WalletReadyState.Loadable;
-                    this.emit('readyStateChange', this._readyState);
-                    return true;
-                }
-                return false;
-            });
-        }
     }
 
     get publicKey(): PublicKey | null {
@@ -67,6 +56,10 @@ export class StrikeWalletAdapter extends BaseSignerWalletAdapter {
 
     get connecting(): boolean {
         return this._connecting;
+    }
+
+    get connected(): boolean {
+        return !!this._wallet && this._wallet.isLoggedIn
     }
 
     get readyState(): WalletReadyState {
@@ -81,27 +74,28 @@ export class StrikeWalletAdapter extends BaseSignerWalletAdapter {
             this._connecting = true;
 
             let StrikeClass: typeof StrikeWallet;
-            let wallet: StrikeWallet;
-            await import('@strike-protocols/solana-wallet-adapter').then(async (strikeSolanaWalletAdapter) => {
-                    StrikeClass = strikeSolanaWalletAdapter.StrikeWallet;
-                    try {
-                        wallet = window.strike || new StrikeClass();
-                    } catch (error: any) {
-                        throw new WalletConfigError(error?.message, error);
-                    }
-                    try {
-                        this._publicKey = await wallet.connect(this.url);
-                    } catch (error: any) {
-                        throw new WalletAccountError(error?.message, error);
-                    }
-
-                    this._wallet = wallet;
-
-                    this.emit('connect', this._publicKey);
-                }
-            ).catch(error => {
+            try {
+                ({ StrikeWallet: StrikeClass } = await import('@strike-protocols/solana-wallet-adapter'));
+            } catch (error: any) {
                 throw new WalletLoadError(error?.message, error);
-            })
+            }
+
+            let wallet: StrikeWallet;
+            try {
+                wallet = window.strike || new StrikeClass();
+            } catch (error: any) {
+                throw new WalletConfigError(error?.message, error);
+            }
+
+            try {
+                this._publicKey = await wallet.connect(this.url);
+            } catch (error: any) {
+                throw new WalletAccountError(error?.message, error);
+            }
+
+            this._wallet = wallet;
+
+            this.emit('connect', this._publicKey);
         } catch (error: any) {
             this.emit('error', error);
             throw error;
