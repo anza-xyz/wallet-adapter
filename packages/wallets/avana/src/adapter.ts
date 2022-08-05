@@ -36,7 +36,6 @@ interface AvanaWallet extends EventEmitter<AvanaWalletEvents> {
     signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
-    _handleDisconnect(...args: unknown[]): unknown;
 }
 
 interface AvanaWindow extends Window {
@@ -172,6 +171,8 @@ export class AvanaWalletAdapter extends BaseMessageSignerWalletAdapter {
 
                 const { signers, ...sendOptions } = options;
                 signers?.length && transaction.partialSign(...signers);
+
+                sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;
 
                 const { signature } = await wallet.signAndSendTransaction(transaction, sendOptions);
                 return signature;
