@@ -39,9 +39,7 @@ interface TrustWallet extends EventEmitter<TrustWalletEvents> {
 }
 
 interface TrustWindow extends Window {
-    trust?: {
-        solana?: TrustWallet;
-    };
+    solana?: TrustWallet;
 }
 
 declare const window: TrustWindow;
@@ -72,7 +70,7 @@ export class TrustWalletAdapter extends BaseMessageSignerWalletAdapter {
 
         if (this._readyState !== WalletReadyState.Unsupported) {
             scopePollingDetectionStrategy(() => {
-                if (window.trust?.solana?.isTrust) {
+                if (window.solana?.isTrust) {
                     this._readyState = WalletReadyState.Installed;
                     this.emit('readyStateChange', this._readyState);
                     return true;
