@@ -1,3 +1,4 @@
+export * from '@solana/wallet-adapter-avana';
 export * from '@solana/wallet-adapter-backpack';
 export * from '@solana/wallet-adapter-bitkeep';
 export * from '@solana/wallet-adapter-bitpie';
@@ -32,4 +33,5 @@ export * from '@solana/wallet-adapter-spot';
 export * from '@solana/wallet-adapter-tokenary';
 export * from '@solana/wallet-adapter-tokenpocket';
 export * from '@solana/wallet-adapter-torus';
+export * from '@solana/wallet-adapter-trust';
 export * from '@solana/wallet-adapter-keystone';

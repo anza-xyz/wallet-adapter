@@ -43,6 +43,7 @@ interface PhantomWindow extends Window {
     phantom?: {
         solana?: PhantomWallet;
     };
+    solana?: PhantomWallet;
 }
 
 declare const window: PhantomWindow;
@@ -73,7 +74,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
 
         if (this._readyState !== WalletReadyState.Unsupported) {
             scopePollingDetectionStrategy(() => {
-                if (window.phantom?.solana?.isPhantom) {
+                if (window.phantom?.solana?.isPhantom || window.solana?.isPhantom) {
                     this._readyState = WalletReadyState.Installed;
                     this.emit('readyStateChange', this._readyState);
                     return true;
@@ -107,7 +108,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.phantom!.solana!;
+            const wallet = window.phantom?.solana || window.solana!;
 
             if (!wallet.isConnected) {
                 try {
@@ -172,6 +173,8 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
 
                 const { signers, ...sendOptions } = options;
                 signers?.length && transaction.partialSign(...signers);
+
+                sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;
 
                 const { signature } = await wallet.signAndSendTransaction(transaction, sendOptions);
                 return signature;

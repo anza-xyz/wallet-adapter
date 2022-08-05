@@ -34,7 +34,7 @@
         "@solana/wallet-adapter-base": "^0.9.9"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.44.3"
+        "@solana/web3.js": "^1.50.1"
     },
     "gitHead": "389767182619fc76ab939920f75cc7194ff77340"
 }
