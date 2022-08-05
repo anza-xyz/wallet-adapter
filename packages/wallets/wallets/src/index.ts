@@ -1,3 +1,4 @@
+export * from '@solana/wallet-adapter-avana';
 export * from '@solana/wallet-adapter-backpack';
 export * from '@solana/wallet-adapter-bitkeep';
 export * from '@solana/wallet-adapter-bitpie';
