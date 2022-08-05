@@ -11,8 +11,9 @@
     "types": "lib/types/index.d.ts",
     "exports": {
         ".": {
+            "require": "./lib/cjs/index.js",
             "import": "./lib/esm/index.mjs",
-            "require": "./lib/cjs/index.js"
+            "types": "./lib/types/index.d.ts"
         },
         "./package.json": "./package.json"
     },
