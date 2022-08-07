@@ -1,23 +1,16 @@
+import type { SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseSignerWalletAdapter,
-    scopePollingDetectionStrategy,
-    SendTransactionOptions,
-    WalletAccountError,
     WalletConfigError,
+    WalletConnectionError,
     WalletDisconnectionError,
     WalletLoadError,
-    WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletReadyState,
-    WalletSignTransactionError
+    WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import {
-    Connection,
-    PublicKey,
-    Transaction,
-    TransactionSignature
-} from '@solana/web3.js';
+import type { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
 import type { StrikeWallet } from '@strike-protocols/solana-wallet-adapter';
 
 interface StrikeWindow extends Window {
@@ -40,8 +33,9 @@ export class StrikeWalletAdapter extends BaseSignerWalletAdapter {
     private _wallet: StrikeWallet | null;
     private _publicKey: PublicKey | null;
     private _readyState: WalletReadyState =
-        typeof window === 'undefined' || typeof document === 'undefined' ? WalletReadyState.Unsupported : WalletReadyState.Loadable;
-
+        typeof window === 'undefined' || typeof document === 'undefined'
+            ? WalletReadyState.Unsupported
+            : WalletReadyState.Loadable;
 
     constructor(config: StrikeWalletAdapterConfig = {}) {
         super();
@@ -59,7 +53,7 @@ export class StrikeWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get connected(): boolean {
-        return !!this._wallet && this._wallet.isLoggedIn
+        return !!this._wallet?.isLoggedIn;
     }
 
     get readyState(): WalletReadyState {
@@ -87,13 +81,15 @@ export class StrikeWalletAdapter extends BaseSignerWalletAdapter {
                 throw new WalletConfigError(error?.message, error);
             }
 
+            let publicKey: PublicKey;
             try {
-                this._publicKey = await wallet.connect(this.url);
+                publicKey = await wallet.connect(this.url);
             } catch (error: any) {
-                throw new WalletAccountError(error?.message, error);
+                throw new WalletConnectionError(error?.message, error);
             }
 
             this._wallet = wallet;
+            this._publicKey = publicKey;
 
             this.emit('connect', this._publicKey);
         } catch (error: any) {
