@@ -106,7 +106,7 @@ export class MagicEdenWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.magicEden!.solana!;
+            const wallet = window.magicEden!.solana!;
 
             if (!wallet.isConnected) {
                 try {

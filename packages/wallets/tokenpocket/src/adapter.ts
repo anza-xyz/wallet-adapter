@@ -97,7 +97,7 @@ export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.solana!;
+            const wallet = window.solana!;
 
             try {
                 await wallet.connect();

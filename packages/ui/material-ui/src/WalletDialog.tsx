@@ -95,6 +95,7 @@ export const WalletDialog: FC<WalletDialogProps> = ({
 
     const handleClose = useCallback(
         (event: SyntheticEvent, reason?: 'backdropClick' | 'escapeKeyDown') => {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             if (onClose) onClose(event, reason!);
             if (!event.defaultPrevented) setOpen(false);
         },

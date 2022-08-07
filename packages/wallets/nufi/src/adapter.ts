@@ -98,7 +98,7 @@ export class NufiWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.nufiSolana!;
+            const wallet = window.nufiSolana!;
 
             if (!wallet.isConnected) {
                 try {

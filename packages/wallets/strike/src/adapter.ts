@@ -123,7 +123,7 @@ export class StrikeWalletAdapter extends BaseSignerWalletAdapter {
     async sendTransaction(
         transaction: Transaction,
         connection: Connection,
-        options?: SendTransactionOptions,
+        options?: SendTransactionOptions
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
@@ -139,7 +139,6 @@ export class StrikeWalletAdapter extends BaseSignerWalletAdapter {
             throw error;
         }
     }
-
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {
         try {

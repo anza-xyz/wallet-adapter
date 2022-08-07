@@ -104,7 +104,7 @@ export class SaifuWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.saifu!;
+            const wallet = window.saifu!;
 
             if (!wallet.isConnected) {
                 try {

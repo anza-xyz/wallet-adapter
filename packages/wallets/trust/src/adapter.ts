@@ -106,7 +106,7 @@ export class TrustWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.trustwallet!.solana!;
+            const wallet = window.trustwallet!.solana!;
 
             if (!wallet.isConnected) {
                 try {

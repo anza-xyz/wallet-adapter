@@ -104,7 +104,7 @@ export class BraveWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.braveSolana!;
+            const wallet = window.braveSolana!;
 
             if (!wallet.isConnected) {
                 try {

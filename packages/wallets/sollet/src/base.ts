@@ -98,7 +98,7 @@ export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAda
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const provider = this._provider || window!.sollet!;
+            const provider = this._provider || window.sollet!;
 
             let SolWalletAdapterClass: typeof SolWalletAdapter;
             try {

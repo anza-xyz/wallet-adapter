@@ -106,7 +106,7 @@ export class ExodusWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.exodus!.solana!;
+            const wallet = window.exodus!.solana!;
 
             if (!wallet.isConnected) {
                 try {

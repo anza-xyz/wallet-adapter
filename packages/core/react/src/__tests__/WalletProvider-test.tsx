@@ -73,6 +73,7 @@ describe('WalletProvider', () => {
             this.connecting = false;
             this.connectedValue = true;
             act(() => {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 this.emit('connect', this.publicKey!);
             });
         });

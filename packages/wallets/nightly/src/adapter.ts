@@ -90,7 +90,7 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.nightly!.solana!;
+            const wallet = window.nightly!.solana!;
 
             try {
                 await wallet.connect();

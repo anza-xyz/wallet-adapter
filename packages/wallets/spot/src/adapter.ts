@@ -97,7 +97,7 @@ export class SpotWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.spotSolWallet!;
+            const wallet = window.spotSolWallet!;
 
             try {
                 await wallet.connect();

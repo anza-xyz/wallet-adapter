@@ -97,7 +97,7 @@ export class HuobiWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.huobiWallet!;
+            const wallet = window.huobiWallet!;
 
             try {
                 await wallet.connect();

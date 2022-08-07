@@ -105,8 +105,8 @@ export class AvanaWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             this._connecting = true;
 
-            //@ts-ignore eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.avana!.solana!;
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const wallet = window.avana!.solana!;
 
             if (!wallet.isConnected) {
                 try {

@@ -104,7 +104,7 @@ export class SkyWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.skySolana!;
+            const wallet = window.skySolana!;
             try {
                 await wallet.connect();
             } catch (error: any) {
