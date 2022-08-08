@@ -1,3 +1,4 @@
+import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
     WalletAccountError,
@@ -5,7 +6,6 @@ import {
     WalletConnectionError,
     WalletDisconnectionError,
     WalletLoadError,
-    WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
@@ -13,9 +13,9 @@ import {
     WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import { PublicKey, Transaction } from '@solana/web3.js';
-import type { SolanaWallet } from '@particle-network/solana-wallet';
-import type { ParticleNetwork, Config } from '@particle-network/auth';
+import type { Transaction } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
+import type { SolanaWallet, Config, ParticleNetwork } from '@particle-network/solana-wallet';
 
 interface ParticleWindow extends Window {
     particle?: SolanaWallet;
@@ -23,7 +23,9 @@ interface ParticleWindow extends Window {
 
 declare const window: ParticleWindow;
 
-export interface ParticleAdapterConfig extends Config {}
+export interface ParticleAdapterConfig {
+    particleConfig?: Config;
+}
 
 export const ParticleName = 'Particle' as WalletName<'Particle'>;
 
@@ -40,7 +42,7 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
     private _readyState: WalletReadyState =
         typeof window === 'undefined' ? WalletReadyState.Unsupported : WalletReadyState.Loadable;
 
-    constructor(config: ParticleAdapterConfig) {
+    constructor(config: ParticleAdapterConfig = {}) {
         super();
         this._connecting = false;
         this._publicKey = null;
@@ -74,19 +76,16 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
             let ParticleClass: typeof ParticleNetwork;
             let WalletClass: typeof SolanaWallet;
             try {
-                const classes = await Promise.all([
-                    import('@particle-network/auth'),
-                    import('@particle-network/solana-wallet'),
-                ]);
-                ParticleClass = classes[0].ParticleNetwork;
-                WalletClass = classes[1].SolanaWallet;
+                ({ ParticleNetwork: ParticleClass, SolanaWallet: WalletClass } = await import(
+                    '@particle-network/solana-wallet'
+                ));
             } catch (error: any) {
                 throw new WalletLoadError(error?.message, error);
             }
 
             let wallet: SolanaWallet;
             try {
-                wallet = window.particle || new WalletClass(new ParticleClass(this._config).auth);
+                wallet = window.particle || new WalletClass(new ParticleClass(this._config?.particleConfig).auth);
             } catch (error: any) {
                 throw new WalletConfigError(error?.message, error);
             }
