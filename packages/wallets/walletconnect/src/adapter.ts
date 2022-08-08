@@ -15,10 +15,11 @@ import {
     WalletSignTransactionError,
     WalletWindowClosedError,
 } from '@solana/wallet-adapter-base';
-import { PublicKey, Transaction } from '@solana/web3.js';
-import WalletConnectClient, { SignClient } from '@walletconnect/sign-client';
+import type { Transaction } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
+import WalletConnectClient from '@walletconnect/sign-client';
 import QRCodeModal from '@walletconnect/qrcode-modal';
-import { EngineTypes, SessionTypes, SignClientTypes } from '@walletconnect/types';
+import type { EngineTypes, SessionTypes, SignClientTypes } from '@walletconnect/types';
 import { getSdkError, parseAccountId } from '@walletconnect/utils';
 import base58 from 'bs58';
 
@@ -129,7 +130,6 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
                 }
 
                 session = await approval();
-
             } catch (error: any) {
                 if (error instanceof WalletError) throw error;
                 throw new WalletConnectionError(error?.message, error);

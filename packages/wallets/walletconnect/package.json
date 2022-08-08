@@ -41,7 +41,7 @@
     "devDependencies": {
         "@solana/web3.js": "^1.50.1",
         "@types/pino": "^6.3.11",
-        "@walletconnect/types": "2.0.0-beta.102-6a30ee7.0",
+        "@walletconnect/types": "2.0.0-rc.1",
         "shx": "^0.3.4"
     }
 }
