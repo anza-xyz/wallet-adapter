@@ -2,6 +2,7 @@ import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseSignerWalletAdapter,
     WalletAccountError,
+    WalletAdapterNetwork,
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
@@ -14,14 +15,12 @@ import {
     WalletSignTransactionError,
     WalletWindowClosedError,
 } from '@solana/wallet-adapter-base';
-import type { Transaction } from '@solana/web3.js';
-import { PublicKey } from '@solana/web3.js';
-import WalletConnectClient, { CLIENT_EVENTS } from '@walletconnect/client';
+import { PublicKey, Transaction } from '@solana/web3.js';
+import WalletConnectClient, { SignClient } from '@walletconnect/sign-client';
 import QRCodeModal from '@walletconnect/qrcode-modal';
-import type { ClientOptions, ClientTypes, PairingTypes, SessionTypes } from '@walletconnect/types';
-import { ERROR } from '@walletconnect/utils';
+import { EngineTypes, SessionTypes, SignClientTypes } from '@walletconnect/types';
+import { getSdkError, parseAccountId } from '@walletconnect/utils';
 import base58 from 'bs58';
-import { serialiseTransaction } from 'solana-wallet';
 
 export enum WalletConnectChainID {
     Mainnet = 'solana:4sGjMW1sUnHzSxGspuhpqLDx6wiyjNtZ',
@@ -33,9 +32,30 @@ export enum WalletConnectRPCMethod {
     signMessage = 'solana_signMessage',
 }
 
+const getWalletConnectParams = (chainId: WalletConnectChainID, pairingTopic?: string): EngineTypes.ConnectParams => ({
+    requiredNamespaces: {
+        solana: {
+            chains: [chainId],
+            methods: [WalletConnectRPCMethod.signTransaction, WalletConnectRPCMethod.signMessage],
+            events: [],
+        },
+    },
+    pairingTopic,
+});
+
+const getChainId = (network: WalletAdapterNetwork): WalletConnectChainID => {
+    switch (network) {
+        case WalletAdapterNetwork.Mainnet:
+            return WalletConnectChainID.Mainnet;
+        case WalletAdapterNetwork.Devnet:
+        default:
+            return WalletConnectChainID.Devnet;
+    }
+};
+
 export interface WalletConnectWalletAdapterConfig {
-    options: ClientOptions;
-    params?: ClientTypes.ConnectParams;
+    network: WalletAdapterNetwork;
+    options: SignClientTypes.Options;
 }
 
 export const WalletConnectWalletName = 'WalletConnect' as WalletName;
@@ -48,25 +68,20 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
 
     private _publicKey: PublicKey | null;
     private _connecting: boolean;
-    private _options: ClientOptions;
-    private _params: ClientTypes.ConnectParams;
+    private _options: SignClientTypes.Options;
     private _client: WalletConnectClient | undefined;
-    private _session: SessionTypes.Created | undefined;
+    private _session: SessionTypes.Struct | undefined;
     private _readyState: WalletReadyState =
         typeof window === 'undefined' ? WalletReadyState.Unsupported : WalletReadyState.Loadable;
+    private _network: WalletAdapterNetwork;
 
     constructor(config: WalletConnectWalletAdapterConfig) {
         super();
 
         this._publicKey = null;
         this._connecting = false;
+        this._network = config.network || WalletAdapterNetwork.Devnet;
         this._options = config.options;
-        this._params = config.params || {
-            permissions: {
-                blockchain: { chains: [WalletConnectChainID.Mainnet, WalletConnectChainID.Devnet] },
-                jsonrpc: { methods: [WalletConnectRPCMethod.signTransaction, WalletConnectRPCMethod.signMessage] },
-            },
-        };
     }
 
     get publicKey(): PublicKey | null {
@@ -89,74 +104,48 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
             this._connecting = true;
 
             let client: WalletConnectClient;
-            let session: SessionTypes.Settled;
+            let session: SessionTypes.Struct;
             try {
                 client = await WalletConnectClient.init(this._options);
 
-                // eslint-disable-next-line no-async-promise-executor
-                session = await new Promise<SessionTypes.Settled>(async (resolve, reject) => {
-                    if (client.session.topics.length) {
-                        const _session = await client.session.get(client.session.topics[0]);
-                        if (_session) {
-                            resolve(_session);
-                            return;
-                        }
-                    }
+                const pairings = client.pairing.getAll({ active: true });
+                // Prototypically, the user should be prompted to either:
+                // - Connect to a previously active pairing
+                // - Choose a new pairing
+                // There doesn't seem to be a WalletConnect-provided UI for this like there exists for the QRCode modal, though,
+                // and pushing this into user-land would be way too much
+                // If we decide to try and pair automatically, the UI will hang waiting for a pairing that might not complete
+                // const lastActivePairing = pairings.length ? pairings[pairings.length - 1].topic : undefined;
+                const lastActivePairing = undefined;
 
-                    async function onPairingProposal(proposal: PairingTypes.Proposal) {
-                        const { uri } = proposal.signal.params;
-                        QRCodeModal.open(uri, () => {
-                            cleanup();
-                            reject(new WalletWindowClosedError());
-                        });
-                    }
+                const { uri, approval } = await client.connect(
+                    getWalletConnectParams(getChainId(this._network), lastActivePairing)
+                );
 
-                    async function onSessionProposal(proposal: SessionTypes.Proposal) {
-                        console.log('onSessionProposal', proposal);
-                    }
+                if (uri) {
+                    QRCodeModal.open(uri, () => {
+                        throw new WalletWindowClosedError();
+                    });
+                }
 
-                    async function onSessionUpdated(updated: SessionTypes.Settled) {
-                        console.log('onSessionUpdated', updated);
-                        resolve(updated);
-                    }
+                session = await approval();
 
-                    function cleanup() {
-                        client.off(CLIENT_EVENTS.pairing.proposal, onPairingProposal);
-                        client.off(CLIENT_EVENTS.session.proposal, onSessionProposal);
-                        client.off(CLIENT_EVENTS.session.updated, onSessionUpdated);
-                    }
-
-                    try {
-                        client.on(CLIENT_EVENTS.pairing.proposal, onPairingProposal);
-                        client.on(CLIENT_EVENTS.session.proposal, onSessionProposal);
-                        client.on(CLIENT_EVENTS.session.updated, onSessionUpdated);
-
-                        const s = await client.connect(this._params);
-                        resolve(s);
-                    } catch (error: any) {
-                        cleanup();
-                        reject(error);
-                    }
-                });
             } catch (error: any) {
                 if (error instanceof WalletError) throw error;
                 throw new WalletConnectionError(error?.message, error);
             }
 
-            if (!session.state.accounts.length) throw new WalletAccountError();
-
-            const match = session.state.accounts[0].match(/:([0-9a-zA-Z]+)$/);
-            if (!match) throw new WalletAccountError();
-            const account = match[1];
+            if (!session.namespaces.solana.accounts.length) throw new WalletAccountError();
 
             let publicKey: PublicKey;
             try {
-                publicKey = new PublicKey(account);
+                const { address } = parseAccountId(session.namespaces.solana.accounts[0]);
+                publicKey = new PublicKey(address);
             } catch (error: any) {
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
-            client.on(CLIENT_EVENTS.session.deleted, this._disconnected);
+            client.on('session_delete', this._disconnected);
 
             this._publicKey = publicKey;
             this._client = client;
@@ -175,15 +164,14 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
 
     async disconnect(): Promise<void> {
         const client = this._client;
-        if (client) {
+        if (client && this._session) {
             this._publicKey = null;
             this._client = undefined;
 
             try {
                 await client.disconnect({
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    topic: this._session!.topic,
-                    reason: ERROR.USER_DISCONNECTED.format(),
+                    topic: this._session.topic,
+                    reason: getSdkError('USER_DISCONNECTED'),
                 });
             } catch (error: any) {
                 this.emit('error', new WalletDisconnectionError(error?.message, error));
@@ -200,15 +188,14 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
             const client = this._client;
             const publicKey = this._publicKey;
             const session = this._session;
+
             if (!client || !publicKey || !session) throw new WalletNotConnectedError();
 
             try {
                 const { signature } = await client.request({
+                    chainId: getChainId(this._network),
                     topic: session.topic,
-                    request: {
-                        method: WalletConnectRPCMethod.signTransaction,
-                        params: serialiseTransaction(transaction),
-                    },
+                    request: { method: WalletConnectRPCMethod.signTransaction, params: { ...transaction } },
                 });
 
                 transaction.addSignature(publicKey, base58.decode(signature));
@@ -240,19 +227,20 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
             const client = this._client;
             const publicKey = this._publicKey;
             const session = this._session;
+
             if (!client || !publicKey || !session) throw new WalletNotConnectedError();
 
             try {
                 const { signature } = await client.request({
+                    // This isn't strictly necessary for Solana, but is a required parameter for this function.
+                    chainId: getChainId(this._network),
                     topic: session.topic,
                     request: {
                         method: WalletConnectRPCMethod.signMessage,
-                        params: {
-                            pubkey: publicKey.toString(),
-                            message: base58.encode(message),
-                        },
+                        params: { pubkey: publicKey.toString(), message: base58.encode(message) },
                     },
                 });
+
                 return base58.decode(signature);
             } catch (error: any) {
                 throw new WalletSignMessageError(error?.message, error);
@@ -266,7 +254,7 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
     private _disconnected = () => {
         const client = this._client;
         if (client) {
-            client.off(CLIENT_EVENTS.session.deleted, this._disconnected);
+            client.off('session_delete', this._disconnected);
 
             this._publicKey = null;
             this._client = undefined;
