@@ -32,12 +32,11 @@
         "@solana/web3.js": "^1.50.1"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.9.7",
+        "@solana/wallet-adapter-base": "^0.9.9",
         "@walletconnect/qrcode-modal": "^2.0.0-alpha.20",
-        "@walletconnect/sign-client": "2.0.0-beta.102-6a30ee7.0",
-        "@walletconnect/utils": "^2.0.0-beta.102",
-        "better-sqlite3": "^7.6.2",
-        "solana-wallet": "^1.0.1"
+        "@walletconnect/sign-client": "2.0.0-rc.1",
+        "@walletconnect/utils": "2.0.0-rc.1",
+        "better-sqlite3": "^7.6.2"
     },
     "devDependencies": {
         "@solana/web3.js": "^1.50.1",
