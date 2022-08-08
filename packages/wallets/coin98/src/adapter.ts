@@ -1,8 +1,9 @@
+import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
     WalletAccountError,
-    WalletName,
+    WalletDisconnectionError,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
@@ -10,7 +11,8 @@ import {
     WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import type { Transaction } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 import bs58 from 'bs58';
 
 interface Coin98Wallet {
@@ -94,7 +96,7 @@ export class Coin98WalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.coin98!.sol!;
+            const wallet = window.coin98!.sol!;
 
             let account: string;
             try {
@@ -128,7 +130,11 @@ export class Coin98WalletAdapter extends BaseMessageSignerWalletAdapter {
             this._wallet = null;
             this._publicKey = null;
 
-            await wallet.disconnect();
+            try {
+                await wallet.disconnect();
+            } catch (error: any) {
+                this.emit('error', new WalletDisconnectionError(error?.message, error));
+            }
         }
 
         this.emit('disconnect');

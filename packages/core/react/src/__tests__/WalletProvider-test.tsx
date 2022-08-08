@@ -4,21 +4,17 @@
 
 'use strict';
 
-import {
-    Adapter,
-    BaseWalletAdapter,
-    WalletError,
-    WalletName,
-    WalletNotReadyError,
-    WalletReadyState,
-} from '@solana/wallet-adapter-base';
+import type { Adapter, WalletName } from '@solana/wallet-adapter-base';
+import { BaseWalletAdapter, WalletError, WalletNotReadyError, WalletReadyState } from '@solana/wallet-adapter-base';
 import { PublicKey } from '@solana/web3.js';
 import 'jest-localstorage-mock';
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
 import { createRoot } from 'react-dom/client';
 import { act } from 'react-dom/test-utils';
-import { useWallet, WalletContextState } from '../useWallet';
-import { WalletProvider, WalletProviderProps } from '../WalletProvider';
+import type { WalletContextState } from '../useWallet';
+import { useWallet } from '../useWallet';
+import type { WalletProviderProps } from '../WalletProvider';
+import { WalletProvider } from '../WalletProvider';
 
 type TestRefType = {
     getWalletContextState(): WalletContextState;
@@ -77,6 +73,7 @@ describe('WalletProvider', () => {
             this.connecting = false;
             this.connectedValue = true;
             act(() => {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 this.emit('connect', this.publicKey!);
             });
         });

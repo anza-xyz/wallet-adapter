@@ -1,15 +1,16 @@
+import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseSignerWalletAdapter,
     scopePollingDetectionStrategy,
     WalletAccountError,
-    WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import type { Transaction } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 
 interface SolongWallet {
     currentAccount?: string | null;
@@ -83,7 +84,7 @@ export class SolongWalletAdapter extends BaseSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.solong!;
+            const wallet = window.solong!;
 
             let account: string;
             try {

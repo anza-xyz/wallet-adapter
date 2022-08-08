@@ -1,7 +1,9 @@
 import { Button } from '@mui/material';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { PublicKey, Transaction, TransactionInstruction, TransactionSignature } from '@solana/web3.js';
-import { FC, useCallback } from 'react';
+import type { TransactionSignature } from '@solana/web3.js';
+import { PublicKey, Transaction, TransactionInstruction } from '@solana/web3.js';
+import type { FC } from 'react';
+import { useCallback } from 'react';
 import { useNotify } from './notify';
 
 export const SendTransaction: FC = () => {

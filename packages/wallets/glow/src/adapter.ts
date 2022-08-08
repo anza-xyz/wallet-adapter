@@ -1,15 +1,17 @@
+import type {
+    EventEmitter,
+    SendTransactionOptions,
+    WalletAdapterNetwork,
+    WalletName,
+} from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
-    EventEmitter,
     scopePollingDetectionStrategy,
-    SendTransactionOptions,
     WalletAccountError,
-    WalletAdapterNetwork,
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
     WalletError,
-    WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
@@ -18,7 +20,8 @@ import {
     WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import { Connection, PublicKey, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { Connection, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 
 interface GlowWalletEvents {
     connect(...args: unknown[]): unknown;
@@ -125,7 +128,7 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.glowSolana!;
+            const wallet = window.glowSolana!;
 
             try {
                 await wallet.connect();
@@ -188,6 +191,8 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
 
                 const { signers, ...sendOptions } = options;
                 signers?.length && transaction.partialSign(...signers);
+
+                sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;
 
                 const { signature } = await wallet.signAndSendTransaction(transaction, {
                     ...sendOptions,

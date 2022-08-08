@@ -1,14 +1,12 @@
+import type { EventEmitter, SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
-    EventEmitter,
     scopePollingDetectionStrategy,
-    SendTransactionOptions,
     WalletAccountError,
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
     WalletError,
-    WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
@@ -17,7 +15,8 @@ import {
     WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import { Connection, PublicKey, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { Connection, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 
 interface SkyWalletEvents {
     connect(...args: unknown[]): unknown;
@@ -105,7 +104,7 @@ export class SkyWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.skySolana!;
+            const wallet = window.skySolana!;
             try {
                 await wallet.connect();
             } catch (error: any) {
@@ -169,6 +168,8 @@ export class SkyWalletAdapter extends BaseMessageSignerWalletAdapter {
 
                 const { signers, ...sendOptions } = options;
                 signers?.length && transaction.partialSign(...signers);
+
+                sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;
 
                 const { signature } = await wallet.signAndSendTransaction(transaction, sendOptions);
                 return signature;

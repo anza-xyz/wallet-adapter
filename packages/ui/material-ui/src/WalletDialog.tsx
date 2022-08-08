@@ -1,20 +1,21 @@
 import { Close as CloseIcon, ExpandLess as CollapseIcon, ExpandMore as ExpandIcon } from '@mui/icons-material';
+import type { DialogProps, Theme } from '@mui/material';
 import {
     Button,
     Collapse,
     Dialog,
     DialogContent,
-    DialogProps,
     DialogTitle,
     IconButton,
     List,
     ListItem,
     styled,
-    Theme,
 } from '@mui/material';
-import { WalletName, WalletReadyState } from '@solana/wallet-adapter-base';
+import type { WalletName } from '@solana/wallet-adapter-base';
+import { WalletReadyState } from '@solana/wallet-adapter-base';
 import { useWallet } from '@solana/wallet-adapter-react';
-import React, { FC, ReactElement, SyntheticEvent, useCallback, useMemo, useState } from 'react';
+import type { FC, ReactElement, SyntheticEvent } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useWalletDialog } from './useWalletDialog';
 import { WalletListItem } from './WalletListItem';
 
@@ -94,6 +95,7 @@ export const WalletDialog: FC<WalletDialogProps> = ({
 
     const handleClose = useCallback(
         (event: SyntheticEvent, reason?: 'backdropClick' | 'escapeKeyDown') => {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             if (onClose) onClose(event, reason!);
             if (!event.defaultPrevented) setOpen(false);
         },

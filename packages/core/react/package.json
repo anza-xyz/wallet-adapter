@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-react",
-    "version": "0.15.8",
+    "version": "0.15.9",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -11,8 +11,9 @@
     "types": "lib/types/index.d.ts",
     "exports": {
         ".": {
+            "require": "./lib/cjs/index.js",
             "import": "./lib/esm/index.mjs",
-            "require": "./lib/cjs/index.js"
+            "types": "./lib/types/index.d.ts"
         },
         "./package.json": "./package.json"
     },
@@ -31,21 +32,20 @@
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.44.3",
+        "@solana/web3.js": "^1.50.1",
         "react": "*"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.9.9"
+        "@solana/wallet-adapter-base": "^0.9.10"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.44.3",
-        "@types/jest": "^28.1.3",
-        "@types/react": "^18.0.0",
-        "jest": "^28.1.1",
-        "jest-environment-jsdom": "^28.1.2",
+        "@solana/web3.js": "^1.50.1",
+        "@types/jest": "^28.1.6",
+        "@types/react": "^18.0.15",
+        "jest": "^28.1.3",
+        "jest-environment-jsdom": "^28.1.3",
         "jest-localstorage-mock": "^2.4.18",
         "react": "^18.0.0",
-        "ts-jest": "^28.0.5"
-    },
-    "gitHead": "389767182619fc76ab939920f75cc7194ff77340"
+        "ts-jest": "^28.0.7"
+    }
 }

@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-glow",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -10,8 +10,9 @@
     "module": "lib/esm/index.mjs",
     "types": "lib/types/index.d.ts",
     "exports": {
+        "require": "./lib/cjs/index.js",
         "import": "./lib/esm/index.mjs",
-        "require": "./lib/cjs/index.js"
+        "types": "./lib/types/index.d.ts"
     },
     "files": [
         "lib",
@@ -27,13 +28,12 @@
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.44.3"
+        "@solana/web3.js": "^1.50.1"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.9.9"
+        "@solana/wallet-adapter-base": "^0.9.10"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.44.3"
-    },
-    "gitHead": "389767182619fc76ab939920f75cc7194ff77340"
+        "@solana/web3.js": "^1.50.1"
+    }
 }
