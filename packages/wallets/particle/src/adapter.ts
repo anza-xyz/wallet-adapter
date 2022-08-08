@@ -17,12 +17,6 @@ import type { Transaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import type { SolanaWallet, Config, ParticleNetwork } from '@particle-network/solana-wallet';
 
-interface ParticleWindow extends Window {
-    particle?: SolanaWallet;
-}
-
-declare const window: ParticleWindow;
-
 export interface ParticleAdapterConfig {
     particleConfig?: Config;
 }
@@ -85,7 +79,7 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
 
             let wallet: SolanaWallet;
             try {
-                wallet = window.particle || new WalletClass(new ParticleClass(this._config?.particleConfig).auth);
+                wallet = new WalletClass(new ParticleClass(this._config?.particleConfig).auth);
             } catch (error: any) {
                 throw new WalletConfigError(error?.message, error);
             }
