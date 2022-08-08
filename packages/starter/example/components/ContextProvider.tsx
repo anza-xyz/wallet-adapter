@@ -6,7 +6,7 @@ import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { WalletDialogProvider as MaterialUIWalletDialogProvider } from '@solana/wallet-adapter-material-ui';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider as ReactUIWalletModalProvider } from '@solana/wallet-adapter-react-ui';
-import { WalletConnectWalletAdapter } from '@solana/wallet-adapter-walletconnect';
+import { FakeWalletAdapter } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 import { SnackbarProvider, useSnackbar } from 'notistack';
 import type { FC, ReactNode } from 'react';
@@ -59,20 +59,15 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
     const wallets = useMemo(
         () => [
-            new WalletConnectWalletAdapter({
-                network,
-                options: {
-                    relayUrl: 'wss://relay.walletconnect.com',
-                    // example WC dapp project ID
-                    projectId: 'e899c82be21d4acca2c8aec45e893598',
-                    metadata: {
-                        name: 'Example Dapp',
-                        description: 'Example Dapp',
-                        url: 'https://github.com/solana-labs/wallet-adapter',
-                        icons: ['https://avatars.githubusercontent.com/u/35608259?s=200'],
-                    },
-                },
-            }),
+            /**
+             * Select the wallets you wish to support, by instantiating wallet adapters here.
+             *
+             * Common adapters can be found in the npm package `@solana/wallet-adapter-wallets`.
+             * That package supports tree shaking and lazy loading -- only the wallets you import
+             * will be compiled into your application, and only the dependencies of wallets that
+             * your users connect to will be loaded.
+             */
+            new FakeWalletAdapter(),
         ],
         []
     );
