@@ -183,6 +183,7 @@ You can use the [wallets](https://github.com/solana-labs/wallet-adapter/tree/mas
 | [neko](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/neko)               | Adapter for [Neko](https://nekowallet.com)            | [`@solana/wallet-adapter-neko`](https://npmjs.com/package/@solana/wallet-adapter-neko)               |
 | [nightly](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/nightly)         | Adapter for [Nightly](https://nightly.app)            | [`@solana/wallet-adapter-nightly`](https://npmjs.com/package/@solana/wallet-adapter-nightly)         |
 | [nufi](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/nufi)               | Adapter for [NuFi](https://nu.fi)                     | [`@solana/wallet-adapter-nufi`](https://npmjs.com/package/@solana/wallet-adapter-nufi)               |
+| [particle](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/particle)       | Adapter for [Particle](https://particle.network/)     | [`@solana/wallet-adapter-particle`](https://npmjs.com/package/@solana/wallet-adapter-particle)    |
 | [phantom](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/phantom)         | Adapter for [Phantom](https://phantom.app)            | [`@solana/wallet-adapter-phantom`](https://npmjs.com/package/@solana/wallet-adapter-phantom)         |
 | [safepal](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/safepal)         | Adapter for [SafePal](https://safepal.io)             | [`@solana/wallet-adapter-safepal`](https://npmjs.com/package/@solana/wallet-adapter-safepal)         |
 | [saifu](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/saifu)             | Adapter for [Saifu](https://saifuwallet.com)          | [`@solana/wallet-adapter-saifu`](https://npmjs.com/package/@solana/wallet-adapter-safepal)           |
@@ -198,7 +199,6 @@ You can use the [wallets](https://github.com/solana-labs/wallet-adapter/tree/mas
 | [tokenpocket](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/tokenpocket) | Adapter for [TokenPocket](https://tokenpocket.pro)    | [`@solana/wallet-adapter-tokenpocket`](https://npmjs.com/package/@solana/wallet-adapter-tokenpocket) |
 | [torus](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/torus)             | Adapter for [Torus](https://tor.us)                   | [`@solana/wallet-adapter-torus`](https://npmjs.com/package/@solana/wallet-adapter-torus)             |
 | [trust](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/trust)             | Adapter for [Trust Wallet](https://trustwallet.com/)  | [`@solana/wallet-adapter-trust`](https://npmjs.com/package/@solana/wallet-adapter-trust)             |
-
 
 ### UI Components
 These packages provide components for common UI frameworks.
