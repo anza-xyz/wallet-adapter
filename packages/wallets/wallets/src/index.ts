@@ -20,7 +20,6 @@ export * from '@solana/wallet-adapter-mathwallet';
 export * from '@solana/wallet-adapter-neko';
 export * from '@solana/wallet-adapter-nightly';
 export * from '@solana/wallet-adapter-nufi';
-export * from '@solana/wallet-adapter-particle';
 export * from '@solana/wallet-adapter-phantom';
 export * from '@solana/wallet-adapter-safepal';
 export * from '@solana/wallet-adapter-saifu';
