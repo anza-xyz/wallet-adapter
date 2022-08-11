@@ -3786,6 +3786,23 @@
     chrome-trace-event "^1.0.2"
     nullthrows "^1.1.1"
 
+"@particle-network/auth@^0.4.16":
+  version "0.4.17"
+  resolved "https://registry.yarnpkg.com/@particle-network/auth/-/auth-0.4.17.tgz#f0c869d6d0b8becc47de688e024189502445cc06"
+  integrity sha512-57MHeenomEOUx9RiXyVCKBtR0UNbb8EL9atR4Z+Yc79kqYDIru2qEEdnScNFZ9VmI/XomQ4rtbSzegx3P9uagA==
+  dependencies:
+    crypto-js "^4.1.1"
+    uuid "^8.3.2"
+
+"@particle-network/solana-wallet@^0.4.7":
+  version "0.4.7"
+  resolved "https://registry.yarnpkg.com/@particle-network/solana-wallet/-/solana-wallet-0.4.7.tgz#30b7dce2314e4564e27c7609c6b5556ceebf894c"
+  integrity sha512-nd4dHSESVEVOsjrnhBm6AX6qZiqBXBSeOQR5tO7Y/LQJ62TkcdGZSCTyEIPT/KboTZu37/Z6/JUT1T/1J8MM/w==
+  dependencies:
+    "@particle-network/auth" "^0.4.16"
+    "@solana/web3.js" "^1.43.3"
+    bs58 "^5.0.0"
+
 "@pedrouid/environment@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@pedrouid/environment/-/environment-1.0.1.tgz#858f0f8a057340e0b250398b75ead77d6f4342ec"
