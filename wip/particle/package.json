@@ -27,13 +27,13 @@
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.43.3"
+        "@solana/web3.js": "^1.50.1"
     },
     "dependencies": {
         "@particle-network/solana-wallet": "^0.4.7",
-        "@solana/wallet-adapter-base": "^0.9.4"
+        "@solana/wallet-adapter-base": "^0.9.10"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.43.3"
+        "@solana/web3.js": "^1.50.1"
     }
 }
