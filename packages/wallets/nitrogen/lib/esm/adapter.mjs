@@ -1,4 +1,4 @@
-import { BaseMessageSignerWalletAdapter, WalletAccountError, WalletConnectionError, WalletError, WalletNotConnectedError, WalletNotReadyError, WalletPublicKeyError, WalletReadyState, WalletSignMessageError, WalletSignTransactionError, scopePollingDetectionStrategy, } from '@solana/wallet-adapter-base';
+import { BaseMessageSignerWalletAdapter, scopePollingDetectionStrategy, WalletConnectionError, WalletError, WalletNotConnectedError, WalletNotReadyError, WalletPublicKeyError, WalletReadyState, WalletSignMessageError, WalletSignTransactionError } from '@solana/wallet-adapter-base';
 import { PublicKey } from '@solana/web3.js';
 import bs58 from 'bs58';
 export const NitrogenWalletName = 'Nitrogen';
@@ -55,7 +55,18 @@ export class NitrogenWalletAdapter extends BaseMessageSignerWalletAdapter {
                     await new Promise((resolve, reject) => {
                         wallet.connect()
                             .then(({ publicKey }) => {
-                            wallet.publicKey = publicKey;
+                            try {
+                                this._publicKey = new PublicKey(publicKey);
+                            }
+                            catch (error) {
+                                throw new WalletPublicKeyError(error === null || error === void 0 ? void 0 : error.message, error);
+                            }
+                            this._wallet = {
+                                ...wallet,
+                                publicKey
+                            };
+                            this._wallet.isConnected = true;
+                            this.emit('connect', this._publicKey);
                             resolve();
                         })
                             .catch((reason) => {
@@ -69,19 +80,6 @@ export class NitrogenWalletAdapter extends BaseMessageSignerWalletAdapter {
                     throw new WalletConnectionError(error === null || error === void 0 ? void 0 : error.message, error);
                 }
             }
-            if (!wallet.publicKey)
-                throw new WalletAccountError();
-            let publicKey;
-            try {
-                publicKey = new PublicKey(wallet.publicKey);
-            }
-            catch (error) {
-                throw new WalletPublicKeyError(error === null || error === void 0 ? void 0 : error.message, error);
-            }
-            this._wallet = wallet;
-            this._publicKey = publicKey;
-            this._wallet.isConnected = true;
-            this.emit('connect', publicKey);
         }
         catch (error) {
             this.emit('error', error);
@@ -109,9 +107,10 @@ export class NitrogenWalletAdapter extends BaseMessageSignerWalletAdapter {
                     message: bs58.encode(transaction.serializeMessage()),
                     pubkey: this.publicKey.toString(),
                 });
-                if (signature) {
-                    transaction.addSignature(this.publicKey, bs58.decode(signature));
+                if (!signature) {
+                    throw new WalletSignTransactionError();
                 }
+                transaction.addSignature(this.publicKey, bs58.decode(signature));
                 return transaction;
             }
             catch (error) {
@@ -126,21 +125,23 @@ export class NitrogenWalletAdapter extends BaseMessageSignerWalletAdapter {
     async signAllTransactions(transactions) {
         try {
             const wallet = this._wallet;
-            if (!wallet || !this.publicKey)
+            if (!wallet)
                 throw new WalletNotConnectedError();
             try {
-                const signatures = await wallet.signTransaction(transactions.map((transaction) => {
-                    var _a;
-                    return ({
+                const signatures = await wallet.signAllTransactions(transactions.map((transaction) => {
+                    if (!this.publicKey)
+                        throw new WalletNotConnectedError();
+                    return {
                         message: bs58.encode(transaction.serializeMessage()),
-                        pubkey: (_a = this.publicKey) === null || _a === void 0 ? void 0 : _a.toString(),
-                    });
+                        pubkey: this.publicKey.toString(),
+                    };
                 }));
                 if (signatures.length) {
                     transactions.forEach((transaction, i) => {
-                        if (this.publicKey) {
-                            transaction.addSignature(this.publicKey, bs58.decode(signatures[i]));
+                        if (!signatures[i] || !this.publicKey) {
+                            throw new WalletSignTransactionError();
                         }
+                        transaction.addSignature(this.publicKey, bs58.decode(signatures[i].signature));
                     });
                 }
                 return transactions;
@@ -155,17 +156,19 @@ export class NitrogenWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
     async signMessage(message) {
-        var _a;
         try {
             const wallet = this._wallet;
-            if (!wallet)
+            if (!wallet || !this.publicKey)
                 throw new WalletNotConnectedError();
             try {
                 const { signature } = await wallet.signMessage({
-                    message,
-                    pubkey: (_a = this.publicKey) === null || _a === void 0 ? void 0 : _a.toString(),
+                    message: bs58.encode(message),
+                    pubkey: this.publicKey.toString(),
                 });
-                return signature;
+                if (!signature) {
+                    throw new WalletSignTransactionError();
+                }
+                return bs58.decode(signature);
             }
             catch (error) {
                 throw new WalletSignMessageError(error === null || error === void 0 ? void 0 : error.message, error);

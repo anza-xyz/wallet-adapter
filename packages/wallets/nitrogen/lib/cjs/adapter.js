@@ -71,7 +71,15 @@ class NitrogenWalletAdapter extends wallet_adapter_base_1.BaseMessageSignerWalle
                         yield new Promise((resolve, reject) => {
                             wallet.connect()
                                 .then(({ publicKey }) => {
-                                wallet.publicKey = publicKey;
+                                try {
+                                    this._publicKey = new web3_js_1.PublicKey(publicKey);
+                                }
+                                catch (error) {
+                                    throw new wallet_adapter_base_1.WalletPublicKeyError(error === null || error === void 0 ? void 0 : error.message, error);
+                                }
+                                this._wallet = Object.assign(Object.assign({}, wallet), { publicKey });
+                                this._wallet.isConnected = true;
+                                this.emit('connect', this._publicKey);
                                 resolve();
                             })
                                 .catch((reason) => {
@@ -85,19 +93,6 @@ class NitrogenWalletAdapter extends wallet_adapter_base_1.BaseMessageSignerWalle
                         throw new wallet_adapter_base_1.WalletConnectionError(error === null || error === void 0 ? void 0 : error.message, error);
                     }
                 }
-                if (!wallet.publicKey)
-                    throw new wallet_adapter_base_1.WalletAccountError();
-                let publicKey;
-                try {
-                    publicKey = new web3_js_1.PublicKey(wallet.publicKey);
-                }
-                catch (error) {
-                    throw new wallet_adapter_base_1.WalletPublicKeyError(error === null || error === void 0 ? void 0 : error.message, error);
-                }
-                this._wallet = wallet;
-                this._publicKey = publicKey;
-                this._wallet.isConnected = true;
-                this.emit('connect', publicKey);
             }
             catch (error) {
                 this.emit('error', error);
@@ -129,9 +124,10 @@ class NitrogenWalletAdapter extends wallet_adapter_base_1.BaseMessageSignerWalle
                         message: bs58_1.default.encode(transaction.serializeMessage()),
                         pubkey: this.publicKey.toString(),
                     });
-                    if (signature) {
-                        transaction.addSignature(this.publicKey, bs58_1.default.decode(signature));
+                    if (!signature) {
+                        throw new wallet_adapter_base_1.WalletSignTransactionError();
                     }
+                    transaction.addSignature(this.publicKey, bs58_1.default.decode(signature));
                     return transaction;
                 }
                 catch (error) {
@@ -148,21 +144,23 @@ class NitrogenWalletAdapter extends wallet_adapter_base_1.BaseMessageSignerWalle
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const wallet = this._wallet;
-                if (!wallet || !this.publicKey)
+                if (!wallet)
                     throw new wallet_adapter_base_1.WalletNotConnectedError();
                 try {
-                    const signatures = yield wallet.signTransaction(transactions.map((transaction) => {
-                        var _a;
-                        return ({
+                    const signatures = yield wallet.signAllTransactions(transactions.map((transaction) => {
+                        if (!this.publicKey)
+                            throw new wallet_adapter_base_1.WalletNotConnectedError();
+                        return {
                             message: bs58_1.default.encode(transaction.serializeMessage()),
-                            pubkey: (_a = this.publicKey) === null || _a === void 0 ? void 0 : _a.toString(),
-                        });
+                            pubkey: this.publicKey.toString(),
+                        };
                     }));
                     if (signatures.length) {
                         transactions.forEach((transaction, i) => {
-                            if (this.publicKey) {
-                                transaction.addSignature(this.publicKey, bs58_1.default.decode(signatures[i]));
+                            if (!signatures[i] || !this.publicKey) {
+                                throw new wallet_adapter_base_1.WalletSignTransactionError();
                             }
+                            transaction.addSignature(this.publicKey, bs58_1.default.decode(signatures[i].signature));
                         });
                     }
                     return transactions;
@@ -178,18 +176,20 @@ class NitrogenWalletAdapter extends wallet_adapter_base_1.BaseMessageSignerWalle
         });
     }
     signMessage(message) {
-        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const wallet = this._wallet;
-                if (!wallet)
+                if (!wallet || !this.publicKey)
                     throw new wallet_adapter_base_1.WalletNotConnectedError();
                 try {
                     const { signature } = yield wallet.signMessage({
-                        message,
-                        pubkey: (_a = this.publicKey) === null || _a === void 0 ? void 0 : _a.toString(),
+                        message: bs58_1.default.encode(message),
+                        pubkey: this.publicKey.toString(),
                     });
-                    return signature;
+                    if (!signature) {
+                        throw new wallet_adapter_base_1.WalletSignTransactionError();
+                    }
+                    return bs58_1.default.decode(signature);
                 }
                 catch (error) {
                     throw new wallet_adapter_base_1.WalletSignMessageError(error === null || error === void 0 ? void 0 : error.message, error);
