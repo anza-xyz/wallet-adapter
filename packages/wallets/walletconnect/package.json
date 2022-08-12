@@ -33,16 +33,10 @@
     },
     "dependencies": {
         "@jnwng/walletconnect-solana": "0.0.0-alpha.0",
-        "@solana/wallet-adapter-base": "^0.9.9",
-        "@walletconnect/qrcode-modal": "^2.0.0-alpha.20",
-        "@walletconnect/sign-client": "2.0.0-rc.1",
-        "@walletconnect/utils": "2.0.0-rc.1",
-        "better-sqlite3": "^7.6.2"
+        "@solana/wallet-adapter-base": "^0.9.9"
     },
     "devDependencies": {
         "@solana/web3.js": "^1.50.1",
-        "@types/pino": "^6.3.11",
-        "@walletconnect/types": "2.0.0-rc.1",
         "shx": "^0.3.4"
     }
 }
