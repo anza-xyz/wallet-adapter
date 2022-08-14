@@ -70,12 +70,12 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
             ? WalletReadyState.Unsupported
             : WalletReadyState.NotDetected;
 
-    constructor(_config: GlowWalletAdapterConfig = {}) {
+    constructor(config: GlowWalletAdapterConfig = {}) {
         super();
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
-        this._network = _config.network ?? null;
+        this._network = config.network || null;
 
         if (this._readyState !== WalletReadyState.Unsupported) {
             const handler = (event: MessageEvent<any>) => {
