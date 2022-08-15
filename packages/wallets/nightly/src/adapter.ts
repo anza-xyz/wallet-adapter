@@ -66,15 +66,11 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
         }
     }
 
-    get connected(): boolean {
-        return this._connected;
-    }
-
-    get connecting(): boolean {
+    get connecting() {
         return this._connecting;
     }
 
-    get readyState(): WalletReadyState {
+    get readyState() {
         return this._readyState;
     }
 
@@ -82,7 +78,7 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
         return this._publicKey;
     }
 
-    async connect() {
+    async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
             if (this._readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
@@ -120,7 +116,7 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
         }
     }
 
-    async disconnect() {
+    async disconnect(): Promise<void> {
         const wallet = this._wallet;
         if (wallet) {
             this._publicKey = null;

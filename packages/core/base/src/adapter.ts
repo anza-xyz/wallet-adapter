@@ -77,7 +77,7 @@ export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents
     abstract publicKey: PublicKey | null;
     abstract connecting: boolean;
 
-    get connected(): boolean {
+    get connected() {
         return !!this.publicKey;
     }
 

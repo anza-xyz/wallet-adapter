@@ -52,19 +52,19 @@ export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
         this._params = params;
     }
 
-    get publicKey(): PublicKey | null {
+    get publicKey() {
         return this._publicKey;
     }
 
-    get connecting(): boolean {
+    get connecting() {
         return this._connecting;
     }
 
-    get connected(): boolean {
+    get connected() {
         return !!this._wallet?.isLoggedIn;
     }
 
-    get readyState(): WalletReadyState {
+    get readyState() {
         return this._readyState;
     }
 

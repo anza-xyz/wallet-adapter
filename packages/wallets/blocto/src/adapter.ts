@@ -47,15 +47,15 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
         this._network = config.network || WalletAdapterNetwork.Mainnet;
     }
 
-    get publicKey(): PublicKey | null {
+    get publicKey() {
         return this._publicKey;
     }
 
-    get connecting(): boolean {
+    get connecting() {
         return this._connecting;
     }
 
-    get readyState(): WalletReadyState {
+    get readyState() {
         return this._readyState;
     }
 

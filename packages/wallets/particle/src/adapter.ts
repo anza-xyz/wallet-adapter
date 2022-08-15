@@ -44,19 +44,15 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
         this._config = config;
     }
 
-    get publicKey(): PublicKey | null {
+    get publicKey() {
         return this._publicKey;
     }
 
-    get connecting(): boolean {
+    get connecting() {
         return this._connecting;
     }
 
-    get connected(): boolean {
-        return !!this._publicKey;
-    }
-
-    get readyState(): WalletReadyState {
+    get readyState() {
         return this._readyState;
     }
 

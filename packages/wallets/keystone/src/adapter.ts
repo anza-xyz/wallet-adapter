@@ -79,7 +79,7 @@ export class KeystoneWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    get connecting(): boolean {
+    get connecting() {
         return this._connecting;
     }
 
@@ -88,14 +88,15 @@ export class KeystoneWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._keyring = null;
             this._publicKey = null;
         }
+
         this.emit('disconnect');
     }
 
-    get publicKey(): PublicKey | null {
+    get publicKey() {
         return this._publicKey;
     }
 
-    get readyState(): WalletReadyState {
+    get readyState() {
         return this._readyState;
     }
 
