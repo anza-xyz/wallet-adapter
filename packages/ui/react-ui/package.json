@@ -1,6 +1,6 @@
 {
     "name": "@fractalwagmi/wallet-adapter-react-ui",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "author": "Dan Borstelmann",
     "repository": "https://github.com/fractalwagmi/wallet-adapter",
     "license": "Apache-2.0",
