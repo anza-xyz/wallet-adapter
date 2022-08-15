@@ -138,9 +138,10 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                transaction = await this.prepareTransaction(transaction, connection);
+                const { signers, ...sendOptions } = options;
 
-                const { signers } = options;
+                transaction = await this.prepareTransaction(transaction, connection, sendOptions);
+
                 if (signers?.length) {
                     transaction = await wallet.convertToProgramWalletTransaction(transaction);
                     transaction.partialSign(...signers);

@@ -63,7 +63,7 @@ export class BackpackWalletAdapter extends BaseMessageSignerWalletAdapter {
             ? WalletReadyState.Unsupported
             : WalletReadyState.NotDetected;
 
-    constructor(_config: BackpackWalletAdapterConfig = {}) {
+    constructor(config: BackpackWalletAdapterConfig = {}) {
         super();
         this._connecting = false;
         this._wallet = null;

@@ -89,12 +89,18 @@ export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents
         options?: SendTransactionOptions
     ): Promise<TransactionSignature>;
 
-    protected async prepareTransaction(transaction: Transaction, connection: Connection): Promise<Transaction> {
+    protected async prepareTransaction(
+        transaction: Transaction,
+        connection: Connection,
+        options: SendOptions = {}
+    ): Promise<Transaction> {
         const publicKey = this.publicKey;
         if (!publicKey) throw new WalletNotConnectedError();
 
         transaction.feePayer = transaction.feePayer || publicKey;
-        transaction.recentBlockhash = transaction.recentBlockhash || (await connection.getLatestBlockhash()).blockhash;
+        transaction.recentBlockhash =
+            transaction.recentBlockhash ||
+            (await connection.getLatestBlockhash(options?.preflightCommitment)).blockhash;
 
         return transaction;
     }

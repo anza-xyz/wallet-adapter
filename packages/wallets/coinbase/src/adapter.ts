@@ -160,9 +160,10 @@ export class CoinbaseWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                transaction = await this.prepareTransaction(transaction, connection);
-
                 const { signers, ...sendOptions } = options;
+
+                transaction = await this.prepareTransaction(transaction, connection, sendOptions);
+
                 signers?.length && transaction.partialSign(...signers);
 
                 sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;

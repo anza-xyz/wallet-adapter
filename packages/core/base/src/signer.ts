@@ -19,9 +19,10 @@ export abstract class BaseSignerWalletAdapter extends BaseWalletAdapter implemen
         let emit = true;
         try {
             try {
-                transaction = await this.prepareTransaction(transaction, connection);
-
                 const { signers, ...sendOptions } = options;
+
+                transaction = await this.prepareTransaction(transaction, connection, sendOptions);
+
                 signers?.length && transaction.partialSign(...signers);
 
                 transaction = await this.signTransaction(transaction);
