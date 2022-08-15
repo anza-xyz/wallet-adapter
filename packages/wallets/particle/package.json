@@ -30,7 +30,7 @@
         "@solana/web3.js": "^1.50.1"
     },
     "dependencies": {
-        "@particle-network/solana-wallet": "^0.4.7",
+        "@particle-network/solana-wallet": "^0.5.0",
         "@solana/wallet-adapter-base": "^0.9.10"
     },
     "devDependencies": {
