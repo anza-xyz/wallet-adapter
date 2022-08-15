@@ -2,6 +2,7 @@ import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
+    WalletAccountError,
     WalletAdapterNetwork,
     WalletConfigError,
     WalletConnectionError,
@@ -14,7 +15,6 @@ import {
     WalletReadyState,
     WalletSignMessageError,
     WalletSignTransactionError,
-    WalletAccountError,
 } from '@solana/wallet-adapter-base';
 import type { Transaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';

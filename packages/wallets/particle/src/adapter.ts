@@ -1,3 +1,4 @@
+import type { Config, ParticleNetwork, SolanaWallet } from '@particle-network/solana-wallet';
 import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
@@ -15,7 +16,6 @@ import {
 } from '@solana/wallet-adapter-base';
 import type { Transaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
-import type { SolanaWallet, Config, ParticleNetwork } from '@particle-network/solana-wallet';
 
 export interface ParticleAdapterConfig {
     config?: Config;

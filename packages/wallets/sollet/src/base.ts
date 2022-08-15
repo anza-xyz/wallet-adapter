@@ -2,6 +2,7 @@ import type SolWalletAdapter from '@project-serum/sol-wallet-adapter';
 import {
     BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
+    WalletAccountError,
     WalletAdapterNetwork,
     WalletConfigError,
     WalletConnectionError,
@@ -18,7 +19,6 @@ import {
     WalletTimeoutError,
     WalletWindowBlockedError,
     WalletWindowClosedError,
-    WalletAccountError,
 } from '@solana/wallet-adapter-base';
 import type { Transaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
