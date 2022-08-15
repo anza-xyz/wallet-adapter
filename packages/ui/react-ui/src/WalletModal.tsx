@@ -165,18 +165,7 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
                                     </Button>
                                     <div className="fractal-info">
                                         <ul>
-                                            <li>
-                                                Participate in Fractal tournaments live{' '}
-                                                <a
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                    href="https://fractal.is/ev"
-                                                    style={{ color: '#F2059F' }}
-                                                >
-                                                    ev.io
-                                                </a>
-                                                .
-                                            </li>
+                                            <li>Participate in Fractal tournaments live.</li>
                                             <li>Login with Google, Twitter or Discord.</li>
                                             <li>Works on mobile. No download required.</li>
                                             <li>Only you control the keys.</li>
