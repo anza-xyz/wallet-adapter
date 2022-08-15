@@ -37,6 +37,7 @@
     },
     "devDependencies": {
         "@solana/web3.js": "^1.50.1",
+        "@types/pino": "^6.3.11",
         "shx": "^0.3.4"
     }
 }
