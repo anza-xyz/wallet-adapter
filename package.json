@@ -21,6 +21,7 @@
         "build": "lerna run build",
         "test": "lerna run test",
         "publish": "lerna publish from-package",
+        "version": "lerna version --no-git-tag-version --no-push",
         "deploy": "yarn deploy:docs && yarn deploy:example",
         "deploy:docs": "yarn docs && gh-pages --dist docs --dotfiles",
         "deploy:example": "gh-pages --dist packages/starter/example/out --dest example --dotfiles",
