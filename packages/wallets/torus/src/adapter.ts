@@ -44,7 +44,9 @@ export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
             ? WalletReadyState.Unsupported
             : WalletReadyState.Loadable;
 
-    constructor({ params = { showTorusButton: false } }: TorusWalletAdapterConfig = {}) {
+    constructor(
+        { params = { showTorusButton: false } }: TorusWalletAdapterConfig = { params: { showTorusButton: false } }
+    ) {
         super();
         this._connecting = false;
         this._wallet = null;
