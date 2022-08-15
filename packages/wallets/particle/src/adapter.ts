@@ -86,7 +86,7 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
                 throw new WalletConnectionError(error?.message, error);
             }
 
-            const account = wallet.publicKey();
+            const account = wallet.publicKey;
             if (!account) throw new WalletAccountError();
 
             let publicKey: PublicKey;

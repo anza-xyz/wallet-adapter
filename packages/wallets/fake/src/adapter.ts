@@ -45,9 +45,9 @@ export class FakeWalletAdapter extends BaseWalletAdapter {
     }
 
     async sendTransaction(
-        _transaction: Transaction,
-        _connection: Connection,
-        _options: SendTransactionOptions
+        transaction: Transaction,
+        connection: Connection,
+        options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         console.debug(
             'FakeWallet: `sendTransaction()` was called. ' +
