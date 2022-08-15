@@ -31,6 +31,18 @@ export class KeystoneWalletAdapter extends BaseMessageSignerWalletAdapter {
             ? WalletReadyState.Unsupported
             : WalletReadyState.Loadable;
 
+    get publicKey() {
+        return this._publicKey;
+    }
+
+    get connecting() {
+        return this._connecting;
+    }
+
+    get readyState() {
+        return this._readyState;
+    }
+
     constructor(config: KeystoneWalletAdapterConfig = {}) {
         super();
         this._keyring = null;
@@ -79,10 +91,6 @@ export class KeystoneWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    get connecting() {
-        return this._connecting;
-    }
-
     async disconnect(): Promise<void> {
         if (this._keyring) {
             this._keyring = null;
@@ -90,14 +98,6 @@ export class KeystoneWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
 
         this.emit('disconnect');
-    }
-
-    get publicKey() {
-        return this._publicKey;
-    }
-
-    get readyState() {
-        return this._readyState;
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {
