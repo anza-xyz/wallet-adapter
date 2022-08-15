@@ -149,7 +149,7 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
         }
     }
 
-    public async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
+    async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
