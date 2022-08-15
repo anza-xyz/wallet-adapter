@@ -141,29 +141,6 @@ export class LedgerWalletAdapter extends BaseSignerWalletAdapter {
         }
     }
 
-    async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
-        try {
-            const transport = this._transport;
-            const publicKey = this._publicKey;
-            if (!transport || !publicKey) throw new WalletNotConnectedError();
-
-            try {
-                const derivationPath = this._derivationPath;
-                for (const transaction of transactions) {
-                    const signature = await signTransaction(transport, transaction, derivationPath);
-                    transaction.addSignature(publicKey, signature);
-                }
-            } catch (error: any) {
-                throw new WalletSignTransactionError(error?.message, error);
-            }
-
-            return transactions;
-        } catch (error: any) {
-            this.emit('error', error);
-            throw error;
-        }
-    }
-
     private _disconnected = () => {
         const transport = this._transport;
         if (transport) {

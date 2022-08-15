@@ -136,12 +136,4 @@ export class SolongWalletAdapter extends BaseSignerWalletAdapter {
             throw error;
         }
     }
-
-    async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
-        const signedTransactions: Transaction[] = [];
-        for (const transaction of transactions) {
-            signedTransactions.push(await this.signTransaction(transaction));
-        }
-        return signedTransactions;
-    }
 }

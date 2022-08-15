@@ -141,14 +141,6 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
         }
     }
 
-    async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
-        const signed: Transaction[] = [];
-        for (const transaction of transactions) {
-            signed.push(await this.signTransaction(transaction));
-        }
-        return signed;
-    }
-
     async signMessage(message: Uint8Array): Promise<Uint8Array> {
         try {
             if (!this._wallet) {
