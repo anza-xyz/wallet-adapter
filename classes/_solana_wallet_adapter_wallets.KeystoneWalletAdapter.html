@@ -65,7 +65,7 @@
 <a href="_solana_wallet_adapter_wallets.KeystoneWalletAdapter.html#removeAllListeners" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>remove<wbr/>All<wbr/>Listeners</span></a>
 <a href="_solana_wallet_adapter_wallets.KeystoneWalletAdapter.html#removeListener" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>remove<wbr/>Listener</span></a>
 <a href="_solana_wallet_adapter_wallets.KeystoneWalletAdapter.html#sendTransaction" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>send<wbr/>Transaction</span></a>
-<a href="_solana_wallet_adapter_wallets.KeystoneWalletAdapter.html#signAllTransactions" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>sign<wbr/>All<wbr/>Transactions</span></a>
+<a href="_solana_wallet_adapter_wallets.KeystoneWalletAdapter.html#signAllTransactions" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>sign<wbr/>All<wbr/>Transactions</span></a>
 <a href="_solana_wallet_adapter_wallets.KeystoneWalletAdapter.html#signMessage" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>sign<wbr/>Message</span></a>
 <a href="_solana_wallet_adapter_wallets.KeystoneWalletAdapter.html#signTransaction" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>sign<wbr/>Transaction</span></a>
 </div></section></div></details></section></section>
@@ -406,7 +406,7 @@ listeners.</p>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="prepareTransaction" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>prepare<wbr/>Transaction</span><a href="#prepareTransaction" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
-<li class="tsd-signature tsd-anchor-link" id="prepareTransaction.prepareTransaction-1">prepare<wbr/>Transaction<span class="tsd-signature-symbol">(</span>transaction<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Transaction</span>, connection<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Connection</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Transaction</span><span class="tsd-signature-symbol">&gt;</span><a href="#prepareTransaction.prepareTransaction-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="prepareTransaction.prepareTransaction-1">prepare<wbr/>Transaction<span class="tsd-signature-symbol">(</span>transaction<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Transaction</span>, connection<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Connection</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">SendOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Transaction</span><span class="tsd-signature-symbol">&gt;</span><a href="#prepareTransaction.prepareTransaction-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -414,7 +414,9 @@ listeners.</p>
 <li>
 <h5>transaction: <span class="tsd-signature-type">Transaction</span></h5></li>
 <li>
-<h5>connection: <span class="tsd-signature-type">Connection</span></h5></li></ul></div>
+<h5>connection: <span class="tsd-signature-type">Connection</span></h5></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> options: <span class="tsd-signature-type">SendOptions</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Transaction</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Inherited from BaseMessageSignerWalletAdapter.prepareTransaction</p>
 <ul>
@@ -490,10 +492,10 @@ listeners.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Inherited from BaseMessageSignerWalletAdapter.sendTransaction</p>
 <ul>
-<li>Defined in packages/core/base/lib/types/signer.d.ts:10</li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="signAllTransactions" class="tsd-anchor"></a>
+<li>Defined in packages/core/base/lib/types/signer.d.ts:11</li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="signAllTransactions" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>sign<wbr/>All<wbr/>Transactions</span><a href="#signAllTransactions" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 <li class="tsd-signature tsd-anchor-link" id="signAllTransactions.signAllTransactions-1">sign<wbr/>All<wbr/>Transactions<span class="tsd-signature-symbol">(</span>transactions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Transaction</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Transaction</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><a href="#signAllTransactions.signAllTransactions-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
@@ -502,9 +504,9 @@ listeners.</p>
 <li>
 <h5>transactions: <span class="tsd-signature-type">Transaction</span><span class="tsd-signature-symbol">[]</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Transaction</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
-<p>Overrides BaseMessageSignerWalletAdapter.signAllTransactions</p>
+<p>Inherited from BaseMessageSignerWalletAdapter.signAllTransactions</p>
 <ul>
-<li>Defined in packages/wallets/keystone/lib/types/adapter.d.ts:24</li></ul></aside></li></ul></section>
+<li>Defined in packages/core/base/lib/types/signer.d.ts:13</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="signMessage" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>sign<wbr/>Message</span><a href="#signMessage" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -582,6 +584,7 @@ listeners.</p>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_neko.html">@solana/wallet-<wbr/>adapter-<wbr/>neko</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_nightly.html">@solana/wallet-<wbr/>adapter-<wbr/>nightly</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_nufi.html">@solana/wallet-<wbr/>adapter-<wbr/>nufi</a></li>
+<li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_particle.html">@solana/wallet-<wbr/>adapter-<wbr/>particle</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_phantom.html">@solana/wallet-<wbr/>adapter-<wbr/>phantom</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_react.html">@solana/wallet-<wbr/>adapter-<wbr/>react</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_react_ui.html">@solana/wallet-<wbr/>adapter-<wbr/>react-<wbr/>ui</a></li>
@@ -594,10 +597,12 @@ listeners.</p>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_sollet.html">@solana/wallet-<wbr/>adapter-<wbr/>sollet</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_solong.html">@solana/wallet-<wbr/>adapter-<wbr/>solong</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_spot.html">@solana/wallet-<wbr/>adapter-<wbr/>spot</a></li>
+<li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_strike.html">@solana/wallet-<wbr/>adapter-<wbr/>strike</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_tokenary.html">@solana/wallet-<wbr/>adapter-<wbr/>tokenary</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_tokenpocket.html">@solana/wallet-<wbr/>adapter-<wbr/>tokenpocket</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_torus.html">@solana/wallet-<wbr/>adapter-<wbr/>torus</a></li>
 <li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_trust.html">@solana/wallet-<wbr/>adapter-<wbr/>trust</a></li>
+<li class="tsd-kind-module"><a href="../modules/_solana_wallet_adapter_walletconnect.html">@solana/wallet-<wbr/>adapter-<wbr/>walletconnect</a></li>
 <li class="current tsd-kind-module"><a href="../modules/_solana_wallet_adapter_wallets.html">@solana/wallet-<wbr/>adapter-<wbr/>wallets</a></li></ul></li></ul></div></details></nav>
 <nav class="tsd-navigation secondary menu-sticky">
 <ul>
@@ -630,7 +635,7 @@ listeners.</p>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_solana_wallet_adapter_wallets.KeystoneWalletAdapter.html#removeAllListeners" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>remove<wbr/>All<wbr/>Listeners</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="_solana_wallet_adapter_wallets.KeystoneWalletAdapter.html#removeListener" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>remove<wbr/>Listener</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_solana_wallet_adapter_wallets.KeystoneWalletAdapter.html#sendTransaction" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>send<wbr/>Transaction</a></li>
-<li class="tsd-kind-method tsd-parent-kind-class"><a href="_solana_wallet_adapter_wallets.KeystoneWalletAdapter.html#signAllTransactions" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>sign<wbr/>All<wbr/>Transactions</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_solana_wallet_adapter_wallets.KeystoneWalletAdapter.html#signAllTransactions" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>sign<wbr/>All<wbr/>Transactions</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="_solana_wallet_adapter_wallets.KeystoneWalletAdapter.html#signMessage" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>sign<wbr/>Message</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="_solana_wallet_adapter_wallets.KeystoneWalletAdapter.html#signTransaction" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>sign<wbr/>Transaction</a></li></ul></li></ul></nav></div></div>
 <div class="container tsd-generator">
