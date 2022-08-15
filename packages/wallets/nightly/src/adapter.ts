@@ -28,7 +28,7 @@ interface NightlyWindow extends Window {
     };
 }
 
-export const NightlyWalletName = 'Nightly' as WalletName;
+export const NightlyWalletName = 'Nightly' as WalletName<'Nightly'>;
 
 declare const window: NightlyWindow;
 

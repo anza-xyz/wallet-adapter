@@ -39,7 +39,7 @@ declare const window: SpotWindow;
 
 export interface SpotWalletAdapterConfig {}
 
-export const SpotWalletName = 'Spot' as WalletName;
+export const SpotWalletName = 'Spot' as WalletName<'Spot'>;
 
 export class SpotWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = SpotWalletName;

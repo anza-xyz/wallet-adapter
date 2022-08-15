@@ -46,7 +46,7 @@ declare const window: SolanaWindow;
 
 export interface SaifuWalletAdapterConfig {}
 
-export const SaifuWalletName = 'Saifu' as WalletName;
+export const SaifuWalletName = 'Saifu' as WalletName<'Saifu'>;
 
 export class SaifuWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = SaifuWalletName;
