@@ -1,4 +1,5 @@
-import type { Connection, Transaction, TransactionSignature } from '@solana/web3.js';
+import { Connection } from '@solana/web3.js';
+import type { Transaction, TransactionSignature } from '@solana/web3.js';
 import type { SendTransactionOptions, WalletAdapter } from './adapter';
 import { BaseWalletAdapter } from './adapter';
 import { WalletSendTransactionError, WalletSignTransactionError } from './errors';
@@ -47,7 +48,14 @@ export abstract class BaseSignerWalletAdapter extends BaseWalletAdapter implemen
     }
 
     abstract signTransaction(transaction: Transaction): Promise<Transaction>;
-    abstract signAllTransactions(transaction: Transaction[]): Promise<Transaction[]>;
+
+    async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
+        const signedTransactions: Transaction[] = [];
+        for (const transaction of transactions) {
+            signedTransactions.push(await this.signTransaction(transaction));
+        }
+        return signedTransactions;
+    }
 }
 
 export interface MessageSignerWalletAdapterProps {
