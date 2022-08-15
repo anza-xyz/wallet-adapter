@@ -14,8 +14,10 @@ import {
     WalletReadyState,
     WalletSignMessageError,
     WalletSignTransactionError,
+    WalletAccountError,
 } from '@solana/wallet-adapter-base';
-import type { PublicKey, Transaction } from '@solana/web3.js';
+import type { Transaction } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 import type { default as Salmon, SalmonWallet } from 'salmon-adapter-sdk';
 
 interface SalmonWindow extends Window {
@@ -38,6 +40,7 @@ export class SalmonWalletAdapter extends BaseMessageSignerWalletAdapter {
 
     private _connecting: boolean;
     private _wallet: Salmon | null;
+    private _publicKey: PublicKey | null;
     private _network: WalletAdapterNetwork;
     private _readyState: WalletReadyState =
         typeof window === 'undefined' || typeof document === 'undefined'
@@ -49,6 +52,7 @@ export class SalmonWalletAdapter extends BaseMessageSignerWalletAdapter {
         this._network = network;
         this._connecting = false;
         this._wallet = null;
+        this._publicKey = null;
 
         if (this._readyState !== WalletReadyState.Unsupported) {
             scopePollingDetectionStrategy(() => {
@@ -63,7 +67,7 @@ export class SalmonWalletAdapter extends BaseMessageSignerWalletAdapter {
     }
 
     get publicKey() {
-        return this._wallet?.publicKey || null;
+        return this._publicKey;
     }
 
     get connecting() {
@@ -108,13 +112,21 @@ export class SalmonWalletAdapter extends BaseMessageSignerWalletAdapter {
                 }
             }
 
-            if (!wallet.publicKey) throw new WalletPublicKeyError();
+            if (!wallet.publicKey) throw new WalletAccountError();
+
+            let publicKey: PublicKey;
+            try {
+                publicKey = new PublicKey(wallet.publicKey.toBytes());
+            } catch (error: any) {
+                throw new WalletPublicKeyError(error?.message, error);
+            }
 
             wallet.on('disconnect', this._disconnected);
 
             this._wallet = wallet;
+            this._publicKey = publicKey;
 
-            this.emit('connect', wallet.publicKey);
+            this.emit('connect', publicKey);
         } catch (error: any) {
             this.emit('error', error);
             throw error;
@@ -129,6 +141,7 @@ export class SalmonWalletAdapter extends BaseMessageSignerWalletAdapter {
             wallet.off('disconnect', this._disconnected);
 
             this._wallet = null;
+            this._publicKey = null;
 
             try {
                 await wallet.disconnect();
@@ -194,6 +207,7 @@ export class SalmonWalletAdapter extends BaseMessageSignerWalletAdapter {
             wallet.off('disconnect', this._disconnected);
 
             this._wallet = null;
+            this._publicKey = null;
 
             this.emit('error', new WalletDisconnectedError());
             this.emit('disconnect');

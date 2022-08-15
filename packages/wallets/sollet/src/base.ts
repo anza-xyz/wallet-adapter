@@ -18,8 +18,10 @@ import {
     WalletTimeoutError,
     WalletWindowBlockedError,
     WalletWindowClosedError,
+    WalletAccountError,
 } from '@solana/wallet-adapter-base';
-import type { PublicKey, Transaction } from '@solana/web3.js';
+import type { Transaction } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 
 interface SolletWallet {
     postMessage?(...args: unknown[]): unknown;
@@ -43,6 +45,7 @@ export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAda
     protected _timeout: number;
     protected _connecting: boolean;
     protected _wallet: SolWalletAdapter | null;
+    protected _publicKey: PublicKey | null;
     protected _readyState: WalletReadyState =
         typeof window === 'undefined' || typeof document === 'undefined'
             ? WalletReadyState.Unsupported
@@ -56,6 +59,7 @@ export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAda
         this._timeout = timeout;
         this._connecting = false;
         this._wallet = null;
+        this._publicKey = null;
 
         if (this._readyState !== WalletReadyState.Unsupported) {
             if (typeof this._provider === 'string') {
@@ -74,7 +78,7 @@ export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAda
     }
 
     get publicKey() {
-        return this._wallet?.publicKey || null;
+        return this._publicKey;
     }
 
     get connecting() {
@@ -167,13 +171,21 @@ export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAda
                 throw new WalletConnectionError(error?.message, error);
             }
 
-            if (!wallet.publicKey) throw new WalletPublicKeyError();
+            if (!wallet.publicKey) throw new WalletAccountError();
+
+            let publicKey: PublicKey;
+            try {
+                publicKey = new PublicKey(wallet.publicKey.toBytes());
+            } catch (error: any) {
+                throw new WalletPublicKeyError(error?.message, error);
+            }
 
             wallet.on('disconnect', this._disconnected);
 
             this._wallet = wallet;
+            this._publicKey = publicKey;
 
-            this.emit('connect', wallet.publicKey);
+            this.emit('connect', publicKey);
         } catch (error: any) {
             this.emit('error', error);
             throw error;
@@ -188,6 +200,7 @@ export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAda
             wallet.off('disconnect', this._disconnected);
 
             this._wallet = null;
+            this._publicKey = null;
 
             // HACK: sol-wallet-adapter doesn't reliably fulfill its promise or emit an event on disconnect
             const handleDisconnect: (...args: unknown[]) => unknown = (wallet as any).handleDisconnect;
@@ -284,6 +297,7 @@ export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAda
             wallet.off('disconnect', this._disconnected);
 
             this._wallet = null;
+            this._publicKey = null;
 
             this.emit('error', new WalletDisconnectedError());
             this.emit('disconnect');
