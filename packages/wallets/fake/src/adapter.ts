@@ -40,6 +40,7 @@ export class FakeWalletAdapter extends BaseWalletAdapter {
     }
 
     async disconnect(): Promise<void> {
+        this._publicKey = null;
         this.emit('disconnect');
     }
 
