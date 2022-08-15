@@ -1,22 +1,22 @@
+import type { EventEmitter, SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
-    EventEmitter,
-    SendTransactionOptions,
+    scopePollingDetectionStrategy,
     WalletAccountError,
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
     WalletError,
-    WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSendTransactionError,
+    WalletSignMessageError,
     WalletSignTransactionError,
-    WalletWindowClosedError,
-    scopePollingDetectionStrategy,
 } from '@solana/wallet-adapter-base';
-import { Connection, PublicKey, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { Connection, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 
 interface ExodusWalletEvents {
     connect(...args: unknown[]): unknown;
@@ -106,25 +106,12 @@ export class ExodusWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.exodus!.solana!;
+            const wallet = window.exodus!.solana!;
 
             if (!wallet.isConnected) {
                 try {
-                    await new Promise<void>((resolve, reject) => {
-                        const connect = () => {
-                            wallet.off('connect', connect);
-                            resolve();
-                        };
-
-                        wallet.on('connect', connect);
-
-                        wallet.connect().catch((reason: any) => {
-                            wallet.off('connect', connect);
-                            reject(reason);
-                        });
-                    });
+                    await wallet.connect();
                 } catch (error: any) {
-                    if (error instanceof WalletError) throw error;
                     throw new WalletConnectionError(error?.message, error);
                 }
             }
@@ -173,21 +160,31 @@ export class ExodusWalletAdapter extends BaseMessageSignerWalletAdapter {
     async sendTransaction(
         transaction: Transaction,
         connection: Connection,
-        options?: SendTransactionOptions
+        options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
-            // Exodus doesn't handle partial signers, so if they are provided, don't use `signAndSendTransaction`
-            if (wallet && 'signAndSendTransaction' in wallet && !options?.signers) {
-                const { signature } = await wallet.signAndSendTransaction(transaction, options);
+            if (!wallet) throw new WalletNotConnectedError();
+
+            try {
+                const { signers, ...sendOptions } = options;
+
+                transaction = await this.prepareTransaction(transaction, connection, sendOptions);
+
+                signers?.length && transaction.partialSign(...signers);
+
+                sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;
+
+                const { signature } = await wallet.signAndSendTransaction(transaction, sendOptions);
                 return signature;
+            } catch (error: any) {
+                if (error instanceof WalletError) throw error;
+                throw new WalletSendTransactionError(error?.message, error);
             }
         } catch (error: any) {
             this.emit('error', error);
             throw error;
         }
-
-        return await super.sendTransaction(transaction, connection, options);
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {
@@ -231,7 +228,7 @@ export class ExodusWalletAdapter extends BaseMessageSignerWalletAdapter {
                 const { signature } = await wallet.signMessage(message);
                 return signature;
             } catch (error: any) {
-                throw new WalletSignTransactionError(error?.message, error);
+                throw new WalletSignMessageError(error?.message, error);
             }
         } catch (error: any) {
             this.emit('error', error);

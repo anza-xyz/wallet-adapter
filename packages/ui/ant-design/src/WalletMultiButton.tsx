@@ -4,8 +4,10 @@ import {
     SwapOutlined as SwitchIcon,
 } from '@ant-design/icons';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { Button, ButtonProps, Dropdown, Menu } from 'antd';
-import React, { FC, useMemo } from 'react';
+import type { ButtonProps } from 'antd';
+import { Button, Dropdown, Menu } from 'antd';
+import type { FC } from 'react';
+import React, { useMemo } from 'react';
 import { useWalletModal } from './useWalletModal';
 import { WalletConnectButton } from './WalletConnectButton';
 import { WalletIcon } from './WalletIcon';

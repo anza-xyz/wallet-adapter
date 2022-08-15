@@ -1,21 +1,27 @@
+import type {
+    EventEmitter,
+    SendTransactionOptions,
+    WalletAdapterNetwork,
+    WalletName,
+} from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
-    EventEmitter,
     scopePollingDetectionStrategy,
-    SendTransactionOptions,
     WalletAccountError,
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
     WalletError,
-    WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSendTransactionError,
+    WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import { Connection, PublicKey, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { Connection, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 
 interface GlowWalletEvents {
     connect(...args: unknown[]): unknown;
@@ -26,11 +32,11 @@ interface GlowWallet extends EventEmitter<GlowWalletEvents> {
     isGlow?: boolean;
     publicKey?: { toBytes(): Uint8Array };
     isConnected: boolean;
-    signTransaction(transaction: Transaction): Promise<Transaction>;
-    signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
+    signTransaction(transaction: Transaction, network?: WalletAdapterNetwork | null): Promise<Transaction>;
+    signAllTransactions(transactions: Transaction[], network?: WalletAdapterNetwork | null): Promise<Transaction[]>;
     signAndSendTransaction(
         transaction: Transaction,
-        options?: SendOptions
+        options?: SendOptions & { network?: WalletAdapterNetwork | null }
     ): Promise<{ signature: TransactionSignature }>;
     signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
     connect(): Promise<void>;
@@ -43,7 +49,9 @@ interface GlowWindow extends Window {
 
 declare const window: GlowWindow;
 
-export interface GlowWalletAdapterConfig {}
+export interface GlowWalletAdapterConfig {
+    network?: WalletAdapterNetwork;
+}
 
 export const GlowWalletName = 'Glow' as WalletName<'Glow'>;
 
@@ -56,16 +64,19 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
     private _connecting: boolean;
     private _wallet: GlowWallet | null;
     private _publicKey: PublicKey | null;
+    private _network: WalletAdapterNetwork | null;
     private _readyState: WalletReadyState =
         typeof window === 'undefined' || typeof document === 'undefined'
             ? WalletReadyState.Unsupported
             : WalletReadyState.NotDetected;
 
-    constructor(_config: GlowWalletAdapterConfig = {}) {
+    constructor(config: GlowWalletAdapterConfig = {}) {
         super();
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
+        this._network = config.network || null;
+
         if (this._readyState !== WalletReadyState.Unsupported) {
             const handler = (event: MessageEvent<any>) => {
                 if (typeof event.data === 'object' && event.data.__glow_loaded) {
@@ -117,20 +128,15 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.glowSolana!;
+            const wallet = window.glowSolana!;
 
             try {
                 await wallet.connect();
             } catch (error: any) {
-                if (error instanceof WalletError) {
-                    throw error;
-                }
                 throw new WalletConnectionError(error?.message, error);
             }
 
-            if (!wallet.publicKey) {
-                throw new WalletAccountError();
-            }
+            if (!wallet.publicKey) throw new WalletAccountError();
 
             let publicKey: PublicKey;
             try {
@@ -174,27 +180,34 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
     async sendTransaction(
         transaction: Transaction,
         connection: Connection,
-        options?: SendTransactionOptions
+        options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
-            // Glow doesn't handle partial signers, so if they are provided, don't use `signAndSendTransaction`
-            if (wallet && 'signAndSendTransaction' in wallet && !options?.signers) {
-                // TODO: update glow to fix this
-                // HACK: Glow's `signAndSendTransaction` should always set these, but doesn't yet
-                transaction.feePayer = transaction.feePayer || this.publicKey || undefined;
-                transaction.recentBlockhash =
-                    transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
+            if (!wallet) throw new WalletNotConnectedError();
 
-                const { signature } = await wallet.signAndSendTransaction(transaction, options);
+            try {
+                const { signers, ...sendOptions } = options;
+
+                transaction = await this.prepareTransaction(transaction, connection, sendOptions);
+
+                signers?.length && transaction.partialSign(...signers);
+
+                sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;
+
+                const { signature } = await wallet.signAndSendTransaction(transaction, {
+                    ...sendOptions,
+                    network: this._network,
+                });
                 return signature;
+            } catch (error: any) {
+                if (error instanceof WalletError) throw error;
+                throw new WalletSendTransactionError(error?.message, error);
             }
         } catch (error: any) {
             this.emit('error', error);
             throw error;
         }
-
-        return await super.sendTransaction(transaction, connection, options);
     }
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {
@@ -203,7 +216,7 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return (await wallet.signTransaction(transaction)) || transaction;
+                return (await wallet.signTransaction(transaction, this._network)) || transaction;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -219,7 +232,7 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return (await wallet.signAllTransactions(transactions)) || transactions;
+                return (await wallet.signAllTransactions(transactions, this._network)) || transactions;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -238,7 +251,7 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
                 const { signature } = await wallet.signMessage(message);
                 return signature;
             } catch (error: any) {
-                throw new WalletSignTransactionError(error?.message, error);
+                throw new WalletSignMessageError(error?.message, error);
             }
         } catch (error: any) {
             this.emit('error', error);

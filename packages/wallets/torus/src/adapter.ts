@@ -1,3 +1,4 @@
+import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
     WalletAccountError,
@@ -5,14 +6,15 @@ import {
     WalletConnectionError,
     WalletDisconnectionError,
     WalletLoadError,
-    WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import type { Transaction } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 import type { default as Torus, TorusParams } from '@toruslabs/solana-embed';
 
 export interface TorusWalletAdapterConfig {
@@ -38,7 +40,9 @@ export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
     private _publicKey: PublicKey | null;
     private _params: TorusParams;
     private _readyState: WalletReadyState =
-        typeof window === 'undefined' ? WalletReadyState.Unsupported : WalletReadyState.Loadable;
+        typeof window === 'undefined' || typeof document === 'undefined'
+            ? WalletReadyState.Unsupported
+            : WalletReadyState.Loadable;
 
     constructor({ params = { showTorusButton: false } }: TorusWalletAdapterConfig = {}) {
         super();
@@ -175,7 +179,7 @@ export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
             try {
                 return await wallet.signMessage(message);
             } catch (error: any) {
-                throw new WalletSignTransactionError(error?.message, error);
+                throw new WalletSignMessageError(error?.message, error);
             }
         } catch (error: any) {
             this.emit('error', error);

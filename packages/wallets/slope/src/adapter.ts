@@ -1,3 +1,4 @@
+import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
@@ -5,14 +6,15 @@ import {
     WalletConnectionError,
     WalletDisconnectionError,
     WalletError,
-    WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import type { Transaction } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 import bs58 from 'bs58';
 
 interface SlopeWallet {
@@ -100,7 +102,8 @@ export class SlopeWalletAdapter extends BaseMessageSignerWalletAdapter {
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
-            if (this._readyState !== WalletReadyState.Installed || !window.Slope) throw new WalletNotReadyError();
+            if (this._readyState !== WalletReadyState.Installed || typeof window.Slope !== 'function')
+                throw new WalletNotReadyError();
 
             this._connecting = true;
 
@@ -141,13 +144,14 @@ export class SlopeWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._publicKey = null;
 
             try {
-                const { msg } = await wallet.disconnect();
+                let msg: string;
+                try {
+                    ({ msg } = await wallet.disconnect());
+                } catch (error: any) {
+                    throw new WalletDisconnectionError(error?.message, error);
+                }
                 if (msg !== 'ok') throw new WalletDisconnectionError(msg);
             } catch (error: any) {
-                if (!(error instanceof WalletError)) {
-                    // eslint-disable-next-line no-ex-assign
-                    error = new WalletDisconnectionError(error?.message, error);
-                }
                 this.emit('error', error);
             }
         }
@@ -219,7 +223,7 @@ export class SlopeWalletAdapter extends BaseMessageSignerWalletAdapter {
                 const response = await wallet.signMessage(message);
                 return bs58.decode(response.data.signature);
             } catch (error: any) {
-                throw new WalletSignTransactionError(error?.message, error);
+                throw new WalletSignMessageError(error?.message, error);
             }
         } catch (error: any) {
             this.emit('error', error);

@@ -1,7 +1,9 @@
 import { FileCopy as CopyIcon, LinkOff as DisconnectIcon, SwapHoriz as SwitchIcon } from '@mui/icons-material';
-import { Button, ButtonProps, Collapse, Fade, ListItemIcon, Menu, MenuItem, styled, Theme } from '@mui/material';
+import type { ButtonProps, Theme } from '@mui/material';
+import { Button, Collapse, Fade, ListItemIcon, Menu, MenuItem, styled } from '@mui/material';
 import { useWallet } from '@solana/wallet-adapter-react';
-import React, { FC, useMemo, useState } from 'react';
+import type { FC } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useWalletDialog } from './useWalletDialog';
 import { WalletConnectButton } from './WalletConnectButton';
 import { WalletDialogButton } from './WalletDialogButton';

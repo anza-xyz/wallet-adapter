@@ -1,21 +1,22 @@
 import type { default as Blocto, SolanaProviderInterface } from '@blocto/sdk';
+import type { SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseWalletAdapter,
-    SendTransactionOptions,
     WalletAccountError,
     WalletAdapterNetwork,
     WalletConfigError,
     WalletConnectionError,
     WalletDisconnectionError,
+    WalletError,
     WalletLoadError,
-    WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
     WalletSendTransactionError,
 } from '@solana/wallet-adapter-base';
-import { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { Connection, Transaction, TransactionSignature } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 
 export interface BloctoWalletAdapterConfig {
     network?: WalletAdapterNetwork;
@@ -34,7 +35,9 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
     private _publicKey: PublicKey | null;
     private _network: string;
     private _readyState: WalletReadyState =
-        typeof window === 'undefined' ? WalletReadyState.Unsupported : WalletReadyState.Loadable;
+        typeof window === 'undefined' || typeof document === 'undefined'
+            ? WalletReadyState.Unsupported
+            : WalletReadyState.Loadable;
 
     constructor(config: BloctoWalletAdapterConfig = {}) {
         super();
@@ -135,11 +138,10 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                transaction.feePayer = transaction.feePayer || this.publicKey || undefined;
-                transaction.recentBlockhash =
-                    transaction.recentBlockhash || (await connection.getRecentBlockhash('finalized')).blockhash;
+                const { signers, ...sendOptions } = options;
 
-                const { signers } = options;
+                transaction = await this.prepareTransaction(transaction, connection, sendOptions);
+
                 if (signers?.length) {
                     transaction = await wallet.convertToProgramWalletTransaction(transaction);
                     transaction.partialSign(...signers);
@@ -147,6 +149,7 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
 
                 return await wallet.signAndSendTransaction(transaction, connection);
             } catch (error: any) {
+                if (error instanceof WalletError) throw error;
                 throw new WalletSendTransactionError(error?.message, error);
             }
         } catch (error: any) {

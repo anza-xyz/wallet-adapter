@@ -1,15 +1,17 @@
+import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
     WalletAccountError,
-    WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import type { Transaction } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 
 interface CloverWallet {
     isCloverWallet?: boolean;
@@ -81,7 +83,7 @@ export class CloverWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.clover_solana!;
+            const wallet = window.clover_solana!;
 
             let account: string;
             try {
@@ -159,7 +161,7 @@ export class CloverWalletAdapter extends BaseMessageSignerWalletAdapter {
                 const { signature } = await wallet.signMessage(message);
                 return Uint8Array.from(signature);
             } catch (error: any) {
-                throw new WalletSignTransactionError(error?.message, error);
+                throw new WalletSignMessageError(error?.message, error);
             }
         } catch (error: any) {
             this.emit('error', error);

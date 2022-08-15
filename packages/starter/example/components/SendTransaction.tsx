@@ -1,7 +1,9 @@
 import { Button } from '@mui/material';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { Keypair, SystemProgram, Transaction, TransactionSignature } from '@solana/web3.js';
-import { FC, useCallback } from 'react';
+import type { TransactionSignature } from '@solana/web3.js';
+import { PublicKey, Transaction, TransactionInstruction } from '@solana/web3.js';
+import type { FC } from 'react';
+import { useCallback } from 'react';
 import { useNotify } from './notify';
 
 export const SendTransaction: FC = () => {
@@ -18,10 +20,10 @@ export const SendTransaction: FC = () => {
         let signature: TransactionSignature = '';
         try {
             const transaction = new Transaction().add(
-                SystemProgram.transfer({
-                    fromPubkey: publicKey,
-                    toPubkey: Keypair.generate().publicKey,
-                    lamports: 1,
+                new TransactionInstruction({
+                    data: Buffer.from('Hello, from the Solana Wallet Adapter example app!'),
+                    keys: [],
+                    programId: new PublicKey('MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr'),
                 })
             );
 

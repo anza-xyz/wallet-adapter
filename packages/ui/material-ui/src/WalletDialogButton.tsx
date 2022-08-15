@@ -1,5 +1,7 @@
-import { Button, ButtonProps } from '@mui/material';
-import React, { FC, MouseEventHandler, useCallback } from 'react';
+import type { ButtonProps } from '@mui/material';
+import { Button } from '@mui/material';
+import type { FC, MouseEventHandler } from 'react';
+import React, { useCallback } from 'react';
 import { useWalletDialog } from './useWalletDialog';
 
 export const WalletDialogButton: FC<ButtonProps> = ({

@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-base",
-    "version": "0.9.5",
+    "version": "0.9.11",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -10,8 +10,12 @@
     "module": "lib/esm/index.mjs",
     "types": "lib/types/index.d.ts",
     "exports": {
-        "import": "./lib/esm/index.mjs",
-        "require": "./lib/cjs/index.js"
+        ".": {
+            "require": "./lib/cjs/index.js",
+            "import": "./lib/esm/index.mjs",
+            "types": "./lib/types/index.d.ts"
+        },
+        "./package.json": "./package.json"
     },
     "files": [
         "lib",
@@ -27,12 +31,12 @@
         "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.36.0"
+        "@solana/web3.js": "^1.50.1"
     },
     "dependencies": {
         "eventemitter3": "^4.0.0"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.36.0"
+        "@solana/web3.js": "^1.50.1"
     }
 }

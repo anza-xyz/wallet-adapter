@@ -1,6 +1,7 @@
-import { Connection, PublicKey, SendOptions, Signer, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { Connection, PublicKey, SendOptions, Signer, Transaction, TransactionSignature } from '@solana/web3.js';
 import EventEmitter from 'eventemitter3';
-import { WalletError } from './errors';
+import type { WalletError } from './errors';
+import { WalletNotConnectedError } from './errors';
 
 export { EventEmitter };
 
@@ -87,6 +88,22 @@ export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents
         connection: Connection,
         options?: SendTransactionOptions
     ): Promise<TransactionSignature>;
+
+    protected async prepareTransaction(
+        transaction: Transaction,
+        connection: Connection,
+        options: SendOptions = {}
+    ): Promise<Transaction> {
+        const publicKey = this.publicKey;
+        if (!publicKey) throw new WalletNotConnectedError();
+
+        transaction.feePayer = transaction.feePayer || publicKey;
+        transaction.recentBlockhash =
+            transaction.recentBlockhash ||
+            (await connection.getLatestBlockhash(options?.preflightCommitment)).blockhash;
+
+        return transaction;
+    }
 }
 
 export function scopePollingDetectionStrategy(detect: () => boolean): void {

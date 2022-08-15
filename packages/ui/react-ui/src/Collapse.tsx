@@ -1,9 +1,10 @@
-import React, { FC, useLayoutEffect, useRef } from 'react';
+import type { FC, PropsWithChildren } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 
-export interface CollapseProps {
+export type CollapseProps = PropsWithChildren<{
     expanded: boolean;
     id: string;
-}
+}>;
 
 export const Collapse: FC<CollapseProps> = ({ id, children, expanded = false }) => {
     const ref = useRef<HTMLDivElement>(null);

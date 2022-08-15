@@ -17,7 +17,7 @@ import {
     WalletModalButton as ReactUIWalletModalButton,
     WalletMultiButton as ReactUIWalletMultiButton,
 } from '@solana/wallet-adapter-react-ui';
-import { NextPage } from 'next';
+import type { NextPage } from 'next';
 import { useAutoConnect } from '../components/AutoConnectProvider';
 import { RequestAirdrop } from '../components/RequestAirdrop';
 import { SendTransaction } from '../components/SendTransaction';

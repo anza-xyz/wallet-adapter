@@ -1,5 +1,7 @@
-import { Button, ButtonProps } from 'antd';
-import React, { FC, MouseEventHandler, useCallback } from 'react';
+import type { ButtonProps } from 'antd';
+import { Button } from 'antd';
+import type { FC, MouseEventHandler } from 'react';
+import React, { useCallback } from 'react';
 import { useWalletModal } from './useWalletModal';
 
 export const WalletModalButton: FC<ButtonProps> = ({

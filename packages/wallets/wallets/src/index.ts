@@ -1,3 +1,5 @@
+
+export * from '@solana/wallet-adapter-avana';
 export * from '@solana/wallet-adapter-backpack';
 export * from '@solana/wallet-adapter-bitkeep';
 export * from '@solana/wallet-adapter-bitpie';
@@ -8,6 +10,7 @@ export * from '@solana/wallet-adapter-coin98';
 export * from '@solana/wallet-adapter-coinbase';
 export * from '@solana/wallet-adapter-coinhub';
 export * from '@solana/wallet-adapter-exodus';
+export * from '@solana/wallet-adapter-fake';
 export * from '@solana/wallet-adapter-glow';
 export * from '@solana/wallet-adapter-huobi';
 export * from '@solana/wallet-adapter-hyperpay';
@@ -27,8 +30,10 @@ export * from '@solana/wallet-adapter-solflare';
 export * from '@solana/wallet-adapter-sollet';
 export * from '@solana/wallet-adapter-solong';
 export * from '@solana/wallet-adapter-spot';
+export * from '@solana/wallet-adapter-strike';
+export * from '@solana/wallet-adapter-tokenary';
 export * from '@solana/wallet-adapter-tokenpocket';
 export * from '@solana/wallet-adapter-torus';
+export * from '@solana/wallet-adapter-trust';
 export * from '@solana/wallet-adapter-keystone';
 export * from '@solana/wallet-adapter-onto'
-

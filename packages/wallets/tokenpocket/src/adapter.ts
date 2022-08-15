@@ -1,18 +1,19 @@
+import type { EventEmitter, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
-    EventEmitter,
     scopePollingDetectionStrategy,
     WalletAccountError,
     WalletConnectionError,
     WalletDisconnectedError,
-    WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import type { Transaction } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 
 interface TokenPocketWalletEvents {
     connect(...args: unknown[]): unknown;
@@ -96,7 +97,7 @@ export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.solana!;
+            const wallet = window.solana!;
 
             try {
                 await wallet.connect();
@@ -180,7 +181,7 @@ export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
                 const { signature } = await wallet.signMessage(message);
                 return signature;
             } catch (error: any) {
-                throw new WalletSignTransactionError(error?.message, error);
+                throw new WalletSignMessageError(error?.message, error);
             }
         } catch (error: any) {
             this.emit('error', error);
