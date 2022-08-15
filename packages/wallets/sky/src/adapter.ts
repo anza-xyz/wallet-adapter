@@ -111,9 +111,7 @@ export class SkyWalletAdapter extends BaseMessageSignerWalletAdapter {
                 throw new WalletConnectionError(error?.message, error);
             }
 
-            if (!wallet.publicKey) {
-                throw new WalletAccountError();
-            }
+            if (!wallet.publicKey) throw new WalletAccountError();
 
             let publicKey: PublicKey;
             try {
