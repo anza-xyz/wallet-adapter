@@ -3803,6 +3803,21 @@
     chrome-trace-event "^1.0.2"
     nullthrows "^1.1.1"
 
+"@particle-network/auth@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@particle-network/auth/-/auth-0.5.0.tgz#f80de325dcb7122a6d6b546415d1197388d3c9dc"
+  integrity sha512-ysWlK9DHIVy18lLh+/Iz7sq2uqqVfjyE2GTUC/L3vo0PV+MkP+bghh7PmnYgdnfobJByKE2M9tDgp7BEX2G1aQ==
+  dependencies:
+    crypto-js "^4.1.1"
+    uuid "^8.3.2"
+
+"@particle-network/solana-wallet@^0.5.0":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@particle-network/solana-wallet/-/solana-wallet-0.5.1.tgz#678662081d48e019ea15354fe481fd4bf3ca3ac5"
+  integrity sha512-IEDYRzMb2cAux5pyxIcXE9pe/6JKzLhKHsGWw2UULddX/QgA77mch0d2tXv1DwPX8azGv4PaYWRa8eb9XfKRbQ==
+  dependencies:
+    "@particle-network/auth" "^0.5.0"
+
 "@pedrouid/environment@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@pedrouid/environment/-/environment-1.0.1.tgz#858f0f8a057340e0b250398b75ead77d6f4342ec"
@@ -4650,6 +4665,31 @@
   integrity sha512-Cf63Rv7jCQ0LaL8tNXmEyqTHuIJxRdlS5vMh1mj5voN4+QFhVZnlZruezqpWYDiJ8UTzhP0VmeLXCmBk66YrMQ==
   dependencies:
     "@types/node" "*"
+
+"@types/pino-pretty@*":
+  version "4.7.5"
+  resolved "https://registry.yarnpkg.com/@types/pino-pretty/-/pino-pretty-4.7.5.tgz#e4ade1e42b78b8b0c1c28010ff7eb6c439278b19"
+  integrity sha512-rfHe6VIknk14DymxGqc9maGsRe8/HQSvM2u46EAz2XrS92qsAJnW16dpdFejBuZKD8cRJX6Aw6uVZqIQctMpAg==
+  dependencies:
+    "@types/node" "*"
+    "@types/pino" "6.3"
+
+"@types/pino-std-serializers@*":
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/@types/pino-std-serializers/-/pino-std-serializers-2.4.1.tgz#f8bd52a209c8b3c97d1533b1ba27f57c816382bf"
+  integrity sha512-17XcksO47M24IVTVKPeAByWUd3Oez7EbIjXpSbzMPhXVzgjGtrOa49gKBwxH9hb8dKv58OelsWQ+A1G1l9S3wQ==
+  dependencies:
+    "@types/node" "*"
+
+"@types/pino@6.3", "@types/pino@^6.3.11":
+  version "6.3.12"
+  resolved "https://registry.yarnpkg.com/@types/pino/-/pino-6.3.12.tgz#4425db6ced806109c3df957100cba9dfcd73c228"
+  integrity sha512-dsLRTq8/4UtVSpJgl9aeqHvbh6pzdmjYD3C092SYgLD2TyoCqHpTJk6vp8DvCTGGc7iowZ2MoiYiVUUCcu7muw==
+  dependencies:
+    "@types/node" "*"
+    "@types/pino-pretty" "*"
+    "@types/pino-std-serializers" "*"
+    sonic-boom "^2.1.0"
 
 "@types/prettier@^2.1.5", "@types/prettier@^2.6.4":
   version "2.7.0"
@@ -7090,6 +7130,11 @@ crypto-browserify@^3.12.0:
     public-encrypt "^4.0.0"
     randombytes "^2.0.0"
     randomfill "^1.0.3"
+
+crypto-js@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.1.1.tgz#9e485bcf03521041bd85844786b83fb7619736cf"
+  integrity sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==
 
 crypto-random-string@^2.0.0:
   version "2.0.0"
@@ -15205,6 +15250,13 @@ sonic-boom@^1.0.2:
   dependencies:
     atomic-sleep "^1.0.0"
     flatstr "^1.0.12"
+
+sonic-boom@^2.1.0:
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/sonic-boom/-/sonic-boom-2.8.0.tgz#c1def62a77425090e6ad7516aad8eb402e047611"
+  integrity sha512-kuonw1YOYYNOve5iHdSahXPOK49GqwA+LZhI6Wz/l0rP57iKyXXIHaRagOBHAPmGwJC6od2Z9zgvZ5loSgMlVg==
+  dependencies:
+    atomic-sleep "^1.0.0"
 
 sort-keys@^2.0.0:
   version "2.0.0"
