@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-react",
-    "version": "0.15.9",
+    "version": "0.15.10",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -36,7 +36,7 @@
         "react": "*"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.9.10"
+        "@solana/wallet-adapter-base": "^0.9.12"
     },
     "devDependencies": {
         "@solana/web3.js": "^1.50.1",
