@@ -141,6 +141,7 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
         if (wallet) {
             wallet.off('disconnect', this._disconnected);
 
+            this._wallet = null;
             this._publicKey = null;
 
             try {
@@ -206,6 +207,7 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
         if (wallet) {
             wallet.off('disconnect', this._disconnected);
 
+            this._wallet = null;
             this._publicKey = null;
 
             this.emit('error', new WalletDisconnectedError());
