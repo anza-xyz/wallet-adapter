@@ -183,7 +183,7 @@ export class BackpackWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return (await wallet.signTransaction(transaction, this.publicKey)) || transaction;
+                return await wallet.signTransaction(transaction, this.publicKey);
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -199,7 +199,7 @@ export class BackpackWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return (await wallet.signAllTransactions(transactions, this.publicKey)) || transactions;
+                return await wallet.signAllTransactions(transactions, this.publicKey);
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
