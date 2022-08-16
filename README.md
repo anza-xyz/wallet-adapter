@@ -188,7 +188,6 @@ You can use the [wallets](https://github.com/solana-labs/wallet-adapter/tree/mas
 | [tokenpocket](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/tokenpocket) | Adapter for [TokenPocket](https://tokenpocket.pro)    | [`@solana/wallet-adapter-tokenpocket`](https://npmjs.com/package/@solana/wallet-adapter-tokenpocket) |
 | [torus](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/torus)             | Adapter for [Torus](https://tor.us)                   | [`@solana/wallet-adapter-torus`](https://npmjs.com/package/@solana/wallet-adapter-torus)             |
 | [trust](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/trust)             | Adapter for [Trust Wallet](https://trustwallet.com)   | [`@solana/wallet-adapter-trust`](https://npmjs.com/package/@solana/wallet-adapter-trust)             |
-| [onto](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/onto)             | Adapter for [ONTO Wallet](https://onto.app)   | [`@solana/wallet-adapter-onto`](https://npmjs.com/package/@solana/wallet-adapter-onto)             |
 
 
 ### UI Components
