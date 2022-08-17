@@ -52,28 +52,34 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         }))
     );
 
-    // When the wallets change, start to listen for changes to their `readyState`
+    // When the adapters change, start to listen for changes to their `readyState`
     useEffect(() => {
+        // When the adapters change, wrap them to conform to the `Wallet` interface
+        setWallets((wallets) =>
+            adapters.map((adapter, index) => {
+                const wallet = wallets[index];
+                // If the wallet hasn't changed, return the same instance
+                return wallet.adapter === adapter && wallet.readyState === adapter.readyState
+                    ? wallet
+                    : {
+                          adapter: adapter,
+                          readyState: adapter.readyState,
+                      };
+            })
+        );
+
         function handleReadyStateChange(this: Adapter, readyState: WalletReadyState) {
             setWallets((prevWallets) => {
-                const walletIndex = prevWallets.findIndex(({ adapter }) => adapter.name === this.name);
-                if (walletIndex === -1) return prevWallets;
+                const index = prevWallets.findIndex(({ adapter }) => adapter === this);
+                if (index === -1) return prevWallets;
 
-                return [
-                    ...prevWallets.slice(0, walletIndex),
-                    { ...prevWallets[walletIndex], readyState },
-                    ...prevWallets.slice(walletIndex + 1),
-                ];
+                const { adapter } = prevWallets[index];
+                return [...prevWallets.slice(0, index), { adapter, readyState }, ...prevWallets.slice(index + 1)];
             });
         }
-        for (const adapter of adapters) {
-            adapter.on('readyStateChange', handleReadyStateChange, adapter);
-        }
-        return () => {
-            for (const adapter of adapters) {
-                adapter.off('readyStateChange', handleReadyStateChange, adapter);
-            }
-        };
+
+        adapters.forEach((adapter) => adapter.on('readyStateChange', handleReadyStateChange, adapter));
+        return () => adapters.forEach((adapter) => adapter.off('readyStateChange', handleReadyStateChange, adapter));
     }, [adapters]);
 
     // When the selected wallet changes, initialize the state
