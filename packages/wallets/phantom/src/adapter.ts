@@ -21,7 +21,7 @@ import { PublicKey } from '@solana/web3.js';
 interface PhantomWalletEvents {
     connect(...args: unknown[]): unknown;
     disconnect(...args: unknown[]): unknown;
-    accountChanged(...args: unknown[]): unknown;
+    accountChanged(newPublicKey: PublicKey): unknown;
 }
 
 interface PhantomWallet extends EventEmitter<PhantomWalletEvents> {
@@ -255,24 +255,20 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     };
 
-    private _accountChanged = () => {
+    private _accountChanged = (newPublicKey: PublicKey) => {
         const publicKey = this._publicKey;
-        if (publicKey) {
-            const account = this._wallet?.publicKey?.toBytes();
-            if (account) {
-                let newPublicKey: PublicKey;
-                try {
-                    newPublicKey = new PublicKey(account);
-                } catch (error: any) {
-                    this.emit('error', new WalletPublicKeyError(error?.message, error));
-                    return;
-                }
+        if (!publicKey) return;
 
-                if (!publicKey.equals(newPublicKey)) {
-                    this._publicKey = newPublicKey;
-                    this.emit('connect', newPublicKey);
-                }
-            }
+        try {
+            newPublicKey = new PublicKey(newPublicKey.toBytes());
+        } catch (error: any) {
+            this.emit('error', new WalletPublicKeyError(error?.message, error));
+            return;
         }
+
+        if (publicKey.equals(newPublicKey)) return;
+
+        this._publicKey = newPublicKey;
+        this.emit('connect', newPublicKey);
     };
 }
