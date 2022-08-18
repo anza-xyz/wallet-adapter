@@ -121,7 +121,13 @@ export const SendOneLamportToRandomAddress: FC = () => {
 
         const signature = await sendTransaction(transaction, connection);
 
-        await connection.confirmTransaction(signature, 'processed');
+        const latestBlockHash = await connection.getLatestBlockhash();
+
+        await connection.confirmTransaction({
+                blockhash: latestBlockHash.blockhash,
+                lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
+                signature: signature,
+        });
     }, [publicKey, sendTransaction, connection]);
 
     return (
