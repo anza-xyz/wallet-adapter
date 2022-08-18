@@ -27,10 +27,15 @@ export const SendTransaction: FC = () => {
                 })
             );
 
-            signature = await sendTransaction(transaction, connection);
+            const {
+                context: { slot: minContextSlot },
+                value: { blockhash, lastValidBlockHeight },
+            } = await connection.getLatestBlockhashAndContext();
+
+            signature = await sendTransaction(transaction, connection, { minContextSlot });
             notify('info', 'Transaction sent:', signature);
 
-            await connection.confirmTransaction(signature, 'processed');
+            await connection.confirmTransaction({ blockhash, lastValidBlockHeight, signature });
             notify('success', 'Transaction successful!', signature);
         } catch (error: any) {
             notify('error', `Transaction failed! ${error?.message}`, signature);
