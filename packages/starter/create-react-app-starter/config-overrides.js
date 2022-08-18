@@ -12,6 +12,12 @@ module.exports = function (config, env) {
                     enforce: 'pre',
                     use: ['source-map-loader'],
                 },
+                {
+                    test: /\.m?js$/,
+                    resolve: {
+                        fullySpecified: false,
+                    },
+                },
             ],
         },
         plugins: [
