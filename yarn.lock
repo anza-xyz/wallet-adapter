@@ -1786,10 +1786,10 @@
     "@types/yargs" "^17.0.8"
     chalk "^4.0.0"
 
-"@jnwng/walletconnect-solana@0.0.0-alpha.0":
-  version "0.0.0-alpha.0"
-  resolved "https://registry.yarnpkg.com/@jnwng/walletconnect-solana/-/walletconnect-solana-0.0.0-alpha.0.tgz#4460cb070eb3cd32f247f590bb693f8340a175ec"
-  integrity sha512-+9kv3iIf+GE8Cv8Ig5LwnosnP3PHjQUdNLNYogTQxiK8ZjBG+vFrzh89H5qrnLIOi0V3dI3MKD/mXHz8y0e8Xg==
+"@jnwng/walletconnect-solana@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@jnwng/walletconnect-solana/-/walletconnect-solana-0.0.2.tgz#6e1b343f6842e97fd5b696d1aa63dcebc634b403"
+  integrity sha512-gHzLsAMoP7/DRBK1R86XX/GYJ6YIlSkxwLUz4FDz7i9M4d29DBH7frBr25c2oqH0nqnNmvEiykyc5R0BDgBYXg==
   dependencies:
     "@walletconnect/qrcode-modal" "1.8.0"
     "@walletconnect/sign-client" "2.0.0-rc.1"

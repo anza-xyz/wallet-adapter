@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-wallets",
-    "version": "0.18.1",
+    "version": "0.18.2",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -66,6 +66,7 @@
         "@solana/wallet-adapter-tokenary": "^0.1.2",
         "@solana/wallet-adapter-tokenpocket": "^0.4.9",
         "@solana/wallet-adapter-torus": "^0.11.17",
-        "@solana/wallet-adapter-trust": "^0.1.2"
+        "@solana/wallet-adapter-trust": "^0.1.2",
+        "@solana/wallet-adapter-walletconnect": "^0.1.0"
     }
 }

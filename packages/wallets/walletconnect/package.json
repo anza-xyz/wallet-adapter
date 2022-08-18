@@ -1,5 +1,4 @@
 {
-    "private": true,
     "name": "@solana/wallet-adapter-walletconnect",
     "version": "0.1.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
@@ -32,7 +31,7 @@
         "@solana/web3.js": "^1.50.1"
     },
     "dependencies": {
-        "@jnwng/walletconnect-solana": "0.0.0-alpha.0",
+        "@jnwng/walletconnect-solana": "^0.0.2",
         "@solana/wallet-adapter-base": "^0.9.12"
     },
     "devDependencies": {
