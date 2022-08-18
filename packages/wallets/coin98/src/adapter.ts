@@ -100,6 +100,7 @@ export class Coin98WalletAdapter extends BaseMessageSignerWalletAdapter {
 
             let account: string;
             try {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 account = (await wallet.connect())[0]!;
             } catch (error: any) {
                 throw new WalletAccountError(error?.message, error);
@@ -174,6 +175,7 @@ export class Coin98WalletAdapter extends BaseMessageSignerWalletAdapter {
                 const signatures = response.signatures;
 
                 return transactions.map((transaction, index) => {
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     const signature = bs58.decode(signatures[index]!);
                     transaction.addSignature(publicKey, signature);
                     return transaction;

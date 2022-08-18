@@ -108,6 +108,7 @@ export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             let publicKey: PublicKey;
             try {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 publicKey = new PublicKey(accounts[0]!);
             } catch (error: any) {
                 throw new WalletPublicKeyError(error?.message, error);

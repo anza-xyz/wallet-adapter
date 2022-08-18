@@ -200,6 +200,7 @@ export class SlopeWalletAdapter extends BaseMessageSignerWalletAdapter {
                 const publicKey = new PublicKey(data.publicKey);
 
                 for (let i = 0; i < length; i++) {
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     transactions[i]!.addSignature(publicKey, bs58.decode(data.signatures[i]!));
                 }
 
