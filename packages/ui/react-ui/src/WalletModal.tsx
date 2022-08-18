@@ -43,11 +43,11 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
 
     const getStartedWallet = useMemo(() => {
         return installedWallets.length
-            ? installedWallets[0]
+            ? installedWallets[0]!
             : wallets.find((wallet: { adapter: { name: WalletName } }) => wallet.adapter.name === 'Torus') ||
                   wallets.find((wallet: { adapter: { name: WalletName } }) => wallet.adapter.name === 'Phantom') ||
                   wallets.find((wallet: { readyState: any }) => wallet.readyState === WalletReadyState.Loadable) ||
-                  otherWallets[0];
+                  otherWallets[0]!;
     }, [installedWallets, wallets, otherWallets]);
 
     const hideModal = useCallback(() => {
@@ -80,8 +80,8 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
 
             // here we query all focusable elements
             const focusableElements = node.querySelectorAll('button');
-            const firstElement = focusableElements[0];
-            const lastElement = focusableElements[focusableElements.length - 1];
+            const firstElement = focusableElements[0]!;
+            const lastElement = focusableElements[focusableElements.length - 1]!;
 
             if (event.shiftKey) {
                 // if going backward by pressing tab and firstElement is active, shift focus to last focusable element

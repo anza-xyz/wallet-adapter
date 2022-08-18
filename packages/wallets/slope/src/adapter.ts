@@ -200,7 +200,7 @@ export class SlopeWalletAdapter extends BaseMessageSignerWalletAdapter {
                 const publicKey = new PublicKey(data.publicKey);
 
                 for (let i = 0; i < length; i++) {
-                    transactions[i].addSignature(publicKey, bs58.decode(data.signatures[i]));
+                    transactions[i]!.addSignature(publicKey, bs58.decode(data.signatures[i]!));
                 }
 
                 return transactions;

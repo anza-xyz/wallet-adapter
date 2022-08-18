@@ -95,7 +95,7 @@ export class KrystalWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             let account: string;
             try {
-                [account] = await wallet.connect();
+                account = (await wallet.connect())[0]!;
             } catch (error: any) {
                 throw new WalletAccountError(error?.message, error);
             }

@@ -73,7 +73,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
                 const index = prevWallets.findIndex(({ adapter }) => adapter === this);
                 if (index === -1) return prevWallets;
 
-                const { adapter } = prevWallets[index];
+                const { adapter } = prevWallets[index]!;
                 return [...prevWallets.slice(0, index), { adapter, readyState }, ...prevWallets.slice(index + 1)];
             });
         }
