@@ -108,7 +108,7 @@ export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             let publicKey: PublicKey;
             try {
-                publicKey = new PublicKey(accounts[0]);
+                publicKey = new PublicKey(accounts[0]!);
             } catch (error: any) {
                 throw new WalletPublicKeyError(error?.message, error);
             }

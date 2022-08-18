@@ -1,6 +1,5 @@
 {
     "include": ["packages/*/*/src"],
-    "exclude": ["node_modules", "packages/*/*/node_modules"],
     "compilerOptions": {
         "target": "es2019",
         "module": "esnext",
@@ -15,7 +14,7 @@
         "esModuleInterop": true,
         "resolveJsonModule": true,
         "isolatedModules": true,
-        "typeRoots": ["node_modules/@types"]
+        "noUncheckedIndexedAccess": true
     },
     "typedocOptions": {
         "entryPoints": ".",

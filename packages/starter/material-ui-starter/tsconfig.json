@@ -1,6 +1,5 @@
 {
     "include": ["src", "types"],
-    "exclude": ["node_modules"],
     "compilerOptions": {
         "noEmit": true,
         "target": "esnext",
