@@ -59,7 +59,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
             adapters.map((adapter, index) => {
                 const wallet = wallets[index];
                 // If the wallet hasn't changed, return the same instance
-                return wallet.adapter === adapter && wallet.readyState === adapter.readyState
+                return wallet && wallet.adapter === adapter && wallet.readyState === adapter.readyState
                     ? wallet
                     : {
                           adapter: adapter,
