@@ -15,6 +15,7 @@
         "esModuleInterop": true,
         "resolveJsonModule": true,
         "isolatedModules": true,
+        "noUncheckedIndexedAccess": true,
         "typeRoots": ["node_modules/@types"]
     },
     "typedocOptions": {
