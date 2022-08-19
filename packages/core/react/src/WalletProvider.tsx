@@ -155,7 +155,6 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     useEffect(() => {
         if (
             isConnecting.current ||
-            connecting ||
             connected ||
             !autoConnect ||
             !adapter ||
@@ -177,11 +176,11 @@ export const WalletProvider: FC<WalletProviderProps> = ({
                 isConnecting.current = false;
             }
         })();
-    }, [isConnecting, connecting, connected, autoConnect, adapter, readyState]);
+    }, [isConnecting, connected, autoConnect, adapter, readyState]);
 
     // Connect the adapter to the wallet
     const connect = useCallback(async () => {
-        if (isConnecting.current || connecting || disconnecting || connected) return;
+        if (isConnecting.current || isDisconnecting.current || connected) return;
         if (!adapter) throw handleError(new WalletNotSelectedError());
 
         if (!(readyState === WalletReadyState.Installed || readyState === WalletReadyState.Loadable)) {
@@ -208,11 +207,11 @@ export const WalletProvider: FC<WalletProviderProps> = ({
             setConnecting(false);
             isConnecting.current = false;
         }
-    }, [isConnecting, connecting, disconnecting, connected, adapter, readyState, handleError]);
+    }, [isConnecting, isDisconnecting, connected, adapter, readyState, handleError]);
 
     // Disconnect the adapter from the wallet
     const disconnect = useCallback(async () => {
-        if (isDisconnecting.current || disconnecting) return;
+        if (isDisconnecting.current) return;
         if (!adapter) return setName(null);
 
         isDisconnecting.current = true;
@@ -228,7 +227,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
             setDisconnecting(false);
             isDisconnecting.current = false;
         }
-    }, [isDisconnecting, disconnecting, adapter]);
+    }, [isDisconnecting, adapter]);
 
     // Send a transaction using the provided connection
     const sendTransaction = useCallback(
