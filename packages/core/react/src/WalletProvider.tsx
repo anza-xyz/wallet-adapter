@@ -98,34 +98,6 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         }
     }, [name, wallets]);
 
-    // If autoConnect is enabled, try to connect when the adapter changes and is ready
-    useEffect(() => {
-        if (
-            isConnecting.current ||
-            connecting ||
-            connected ||
-            !autoConnect ||
-            !adapter ||
-            !(readyState === WalletReadyState.Installed || readyState === WalletReadyState.Loadable)
-        )
-            return;
-
-        (async function () {
-            isConnecting.current = true;
-            setConnecting(true);
-            try {
-                await adapter.connect();
-            } catch (error: any) {
-                // Clear the selected wallet
-                setName(null);
-                // Don't throw error, but handleError will still be called
-            } finally {
-                setConnecting(false);
-                isConnecting.current = false;
-            }
-        })();
-    }, [isConnecting, connecting, connected, autoConnect, adapter, readyState]);
-
     // If the window is closing or reloading, ignore disconnect and error events from the adapter
     useEffect(() => {
         function listener() {
@@ -178,6 +150,34 @@ export const WalletProvider: FC<WalletProviderProps> = ({
             adapter?.disconnect();
         };
     }, [adapter]);
+
+    // If autoConnect is enabled, try to connect when the adapter changes and is ready
+    useEffect(() => {
+        if (
+            isConnecting.current ||
+            connecting ||
+            connected ||
+            !autoConnect ||
+            !adapter ||
+            !(readyState === WalletReadyState.Installed || readyState === WalletReadyState.Loadable)
+        )
+            return;
+
+        (async function () {
+            isConnecting.current = true;
+            setConnecting(true);
+            try {
+                await adapter.connect();
+            } catch (error: any) {
+                // Clear the selected wallet
+                setName(null);
+                // Don't throw error, but handleError will still be called
+            } finally {
+                setConnecting(false);
+                isConnecting.current = false;
+            }
+        })();
+    }, [isConnecting, connecting, connected, autoConnect, adapter, readyState]);
 
     // Connect the adapter to the wallet
     const connect = useCallback(async () => {
