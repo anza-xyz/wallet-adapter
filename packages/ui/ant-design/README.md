@@ -6,7 +6,7 @@ See the [example](https://github.com/solana-labs/wallet-adapter/tree/master/pack
 ## Install
 
 1. Set up craco if you haven't already using the following [guide](https://github.com/gsoft-inc/craco/blob/master/packages/craco/README.md#installation).
-2. Add `craco-less` into the project `yarn add craco-less`.
+2. Add `craco-less` into the project `npm install --save craco-less`.
    1. Add it to the `craco.config.js` file
         ```javascript
         const CracoLessPlugin = require('craco-less');
@@ -29,18 +29,20 @@ See the [example](https://github.com/solana-labs/wallet-adapter/tree/master/pack
 3. Install these peer dependencies (or skip this if you have them already):
 
 ```
-yarn add antd \
-         @ant-design/icons \
-         @solana/web3.js \
-         react
+npm install --save \
+    antd \
+    @ant-design/icons \
+    @solana/web3.js \
+    react
 ```
 4. Install these dependencies:
 
 ```
-yarn add @solana/wallet-adapter-wallets \
-         @solana/wallet-adapter-react \
-         @solana/wallet-adapter-ant-design \
-         @solana/wallet-adapter-base
+npm install --save \
+    @solana/wallet-adapter-wallets \
+    @solana/wallet-adapter-react \
+    @solana/wallet-adapter-ant-design \
+    @solana/wallet-adapter-base
 ```
 
 
