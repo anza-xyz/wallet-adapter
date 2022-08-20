@@ -25,10 +25,11 @@
         "lint": "prettier --check '{*,**/*}.{ts,tsx,js,jsx,json}' && eslint .",
         "lint:fix": "pnpm run fmt && eslint --fix .",
         "test": "pnpm --recursive run test",
-        "docs": "shx rm -rf docs && NODE_OPTIONS=--max_old_space_size=16000 typedoc && shx cp ./{.nojekyll,wallets.png} docs/",
         "deploy": "pnpm run deploy:docs && pnpm run deploy:example",
+        "docs": "shx rm -rf docs && NODE_OPTIONS=--max_old_space_size=16000 typedoc && shx cp ./{.nojekyll,wallets.png} docs/",
         "deploy:docs": "pnpm run docs && gh-pages --dist docs --dotfiles",
-        "deploy:example": "gh-pages --dist packages/starter/example/out --dest example --dotfiles"
+        "example": "pnpm run --filter '@solana/wallet-adapter-example' export",
+        "deploy:example": "pnpm run example && gh-pages --dist packages/starter/example/out --dest example --dotfiles"
     },
     "devDependencies": {
         "@types/node": "^18.6.4",
