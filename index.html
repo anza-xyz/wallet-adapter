@@ -1,15 +1,15 @@
-<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Documentation</title><meta name="description" content="Documentation for Documentation"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>@solana/wallet-adapter</title><meta name="description" content="Documentation for @solana/wallet-adapter"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
 <div class="tsd-toolbar-contents container">
 <div class="table-cell" id="tsd-search" data-base=".">
 <div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M15.7824 13.833L12.6666 10.7177C12.5259 10.5771 12.3353 10.499 12.1353 10.499H11.6259C12.4884 9.39596 13.001 8.00859 13.001 6.49937C13.001 2.90909 10.0914 0 6.50048 0C2.90959 0 0 2.90909 0 6.49937C0 10.0896 2.90959 12.9987 6.50048 12.9987C8.00996 12.9987 9.39756 12.4863 10.5008 11.6239V12.1332C10.5008 12.3332 10.5789 12.5238 10.7195 12.6644L13.8354 15.7797C14.1292 16.0734 14.6042 16.0734 14.8948 15.7797L15.7793 14.8954C16.0731 14.6017 16.0731 14.1267 15.7824 13.833ZM6.50048 10.499C4.29094 10.499 2.50018 8.71165 2.50018 6.49937C2.50018 4.29021 4.28781 2.49976 6.50048 2.49976C8.71001 2.49976 10.5008 4.28708 10.5008 6.49937C10.5008 8.70852 8.71314 10.499 6.50048 10.499Z" fill="var(--color-text)"></path></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div>
 <ul class="results">
 <li class="state loading">Preparing search index...</li>
-<li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">Documentation</a></div>
+<li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">@solana/wallet-adapter</a></div>
 <div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="2" fill="var(--color-text)"></rect><rect x="1" y="7" width="14" height="2" fill="var(--color-text)"></rect><rect x="1" y="11" width="14" height="2" fill="var(--color-text)"></rect></svg></a></div></div></header>
 <div class="container container-main">
 <div class="col-8 col-content">
 <div class="tsd-page-title">
-<h2>Documentation</h2></div>
+<h2>@solana/wallet-adapter</h2></div>
 <div class="tsd-panel tsd-typography">
 <a href="#solanawallet-adapter" id="solanawallet-adapter" style="color: inherit; text-decoration: none;">
   <h1><code>@solana/wallet-adapter</code></h1>
@@ -56,7 +56,7 @@
   <h3>Install</h3>
 </a>
 <p>Install these dependencies:</p>
-<pre><code class="language-shell"><span class="hl-0">yarn add @solana/wallet-adapter-base \</span><br/><span class="hl-0">         @solana/wallet-adapter-react \</span><br/><span class="hl-0">         @solana/wallet-adapter-react-ui \</span><br/><span class="hl-0">         @solana/wallet-adapter-wallets \</span><br/><span class="hl-0">         @solana/web3.js \</span><br/><span class="hl-0">         @solana-mobile/wallet-adapter-mobile \</span><br/><span class="hl-0">         react</span>
+<pre><code class="language-shell"><span class="hl-0">npm install --save \</span><br/><span class="hl-0">    @solana/wallet-adapter-base \</span><br/><span class="hl-0">    @solana/wallet-adapter-react \</span><br/><span class="hl-0">    @solana/wallet-adapter-react-ui \</span><br/><span class="hl-0">    @solana/wallet-adapter-wallets \</span><br/><span class="hl-0">    @solana/web3.js \</span><br/><span class="hl-0">    @solana-mobile/wallet-adapter-mobile \</span><br/><span class="hl-0">    react</span>
 </code></pre>
 
 <a href="#setup" id="setup" style="color: inherit; text-decoration: none;">
@@ -68,7 +68,7 @@
 <a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
   <h3>Usage</h3>
 </a>
-<pre><code class="language-tsx"><span class="hl-1">import</span><span class="hl-0"> { </span><span class="hl-2">WalletNotConnectedError</span><span class="hl-0"> } </span><span class="hl-1">from</span><span class="hl-0"> </span><span class="hl-3">&#39;@solana/wallet-adapter-base&#39;</span><span class="hl-0">;</span><br/><span class="hl-1">import</span><span class="hl-0"> { </span><span class="hl-2">useConnection</span><span class="hl-0">, </span><span class="hl-2">useWallet</span><span class="hl-0"> } </span><span class="hl-1">from</span><span class="hl-0"> </span><span class="hl-3">&#39;@solana/wallet-adapter-react&#39;</span><span class="hl-0">;</span><br/><span class="hl-1">import</span><span class="hl-0"> { </span><span class="hl-2">Keypair</span><span class="hl-0">, </span><span class="hl-2">SystemProgram</span><span class="hl-0">, </span><span class="hl-2">Transaction</span><span class="hl-0"> } </span><span class="hl-1">from</span><span class="hl-0"> </span><span class="hl-3">&#39;@solana/web3.js&#39;</span><span class="hl-0">;</span><br/><span class="hl-1">import</span><span class="hl-0"> </span><span class="hl-2">React</span><span class="hl-0">, { </span><span class="hl-2">FC</span><span class="hl-0">, </span><span class="hl-2">useCallback</span><span class="hl-0"> } </span><span class="hl-1">from</span><span class="hl-0"> </span><span class="hl-3">&#39;react&#39;</span><span class="hl-0">;</span><br/><br/><span class="hl-1">export</span><span class="hl-0"> </span><span class="hl-6">const</span><span class="hl-0"> </span><span class="hl-5">SendOneLamportToRandomAddress</span><span class="hl-0">: </span><span class="hl-7">FC</span><span class="hl-0"> = () </span><span class="hl-6">=&gt;</span><span class="hl-0"> {</span><br/><span class="hl-0">    </span><span class="hl-6">const</span><span class="hl-0"> { </span><span class="hl-8">connection</span><span class="hl-0"> } = </span><span class="hl-5">useConnection</span><span class="hl-0">();</span><br/><span class="hl-0">    </span><span class="hl-6">const</span><span class="hl-0"> { </span><span class="hl-8">publicKey</span><span class="hl-0">, </span><span class="hl-8">sendTransaction</span><span class="hl-0"> } = </span><span class="hl-5">useWallet</span><span class="hl-0">();</span><br/><br/><span class="hl-0">    </span><span class="hl-6">const</span><span class="hl-0"> </span><span class="hl-8">onClick</span><span class="hl-0"> = </span><span class="hl-5">useCallback</span><span class="hl-0">(</span><span class="hl-6">async</span><span class="hl-0"> () </span><span class="hl-6">=&gt;</span><span class="hl-0"> {</span><br/><span class="hl-0">        </span><span class="hl-1">if</span><span class="hl-0"> (!</span><span class="hl-2">publicKey</span><span class="hl-0">) </span><span class="hl-1">throw</span><span class="hl-0"> </span><span class="hl-6">new</span><span class="hl-0"> </span><span class="hl-5">WalletNotConnectedError</span><span class="hl-0">();</span><br/><br/><span class="hl-0">        </span><span class="hl-6">const</span><span class="hl-0"> </span><span class="hl-8">transaction</span><span class="hl-0"> = </span><span class="hl-6">new</span><span class="hl-0"> </span><span class="hl-5">Transaction</span><span class="hl-0">().</span><span class="hl-5">add</span><span class="hl-0">(</span><br/><span class="hl-0">            </span><span class="hl-2">SystemProgram</span><span class="hl-0">.</span><span class="hl-5">transfer</span><span class="hl-0">({</span><br/><span class="hl-0">                </span><span class="hl-2">fromPubkey:</span><span class="hl-0"> </span><span class="hl-2">publicKey</span><span class="hl-0">,</span><br/><span class="hl-0">                </span><span class="hl-2">toPubkey:</span><span class="hl-0"> </span><span class="hl-2">Keypair</span><span class="hl-0">.</span><span class="hl-5">generate</span><span class="hl-0">().</span><span class="hl-2">publicKey</span><span class="hl-0">,</span><br/><span class="hl-0">                </span><span class="hl-2">lamports:</span><span class="hl-0"> </span><span class="hl-12">1</span><span class="hl-0">,</span><br/><span class="hl-0">            })</span><br/><span class="hl-0">        );</span><br/><br/><span class="hl-0">        </span><span class="hl-6">const</span><span class="hl-0"> </span><span class="hl-8">signature</span><span class="hl-0"> = </span><span class="hl-1">await</span><span class="hl-0"> </span><span class="hl-5">sendTransaction</span><span class="hl-0">(</span><span class="hl-2">transaction</span><span class="hl-0">, </span><span class="hl-2">connection</span><span class="hl-0">);</span><br/><br/><span class="hl-0">        </span><span class="hl-1">await</span><span class="hl-0"> </span><span class="hl-2">connection</span><span class="hl-0">.</span><span class="hl-5">confirmTransaction</span><span class="hl-0">(</span><span class="hl-2">signature</span><span class="hl-0">, </span><span class="hl-3">&#39;processed&#39;</span><span class="hl-0">);</span><br/><span class="hl-0">    }, [</span><span class="hl-2">publicKey</span><span class="hl-0">, </span><span class="hl-2">sendTransaction</span><span class="hl-0">, </span><span class="hl-2">connection</span><span class="hl-0">]);</span><br/><br/><span class="hl-0">    </span><span class="hl-1">return</span><span class="hl-0"> (</span><br/><span class="hl-0">        </span><span class="hl-9">&lt;</span><span class="hl-13">button</span><span class="hl-0"> </span><span class="hl-10">onClick</span><span class="hl-0">=</span><span class="hl-6">{</span><span class="hl-2">onClick</span><span class="hl-6">}</span><span class="hl-0"> </span><span class="hl-10">disabled</span><span class="hl-0">=</span><span class="hl-6">{</span><span class="hl-0">!</span><span class="hl-2">publicKey</span><span class="hl-6">}</span><span class="hl-9">&gt;</span><br/><span class="hl-0">            Send 1 lamport to a random address!</span><br/><span class="hl-0">        </span><span class="hl-9">&lt;/</span><span class="hl-13">button</span><span class="hl-9">&gt;</span><br/><span class="hl-0">    );</span><br/><span class="hl-0">};</span>
+<pre><code class="language-tsx"><span class="hl-1">import</span><span class="hl-0"> { </span><span class="hl-2">WalletNotConnectedError</span><span class="hl-0"> } </span><span class="hl-1">from</span><span class="hl-0"> </span><span class="hl-3">&#39;@solana/wallet-adapter-base&#39;</span><span class="hl-0">;</span><br/><span class="hl-1">import</span><span class="hl-0"> { </span><span class="hl-2">useConnection</span><span class="hl-0">, </span><span class="hl-2">useWallet</span><span class="hl-0"> } </span><span class="hl-1">from</span><span class="hl-0"> </span><span class="hl-3">&#39;@solana/wallet-adapter-react&#39;</span><span class="hl-0">;</span><br/><span class="hl-1">import</span><span class="hl-0"> { </span><span class="hl-2">Keypair</span><span class="hl-0">, </span><span class="hl-2">SystemProgram</span><span class="hl-0">, </span><span class="hl-2">Transaction</span><span class="hl-0"> } </span><span class="hl-1">from</span><span class="hl-0"> </span><span class="hl-3">&#39;@solana/web3.js&#39;</span><span class="hl-0">;</span><br/><span class="hl-1">import</span><span class="hl-0"> </span><span class="hl-2">React</span><span class="hl-0">, { </span><span class="hl-2">FC</span><span class="hl-0">, </span><span class="hl-2">useCallback</span><span class="hl-0"> } </span><span class="hl-1">from</span><span class="hl-0"> </span><span class="hl-3">&#39;react&#39;</span><span class="hl-0">;</span><br/><br/><span class="hl-1">export</span><span class="hl-0"> </span><span class="hl-6">const</span><span class="hl-0"> </span><span class="hl-5">SendOneLamportToRandomAddress</span><span class="hl-0">: </span><span class="hl-7">FC</span><span class="hl-0"> = () </span><span class="hl-6">=&gt;</span><span class="hl-0"> {</span><br/><span class="hl-0">    </span><span class="hl-6">const</span><span class="hl-0"> { </span><span class="hl-8">connection</span><span class="hl-0"> } = </span><span class="hl-5">useConnection</span><span class="hl-0">();</span><br/><span class="hl-0">    </span><span class="hl-6">const</span><span class="hl-0"> { </span><span class="hl-8">publicKey</span><span class="hl-0">, </span><span class="hl-8">sendTransaction</span><span class="hl-0"> } = </span><span class="hl-5">useWallet</span><span class="hl-0">();</span><br/><br/><span class="hl-0">    </span><span class="hl-6">const</span><span class="hl-0"> </span><span class="hl-8">onClick</span><span class="hl-0"> = </span><span class="hl-5">useCallback</span><span class="hl-0">(</span><span class="hl-6">async</span><span class="hl-0"> () </span><span class="hl-6">=&gt;</span><span class="hl-0"> {</span><br/><span class="hl-0">        </span><span class="hl-1">if</span><span class="hl-0"> (!</span><span class="hl-2">publicKey</span><span class="hl-0">) </span><span class="hl-1">throw</span><span class="hl-0"> </span><span class="hl-6">new</span><span class="hl-0"> </span><span class="hl-5">WalletNotConnectedError</span><span class="hl-0">();</span><br/><br/><span class="hl-0">        </span><span class="hl-6">const</span><span class="hl-0"> </span><span class="hl-8">transaction</span><span class="hl-0"> = </span><span class="hl-6">new</span><span class="hl-0"> </span><span class="hl-5">Transaction</span><span class="hl-0">().</span><span class="hl-5">add</span><span class="hl-0">(</span><br/><span class="hl-0">            </span><span class="hl-2">SystemProgram</span><span class="hl-0">.</span><span class="hl-5">transfer</span><span class="hl-0">({</span><br/><span class="hl-0">                </span><span class="hl-2">fromPubkey:</span><span class="hl-0"> </span><span class="hl-2">publicKey</span><span class="hl-0">,</span><br/><span class="hl-0">                </span><span class="hl-2">toPubkey:</span><span class="hl-0"> </span><span class="hl-2">Keypair</span><span class="hl-0">.</span><span class="hl-5">generate</span><span class="hl-0">().</span><span class="hl-2">publicKey</span><span class="hl-0">,</span><br/><span class="hl-0">                </span><span class="hl-2">lamports:</span><span class="hl-0"> </span><span class="hl-12">1</span><span class="hl-0">,</span><br/><span class="hl-0">            })</span><br/><span class="hl-0">        );</span><br/><br/><span class="hl-0">        </span><span class="hl-6">const</span><span class="hl-0"> {</span><br/><span class="hl-0">            </span><span class="hl-2">context</span><span class="hl-0">: { </span><span class="hl-2">slot</span><span class="hl-0">: </span><span class="hl-8">minContextSlot</span><span class="hl-0"> },</span><br/><span class="hl-0">            </span><span class="hl-2">value</span><span class="hl-0">: { </span><span class="hl-8">blockhash</span><span class="hl-0">, </span><span class="hl-8">lastValidBlockHeight</span><span class="hl-0"> }</span><br/><span class="hl-0">        } = </span><span class="hl-1">await</span><span class="hl-0"> </span><span class="hl-2">connection</span><span class="hl-0">.</span><span class="hl-5">getLatestBlockhashAndContext</span><span class="hl-0">();</span><br/><br/><span class="hl-0">        </span><span class="hl-6">const</span><span class="hl-0"> </span><span class="hl-8">signature</span><span class="hl-0"> = </span><span class="hl-1">await</span><span class="hl-0"> </span><span class="hl-5">sendTransaction</span><span class="hl-0">(</span><span class="hl-2">transaction</span><span class="hl-0">, </span><span class="hl-2">connection</span><span class="hl-0">, { </span><span class="hl-2">minContextSlot</span><span class="hl-0"> });</span><br/><br/><span class="hl-0">        </span><span class="hl-1">await</span><span class="hl-0"> </span><span class="hl-2">connection</span><span class="hl-0">.</span><span class="hl-5">confirmTransaction</span><span class="hl-0">({ </span><span class="hl-2">blockhash</span><span class="hl-0">, </span><span class="hl-2">lastValidBlockHeight</span><span class="hl-0">, </span><span class="hl-2">signature</span><span class="hl-0"> });</span><br/><span class="hl-0">    }, [</span><span class="hl-2">publicKey</span><span class="hl-0">, </span><span class="hl-2">sendTransaction</span><span class="hl-0">, </span><span class="hl-2">connection</span><span class="hl-0">]);</span><br/><br/><span class="hl-0">    </span><span class="hl-1">return</span><span class="hl-0"> (</span><br/><span class="hl-0">        </span><span class="hl-9">&lt;</span><span class="hl-13">button</span><span class="hl-0"> </span><span class="hl-10">onClick</span><span class="hl-0">=</span><span class="hl-6">{</span><span class="hl-2">onClick</span><span class="hl-6">}</span><span class="hl-0"> </span><span class="hl-10">disabled</span><span class="hl-0">=</span><span class="hl-6">{</span><span class="hl-0">!</span><span class="hl-2">publicKey</span><span class="hl-6">}</span><span class="hl-9">&gt;</span><br/><span class="hl-0">            Send 1 lamport to a random address!</span><br/><span class="hl-0">        </span><span class="hl-9">&lt;/</span><span class="hl-13">button</span><span class="hl-9">&gt;</span><br/><span class="hl-0">    );</span><br/><span class="hl-0">};</span>
 </code></pre>
 
 <a href="#packages" id="packages" style="color: inherit; text-decoration: none;">
@@ -304,6 +304,11 @@ You can use the <a href="https://github.com/solana-labs/wallet-adapter/tree/mast
 <td>Adapter for <a href="https://trustwallet.com">Trust Wallet</a></td>
 <td><a href="https://npmjs.com/package/@solana/wallet-adapter-trust"><code>@solana/wallet-adapter-trust</code></a></td>
 </tr>
+<tr>
+<td><a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/walletconnect">walletconnect</a></td>
+<td>Adapter for <a href="https://walletconnect.com">WalletConnect</a></td>
+<td><a href="https://npmjs.com/package/@solana/wallet-adapter-walletconnect"><code>@solana/wallet-adapter-walletconnect</code></a></td>
+</tr>
 </tbody></table>
 
 <a href="#ui-components" id="ui-components" style="color: inherit; text-decoration: none;">
@@ -393,6 +398,19 @@ Alternatively, check out <a href="https://github.com/lisenmayben/solana-dapp-nex
 <a href="#build-from-source" id="build-from-source" style="color: inherit; text-decoration: none;">
   <h2>Build from Source</h2>
 </a>
+<ol start="0">
+<li>Prerequisites</li>
+</ol>
+<ul>
+<li>Node 16+</li>
+<li>PNPM</li>
+</ul>
+<p>If you have Node 16+, you can <a href="https://pnpm.io/installation#using-corepack">activate PNPM with Corepack</a>:</p>
+<pre><code class="language-shell"><span class="hl-0">corepack </span><span class="hl-5">enable</span><br/><span class="hl-0">corepack prepare pnpm@</span><span class="hl-3">`npm info pnpm --json </span><span class="hl-0">|</span><span class="hl-3"> jq -r .version`</span><span class="hl-0"> --activate</span>
+</code></pre>
+<p>Corepack requires a version to enable, so if you don&#39;t have <a href="https://stedolan.github.io/jq/">jq</a> installed, you can <a href="https://formulae.brew.sh/formula/jq">install it</a>, or just manually get the current version of pnpm with <code>npm info pnpm</code> and use it like this:</p>
+<pre><code class="language-shell"><span class="hl-0">corepack prepare pnpm@7.8.0 --activate</span>
+</code></pre>
 <ol>
 <li>Clone the project:</li>
 </ol>
@@ -401,17 +419,19 @@ Alternatively, check out <a href="https://github.com/lisenmayben/solana-dapp-nex
 <ol start="2">
 <li>Install dependencies:</li>
 </ol>
-<pre><code class="language-shell"><span class="hl-5">cd</span><span class="hl-0"> wallet-adapter</span><br/><span class="hl-0">yarn install</span>
+<pre><code class="language-shell"><span class="hl-5">cd</span><span class="hl-0"> wallet-adapter</span><br/><span class="hl-0">pnpm install</span>
 </code></pre>
 <ol start="3">
 <li>Build all packages:</li>
 </ol>
-<pre><code class="language-shell"><span class="hl-0">yarn build</span>
+<pre><code class="language-shell"><span class="hl-0">pnpm build</span>
 </code></pre>
+<p>Please be patient! This may take a while the first time you do it. Subsequent builds will be incremental and are quite fast.</p>
+<p>You can also use <code>pnpm watch</code> to run incremental builds when source files change, enabling hot module reloading.</p>
 <ol start="4">
 <li>Run locally:</li>
 </ol>
-<pre><code class="language-shell"><span class="hl-5">cd</span><span class="hl-0"> packages/starter/react-ui-starter</span><br/><span class="hl-0">yarn start</span>
+<pre><code class="language-shell"><span class="hl-5">cd</span><span class="hl-0"> packages/starter/react-ui-starter</span><br/><span class="hl-0">pnpm start</span><br/><span class="hl-0">open http://localhost:1234</span>
 </code></pre>
 </div></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -433,55 +453,15 @@ Alternatively, check out <a href="https://github.com/lisenmayben/solana-dapp-nex
 <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg> Modules</h3></summary>
 <div class="tsd-accordion-details">
 <ul>
-<li class="current selected"><a href="modules.html">Documentation</a>
+<li class="current selected"><a href="modules.html">@solana/wallet-<wbr/>adapter</a>
 <ul>
 <li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_ant_design.html">@solana/wallet-<wbr/>adapter-<wbr/>ant-<wbr/>design</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_avana.html">@solana/wallet-<wbr/>adapter-<wbr/>avana</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_backpack.html">@solana/wallet-<wbr/>adapter-<wbr/>backpack</a></li>
 <li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_base.html">@solana/wallet-<wbr/>adapter-<wbr/>base</a>
 <ul>
 <li class="tsd-kind-namespace tsd-parent-kind-module tsd-is-external"><a href="modules/_solana_wallet_adapter_base.EventEmitter.html">Event<wbr/>Emitter</a></li></ul></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_bitkeep.html">@solana/wallet-<wbr/>adapter-<wbr/>bitkeep</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_bitpie.html">@solana/wallet-<wbr/>adapter-<wbr/>bitpie</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_blocto.html">@solana/wallet-<wbr/>adapter-<wbr/>blocto</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_brave.html">@solana/wallet-<wbr/>adapter-<wbr/>brave</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_clover.html">@solana/wallet-<wbr/>adapter-<wbr/>clover</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_coin98.html">@solana/wallet-<wbr/>adapter-<wbr/>coin98</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_coinbase.html">@solana/wallet-<wbr/>adapter-<wbr/>coinbase</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_coinhub.html">@solana/wallet-<wbr/>adapter-<wbr/>coinhub</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_exodus.html">@solana/wallet-<wbr/>adapter-<wbr/>exodus</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_fake.html">@solana/wallet-<wbr/>adapter-<wbr/>fake</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_glow.html">@solana/wallet-<wbr/>adapter-<wbr/>glow</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_huobi.html">@solana/wallet-<wbr/>adapter-<wbr/>huobi</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_hyperpay.html">@solana/wallet-<wbr/>adapter-<wbr/>hyperpay</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_keystone.html">@solana/wallet-<wbr/>adapter-<wbr/>keystone</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_krystal.html">@solana/wallet-<wbr/>adapter-<wbr/>krystal</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_ledger.html">@solana/wallet-<wbr/>adapter-<wbr/>ledger</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_magiceden.html">@solana/wallet-<wbr/>adapter-<wbr/>magiceden</a></li>
 <li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_material_ui.html">@solana/wallet-<wbr/>adapter-<wbr/>material-<wbr/>ui</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_mathwallet.html">@solana/wallet-<wbr/>adapter-<wbr/>mathwallet</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_neko.html">@solana/wallet-<wbr/>adapter-<wbr/>neko</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_nightly.html">@solana/wallet-<wbr/>adapter-<wbr/>nightly</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_nufi.html">@solana/wallet-<wbr/>adapter-<wbr/>nufi</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_particle.html">@solana/wallet-<wbr/>adapter-<wbr/>particle</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_phantom.html">@solana/wallet-<wbr/>adapter-<wbr/>phantom</a></li>
 <li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_react.html">@solana/wallet-<wbr/>adapter-<wbr/>react</a></li>
 <li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_react_ui.html">@solana/wallet-<wbr/>adapter-<wbr/>react-<wbr/>ui</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_safepal.html">@solana/wallet-<wbr/>adapter-<wbr/>safepal</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_saifu.html">@solana/wallet-<wbr/>adapter-<wbr/>saifu</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_salmon.html">@solana/wallet-<wbr/>adapter-<wbr/>salmon</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_sky.html">@solana/wallet-<wbr/>adapter-<wbr/>sky</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_slope.html">@solana/wallet-<wbr/>adapter-<wbr/>slope</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_solflare.html">@solana/wallet-<wbr/>adapter-<wbr/>solflare</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_sollet.html">@solana/wallet-<wbr/>adapter-<wbr/>sollet</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_solong.html">@solana/wallet-<wbr/>adapter-<wbr/>solong</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_spot.html">@solana/wallet-<wbr/>adapter-<wbr/>spot</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_strike.html">@solana/wallet-<wbr/>adapter-<wbr/>strike</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_tokenary.html">@solana/wallet-<wbr/>adapter-<wbr/>tokenary</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_tokenpocket.html">@solana/wallet-<wbr/>adapter-<wbr/>tokenpocket</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_torus.html">@solana/wallet-<wbr/>adapter-<wbr/>torus</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_trust.html">@solana/wallet-<wbr/>adapter-<wbr/>trust</a></li>
-<li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_walletconnect.html">@solana/wallet-<wbr/>adapter-<wbr/>walletconnect</a></li>
 <li class="tsd-kind-module"><a href="modules/_solana_wallet_adapter_wallets.html">@solana/wallet-<wbr/>adapter-<wbr/>wallets</a></li></ul></li></ul></div></details></nav></div></div>
 <div class="container tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>
