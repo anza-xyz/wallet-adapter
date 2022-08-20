@@ -1,4 +1,5 @@
 {
+    "include": ["src"],
     "compilerOptions": {
         "target": "es5",
         "lib": ["dom", "dom.iterable", "esnext"],
@@ -15,6 +16,5 @@
         "isolatedModules": true,
         "noEmit": true,
         "jsx": "react-jsx"
-    },
-    "include": ["src"]
+    }
 }

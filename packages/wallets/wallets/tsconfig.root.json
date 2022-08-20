@@ -1,0 +1,131 @@
+{
+    "extends": "../../../tsconfig.root.json",
+    "references": [
+        {
+            "path": "../bitpie"
+        },
+        {
+            "path": "../huobi"
+        },
+        {
+            "path": "../safepal"
+        },
+        {
+            "path": "../solflare"
+        },
+        {
+            "path": "../coinbase"
+        },
+        {
+            "path": "../ledger"
+        },
+        {
+            "path": "../hyperpay"
+        },
+        {
+            "path": "../walletconnect"
+        },
+        {
+            "path": "../blocto"
+        },
+        {
+            "path": "../sollet"
+        },
+        {
+            "path": "../particle"
+        },
+        {
+            "path": "../coinhub"
+        },
+        {
+            "path": "../clover"
+        },
+        {
+            "path": "../bitkeep"
+        },
+        {
+            "path": "../brave"
+        },
+        {
+            "path": "../coin98"
+        },
+        {
+            "path": "../fake"
+        },
+        {
+            "path": "../glow"
+        },
+        {
+            "path": "../krystal"
+        },
+        {
+            "path": "../avana"
+        },
+        {
+            "path": "../trust"
+        },
+        {
+            "path": "../saifu"
+        },
+        {
+            "path": "../mathwallet"
+        },
+        {
+            "path": "../keystone"
+        },
+        {
+            "path": "../nufi"
+        },
+        {
+            "path": "../solong"
+        },
+        {
+            "path": "../backpack"
+        },
+        {
+            "path": "../exodus"
+        },
+        {
+            "path": "../neko"
+        },
+        {
+            "path": "../nightly"
+        },
+        {
+            "path": "../salmon"
+        },
+        {
+            "path": "../sky"
+        },
+        {
+            "path": "../magiceden"
+        },
+        {
+            "path": "../tokenary"
+        },
+        {
+            "path": "../slope"
+        },
+        {
+            "path": "../spot"
+        },
+        {
+            "path": "../torus"
+        },
+        {
+            "path": "../strike"
+        },
+        {
+            "path": "../tokenpocket"
+        },
+        {
+            "path": "../phantom"
+        },
+        {
+            "path": "./tsconfig.cjs.json"
+        },
+        {
+            "path": "./tsconfig.esm.json"
+        }
+    ]
+}
