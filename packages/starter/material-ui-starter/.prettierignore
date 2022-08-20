@@ -1,3 +1,5 @@
-.parcel-cache
-dist
-node_modules
+/.parcel-cache
+/dist
+/lib
+/node_modules
+
