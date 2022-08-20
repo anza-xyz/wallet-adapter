@@ -168,7 +168,7 @@ export class NightlyWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return wallet.signMessage(message.toString());
+                return wallet.signMessage(new TextDecoder().decode(message));
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
