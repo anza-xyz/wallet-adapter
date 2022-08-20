@@ -5,54 +5,52 @@
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
     "type": "module",
+    "engines": {
+        "node": ">=16",
+        "pnpm": ">=7"
+    },
     "workspaces": {
         "packages": [
             "packages/*/*"
         ]
     },
-    "engines": {
-        "node": ">= 10"
-    },
-    "publishConfig": {
-        "access": "public"
-    },
     "scripts": {
-        "clean": "lerna run clean",
-        "build": "lerna run build",
-        "test": "lerna run test",
-        "publish": "lerna publish from-package",
+        "nuke": "shx rm -rf packages/*/*/node_modules node_modules pnpm-lock.yaml || true",
+        "reinstall": "pnpm run nuke && pnpm install",
+        "clean": "pnpm --recursive run clean",
+        "build": "tsc --project tsconfig.all.json --build --verbose",
+        "watch": "tsc --project tsconfig.all.json --build --verbose --watch",
+        "release": "pnpm run clean && pnpm run build",
         "version": "lerna version --no-git-tag-version --no-push",
-        "deploy": "yarn deploy:docs && yarn deploy:example",
-        "deploy:docs": "yarn docs && gh-pages --dist docs --dotfiles",
-        "deploy:example": "gh-pages --dist packages/starter/example/out --dest example --dotfiles",
-        "docs": "shx rm -rf docs && NODE_OPTIONS=--max_old_space_size=24000 typedoc && shx cp ./{.nojekyll,wallets.png} docs/",
-        "fmt": "prettier --write '{*,**/*}.{js,ts,jsx,tsx,json,vue}'",
-        "lint": "eslint --ext .ts,.tsx . && prettier --check '{*,**/*}.{js,ts,jsx,tsx,json,vue}'",
-        "lint:fix": "eslint --fix --ext .ts,.tsx . && yarn fmt",
-        "nuke": "shx rm -rf {.,packages/*/*}/{node_modules,yarn.lock}"
+        "publish": "lerna publish from-package",
+        "fmt": "prettier --write '{*,**/*}.{ts,tsx,js,jsx,json}'",
+        "lint": "prettier --check '{*,**/*}.{ts,tsx,js,jsx,json}' && eslint .",
+        "lint:fix": "pnpm run fmt && eslint --fix .",
+        "test": "pnpm --recursive run test",
+        "docs": "shx rm -rf docs && NODE_OPTIONS=--max_old_space_size=16000 typedoc && shx cp ./{.nojekyll,wallets.png} docs/",
+        "deploy": "pnpm run deploy:docs && pnpm run deploy:example",
+        "deploy:docs": "pnpm run docs && gh-pages --dist docs --dotfiles",
+        "deploy:example": "gh-pages --dist packages/starter/example/out --dest example --dotfiles"
     },
     "devDependencies": {
-        "@babel/eslint-parser": "^7.18.9",
-        "@types/eslint": "^8.4.5",
-        "@types/eslint-plugin-prettier": "^3.1.0",
-        "@types/node": "^18.6.3",
-        "@types/prettier": "^2.6.4",
+        "@types/node": "^18.6.4",
         "@typescript-eslint/eslint-plugin": "^5.32.0",
         "@typescript-eslint/parser": "^5.32.0",
-        "babel-eslint": "^10.1.0",
-        "eslint": "^8.21.0",
+        "eslint": "^8.20.0",
         "eslint-config-prettier": "^8.5.0",
-        "eslint-config-react-app": "^7.0.0",
         "eslint-plugin-prettier": "^4.2.1",
         "gh-pages": "^4.0.0",
         "lerna": "^5.3.0",
-        "prettier": "^2.5.1",
-        "shx": "^0.3.3",
-        "tsc-esm": "^1.0.4",
-        "tslib": "^2.3.0",
+        "pnpm": "^7.8.0",
+        "prettier": "^2.7.1",
+        "shx": "^0.3.4",
         "typedoc": "^0.23.10",
-        "typescript": "^4.6.2",
-        "typescript-esm": "^2.0.0"
+        "typescript": "^4.7.4"
+    },
+    "overrides": {
+        "@ledgerhq/devices": "6.27.1",
+        "@ledgerhq/hw-transport": "6.27.1",
+        "@ledgerhq/hw-transport-webhid": "6.27.1"
     },
     "resolutions": {
         "@ledgerhq/devices": "6.27.1",
