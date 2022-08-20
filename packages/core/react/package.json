@@ -1,21 +1,18 @@
 {
     "name": "@solana/wallet-adapter-react",
-    "version": "0.15.15",
+    "version": "0.15.16",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
     "type": "module",
     "sideEffects": false,
-    "main": "lib/cjs/index.js",
-    "module": "lib/esm/index.mjs",
-    "types": "lib/types/index.d.ts",
+    "main": "./lib/cjs/index.js",
+    "module": "./lib/esm/index.js",
+    "types": "./lib/types/index.d.ts",
     "exports": {
-        ".": {
-            "require": "./lib/cjs/index.js",
-            "import": "./lib/esm/index.mjs",
-            "types": "./lib/types/index.d.ts"
-        },
-        "./package.json": "./package.json"
+        "require": "./lib/cjs/index.js",
+        "import": "./lib/esm/index.js",
+        "types": "./lib/types/index.d.ts"
     },
     "files": [
         "lib",
@@ -26,26 +23,28 @@
         "access": "public"
     },
     "scripts": {
-        "clean": "shx rm -rf lib/*",
-        "build": "yarn clean && tsc -p tsconfig.json && tsc-esm -p tsconfig.json && tsc -p tsconfig.cjs.json",
-        "test": "jest",
-        "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
+        "clean": "shx mkdir -p lib && shx rm -rf lib",
+        "test": "jest"
     },
     "peerDependencies": {
         "@solana/web3.js": "^1.50.1",
-        "react": "*"
+        "react": "*",
+        "react-dom": "*"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.9.12"
+        "@solana/wallet-adapter-base": "workspace:^"
     },
     "devDependencies": {
         "@solana/web3.js": "^1.50.1",
         "@types/jest": "^28.1.6",
-        "@types/react": "^18.0.15",
+        "@types/react": "^18.0.0",
+        "@types/react-dom": "^18.0.0",
         "jest": "^28.1.3",
         "jest-environment-jsdom": "^28.1.3",
         "jest-localstorage-mock": "^2.4.18",
         "react": "^18.0.0",
+        "react-dom": "^18.0.0",
+        "shx": "^0.3.4",
         "ts-jest": "^28.0.7"
     }
 }

@@ -1,5 +1,9 @@
-node_modules
+.github
+.next
+.parcel-cache
 
 docs
 lib
+build
+dist
 out

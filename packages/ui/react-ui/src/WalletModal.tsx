@@ -55,7 +55,7 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
     const hideModal = useCallback(() => {
         setFadeIn(false);
         setTimeout(() => setVisible(false), 150);
-    }, []);
+    }, [setVisible]);
 
     const handleClose = useCallback(
         (event: MouseEvent) => {

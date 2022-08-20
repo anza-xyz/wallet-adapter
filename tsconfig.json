@@ -1,25 +1,9 @@
 {
-    "include": ["packages/*/*/src"],
+    "extends": "./tsconfig.base.json",
+    "include": ["./packages/core/*/src", "./packages/ui/*/src", "./packages/wallets/wallets/src"],
     "compilerOptions": {
-        "target": "es2019",
-        "module": "esnext",
-        "moduleResolution": "node",
         "noEmit": true,
-        "declaration": true,
-        "sourceMap": true,
-        "noEmitOnError": true,
-        "stripInternal": true,
-        "jsx": "react",
-        "strict": true,
-        "esModuleInterop": true,
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "noUncheckedIndexedAccess": true
-    },
-    "typedocOptions": {
-        "entryPoints": ".",
-        "entryPointStrategy": "packages",
-        "out": "docs",
-        "readme": "README.md"
+        "skipLibCheck": true,
+        "jsx": "react"
     }
 }

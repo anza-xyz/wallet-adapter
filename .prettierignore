@@ -1,12 +1,9 @@
 .github
-.parcel-cache
 .next
+.parcel-cache
 
-build
-dist
 docs
 lib
+build
+dist
 out
-
-*.svg
-

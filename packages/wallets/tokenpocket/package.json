@@ -1,17 +1,17 @@
 {
     "name": "@solana/wallet-adapter-tokenpocket",
-    "version": "0.4.9",
+    "version": "0.4.10",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
     "type": "module",
     "sideEffects": false,
-    "main": "lib/cjs/index.js",
-    "module": "lib/esm/index.mjs",
-    "types": "lib/types/index.d.ts",
+    "main": "./lib/cjs/index.js",
+    "module": "./lib/esm/index.js",
+    "types": "./lib/types/index.d.ts",
     "exports": {
         "require": "./lib/cjs/index.js",
-        "import": "./lib/esm/index.mjs",
+        "import": "./lib/esm/index.js",
         "types": "./lib/types/index.d.ts"
     },
     "files": [
@@ -23,17 +23,16 @@
         "access": "public"
     },
     "scripts": {
-        "clean": "shx rm -rf lib/*",
-        "build": "yarn clean && tsc -p tsconfig.json && tsc-esm -p tsconfig.json && tsc -p tsconfig.cjs.json",
-        "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
+        "clean": "shx mkdir -p lib && shx rm -rf lib"
     },
     "peerDependencies": {
         "@solana/web3.js": "^1.50.1"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.9.12"
+        "@solana/wallet-adapter-base": "workspace:^"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.50.1"
+        "@solana/web3.js": "^1.50.1",
+        "shx": "^0.3.4"
     }
 }
