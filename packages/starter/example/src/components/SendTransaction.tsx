@@ -3,7 +3,7 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import type { TransactionSignature } from '@solana/web3.js';
 import { PublicKey, Transaction, TransactionInstruction } from '@solana/web3.js';
 import type { FC } from 'react';
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useNotify } from './notify';
 
 export const SendTransaction: FC = () => {

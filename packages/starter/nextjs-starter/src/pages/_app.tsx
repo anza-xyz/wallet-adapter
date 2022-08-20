@@ -5,7 +5,7 @@ import { FakeWalletAdapter } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 import type { AppProps } from 'next/app';
 import type { FC } from 'react';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 // Use require instead of import since order matters
 require('@solana/wallet-adapter-react-ui/styles.css');

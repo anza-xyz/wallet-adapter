@@ -3,7 +3,7 @@ import { Link } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import type { VariantType } from 'notistack';
 import { useSnackbar } from 'notistack';
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 
 const Notification = styled('span')(() => ({
     display: 'flex',
