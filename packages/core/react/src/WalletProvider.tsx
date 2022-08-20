@@ -118,7 +118,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     const handleDisconnect = useCallback(() => {
         // Clear the selected wallet unless the window is unloading
         if (!isUnloading.current) setName(null);
-    }, [isUnloading]);
+    }, [isUnloading, setName]);
 
     // Handle the adapter's error event, and local errors
     const handleError = useCallback(
@@ -176,7 +176,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
                 isConnecting.current = false;
             }
         })();
-    }, [isConnecting, connected, autoConnect, adapter, readyState]);
+    }, [isConnecting, connected, autoConnect, adapter, readyState, setName]);
 
     // Connect the adapter to the wallet
     const connect = useCallback(async () => {
@@ -207,7 +207,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
             setConnecting(false);
             isConnecting.current = false;
         }
-    }, [isConnecting, isDisconnecting, connected, adapter, readyState, handleError]);
+    }, [isConnecting, isDisconnecting, connected, adapter, readyState, handleError, setName]);
 
     // Disconnect the adapter from the wallet
     const disconnect = useCallback(async () => {
@@ -227,7 +227,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
             setDisconnecting(false);
             isDisconnecting.current = false;
         }
-    }, [isDisconnecting, adapter]);
+    }, [isDisconnecting, adapter, setName]);
 
     // Send a transaction using the provided connection
     const sendTransaction = useCallback(

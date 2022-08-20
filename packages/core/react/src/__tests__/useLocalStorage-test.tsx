@@ -51,7 +51,7 @@ const TestComponent = forwardRef(function TestComponentImpl(_props, ref) {
                 setPersistedValue(newValue);
             },
         }),
-        [persistedValue]
+        [persistedValue, setPersistedValue]
     );
     return null;
 });
