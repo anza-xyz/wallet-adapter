@@ -1,6 +1,6 @@
 {
     "extends": "./tsconfig.all.json",
-    "include": ["./packages/*/*/src"],
+    "include": ["./packages/*/*/src", "./packages/*/*/package.json"],
     "compilerOptions": {
         "noEmit": true,
         "skipLibCheck": true,
