@@ -23,7 +23,7 @@
         "deploy": "pnpm run deploy:docs && pnpm run deploy:example",
         "docs": "shx rm -rf docs && NODE_OPTIONS=--max_old_space_size=16000 typedoc && shx cp ./{.nojekyll,wallets.png} docs/",
         "deploy:docs": "pnpm run docs && gh-pages --dist docs --dotfiles",
-        "example": "pnpm run --filter '@solana/wallet-adapter-example' export",
+        "example": "pnpm run --filter {packages/starter/example} export",
         "deploy:example": "pnpm run example && gh-pages --dist packages/starter/example/out --dest example --dotfiles"
     },
     "devDependencies": {
