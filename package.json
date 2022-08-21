@@ -8,11 +8,6 @@
         "node": ">=16",
         "pnpm": ">=7"
     },
-    "workspaces": {
-        "packages": [
-            "packages/*/*"
-        ]
-    },
     "scripts": {
         "nuke": "shx rm -rf packages/*/*/node_modules node_modules pnpm-lock.yaml || true",
         "reinstall": "pnpm run nuke && pnpm install",
