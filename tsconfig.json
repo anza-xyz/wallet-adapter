@@ -1,6 +1,6 @@
 {
-    "extends": "./tsconfig.base.json",
-    "include": ["./packages/core/*/src", "./packages/ui/*/src", "./packages/wallets/wallets/src"],
+    "extends": "./tsconfig.all.json",
+    "include": ["./packages/*/*/src"],
     "compilerOptions": {
         "noEmit": true,
         "skipLibCheck": true,
