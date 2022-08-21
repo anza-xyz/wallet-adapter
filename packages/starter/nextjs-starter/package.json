@@ -28,7 +28,7 @@
         "tsconfig.json"
     ],
     "scripts": {
-        "clean": "shx rm -rf .next lib",
+        "clean": "shx rm -rf .next .swc lib",
         "dev": "NODE_OPTIONS='--inspect' next dev",
         "build": "next build",
         "start": "next start",
