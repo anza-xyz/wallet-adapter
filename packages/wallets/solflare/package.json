@@ -6,6 +6,9 @@
     "license": "Apache-2.0",
     "type": "module",
     "sideEffects": false,
+    "engines": {
+        "node": ">=16"
+    },
     "main": "./lib/cjs/index.js",
     "module": "./lib/esm/index.js",
     "types": "./lib/types/index.d.ts",
