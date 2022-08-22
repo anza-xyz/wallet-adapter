@@ -1,4 +1,4 @@
-import type Transport from '@ledgerhq/hw-transport';
+import type { default as Transport } from '@ledgerhq/hw-transport';
 import { StatusCodes, TransportStatusError } from '@ledgerhq/hw-transport';
 import type { Transaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';

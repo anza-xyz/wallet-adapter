@@ -68,7 +68,7 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
 
             let BloctoClass: typeof Blocto;
             try {
-                ({ default: BloctoClass } = await import('@blocto/sdk'));
+                BloctoClass = (await import('@blocto/sdk')).default.default;
             } catch (error: any) {
                 throw new WalletLoadError(error?.message, error);
             }

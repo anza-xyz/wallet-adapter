@@ -69,7 +69,7 @@ export class StrikeWalletAdapter extends BaseSignerWalletAdapter {
 
             let StrikeClass: typeof StrikeWallet;
             try {
-                ({ StrikeWallet: StrikeClass } = await import('@strike-protocols/solana-wallet-adapter'));
+                StrikeClass = (await import('@strike-protocols/solana-wallet-adapter')).StrikeWallet;
             } catch (error: any) {
                 throw new WalletLoadError(error?.message, error);
             }
