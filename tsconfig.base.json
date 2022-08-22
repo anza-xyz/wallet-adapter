@@ -2,8 +2,8 @@
     "include": [],
     "compilerOptions": {
         "target": "ESNext",
-        "module": "NodeNext",
-        "moduleResolution": "NodeNext",
+        "module": "ESNext",
+        "moduleResolution": "Node",
         "esModuleInterop": true,
         "isolatedModules": true,
         "noEmitOnError": true,
