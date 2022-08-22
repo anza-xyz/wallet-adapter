@@ -14,7 +14,7 @@ import {
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import type { PublicKey, Transaction } from '@solana/web3.js';
-import './polyfills/index';
+import './polyfills/index.js';
 import { getDerivationPath, getPublicKey, signTransaction } from './util.js';
 
 export interface LedgerWalletAdapterConfig {

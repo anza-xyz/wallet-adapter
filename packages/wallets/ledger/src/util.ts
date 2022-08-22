@@ -2,7 +2,7 @@ import type { default as Transport } from '@ledgerhq/hw-transport';
 import { StatusCodes, TransportStatusError } from '@ledgerhq/hw-transport';
 import type { Transaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
-import './polyfills/index';
+import './polyfills/index.js';
 
 export function getDerivationPath(account?: number, change?: number): Buffer {
     const length = account !== undefined ? (change === undefined ? 3 : 4) : 2;
