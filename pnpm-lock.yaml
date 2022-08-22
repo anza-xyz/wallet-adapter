@@ -83,10 +83,10 @@ importers:
 
   packages/starter/create-react-app-starter:
     specifiers:
-      '@solana/wallet-adapter-base': ^0.9.15-alpha.0
-      '@solana/wallet-adapter-react': ^0.15.17-alpha.0
-      '@solana/wallet-adapter-react-ui': ^0.9.15-alpha.0
-      '@solana/wallet-adapter-wallets': ^0.18.4-alpha.0
+      '@solana/wallet-adapter-base': ^0.9.15
+      '@solana/wallet-adapter-react': ^0.15.17
+      '@solana/wallet-adapter-react-ui': ^0.9.15
+      '@solana/wallet-adapter-wallets': ^0.18.4
       '@solana/web3.js': ^1.50.1
       '@testing-library/jest-dom': ^5.16.5
       '@testing-library/react': ^13.3.0
@@ -137,12 +137,12 @@ importers:
       '@emotion/styled': ^11.10.0
       '@mui/icons-material': ^5.8.4
       '@mui/material': ^5.9.3
-      '@solana/wallet-adapter-ant-design': ^0.11.12-alpha.0
-      '@solana/wallet-adapter-base': ^0.9.15-alpha.0
-      '@solana/wallet-adapter-material-ui': ^0.16.13-alpha.0
-      '@solana/wallet-adapter-react': ^0.15.17-alpha.0
-      '@solana/wallet-adapter-react-ui': ^0.9.15-alpha.0
-      '@solana/wallet-adapter-wallets': ^0.18.4-alpha.0
+      '@solana/wallet-adapter-ant-design': ^0.11.12
+      '@solana/wallet-adapter-base': ^0.9.15
+      '@solana/wallet-adapter-material-ui': ^0.16.13
+      '@solana/wallet-adapter-react': ^0.15.17
+      '@solana/wallet-adapter-react-ui': ^0.9.15
+      '@solana/wallet-adapter-wallets': ^0.18.4
       '@solana/web3.js': ^1.50.1
       '@types/node-fetch': ^2.6.2
       '@types/react': ^18.0.0
@@ -199,10 +199,10 @@ importers:
       '@emotion/styled': ^11.10.0
       '@mui/icons-material': ^5.8.4
       '@mui/material': ^5.9.3
-      '@solana/wallet-adapter-base': ^0.9.15-alpha.0
-      '@solana/wallet-adapter-material-ui': ^0.16.13-alpha.0
-      '@solana/wallet-adapter-react': ^0.15.17-alpha.0
-      '@solana/wallet-adapter-wallets': ^0.18.4-alpha.0
+      '@solana/wallet-adapter-base': ^0.9.15
+      '@solana/wallet-adapter-material-ui': ^0.16.13
+      '@solana/wallet-adapter-react': ^0.15.17
+      '@solana/wallet-adapter-wallets': ^0.18.4
       '@solana/web3.js': ^1.50.1
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
@@ -238,10 +238,10 @@ importers:
 
   packages/starter/nextjs-starter:
     specifiers:
-      '@solana/wallet-adapter-base': ^0.9.15-alpha.0
-      '@solana/wallet-adapter-react': ^0.15.17-alpha.0
-      '@solana/wallet-adapter-react-ui': ^0.9.15-alpha.0
-      '@solana/wallet-adapter-wallets': ^0.18.4-alpha.0
+      '@solana/wallet-adapter-base': ^0.9.15
+      '@solana/wallet-adapter-react': ^0.15.17
+      '@solana/wallet-adapter-react-ui': ^0.9.15
+      '@solana/wallet-adapter-wallets': ^0.18.4
       '@types/node-fetch': ^2.6.2
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
@@ -273,10 +273,10 @@ importers:
 
   packages/starter/react-ui-starter:
     specifiers:
-      '@solana/wallet-adapter-base': ^0.9.15-alpha.0
-      '@solana/wallet-adapter-react': ^0.15.17-alpha.0
-      '@solana/wallet-adapter-react-ui': ^0.9.15-alpha.0
-      '@solana/wallet-adapter-wallets': ^0.18.4-alpha.0
+      '@solana/wallet-adapter-base': ^0.9.15
+      '@solana/wallet-adapter-react': ^0.15.17
+      '@solana/wallet-adapter-react-ui': ^0.9.15
+      '@solana/wallet-adapter-wallets': ^0.18.4
       '@solana/web3.js': ^1.50.1
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
