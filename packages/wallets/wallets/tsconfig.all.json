@@ -122,6 +122,9 @@
             "path": "../phantom/tsconfig.all.json"
         },
         {
+            "path": "../infinitywallet/tsconfig.all.json"
+        },
+        {
             "path": "./tsconfig.cjs.json"
         },
         {
