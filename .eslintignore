@@ -1,6 +1,7 @@
 .github
 .next
 .parcel-cache
+.swc
 
 docs
 lib

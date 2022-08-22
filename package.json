@@ -4,6 +4,8 @@
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
+    "type": "module",
+    "sideEffects": false,
     "engines": {
         "node": ">=16",
         "pnpm": ">=7"
@@ -11,7 +13,7 @@
     "scripts": {
         "nuke": "shx rm -rf packages/*/*/node_modules node_modules pnpm-lock.yaml || true",
         "reinstall": "pnpm run nuke && pnpm install",
-        "clean": "pnpm --recursive run clean",
+        "clean": "pnpm --recursive run clean && shx rm -rf **/*.tsbuildinfo",
         "tsc": "tsc --build --verbose tsconfig.all.json",
         "watch": "tsc --build --verbose --watch tsconfig.all.json",
         "build": "pnpm --recursive run build",

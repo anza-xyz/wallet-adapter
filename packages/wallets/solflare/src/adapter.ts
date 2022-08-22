@@ -16,7 +16,7 @@ import {
 } from '@solana/wallet-adapter-base';
 import type { Transaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
-import type Solflare from '@solflare-wallet/sdk';
+import type { default as Solflare } from '@solflare-wallet/sdk';
 
 interface SolflareWindow extends Window {
     solflare?: {
@@ -91,7 +91,7 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             let SolflareClass: typeof Solflare;
             try {
-                ({ default: SolflareClass } = await import('@solflare-wallet/sdk'));
+                SolflareClass = (await import('@solflare-wallet/sdk')).default;
             } catch (error: any) {
                 throw new WalletLoadError(error?.message, error);
             }

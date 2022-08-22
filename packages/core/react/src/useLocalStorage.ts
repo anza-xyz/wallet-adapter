@@ -1,12 +1,12 @@
-import type React from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 import { useEffect, useRef, useState } from 'react';
 
-export function useLocalStorage<T>(key: string, defaultState: T): [T, React.Dispatch<React.SetStateAction<T>>] {
+export function useLocalStorage<T>(key: string, defaultState: T): [T, Dispatch<SetStateAction<T>>] {
     const state = useState<T>(() => {
         try {
             const value = localStorage.getItem(key);
             if (value) return JSON.parse(value) as T;
-        } catch (error) {
+        } catch (error: any) {
             if (typeof window !== 'undefined') {
                 console.error(error);
             }
@@ -28,7 +28,7 @@ export function useLocalStorage<T>(key: string, defaultState: T): [T, React.Disp
             } else {
                 localStorage.setItem(key, JSON.stringify(value));
             }
-        } catch (error) {
+        } catch (error: any) {
             if (typeof window !== 'undefined') {
                 console.error(error);
             }

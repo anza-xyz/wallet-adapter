@@ -7,8 +7,9 @@ node_modules
 package-lock.json
 yarn.lock
 
-.parcel-cache
 .next
+.parcel-cache
+.swc
 build
 lib
 dist

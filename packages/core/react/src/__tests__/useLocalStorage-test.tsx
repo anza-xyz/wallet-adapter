@@ -8,7 +8,7 @@ import 'jest-localstorage-mock';
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
 import { createRoot } from 'react-dom/client';
 import { act } from 'react-dom/test-utils';
-import { useLocalStorage } from '../useLocalStorage';
+import { useLocalStorage } from '../useLocalStorage.js';
 
 type TestRefType = {
     getPersistedValue(): string;
@@ -132,11 +132,12 @@ describe('useLocalStorage', () => {
             let cachedLocalStorage: Storage;
             beforeEach(() => {
                 cachedLocalStorage = localStorage;
-                // @ts-ignore
+                // @ts-ignore - readonly
                 delete global.localStorage;
                 expect(renderTest).not.toThrow();
             });
             afterEach(() => {
+                // @ts-ignore - readonly
                 global.localStorage = cachedLocalStorage;
             });
             it('renders with the default value', () => {
@@ -244,11 +245,12 @@ describe('useLocalStorage', () => {
             let cachedLocalStorage: Storage;
             beforeEach(() => {
                 cachedLocalStorage = localStorage;
-                // @ts-ignore
+                // @ts-ignore - readonly
                 delete global.localStorage;
                 expect(renderTest).not.toThrow();
             });
             afterEach(() => {
+                // @ts-ignore - readonly
                 global.localStorage = cachedLocalStorage;
             });
             describe('when setting to a non-null value', () => {

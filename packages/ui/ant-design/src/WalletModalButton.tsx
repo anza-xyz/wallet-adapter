@@ -2,7 +2,7 @@ import type { ButtonProps } from 'antd';
 import { Button } from 'antd';
 import type { FC, MouseEventHandler } from 'react';
 import React, { useCallback } from 'react';
-import { useWalletModal } from './useWalletModal';
+import { useWalletModal } from './useWalletModal.js';
 
 export const WalletModalButton: FC<ButtonProps> = ({
     children = 'Select Wallet',

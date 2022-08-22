@@ -3,10 +3,10 @@ import { WalletNotConnectedError, WalletNotReadyError, WalletReadyState } from '
 import type { Connection, PublicKey, Transaction } from '@solana/web3.js';
 import type { FC, ReactNode } from 'react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { WalletNotSelectedError } from './errors';
-import { useLocalStorage } from './useLocalStorage';
-import type { Wallet } from './useWallet';
-import { WalletContext } from './useWallet';
+import { WalletNotSelectedError } from './errors.js';
+import { useLocalStorage } from './useLocalStorage.js';
+import type { Wallet } from './useWallet.js';
+import { WalletContext } from './useWallet.js';
 
 export interface WalletProviderProps {
     children: ReactNode;

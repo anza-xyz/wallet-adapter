@@ -1,6 +1,6 @@
 import type { PublicKey, Transaction } from '@solana/web3.js';
 import { useMemo } from 'react';
-import { useWallet } from './useWallet';
+import { useWallet } from './useWallet.js';
 
 export interface AnchorWallet {
     publicKey: PublicKey;

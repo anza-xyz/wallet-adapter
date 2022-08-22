@@ -1,2 +1,2 @@
-export * from './adapter';
-export { getDerivationPath } from './util';
+export * from './adapter.js';
+export { getDerivationPath } from './util.js';

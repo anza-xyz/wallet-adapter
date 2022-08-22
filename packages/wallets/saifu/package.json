@@ -1,11 +1,14 @@
 {
     "name": "@solana/wallet-adapter-saifu",
-    "version": "0.1.6",
+    "version": "0.1.7",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
     "type": "module",
     "sideEffects": false,
+    "engines": {
+        "node": ">=16"
+    },
     "main": "./lib/cjs/index.js",
     "module": "./lib/esm/index.js",
     "types": "./lib/types/index.d.ts",
