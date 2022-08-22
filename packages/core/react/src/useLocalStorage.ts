@@ -6,7 +6,7 @@ export function useLocalStorage<T>(key: string, defaultState: T): [T, React.Disp
         try {
             const value = localStorage.getItem(key);
             if (value) return JSON.parse(value) as T;
-        } catch (error) {
+        } catch (error: any) {
             if (typeof window !== 'undefined') {
                 console.error(error);
             }
@@ -28,7 +28,7 @@ export function useLocalStorage<T>(key: string, defaultState: T): [T, React.Disp
             } else {
                 localStorage.setItem(key, JSON.stringify(value));
             }
-        } catch (error) {
+        } catch (error: any) {
             if (typeof window !== 'undefined') {
                 console.error(error);
             }

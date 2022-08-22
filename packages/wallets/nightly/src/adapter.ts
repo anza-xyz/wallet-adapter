@@ -122,7 +122,7 @@ export class NightlyWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             try {
                 await wallet.disconnect();
-            } catch (error) {
+            } catch (error: any) {
                 this.emit('error', new WalletDisconnectedError());
             }
         }

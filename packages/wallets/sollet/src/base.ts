@@ -221,7 +221,7 @@ export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAda
                             clearTimeout(timeout);
                             resolve();
                         },
-                        (error) => {
+                        (error: any) => {
                             clearTimeout(timeout);
                             // HACK: sol-wallet-adapter rejects with an error on disconnect
                             if (error?.message === 'Wallet disconnected') {
