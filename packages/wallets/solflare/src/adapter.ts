@@ -91,7 +91,7 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             let SolflareClass: typeof Solflare;
             try {
-                SolflareClass = (await import('@solflare-wallet/sdk')).default.default;
+                SolflareClass = (await import('@solflare-wallet/sdk')).default;
             } catch (error: any) {
                 throw new WalletLoadError(error?.message, error);
             }

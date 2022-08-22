@@ -70,7 +70,7 @@ export class LedgerWalletAdapter extends BaseSignerWalletAdapter {
 
             let TransportWebHIDClass: typeof TransportWebHID;
             try {
-                TransportWebHIDClass = (await import('@ledgerhq/hw-transport-webhid')).default.default;
+                TransportWebHIDClass = (await import('@ledgerhq/hw-transport-webhid')).default;
             } catch (error: any) {
                 throw new WalletLoadError(error?.message, error);
             }

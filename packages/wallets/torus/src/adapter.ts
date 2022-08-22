@@ -79,7 +79,7 @@ export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             let TorusClass: typeof Torus;
             try {
-                TorusClass = (await import('@toruslabs/solana-embed')).default.default;
+                TorusClass = (await import('@toruslabs/solana-embed')).default;
             } catch (error: any) {
                 throw new WalletLoadError(error?.message, error);
             }

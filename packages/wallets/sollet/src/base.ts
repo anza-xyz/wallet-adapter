@@ -106,7 +106,7 @@ export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAda
 
             let SolWalletAdapterClass: typeof SolWalletAdapter;
             try {
-                SolWalletAdapterClass = (await import('@project-serum/sol-wallet-adapter')).default.default;
+                SolWalletAdapterClass = (await import('@project-serum/sol-wallet-adapter')).default;
             } catch (error: any) {
                 throw new WalletLoadError(error?.message, error);
             }

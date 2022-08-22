@@ -92,7 +92,7 @@ export class SalmonWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             let SalmonClass: typeof Salmon;
             try {
-                SalmonClass = (await import('salmon-adapter-sdk')).default.default;
+                SalmonClass = (await import('salmon-adapter-sdk')).default;
             } catch (error: any) {
                 throw new WalletLoadError(error?.message, error);
             }
