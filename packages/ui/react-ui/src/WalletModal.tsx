@@ -45,10 +45,11 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
         return installedWallets.length
             ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               installedWallets[0]!
-            : wallets.find((wallet: { adapter: { name: WalletName } }) => wallet.adapter.name === 'Torus') ||
-                  wallets.find((wallet: { adapter: { name: WalletName } }) => wallet.adapter.name === 'Phantom') ||
-                  wallets.find((wallet: { readyState: any }) => wallet.readyState === WalletReadyState.Loadable) ||
-                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            : wallets.find((wallet: { adapter: { name: WalletName } }) => wallet.adapter.name === 'InfinityWallet') ||
+                wallets.find((wallet: { adapter: { name: WalletName } }) => wallet.adapter.name === 'Torus') ||
+                wallets.find((wallet: { adapter: { name: WalletName } }) => wallet.adapter.name === 'Phantom') ||
+                wallets.find((wallet: { readyState: any }) => wallet.readyState === WalletReadyState.Loadable) ||
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                   otherWallets[0]!;
     }, [installedWallets, wallets, otherWallets]);
 
