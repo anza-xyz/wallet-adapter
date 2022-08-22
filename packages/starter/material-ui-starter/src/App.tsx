@@ -7,7 +7,7 @@ import { clusterApiUrl } from '@solana/web3.js';
 import { useSnackbar } from 'notistack';
 import type { FC, ReactNode } from 'react';
 import React, { useCallback, useMemo } from 'react';
-import { Theme } from './Theme.js';
+import { Theme } from './Theme';
 
 export const App: FC = () => {
     return (

@@ -20,10 +20,10 @@ import {
 import type { NextPage } from 'next';
 import React from 'react';
 import pkg from '../../package.json';
-import { useAutoConnect } from '../components/AutoConnectProvider.js';
-import { RequestAirdrop } from '../components/RequestAirdrop.js';
-import { SendTransaction } from '../components/SendTransaction.js';
-import { SignMessage } from '../components/SignMessage.js';
+import { useAutoConnect } from '../components/AutoConnectProvider';
+import { RequestAirdrop } from '../components/RequestAirdrop';
+import { SendTransaction } from '../components/SendTransaction';
+import { SignMessage } from '../components/SignMessage';
 
 const Index: NextPage = () => {
     const { autoConnect, setAutoConnect } = useAutoConnect();

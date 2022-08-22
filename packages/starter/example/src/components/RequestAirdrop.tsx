@@ -4,7 +4,7 @@ import type { TransactionSignature } from '@solana/web3.js';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import type { FC } from 'react';
 import React, { useCallback } from 'react';
-import { useNotify } from './notify.js';
+import { useNotify } from './notify';
 
 export const RequestAirdrop: FC = () => {
     const { connection } = useConnection();
