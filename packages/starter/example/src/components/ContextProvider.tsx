@@ -11,7 +11,7 @@ import { clusterApiUrl } from '@solana/web3.js';
 import { SnackbarProvider, useSnackbar } from 'notistack';
 import type { FC, ReactNode } from 'react';
 import React, { useCallback, useMemo } from 'react';
-import { AutoConnectProvider, useAutoConnect } from './AutoConnectProvider';
+import { AutoConnectProvider, useAutoConnect } from './AutoConnectProvider.js';
 
 const theme = createTheme({
     palette: {

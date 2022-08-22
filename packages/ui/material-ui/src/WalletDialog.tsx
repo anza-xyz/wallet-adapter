@@ -16,8 +16,8 @@ import { WalletReadyState } from '@solana/wallet-adapter-base';
 import { useWallet } from '@solana/wallet-adapter-react';
 import type { FC, ReactElement, SyntheticEvent } from 'react';
 import React, { useCallback, useMemo, useState } from 'react';
-import { useWalletDialog } from './useWalletDialog';
-import { WalletListItem } from './WalletListItem';
+import { useWalletDialog } from './useWalletDialog.js';
+import { WalletListItem } from './WalletListItem.js';
 
 const RootDialog = styled(Dialog)(({ theme }: { theme: Theme }) => ({
     '& .MuiDialog-paper': {

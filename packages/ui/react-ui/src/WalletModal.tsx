@@ -5,10 +5,10 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import type { FC, MouseEvent } from 'react';
 import React, { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Collapse } from './Collapse';
-import { useWalletModal } from './useWalletModal';
-import { WalletListItem } from './WalletListItem';
-import { WalletSVG } from './WalletSVG';
+import { Collapse } from './Collapse.js';
+import { useWalletModal } from './useWalletModal.js';
+import { WalletListItem } from './WalletListItem.js';
+import { WalletSVG } from './WalletSVG.js';
 
 export interface WalletModalProps {
     className?: string;

@@ -3,7 +3,7 @@ import { Button, ListItem } from '@mui/material';
 import type { Wallet } from '@solana/wallet-adapter-react';
 import type { FC, MouseEventHandler } from 'react';
 import React from 'react';
-import { WalletIcon } from './WalletIcon';
+import { WalletIcon } from './WalletIcon.js';
 
 interface WalletListItemProps extends Omit<ListItemProps, 'onClick' | 'button'> {
     onClick: MouseEventHandler<HTMLButtonElement>;

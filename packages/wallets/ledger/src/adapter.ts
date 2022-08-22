@@ -15,7 +15,7 @@ import {
 } from '@solana/wallet-adapter-base';
 import type { PublicKey, Transaction } from '@solana/web3.js';
 import './polyfills/index';
-import { getDerivationPath, getPublicKey, signTransaction } from './util';
+import { getDerivationPath, getPublicKey, signTransaction } from './util.js';
 
 export interface LedgerWalletAdapterConfig {
     derivationPath?: Buffer;

@@ -4,7 +4,7 @@ import type { TransactionSignature } from '@solana/web3.js';
 import { PublicKey, Transaction, TransactionInstruction } from '@solana/web3.js';
 import type { FC } from 'react';
 import React, { useCallback } from 'react';
-import { useNotify } from './notify';
+import { useNotify } from './notify.js';
 
 export const SendTransaction: FC = () => {
     const { connection } = useConnection();

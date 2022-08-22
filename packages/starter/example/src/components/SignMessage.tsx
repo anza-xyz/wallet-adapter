@@ -4,7 +4,7 @@ import bs58 from 'bs58';
 import type { FC } from 'react';
 import React, { useCallback } from 'react';
 import { sign } from 'tweetnacl';
-import { useNotify } from './notify';
+import { useNotify } from './notify.js';
 
 export const SignMessage: FC = () => {
     const { publicKey, signMessage } = useWallet();

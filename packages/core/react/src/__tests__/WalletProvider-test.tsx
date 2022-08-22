@@ -11,10 +11,10 @@ import 'jest-localstorage-mock';
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
 import { createRoot } from 'react-dom/client';
 import { act } from 'react-dom/test-utils';
-import type { WalletContextState } from '../useWallet';
-import { useWallet } from '../useWallet';
-import type { WalletProviderProps } from '../WalletProvider';
-import { WalletProvider } from '../WalletProvider';
+import type { WalletContextState } from '../useWallet.js';
+import { useWallet } from '../useWallet.js';
+import type { WalletProviderProps } from '../WalletProvider.js';
+import { WalletProvider } from '../WalletProvider.js';
 
 type TestRefType = {
     getWalletContextState(): WalletContextState;
