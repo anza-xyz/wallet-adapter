@@ -39,7 +39,7 @@ export const OntoWalletName = 'ONTO' as WalletName<'ONTO'>;
 
 export class OntoWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = OntoWalletName;
-    url = 'https://onto.app/';
+    url = 'https://onto.app';
     icon = 'data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyODggMjg4Ij4KICA8dGl0bGU+T05UTyBMT0dPXzI4OHgyODg8L3RpdGxlPgogIDxnIGlkPSJMT0dPIj4KICAgIDxwYXRoIGlkPSLlvaLnirbnu5PlkIgiIGQ9Ik0zMCwxMS4xNSw3MS4xOSw1Mi4zMkExMTUsMTE1LDAsMCwxLDI1OCwxMzguNjdMMjU4LDE0MlYyNzYuODVsLTQxLjE5LTQxLjE2QTExNSwxMTUsMCwwLDEsMzAuMDUsMTQ5LjM0TDMwLDE0NlptMjguMTcsNjhWMTQ2YTg2Ljc5LDg2Ljc5LDAsMCwwLDEzNS4xNSw3MmwyLjIzLTEuNTVMNjMuNjcsODQuNjVaTTk0LjY4LDcwbC0yLjIzLDEuNTVMMjI0LjMzLDIwMy4zNmw1LjUsNS41VjE0MkE4Ni43OSw4Ni43OSwwLDAsMCw5NC42OCw3MFoiLz4KICA8L2c+Cjwvc3ZnPg==';
 
     private _connecting: boolean;
