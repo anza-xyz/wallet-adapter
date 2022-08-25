@@ -20,6 +20,7 @@
     ],
     "scripts": {
         "clean": "shx mkdir -p .parcel-cache dist lib && shx rm -rf .parcel-cache dist lib",
+        "package": "shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json",
         "start": "parcel src/index.html",
         "build": "parcel build src/index.html"
     },

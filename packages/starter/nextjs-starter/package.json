@@ -27,6 +27,7 @@
     ],
     "scripts": {
         "clean": "shx rm -rf .next .swc lib",
+        "package": "shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json",
         "dev": "NODE_OPTIONS='--inspect' next dev",
         "build": "next build",
         "start": "next start",

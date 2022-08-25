@@ -22,6 +22,7 @@
     ],
     "scripts": {
         "clean": "shx mkdir -p build lib && shx rm -rf build lib",
+        "package": "shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json",
         "start": "react-app-rewired start",
         "build": "react-app-rewired build",
         "test": "react-app-rewired test",
