@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-glow",
-    "version": "0.1.10",
+    "version": "0.1.11",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -26,7 +26,8 @@
         "access": "public"
     },
     "scripts": {
-        "clean": "shx mkdir -p lib && shx rm -rf lib"
+        "clean": "shx mkdir -p lib && shx rm -rf lib",
+        "package": "shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json"
     },
     "peerDependencies": {
         "@solana/web3.js": "^1.50.1"
