@@ -1,6 +1,6 @@
 import type { WalletName } from '@solana/wallet-adapter-base';
 import {
-    BaseSignerWalletAdapter,
+    BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
     WalletAccountError,
     WalletConnectionError,
@@ -20,6 +20,7 @@ interface SolanaNightly {
     disconnect(): Promise<void>;
     signTransaction(transaction: Transaction): Promise<Transaction>;
     signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
+    signMessage(msg: string): Promise<Uint8Array>;
 }
 
 interface NightlyWindow extends Window {
@@ -32,7 +33,7 @@ export const NightlyWalletName = 'Nightly' as WalletName<'Nightly'>;
 
 declare const window: NightlyWindow;
 
-export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
+export class NightlyWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = NightlyWalletName;
     url = 'https://nightly.app';
     icon =
@@ -121,7 +122,7 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
 
             try {
                 await wallet.disconnect();
-            } catch (error) {
+            } catch (error: any) {
                 this.emit('error', new WalletDisconnectedError());
             }
         }
@@ -152,6 +153,22 @@ export class NightlyWalletAdapter extends BaseSignerWalletAdapter {
 
             try {
                 return await wallet.signAllTransactions(transactions);
+            } catch (error: any) {
+                throw new WalletSignTransactionError(error?.message, error);
+            }
+        } catch (error: any) {
+            this.emit('error', error);
+            throw error;
+        }
+    }
+
+    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+        try {
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
+
+            try {
+                return wallet.signMessage(new TextDecoder().decode(message));
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }

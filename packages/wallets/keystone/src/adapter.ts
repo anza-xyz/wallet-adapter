@@ -68,7 +68,8 @@ export class KeystoneWalletAdapter extends BaseMessageSignerWalletAdapter {
             let account: string;
             try {
                 await keyring.readKeyring();
-                account = keyring.getAccounts()[0].pubKey;
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                account = keyring.getAccounts()[0]!.pubKey;
             } catch (error: any) {
                 throw new WalletAccountError(error?.message, error);
             }

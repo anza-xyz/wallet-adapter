@@ -1,4 +1,6 @@
-.parcel-cache
-dist
-docs
-node_modules
+/.parcel-cache
+/dist
+/lib
+/node_modules
+
+.DS_Store

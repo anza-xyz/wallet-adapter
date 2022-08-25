@@ -1,8 +1,8 @@
 import type { FC, MouseEvent } from 'react';
 import React, { useCallback } from 'react';
-import type { ButtonProps } from './Button';
-import { Button } from './Button';
-import { useWalletModal } from './useWalletModal';
+import type { ButtonProps } from './Button.js';
+import { Button } from './Button.js';
+import { useWalletModal } from './useWalletModal.js';
 
 export const WalletModalButton: FC<ButtonProps> = ({ children = 'Select Wallet', onClick, ...props }) => {
     const { visible, setVisible } = useWalletModal();
@@ -12,7 +12,7 @@ export const WalletModalButton: FC<ButtonProps> = ({ children = 'Select Wallet',
             if (onClick) onClick(event);
             if (!event.defaultPrevented) setVisible(!visible);
         },
-        [onClick, visible]
+        [onClick, setVisible, visible]
     );
 
     return (

@@ -26,15 +26,16 @@ interface BackpackWallet extends EventEmitter<BackpackWalletEvents> {
     isBackpack?: boolean;
     publicKey?: { toBytes(): Uint8Array };
     isConnected: boolean;
-    signTransaction(transaction: Transaction): Promise<Transaction>;
-    signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
+    signTransaction(transaction: Transaction, publicKey?: PublicKey | null): Promise<Transaction>;
+    signAllTransactions(transactions: Transaction[], publicKey?: PublicKey | null): Promise<Transaction[]>;
     send(
         transaction: Transaction,
         signers?: Signer[],
         options?: SendOptions,
-        connection?: Connection
+        connection?: Connection,
+        publicKey?: PublicKey | null
     ): Promise<TransactionSignature>;
-    signMessage(message: Uint8Array): Promise<Uint8Array>;
+    signMessage(message: Uint8Array, publicKey?: PublicKey | null): Promise<Uint8Array>;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
 }
@@ -166,7 +167,7 @@ export class BackpackWalletAdapter extends BaseMessageSignerWalletAdapter {
             const { signers, ...sendOptions } = options;
 
             try {
-                return await wallet.send(transaction, signers, sendOptions, connection);
+                return await wallet.send(transaction, signers, sendOptions, connection, this.publicKey);
             } catch (error: any) {
                 throw new WalletSendTransactionError(error?.message, error);
             }
@@ -182,7 +183,7 @@ export class BackpackWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return (await wallet.signTransaction(transaction)) || transaction;
+                return await wallet.signTransaction(transaction, this.publicKey);
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -198,7 +199,7 @@ export class BackpackWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return (await wallet.signAllTransactions(transactions)) || transactions;
+                return await wallet.signAllTransactions(transactions, this.publicKey);
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -214,7 +215,7 @@ export class BackpackWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return await wallet.signMessage(message);
+                return await wallet.signMessage(message, this.publicKey);
             } catch (error: any) {
                 throw new WalletSignMessageError(error?.message, error);
             }

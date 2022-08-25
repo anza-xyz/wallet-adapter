@@ -41,7 +41,7 @@ Yes, but you may need to set up polyfills for certain imported modules.
 
 For example, you may need to install `buffer`:
 ```shell
-yarn add buffer
+npm install --save buffer
 ```
 
 And configure `webpack.config.js`:

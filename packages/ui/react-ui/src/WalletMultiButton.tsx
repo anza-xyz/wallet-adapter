@@ -1,12 +1,12 @@
 import { useWallet } from '@solana/wallet-adapter-react';
 import type { FC } from 'react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { ButtonProps } from './Button';
-import { Button } from './Button';
-import { useWalletModal } from './useWalletModal';
-import { WalletConnectButton } from './WalletConnectButton';
-import { WalletIcon } from './WalletIcon';
-import { WalletModalButton } from './WalletModalButton';
+import type { ButtonProps } from './Button.js';
+import { Button } from './Button.js';
+import { useWalletModal } from './useWalletModal.js';
+import { WalletConnectButton } from './WalletConnectButton.js';
+import { WalletIcon } from './WalletIcon.js';
+import { WalletModalButton } from './WalletModalButton.js';
 
 export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
     const { publicKey, wallet, disconnect } = useWallet();
@@ -41,7 +41,7 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
     const openModal = useCallback(() => {
         setVisible(true);
         closeDropdown();
-    }, [closeDropdown]);
+    }, [setVisible, closeDropdown]);
 
     useEffect(() => {
         const listener = (event: MouseEvent | TouchEvent) => {

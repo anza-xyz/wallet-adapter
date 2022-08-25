@@ -71,12 +71,13 @@ export const Collapse: FC<CollapseProps> = ({ id, children, expanded = false }) 
 
     return (
         <div
-            children={children}
             className="wallet-adapter-collapse"
             id={id}
             ref={ref}
             role="region"
             style={{ height: 0, transition: instant.current ? undefined : transition }}
-        />
+        >
+            {children}
+        </div>
     );
 };

@@ -1,0 +1,158 @@
+{
+    "extends": "./tsconfig.root.json",
+    "references": [
+        {
+            "path": "./packages/core/base/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/core/react/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/starter/create-react-app-starter/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/starter/example/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/starter/material-ui-starter/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/starter/nextjs-starter/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/starter/react-ui-starter/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/ui/ant-design/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/ui/material-ui/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/ui/react-ui/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/avana/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/backpack/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/bitkeep/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/bitpie/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/blocto/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/brave/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/clover/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/coin98/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/coinbase/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/coinhub/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/exodus/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/fake/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/glow/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/huobi/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/hyperpay/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/keystone/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/krystal/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/ledger/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/magiceden/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/mathwallet/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/neko/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/nightly/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/nufi/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/particle/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/phantom/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/safepal/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/saifu/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/salmon/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/sky/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/slope/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/solflare/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/sollet/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/solong/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/spot/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/strike/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/tokenary/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/tokenpocket/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/torus/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/trust/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/walletconnect/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/wallets/tsconfig.all.json"
+        }
+    ]
+}

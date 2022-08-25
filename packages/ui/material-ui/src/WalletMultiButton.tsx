@@ -4,10 +4,10 @@ import { Button, Collapse, Fade, ListItemIcon, Menu, MenuItem, styled } from '@m
 import { useWallet } from '@solana/wallet-adapter-react';
 import type { FC } from 'react';
 import React, { useMemo, useState } from 'react';
-import { useWalletDialog } from './useWalletDialog';
-import { WalletConnectButton } from './WalletConnectButton';
-import { WalletDialogButton } from './WalletDialogButton';
-import { WalletIcon } from './WalletIcon';
+import { useWalletDialog } from './useWalletDialog.js';
+import { WalletConnectButton } from './WalletConnectButton.js';
+import { WalletDialogButton } from './WalletDialogButton.js';
+import { WalletIcon } from './WalletIcon.js';
 
 const StyledMenu = styled(Menu)(({ theme }: { theme: Theme }) => ({
     '& .MuiList-root': {

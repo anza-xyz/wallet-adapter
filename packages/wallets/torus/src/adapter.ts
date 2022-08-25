@@ -79,7 +79,7 @@ export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             let TorusClass: typeof Torus;
             try {
-                ({ default: TorusClass } = await import('@toruslabs/solana-embed'));
+                TorusClass = (await import('@toruslabs/solana-embed')).default;
             } catch (error: any) {
                 throw new WalletLoadError(error?.message, error);
             }
@@ -108,7 +108,8 @@ export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             let publicKey: PublicKey;
             try {
-                publicKey = new PublicKey(accounts[0]);
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                publicKey = new PublicKey(accounts[0]!);
             } catch (error: any) {
                 throw new WalletPublicKeyError(error?.message, error);
             }
