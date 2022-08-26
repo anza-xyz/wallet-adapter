@@ -32,6 +32,9 @@
             "path": "./packages/ui/react-ui/tsconfig.all.json"
         },
         {
+            "path": "./packages/wallets/alpha/tsconfig.all.json"
+        },
+        {
             "path": "./packages/wallets/avana/tsconfig.all.json"
         },
         {
