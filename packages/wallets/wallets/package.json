@@ -33,6 +33,7 @@
         "@solana/web3.js": "^1.50.1"
     },
     "dependencies": {
+        "@solana/wallet-adapter-alpha": "workspace:^",
         "@solana/wallet-adapter-avana": "workspace:^",
         "@solana/wallet-adapter-backpack": "workspace:^",
         "@solana/wallet-adapter-bitkeep": "workspace:^",
@@ -51,6 +52,7 @@
         "@solana/wallet-adapter-keystone": "workspace:^",
         "@solana/wallet-adapter-krystal": "workspace:^",
         "@solana/wallet-adapter-ledger": "workspace:^",
+        "@solana/wallet-adapter-magiceden": "workspace:^",
         "@solana/wallet-adapter-mathwallet": "workspace:^",
         "@solana/wallet-adapter-neko": "workspace:^",
         "@solana/wallet-adapter-nightly": "workspace:^",

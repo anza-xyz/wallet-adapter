@@ -2,52 +2,40 @@
     "extends": "../../../tsconfig.root.json",
     "references": [
         {
-            "path": "../bitpie/tsconfig.all.json"
+            "path": "../alpha/tsconfig.all.json"
         },
         {
-            "path": "../huobi/tsconfig.all.json"
+            "path": "../avana/tsconfig.all.json"
         },
         {
-            "path": "../safepal/tsconfig.all.json"
-        },
-        {
-            "path": "../solflare/tsconfig.all.json"
-        },
-        {
-            "path": "../coinbase/tsconfig.all.json"
-        },
-        {
-            "path": "../ledger/tsconfig.all.json"
-        },
-        {
-            "path": "../hyperpay/tsconfig.all.json"
-        },
-        {
-            "path": "../walletconnect/tsconfig.all.json"
-        },
-        {
-            "path": "../blocto/tsconfig.all.json"
-        },
-        {
-            "path": "../sollet/tsconfig.all.json"
-        },
-        {
-            "path": "../particle/tsconfig.all.json"
-        },
-        {
-            "path": "../coinhub/tsconfig.all.json"
-        },
-        {
-            "path": "../clover/tsconfig.all.json"
+            "path": "../backpack/tsconfig.all.json"
         },
         {
             "path": "../bitkeep/tsconfig.all.json"
         },
         {
+            "path": "../bitpie/tsconfig.all.json"
+        },
+        {
+            "path": "../blocto/tsconfig.all.json"
+        },
+        {
             "path": "../brave/tsconfig.all.json"
         },
         {
+            "path": "../clover/tsconfig.all.json"
+        },
+        {
             "path": "../coin98/tsconfig.all.json"
+        },
+        {
+            "path": "../coinbase/tsconfig.all.json"
+        },
+        {
+            "path": "../coinhub/tsconfig.all.json"
+        },
+        {
+            "path": "../exodus/tsconfig.all.json"
         },
         {
             "path": "../fake/tsconfig.all.json"
@@ -56,34 +44,25 @@
             "path": "../glow/tsconfig.all.json"
         },
         {
-            "path": "../krystal/tsconfig.all.json"
+            "path": "../huobi/tsconfig.all.json"
         },
         {
-            "path": "../avana/tsconfig.all.json"
-        },
-        {
-            "path": "../trust/tsconfig.all.json"
-        },
-        {
-            "path": "../saifu/tsconfig.all.json"
-        },
-        {
-            "path": "../mathwallet/tsconfig.all.json"
+            "path": "../hyperpay/tsconfig.all.json"
         },
         {
             "path": "../keystone/tsconfig.all.json"
         },
         {
-            "path": "../nufi/tsconfig.all.json"
+            "path": "../krystal/tsconfig.all.json"
         },
         {
-            "path": "../solong/tsconfig.all.json"
+            "path": "../ledger/tsconfig.all.json"
         },
         {
-            "path": "../backpack/tsconfig.all.json"
+            "path": "../magiceden/tsconfig.all.json"
         },
         {
-            "path": "../exodus/tsconfig.all.json"
+            "path": "../mathwallet/tsconfig.all.json"
         },
         {
             "path": "../neko/tsconfig.all.json"
@@ -92,34 +71,58 @@
             "path": "../nightly/tsconfig.all.json"
         },
         {
+            "path": "../nufi/tsconfig.all.json"
+        },
+        {
+            "path": "../particle/tsconfig.all.json"
+        },
+        {
+            "path": "../phantom/tsconfig.all.json"
+        },
+        {
+            "path": "../safepal/tsconfig.all.json"
+        },
+        {
+            "path": "../saifu/tsconfig.all.json"
+        },
+        {
             "path": "../salmon/tsconfig.all.json"
         },
         {
             "path": "../sky/tsconfig.all.json"
         },
         {
-            "path": "../magiceden/tsconfig.all.json"
-        },
-        {
-            "path": "../tokenary/tsconfig.all.json"
-        },
-        {
             "path": "../slope/tsconfig.all.json"
+        },
+        {
+            "path": "../solflare/tsconfig.all.json"
+        },
+        {
+            "path": "../sollet/tsconfig.all.json"
+        },
+        {
+            "path": "../solong/tsconfig.all.json"
         },
         {
             "path": "../spot/tsconfig.all.json"
         },
         {
-            "path": "../torus/tsconfig.all.json"
+            "path": "../strike/tsconfig.all.json"
         },
         {
-            "path": "../strike/tsconfig.all.json"
+            "path": "../tokenary/tsconfig.all.json"
         },
         {
             "path": "../tokenpocket/tsconfig.all.json"
         },
         {
-            "path": "../phantom/tsconfig.all.json"
+            "path": "../torus/tsconfig.all.json"
+        },
+        {
+            "path": "../trust/tsconfig.all.json"
+        },
+        {
+            "path": "../walletconnect/tsconfig.all.json"
         },
         {
             "path": "./tsconfig.cjs.json"
