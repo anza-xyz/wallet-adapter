@@ -14,6 +14,7 @@
         "nuke": "shx rm -rf packages/*/*/node_modules node_modules pnpm-lock.yaml || true",
         "reinstall": "pnpm run nuke && pnpm install",
         "clean": "pnpm --recursive run clean && shx rm -rf **/*.tsbuildinfo",
+        "ts": "pnpm run build:ts",
         "build": "pnpm run build:ts && pnpm run build:other",
         "build:ts": "tsc --build --verbose tsconfig.all.json",
         "build:other": "pnpm --recursive run build",
