@@ -9,6 +9,7 @@
     ],
     "parser": "@typescript-eslint/parser",
     "plugins": [
+        "relative-files",
         "@typescript-eslint",
         "prettier",
         "react",
@@ -26,5 +27,17 @@
         "@typescript-eslint/no-empty-interface": "off",
         "@typescript-eslint/consistent-type-imports": "error",
         "react/no-unescaped-entities": ["error", { "forbid": [">"] }]
-    }
+    },
+    "overrides": [
+        {
+            "files": [
+                "packages/core/**/*.ts*",
+                "packages/ui/**/*.ts*",
+                "packages/wallets/**/*.ts*"
+            ],
+            "rules": {
+                "relative-files/must-end-with-js": "error"
+            }
+        }
+    ]
 }
