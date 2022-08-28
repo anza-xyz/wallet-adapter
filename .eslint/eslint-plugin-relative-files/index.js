@@ -32,3 +32,30 @@ module.exports.rules = {
         },
     },
 };
+
+// module.exports.rules = {
+//     'must-end-with-js': {
+//         meta: {
+//             fixable: true,
+//         },
+//         create(context) {
+//             function rule(node) {
+//                 if (node.source.value.startsWith('.') && !node.source.value.endsWith('.js')) {
+//                     context.report({
+//                         node,
+//                         message: 'Relative imports and exports must end with .js',
+//                         fix(fixer) {
+//                             return fixer.replaceText(node.source, `'${node.source.value}.js'`);
+//                         },
+//                     });
+//                 }
+//             }
+//
+//             return {
+//                 ExportAllDeclaration: rule,
+//                 ExportNamedDeclaration: rule,
+//                 ImportDeclaration: rule,
+//             };
+//         },
+//     },
+// };
