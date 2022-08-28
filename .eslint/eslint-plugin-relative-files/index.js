@@ -25,7 +25,9 @@ module.exports.rules = {
 
             return {
                 ExportAllDeclaration: fixSourcePath,
+                ExportNamedDeclaration: fixSourcePath,
                 ImportDeclaration: fixSourcePath,
+                ImportNamespaceSpecifier: fixSourcePath,
             };
         },
     },
