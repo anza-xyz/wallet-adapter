@@ -17,7 +17,7 @@ importers:
       eslint-plugin-prettier: ^4.2.1
       eslint-plugin-react: ^7.30.1
       eslint-plugin-react-hooks: ^4.6.0
-      eslint-plugin-relative-files: file:.eslint/eslint-plugin-relative-files
+      eslint-plugin-require-extensions: ^0.1.1
       gh-pages: ^4.0.0
       pnpm: ^7.8.0
       prettier: ^2.7.1
@@ -33,7 +33,7 @@ importers:
       eslint-plugin-prettier: 4.2.1_i2cojdczqdiurzgttlwdgf764e
       eslint-plugin-react: 7.31.0_eslint@8.22.0
       eslint-plugin-react-hooks: 4.6.0_eslint@8.22.0
-      eslint-plugin-relative-files: file:.eslint/eslint-plugin-relative-files
+      eslint-plugin-require-extensions: 0.1.1_eslint@8.22.0
       gh-pages: 4.0.0
       pnpm: 7.9.5
       prettier: 2.7.1
@@ -8703,7 +8703,7 @@ packages:
     dev: false
 
   /ee-first/1.1.1:
-    resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
+    resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
 
   /eip1193-provider/1.0.1:
     resolution: {integrity: sha512-kSuqwQ26d7CzuS/t3yRXo2Su2cVH0QfvyKbr2H7Be7O5YDyIq4hQGCNTo5wRdP07bt+E2R/8nPCzey4ojBHf7g==}
@@ -9251,6 +9251,15 @@ packages:
       resolve: 2.0.0-next.4
       semver: 6.3.0
       string.prototype.matchall: 4.0.7
+
+  /eslint-plugin-require-extensions/0.1.1_eslint@8.22.0:
+    resolution: {integrity: sha512-qSF0vPCxFck0ady5QmPc57ehGbJkqNBXFaBOrGD6XoLFckLdxxraNVj9P4JOxa9AefIhsLJVe3YMGBhrg4bG0A==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      eslint: '*'
+    dependencies:
+      eslint: 8.22.0
+    dev: true
 
   /eslint-plugin-testing-library/5.6.0_4rv7y5c6xz3vfxwhbrcxxi73bq:
     resolution: {integrity: sha512-y63TRzPhGCMNsnUwMGJU1MFWc/3GvYw+nzobp9QiyNTTKsgAt5RKAOT1I34+XqVBpX1lC8bScoOjCkP7iRv0Mw==}
@@ -18477,9 +18486,3 @@ packages:
   /yocto-queue/0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
-
-  file:.eslint/eslint-plugin-relative-files:
-    resolution: {directory: .eslint/eslint-plugin-relative-files, type: directory}
-    name: eslint-plugin-relative-files
-    version: 0.0.0
-    dev: true

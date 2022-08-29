@@ -5,15 +5,16 @@
         "plugin:@typescript-eslint/recommended",
         "plugin:prettier/recommended",
         "plugin:react/recommended",
-        "plugin:react-hooks/recommended"
+        "plugin:react-hooks/recommended",
+        "plugin:require-extensions/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "plugins": [
-        "relative-files",
         "@typescript-eslint",
         "prettier",
         "react",
-        "react-hooks"
+        "react-hooks",
+        "require-extensions"
     ],
     "settings": {
         "react": {
@@ -31,12 +32,10 @@
     "overrides": [
         {
             "files": [
-                "packages/core/**/*.ts*",
-                "packages/ui/**/*.ts*",
-                "packages/wallets/**/*.ts*"
+                "packages/starter/**/*"
             ],
             "rules": {
-                "relative-files/must-end-with-js": "error"
+                "require-extensions/require-extensions": "off"
             }
         }
     ]

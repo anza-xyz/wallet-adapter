@@ -41,7 +41,7 @@
         "eslint-plugin-prettier": "^4.2.1",
         "eslint-plugin-react": "^7.30.1",
         "eslint-plugin-react-hooks": "^4.6.0",
-        "eslint-plugin-relative-files": "file:.eslint/eslint-plugin-relative-files",
+        "eslint-plugin-require-extensions": "^0.1.1",
         "gh-pages": "^4.0.0",
         "pnpm": "^7.8.0",
         "prettier": "^2.7.1",
