@@ -110,7 +110,7 @@ export class AvanaWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             if (!wallet.isConnected) {
                 try {
-                    return await wallet.connect();
+                    await wallet.connect();
                 } catch (error: any) {
                     throw new WalletConnectionError(error?.message, error);
                 }
