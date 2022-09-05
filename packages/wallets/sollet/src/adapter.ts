@@ -1,6 +1,6 @@
 import type { WalletName } from '@solana/wallet-adapter-base';
-import type { SolletWalletAdapterConfig } from './base';
-import { BaseSolletWalletAdapter } from './base';
+import type { SolletWalletAdapterConfig } from './base.js';
+import { BaseSolletWalletAdapter } from './base.js';
 
 export const SolletWalletName = 'Sollet' as WalletName<'Sollet'>;
 

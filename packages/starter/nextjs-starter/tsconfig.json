@@ -1,6 +1,5 @@
 {
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-    "exclude": ["node_modules"],
     "compilerOptions": {
         "target": "es6",
         "lib": ["dom", "dom.iterable", "esnext"],
@@ -16,5 +15,6 @@
         "isolatedModules": true,
         "jsx": "preserve",
         "incremental": true
-    }
+    },
+    "exclude": ["node_modules"]
 }

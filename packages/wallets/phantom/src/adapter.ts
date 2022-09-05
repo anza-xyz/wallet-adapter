@@ -21,6 +21,7 @@ import { PublicKey } from '@solana/web3.js';
 interface PhantomWalletEvents {
     connect(...args: unknown[]): unknown;
     disconnect(...args: unknown[]): unknown;
+    accountChanged(newPublicKey: PublicKey): unknown;
 }
 
 interface PhantomWallet extends EventEmitter<PhantomWalletEvents> {
@@ -128,6 +129,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
             }
 
             wallet.on('disconnect', this._disconnected);
+            wallet.on('accountChanged', this._accountChanged);
 
             this._wallet = wallet;
             this._publicKey = publicKey;
@@ -145,6 +147,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
         const wallet = this._wallet;
         if (wallet) {
             wallet.off('disconnect', this._disconnected);
+            wallet.off('accountChanged', this._accountChanged);
 
             this._wallet = null;
             this._publicKey = null;
@@ -242,6 +245,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
         const wallet = this._wallet;
         if (wallet) {
             wallet.off('disconnect', this._disconnected);
+            wallet.off('accountChanged', this._accountChanged);
 
             this._wallet = null;
             this._publicKey = null;
@@ -249,5 +253,22 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
             this.emit('error', new WalletDisconnectedError());
             this.emit('disconnect');
         }
+    };
+
+    private _accountChanged = (newPublicKey: PublicKey) => {
+        const publicKey = this._publicKey;
+        if (!publicKey) return;
+
+        try {
+            newPublicKey = new PublicKey(newPublicKey.toBytes());
+        } catch (error: any) {
+            this.emit('error', new WalletPublicKeyError(error?.message, error));
+            return;
+        }
+
+        if (publicKey.equals(newPublicKey)) return;
+
+        this._publicKey = newPublicKey;
+        this.emit('connect', newPublicKey);
     };
 }

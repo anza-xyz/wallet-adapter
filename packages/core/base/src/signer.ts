@@ -1,8 +1,7 @@
-import type { Transaction, TransactionSignature } from '@solana/web3.js';
-import { Connection } from '@solana/web3.js';
-import type { SendTransactionOptions, WalletAdapter } from './adapter';
-import { BaseWalletAdapter } from './adapter';
-import { WalletSendTransactionError, WalletSignTransactionError } from './errors';
+import type { Connection, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { SendTransactionOptions, WalletAdapter } from './adapter.js';
+import { BaseWalletAdapter } from './adapter.js';
+import { WalletSendTransactionError, WalletSignTransactionError } from './errors.js';
 
 export interface SignerWalletAdapterProps {
     signTransaction(transaction: Transaction): Promise<Transaction>;

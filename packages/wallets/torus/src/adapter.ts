@@ -1,4 +1,5 @@
-import type { WalletName } from '@solana/wallet-adapter-base';
+import type { SendTransactionOptions, WalletName} from '@solana/wallet-adapter-base';
+import { WalletError, WalletSendTransactionError } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
     WalletAccountError,
@@ -13,7 +14,7 @@ import {
     WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import type { Transaction } from '@solana/web3.js';
+import type { Connection, Transaction, TransactionSignature } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import type { default as Torus, TorusParams } from '@toruslabs/solana-embed';
 
@@ -79,7 +80,7 @@ export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             let TorusClass: typeof Torus;
             try {
-                ({ default: TorusClass } = await import('@toruslabs/solana-embed'));
+                TorusClass = (await import('@toruslabs/solana-embed')).default;
             } catch (error: any) {
                 throw new WalletLoadError(error?.message, error);
             }
@@ -108,7 +109,8 @@ export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             let publicKey: PublicKey;
             try {
-                publicKey = new PublicKey(accounts[0]);
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                publicKey = new PublicKey(accounts[0]!);
             } catch (error: any) {
                 throw new WalletPublicKeyError(error?.message, error);
             }
@@ -141,8 +143,6 @@ export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
         this.emit('disconnect');
     }
 
-    /*
-    FIXME: https://github.com/solana-labs/wallet-adapter/pull/515#issuecomment-1215763729
 
     async sendTransaction(
         transaction: Transaction,
@@ -173,7 +173,6 @@ export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
             throw error;
         }
     }
-    */
 
     async signTransaction(transaction: Transaction): Promise<Transaction> {
         try {

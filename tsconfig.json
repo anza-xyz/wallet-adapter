@@ -1,26 +1,9 @@
 {
-    "include": ["packages/*/*/src"],
-    "exclude": ["node_modules", "packages/*/*/node_modules"],
+    "extends": "./tsconfig.all.json",
+    "include": ["./packages/*/*/src", "./packages/*/*/package.json"],
     "compilerOptions": {
-        "target": "es2019",
-        "module": "esnext",
-        "moduleResolution": "node",
         "noEmit": true,
-        "declaration": true,
-        "sourceMap": true,
-        "noEmitOnError": true,
-        "stripInternal": true,
-        "jsx": "react",
-        "strict": true,
-        "esModuleInterop": true,
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "typeRoots": ["node_modules/@types"]
-    },
-    "typedocOptions": {
-        "entryPoints": ".",
-        "entryPointStrategy": "packages",
-        "out": "docs",
-        "readme": "README.md"
+        "skipLibCheck": true,
+        "jsx": "react"
     }
 }

@@ -5,10 +5,10 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import type { FC, MouseEvent } from 'react';
 import React, { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Collapse } from './Collapse';
-import { useWalletModal } from './useWalletModal';
-import { WalletListItem } from './WalletListItem';
-import { WalletSVG } from './WalletSVG';
+import { Collapse } from './Collapse.js';
+import { useWalletModal } from './useWalletModal.js';
+import { WalletListItem } from './WalletListItem.js';
+import { WalletSVG } from './WalletSVG.js';
 
 export interface WalletModalProps {
     className?: string;
@@ -43,17 +43,19 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
 
     const getStartedWallet = useMemo(() => {
         return installedWallets.length
-            ? installedWallets[0]
+            ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              installedWallets[0]!
             : wallets.find((wallet: { adapter: { name: WalletName } }) => wallet.adapter.name === 'Torus') ||
                   wallets.find((wallet: { adapter: { name: WalletName } }) => wallet.adapter.name === 'Phantom') ||
                   wallets.find((wallet: { readyState: any }) => wallet.readyState === WalletReadyState.Loadable) ||
-                  otherWallets[0];
+                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                  otherWallets[0]!;
     }, [installedWallets, wallets, otherWallets]);
 
     const hideModal = useCallback(() => {
         setFadeIn(false);
         setTimeout(() => setVisible(false), 150);
-    }, []);
+    }, [setVisible]);
 
     const handleClose = useCallback(
         (event: MouseEvent) => {
@@ -80,8 +82,10 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
 
             // here we query all focusable elements
             const focusableElements = node.querySelectorAll('button');
-            const firstElement = focusableElements[0];
-            const lastElement = focusableElements[focusableElements.length - 1];
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const firstElement = focusableElements[0]!;
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const lastElement = focusableElements[focusableElements.length - 1]!;
 
             if (event.shiftKey) {
                 // if going backward by pressing tab and firstElement is active, shift focus to last focusable element

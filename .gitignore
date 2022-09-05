@@ -1,11 +1,18 @@
 .idea
 .vscode
-package-lock.json
-
 .DS_Store
 
 node_modules
 
-docs
+package-lock.json
+yarn.lock
 
+.next
 .parcel-cache
+.swc
+build
+lib
+dist
+docs
+out
+*.tsbuildinfo

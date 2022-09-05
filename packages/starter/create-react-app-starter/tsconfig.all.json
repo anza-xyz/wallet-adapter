@@ -1,0 +1,20 @@
+{
+    "extends": "../../../tsconfig.root.json",
+    "references": [
+        {
+            "path": "../../core/base/tsconfig.all.json"
+        },
+        {
+            "path": "../../core/react/tsconfig.all.json"
+        },
+        {
+            "path": "../../ui/react-ui/tsconfig.all.json"
+        },
+        {
+            "path": "../../wallets/wallets/tsconfig.all.json"
+        },
+        {
+            "path": "./tsconfig.base.json"
+        }
+    ]
+}

@@ -1,5 +1,5 @@
-import type Transport from '@ledgerhq/hw-transport';
-import type TransportWebHID from '@ledgerhq/hw-transport-webhid';
+import type { default as Transport } from '@ledgerhq/hw-transport';
+import type { default as TransportWebHID } from '@ledgerhq/hw-transport-webhid';
 import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseSignerWalletAdapter,
@@ -14,8 +14,8 @@ import {
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import type { PublicKey, Transaction } from '@solana/web3.js';
-import './polyfills/index';
-import { getDerivationPath, getPublicKey, signTransaction } from './util';
+import './polyfills/index.js';
+import { getDerivationPath, getPublicKey, signTransaction } from './util.js';
 
 export interface LedgerWalletAdapterConfig {
     derivationPath?: Buffer;
@@ -70,7 +70,7 @@ export class LedgerWalletAdapter extends BaseSignerWalletAdapter {
 
             let TransportWebHIDClass: typeof TransportWebHID;
             try {
-                ({ default: TransportWebHIDClass } = await import('@ledgerhq/hw-transport-webhid'));
+                TransportWebHIDClass = (await import('@ledgerhq/hw-transport-webhid')).default;
             } catch (error: any) {
                 throw new WalletLoadError(error?.message, error);
             }
