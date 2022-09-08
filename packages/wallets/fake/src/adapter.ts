@@ -1,6 +1,6 @@
 import type { SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import { BaseWalletAdapter, WalletReadyState } from '@solana/wallet-adapter-base';
-import type { Connection, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { Connection, SendOptions, Transaction, TransactionSignature, VersionedTransaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 
 export const FakeWalletName = 'Fake Wallet' as WalletName<'Fake Wallet'>;
@@ -51,6 +51,19 @@ export class FakeWalletAdapter extends BaseWalletAdapter {
     ): Promise<TransactionSignature> {
         console.debug(
             'FakeWallet: `sendTransaction()` was called. ' +
+                'Transaction was not actually sent to the network. ' +
+                'Returning `itsFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFake` as the signature.'
+        );
+        return 'itsFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFake';
+    }
+
+    async sendVersionedTransaction(
+        transaction: VersionedTransaction,
+        connection: Connection,
+        options: SendOptions = {}
+    ): Promise<TransactionSignature> {
+        console.debug(
+            'FakeWallet: `sendVersionedTransaction()` was called. ' +
                 'Transaction was not actually sent to the network. ' +
                 'Returning `itsFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFakeFake` as the signature.'
         );

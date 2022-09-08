@@ -15,7 +15,7 @@ import {
     WalletReadyState,
     WalletSendTransactionError,
 } from '@solana/wallet-adapter-base';
-import type { Connection, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { Connection, SendOptions, Transaction, TransactionSignature, VersionedTransaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 
 export interface BloctoWalletAdapterConfig {
@@ -156,5 +156,15 @@ export class BloctoWalletAdapter extends BaseWalletAdapter {
             this.emit('error', error);
             throw error;
         }
+    }
+
+    async sendVersionedTransaction(
+        transaction: VersionedTransaction,
+        connection: Connection,
+        options: SendOptions = {}
+    ): Promise<TransactionSignature> {
+        const error = new WalletSendTransactionError("Sending versioned transactions isn't supported");
+        this.emit('error', error);
+        throw error;
     }
 }

@@ -1,6 +1,6 @@
 import type { Adapter, SendTransactionOptions, WalletError, WalletName } from '@solana/wallet-adapter-base';
 import { WalletNotConnectedError, WalletNotReadyError, WalletReadyState } from '@solana/wallet-adapter-base';
-import type { Connection, PublicKey, Transaction } from '@solana/web3.js';
+import type { Connection, PublicKey, SendOptions, Transaction, VersionedTransaction } from '@solana/web3.js';
 import type { FC, ReactNode } from 'react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { WalletNotSelectedError } from './errors.js';
@@ -239,6 +239,16 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         [adapter, handleError, connected]
     );
 
+    // Send a versioned transaction using the provided connection
+    const sendVersionedTransaction = useCallback(
+        async (transaction: VersionedTransaction, connection: Connection, options?: SendOptions) => {
+            if (!adapter) throw handleError(new WalletNotSelectedError());
+            if (!connected) throw handleError(new WalletNotConnectedError());
+            return await adapter.sendVersionedTransaction(transaction, connection, options);
+        },
+        [adapter, handleError, connected]
+    );
+
     // Sign a transaction if the wallet supports it
     const signTransaction = useMemo(
         () =>
@@ -251,6 +261,18 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         [adapter, handleError, connected]
     );
 
+    // Sign a versioned transaction if the wallet supports it
+    const signVersionedTransaction = useMemo(
+        () =>
+            adapter && 'signVersionedTransaction' in adapter
+                ? async (transaction: VersionedTransaction): Promise<VersionedTransaction> => {
+                      if (!connected) throw handleError(new WalletNotConnectedError());
+                      return await adapter.signVersionedTransaction(transaction);
+                  }
+                : undefined,
+        [adapter, handleError, connected]
+    );
+
     // Sign multiple transactions if the wallet supports it
     const signAllTransactions = useMemo(
         () =>
@@ -258,6 +280,18 @@ export const WalletProvider: FC<WalletProviderProps> = ({
                 ? async (transactions: Transaction[]): Promise<Transaction[]> => {
                       if (!connected) throw handleError(new WalletNotConnectedError());
                       return await adapter.signAllTransactions(transactions);
+                  }
+                : undefined,
+        [adapter, handleError, connected]
+    );
+
+    // Sign multiple versioned transactions if the wallet supports it
+    const signAllVersionedTransactions = useMemo(
+        () =>
+            adapter && 'signAllTransactions' in adapter
+                ? async (transactions: VersionedTransaction[]): Promise<VersionedTransaction[]> => {
+                      if (!connected) throw handleError(new WalletNotConnectedError());
+                      return await adapter.signAllVersionedTransactions(transactions);
                   }
                 : undefined,
         [adapter, handleError, connected]
@@ -289,8 +323,11 @@ export const WalletProvider: FC<WalletProviderProps> = ({
                 connect,
                 disconnect,
                 sendTransaction,
+                sendVersionedTransaction,
                 signTransaction,
+                signVersionedTransaction,
                 signAllTransactions,
+                signAllVersionedTransactions,
                 signMessage,
             }}
         >
