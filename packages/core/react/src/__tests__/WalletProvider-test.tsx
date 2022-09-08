@@ -88,6 +88,7 @@ describe('WalletProvider', () => {
             });
         });
         sendTransaction = jest.fn();
+        sendVersionedTransaction = jest.fn();
     }
     class FooWalletAdapter extends MockWalletAdapter {
         name = 'FooWallet' as WalletName<'FooWallet'>;

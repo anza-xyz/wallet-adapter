@@ -1,16 +1,56 @@
-import type { Connection, Transaction, TransactionSignature } from '@solana/web3.js';
+import { Connection, SendOptions, Transaction, TransactionSignature, VersionedTransaction } from '@solana/web3.js';
 import type { SendTransactionOptions, WalletAdapter } from './adapter.js';
 import { BaseWalletAdapter } from './adapter.js';
 import { WalletSendTransactionError, WalletSignTransactionError } from './errors.js';
 
 export interface SignerWalletAdapterProps {
     signTransaction(transaction: Transaction): Promise<Transaction>;
+    signVersionedTransaction(transaction: VersionedTransaction): Promise<VersionedTransaction>;
     signAllTransactions(transaction: Transaction[]): Promise<Transaction[]>;
+    signAllVersionedTransactions(transactions: VersionedTransaction[]): Promise<VersionedTransaction[]>;
 }
 
 export type SignerWalletAdapter = WalletAdapter & SignerWalletAdapterProps;
 
 export abstract class BaseSignerWalletAdapter extends BaseWalletAdapter implements SignerWalletAdapter {
+    async sendVersionedTransaction(
+        transaction: VersionedTransaction,
+        connection: Connection,
+        options: SendOptions = {}
+    ): Promise<TransactionSignature> {
+        let emit = true;
+        try {
+            const version = transaction.message.version;
+            if (this.supportedTransactionVersions === null) {
+                throw new WalletSendTransactionError(`Sending versioned transactions isn't supported by this wallet`);
+            } else if (!this.supportedTransactionVersions.has(version)) {
+                throw new WalletSendTransactionError(
+                    `Sending transaction version ${version} isn't supported by this wallet`
+                );
+            }
+
+            try {
+                transaction = await this.signVersionedTransaction(transaction);
+
+                const rawTransaction = transaction.serialize();
+
+                return await connection.sendRawTransaction(rawTransaction, options);
+            } catch (error: any) {
+                // If the error was thrown by `signVersionedTransaction`, rethrow it and don't emit a duplicate event
+                if (error instanceof WalletSignTransactionError) {
+                    emit = false;
+                    throw error;
+                }
+                throw new WalletSendTransactionError(error?.message, error);
+            }
+        } catch (error: any) {
+            if (emit) {
+                this.emit('error', error);
+            }
+            throw error;
+        }
+    }
+
     async sendTransaction(
         transaction: Transaction,
         connection: Connection,
@@ -48,10 +88,24 @@ export abstract class BaseSignerWalletAdapter extends BaseWalletAdapter implemen
 
     abstract signTransaction(transaction: Transaction): Promise<Transaction>;
 
+    signVersionedTransaction(transaction: VersionedTransaction): Promise<VersionedTransaction> {
+        const error = new WalletSignTransactionError("Signing versioned transactions isn't supported by this wallet");
+        this.emit('error', error);
+        throw error;
+    }
+
     async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
         const signedTransactions: Transaction[] = [];
         for (const transaction of transactions) {
             signedTransactions.push(await this.signTransaction(transaction));
+        }
+        return signedTransactions;
+    }
+
+    async signAllVersionedTransactions(transactions: VersionedTransaction[]): Promise<VersionedTransaction[]> {
+        const signedTransactions: VersionedTransaction[] = [];
+        for (const transaction of transactions) {
+            signedTransactions.push(await this.signVersionedTransaction(transaction));
         }
         return signedTransactions;
     }

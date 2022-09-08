@@ -1,4 +1,13 @@
-import type { Connection, PublicKey, SendOptions, Signer, Transaction, TransactionSignature } from '@solana/web3.js';
+import type {
+    Connection,
+    PublicKey,
+    SendOptions,
+    Signer,
+    Transaction,
+    TransactionSignature,
+    TransactionVersion,
+    VersionedTransaction,
+} from '@solana/web3.js';
 import EventEmitter from 'eventemitter3';
 import type { WalletError } from './errors.js';
 import { WalletNotConnectedError } from './errors.js';
@@ -28,6 +37,7 @@ export interface WalletAdapterProps<Name extends string = string> {
     publicKey: PublicKey | null;
     connecting: boolean;
     connected: boolean;
+    supportedTransactionVersions: Set<TransactionVersion> | null;
 
     connect(): Promise<void>;
     disconnect(): Promise<void>;
@@ -35,6 +45,11 @@ export interface WalletAdapterProps<Name extends string = string> {
         transaction: Transaction,
         connection: Connection,
         options?: SendTransactionOptions
+    ): Promise<TransactionSignature>;
+    sendVersionedTransaction(
+        transaction: VersionedTransaction,
+        connection: Connection,
+        options?: SendOptions
     ): Promise<TransactionSignature>;
 }
 
@@ -77,16 +92,27 @@ export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents
     abstract publicKey: PublicKey | null;
     abstract connecting: boolean;
 
+    get supportedTransactionVersions(): Set<TransactionVersion> | null {
+        return null;
+    }
+
     get connected() {
         return !!this.publicKey;
     }
 
     abstract connect(): Promise<void>;
     abstract disconnect(): Promise<void>;
+
     abstract sendTransaction(
         transaction: Transaction,
         connection: Connection,
         options?: SendTransactionOptions
+    ): Promise<TransactionSignature>;
+
+    abstract sendVersionedTransaction(
+        transaction: VersionedTransaction,
+        connection: Connection,
+        options?: SendOptions
     ): Promise<TransactionSignature>;
 
     protected async prepareTransaction(
