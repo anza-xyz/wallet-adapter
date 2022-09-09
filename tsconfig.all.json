@@ -155,6 +155,9 @@
             "path": "./packages/wallets/walletconnect/tsconfig.all.json"
         },
         {
+            "path": "./packages/wallets/xdefi/tsconfig.all.json"
+        },
+        {
             "path": "./packages/wallets/wallets/tsconfig.all.json"
         }
     ]
