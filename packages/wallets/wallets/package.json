@@ -73,7 +73,8 @@
         "@solana/wallet-adapter-tokenpocket": "workspace:^",
         "@solana/wallet-adapter-torus": "workspace:^",
         "@solana/wallet-adapter-trust": "workspace:^",
-        "@solana/wallet-adapter-walletconnect": "workspace:^"
+        "@solana/wallet-adapter-walletconnect": "workspace:^",
+        "@solana/wallet-adapter-xdefi": "workspace:^"
     },
     "devDependencies": {
         "@solana/web3.js": "^1.50.1",
