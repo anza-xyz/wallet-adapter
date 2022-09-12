@@ -201,6 +201,7 @@ You can use the [wallets](https://github.com/solana-labs/wallet-adapter/tree/mas
 | [xdefi](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/xdefi) | Adapter for [XDEFI](https://xdefi.io) | [`@solana/wallet-adapter-xdefi`](https://npmjs.com/package/@solana/wallet-adapter-xdefi) |
 
 
+
 ### UI Components
 These packages provide components for common UI frameworks.
 
