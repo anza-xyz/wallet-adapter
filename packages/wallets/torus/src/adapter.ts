@@ -1,4 +1,4 @@
-import type { SendTransactionOptions, WalletName} from '@solana/wallet-adapter-base';
+import type { SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import { WalletError, WalletSendTransactionError } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
@@ -142,7 +142,6 @@ export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
 
         this.emit('disconnect');
     }
-
 
     async sendTransaction(
         transaction: Transaction,
