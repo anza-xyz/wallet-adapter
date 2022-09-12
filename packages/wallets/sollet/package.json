@@ -30,14 +30,14 @@
         "package": "shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.50.1"
+        "@solana/web3.js": "^1.59.1"
     },
     "dependencies": {
         "@project-serum/sol-wallet-adapter": "^0.2.6",
         "@solana/wallet-adapter-base": "workspace:^"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.50.1",
+        "@solana/web3.js": "^1.59.1",
         "shx": "^0.3.4"
     }
 }

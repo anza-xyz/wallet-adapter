@@ -32,7 +32,7 @@
     "peerDependencies": {
         "@mui/icons-material": "*",
         "@mui/material": "*",
-        "@solana/web3.js": "^1.50.1",
+        "@solana/web3.js": "^1.59.1",
         "react": "*",
         "react-dom": "*"
     },
@@ -45,7 +45,7 @@
         "@emotion/styled": "^11.10.0",
         "@mui/icons-material": "^5.8.4",
         "@mui/material": "^5.10.1",
-        "@solana/web3.js": "^1.50.1",
+        "@solana/web3.js": "^1.59.1",
         "@types/react": "^18.0.0",
         "@types/react-dom": "^18.0.0",
         "react": "^18.0.0",
