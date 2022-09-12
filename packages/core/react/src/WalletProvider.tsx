@@ -231,20 +231,10 @@ export const WalletProvider: FC<WalletProviderProps> = ({
 
     // Send a transaction using the provided connection
     const sendTransaction = useCallback(
-        async (transaction: Transaction, connection: Connection, options?: SendTransactionOptions) => {
+        async (transaction: VersionedTransaction | Transaction, connection: Connection, options?: SendTransactionOptions) => {
             if (!adapter) throw handleError(new WalletNotSelectedError());
             if (!connected) throw handleError(new WalletNotConnectedError());
             return await adapter.sendTransaction(transaction, connection, options);
-        },
-        [adapter, handleError, connected]
-    );
-
-    // Send a versioned transaction using the provided connection
-    const sendVersionedTransaction = useCallback(
-        async (transaction: VersionedTransaction, connection: Connection, options?: SendOptions) => {
-            if (!adapter) throw handleError(new WalletNotSelectedError());
-            if (!connected) throw handleError(new WalletNotConnectedError());
-            return await adapter.sendVersionedTransaction(transaction, connection, options);
         },
         [adapter, handleError, connected]
     );
@@ -323,7 +313,6 @@ export const WalletProvider: FC<WalletProviderProps> = ({
                 connect,
                 disconnect,
                 sendTransaction,
-                sendVersionedTransaction,
                 signTransaction,
                 signVersionedTransaction,
                 signAllTransactions,

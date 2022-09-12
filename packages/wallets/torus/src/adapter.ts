@@ -14,7 +14,7 @@ import {
     WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import type { Connection, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { Connection, Transaction, TransactionSignature, VersionedTransaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import type { default as Torus, TorusParams } from '@toruslabs/solana-embed';
 
@@ -144,13 +144,17 @@ export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
     }
 
     async sendTransaction(
-        transaction: Transaction,
+        transaction: VersionedTransaction | Transaction,
         connection: Connection,
         options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
+
+            if ('message' in transaction) {
+                throw new WalletSendTransactionError(`Sending versioned transactions isn't supported by this wallet`);
+            }
 
             try {
                 const { signers, ...sendOptions } = options;

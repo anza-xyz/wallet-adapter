@@ -1,4 +1,4 @@
-import type { SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
+import { SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseSignerWalletAdapter,
     WalletConfigError,
@@ -8,9 +8,10 @@ import {
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletReadyState,
+    WalletSendTransactionError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import type { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { Connection, PublicKey, Transaction, TransactionSignature, VersionedTransaction } from '@solana/web3.js';
 import type { StrikeWallet } from '@strike-protocols/solana-wallet-adapter';
 
 interface StrikeWindow extends Window {
@@ -117,13 +118,17 @@ export class StrikeWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     async sendTransaction(
-        transaction: Transaction,
+        transaction: VersionedTransaction | Transaction,
         connection: Connection,
         options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
+
+            if ('message' in transaction) {
+                throw new WalletSendTransactionError(`Sending versioned transactions isn't supported by this wallet`);
+            }
 
             try {
                 return await wallet.sendTransaction(transaction, connection, options);
