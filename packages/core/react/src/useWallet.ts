@@ -34,14 +34,9 @@ export interface WalletContextState {
     connect(): Promise<void>;
     disconnect(): Promise<void>;
     sendTransaction(
-        transaction: Transaction,
+        transaction: VersionedTransaction | Transaction,
         connection: Connection,
         options?: SendTransactionOptions
-    ): Promise<TransactionSignature>;
-    sendVersionedTransaction(
-        transaction: VersionedTransaction,
-        connection: Connection,
-        options?: SendOptions
     ): Promise<TransactionSignature>;
 
     signTransaction: SignerWalletAdapterProps['signTransaction'] | undefined;
@@ -67,11 +62,12 @@ const DEFAULT_CONTEXT = {
     disconnect() {
         return Promise.reject(console.error(constructMissingProviderErrorMessage('get', 'disconnect')));
     },
-    sendTransaction(_transaction: Transaction, _connection: Connection, _options?: SendTransactionOptions) {
+    sendTransaction(
+        _transaction: VersionedTransaction | Transaction,
+        _connection: Connection,
+        _options?: SendTransactionOptions
+    ) {
         return Promise.reject(console.error(constructMissingProviderErrorMessage('get', 'sendTransaction')));
-    },
-    sendVersionedTransaction(_transaction: VersionedTransaction, _connection: Connection, _options?: SendOptions) {
-        return Promise.reject(console.error(constructMissingProviderErrorMessage('get', 'sendVersionedTransaction')));
     },
     signTransaction(_transaction: Transaction) {
         return Promise.reject(console.error(constructMissingProviderErrorMessage('get', 'signTransaction')));

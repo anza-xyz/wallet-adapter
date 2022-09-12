@@ -42,14 +42,9 @@ export interface WalletAdapterProps<Name extends string = string> {
     connect(): Promise<void>;
     disconnect(): Promise<void>;
     sendTransaction(
-        transaction: Transaction,
+        transaction: VersionedTransaction | Transaction,
         connection: Connection,
         options?: SendTransactionOptions
-    ): Promise<TransactionSignature>;
-    sendVersionedTransaction(
-        transaction: VersionedTransaction,
-        connection: Connection,
-        options?: SendOptions
     ): Promise<TransactionSignature>;
 }
 
@@ -91,10 +86,7 @@ export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents
     abstract readyState: WalletReadyState;
     abstract publicKey: PublicKey | null;
     abstract connecting: boolean;
-
-    get supportedTransactionVersions(): Set<TransactionVersion> | null {
-        return null;
-    }
+    abstract supportedTransactionVersions: Set<TransactionVersion> | null;
 
     get connected() {
         return !!this.publicKey;
@@ -104,15 +96,9 @@ export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents
     abstract disconnect(): Promise<void>;
 
     abstract sendTransaction(
-        transaction: Transaction,
+        transaction: VersionedTransaction | Transaction,
         connection: Connection,
         options?: SendTransactionOptions
-    ): Promise<TransactionSignature>;
-
-    abstract sendVersionedTransaction(
-        transaction: VersionedTransaction,
-        connection: Connection,
-        options?: SendOptions
     ): Promise<TransactionSignature>;
 
     protected async prepareTransaction(

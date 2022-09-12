@@ -6,7 +6,7 @@
 
 import type { Adapter, WalletName } from '@solana/wallet-adapter-base';
 import { BaseWalletAdapter, WalletError, WalletNotReadyError, WalletReadyState } from '@solana/wallet-adapter-base';
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey, TransactionVersion } from '@solana/web3.js';
 import 'jest-localstorage-mock';
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -88,7 +88,7 @@ describe('WalletProvider', () => {
             });
         });
         sendTransaction = jest.fn();
-        sendVersionedTransaction = jest.fn();
+        supportedTransactionVersions = null;
     }
     class FooWalletAdapter extends MockWalletAdapter {
         name = 'FooWallet' as WalletName<'FooWallet'>;
