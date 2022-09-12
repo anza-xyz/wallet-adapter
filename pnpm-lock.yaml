@@ -989,7 +989,7 @@ importers:
       '@solana/wallet-adapter-walletconnect': link:../walletconnect
       '@solana/wallet-adapter-xdefi': link:../xdefi
     devDependencies:
-      '@solana/web3.js': 1.53.0
+      '@solana/web3.js': 1.60.0
       shx: 0.3.4
 
   packages/wallets/xdefi:
