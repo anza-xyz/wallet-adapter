@@ -929,6 +929,7 @@ importers:
       '@solana/wallet-adapter-torus': workspace:^
       '@solana/wallet-adapter-trust': workspace:^
       '@solana/wallet-adapter-walletconnect': workspace:^
+      '@solana/wallet-adapter-xdefi': workspace:^
       '@solana/web3.js': ^1.50.1
       shx: ^0.3.4
     dependencies:
@@ -973,6 +974,18 @@ importers:
       '@solana/wallet-adapter-torus': link:../torus
       '@solana/wallet-adapter-trust': link:../trust
       '@solana/wallet-adapter-walletconnect': link:../walletconnect
+      '@solana/wallet-adapter-xdefi': link:../xdefi
+    devDependencies:
+      '@solana/web3.js': 1.53.0
+      shx: 0.3.4
+
+  packages/wallets/xdefi:
+    specifiers:
+      '@solana/wallet-adapter-base': workspace:^
+      '@solana/web3.js': ^1.50.1
+      shx: ^0.3.4
+    dependencies:
+      '@solana/wallet-adapter-base': link:../../core/base
     devDependencies:
       '@solana/web3.js': 1.53.0
       shx: 0.3.4
