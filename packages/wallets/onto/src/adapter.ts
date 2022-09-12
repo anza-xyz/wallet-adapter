@@ -8,8 +8,8 @@ import {
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSignMessageError,
     WalletSignTransactionError,
-
 } from '@solana/wallet-adapter-base';
 import type { Transaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
@@ -68,19 +68,19 @@ export class OntoWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    get publicKey(): PublicKey | null {
+    get publicKey() {
         return this._publicKey;
     }
 
-    get connecting(): boolean {
+    get connecting() {
         return this._connecting;
     }
 
-    get connected(): boolean {
-        return !!this._wallet?.isConnected();
+    get connected() {
+        return !!this._wallet?.isConnected;
     }
 
-    get readyState(): WalletReadyState {
+    get readyState() {
         return this._readyState;
     }
 
@@ -126,7 +126,11 @@ export class OntoWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._wallet = null;
             this._publicKey = null;
 
-            await wallet.disconnect();
+            try {
+                await wallet.disconnect();
+            } catch (error: any) {
+                this.emit('error', new WalletDisconnectionError(error?.message, error));
+            }
         }
 
         this.emit('disconnect');
