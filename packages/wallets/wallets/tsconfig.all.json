@@ -74,6 +74,9 @@
             "path": "../nufi/tsconfig.all.json"
         },
         {
+            "path": "../onto/tsconfig.all.json"
+        },
+        {
             "path": "../particle/tsconfig.all.json"
         },
         {

@@ -663,6 +663,17 @@ importers:
       '@solana/web3.js': 1.60.0
       shx: 0.3.4
 
+  packages/wallets/onto:
+    specifiers:
+      '@solana/wallet-adapter-base': workspace:^
+      '@solana/web3.js': ^1.59.1
+      shx: ^0.3.4
+    dependencies:
+      '@solana/wallet-adapter-base': link:../../core/base
+    devDependencies:
+      '@solana/web3.js': 1.60.0
+      shx: 0.3.4
+
   packages/wallets/particle:
     specifiers:
       '@particle-network/solana-wallet': ^0.5.0
@@ -912,6 +923,7 @@ importers:
       '@solana/wallet-adapter-neko': workspace:^
       '@solana/wallet-adapter-nightly': workspace:^
       '@solana/wallet-adapter-nufi': workspace:^
+      '@solana/wallet-adapter-onto': workspace:^
       '@solana/wallet-adapter-particle': workspace:^
       '@solana/wallet-adapter-phantom': workspace:^
       '@solana/wallet-adapter-safepal': workspace:^
@@ -957,6 +969,7 @@ importers:
       '@solana/wallet-adapter-neko': link:../neko
       '@solana/wallet-adapter-nightly': link:../nightly
       '@solana/wallet-adapter-nufi': link:../nufi
+      '@solana/wallet-adapter-onto': link:../onto
       '@solana/wallet-adapter-particle': link:../particle
       '@solana/wallet-adapter-phantom': link:../phantom
       '@solana/wallet-adapter-safepal': link:../safepal
