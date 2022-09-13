@@ -6,11 +6,11 @@ import type {
     Transaction,
     TransactionSignature,
     TransactionVersion,
-    VersionedTransaction,
 } from '@solana/web3.js';
 import EventEmitter from 'eventemitter3';
 import type { WalletError } from './errors.js';
 import { WalletNotConnectedError } from './errors.js';
+import type { TransactionOrVersionedTransaction } from './types.js';
 
 export { EventEmitter };
 
@@ -42,7 +42,7 @@ export interface WalletAdapterProps<Name extends string = string> {
     connect(): Promise<void>;
     disconnect(): Promise<void>;
     sendTransaction(
-        transaction: VersionedTransaction | Transaction,
+        transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
         connection: Connection,
         options?: SendTransactionOptions
     ): Promise<TransactionSignature>;
@@ -96,7 +96,7 @@ export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents
     abstract disconnect(): Promise<void>;
 
     abstract sendTransaction(
-        transaction: VersionedTransaction | Transaction,
+        transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
         connection: Connection,
         options?: SendTransactionOptions
     ): Promise<TransactionSignature>;
