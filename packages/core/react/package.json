@@ -31,7 +31,7 @@
         "test": "jest"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.59.1",
+        "@solana/web3.js": "^1.61.0",
         "react": "*",
         "react-dom": "*"
     },
@@ -39,7 +39,7 @@
         "@solana/wallet-adapter-base": "workspace:^"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.59.1",
+        "@solana/web3.js": "^1.61.0",
         "@types/jest": "^28.1.6",
         "@types/react": "^18.0.0",
         "@types/react-dom": "^18.0.0",
