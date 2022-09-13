@@ -1,7 +1,6 @@
 import type { EventEmitter, SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
-    isVersionedTransaction,
     scopePollingDetectionStrategy,
     WalletAccountError,
     WalletConnectionError,
@@ -16,7 +15,7 @@ import {
     WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import type { Connection, SendOptions, Transaction, TransactionSignature, VersionedTransaction } from '@solana/web3.js';
+import type { Connection, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 
 interface AlphaWalletEvents {
@@ -158,16 +157,13 @@ export class AlphaWalletAdapter extends BaseMessageSignerWalletAdapter {
     }
 
     async sendTransaction(
-        transaction: VersionedTransaction | Transaction,
+        transaction: Transaction,
         connection: Connection,
         options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
-
-            if (isVersionedTransaction(transaction))
-                throw new WalletSendTransactionError(`Sending versioned transactions isn't supported by this wallet`);
 
             try {
                 const { signers, ...sendOptions } = options;
@@ -190,16 +186,13 @@ export class AlphaWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signTransaction<T extends Transaction | VersionedTransaction>(transaction: T): Promise<T> {
+    async signTransaction(transaction: Transaction): Promise<Transaction> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
-            if (isVersionedTransaction(transaction))
-                throw new WalletSendTransactionError(`Signing versioned transactions isn't supported by this wallet`);
-
             try {
-                return ((await wallet.signTransaction(transaction)) || transaction) as T;
+                return (await wallet.signTransaction(transaction)) || transaction;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -209,20 +202,13 @@ export class AlphaWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signAllTransactions<T extends Transaction | VersionedTransaction>(transactions: T[]): Promise<T[]> {
+    async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
-            for (const transaction of transactions) {
-                if (isVersionedTransaction(transaction))
-                    throw new WalletSendTransactionError(
-                        `Signing versioned transactions isn't supported by this wallet`
-                    );
-            }
-
             try {
-                return ((await wallet.signAllTransactions(transactions as Transaction[])) as T[]) || transactions;
+                return (await wallet.signAllTransactions(transactions)) || transactions;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
