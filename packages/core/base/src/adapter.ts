@@ -29,7 +29,10 @@ export interface SendTransactionOptions extends SendOptions {
 // https://medium.com/@KevinBGreene/surviving-the-typescript-ecosystem-branding-and-type-tagging-6cf6e516523d
 export type WalletName<T extends string = string> = T & { __brand__: 'WalletName' };
 
-export interface WalletAdapterProps<Name extends string = string> {
+export interface WalletAdapterProps<
+    Name extends string = string,
+    SupportedTransactionVersions extends Set<TransactionVersion> | null = Set<TransactionVersion> | null
+> {
     name: WalletName<Name>;
     url: string;
     icon: string;
@@ -37,18 +40,22 @@ export interface WalletAdapterProps<Name extends string = string> {
     publicKey: PublicKey | null;
     connecting: boolean;
     connected: boolean;
-    supportedTransactionVersions: Set<TransactionVersion> | null;
+    supportedTransactionVersions: SupportedTransactionVersions;
 
     connect(): Promise<void>;
     disconnect(): Promise<void>;
+
     sendTransaction(
-        transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
+        transaction: TransactionOrVersionedTransaction<SupportedTransactionVersions>,
         connection: Connection,
         options?: SendTransactionOptions
     ): Promise<TransactionSignature>;
 }
 
-export type WalletAdapter<Name extends string = string> = WalletAdapterProps<Name> & EventEmitter<WalletAdapterEvents>;
+export type WalletAdapter<
+    Name extends string = string,
+    SupportedTransactionVersions extends Set<TransactionVersion> | null = Set<TransactionVersion> | null
+> = WalletAdapterProps<Name, SupportedTransactionVersions> & EventEmitter<WalletAdapterEvents>;
 
 /**
  * A wallet's readiness describes a series of states that the wallet can be in,
@@ -79,14 +86,20 @@ export enum WalletReadyState {
     Unsupported = 'Unsupported',
 }
 
-export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
-    abstract name: WalletName;
+export abstract class BaseWalletAdapter<
+        Name extends string = string,
+        SupportedTransactionVersions extends Set<TransactionVersion> | null = Set<TransactionVersion> | null
+    >
+    extends EventEmitter<WalletAdapterEvents>
+    implements WalletAdapter<Name, SupportedTransactionVersions>
+{
+    abstract name: WalletName<Name>;
     abstract url: string;
     abstract icon: string;
     abstract readyState: WalletReadyState;
     abstract publicKey: PublicKey | null;
     abstract connecting: boolean;
-    abstract supportedTransactionVersions: Set<TransactionVersion> | null;
+    abstract supportedTransactionVersions: SupportedTransactionVersions;
 
     get connected() {
         return !!this.publicKey;
@@ -96,7 +109,7 @@ export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents
     abstract disconnect(): Promise<void>;
 
     abstract sendTransaction(
-        transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
+        transaction: TransactionOrVersionedTransaction<SupportedTransactionVersions>,
         connection: Connection,
         options?: SendTransactionOptions
     ): Promise<TransactionSignature>;

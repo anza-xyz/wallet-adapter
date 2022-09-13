@@ -12,9 +12,3 @@ export enum WalletAdapterNetwork {
 
 export type TransactionOrVersionedTransaction<SupportedTransactionVersions extends Set<TransactionVersion> | null> =
     SupportedTransactionVersions extends null ? Transaction : Transaction | VersionedTransaction;
-
-export function isVersionedTransaction(
-    transaction: Transaction | VersionedTransaction
-): transaction is VersionedTransaction {
-    return 'message' in transaction;
-}
