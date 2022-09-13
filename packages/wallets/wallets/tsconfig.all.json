@@ -74,6 +74,9 @@
             "path": "../nufi/tsconfig.all.json"
         },
         {
+            "path": "../onto/tsconfig.all.json"
+        },
+        {
             "path": "../particle/tsconfig.all.json"
         },
         {
@@ -123,6 +126,9 @@
         },
         {
             "path": "../walletconnect/tsconfig.all.json"
+        },
+        {
+            "path": "../xdefi/tsconfig.all.json"
         },
         {
             "path": "./tsconfig.cjs.json"

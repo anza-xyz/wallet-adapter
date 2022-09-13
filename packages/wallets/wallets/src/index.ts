@@ -38,4 +38,6 @@ export * from '@solana/wallet-adapter-tokenary';
 export * from '@solana/wallet-adapter-tokenpocket';
 export * from '@solana/wallet-adapter-torus';
 export * from '@solana/wallet-adapter-trust';
+export * from '@solana/wallet-adapter-onto';
 export * from '@solana/wallet-adapter-walletconnect';
+export * from '@solana/wallet-adapter-xdefi';

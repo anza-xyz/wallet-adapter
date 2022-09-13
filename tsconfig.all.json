@@ -104,6 +104,9 @@
             "path": "./packages/wallets/nufi/tsconfig.all.json"
         },
         {
+            "path": "./packages/wallets/onto/tsconfig.all.json"
+        },
+        {
             "path": "./packages/wallets/particle/tsconfig.all.json"
         },
         {
@@ -155,7 +158,13 @@
             "path": "./packages/wallets/walletconnect/tsconfig.all.json"
         },
         {
+            "path": "./packages/wallets/xdefi/tsconfig.all.json"
+        },
+        {
             "path": "./packages/wallets/wallets/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/xdefi/tsconfig.all.json"
         }
     ]
 }
