@@ -1,6 +1,6 @@
 import type { Adapter, SendTransactionOptions, WalletError, WalletName } from '@solana/wallet-adapter-base';
 import { WalletNotConnectedError, WalletNotReadyError, WalletReadyState } from '@solana/wallet-adapter-base';
-import type { Connection, PublicKey, SendOptions, Transaction, VersionedTransaction } from '@solana/web3.js';
+import type { Connection, PublicKey, Transaction, VersionedTransaction } from '@solana/web3.js';
 import type { FC, ReactNode } from 'react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { WalletNotSelectedError } from './errors.js';
@@ -231,7 +231,11 @@ export const WalletProvider: FC<WalletProviderProps> = ({
 
     // Send a transaction using the provided connection
     const sendTransaction = useCallback(
-        async (transaction: VersionedTransaction | Transaction, connection: Connection, options?: SendTransactionOptions) => {
+        async (
+            transaction: VersionedTransaction | Transaction,
+            connection: Connection,
+            options?: SendTransactionOptions
+        ) => {
             if (!adapter) throw handleError(new WalletNotSelectedError());
             if (!connected) throw handleError(new WalletNotConnectedError());
             return await adapter.sendTransaction(transaction, connection, options);

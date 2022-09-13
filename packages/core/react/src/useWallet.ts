@@ -6,14 +6,7 @@ import type {
     WalletName,
     WalletReadyState,
 } from '@solana/wallet-adapter-base';
-import type {
-    Connection,
-    PublicKey,
-    SendOptions,
-    Transaction,
-    TransactionSignature,
-    VersionedTransaction,
-} from '@solana/web3.js';
+import type { Connection, PublicKey, Transaction, TransactionSignature, VersionedTransaction } from '@solana/web3.js';
 import { createContext, useContext } from 'react';
 
 export interface Wallet {

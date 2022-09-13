@@ -1,4 +1,4 @@
-import { SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
+import type { SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseSignerWalletAdapter,
     WalletConfigError,

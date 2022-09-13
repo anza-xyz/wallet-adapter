@@ -1,16 +1,17 @@
 import type { SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
-import { WalletError, WalletSendTransactionError } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
     WalletAccountError,
     WalletConfigError,
     WalletConnectionError,
     WalletDisconnectionError,
+    WalletError,
     WalletLoadError,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSendTransactionError,
     WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
