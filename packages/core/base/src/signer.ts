@@ -1,6 +1,5 @@
-import {
+import type {
     Connection,
-    SendOptions,
     Transaction,
     TransactionSignature,
     TransactionVersion,

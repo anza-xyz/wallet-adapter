@@ -1,13 +1,6 @@
 import type { SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import { BaseWalletAdapter, WalletReadyState } from '@solana/wallet-adapter-base';
-import type {
-    Connection,
-    SendOptions,
-    Transaction,
-    TransactionSignature,
-    TransactionVersion,
-    VersionedTransaction,
-} from '@solana/web3.js';
+import type { Connection, Transaction, TransactionSignature, VersionedTransaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 
 export const FakeWalletName = 'Fake Wallet' as WalletName<'Fake Wallet'>;
