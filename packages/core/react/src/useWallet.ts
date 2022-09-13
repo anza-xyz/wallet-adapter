@@ -3,10 +3,11 @@ import type {
     MessageSignerWalletAdapterProps,
     SendTransactionOptions,
     SignerWalletAdapterProps,
+    WalletAdapterProps,
     WalletName,
     WalletReadyState,
 } from '@solana/wallet-adapter-base';
-import type { Connection, PublicKey, Transaction, TransactionSignature, VersionedTransaction } from '@solana/web3.js';
+import type { Connection, PublicKey, Transaction, VersionedTransaction } from '@solana/web3.js';
 import { createContext, useContext } from 'react';
 
 export interface Wallet {
@@ -26,16 +27,10 @@ export interface WalletContextState {
     select(walletName: WalletName): void;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
-    sendTransaction(
-        transaction: VersionedTransaction | Transaction,
-        connection: Connection,
-        options?: SendTransactionOptions
-    ): Promise<TransactionSignature>;
 
+    sendTransaction: WalletAdapterProps['sendTransaction'];
     signTransaction: SignerWalletAdapterProps['signTransaction'] | undefined;
-    signVersionedTransaction: SignerWalletAdapterProps['signVersionedTransaction'] | undefined;
     signAllTransactions: SignerWalletAdapterProps['signAllTransactions'] | undefined;
-    signAllVersionedTransactions: SignerWalletAdapterProps['signAllVersionedTransactions'] | undefined;
     signMessage: MessageSignerWalletAdapterProps['signMessage'] | undefined;
 }
 
@@ -65,16 +60,8 @@ const DEFAULT_CONTEXT = {
     signTransaction(_transaction: Transaction) {
         return Promise.reject(console.error(constructMissingProviderErrorMessage('get', 'signTransaction')));
     },
-    signVersionedTransaction(_transaction: VersionedTransaction) {
-        return Promise.reject(console.error(constructMissingProviderErrorMessage('get', 'signVersionedTransaction')));
-    },
     signAllTransactions(_transaction: Transaction[]) {
         return Promise.reject(console.error(constructMissingProviderErrorMessage('get', 'signAllTransactions')));
-    },
-    signAllVersionedTransactions(_transaction: VersionedTransaction[]) {
-        return Promise.reject(
-            console.error(constructMissingProviderErrorMessage('get', 'signAllVersionedTransactions'))
-        );
     },
     signMessage(_message: Uint8Array) {
         return Promise.reject(console.error(constructMissingProviderErrorMessage('get', 'signMessage')));

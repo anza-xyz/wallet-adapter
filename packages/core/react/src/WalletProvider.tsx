@@ -1,4 +1,11 @@
-import type { Adapter, SendTransactionOptions, WalletError, WalletName } from '@solana/wallet-adapter-base';
+import type {
+    Adapter,
+    MessageSignerWalletAdapterProps,
+    SendTransactionOptions,
+    SignerWalletAdapterProps,
+    WalletError,
+    WalletName,
+} from '@solana/wallet-adapter-base';
 import { WalletNotConnectedError, WalletNotReadyError, WalletReadyState } from '@solana/wallet-adapter-base';
 import type { Connection, PublicKey, Transaction, VersionedTransaction } from '@solana/web3.js';
 import type { FC, ReactNode } from 'react';
@@ -244,10 +251,10 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     );
 
     // Sign a transaction if the wallet supports it
-    const signTransaction = useMemo(
+    const signTransaction: SignerWalletAdapterProps['signTransaction'] | undefined = useMemo(
         () =>
             adapter && 'signTransaction' in adapter
-                ? async (transaction: Transaction): Promise<Transaction> => {
+                ? async (transaction) => {
                       if (!connected) throw handleError(new WalletNotConnectedError());
                       return await adapter.signTransaction(transaction);
                   }
@@ -255,23 +262,11 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         [adapter, handleError, connected]
     );
 
-    // Sign a versioned transaction if the wallet supports it
-    const signVersionedTransaction = useMemo(
-        () =>
-            adapter && 'signVersionedTransaction' in adapter
-                ? async (transaction: VersionedTransaction): Promise<VersionedTransaction> => {
-                      if (!connected) throw handleError(new WalletNotConnectedError());
-                      return await adapter.signVersionedTransaction(transaction);
-                  }
-                : undefined,
-        [adapter, handleError, connected]
-    );
-
     // Sign multiple transactions if the wallet supports it
-    const signAllTransactions = useMemo(
+    const signAllTransactions: SignerWalletAdapterProps['signAllTransactions'] | undefined = useMemo(
         () =>
             adapter && 'signAllTransactions' in adapter
-                ? async (transactions: Transaction[]): Promise<Transaction[]> => {
+                ? async (transactions) => {
                       if (!connected) throw handleError(new WalletNotConnectedError());
                       return await adapter.signAllTransactions(transactions);
                   }
@@ -279,23 +274,11 @@ export const WalletProvider: FC<WalletProviderProps> = ({
         [adapter, handleError, connected]
     );
 
-    // Sign multiple versioned transactions if the wallet supports it
-    const signAllVersionedTransactions = useMemo(
-        () =>
-            adapter && 'signAllTransactions' in adapter
-                ? async (transactions: VersionedTransaction[]): Promise<VersionedTransaction[]> => {
-                      if (!connected) throw handleError(new WalletNotConnectedError());
-                      return await adapter.signAllVersionedTransactions(transactions);
-                  }
-                : undefined,
-        [adapter, handleError, connected]
-    );
-
     // Sign an arbitrary message if the wallet supports it
-    const signMessage = useMemo(
+    const signMessage: MessageSignerWalletAdapterProps['signMessage'] | undefined = useMemo(
         () =>
             adapter && 'signMessage' in adapter
-                ? async (message: Uint8Array): Promise<Uint8Array> => {
+                ? async (message) => {
                       if (!connected) throw handleError(new WalletNotConnectedError());
                       return await adapter.signMessage(message);
                   }
@@ -318,9 +301,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
                 disconnect,
                 sendTransaction,
                 signTransaction,
-                signVersionedTransaction,
                 signAllTransactions,
-                signAllVersionedTransactions,
                 signMessage,
             }}
         >
