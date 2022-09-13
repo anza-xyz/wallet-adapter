@@ -4,22 +4,32 @@ import { BaseWalletAdapter } from './adapter.js';
 import { WalletSendTransactionError, WalletSignTransactionError } from './errors.js';
 import type { TransactionOrVersionedTransaction } from './types.js';
 
-export interface SignerWalletAdapterProps<Name extends string = string> extends WalletAdapterProps<Name> {
-    signTransaction<T extends TransactionOrVersionedTransaction<this['supportedTransactionVersions']>>(
-        transaction: T
-    ): Promise<T>;
-    signAllTransactions<T extends TransactionOrVersionedTransaction<this['supportedTransactionVersions']>>(
-        transactions: T[]
-    ): Promise<T[]>;
+export interface SignerWalletAdapterProps<
+    Name extends string = string,
+    SupportedTransactionVersions extends Set<TransactionVersion> | null = Set<TransactionVersion> | null
+> extends WalletAdapterProps<Name, SupportedTransactionVersions> {
+    signTransaction(
+        transaction: TransactionOrVersionedTransaction<SupportedTransactionVersions>
+    ): Promise<TransactionOrVersionedTransaction<SupportedTransactionVersions>>;
+    signAllTransactions(
+        transactions: TransactionOrVersionedTransaction<SupportedTransactionVersions>[]
+    ): Promise<TransactionOrVersionedTransaction<SupportedTransactionVersions>[]>;
 }
 
-export type SignerWalletAdapter = WalletAdapter & SignerWalletAdapterProps;
+export type SignerWalletAdapter<
+    Name extends string = string,
+    SupportedTransactionVersions extends Set<TransactionVersion> | null = Set<TransactionVersion> | null
+> = WalletAdapter<Name, SupportedTransactionVersions> & SignerWalletAdapterProps<Name, SupportedTransactionVersions>;
 
-export abstract class BaseSignerWalletAdapter extends BaseWalletAdapter implements SignerWalletAdapter {
-    supportedTransactionVersions: Set<TransactionVersion> | null = null;
-
+export abstract class BaseSignerWalletAdapter<
+        Name extends string = string,
+        SupportedTransactionVersions extends Set<TransactionVersion> | null = Set<TransactionVersion> | null
+    >
+    extends BaseWalletAdapter<Name, SupportedTransactionVersions>
+    implements SignerWalletAdapter<Name, SupportedTransactionVersions>
+{
     async sendTransaction(
-        transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
+        transaction: TransactionOrVersionedTransaction<SupportedTransactionVersions>,
         connection: Connection,
         options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
@@ -81,14 +91,14 @@ export abstract class BaseSignerWalletAdapter extends BaseWalletAdapter implemen
         }
     }
 
-    abstract signTransaction<T extends TransactionOrVersionedTransaction<this['supportedTransactionVersions']>>(
-        transaction: T
-    ): Promise<T>;
+    abstract signTransaction(
+        transaction: TransactionOrVersionedTransaction<SupportedTransactionVersions>
+    ): Promise<TransactionOrVersionedTransaction<SupportedTransactionVersions>>;
 
-    async signAllTransactions<T extends TransactionOrVersionedTransaction<this['supportedTransactionVersions']>>(
-        transactions: T[]
-    ): Promise<T[]> {
-        const signedTransactions: T[] = [];
+    async signAllTransactions(
+        transactions: TransactionOrVersionedTransaction<SupportedTransactionVersions>[]
+    ): Promise<TransactionOrVersionedTransaction<SupportedTransactionVersions>[]> {
+        const signedTransactions: TransactionOrVersionedTransaction<SupportedTransactionVersions>[] = [];
         for (const transaction of transactions) {
             signedTransactions.push(await this.signTransaction(transaction));
         }
@@ -96,15 +106,25 @@ export abstract class BaseSignerWalletAdapter extends BaseWalletAdapter implemen
     }
 }
 
-export interface MessageSignerWalletAdapterProps {
+export interface MessageSignerWalletAdapterProps<
+    Name extends string = string,
+    SupportedTransactionVersions extends Set<TransactionVersion> | null = Set<TransactionVersion> | null
+> extends WalletAdapterProps<Name, SupportedTransactionVersions> {
     signMessage(message: Uint8Array): Promise<Uint8Array>;
 }
 
-export type MessageSignerWalletAdapter = WalletAdapter & MessageSignerWalletAdapterProps;
+export type MessageSignerWalletAdapter<
+    Name extends string = string,
+    SupportedTransactionVersions extends Set<TransactionVersion> | null = Set<TransactionVersion> | null
+> = WalletAdapter<Name, SupportedTransactionVersions> &
+    MessageSignerWalletAdapterProps<Name, SupportedTransactionVersions>;
 
-export abstract class BaseMessageSignerWalletAdapter
-    extends BaseSignerWalletAdapter
-    implements MessageSignerWalletAdapter
+export abstract class BaseMessageSignerWalletAdapter<
+        Name extends string = string,
+        SupportedTransactionVersions extends Set<TransactionVersion> | null = Set<TransactionVersion> | null
+    >
+    extends BaseSignerWalletAdapter<Name, SupportedTransactionVersions>
+    implements MessageSignerWalletAdapter<Name, SupportedTransactionVersions>
 {
     abstract signMessage(message: Uint8Array): Promise<Uint8Array>;
 }

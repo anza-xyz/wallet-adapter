@@ -13,7 +13,13 @@ export function useAnchorWallet(): AnchorWallet | undefined {
     return useMemo(
         () =>
             publicKey && signTransaction && signAllTransactions
-                ? { publicKey, signTransaction, signAllTransactions }
+                ? {
+                      publicKey,
+                      signTransaction: signTransaction as (transaction: Transaction) => Promise<Transaction>,
+                      signAllTransactions: signAllTransactions as (
+                          transactions: Transaction[]
+                      ) => Promise<Transaction[]>,
+                  }
                 : undefined,
         [publicKey, signTransaction, signAllTransactions]
     );
