@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-strike",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -34,7 +34,7 @@
     },
     "dependencies": {
         "@solana/wallet-adapter-base": "workspace:^",
-        "@strike-protocols/solana-wallet-adapter": "^0.1.4"
+        "@strike-protocols/solana-wallet-adapter": "^0.1.7"
     },
     "devDependencies": {
         "@solana/web3.js": "^1.61.0",

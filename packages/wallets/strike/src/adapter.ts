@@ -88,6 +88,8 @@ export class StrikeWalletAdapter extends BaseSignerWalletAdapter {
                 throw new WalletConnectionError(error?.message, error);
             }
 
+            wallet.on('disconnect', this._disconnected);
+
             this._wallet = wallet;
             this._publicKey = publicKey;
 
@@ -103,6 +105,8 @@ export class StrikeWalletAdapter extends BaseSignerWalletAdapter {
     async disconnect(): Promise<void> {
         const wallet = this._wallet;
         if (wallet) {
+            wallet.off('disconnect', this._disconnected);
+
             this._wallet = null;
             this._publicKey = null;
 
@@ -165,6 +169,19 @@ export class StrikeWalletAdapter extends BaseSignerWalletAdapter {
         } catch (error: any) {
             this.emit('error', error);
             throw error;
+        }
+    }
+
+    private _disconnected = () => {
+        const wallet = this._wallet;
+        if (wallet) {
+            wallet.off('disconnect', this._disconnected);
+
+            this._wallet = null;
+            this._publicKey = null;
+
+            this.emit('error', new WalletDisconnectedError());
+            this.emit('disconnect');
         }
     }
 }
