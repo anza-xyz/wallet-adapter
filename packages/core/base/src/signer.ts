@@ -98,6 +98,21 @@ export abstract class BaseSignerWalletAdapter<
     async signAllTransactions(
         transactions: TransactionOrVersionedTransaction<SupportedTransactionVersions>[]
     ): Promise<TransactionOrVersionedTransaction<SupportedTransactionVersions>[]> {
+        for (const transaction of transactions) {
+            if ('message' in transaction) {
+                if (!this.supportedTransactionVersions)
+                    throw new WalletSignTransactionError(
+                        `Signing versioned transactions isn't supported by this wallet`
+                    );
+
+                const { version } = transaction.message;
+                if (!this.supportedTransactionVersions.has(version))
+                    throw new WalletSignTransactionError(
+                        `Signing transaction version ${version} isn't supported by this wallet`
+                    );
+            }
+        }
+
         const signedTransactions: TransactionOrVersionedTransaction<SupportedTransactionVersions>[] = [];
         for (const transaction of transactions) {
             signedTransactions.push(await this.signTransaction(transaction));
