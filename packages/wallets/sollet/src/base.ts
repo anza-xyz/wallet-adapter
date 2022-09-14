@@ -40,6 +40,8 @@ export interface SolletWalletAdapterConfig {
 }
 
 export abstract class BaseSolletWalletAdapter extends BaseMessageSignerWalletAdapter {
+    readonly supportedTransactionVersions = null;
+
     protected _provider: string | SolletWallet | undefined;
     protected _network: WalletAdapterNetwork;
     protected _timeout: number;
