@@ -1,14 +1,13 @@
 import type {
     Adapter,
     MessageSignerWalletAdapterProps,
-    SendTransactionOptions,
     SignerWalletAdapterProps,
     WalletAdapterProps,
     WalletError,
     WalletName,
 } from '@solana/wallet-adapter-base';
 import { WalletNotConnectedError, WalletNotReadyError, WalletReadyState } from '@solana/wallet-adapter-base';
-import type { Connection, PublicKey, Transaction, VersionedTransaction } from '@solana/web3.js';
+import type { PublicKey } from '@solana/web3.js';
 import type { FC, ReactNode } from 'react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { WalletNotSelectedError } from './errors.js';
