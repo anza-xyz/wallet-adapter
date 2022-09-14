@@ -15,7 +15,7 @@ import {
     WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import type { Connection, SendOptions, Transaction, TransactionSignature, VersionedTransaction } from '@solana/web3.js';
+import type { Connection, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 
 interface AvanaWalletEvents {
@@ -158,17 +158,13 @@ export class AvanaWalletAdapter extends BaseMessageSignerWalletAdapter {
     }
 
     async sendTransaction(
-        transaction: VersionedTransaction | Transaction,
+        transaction: Transaction,
         connection: Connection,
         options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
-
-            if ('message' in transaction) {
-                throw new WalletSendTransactionError(`Sending versioned transactions isn't supported by this wallet`);
-            }
 
             try {
                 const { signers, ...sendOptions } = options;
