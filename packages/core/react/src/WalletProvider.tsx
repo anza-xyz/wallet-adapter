@@ -3,6 +3,7 @@ import type {
     MessageSignerWalletAdapterProps,
     SendTransactionOptions,
     SignerWalletAdapterProps,
+    WalletAdapterProps,
     WalletError,
     WalletName,
 } from '@solana/wallet-adapter-base';
@@ -237,12 +238,8 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     }, [isDisconnecting, adapter, setName]);
 
     // Send a transaction using the provided connection
-    const sendTransaction = useCallback(
-        async (
-            transaction: VersionedTransaction | Transaction,
-            connection: Connection,
-            options?: SendTransactionOptions
-        ) => {
+    const sendTransaction: WalletAdapterProps['sendTransaction'] = useCallback(
+        async (transaction, connection, options) => {
             if (!adapter) throw handleError(new WalletNotSelectedError());
             if (!connected) throw handleError(new WalletNotConnectedError());
             return await adapter.sendTransaction(transaction, connection, options);
