@@ -188,13 +188,13 @@ export class AvanaWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signTransaction(transaction: Transaction): Promise<Transaction> {
+    async signTransaction<T extends Transaction>(transaction: T): Promise<T> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return (await wallet.signTransaction(transaction)) || transaction;
+                return ((await wallet.signTransaction(transaction)) as T) || transaction;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -204,13 +204,13 @@ export class AvanaWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
+    async signAllTransactions<T extends Transaction>(transactions: T[]): Promise<T[]> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return (await wallet.signAllTransactions(transactions)) || transactions;
+                return ((await wallet.signAllTransactions(transactions)) as T[]) || transactions;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }

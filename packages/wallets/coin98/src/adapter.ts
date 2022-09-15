@@ -142,7 +142,7 @@ export class Coin98WalletAdapter extends BaseMessageSignerWalletAdapter {
         this.emit('disconnect');
     }
 
-    async signTransaction(transaction: Transaction): Promise<Transaction> {
+    async signTransaction<T extends Transaction>(transaction: T): Promise<T> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
@@ -164,7 +164,7 @@ export class Coin98WalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
+    async signAllTransactions<T extends Transaction>(transactions: T[]): Promise<T[]> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
