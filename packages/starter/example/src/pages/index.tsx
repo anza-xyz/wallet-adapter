@@ -123,13 +123,13 @@ const Index: NextPage = () => {
                 </TableRow>
                 <TableRow>
                     <TableCell></TableCell>
+                    <TableCell></TableCell>
                     <TableCell>
                         <SendLegacyTransaction />
                     </TableCell>
                     <TableCell>
                         <SendV0Transaction />
                     </TableCell>
-                    <TableCell></TableCell>
                     <TableCell></TableCell>
                 </TableRow>
             </TableBody>
