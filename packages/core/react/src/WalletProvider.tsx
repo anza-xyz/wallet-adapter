@@ -1,6 +1,13 @@
-import type { Adapter, SendTransactionOptions, WalletError, WalletName } from '@solana/wallet-adapter-base';
+import type {
+    Adapter,
+    MessageSignerWalletAdapterProps,
+    SignerWalletAdapterProps,
+    WalletAdapterProps,
+    WalletError,
+    WalletName,
+} from '@solana/wallet-adapter-base';
 import { WalletNotConnectedError, WalletNotReadyError, WalletReadyState } from '@solana/wallet-adapter-base';
-import type { Connection, PublicKey, Transaction } from '@solana/web3.js';
+import type { PublicKey } from '@solana/web3.js';
 import type { FC, ReactNode } from 'react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { WalletNotSelectedError } from './errors.js';
@@ -230,8 +237,8 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     }, [isDisconnecting, adapter, setName]);
 
     // Send a transaction using the provided connection
-    const sendTransaction = useCallback(
-        async (transaction: Transaction, connection: Connection, options?: SendTransactionOptions) => {
+    const sendTransaction: WalletAdapterProps['sendTransaction'] = useCallback(
+        async (transaction, connection, options) => {
             if (!adapter) throw handleError(new WalletNotSelectedError());
             if (!connected) throw handleError(new WalletNotConnectedError());
             return await adapter.sendTransaction(transaction, connection, options);
@@ -240,10 +247,10 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     );
 
     // Sign a transaction if the wallet supports it
-    const signTransaction = useMemo(
+    const signTransaction: SignerWalletAdapterProps['signTransaction'] | undefined = useMemo(
         () =>
             adapter && 'signTransaction' in adapter
-                ? async (transaction: Transaction): Promise<Transaction> => {
+                ? async (transaction) => {
                       if (!connected) throw handleError(new WalletNotConnectedError());
                       return await adapter.signTransaction(transaction);
                   }
@@ -252,10 +259,10 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     );
 
     // Sign multiple transactions if the wallet supports it
-    const signAllTransactions = useMemo(
+    const signAllTransactions: SignerWalletAdapterProps['signAllTransactions'] | undefined = useMemo(
         () =>
             adapter && 'signAllTransactions' in adapter
-                ? async (transactions: Transaction[]): Promise<Transaction[]> => {
+                ? async (transactions) => {
                       if (!connected) throw handleError(new WalletNotConnectedError());
                       return await adapter.signAllTransactions(transactions);
                   }
@@ -264,10 +271,10 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     );
 
     // Sign an arbitrary message if the wallet supports it
-    const signMessage = useMemo(
+    const signMessage: MessageSignerWalletAdapterProps['signMessage'] | undefined = useMemo(
         () =>
             adapter && 'signMessage' in adapter
-                ? async (message: Uint8Array): Promise<Uint8Array> => {
+                ? async (message) => {
                       if (!connected) throw handleError(new WalletNotConnectedError());
                       return await adapter.signMessage(message);
                   }

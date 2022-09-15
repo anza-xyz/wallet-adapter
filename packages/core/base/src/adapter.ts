@@ -2,6 +2,7 @@ import type { Connection, PublicKey, SendOptions, Signer, Transaction, Transacti
 import EventEmitter from 'eventemitter3';
 import type { WalletError } from './errors.js';
 import { WalletNotConnectedError } from './errors.js';
+import type { SupportedTransactionVersions, TransactionOrVersionedTransaction } from './types.js';
 
 export { EventEmitter };
 
@@ -28,11 +29,13 @@ export interface WalletAdapterProps<Name extends string = string> {
     publicKey: PublicKey | null;
     connecting: boolean;
     connected: boolean;
+    supportedTransactionVersions: SupportedTransactionVersions;
 
     connect(): Promise<void>;
     disconnect(): Promise<void>;
+
     sendTransaction(
-        transaction: Transaction,
+        transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
         connection: Connection,
         options?: SendTransactionOptions
     ): Promise<TransactionSignature>;
@@ -69,13 +72,17 @@ export enum WalletReadyState {
     Unsupported = 'Unsupported',
 }
 
-export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
-    abstract name: WalletName;
+export abstract class BaseWalletAdapter<Name extends string = string>
+    extends EventEmitter<WalletAdapterEvents>
+    implements WalletAdapter<Name>
+{
+    abstract name: WalletName<Name>;
     abstract url: string;
     abstract icon: string;
     abstract readyState: WalletReadyState;
     abstract publicKey: PublicKey | null;
     abstract connecting: boolean;
+    abstract supportedTransactionVersions: SupportedTransactionVersions;
 
     get connected() {
         return !!this.publicKey;
@@ -83,8 +90,9 @@ export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents
 
     abstract connect(): Promise<void>;
     abstract disconnect(): Promise<void>;
+
     abstract sendTransaction(
-        transaction: Transaction,
+        transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
         connection: Connection,
         options?: SendTransactionOptions
     ): Promise<TransactionSignature>;
