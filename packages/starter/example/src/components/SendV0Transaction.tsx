@@ -28,6 +28,11 @@ export const SendV0Transaction: FC = () => {
 
         let signature: TransactionSignature = '';
         try {
+            /**
+             * This lookup table only exists on devnet and can be replaced as
+             * needed.  To create and manage a lookup table, use the `solana
+             * address-lookup-table` commands.
+             */
             const lookupTable = (await connection.getAddressLookupTable(new PublicKey("F3MfgEJe1TApJiA14nN2m4uAH4EBVrqdBnHeGeSXvQ7B"))).value;
             if (lookupTable === null) {
                 notify('error', 'Address lookup table wasn\'t found!');
