@@ -122,7 +122,7 @@ export class LedgerWalletAdapter extends BaseSignerWalletAdapter {
         this.emit('disconnect');
     }
 
-    async signTransaction(transaction: Transaction): Promise<Transaction> {
+    async signTransaction<T extends Transaction>(transaction: T): Promise<T> {
         try {
             const transport = this._transport;
             const publicKey = this._publicKey;

@@ -131,13 +131,13 @@ export class NightlyWalletAdapter extends BaseMessageSignerWalletAdapter {
         this.emit('disconnect');
     }
 
-    async signTransaction(transaction: Transaction) {
+    async signTransaction<T extends Transaction>(transaction: T): Promise<T> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return await wallet.signTransaction(transaction);
+                return (await wallet.signTransaction(transaction)) as T;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -147,13 +147,13 @@ export class NightlyWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
+    async signAllTransactions<T extends Transaction>(transactions: T[]): Promise<T[]> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return await wallet.signAllTransactions(transactions);
+                return (await wallet.signAllTransactions(transactions)) as T[];
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }

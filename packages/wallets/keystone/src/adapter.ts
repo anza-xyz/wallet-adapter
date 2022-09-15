@@ -102,14 +102,14 @@ export class KeystoneWalletAdapter extends BaseMessageSignerWalletAdapter {
         this.emit('disconnect');
     }
 
-    async signTransaction(transaction: Transaction): Promise<Transaction> {
+    async signTransaction<T extends Transaction>(transaction: T): Promise<T> {
         try {
             const keyring = this._keyring;
             const publicKey = this._publicKey?.toString();
             if (!keyring || !publicKey) throw new WalletNotConnectedError();
 
             try {
-                return keyring.signTransaction(publicKey, transaction);
+                return (await keyring.signTransaction(publicKey, transaction)) as T;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
