@@ -23,6 +23,9 @@
             "path": "../brave/tsconfig.all.json"
         },
         {
+            "path": "../burner/tsconfig.all.json"
+        },
+        {
             "path": "../clover/tsconfig.all.json"
         },
         {
@@ -36,9 +39,6 @@
         },
         {
             "path": "../exodus/tsconfig.all.json"
-        },
-        {
-            "path": "../fake/tsconfig.all.json"
         },
         {
             "path": "../glow/tsconfig.all.json"

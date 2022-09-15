@@ -1,5 +1,5 @@
 {
-    "name": "@solana/wallet-adapter-fake",
+    "name": "@solana/wallet-adapter-burner",
     "version": "0.1.5",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",

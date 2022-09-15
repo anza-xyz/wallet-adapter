@@ -50,7 +50,7 @@ npm install --save \
 import React, { FC, useMemo } from 'react';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import { FakeWalletAdapter } from '@solana/wallet-adapter-wallets';
+import { InsecureBurnerWalletAdapter } from '@solana/wallet-adapter-wallets';
 import {
     WalletModalProvider,
     WalletDisconnectButton,
@@ -78,7 +78,7 @@ export const Wallet: FC = () => {
              * will be compiled into your application, and only the dependencies of wallets that
              * your users connect to will be loaded.
              */
-            new FakeWalletAdapter(),
+            new InsecureBurnerWalletAdapter(),
         ],
         []
     );

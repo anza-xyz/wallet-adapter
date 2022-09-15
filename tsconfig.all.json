@@ -53,6 +53,9 @@
             "path": "./packages/wallets/brave/tsconfig.all.json"
         },
         {
+            "path": "./packages/wallets/burner/tsconfig.all.json"
+        },
+        {
             "path": "./packages/wallets/clover/tsconfig.all.json"
         },
         {
@@ -66,9 +69,6 @@
         },
         {
             "path": "./packages/wallets/exodus/tsconfig.all.json"
-        },
-        {
-            "path": "./packages/wallets/fake/tsconfig.all.json"
         },
         {
             "path": "./packages/wallets/glow/tsconfig.all.json"
