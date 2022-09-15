@@ -1,19 +1,28 @@
 import { Button } from '@mui/material';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { AddressLookupTableAccount, AddressLookupTableInstruction, AddressLookupTableProgram, MessageV0, TransactionMessage, TransactionSignature, VersionedTransaction } from '@solana/web3.js';
-import { PublicKey, Transaction, TransactionInstruction } from '@solana/web3.js';
+import { AddressLookupTableAccount, TransactionMessage, TransactionSignature, VersionedTransaction } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 import type { FC } from 'react';
 import React, { useCallback } from 'react';
 import { useNotify } from './notify';
 
 export const SendV0Transaction: FC = () => {
     const { connection } = useConnection();
-    const { publicKey, sendTransaction } = useWallet();
+    const { publicKey, sendTransaction, wallet } = useWallet();
     const notify = useNotify();
+    const supportedTransactionVersions = wallet?.adapter.supportedTransactionVersions;
 
     const onClick = useCallback(async () => {
         if (!publicKey) {
             notify('error', 'Wallet not connected!');
+            return;
+        }
+
+        if (!supportedTransactionVersions) {
+            notify('error', 'Wallet doesn\'t support versioned transactions!');
+            return;
+        } else if (!supportedTransactionVersions.has(0)) {
+            notify('error', 'Wallet doesn\'t support v0 transactions!');
             return;
         }
 
@@ -56,10 +65,11 @@ export const SendV0Transaction: FC = () => {
             notify('error', `Transaction failed! ${error?.message}`, signature);
             return;
         }
-    }, [publicKey, notify, connection, sendTransaction]);
+    }, [publicKey, notify, connection, sendTransaction, supportedTransactionVersions]);
 
+    const disabled = !publicKey || !(supportedTransactionVersions && supportedTransactionVersions.has(0));
     return (
-        <Button variant="contained" color="secondary" onClick={onClick} disabled={!publicKey}>
+        <Button variant="contained" color="secondary" onClick={onClick} disabled={disabled}>
             Send V0 Transaction using Address Lookup Table (devnet)
         </Button>
     );
