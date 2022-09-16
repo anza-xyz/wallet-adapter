@@ -16,7 +16,7 @@ export const Button: FC<ButtonProps> = (props) => {
         <button
             className={`wallet-adapter-button ${props.className || ''}`}
             disabled={props.disabled}
-            style={{...props.style}}
+            style={props.style}
             onClick={props.onClick}
             tabIndex={props.tabIndex || 0}
             type="button"
