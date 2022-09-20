@@ -3,6 +3,7 @@ import {
     BaseSignerWalletAdapter,
     WalletConfigError,
     WalletConnectionError,
+    WalletDisconnectedError,
     WalletDisconnectionError,
     WalletLoadError,
     WalletNotConnectedError,
