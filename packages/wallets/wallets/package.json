@@ -45,7 +45,6 @@
         "@solana/wallet-adapter-coinbase": "workspace:^",
         "@solana/wallet-adapter-coinhub": "workspace:^",
         "@solana/wallet-adapter-exodus": "workspace:^",
-        "@solana/wallet-adapter-fake": "workspace:^",
         "@solana/wallet-adapter-glow": "workspace:^",
         "@solana/wallet-adapter-huobi": "workspace:^",
         "@solana/wallet-adapter-hyperpay": "workspace:^",
@@ -74,6 +73,7 @@
         "@solana/wallet-adapter-tokenpocket": "workspace:^",
         "@solana/wallet-adapter-torus": "workspace:^",
         "@solana/wallet-adapter-trust": "workspace:^",
+        "@solana/wallet-adapter-unsafe-burner": "workspace:^",
         "@solana/wallet-adapter-walletconnect": "workspace:^",
         "@solana/wallet-adapter-xdefi": "workspace:^"
     },

@@ -56,7 +56,7 @@ export const SendV0Transaction: FC = () => {
                             isWritable: index % 2 == 0,
                             isSigner: false,
                         })),
-                        programId: new PublicKey('MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr'),
+                        programId: new PublicKey('Memo1UhkJRfHyvLMcVucJwxXeuD728EqVDDwQDxFMNo'),
                     },
                 ],
                 recentBlockhash: blockhash,

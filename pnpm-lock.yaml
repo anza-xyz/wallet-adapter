@@ -460,6 +460,17 @@ importers:
       '@solana/web3.js': 1.61.0
       shx: 0.3.4
 
+  packages/wallets/unsafe-burner:
+    specifiers:
+      '@solana/wallet-adapter-base': workspace:^
+      '@solana/web3.js': ^1.61.0
+      shx: ^0.3.4
+    dependencies:
+      '@solana/wallet-adapter-base': link:../../core/base
+    devDependencies:
+      '@solana/web3.js': 1.61.0
+      shx: 0.3.4
+
   packages/wallets/clover:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
@@ -509,17 +520,6 @@ importers:
       shx: 0.3.4
 
   packages/wallets/exodus:
-    specifiers:
-      '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
-      shx: ^0.3.4
-    dependencies:
-      '@solana/wallet-adapter-base': link:../../core/base
-    devDependencies:
-      '@solana/web3.js': 1.61.0
-      shx: 0.3.4
-
-  packages/wallets/fake:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
       '@solana/web3.js': ^1.61.0
@@ -911,7 +911,6 @@ importers:
       '@solana/wallet-adapter-coinbase': workspace:^
       '@solana/wallet-adapter-coinhub': workspace:^
       '@solana/wallet-adapter-exodus': workspace:^
-      '@solana/wallet-adapter-fake': workspace:^
       '@solana/wallet-adapter-glow': workspace:^
       '@solana/wallet-adapter-huobi': workspace:^
       '@solana/wallet-adapter-hyperpay': workspace:^
@@ -940,6 +939,7 @@ importers:
       '@solana/wallet-adapter-tokenpocket': workspace:^
       '@solana/wallet-adapter-torus': workspace:^
       '@solana/wallet-adapter-trust': workspace:^
+      '@solana/wallet-adapter-unsafe-burner': workspace:^
       '@solana/wallet-adapter-walletconnect': workspace:^
       '@solana/wallet-adapter-xdefi': workspace:^
       '@solana/web3.js': ^1.61.0
@@ -957,7 +957,6 @@ importers:
       '@solana/wallet-adapter-coinbase': link:../coinbase
       '@solana/wallet-adapter-coinhub': link:../coinhub
       '@solana/wallet-adapter-exodus': link:../exodus
-      '@solana/wallet-adapter-fake': link:../fake
       '@solana/wallet-adapter-glow': link:../glow
       '@solana/wallet-adapter-huobi': link:../huobi
       '@solana/wallet-adapter-hyperpay': link:../hyperpay
@@ -986,6 +985,7 @@ importers:
       '@solana/wallet-adapter-tokenpocket': link:../tokenpocket
       '@solana/wallet-adapter-torus': link:../torus
       '@solana/wallet-adapter-trust': link:../trust
+      '@solana/wallet-adapter-unsafe-burner': link:../burner
       '@solana/wallet-adapter-walletconnect': link:../walletconnect
       '@solana/wallet-adapter-xdefi': link:../xdefi
     devDependencies:
