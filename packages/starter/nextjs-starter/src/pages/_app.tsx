@@ -1,7 +1,7 @@
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
-import { InsecureBurnerWalletAdapter } from '@solana/wallet-adapter-wallets';
+import { UnsafeBurnerWalletAdapter } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 import type { AppProps } from 'next/app';
 import type { FC } from 'react';
@@ -28,7 +28,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
              * will be compiled into your application, and only the dependencies of wallets that
              * your users connect to will be loaded.
              */
-            new InsecureBurnerWalletAdapter(),
+            new UnsafeBurnerWalletAdapter(),
         ],
         []
     );

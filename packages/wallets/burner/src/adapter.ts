@@ -6,10 +6,10 @@ import { Keypair } from '@solana/web3.js';
 export const BurnerWalletName = 'Burner Wallet' as WalletName<'Burner Wallet'>;
 
 /**
- * This burner wallet adapter is insecure and is only included to provide an easy way for applications to test the
- * wallet adapter framework without using a third-party wallet.
+ * This burner wallet adapter is unsafe to use and is only included to provide an easy way for applications to test
+ * Wallet Adapter without using a third-party wallet.
  */
-export class InsecureBurnerWalletAdapter extends BaseSignerWalletAdapter {
+export class UnsafeBurnerWalletAdapter extends BaseSignerWalletAdapter {
     name = BurnerWalletName;
     url = 'https://github.com/solana-labs/wallet-adapter#usage';
     icon =
@@ -17,15 +17,15 @@ export class InsecureBurnerWalletAdapter extends BaseSignerWalletAdapter {
     supportedTransactionVersions: Set<TransactionVersion> = new Set(['legacy', 0]);
 
     /**
-     * Storing a keypair locally like this is insecure because a supply chain attack on an application using this
-     * adapter could retrieve the secret key.
+     * Storing a keypair locally like this is not safe because any application using this adapter could retrieve the
+     * secret key, and because the keypair will be lost any time the wallet is disconnected or the window is refreshed.
      */
     private _keypair: Keypair | null = null;
 
     constructor() {
         super();
         console.warn(
-            'Your application is presently configured to use the `InsecureBurnerWalletAdapter`. ' +
+            'Your application is presently configured to use the `UnsafeBurnerWalletAdapter`. ' +
                 'Find and remove it, then replace it with a list of adapters for ' +
                 'wallets you would like your application to support. See ' +
                 'https://github.com/solana-labs/wallet-adapter#usage for an example.'
