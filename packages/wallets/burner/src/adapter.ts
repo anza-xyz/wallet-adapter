@@ -55,13 +55,12 @@ export class InsecureBurnerWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     async signTransaction<T extends Transaction | VersionedTransaction>(transaction: T): Promise<T> {
-        if (this._keypair === null) throw new WalletNotConnectedError();
+        if (!this._keypair) throw new WalletNotConnectedError();
 
-        const signers = [this._keypair];
         if ('version' in transaction) {
-            transaction.sign(signers);
+            transaction.sign([this._keypair]);
         } else {
-            transaction.sign(...signers);
+            transaction.partialSign(this._keypair);
         }
 
         return transaction;
