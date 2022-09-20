@@ -54,16 +54,6 @@ export class InsecureBurnerWalletAdapter extends BaseSignerWalletAdapter {
         this.emit('disconnect');
     }
 
-    async sendTransaction(
-        transaction: Transaction | VersionedTransaction,
-        connection: Connection,
-        options: SendTransactionOptions = {}
-    ): Promise<TransactionSignature> {
-        transaction = await this.signTransaction(transaction);
-        const rawTransaction = transaction.serialize();
-        return connection.sendRawTransaction(rawTransaction, options);
-    }
-
     async signTransaction<T extends Transaction | VersionedTransaction>(transaction: T): Promise<T> {
         if (this._keypair === null) throw new WalletNotConnectedError();
 
