@@ -23,9 +23,6 @@
             "path": "../brave/tsconfig.all.json"
         },
         {
-            "path": "../burner/tsconfig.all.json"
-        },
-        {
             "path": "../clover/tsconfig.all.json"
         },
         {
@@ -123,6 +120,9 @@
         },
         {
             "path": "../trust/tsconfig.all.json"
+        },
+        {
+            "path": "../unsafe-burner/tsconfig.all.json"
         },
         {
             "path": "../walletconnect/tsconfig.all.json"

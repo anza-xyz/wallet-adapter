@@ -53,9 +53,6 @@
             "path": "./packages/wallets/brave/tsconfig.all.json"
         },
         {
-            "path": "./packages/wallets/burner/tsconfig.all.json"
-        },
-        {
             "path": "./packages/wallets/clover/tsconfig.all.json"
         },
         {
@@ -155,10 +152,10 @@
             "path": "./packages/wallets/trust/tsconfig.all.json"
         },
         {
-            "path": "./packages/wallets/walletconnect/tsconfig.all.json"
+            "path": "./packages/wallets/unsafe-burner/tsconfig.all.json"
         },
         {
-            "path": "./packages/wallets/xdefi/tsconfig.all.json"
+            "path": "./packages/wallets/walletconnect/tsconfig.all.json"
         },
         {
             "path": "./packages/wallets/wallets/tsconfig.all.json"

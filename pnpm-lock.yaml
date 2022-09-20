@@ -460,7 +460,7 @@ importers:
       '@solana/web3.js': 1.61.0
       shx: 0.3.4
 
-  packages/wallets/burner:
+  packages/wallets/unsafe-burner:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
       '@solana/web3.js': ^1.61.0
@@ -906,7 +906,6 @@ importers:
       '@solana/wallet-adapter-bitpie': workspace:^
       '@solana/wallet-adapter-blocto': workspace:^
       '@solana/wallet-adapter-brave': workspace:^
-      '@solana/wallet-adapter-burner': workspace:^
       '@solana/wallet-adapter-clover': workspace:^
       '@solana/wallet-adapter-coin98': workspace:^
       '@solana/wallet-adapter-coinbase': workspace:^
@@ -940,6 +939,7 @@ importers:
       '@solana/wallet-adapter-tokenpocket': workspace:^
       '@solana/wallet-adapter-torus': workspace:^
       '@solana/wallet-adapter-trust': workspace:^
+      '@solana/wallet-adapter-unsafe-burner': workspace:^
       '@solana/wallet-adapter-walletconnect': workspace:^
       '@solana/wallet-adapter-xdefi': workspace:^
       '@solana/web3.js': ^1.61.0
@@ -952,7 +952,6 @@ importers:
       '@solana/wallet-adapter-bitpie': link:../bitpie
       '@solana/wallet-adapter-blocto': link:../blocto
       '@solana/wallet-adapter-brave': link:../brave
-      '@solana/wallet-adapter-burner': link:../burner
       '@solana/wallet-adapter-clover': link:../clover
       '@solana/wallet-adapter-coin98': link:../coin98
       '@solana/wallet-adapter-coinbase': link:../coinbase
@@ -986,6 +985,7 @@ importers:
       '@solana/wallet-adapter-tokenpocket': link:../tokenpocket
       '@solana/wallet-adapter-torus': link:../torus
       '@solana/wallet-adapter-trust': link:../trust
+      '@solana/wallet-adapter-unsafe-burner': link:../burner
       '@solana/wallet-adapter-walletconnect': link:../walletconnect
       '@solana/wallet-adapter-xdefi': link:../xdefi
     devDependencies:
