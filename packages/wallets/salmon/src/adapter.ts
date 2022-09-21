@@ -19,6 +19,7 @@ import {
 import type { Transaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import type { default as Salmon, SalmonWallet } from 'salmon-adapter-sdk';
+import { SignMessageEncoding } from '../../../core/base/src';
 
 interface SalmonWindow extends Window {
     salmon?: SalmonWallet;
@@ -186,13 +187,13 @@ export class SalmonWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+    async signMessage(message: Uint8Array, encoding?: SignMessageEncoding): Promise<Uint8Array> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return await wallet.signMessage(message, 'utf8');
+                return await wallet.signMessage(message, encoding);
             } catch (error: any) {
                 throw new WalletSignMessageError(error?.message, error);
             }

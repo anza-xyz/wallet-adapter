@@ -18,6 +18,7 @@ import {
 import type { Connection, Transaction, TransactionSignature } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import type { default as Torus, TorusParams } from '@toruslabs/solana-embed';
+import { SignMessageEncoding } from '../../../core/base/src';
 
 export interface TorusWalletAdapterConfig {
     params?: TorusParams;
@@ -207,13 +208,13 @@ export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+    async signMessage(message: Uint8Array, encoding?: SignMessageEncoding): Promise<Uint8Array> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return await wallet.signMessage(message);
+                return await wallet.signMessage(message, encoding);
             } catch (error: any) {
                 throw new WalletSignMessageError(error?.message, error);
             }

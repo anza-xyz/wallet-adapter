@@ -16,6 +16,7 @@ import {
 } from '@solana/wallet-adapter-base';
 import type { Transaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
+import { SignMessageEncoding } from '../../../core/base/src';
 
 export interface ParticleAdapterConfig {
     config?: Config;
@@ -157,13 +158,13 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+    async signMessage(message: Uint8Array, encoding?: SignMessageEncoding): Promise<Uint8Array> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return await wallet.signMessage(message);
+                return await wallet.signMessage(message, encoding);
             } catch (error: any) {
                 throw new WalletSignMessageError(error?.message, error);
             }

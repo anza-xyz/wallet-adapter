@@ -110,8 +110,10 @@ export abstract class BaseSignerWalletAdapter<Name extends string = string>
     }
 }
 
+export type SignMessageEncoding = 'utf8' | 'base64' | 'hex';
+
 export interface MessageSignerWalletAdapterProps<Name extends string = string> extends WalletAdapterProps<Name> {
-    signMessage(message: Uint8Array): Promise<Uint8Array>;
+    signMessage(message: Uint8Array, encoding?: SignMessageEncoding): Promise<Uint8Array>;
 }
 
 export type MessageSignerWalletAdapter<Name extends string = string> = WalletAdapter<Name> &
@@ -121,5 +123,5 @@ export abstract class BaseMessageSignerWalletAdapter<Name extends string = strin
     extends BaseSignerWalletAdapter<Name>
     implements MessageSignerWalletAdapter<Name>
 {
-    abstract signMessage(message: Uint8Array): Promise<Uint8Array>;
+    abstract signMessage(message: Uint8Array, encoding?: SignMessageEncoding): Promise<Uint8Array>;
 }

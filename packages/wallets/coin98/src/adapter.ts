@@ -14,6 +14,7 @@ import {
 import type { Transaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import bs58 from 'bs58';
+import { SignMessageEncoding } from '../../../core/base/src';
 
 interface Coin98Wallet {
     isCoin98?: boolean;
@@ -190,7 +191,7 @@ export class Coin98WalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+    async signMessage(message: Uint8Array, encoding?: SignMessageEncoding): Promise<Uint8Array> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();

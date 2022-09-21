@@ -16,6 +16,7 @@ import {
 import type { Transaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import bs58 from 'bs58';
+import { SignMessageEncoding } from '../../../core/base/src';
 
 interface SlopeWallet {
     connect(): Promise<{
@@ -39,7 +40,7 @@ interface SlopeWallet {
             signatures?: string[];
         };
     }>;
-    signMessage(message: Uint8Array): Promise<{ data: { signature: string } }>;
+    signMessage(message: Uint8Array, encoding?: SignMessageEncoding): Promise<{ data: { signature: string } }>;
 }
 
 interface SlopeWindow extends Window {
@@ -216,13 +217,13 @@ export class SlopeWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+    async signMessage(message: Uint8Array, encoding?: SignMessageEncoding): Promise<Uint8Array> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                const response = await wallet.signMessage(message);
+                const response = await wallet.signMessage(message, encoding);
                 return bs58.decode(response.data.signature);
             } catch (error: any) {
                 throw new WalletSignMessageError(error?.message, error);

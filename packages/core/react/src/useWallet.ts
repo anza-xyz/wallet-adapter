@@ -9,6 +9,7 @@ import type {
 } from '@solana/wallet-adapter-base';
 import type { Connection, PublicKey, Transaction, VersionedTransaction } from '@solana/web3.js';
 import { createContext, useContext } from 'react';
+import { SignMessageEncoding } from '../../base/src';
 
 export interface Wallet {
     adapter: Adapter;
@@ -63,7 +64,7 @@ const DEFAULT_CONTEXT = {
     signAllTransactions(_transaction: Transaction[]) {
         return Promise.reject(console.error(constructMissingProviderErrorMessage('get', 'signAllTransactions')));
     },
-    signMessage(_message: Uint8Array) {
+    signMessage(_message: Uint8Array, _encoding?: SignMessageEncoding) {
         return Promise.reject(console.error(constructMissingProviderErrorMessage('get', 'signMessage')));
     },
 } as WalletContextState;

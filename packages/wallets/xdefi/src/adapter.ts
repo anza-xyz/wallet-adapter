@@ -15,6 +15,7 @@ import {
 } from '@solana/wallet-adapter-base';
 import type { SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
+import { SignMessageEncoding } from '../../../core/base/src';
 
 interface XDEFIWalletEvents {
     connect(...args: unknown[]): unknown;
@@ -31,7 +32,7 @@ interface XDEFIWallet extends EventEmitter<XDEFIWalletEvents> {
         transaction: Transaction,
         options?: SendOptions
     ): Promise<{ signature: TransactionSignature }>;
-    signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
+    signMessage(message: Uint8Array, encoding?: SignMessageEncoding): Promise<{ signature: Uint8Array }>;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
 }
@@ -188,13 +189,13 @@ export class XDEFIWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+    async signMessage(message: Uint8Array, encoding?: SignMessageEncoding): Promise<Uint8Array> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                const { signature } = await wallet.signMessage(message);
+                const { signature } = await wallet.signMessage(message, encoding);
                 return signature;
             } catch (error: any) {
                 throw new WalletSignMessageError(error?.message, error);

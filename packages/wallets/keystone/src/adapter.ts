@@ -12,6 +12,7 @@ import {
 } from '@solana/wallet-adapter-base';
 import type { Transaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
+import { SignMessageEncoding } from '../../../core/base/src';
 
 export interface KeystoneWalletAdapterConfig {}
 
@@ -119,14 +120,14 @@ export class KeystoneWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+    async signMessage(message: Uint8Array, encoding?: SignMessageEncoding): Promise<Uint8Array> {
         try {
             const keyring = this._keyring;
             const publicKey = this._publicKey?.toString();
             if (!keyring || !publicKey) throw new WalletNotConnectedError();
 
             try {
-                return keyring.signMessage(publicKey, message);
+                return keyring.signMessage(publicKey, message, encoding);
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }

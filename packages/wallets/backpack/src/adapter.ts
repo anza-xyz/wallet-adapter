@@ -16,6 +16,7 @@ import {
 } from '@solana/wallet-adapter-base';
 import type { Connection, SendOptions, Signer, Transaction, TransactionSignature } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
+import { SignMessageEncoding } from '../../../core/base/src';
 
 interface BackpackWalletEvents {
     connect(...args: unknown[]): unknown;
@@ -210,7 +211,7 @@ export class BackpackWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+    async signMessage(message: Uint8Array, encoding: SignMessageEncoding): Promise<Uint8Array> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
