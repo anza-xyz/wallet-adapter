@@ -26,16 +26,15 @@ export abstract class BaseSignerWalletAdapter<Name extends string = string>
     ): Promise<TransactionSignature> {
         let emit = true;
         try {
-            if ('message' in transaction) {
+            if ('version' in transaction) {
                 if (!this.supportedTransactionVersions)
                     throw new WalletSendTransactionError(
                         `Sending versioned transactions isn't supported by this wallet`
                     );
 
-                const { version } = transaction.message;
-                if (!this.supportedTransactionVersions.has(version))
+                if (!this.supportedTransactionVersions.has(transaction.version))
                     throw new WalletSendTransactionError(
-                        `Sending transaction version ${version} isn't supported by this wallet`
+                        `Sending transaction version ${transaction.version} isn't supported by this wallet`
                     );
 
                 try {
@@ -90,16 +89,15 @@ export abstract class BaseSignerWalletAdapter<Name extends string = string>
         transactions: T[]
     ): Promise<T[]> {
         for (const transaction of transactions) {
-            if ('message' in transaction) {
+            if ('version' in transaction) {
                 if (!this.supportedTransactionVersions)
                     throw new WalletSignTransactionError(
                         `Signing versioned transactions isn't supported by this wallet`
                     );
 
-                const { version } = transaction.message;
-                if (!this.supportedTransactionVersions.has(version))
+                if (!this.supportedTransactionVersions.has(transaction.version))
                     throw new WalletSignTransactionError(
-                        `Signing transaction version ${version} isn't supported by this wallet`
+                        `Signing transaction version ${transaction.version} isn't supported by this wallet`
                     );
             }
         }

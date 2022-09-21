@@ -38,9 +38,6 @@
             "path": "../exodus/tsconfig.all.json"
         },
         {
-            "path": "../fake/tsconfig.all.json"
-        },
-        {
             "path": "../glow/tsconfig.all.json"
         },
         {
@@ -123,6 +120,9 @@
         },
         {
             "path": "../trust/tsconfig.all.json"
+        },
+        {
+            "path": "../unsafe-burner/tsconfig.all.json"
         },
         {
             "path": "../walletconnect/tsconfig.all.json"

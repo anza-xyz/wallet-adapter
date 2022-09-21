@@ -68,9 +68,6 @@
             "path": "./packages/wallets/exodus/tsconfig.all.json"
         },
         {
-            "path": "./packages/wallets/fake/tsconfig.all.json"
-        },
-        {
             "path": "./packages/wallets/glow/tsconfig.all.json"
         },
         {
@@ -155,13 +152,13 @@
             "path": "./packages/wallets/trust/tsconfig.all.json"
         },
         {
-            "path": "./packages/wallets/walletconnect/tsconfig.all.json"
+            "path": "./packages/wallets/unsafe-burner/tsconfig.all.json"
         },
         {
             "path": "./packages/wallets/onekey/tsconfig.all.json"
         },
         {
-            "path": "./packages/wallets/xdefi/tsconfig.all.json"
+            "path": "./packages/wallets/walletconnect/tsconfig.all.json"
         },
         {
             "path": "./packages/wallets/wallets/tsconfig.all.json"
