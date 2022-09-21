@@ -24,7 +24,7 @@
         "clean": "shx mkdir -p build lib && shx rm -rf build lib",
         "start": "react-app-rewired start",
         "build": "react-app-rewired build",
-        "test": "react-app-rewired test",
+        "test": "react-app-rewired test --passWithNoTests",
         "eject": "react-scripts eject"
     },
     "dependencies": {
