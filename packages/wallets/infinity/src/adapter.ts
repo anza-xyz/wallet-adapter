@@ -230,3 +230,9 @@ export class InfinityWalletAdapter extends BaseSignerWalletAdapter {
         }
     };
 }
+export function openInfinityWallet(hostname: string){
+	if(hostname.includes('://'))
+		hostname = hostname.split('://')[1]
+	  hostname = encodeURIComponent(hostname)
+	  window.open("infinity:?dapp="+hostname+"&chain=501");
+}
