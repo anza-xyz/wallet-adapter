@@ -79,6 +79,13 @@ export class InfinityWalletAdapter extends BaseSignerWalletAdapter {
             });
         }
     }
+    get url(): string {
+        openInfinityWallet(window.location.href)
+        return this._url
+    }
+    set url(url) {
+      this._url = url
+    }
 
     get publicKey(): PublicKey | null {
         return this._publicKey;
