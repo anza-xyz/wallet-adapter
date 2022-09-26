@@ -152,7 +152,7 @@
             "path": "./packages/wallets/walletconnect/tsconfig.all.json"
         },
         {
-            "path": "./packages/wallets/infinitywallet/tsconfig.all.json"
+            "path": "./packages/wallets/infinity/tsconfig.all.json"
         },
         {
             "path": "./packages/wallets/wallets/tsconfig.all.json"
