@@ -3,10 +3,11 @@ import type {
     MessageSignerWalletAdapterProps,
     SendTransactionOptions,
     SignerWalletAdapterProps,
+    WalletAdapterProps,
     WalletName,
     WalletReadyState,
 } from '@solana/wallet-adapter-base';
-import type { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { Connection, PublicKey, Transaction, VersionedTransaction } from '@solana/web3.js';
 import { createContext, useContext } from 'react';
 
 export interface Wallet {
@@ -26,12 +27,8 @@ export interface WalletContextState {
     select(walletName: WalletName): void;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
-    sendTransaction(
-        transaction: Transaction,
-        connection: Connection,
-        options?: SendTransactionOptions
-    ): Promise<TransactionSignature>;
 
+    sendTransaction: WalletAdapterProps['sendTransaction'];
     signTransaction: SignerWalletAdapterProps['signTransaction'] | undefined;
     signAllTransactions: SignerWalletAdapterProps['signAllTransactions'] | undefined;
     signMessage: MessageSignerWalletAdapterProps['signMessage'] | undefined;
@@ -53,7 +50,11 @@ const DEFAULT_CONTEXT = {
     disconnect() {
         return Promise.reject(console.error(constructMissingProviderErrorMessage('get', 'disconnect')));
     },
-    sendTransaction(_transaction: Transaction, _connection: Connection, _options?: SendTransactionOptions) {
+    sendTransaction(
+        _transaction: VersionedTransaction | Transaction,
+        _connection: Connection,
+        _options?: SendTransactionOptions
+    ) {
         return Promise.reject(console.error(constructMissingProviderErrorMessage('get', 'sendTransaction')));
     },
     signTransaction(_transaction: Transaction) {
