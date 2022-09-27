@@ -13,7 +13,7 @@ export * from '@solana/wallet-adapter-exodus';
 export * from '@solana/wallet-adapter-glow';
 export * from '@solana/wallet-adapter-huobi';
 export * from '@solana/wallet-adapter-hyperpay';
-export * from '@solana/wallet-adapter-infinity';
+export * from '@solana/wallet-adapter-infinitywallet';
 export * from '@solana/wallet-adapter-keystone';
 export * from '@solana/wallet-adapter-krystal';
 export * from '@solana/wallet-adapter-ledger';

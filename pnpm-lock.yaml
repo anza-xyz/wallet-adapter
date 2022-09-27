@@ -552,6 +552,17 @@ importers:
       '@solana/web3.js': 1.61.0
       shx: 0.3.4
 
+  packages/wallets/infinitywallet:
+    specifiers:
+      '@solana/wallet-adapter-base': workspace:^
+      '@solana/web3.js': ^1.50.1
+      shx: ^0.3.4
+    dependencies:
+      '@solana/wallet-adapter-base': link:../../core/base
+    devDependencies:
+      '@solana/web3.js': 1.61.0
+      shx: 0.3.4
+
   packages/wallets/keystone:
     specifiers:
       '@keystonehq/sol-keyring': ^0.3.0
@@ -914,6 +925,7 @@ importers:
       '@solana/wallet-adapter-glow': workspace:^
       '@solana/wallet-adapter-huobi': workspace:^
       '@solana/wallet-adapter-hyperpay': workspace:^
+      '@solana/wallet-adapter-infinitywallet': workspace:^
       '@solana/wallet-adapter-keystone': workspace:^
       '@solana/wallet-adapter-krystal': workspace:^
       '@solana/wallet-adapter-ledger': workspace:^
@@ -960,6 +972,7 @@ importers:
       '@solana/wallet-adapter-glow': link:../glow
       '@solana/wallet-adapter-huobi': link:../huobi
       '@solana/wallet-adapter-hyperpay': link:../hyperpay
+      '@solana/wallet-adapter-infinitywallet': link:../infinitywallet
       '@solana/wallet-adapter-keystone': link:../keystone
       '@solana/wallet-adapter-krystal': link:../krystal
       '@solana/wallet-adapter-ledger': link:../ledger
