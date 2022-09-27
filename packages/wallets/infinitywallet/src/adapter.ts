@@ -40,6 +40,7 @@ interface InfinityWalletWindow extends Window {
     infinitywallet?: {
           solana?: InfinityWallet;
     };
+    solana?: InfinityWallet;
 }
 
 declare const window: InfinityWalletWindow;
