@@ -1,3 +1,4 @@
+import type { Transaction, TransactionVersion, VersionedTransaction } from '@solana/web3.js';
 import type { WalletAdapter } from './adapter.js';
 import type { MessageSignerWalletAdapter, SignerWalletAdapter } from './signer.js';
 
@@ -8,3 +9,9 @@ export enum WalletAdapterNetwork {
     Testnet = 'testnet',
     Devnet = 'devnet',
 }
+
+export type SupportedTransactionVersions = ReadonlySet<TransactionVersion> | null;
+
+export type TransactionOrVersionedTransaction<S extends SupportedTransactionVersions> = S extends null
+    ? Transaction
+    : Transaction | VersionedTransaction;

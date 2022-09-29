@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-ant-design",
-    "version": "0.11.13",
+    "version": "0.11.14",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -35,7 +35,7 @@
     },
     "peerDependencies": {
         "@ant-design/icons": "*",
-        "@solana/web3.js": "^1.50.1",
+        "@solana/web3.js": "^1.61.0",
         "antd": "*",
         "react": "*",
         "react-dom": "*"
@@ -46,7 +46,7 @@
     },
     "devDependencies": {
         "@ant-design/icons": "^4.7.0",
-        "@solana/web3.js": "^1.50.1",
+        "@solana/web3.js": "^1.61.0",
         "@types/react": "^18.0.0",
         "@types/react-dom": "^18.0.0",
         "antd": "^4.22.6",

@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-tokenpocket",
-    "version": "0.4.12",
+    "version": "0.4.13",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -30,13 +30,13 @@
         "package": "shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.50.1"
+        "@solana/web3.js": "^1.61.0"
     },
     "dependencies": {
         "@solana/wallet-adapter-base": "workspace:^"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.50.1",
+        "@solana/web3.js": "^1.61.0",
         "shx": "^0.3.4"
     }
 }

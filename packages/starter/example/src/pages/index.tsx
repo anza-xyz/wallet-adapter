@@ -23,6 +23,8 @@ import pkg from '../../package.json';
 import { useAutoConnect } from '../components/AutoConnectProvider';
 import { RequestAirdrop } from '../components/RequestAirdrop';
 import { SendTransaction } from '../components/SendTransaction';
+import { SendLegacyTransaction } from '../components/SendLegacyTransaction';
+import { SendV0Transaction } from '../components/SendV0Transaction';
 import { SignMessage } from '../components/SignMessage';
 
 const Index: NextPage = () => {
@@ -118,6 +120,17 @@ const Index: NextPage = () => {
                     <TableCell>
                         <SignMessage />
                     </TableCell>
+                </TableRow>
+                <TableRow>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell>
+                        <SendLegacyTransaction />
+                    </TableCell>
+                    <TableCell>
+                        <SendV0Transaction />
+                    </TableCell>
+                    <TableCell></TableCell>
                 </TableRow>
             </TableBody>
         </Table>

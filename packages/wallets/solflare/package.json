@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-solflare",
-    "version": "0.6.15",
+    "version": "0.6.16",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -30,14 +30,14 @@
         "package": "shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.50.1"
+        "@solana/web3.js": "^1.61.0"
     },
     "dependencies": {
         "@solana/wallet-adapter-base": "workspace:^",
         "@solflare-wallet/sdk": "^1.0.11"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.50.1",
+        "@solana/web3.js": "^1.61.0",
         "shx": "^0.3.4"
     }
 }

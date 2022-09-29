@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-wallets",
-    "version": "0.18.7",
+    "version": "0.19.0",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -30,7 +30,7 @@
         "package": "shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.50.1"
+        "@solana/web3.js": "^1.61.0"
     },
     "dependencies": {
         "@solana/wallet-adapter-alpha": "workspace:^",
@@ -45,7 +45,6 @@
         "@solana/wallet-adapter-coinbase": "workspace:^",
         "@solana/wallet-adapter-coinhub": "workspace:^",
         "@solana/wallet-adapter-exodus": "workspace:^",
-        "@solana/wallet-adapter-fake": "workspace:^",
         "@solana/wallet-adapter-glow": "workspace:^",
         "@solana/wallet-adapter-huobi": "workspace:^",
         "@solana/wallet-adapter-hyperpay": "workspace:^",
@@ -57,6 +56,7 @@
         "@solana/wallet-adapter-neko": "workspace:^",
         "@solana/wallet-adapter-nightly": "workspace:^",
         "@solana/wallet-adapter-nufi": "workspace:^",
+        "@solana/wallet-adapter-onto": "workspace:^",
         "@solana/wallet-adapter-particle": "workspace:^",
         "@solana/wallet-adapter-phantom": "workspace:^",
         "@solana/wallet-adapter-safepal": "workspace:^",
@@ -73,10 +73,12 @@
         "@solana/wallet-adapter-tokenpocket": "workspace:^",
         "@solana/wallet-adapter-torus": "workspace:^",
         "@solana/wallet-adapter-trust": "workspace:^",
-        "@solana/wallet-adapter-walletconnect": "workspace:^"
+        "@solana/wallet-adapter-unsafe-burner": "workspace:^",
+        "@solana/wallet-adapter-walletconnect": "workspace:^",
+        "@solana/wallet-adapter-xdefi": "workspace:^"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.50.1",
+        "@solana/web3.js": "^1.61.0",
         "shx": "^0.3.4"
     }
 }
