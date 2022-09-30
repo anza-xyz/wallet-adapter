@@ -63,9 +63,9 @@ export class FractalWalletAdapter extends BaseSignerWalletAdapter {
     async connect(): Promise<void> {
         let resolve: () => void | undefined;
         let reject: (err: unknown) => void | undefined;
-        this._publicKey = PublicKey.default;
-        const nonce = uuid.v4();
+
         this._connecting = true;
+        const nonce = uuid.v4();
         this.popupManager.open({
             url: `${FRACTAL_DOMAIN_HTTPS}/wallet-adapter/approve/${nonce}`,
             nonce,
