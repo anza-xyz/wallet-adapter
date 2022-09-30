@@ -28,6 +28,8 @@ import type { TransactionSignatureNeededPayload } from '@fractalwagmi/popup-conn
 import uuid from 'uuid';
 
 const FRACTAL_DOMAIN_HTTPS = 'https://fractal.is';
+const APPROVE_PAGE_URL = `${FRACTAL_DOMAIN_HTTPS}/wallet-adapter/approve`;
+const SIGN_PAGE_URL = `${FRACTAL_DOMAIN_HTTPS}/wallet-adapter/sign`;
 const MIN_POPUP_HEIGHT_PX = DEFAULT_POPUP_HEIGHT_PX;
 const MAX_POPUP_WIDTH_PX = 850;
 
@@ -67,7 +69,7 @@ export class FractalWalletAdapter extends BaseSignerWalletAdapter {
         this._connecting = true;
         const nonce = uuid.v4();
         this.popupManager.open({
-            url: `${FRACTAL_DOMAIN_HTTPS}/wallet-adapter/approve/${nonce}`,
+            url: `${APPROVE_PAGE_URL}/${nonce}`,
             nonce,
         });
 
@@ -169,7 +171,7 @@ export class FractalWalletAdapter extends BaseSignerWalletAdapter {
 
         const nonce = uuid.v4();
         this.popupManager.open({
-            url: `${FRACTAL_DOMAIN_HTTPS}/wallet-adapter/sign/${nonce}`,
+            url: `${SIGN_PAGE_URL}/${nonce}`,
             nonce,
             heightPx: Math.max(MIN_POPUP_HEIGHT_PX, Math.floor(window.innerHeight * 0.8)),
             widthPx: Math.min(MAX_POPUP_WIDTH_PX, Math.floor(window.innerWidth * 0.8)),
