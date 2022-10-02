@@ -1,17 +1,20 @@
 {
     "name": "@solana/wallet-adapter-huobi",
-    "version": "0.1.4",
+    "version": "0.1.9",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
     "type": "module",
     "sideEffects": false,
-    "main": "lib/cjs/index.js",
-    "module": "lib/esm/index.mjs",
-    "types": "lib/types/index.d.ts",
+    "engines": {
+        "node": ">=16"
+    },
+    "main": "./lib/cjs/index.js",
+    "module": "./lib/esm/index.js",
+    "types": "./lib/types/index.d.ts",
     "exports": {
         "require": "./lib/cjs/index.js",
-        "import": "./lib/esm/index.mjs",
+        "import": "./lib/esm/index.js",
         "types": "./lib/types/index.d.ts"
     },
     "files": [
@@ -23,17 +26,17 @@
         "access": "public"
     },
     "scripts": {
-        "clean": "shx rm -rf lib/*",
-        "build": "yarn clean && tsc -p tsconfig.json && tsc-esm -p tsconfig.json && tsc -p tsconfig.cjs.json",
-        "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
+        "clean": "shx mkdir -p lib && shx rm -rf lib",
+        "package": "shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.50.1"
+        "@solana/web3.js": "^1.61.0"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.9.10"
+        "@solana/wallet-adapter-base": "workspace:^"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.50.1"
+        "@solana/web3.js": "^1.61.0",
+        "shx": "^0.3.4"
     }
 }

@@ -1,18 +1,21 @@
 {
     "name": "@solana/wallet-adapter-react-ui",
-    "version": "0.9.12",
+    "version": "0.9.17",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
     "type": "module",
     "sideEffects": false,
-    "main": "lib/cjs/index.js",
-    "module": "lib/esm/index.mjs",
-    "types": "lib/types/index.d.ts",
+    "engines": {
+        "node": ">=16"
+    },
+    "main": "./lib/cjs/index.js",
+    "module": "./lib/esm/index.js",
+    "types": "./lib/types/index.d.ts",
     "exports": {
         ".": {
+            "import": "./lib/esm/index.js",
             "require": "./lib/cjs/index.js",
-            "import": "./lib/esm/index.mjs",
             "types": "./lib/types/index.d.ts"
         },
         "./styles.css": "./styles.css"
@@ -27,24 +30,24 @@
         "access": "public"
     },
     "scripts": {
-        "clean": "shx rm -rf lib/*",
-        "build": "yarn clean && tsc -p tsconfig.json && tsc-esm -p tsconfig.json && tsc -p tsconfig.cjs.json",
-        "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
+        "clean": "shx mkdir -p lib && shx rm -rf lib",
+        "package": "shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.50.1",
+        "@solana/web3.js": "^1.61.0",
         "react": "*",
         "react-dom": "*"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.9.10",
-        "@solana/wallet-adapter-react": "^0.15.9"
+        "@solana/wallet-adapter-base": "workspace:^",
+        "@solana/wallet-adapter-react": "workspace:^"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.50.1",
-        "@types/react": "^18.0.15",
-        "@types/react-dom": "^18.0.6",
+        "@solana/web3.js": "^1.61.0",
+        "@types/react": "^18.0.0",
+        "@types/react-dom": "^18.0.0",
         "react": "^18.0.0",
-        "react-dom": "^18.0.0"
+        "react-dom": "^18.0.0",
+        "shx": "^0.3.4"
     }
 }

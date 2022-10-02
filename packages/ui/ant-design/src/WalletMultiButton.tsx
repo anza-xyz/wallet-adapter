@@ -8,10 +8,10 @@ import type { ButtonProps } from 'antd';
 import { Button, Dropdown, Menu } from 'antd';
 import type { FC } from 'react';
 import React, { useMemo } from 'react';
-import { useWalletModal } from './useWalletModal';
-import { WalletConnectButton } from './WalletConnectButton';
-import { WalletIcon } from './WalletIcon';
-import { WalletModalButton } from './WalletModalButton';
+import { useWalletModal } from './useWalletModal.js';
+import { WalletConnectButton } from './WalletConnectButton.js';
+import { WalletIcon } from './WalletIcon.js';
+import { WalletModalButton } from './WalletModalButton.js';
 
 export const WalletMultiButton: FC<ButtonProps> = ({
     type = 'primary',

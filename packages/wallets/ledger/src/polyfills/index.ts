@@ -1,3 +1,3 @@
 'use strict';
 
-import './Buffer';
+import './Buffer.js';

@@ -1,5 +1,5 @@
 export class WalletError extends Error {
-    public error: any;
+    error: any;
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     constructor(message?: string, error?: any) {

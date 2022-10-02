@@ -1,10 +1,12 @@
-import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
+import type { WalletError } from '@solana/wallet-adapter-base';
+import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { WalletDialogProvider, WalletMultiButton } from '@solana/wallet-adapter-material-ui';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
-import { FakeWalletAdapter } from '@solana/wallet-adapter-wallets';
+import { UnsafeBurnerWalletAdapter } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 import { useSnackbar } from 'notistack';
-import React, { FC, ReactNode, useCallback, useMemo } from 'react';
+import type { FC, ReactNode } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Theme } from './Theme';
 
 export const App: FC = () => {
@@ -34,7 +36,7 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
              * will be compiled into your application, and only the dependencies of wallets that
              * your users connect to will be loaded.
              */
-            new FakeWalletAdapter(),
+            new UnsafeBurnerWalletAdapter(),
         ],
         []
     );

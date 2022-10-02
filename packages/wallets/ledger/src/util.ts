@@ -1,8 +1,8 @@
-import type Transport from '@ledgerhq/hw-transport';
+import type { default as Transport } from '@ledgerhq/hw-transport';
 import { StatusCodes, TransportStatusError } from '@ledgerhq/hw-transport';
 import type { Transaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
-import './polyfills/index';
+import './polyfills/index.js';
 
 export function getDerivationPath(account?: number, change?: number): Buffer {
     const length = account !== undefined ? (change === undefined ? 3 : 4) : 2;
@@ -70,7 +70,7 @@ async function send(transport: Transport, instruction: number, p1: number, data:
         while (data.length - offset > MAX_PAYLOAD) {
             const buffer = data.slice(offset, offset + MAX_PAYLOAD);
             const response = await transport.send(LEDGER_CLA, instruction, p1, p2 | P2_MORE, buffer);
-            // @ts-ignore
+            // @ts-ignore -- TransportStatusError is a constructor Function, not a Class
             if (response.length !== 2) throw new TransportStatusError(StatusCodes.INCORRECT_DATA);
 
             p2 |= P2_EXTEND;
