@@ -185,5 +185,5 @@ export class StrikeWalletAdapter extends BaseSignerWalletAdapter {
             this.emit('error', new WalletDisconnectedError());
             this.emit('disconnect');
         }
-    }
+    };
 }
