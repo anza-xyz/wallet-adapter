@@ -52,11 +52,13 @@
     "overrides": {
         "@ledgerhq/devices": "6.27.1",
         "@ledgerhq/hw-transport": "6.27.1",
-        "@ledgerhq/hw-transport-webhid": "6.27.1"
+        "@ledgerhq/hw-transport-webhid": "6.27.1",
+        "eslint": "8.22.0"
     },
     "resolutions": {
         "@ledgerhq/devices": "6.27.1",
         "@ledgerhq/hw-transport": "6.27.1",
-        "@ledgerhq/hw-transport-webhid": "6.27.1"
+        "@ledgerhq/hw-transport-webhid": "6.27.1",
+        "eslint": "8.22.0"
     }
 }
