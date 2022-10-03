@@ -1,11 +1,5 @@
 import base58 from 'bs58';
-import {
-    SendTransactionOptions,
-    TransactionOrVersionedTransaction,
-    WalletError,
-    WalletNotConnectedError,
-    WalletSignTransactionError,
-} from '@solana/wallet-adapter-base';
+import { WalletError, WalletNotConnectedError, WalletSignTransactionError } from '@solana/wallet-adapter-base';
 import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseSignerWalletAdapter,
@@ -25,7 +19,6 @@ import {
     assertPayloadIsTransactionSignatureNeededResponsePayload,
 } from '@fractalwagmi/popup-connection';
 import type { TransactionSignatureNeededPayload } from '@fractalwagmi/popup-connection';
-import uuid from 'uuid';
 
 const FRACTAL_DOMAIN_HTTPS = 'https://fractal.is';
 const APPROVE_PAGE_URL = `${FRACTAL_DOMAIN_HTTPS}/wallet-adapter/approve`;
@@ -67,7 +60,7 @@ export class FractalWalletAdapter extends BaseSignerWalletAdapter {
         let reject: (err: unknown) => void | undefined;
 
         this._connecting = true;
-        const nonce = uuid.v4();
+        const nonce = createNonce();
         this.popupManager.open({
             url: `${APPROVE_PAGE_URL}/${nonce}`,
             nonce,
@@ -169,7 +162,7 @@ export class FractalWalletAdapter extends BaseSignerWalletAdapter {
             resolve(signedTransactions);
         };
 
-        const nonce = uuid.v4();
+        const nonce = createNonce();
         this.popupManager.open({
             url: `${SIGN_PAGE_URL}/${nonce}`,
             nonce,
@@ -206,4 +199,15 @@ export class FractalWalletAdapter extends BaseSignerWalletAdapter {
             throw new WalletNotReadyError('`signTransaction` cannot be called while connecting');
         }
     }
+}
+
+function createNonce(): string {
+    return `${randomString()}${randomString()}${randomString()}`;
+}
+
+/**
+ * @url https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+ */
+function randomString(): string {
+    return (Math.random() + 1).toString(36).substring(7);
 }
