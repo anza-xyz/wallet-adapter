@@ -19,7 +19,7 @@ importers:
       eslint-plugin-react-hooks: ^4.6.0
       eslint-plugin-require-extensions: ^0.1.1
       gh-pages: ^4.0.0
-      pnpm: ^7.8.0
+      pnpm: ^7.13.0
       prettier: ^2.7.1
       shx: ^0.3.4
       typedoc: ^0.23.10
@@ -35,7 +35,7 @@ importers:
       eslint-plugin-react-hooks: 4.6.0_eslint@8.22.0
       eslint-plugin-require-extensions: 0.1.1_eslint@8.22.0
       gh-pages: 4.0.0
-      pnpm: 7.9.5
+      pnpm: 7.13.0
       prettier: 2.7.1
       shx: 0.3.4
       typedoc: 0.23.10_typescript@4.7.4
@@ -12509,8 +12509,8 @@ packages:
     engines: {node: '>=4.0.0'}
     dev: false
 
-  /pnpm/7.9.5:
-    resolution: {integrity: sha512-+r7+PlBIsblqia8eUOUsBp/R+lHmGAm55jyQRt3DWMUI0srVR1aNJhQECfx24L53Ckz9g48mVxQXEniQMWQPmw==}
+  /pnpm/7.13.0:
+    resolution: {integrity: sha512-n1oG3HAOIXuOpzQAMqaPTTKlP1lJBpj9p9EIom63WYiZmCl2GaTvrcDQ085MZRcb5buQxt5lYgfqXppkluB97A==}
     engines: {node: '>=14.6'}
     hasBin: true
     dev: true
