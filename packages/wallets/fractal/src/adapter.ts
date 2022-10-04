@@ -18,7 +18,7 @@ export const FractalWalletName = 'Fractal' as WalletName<'Fractal'>;
 
 export class FractalWalletAdapter extends BaseSignerWalletAdapter {
     name = FractalWalletName;
-    url = 'https://developers.fractal.is/modules/solana-wallet-adapter';
+    url = 'https://developers.fractal.is/wallet-adapters/solana';
     icon =
         'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDEwMDAiPjxwYXRoIGQ9Ik0zNDIuMjQgNzYzLjkzVjI0My44Mkg3MTV2MTEyLjY5SDQ4MXYxMTUuNThoMTgydjExMi42OUg0ODF2MTc5LjE1WiIgc3R5bGU9ImZpbGw6I2RlMzU5YyIvPjwvc3ZnPg==';
 
@@ -88,7 +88,7 @@ export class FractalWalletAdapter extends BaseSignerWalletAdapter {
             this._wallet = wallet;
             this._publicKey = wallet.getPublicKey();
             if (!this._publicKey) {
-              throw new WalletConnectionError('Expected a public key');
+                throw new WalletConnectionError('Expected a public key');
             }
 
             this.emit('connect', this._publicKey);
@@ -108,7 +108,7 @@ export class FractalWalletAdapter extends BaseSignerWalletAdapter {
             this._publicKey = null;
 
             try {
-              await wallet.disconnect();
+                await wallet.disconnect();
             } catch (error: any) {
                 this.emit('error', new WalletDisconnectionError(error?.message, error));
             }
