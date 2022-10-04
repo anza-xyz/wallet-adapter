@@ -1,6 +1,5 @@
 import {
     BaseSignerWalletAdapter,
-    WalletName,
     WalletConfigError,
     WalletConnectionError,
     WalletDisconnectionError,
@@ -10,8 +9,9 @@ import {
     WalletReadyState,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
+import type { WalletName } from '@solana/wallet-adapter-base';
 import type { Transaction } from '@solana/web3.js';
-import { PublicKey } from '@solana/web3.js';
+import type { PublicKey } from '@solana/web3.js';
 import type { FractalWalletAdapterImpl as FractalWallet } from '@fractalwagmi/solana-wallet-adapter';
 
 export const FractalWalletName = 'Fractal' as WalletName<'Fractal'>;
