@@ -33,9 +33,8 @@
         "@solana/web3.js": "^1.61.0"
     },
     "dependencies": {
-        "@fractalwagmi/popup-connection": "^1.0.10",
-        "@solana/wallet-adapter-base": "workspace:^",
-        "bs58": "^5.0.0"
+        "@fractalwagmi/solana-wallet-adapter": "^0.0.1",
+        "@solana/wallet-adapter-base": "workspace:^"
     },
     "devDependencies": {
         "@solana/web3.js": "^1.61.0",

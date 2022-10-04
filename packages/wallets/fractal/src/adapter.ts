@@ -1,213 +1,151 @@
-import base58 from 'bs58';
-import { WalletError, WalletNotConnectedError, WalletSignTransactionError } from '@solana/wallet-adapter-base';
-import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseSignerWalletAdapter,
-    WalletReadyState,
+    WalletName,
+    WalletConfigError,
     WalletConnectionError,
-    WalletPublicKeyError,
+    WalletDisconnectionError,
+    WalletLoadError,
+    WalletNotConnectedError,
     WalletNotReadyError,
+    WalletReadyState,
+    WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import { Message, Transaction } from '@solana/web3.js';
+import type { Transaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
-import {
-    ConnectionManager,
-    Platform,
-    PopupEvent,
-    assertPayloadIsSolanaWalletAdapterApproved,
-    DEFAULT_POPUP_HEIGHT_PX,
-    assertPayloadIsTransactionSignatureNeededResponsePayload,
-} from '@fractalwagmi/popup-connection';
-import type { TransactionSignatureNeededPayload } from '@fractalwagmi/popup-connection';
+import type { FractalWalletAdapterImpl as FractalWallet } from '@fractalwagmi/solana-wallet-adapter';
 
-const FRACTAL_DOMAIN_HTTPS = 'https://fractal.is';
-const APPROVE_PAGE_URL = `${FRACTAL_DOMAIN_HTTPS}/wallet-adapter/approve`;
-const SIGN_PAGE_URL = `${FRACTAL_DOMAIN_HTTPS}/wallet-adapter/sign`;
-const MIN_POPUP_HEIGHT_PX = DEFAULT_POPUP_HEIGHT_PX;
-const MAX_POPUP_WIDTH_PX = 850;
-
-export const FractalWalletName = 'Fractal Wallet' as WalletName<'Fractal Wallet'>;
+export const FractalWalletName = 'Fractal' as WalletName<'Fractal'>;
 
 export class FractalWalletAdapter extends BaseSignerWalletAdapter {
     name = FractalWalletName;
-    url = 'https://github.com/solana-labs/wallet-adapter#usage';
+    url = 'https://developers.fractal.is/modules/solana-wallet-adapter';
     icon =
         'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDEwMDAiPjxwYXRoIGQ9Ik0zNDIuMjQgNzYzLjkzVjI0My44Mkg3MTV2MTEyLjY5SDQ4MXYxMTUuNThoMTgydjExMi42OUg0ODF2MTc5LjE1WiIgc3R5bGU9ImZpbGw6I2RlMzU5YyIvPjwvc3ZnPg==';
-    private _publicKey: PublicKey | null = null;
-    private _connecting = false;
+
     readonly supportedTransactionVersions = null;
 
-    private popupManager = new ConnectionManager(Platform.SOLANA_WALLET_ADAPTER);
+    private readonly _readyState: WalletReadyState =
+        typeof window === 'undefined' || typeof document === 'undefined'
+            ? WalletReadyState.Unsupported
+            : WalletReadyState.Loadable;
+
+    private _connecting: boolean;
+    private _wallet: FractalWallet | null;
+    private _publicKey: PublicKey | null;
 
     constructor() {
         super();
+        this._connecting = false;
+        this._wallet = null;
+        this._publicKey = null;
+    }
+
+    get publicKey() {
+        return this._wallet?.getPublicKey() ?? null;
     }
 
     get connecting() {
         return this._connecting;
     }
 
-    get publicKey() {
-        return this._publicKey;
+    get connected() {
+        return !!this.publicKey;
     }
 
     get readyState() {
-        return WalletReadyState.Loadable;
+        return this._readyState;
     }
 
     async connect(): Promise<void> {
-        let resolve: () => void | undefined;
-        let reject: (err: unknown) => void | undefined;
+        try {
+            if (this.connected || this.connecting) return;
+            if (this._readyState !== WalletReadyState.Loadable) throw new WalletNotReadyError();
 
-        this._connecting = true;
-        const nonce = createNonce();
-        this.popupManager.open({
-            url: `${APPROVE_PAGE_URL}/${nonce}`,
-            nonce,
-        });
+            this._connecting = true;
 
-        const handleSolanaWalletAdapterApproved = (payload: unknown) => {
-            if (!assertPayloadIsSolanaWalletAdapterApproved(payload)) {
-                reject(
-                    new WalletConnectionError(
-                        'Malformed payload when setting up connection. ' +
-                            'Expected { solanaPublicKey: string } but ' +
-                            `received ${payload}`
-                    )
-                );
-                return;
-            }
+            let FractalWalletClass: typeof FractalWallet;
             try {
-                this._publicKey = new PublicKey(payload.solanaPublicKey);
-                resolve();
-                this.emit('connect', this._publicKey);
+                FractalWalletClass = (await import('@fractalwagmi/solana-wallet-adapter')).FractalWalletAdapterImpl;
             } catch (error: any) {
-                const publicKeyError = new WalletPublicKeyError(error?.message, error);
-                reject(publicKeyError);
-                this.emit('error', publicKeyError);
+                throw new WalletLoadError(error?.message, error);
             }
+
+            let wallet: FractalWallet;
+            try {
+                wallet = new FractalWalletClass();
+            } catch (error: any) {
+                throw new WalletConfigError(error?.message, error);
+            }
+
+            if (!wallet.getPublicKey()) {
+                try {
+                    await wallet.connect();
+                } catch (error: any) {
+                    throw new WalletConnectionError(error?.message, error);
+                }
+            }
+
+            this._wallet = wallet;
+            this._publicKey = wallet.getPublicKey();
+            if (!this._publicKey) {
+              throw new WalletConnectionError('Expected a public key');
+            }
+
+            this.emit('connect', this._publicKey);
+        } catch (error: any) {
+            this.emit('error', error);
+            throw error;
+        } finally {
             this._connecting = false;
-        };
-
-        this.popupManager.onConnectionUpdated((connection) => {
-            if (!connection) {
-                return;
-            }
-            connection.on(PopupEvent.SOLANA_WALLET_ADAPTER_APPROVED, handleSolanaWalletAdapterApproved);
-        });
-
-        return new Promise((promiseResolver, promiseRejector) => {
-            resolve = promiseResolver;
-            reject = promiseRejector;
-        });
+        }
     }
 
     async disconnect(): Promise<void> {
-        this.popupManager.tearDown();
-        this._publicKey = null;
+        const wallet = this._wallet;
+
+        if (wallet) {
+            this._wallet = null;
+            this._publicKey = null;
+
+            try {
+              await wallet.disconnect();
+            } catch (error: any) {
+                this.emit('error', new WalletDisconnectionError(error?.message, error));
+            }
+        }
+
         this.emit('disconnect');
     }
 
     async signTransaction<T extends Transaction>(transaction: T): Promise<T> {
         try {
-            this.checkWalletReadiness();
-            const result = await this.signTransactions([transaction]);
-            return result[0];
-        } catch (error: any) {
-            let errorToThrow = error;
-            if (!(error instanceof WalletError)) {
-                errorToThrow = new WalletSignTransactionError(error?.message, error);
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
+
+            try {
+                return wallet.signTransaction(transaction);
+            } catch (error: any) {
+                throw new WalletSignTransactionError(error?.message, error);
             }
-            this.emit('error', errorToThrow);
+        } catch (error: any) {
+            this.emit('error', error);
             throw error;
         }
     }
 
     async signAllTransactions<T extends Transaction>(transactions: T[]): Promise<T[]> {
         try {
-            this.checkWalletReadiness();
-            const result = await this.signTransactions(transactions);
-            return result;
-        } catch (error: any) {
-            let errorToThrow = error;
-            if (!(error instanceof WalletError)) {
-                errorToThrow = new WalletSignTransactionError(error?.message, error);
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
+
+            try {
+                return wallet.signAllTransactions(transactions);
+            } catch (error: any) {
+                throw new WalletSignTransactionError(error?.message, error);
             }
-            this.emit('error', errorToThrow);
+        } catch (error: any) {
+            this.emit('error', error);
             throw error;
         }
     }
-
-    private async signTransactions<T extends Transaction>(transactions: T[]): Promise<T[]> {
-        let resolve: (signedTransactions: T[]) => void;
-        let reject: (err: WalletError) => void;
-
-        const handleTransactionSignatureNeededResponse = (payload: unknown) => {
-            if (!assertPayloadIsTransactionSignatureNeededResponsePayload(payload)) {
-                const error = new WalletSignTransactionError(
-                    'Malformed payload when signing transactions. ' +
-                        'Expected { signedB58Transactions: string[] } ' +
-                        `but received ${payload}`
-                );
-                reject(error);
-                this.emit('error', error);
-                return;
-            }
-
-            const signedTransactions = payload.signedB58Transactions.map((signedB58Transaction) => {
-                const message = Message.from(base58.decode(signedB58Transaction));
-                return Transaction.populate(message);
-            }) as T[];
-
-            resolve(signedTransactions);
-        };
-
-        const nonce = createNonce();
-        this.popupManager.open({
-            url: `${SIGN_PAGE_URL}/${nonce}`,
-            nonce,
-            heightPx: Math.max(MIN_POPUP_HEIGHT_PX, Math.floor(window.innerHeight * 0.8)),
-            widthPx: Math.min(MAX_POPUP_WIDTH_PX, Math.floor(window.innerWidth * 0.8)),
-        });
-        this.popupManager.onConnectionUpdated((connection) => {
-            if (!connection) {
-                return;
-            }
-
-            connection.on(PopupEvent.TRANSACTION_SIGNATURE_NEEDED_RESPONSE, handleTransactionSignatureNeededResponse);
-
-            const payload: TransactionSignatureNeededPayload = {
-                unsignedB58Transactions: transactions.map((t) => base58.encode(t.serializeMessage())),
-            };
-            connection.send({
-                event: PopupEvent.TRANSACTION_SIGNATURE_NEEDED,
-                payload,
-            });
-        });
-
-        return new Promise<T[]>((promiseResolver, promiseRejector) => {
-            resolve = promiseResolver;
-            reject = promiseRejector;
-        });
-    }
-
-    private checkWalletReadiness() {
-        if (this.publicKey === null) {
-            throw new WalletNotConnectedError('`publicKey` is null. Did you forget to call `.connect()`?');
-        }
-        if (this.connecting) {
-            throw new WalletNotReadyError('`signTransaction` cannot be called while connecting');
-        }
-    }
-}
-
-function createNonce(): string {
-    return `${randomString()}${randomString()}${randomString()}`;
-}
-
-/**
- * @url https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
- */
-function randomString(): string {
-    return (Math.random() + 1).toString(36).substring(7);
 }
