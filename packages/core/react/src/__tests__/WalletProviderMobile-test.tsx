@@ -217,7 +217,7 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
     });
     describe('when there exists no stored wallet name', () => {
         beforeEach(() => {
-            (localStorage.getItem as jest.Mock).mockReturnValue(null);
+            localStorage.removeItem(WALLET_NAME_CACHE_KEY);
         });
         it('loads the mobile wallet adapter into state as the default', () => {
             renderTest({});
@@ -230,7 +230,7 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
     });
     describe('when there exists a stored wallet name', () => {
         beforeEach(() => {
-            (localStorage.getItem as jest.Mock).mockReturnValue(JSON.stringify('FooWallet'));
+            localStorage.setItem(WALLET_NAME_CACHE_KEY, JSON.stringify('FooWallet'));
         });
         it('loads the corresponding adapter into state', () => {
             renderTest({});
