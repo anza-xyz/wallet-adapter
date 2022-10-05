@@ -214,6 +214,33 @@ describe('WalletProviderBase', () => {
                 it('calls `onAutoConnectRequest`', () => {
                     expect(onAutoConnectRequest).toHaveBeenCalledTimes(1);
                 });
+                describe('when switching to another adapter', () => {
+                    beforeEach(async () => {
+                        jest.clearAllMocks();
+                        renderTest({ adapter: barWalletAdapter, onAutoConnectRequest });
+                    });
+                    it('calls `onAutoConnectRequest` despite having called it once before on the old adapter', () => {
+                        expect(onAutoConnectRequest).toHaveBeenCalledTimes(1);
+                    });
+                });
+                describe('once the adapter connects', () => {
+                    beforeEach(async () => {
+                        await act(async () => {
+                            await fooWalletAdapter.connect();
+                        });
+                    });
+                    describe('then disconnects', () => {
+                        beforeEach(async () => {
+                            jest.clearAllMocks();
+                            await act(async () => {
+                                await fooWalletAdapter.disconnect();
+                            });
+                        });
+                        it('does not make a second attempt to auto connect', () => {
+                            expect(onAutoConnectRequest).not.toHaveBeenCalled();
+                        });
+                    });
+                });
             });
         });
     });
