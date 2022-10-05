@@ -111,7 +111,15 @@ export function WalletProvider({
             return;
         }
         return () => {
-            adapter.disconnect();
+            if (
+                // Selecting a wallet other than the mobile wallet adapter is not
+                // sufficient reason to call `disconnect` on the mobile wallet adapter.
+                // Calling `disconnect` on the mobile wallet adapter causes the entire
+                // authorization store to be wiped.
+                adapter.name !== SolanaMobileWalletAdapterWalletName
+            ) {
+                adapter.disconnect();
+            }
         };
     }, [adapter]);
     const isUnloading = useRef(false);
