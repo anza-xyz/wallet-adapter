@@ -128,6 +128,9 @@
             "path": "../walletconnect/tsconfig.all.json"
         },
         {
+            "path": "../welldone/tsconfig.all.json"
+        },
+        {
             "path": "../xdefi/tsconfig.all.json"
         },
         {

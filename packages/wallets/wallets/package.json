@@ -75,6 +75,7 @@
         "@solana/wallet-adapter-trust": "workspace:^",
         "@solana/wallet-adapter-unsafe-burner": "workspace:^",
         "@solana/wallet-adapter-walletconnect": "workspace:^",
+        "@solana/wallet-adapter-welldone": "workspace:^",
         "@solana/wallet-adapter-xdefi": "workspace:^"
     },
     "devDependencies": {
