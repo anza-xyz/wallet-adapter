@@ -18,6 +18,12 @@ import { act } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
 import { useWallet } from '../useWallet.js';
 
+jest.mock('../getEnvironment.js', () => ({
+    ...jest.requireActual('../getEnvironment.js'),
+    __esModule: true,
+    default: () => jest.requireActual('../getEnvironment.js').Environment.DESKTOP_WEB,
+}));
+
 type TestRefType = {
     getWalletContextState(): WalletContextState;
 };
@@ -38,7 +44,15 @@ const TestComponent = forwardRef(function TestComponentImpl(_props, ref) {
 
 const WALLET_NAME_CACHE_KEY = 'cachedWallet';
 
-describe('WalletProvider', () => {
+/**
+ * NOTE: If you add a test to this suite, also add it to `WalletProviderMobile-test.tsx`.
+ *
+ * You may be wondering why these suites haven't been designed as one suite with a procedurally
+ * generated `describe` block that mocks `getEnvironment` differently on each pass. The reason has
+ * to do with the way `jest.resetModules()` plays havoc with the React test renderer. If you have
+ * a solution, please do send a PR.
+ */
+describe('WalletProvider when the environment is `DESKTOP_WEB`', () => {
     let ref: React.RefObject<TestRefType>;
     let root: ReturnType<typeof createRoot>;
     let container: HTMLElement;
