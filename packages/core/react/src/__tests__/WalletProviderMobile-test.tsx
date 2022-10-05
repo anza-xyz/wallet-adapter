@@ -248,6 +248,64 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
             });
         });
     });
+    describe('autoConnect', () => {
+        describe('given a mobile wallet adapter is connected', () => {
+            beforeEach(async () => {
+                renderTest({});
+                await act(async () => {
+                    ref.current?.getWalletContextState().select(SolanaMobileWalletAdapterWalletName);
+                    await Promise.resolve(); // Flush all promises in effects after calling `select()`.
+                });
+            });
+            describe('when autoConnect is disabled', () => {
+                beforeEach(() => {
+                    renderTest({ autoConnect: false });
+                });
+                it('does not call `connect`', () => {
+                    const adapter = ref.current?.getWalletContextState().wallet?.adapter as SolanaMobileWalletAdapter;
+                    expect(adapter.connect).not.toHaveBeenCalled();
+                    expect(adapter.autoConnect_DO_NOT_USE_OR_YOU_WILL_BE_FIRED).not.toHaveBeenCalled();
+                });
+            });
+            describe('when autoConnect is enabled', () => {
+                beforeEach(() => {
+                    renderTest({ autoConnect: true });
+                });
+                it('calls the special auto-connect method on the mobile wallet adapter', () => {
+                    const adapter = ref.current?.getWalletContextState().wallet?.adapter as SolanaMobileWalletAdapter;
+                    expect(adapter.connect).not.toHaveBeenCalled();
+                    expect(adapter.autoConnect_DO_NOT_USE_OR_YOU_WILL_BE_FIRED).toHaveBeenCalled();
+                });
+            });
+        });
+        describe('given a non-mobile wallet adapter is connected', () => {
+            beforeEach(async () => {
+                renderTest({});
+                await act(async () => {
+                    ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
+                    await Promise.resolve(); // Flush all promises in effects after calling `select()`.
+                });
+            });
+            describe('when autoConnect is disabled', () => {
+                beforeEach(() => {
+                    renderTest({ autoConnect: false });
+                });
+                it('calls `connect`', () => {
+                    const adapter = ref.current?.getWalletContextState().wallet?.adapter as Adapter;
+                    expect(adapter.connect).not.toHaveBeenCalled();
+                });
+            });
+            describe('when autoConnect is enabled', () => {
+                beforeEach(() => {
+                    renderTest({ autoConnect: true });
+                });
+                it('calls `connect`', () => {
+                    const adapter = ref.current?.getWalletContextState().wallet?.adapter as Adapter;
+                    expect(adapter.connect).toHaveBeenCalled();
+                });
+            });
+        });
+    });
     describe('disconnect()', () => {
         describe('when there is already a wallet connected', () => {
             beforeEach(async () => {

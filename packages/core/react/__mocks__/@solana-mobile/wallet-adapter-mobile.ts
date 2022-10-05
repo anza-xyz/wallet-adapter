@@ -6,6 +6,7 @@ export const createDefaultAddressSelector = jest.fn();
 export const createDefaultAuthorizationResultCache = jest.fn();
 
 class MockSolanaMobileWalletAdapter extends MockWalletAdapter {
+    autoConnect_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = jest.fn();
     name = SolanaMobileWalletAdapterWalletName as WalletName<string>;
     icon = 'sms.png';
     url = 'https://solanamobile.com';

@@ -108,8 +108,12 @@ export function WalletProvider({
         if (autoConnect !== true || !adapter) {
             return;
         }
-        return adapter.connect.bind(adapter);
-    }, [adapter, autoConnect]);
+        if (walletName === SolanaMobileWalletAdapterWalletName && getIsMobile(adapters)) {
+            return (adapter as SolanaMobileWalletAdapter).autoConnect_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.bind(adapter);
+        } else {
+            return adapter.connect.bind(adapter);
+        }
+    }, [adapter, adapters, autoConnect, walletName]);
     useEffect(() => {
         if (adapter == null) {
             return;
