@@ -93,13 +93,17 @@ export function WalletProvider({
             if (isUnloading.current) {
                 return;
             }
+            if (walletName === SolanaMobileWalletAdapterWalletName && getIsMobile(adapters)) {
+                // Leave the adapter selected in the event of a disconnection.
+                return;
+            }
             setWalletName(null);
         }
         adapter.on('disconnect', handleDisconnect);
         return () => {
             adapter.off('disconnect', handleDisconnect);
         };
-    }, [adapter, setWalletName, walletName]);
+    }, [adapter, adapters, setWalletName, walletName]);
     const handleAutoConnectRequest = useMemo(() => {
         if (autoConnect !== true || !adapter) {
             return;

@@ -292,12 +292,14 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
             });
         });
         describe('given a mobile wallet adapter is connected', () => {
+            let mobileWalletAdapter: Adapter;
             beforeEach(async () => {
                 renderTest({});
                 await act(async () => {
                     ref.current?.getWalletContextState().select(SolanaMobileWalletAdapterWalletName);
                     await Promise.resolve(); // Flush all promises in effects after calling `select()`.
                 });
+                mobileWalletAdapter = jest.mocked(SolanaMobileWalletAdapter).mock.results[0].value;
                 await act(() => {
                     ref.current?.getWalletContextState().connect();
                 });
@@ -311,8 +313,33 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                     });
                 });
                 it('does not call `disconnect` on the mobile wallet adapter', () => {
-                    const mobileWalletAdapter = jest.mocked(SolanaMobileWalletAdapter).mock.results[0].value;
                     expect(mobileWalletAdapter.disconnect).not.toHaveBeenCalled();
+                });
+                it('should not clear the stored wallet name', () => {
+                    expect(localStorage.removeItem).not.toHaveBeenCalled();
+                });
+            });
+            describe('when the wallet disconnects of its own accord', () => {
+                beforeEach(() => {
+                    jest.clearAllMocks();
+                    act(() => {
+                        mobileWalletAdapter.disconnect();
+                    });
+                });
+                it('should not clear the stored wallet name', () => {
+                    expect(localStorage.removeItem).not.toHaveBeenCalled();
+                });
+            });
+            describe('when the wallet disconnects as a consequence of the window unloading', () => {
+                beforeEach(() => {
+                    jest.clearAllMocks();
+                    act(() => {
+                        window.dispatchEvent(new Event('beforeunload'));
+                        mobileWalletAdapter.disconnect();
+                    });
+                });
+                it('should not clear the stored wallet name', () => {
+                    expect(localStorage.removeItem).not.toHaveBeenCalled();
                 });
             });
         });
