@@ -62,6 +62,7 @@
         "@solana/wallet-adapter-safepal": "workspace:^",
         "@solana/wallet-adapter-saifu": "workspace:^",
         "@solana/wallet-adapter-salmon": "workspace:^",
+        "@solana/wallet-adapter-secux": "workspace:^",
         "@solana/wallet-adapter-sky": "workspace:^",
         "@solana/wallet-adapter-slope": "workspace:^",
         "@solana/wallet-adapter-solflare": "workspace:^",

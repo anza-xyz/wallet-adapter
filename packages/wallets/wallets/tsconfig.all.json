@@ -89,6 +89,9 @@
             "path": "../salmon/tsconfig.all.json"
         },
         {
+            "path": "../secux/tsconfig.all.json"
+        },
+        {
             "path": "../sky/tsconfig.all.json"
         },
         {
