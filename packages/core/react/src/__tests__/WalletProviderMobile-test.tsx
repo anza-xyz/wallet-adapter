@@ -291,5 +291,30 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                 });
             });
         });
+        describe('given a mobile wallet adapter is connected', () => {
+            beforeEach(async () => {
+                renderTest({});
+                await act(async () => {
+                    ref.current?.getWalletContextState().select(SolanaMobileWalletAdapterWalletName);
+                    await Promise.resolve(); // Flush all promises in effects after calling `select()`.
+                });
+                await act(() => {
+                    ref.current?.getWalletContextState().connect();
+                });
+            });
+            describe('then a non-mobile wallet adapter is selected', () => {
+                beforeEach(async () => {
+                    renderTest({});
+                    await act(async () => {
+                        ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
+                        await Promise.resolve(); // Flush all promises in effects after calling `select()`.
+                    });
+                });
+                it('does not call `disconnect` on the mobile wallet adapter', () => {
+                    const mobileWalletAdapter = jest.mocked(SolanaMobileWalletAdapter).mock.results[0].value;
+                    expect(mobileWalletAdapter.disconnect).not.toHaveBeenCalled();
+                });
+            });
+        });
     });
 });
