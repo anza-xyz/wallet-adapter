@@ -132,6 +132,10 @@ export function WalletProvider({
     }, [adapter]);
     const isUnloading = useRef(false);
     useEffect(() => {
+        if (walletName === SolanaMobileWalletAdapterWalletName && getIsMobile(adapters)) {
+            isUnloading.current = false;
+            return;
+        }
         function handleBeforeUnload() {
             isUnloading.current = true;
         }
@@ -146,7 +150,7 @@ export function WalletProvider({
         return () => {
             window.removeEventListener('beforeunload', handleBeforeUnload);
         };
-    }, []);
+    }, [adapters, walletName]);
     return (
         <WalletProviderBase
             {...props}

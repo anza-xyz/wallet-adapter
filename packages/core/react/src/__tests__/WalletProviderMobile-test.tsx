@@ -7,6 +7,7 @@
 import 'jest-localstorage-mock';
 
 import type { Adapter, WalletName } from '@solana/wallet-adapter-base';
+import { WalletError } from '@solana/wallet-adapter-base';
 import { BaseWalletAdapter, WalletReadyState } from '@solana/wallet-adapter-base';
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
 
@@ -306,6 +307,45 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
             });
         });
     });
+    describe('onError', () => {
+        let onError: jest.Mock;
+        let errorThrown: WalletError;
+        beforeEach(() => {
+            errorThrown = new WalletError('o no');
+            onError = jest.fn();
+            renderTest({ onError });
+        });
+        describe('when the wallet emits an error', () => {
+            beforeEach(() => {
+                act(() => {
+                    const adapter = ref.current?.getWalletContextState().wallet?.adapter as SolanaMobileWalletAdapter;
+                    adapter.emit('error', errorThrown);
+                });
+            });
+            it('should fire the `onError` callback', () => {
+                expect(onError).toHaveBeenCalledWith(errorThrown);
+            });
+        });
+        describe('when window `beforeunload` event fires', () => {
+            beforeEach(() => {
+                act(() => {
+                    window.dispatchEvent(new Event('beforeunload'));
+                });
+            });
+            describe('then the wallet emits an error', () => {
+                beforeEach(() => {
+                    act(() => {
+                        const adapter = ref.current?.getWalletContextState().wallet
+                            ?.adapter as SolanaMobileWalletAdapter;
+                        adapter.emit('error', errorThrown);
+                    });
+                });
+                it('should fire the `onError` callback', () => {
+                    expect(onError).toHaveBeenCalledWith(errorThrown);
+                });
+            });
+        });
+    });
     describe('disconnect()', () => {
         describe('when there is already a wallet connected', () => {
             beforeEach(async () => {
@@ -388,16 +428,30 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                     expect(localStorage.removeItem).not.toHaveBeenCalled();
                 });
             });
-            describe('when the wallet disconnects as a consequence of the window unloading', () => {
+            describe('when window beforeunload event fires', () => {
                 beforeEach(() => {
                     jest.clearAllMocks();
                     act(() => {
                         window.dispatchEvent(new Event('beforeunload'));
-                        mobileWalletAdapter.disconnect();
                     });
                 });
-                it('should not clear the stored wallet name', () => {
-                    expect(localStorage.removeItem).not.toHaveBeenCalled();
+                describe('then the wallet disconnects of its own accord', () => {
+                    beforeEach(() => {
+                        jest.clearAllMocks();
+                        act(() => {
+                            mobileWalletAdapter.disconnect();
+                        });
+                    });
+                    it('should not clear the stored wallet name', () => {
+                        expect(localStorage.removeItem).not.toHaveBeenCalled();
+                    });
+                    it('should clear out the state', () => {
+                        expect(ref.current?.getWalletContextState()).toMatchObject({
+                            connected: false,
+                            connecting: false,
+                            publicKey: null,
+                        });
+                    });
                 });
             });
         });
