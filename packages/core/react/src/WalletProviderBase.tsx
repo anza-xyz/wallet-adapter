@@ -131,9 +131,18 @@ export function WalletProviderBase({
         }
     }, [adapter, handleError, isUnloadingRef]);
 
+    // When the adapter changes, clear the `autoConnect` tracking flag
+    const didAttemptAutoConnect = useRef(false);
+    useEffect(() => {
+        return () => {
+            didAttemptAutoConnect.current = false;
+        };
+    }, [adapter]);
+
     // If auto-connect is enabled, request to connect when the adapter changes and is ready
     useEffect(() => {
         if (
+            didAttemptAutoConnect.current ||
             isConnecting.current ||
             connected ||
             !onAutoConnectRequest ||
@@ -143,6 +152,7 @@ export function WalletProviderBase({
         }
         isConnecting.current = true;
         setConnecting(true);
+        didAttemptAutoConnect.current = true;
         (async function () {
             try {
                 await onAutoConnectRequest();
