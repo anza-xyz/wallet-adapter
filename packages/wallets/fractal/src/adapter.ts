@@ -1,18 +1,22 @@
+import type { FractalWalletAdapterImpl as FractalWallet } from '@fractalwagmi/solana-wallet-adapter';
+import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseSignerWalletAdapter,
+    WalletAccountError,
     WalletConfigError,
     WalletConnectionError,
     WalletDisconnectionError,
     WalletLoadError,
     WalletNotConnectedError,
     WalletNotReadyError,
+    WalletPublicKeyError,
     WalletReadyState,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import type { WalletName } from '@solana/wallet-adapter-base';
 import type { Transaction } from '@solana/web3.js';
-import type { PublicKey } from '@solana/web3.js';
-import type { FractalWalletAdapterImpl as FractalWallet } from '@fractalwagmi/solana-wallet-adapter';
+import { PublicKey } from '@solana/web3.js';
+
+export interface FractalWalletAdapterConfig {}
 
 export const FractalWalletName = 'Fractal' as WalletName<'Fractal'>;
 
@@ -21,19 +25,17 @@ export class FractalWalletAdapter extends BaseSignerWalletAdapter {
     url = 'https://developers.fractal.is/wallet-adapters/solana';
     icon =
         'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDEwMDAiPjxwYXRoIGQ9Ik0zNDIuMjQgNzYzLjkzVjI0My44Mkg3MTV2MTEyLjY5SDQ4MXYxMTUuNThoMTgydjExMi42OUg0ODF2MTc5LjE1WiIgc3R5bGU9ImZpbGw6I2RlMzU5YyIvPjwvc3ZnPg==';
-
     readonly supportedTransactionVersions = null;
-
-    private readonly _readyState: WalletReadyState =
-        typeof window === 'undefined' || typeof document === 'undefined'
-            ? WalletReadyState.Unsupported
-            : WalletReadyState.Loadable;
 
     private _connecting: boolean;
     private _wallet: FractalWallet | null;
     private _publicKey: PublicKey | null;
+    private _readyState: WalletReadyState =
+        typeof window === 'undefined' || typeof document === 'undefined'
+            ? WalletReadyState.Unsupported
+            : WalletReadyState.Loadable;
 
-    constructor() {
+    constructor(config: FractalWalletAdapterConfig = {}) {
         super();
         this._connecting = false;
         this._wallet = null;
@@ -41,15 +43,11 @@ export class FractalWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get publicKey() {
-        return this._wallet?.getPublicKey() ?? null;
+        return this._publicKey;
     }
 
     get connecting() {
         return this._connecting;
-    }
-
-    get connected() {
-        return !!this.publicKey;
     }
 
     get readyState() {
@@ -77,7 +75,8 @@ export class FractalWalletAdapter extends BaseSignerWalletAdapter {
                 throw new WalletConfigError(error?.message, error);
             }
 
-            if (!wallet.getPublicKey()) {
+            const account = wallet.getPublicKey();
+            if (!account) {
                 try {
                     await wallet.connect();
                 } catch (error: any) {
@@ -85,13 +84,18 @@ export class FractalWalletAdapter extends BaseSignerWalletAdapter {
                 }
             }
 
-            this._wallet = wallet;
-            this._publicKey = wallet.getPublicKey();
-            if (!this._publicKey) {
-                throw new WalletConnectionError('Expected a public key');
+            let publicKey: PublicKey;
+            try {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                publicKey = new PublicKey(wallet.getPublicKey()!.toBytes());
+            } catch (error: any) {
+                throw new WalletPublicKeyError(error?.message, error);
             }
 
-            this.emit('connect', this._publicKey);
+            this._wallet = wallet;
+            this._publicKey = publicKey;
+
+            this.emit('connect', publicKey);
         } catch (error: any) {
             this.emit('error', error);
             throw error;
@@ -102,7 +106,6 @@ export class FractalWalletAdapter extends BaseSignerWalletAdapter {
 
     async disconnect(): Promise<void> {
         const wallet = this._wallet;
-
         if (wallet) {
             this._wallet = null;
             this._publicKey = null;

@@ -68,6 +68,9 @@
             "path": "./packages/wallets/exodus/tsconfig.all.json"
         },
         {
+            "path": "./packages/wallets/fractal/tsconfig.all.json"
+        },
+        {
             "path": "./packages/wallets/glow/tsconfig.all.json"
         },
         {

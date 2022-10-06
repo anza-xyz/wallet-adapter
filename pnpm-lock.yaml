@@ -520,6 +520,19 @@ importers:
       '@solana/web3.js': 1.63.1
       shx: 0.3.4
 
+  packages/wallets/fractal:
+    specifiers:
+      '@fractalwagmi/solana-wallet-adapter': ^0.0.1
+      '@solana/wallet-adapter-base': workspace:^
+      '@solana/web3.js': ^1.61.0
+      shx: ^0.3.4
+    dependencies:
+      '@fractalwagmi/solana-wallet-adapter': 0.0.1_5j2akwpmh45vzaq5qdoj3sxh3i
+      '@solana/wallet-adapter-base': link:../../core/base
+    devDependencies:
+      '@solana/web3.js': 1.63.1
+      shx: 0.3.4
+
   packages/wallets/glow:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
@@ -2705,6 +2718,28 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /@fractalwagmi/popup-connection/1.0.11_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-miEg+oNKZ/IA7bnBTbYOrH3zTMWiBbzwTl7Ko6hKPRwRnvgtqfpgRvmnl6nwtaZJqkiKUJLkztHYdTrR1P3afQ==}
+    peerDependencies:
+      react: ^16 || ^17 || ^18
+      react-dom: ^16 || ^17 || ^18
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@fractalwagmi/solana-wallet-adapter/0.0.1_5j2akwpmh45vzaq5qdoj3sxh3i:
+    resolution: {integrity: sha512-7eIvMkL5uRjWOuCm08S2D47CU0HIdnl/HFW5aYzO9cnGCM5wXJ21lbgUtL3Suy6Srga+oUhSMBJsoz4Z2WUWpw==}
+    dependencies:
+      '@fractalwagmi/popup-connection': 1.0.11_biqbaboplfbrettd7655fr4n2y
+      '@solana/wallet-adapter-base': 0.9.18_@solana+web3.js@1.63.1
+      bs58: 5.0.0
+    transitivePeerDependencies:
+      - '@solana/web3.js'
+      - react
+      - react-dom
+    dev: false
+
   /@hapi/bourne/2.1.0:
     resolution: {integrity: sha512-i1BpaNDVLJdRBEKeJWkVO6tYX6DMFBuwMhSuWqLsY4ufeTKGVuV5rBsUhxPayXqnnWHgXUAmWK16H/ykO5Wj4Q==}
     dev: false
@@ -4730,6 +4765,16 @@ packages:
     engines: {node: '>=5.10'}
     dependencies:
       buffer: 6.0.3
+
+  /@solana/wallet-adapter-base/0.9.18_@solana+web3.js@1.63.1:
+    resolution: {integrity: sha512-5HQFytLmb64j1Nzc6dwddZx+IUePN/PYqVMyf/ok7fN3z8Vw3EIFS8b+RFfBpj4HWbc2kqv5fpnLlaAH7q67pA==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      '@solana/web3.js': ^1.61.0
+    dependencies:
+      '@solana/web3.js': 1.63.1
+      eventemitter3: 4.0.7
+    dev: false
 
   /@solana/web3.js/1.63.1:
     resolution: {integrity: sha512-wgEdGVK5FTS2zENxbcGSvKpGZ0jDS6BUdGu8Gn6ns0CzgJkK83u4ip3THSnBPEQ5i/jrqukg998BwV1H67+qiQ==}
