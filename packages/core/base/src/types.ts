@@ -10,8 +10,8 @@ export enum WalletAdapterNetwork {
     Devnet = 'devnet',
 }
 
-export type SupportedTransactionVersions = ReadonlySet<TransactionVersion> | null;
+export type SupportedTransactionVersions = ReadonlySet<TransactionVersion> | null | undefined;
 
-export type TransactionOrVersionedTransaction<S extends SupportedTransactionVersions> = S extends null
+export type TransactionOrVersionedTransaction<S extends SupportedTransactionVersions> = S extends null | undefined
     ? Transaction
     : Transaction | VersionedTransaction;

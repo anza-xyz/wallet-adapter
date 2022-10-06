@@ -29,7 +29,7 @@ export interface WalletAdapterProps<Name extends string = string> {
     publicKey: PublicKey | null;
     connecting: boolean;
     connected: boolean;
-    supportedTransactionVersions: SupportedTransactionVersions;
+    supportedTransactionVersions?: SupportedTransactionVersions;
 
     connect(): Promise<void>;
     disconnect(): Promise<void>;
@@ -82,7 +82,7 @@ export abstract class BaseWalletAdapter<Name extends string = string>
     abstract readyState: WalletReadyState;
     abstract publicKey: PublicKey | null;
     abstract connecting: boolean;
-    abstract supportedTransactionVersions: SupportedTransactionVersions;
+    abstract supportedTransactionVersions?: SupportedTransactionVersions;
 
     get connected() {
         return !!this.publicKey;
