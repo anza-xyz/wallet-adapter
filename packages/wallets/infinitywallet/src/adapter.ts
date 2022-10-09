@@ -80,14 +80,6 @@ export class InfinityWalletAdapter extends BaseSignerWalletAdapter {
             });
         }
     }
-    get url(): string {
-        openInfinityWallet(window.location.href)
-        return this._url
-    }
-    set url(url) {
-      this._url = url
-    }
-
     get publicKey(): PublicKey | null {
         return this._publicKey;
     }
@@ -237,10 +229,4 @@ export class InfinityWalletAdapter extends BaseSignerWalletAdapter {
             this.emit('disconnect');
         }
     };
-}
-export function openInfinityWallet(hostname: string){
-	if(hostname.includes('://'))
-		hostname = hostname.split('://')[1]
-	  hostname = encodeURIComponent(hostname)
-	  window.open("infinity:?dapp="+hostname+"&chain=501");
 }
