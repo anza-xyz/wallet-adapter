@@ -522,12 +522,12 @@ importers:
 
   packages/wallets/fractal:
     specifiers:
-      '@fractalwagmi/solana-wallet-adapter': ^0.0.2
+      '@fractalwagmi/solana-wallet-adapter': ^0.0.3
       '@solana/wallet-adapter-base': workspace:^
       '@solana/web3.js': ^1.61.0
       shx: ^0.3.4
     dependencies:
-      '@fractalwagmi/solana-wallet-adapter': 0.0.2_5j2akwpmh45vzaq5qdoj3sxh3i
+      '@fractalwagmi/solana-wallet-adapter': 0.0.3_5j2akwpmh45vzaq5qdoj3sxh3i
       '@solana/wallet-adapter-base': link:../../core/base
     devDependencies:
       '@solana/web3.js': 1.63.1
@@ -2804,8 +2804,8 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@fractalwagmi/solana-wallet-adapter/0.0.2_5j2akwpmh45vzaq5qdoj3sxh3i:
-    resolution: {integrity: sha512-PY+ucb6a93kyhVfEi9BXTPqqnlI//+b7b3e6QPpQi8oZlpug+Uyk7ESWCVtp8WdrItL/mBTbhACd7p8uOxdRoA==}
+  /@fractalwagmi/solana-wallet-adapter/0.0.3_5j2akwpmh45vzaq5qdoj3sxh3i:
+    resolution: {integrity: sha512-kHy9e1Xf2P2j8lz8enTM4QqDjxNlATt1FBlcFS1douw4evqxJ/U/uauN9JwWIFjGQ8Rz6uMoQZ/Z08RTiYCH4A==}
     dependencies:
       '@fractalwagmi/popup-connection': 1.0.11_biqbaboplfbrettd7655fr4n2y
       '@solana/wallet-adapter-base': 0.9.18_@solana+web3.js@1.63.1
