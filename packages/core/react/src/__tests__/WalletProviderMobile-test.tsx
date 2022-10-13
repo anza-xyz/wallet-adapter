@@ -10,6 +10,7 @@ import type { Adapter, WalletName } from '@solana/wallet-adapter-base';
 import { BaseWalletAdapter, WalletReadyState } from '@solana/wallet-adapter-base';
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
 
+import type { Connection } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import type { WalletContextState } from '../useWallet.js';
 import { WalletProvider } from '../WalletProvider.js';
@@ -19,12 +20,20 @@ import { createRoot } from 'react-dom/client';
 import { useWallet } from '../useWallet.js';
 import type { AddressSelector, AuthorizationResultCache } from '@solana-mobile/wallet-adapter-mobile';
 import { SolanaMobileWalletAdapter, SolanaMobileWalletAdapterWalletName } from '@solana-mobile/wallet-adapter-mobile';
+import { useConnection } from '../useConnection.js';
 
 jest.mock('../getEnvironment.js', () => ({
     ...jest.requireActual('../getEnvironment.js'),
     __esModule: true,
     default: () => jest.requireActual('../getEnvironment.js').Environment.MOBILE_WEB,
 }));
+jest.mock('../getInferredClusterFromEndpoint.js', () => ({
+    ...jest.requireActual('../getInferredClusterFromEndpoint.js'),
+    __esModule: true,
+    default: (endpoint?: string) =>
+        endpoint === 'https://fake-endpoint-for-test.com' ? 'fake-cluster-for-test' : 'mainnet-beta',
+}));
+jest.mock('../useConnection.js');
 
 type TestRefType = {
     getWalletContextState(): WalletContextState;
@@ -110,6 +119,11 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
     beforeEach(() => {
         localStorage.clear();
         jest.clearAllMocks().resetModules();
+        jest.mocked(useConnection).mockImplementation(() => ({
+            connection: {
+                rpcEndpoint: 'https://fake-endpoint-for-test.com',
+            } as Connection,
+        }));
         container = document.createElement('div');
         document.body.appendChild(container);
         root = createRoot(container);
@@ -170,10 +184,10 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                 `${document.location.protocol}//${document.location.host}`
             );
         });
-        it('creates a new mobile wallet adapter with the default cluster', () => {
+        it('creates a new mobile wallet adapter with the appropriate cluster for the given endpoint', () => {
             renderTest({});
             expect(jest.mocked(SolanaMobileWalletAdapter).mock.instances).toHaveLength(1);
-            expect(jest.mocked(SolanaMobileWalletAdapter).mock.calls[0][0].cluster).toBe('mainnet-beta');
+            expect(jest.mocked(SolanaMobileWalletAdapter).mock.calls[0][0].cluster).toBe('fake-cluster-for-test');
         });
     });
     describe('when a custom mobile wallet adapter is supplied in the adapters array', () => {

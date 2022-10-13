@@ -13,6 +13,8 @@ import {
     SolanaMobileWalletAdapter,
     SolanaMobileWalletAdapterWalletName,
 } from '@solana-mobile/wallet-adapter-mobile';
+import { useConnection } from './useConnection.js';
+import getInferredClusterFromEndpoint from './getInferredClusterFromEndpoint.js';
 
 export interface WalletProviderProps {
     children: ReactNode;
@@ -49,6 +51,7 @@ export function WalletProvider({
     wallets: adapters,
     ...props
 }: WalletProviderProps) {
+    const { connection } = useConnection();
     const mobileWalletAdapter = useMemo(() => {
         if (!getIsMobile(adapters)) {
             return null;
@@ -65,9 +68,9 @@ export function WalletProvider({
                 uri: getUriForAppIdentity(),
             },
             authorizationResultCache: createDefaultAuthorizationResultCache(),
-            cluster: 'mainnet-beta',
+            cluster: getInferredClusterFromEndpoint(connection?.rpcEndpoint),
         });
-    }, [adapters]);
+    }, [adapters, connection?.rpcEndpoint]);
     const adaptersWithDefaultsInjected = useMemo(() => {
         if (mobileWalletAdapter == null || adapters.indexOf(mobileWalletAdapter) !== -1) {
             return adapters;
