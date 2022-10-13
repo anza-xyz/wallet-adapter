@@ -17,6 +17,8 @@ import type { WalletProviderProps } from '../WalletProvider.js';
 import { act } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
 import { useWallet } from '../useWallet.js';
+import type { AddressSelector, AuthorizationResultCache } from '@solana-mobile/wallet-adapter-mobile';
+import { SolanaMobileWalletAdapter, SolanaMobileWalletAdapterWalletName } from '@solana-mobile/wallet-adapter-mobile';
 
 jest.mock('../getEnvironment.js', () => ({
     ...jest.requireActual('../getEnvironment.js'),
@@ -160,13 +162,52 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
             });
         });
     });
+    describe('when there is no mobile wallet adapter in the adapters array', () => {
+        it("creates a new mobile wallet adapter with the document's host as the uri of the `appIdentity`", () => {
+            renderTest({});
+            expect(jest.mocked(SolanaMobileWalletAdapter).mock.instances).toHaveLength(1);
+            expect(jest.mocked(SolanaMobileWalletAdapter).mock.calls[0][0].appIdentity.uri).toBe(
+                `${document.location.protocol}//${document.location.host}`
+            );
+        });
+        it('creates a new mobile wallet adapter with the default cluster', () => {
+            renderTest({});
+            expect(jest.mocked(SolanaMobileWalletAdapter).mock.instances).toHaveLength(1);
+            expect(jest.mocked(SolanaMobileWalletAdapter).mock.calls[0][0].cluster).toBe('mainnet-beta');
+        });
+    });
+    describe('when a custom mobile wallet adapter is supplied in the adapters array', () => {
+        let customAdapter: Adapter;
+        const CUSTOM_APP_IDENTITY = {
+            uri: 'https://custom.com',
+        };
+        const CUSTOM_CLUSTER = 'devnet';
+        beforeEach(() => {
+            customAdapter = new SolanaMobileWalletAdapter({
+                addressSelector: jest.fn() as unknown as AddressSelector,
+                appIdentity: CUSTOM_APP_IDENTITY,
+                authorizationResultCache: jest.fn() as unknown as AuthorizationResultCache,
+                cluster: CUSTOM_CLUSTER,
+            });
+            adapters.push(customAdapter);
+            jest.clearAllMocks();
+        });
+        it('loads the custom mobile wallet adapter into state as the default', () => {
+            renderTest({});
+            expect(ref.current?.getWalletContextState().wallet?.adapter).toBe(customAdapter);
+        });
+        it('does not construct any further mobile wallet adapters', () => {
+            renderTest({});
+            expect(jest.mocked(SolanaMobileWalletAdapter).mock.calls.length).toBe(0);
+        });
+    });
     describe('when there exists no stored wallet name', () => {
         beforeEach(() => {
             (localStorage.getItem as jest.Mock).mockReturnValue(null);
         });
-        it('loads no wallet into state', () => {
+        it('loads the mobile wallet adapter into state as the default', () => {
             renderTest({});
-            expect(ref.current?.getWalletContextState().wallet).toBeNull();
+            expect(ref.current?.getWalletContextState().wallet?.adapter.name).toBe(SolanaMobileWalletAdapterWalletName);
         });
         it('loads no public key into state', () => {
             renderTest({});

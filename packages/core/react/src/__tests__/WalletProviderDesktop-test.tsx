@@ -7,7 +7,7 @@
 import 'jest-localstorage-mock';
 
 import type { Adapter, WalletName } from '@solana/wallet-adapter-base';
-import { BaseWalletAdapter, WalletReadyState } from '@solana/wallet-adapter-base';
+import { WalletReadyState } from '@solana/wallet-adapter-base';
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
 
 import { PublicKey } from '@solana/web3.js';
@@ -17,6 +17,7 @@ import type { WalletProviderProps } from '../WalletProvider.js';
 import { act } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
 import { useWallet } from '../useWallet.js';
+import { MockWalletAdapter } from '../__mocks__/MockWalletAdapter.js';
 
 jest.mock('../getEnvironment.js', () => ({
     ...jest.requireActual('../getEnvironment.js'),
@@ -69,35 +70,6 @@ describe('WalletProvider when the environment is `DESKTOP_WEB`', () => {
         });
     }
 
-    abstract class MockWalletAdapter extends BaseWalletAdapter {
-        connectedValue = false;
-        get connected() {
-            return this.connectedValue;
-        }
-        readyStateValue: WalletReadyState = WalletReadyState.Installed;
-        get readyState() {
-            return this.readyStateValue;
-        }
-        connecting = false;
-        connect = jest.fn(async () => {
-            this.connecting = true;
-            this.connecting = false;
-            this.connectedValue = true;
-            act(() => {
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                this.emit('connect', this.publicKey!);
-            });
-        });
-        disconnect = jest.fn(async () => {
-            this.connecting = false;
-            this.connectedValue = false;
-            act(() => {
-                this.emit('disconnect');
-            });
-        });
-        sendTransaction = jest.fn();
-        supportedTransactionVersions = null;
-    }
     class FooWalletAdapter extends MockWalletAdapter {
         name = 'FooWallet' as WalletName<'FooWallet'>;
         url = 'https://foowallet.com';
