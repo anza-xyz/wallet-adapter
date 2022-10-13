@@ -41,7 +41,7 @@ export class UnsafeBurnerWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get readyState() {
-        return WalletReadyState.Installed;
+        return WalletReadyState.Loadable;
     }
 
     async connect(): Promise<void> {
