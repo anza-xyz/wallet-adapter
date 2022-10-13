@@ -6,6 +6,13 @@ import type { WalletName } from '@solana/wallet-adapter-base';
 import { WalletProviderBase } from './WalletProviderBase.js';
 import { useLocalStorage } from './useLocalStorage.js';
 import { useMemo } from 'react';
+import getEnvironment, { Environment } from './getEnvironment.js';
+import {
+    createDefaultAddressSelector,
+    createDefaultAuthorizationResultCache,
+    SolanaMobileWalletAdapter,
+    SolanaMobileWalletAdapterWalletName,
+} from '@solana-mobile/wallet-adapter-mobile';
 
 export interface WalletProviderProps {
     children: ReactNode;
@@ -15,14 +22,66 @@ export interface WalletProviderProps {
     localStorageKey?: string;
 }
 
+let _userAgent: string | null;
+function getUserAgent() {
+    if (_userAgent === undefined) {
+        _userAgent = globalThis.navigator?.userAgent ?? null;
+    }
+    return _userAgent;
+}
+
+function getIsMobile(adapters: Adapter[]) {
+    const userAgentString = getUserAgent();
+    return getEnvironment({ adapters, userAgentString }) === Environment.MOBILE_WEB;
+}
+
+function getUriForAppIdentity() {
+    const location = globalThis.location;
+    if (location == null) {
+        return;
+    }
+    return `${location.protocol}//${location.host}`;
+}
+
 export function WalletProvider({
     autoConnect,
     localStorageKey = 'walletName',
     wallets: adapters,
     ...props
 }: WalletProviderProps) {
-    const [walletName, setWalletName] = useLocalStorage<WalletName | null>(localStorageKey, null);
-    const adapter = useMemo(() => adapters.find((a) => a.name === walletName) ?? null, [adapters, walletName]);
+    const mobileWalletAdapter = useMemo(() => {
+        if (!getIsMobile(adapters)) {
+            return null;
+        }
+        const existingMobileWalletAdapter = adapters.find(
+            (adapter) => adapter.name === SolanaMobileWalletAdapterWalletName
+        );
+        if (existingMobileWalletAdapter) {
+            return existingMobileWalletAdapter;
+        }
+        return new SolanaMobileWalletAdapter({
+            addressSelector: createDefaultAddressSelector(),
+            appIdentity: {
+                uri: getUriForAppIdentity(),
+            },
+            authorizationResultCache: createDefaultAuthorizationResultCache(),
+            cluster: 'mainnet-beta',
+        });
+    }, [adapters]);
+    const adaptersWithDefaultsInjected = useMemo(() => {
+        if (mobileWalletAdapter == null || adapters.indexOf(mobileWalletAdapter) !== -1) {
+            return adapters;
+        }
+        return [mobileWalletAdapter, ...adapters];
+    }, [adapters, mobileWalletAdapter]);
+    const [walletName, setWalletName] = useLocalStorage<WalletName | null>(
+        localStorageKey,
+        getIsMobile(adapters) ? SolanaMobileWalletAdapterWalletName : null
+    );
+    const adapter = useMemo(
+        () => adaptersWithDefaultsInjected.find((a) => a.name === walletName) ?? null,
+        [adaptersWithDefaultsInjected, walletName]
+    );
     useEffect(() => {
         if (adapter == null) {
             return;
@@ -77,7 +136,7 @@ export function WalletProvider({
             key={adapter?.name}
             onAutoConnectRequest={handleAutoConnectRequest}
             onSelectWallet={setWalletName}
-            wallets={adapters}
+            wallets={adaptersWithDefaultsInjected}
         />
     );
 }
