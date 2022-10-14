@@ -165,6 +165,33 @@ describe('WalletProvider when the environment is `DESKTOP_WEB`', () => {
             });
         });
     });
+    describe('autoConnect', () => {
+        beforeEach(async () => {
+            renderTest({});
+            await act(async () => {
+                ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
+                await Promise.resolve(); // Flush all promises in effects after calling `select()`.
+            });
+        });
+        describe('when autoConnect is disabled', () => {
+            beforeEach(() => {
+                renderTest({ autoConnect: false });
+            });
+            it('calls `connect`', () => {
+                const adapter = ref.current?.getWalletContextState().wallet?.adapter as Adapter;
+                expect(adapter.connect).not.toHaveBeenCalled();
+            });
+        });
+        describe('when autoConnect is enabled', () => {
+            beforeEach(() => {
+                renderTest({ autoConnect: true });
+            });
+            it('calls `connect`', () => {
+                const adapter = ref.current?.getWalletContextState().wallet?.adapter as Adapter;
+                expect(adapter.connect).toHaveBeenCalled();
+            });
+        });
+    });
     describe('disconnect()', () => {
         describe('when there is already a wallet connected', () => {
             beforeEach(async () => {
