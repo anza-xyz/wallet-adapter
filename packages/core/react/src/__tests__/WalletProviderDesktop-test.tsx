@@ -7,6 +7,7 @@
 import 'jest-localstorage-mock';
 
 import type { Adapter, WalletName } from '@solana/wallet-adapter-base';
+import { WalletError } from '@solana/wallet-adapter-base';
 import { WalletReadyState } from '@solana/wallet-adapter-base';
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
 
@@ -189,6 +190,44 @@ describe('WalletProvider when the environment is `DESKTOP_WEB`', () => {
             it('calls `connect`', () => {
                 const adapter = ref.current?.getWalletContextState().wallet?.adapter as Adapter;
                 expect(adapter.connect).toHaveBeenCalled();
+            });
+        });
+    });
+    describe('onError', () => {
+        let onError: jest.Mock;
+        let errorThrown: WalletError;
+        beforeEach(() => {
+            errorThrown = new WalletError('o no');
+            onError = jest.fn();
+            renderTest({ onError });
+        });
+        describe('when the wallet emits an error', () => {
+            beforeEach(() => {
+                act(() => {
+                    const adapter = ref.current?.getWalletContextState().wallet?.adapter as Adapter;
+                    adapter.emit('error', errorThrown);
+                });
+            });
+            it('should fire the `onError` callback', () => {
+                expect(onError).toHaveBeenCalledWith(errorThrown);
+            });
+        });
+        describe('when window `beforeunload` event fires', () => {
+            beforeEach(() => {
+                act(() => {
+                    window.dispatchEvent(new Event('beforeunload'));
+                });
+            });
+            describe('then the wallet emits an error', () => {
+                beforeEach(() => {
+                    act(() => {
+                        const adapter = ref.current?.getWalletContextState().wallet?.adapter as Adapter;
+                        adapter.emit('error', errorThrown);
+                    });
+                });
+                it('should not fire the `onError` callback', () => {
+                    expect(onError).not.toHaveBeenCalled();
+                });
             });
         });
     });
