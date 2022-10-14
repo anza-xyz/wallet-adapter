@@ -1,15 +1,25 @@
 # FAQ (Frequently Asked Questions)
 
+- [I am building an app, how do I use this?](#i-am-building-an-app-how-do-i-use-this)
+- [I am building a wallet, how do I use this?](#i-am-building-a-wallet-how-do-i-use-this)
 - [How can I get support?](#how-can-i-get-support)
 - [Can I use this with ___?](#can-i-use-this-with-___)
 - [What does this error mean?](#what-does-this-error-mean)
 - [How can I sign and verify messages?](#how-can-i-sign-and-verify-messages)
 
+## I am building an app, how do I use this?
+
+See the guide [Wallet Adapter for Solana Apps](https://github.com/solana-labs/wallet-adapter/blob/master/APP.md).
+
+## I am building a wallet, how do I use this?
+
+See the guide [Wallet Adapter for Solana Wallets](https://github.com/solana-labs/wallet-adapter/blob/master/WALLET.md).
+
 ## How can I get support?
 
-Please ask questions in the #developer-support channel on the Solana Discord: https://discord.com/invite/solana
+Please ask questions on the [Solana Stack Exchange](https://solana.stackexchange.com). There's also a `#developer-support` channel on the [Solana Discord](https://discord.com/invite/4hJfSRU).
 
-After reading this FAQ, if you've found a bug or you'd like to request a feature, please [open an issue](https://github.com/solana-labs/wallet-adapter/issues/new).
+After reading this FAQ, if you've found a bug or if you'd like to request a feature, please [open an issue](https://github.com/solana-labs/wallet-adapter/issues/new).
 
 ## Can I use this with ___?
 
@@ -31,10 +41,13 @@ Yes, see the [material-ui-starter](https://github.com/solana-labs/wallet-adapter
 Yes, see the [ant-design](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/ant-design) package.
 
 ### Vue
-Yes, see the [vue](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/vue) package.
+Yes, see the community-maintained [Vue](https://github.com/lorisleiva/solana-wallets-vue) package.
 
 ### Angular / RxJS
-Yes, see the [angular](https://github.com/heavy-duty/platform/tree/master/libs/wallet-adapter) package.
+Yes, see the community-maintained [Angular](https://github.com/heavy-duty/platform/tree/master/libs/wallet-adapter) package.
+
+### Svelte
+Yes, see the community-maintained [Svelte](https://github.com/svelte-on-solana/wallet-adapter) package.
 
 ### Webpack / Gatsby
 Yes, but you may need to set up polyfills for certain imported modules.
@@ -83,7 +96,7 @@ If this doesn't fix the problem, please [open an issue](https://github.com/solan
 
 ### `[...] is not a function` / `[...] is undefined` / `Uncaught TypeError: Cannot destructure property` / `Uncaught (in promise) WalletNotConnectedError`
 
-This can happen if you don't wrap your dApp with the `WalletContext` and `ConnectionContext` provided by the [react](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/react) package.
+This can happen if you don't wrap your app with the `WalletContext` and `ConnectionContext` provided by the [react](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/react) package.
 See issues [#62](https://github.com/solana-labs/wallet-adapter/issues/62#issuecomment-916421795), [#73](https://github.com/solana-labs/wallet-adapter/issues/73#issuecomment-919237687), and [#85](https://github.com/solana-labs/wallet-adapter/issues/85).
 
 This shouldn't happen if you're using one of the starter projects, since they set up the contexts for you.
@@ -103,7 +116,7 @@ Some wallet adapters provide a `signMessage` method for signing arbitrary bytes.
 
 The signature string returned by this method can be verified using [tweetnacl-js](https://github.com/dchest/tweetnacl-js/blob/master/README.md#naclsigndetachedverifymessage-signature-publickey) using the public key from the adapter.
 
-This can be used to sign offline -- without sending a transaction -- and prove a user controls a given private key.
+This can be used to sign offline — without sending a transaction — and prove a user controls a given private key.
 
 ```tsx
 import { useWallet } from '@solana/wallet-adapter-react';
