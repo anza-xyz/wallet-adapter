@@ -32,12 +32,12 @@
     },
     "peerDependencies": {
         "@solana/web3.js": "^1.61.0",
-        "react": "*",
-        "react-dom": "*"
+        "react": "*"
     },
     "dependencies": {
         "@solana-mobile/wallet-adapter-mobile": "^0.9.4",
-        "@solana/wallet-adapter-base": "workspace:^"
+        "@solana/wallet-adapter-base": "workspace:^",
+        "@wallet-standard/solana-wallet-adapter-react": "^0.1.0-alpha.8"
     },
     "devDependencies": {
         "@solana-mobile/mobile-wallet-adapter-protocol": "^0.9.4",

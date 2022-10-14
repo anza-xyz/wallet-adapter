@@ -2,7 +2,6 @@ import type { FractalWalletAdapterImpl as FractalWallet } from '@fractalwagmi/so
 import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseSignerWalletAdapter,
-    WalletAccountError,
     WalletConfigError,
     WalletConnectionError,
     WalletDisconnectionError,

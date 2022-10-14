@@ -6,15 +6,15 @@
 
 import type { Adapter, WalletName } from '@solana/wallet-adapter-base';
 import { BaseWalletAdapter, WalletError, WalletNotReadyError, WalletReadyState } from '@solana/wallet-adapter-base';
-import React, { createRef, forwardRef, useImperativeHandle } from 'react';
 
 import { PublicKey } from '@solana/web3.js';
-import type { WalletContextState } from '../useWallet.js';
-import { WalletProviderBase } from '../WalletProviderBase.js';
-import type { WalletProviderProps } from '../WalletProvider.js';
-import { act } from 'react-dom/test-utils';
+import React, { createRef, forwardRef, useImperativeHandle } from 'react';
 import { createRoot } from 'react-dom/client';
+import { act } from 'react-dom/test-utils';
+import type { WalletContextState } from '../useWallet.js';
 import { useWallet } from '../useWallet.js';
+import type { WalletProviderProps } from '../WalletProvider.js';
+import { WalletProviderBase } from '../WalletProviderBase.js';
 
 type TestRefType = {
     getWalletContextState(): WalletContextState;
