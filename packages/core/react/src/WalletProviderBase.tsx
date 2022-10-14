@@ -6,12 +6,11 @@ import type {
     WalletError,
     WalletName,
 } from '@solana/wallet-adapter-base';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { WalletNotConnectedError, WalletNotReadyError, WalletReadyState } from '@solana/wallet-adapter-base';
-
 import type { PublicKey } from '@solana/web3.js';
-import { WalletContext } from './useWallet.js';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { WalletNotSelectedError } from './errors.js';
+import { WalletContext } from './useWallet.js';
 import type { WalletProviderProps } from './WalletProvider.js';
 
 type Props = Readonly<

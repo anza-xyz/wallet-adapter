@@ -1,6 +1,6 @@
 import type { WalletName } from '@solana/wallet-adapter-base';
 import { BaseSignerWalletAdapter, WalletNotConnectedError, WalletReadyState } from '@solana/wallet-adapter-base';
-import type { PublicKey, Transaction, TransactionVersion, VersionedTransaction } from '@solana/web3.js';
+import type { Transaction, TransactionVersion, VersionedTransaction } from '@solana/web3.js';
 import { Keypair } from '@solana/web3.js';
 
 export const UnsafeBurnerWalletName = 'Burner Wallet' as WalletName<'Burner Wallet'>;

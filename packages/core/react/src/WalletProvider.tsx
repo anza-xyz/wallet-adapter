@@ -1,20 +1,18 @@
-import type { Adapter, WalletError } from '@solana/wallet-adapter-base';
-import React, { useEffect, useRef } from 'react';
-
-import type { ReactNode } from 'react';
-import type { WalletName } from '@solana/wallet-adapter-base';
-import { WalletProviderBase } from './WalletProviderBase.js';
-import { useLocalStorage } from './useLocalStorage.js';
-import { useMemo } from 'react';
-import getEnvironment, { Environment } from './getEnvironment.js';
 import {
     createDefaultAddressSelector,
     createDefaultAuthorizationResultCache,
     SolanaMobileWalletAdapter,
     SolanaMobileWalletAdapterWalletName,
 } from '@solana-mobile/wallet-adapter-mobile';
-import { useConnection } from './useConnection.js';
+import type { Adapter, WalletError, WalletName } from '@solana/wallet-adapter-base';
+import { useStandardWalletAdapters } from '@wallet-standard/solana-wallet-adapter-react';
+import type { ReactNode } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
+import getEnvironment, { Environment } from './getEnvironment.js';
 import getInferredClusterFromEndpoint from './getInferredClusterFromEndpoint.js';
+import { useConnection } from './useConnection.js';
+import { useLocalStorage } from './useLocalStorage.js';
+import { WalletProviderBase } from './WalletProviderBase.js';
 
 export interface WalletProviderProps {
     children: ReactNode;
@@ -52,11 +50,12 @@ export function WalletProvider({
     ...props
 }: WalletProviderProps) {
     const { connection } = useConnection();
+    const adaptersWithStandardAdapters = useStandardWalletAdapters(adapters);
     const mobileWalletAdapter = useMemo(() => {
-        if (!getIsMobile(adapters)) {
+        if (!getIsMobile(adaptersWithStandardAdapters)) {
             return null;
         }
-        const existingMobileWalletAdapter = adapters.find(
+        const existingMobileWalletAdapter = adaptersWithStandardAdapters.find(
             (adapter) => adapter.name === SolanaMobileWalletAdapterWalletName
         );
         if (existingMobileWalletAdapter) {
@@ -70,20 +69,20 @@ export function WalletProvider({
             authorizationResultCache: createDefaultAuthorizationResultCache(),
             cluster: getInferredClusterFromEndpoint(connection?.rpcEndpoint),
         });
-    }, [adapters, connection?.rpcEndpoint]);
-    const adaptersWithDefaultsInjected = useMemo(() => {
-        if (mobileWalletAdapter == null || adapters.indexOf(mobileWalletAdapter) !== -1) {
-            return adapters;
+    }, [adaptersWithStandardAdapters, connection?.rpcEndpoint]);
+    const adaptersWithMobileWalletAdapter = useMemo(() => {
+        if (mobileWalletAdapter == null || adaptersWithStandardAdapters.indexOf(mobileWalletAdapter) !== -1) {
+            return adaptersWithStandardAdapters;
         }
-        return [mobileWalletAdapter, ...adapters];
-    }, [adapters, mobileWalletAdapter]);
+        return [mobileWalletAdapter, ...adaptersWithStandardAdapters];
+    }, [adaptersWithStandardAdapters, mobileWalletAdapter]);
     const [walletName, setWalletName] = useLocalStorage<WalletName | null>(
         localStorageKey,
-        getIsMobile(adapters) ? SolanaMobileWalletAdapterWalletName : null
+        getIsMobile(adaptersWithStandardAdapters) ? SolanaMobileWalletAdapterWalletName : null
     );
     const adapter = useMemo(
-        () => adaptersWithDefaultsInjected.find((a) => a.name === walletName) ?? null,
-        [adaptersWithDefaultsInjected, walletName]
+        () => adaptersWithMobileWalletAdapter.find((a) => a.name === walletName) ?? null,
+        [adaptersWithMobileWalletAdapter, walletName]
     );
     useEffect(() => {
         if (adapter == null) {
@@ -93,7 +92,7 @@ export function WalletProvider({
             if (isUnloading.current) {
                 return;
             }
-            if (walletName === SolanaMobileWalletAdapterWalletName && getIsMobile(adapters)) {
+            if (walletName === SolanaMobileWalletAdapterWalletName && getIsMobile(adaptersWithStandardAdapters)) {
                 // Leave the adapter selected in the event of a disconnection.
                 return;
             }
@@ -103,17 +102,17 @@ export function WalletProvider({
         return () => {
             adapter.off('disconnect', handleDisconnect);
         };
-    }, [adapter, adapters, setWalletName, walletName]);
+    }, [adapter, adaptersWithStandardAdapters, setWalletName, walletName]);
     const handleAutoConnectRequest = useMemo(() => {
         if (autoConnect !== true || !adapter) {
             return;
         }
-        if (walletName === SolanaMobileWalletAdapterWalletName && getIsMobile(adapters)) {
+        if (walletName === SolanaMobileWalletAdapterWalletName && getIsMobile(adaptersWithStandardAdapters)) {
             return (adapter as SolanaMobileWalletAdapter).autoConnect_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.bind(adapter);
         } else {
             return adapter.connect.bind(adapter);
         }
-    }, [adapter, adapters, autoConnect, walletName]);
+    }, [adapter, adaptersWithStandardAdapters, autoConnect, walletName]);
     useEffect(() => {
         if (adapter == null) {
             return;
@@ -132,7 +131,7 @@ export function WalletProvider({
     }, [adapter]);
     const isUnloading = useRef(false);
     useEffect(() => {
-        if (walletName === SolanaMobileWalletAdapterWalletName && getIsMobile(adapters)) {
+        if (walletName === SolanaMobileWalletAdapterWalletName && getIsMobile(adaptersWithStandardAdapters)) {
             isUnloading.current = false;
             return;
         }
@@ -150,7 +149,7 @@ export function WalletProvider({
         return () => {
             window.removeEventListener('beforeunload', handleBeforeUnload);
         };
-    }, [adapters, walletName]);
+    }, [adaptersWithStandardAdapters, walletName]);
     return (
         <WalletProviderBase
             {...props}
@@ -159,7 +158,7 @@ export function WalletProvider({
             key={adapter?.name}
             onAutoConnectRequest={handleAutoConnectRequest}
             onSelectWallet={setWalletName}
-            wallets={adaptersWithDefaultsInjected}
+            wallets={adaptersWithMobileWalletAdapter}
         />
     );
 }
