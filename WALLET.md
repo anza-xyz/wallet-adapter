@@ -6,9 +6,7 @@ Support for [Mobile Wallet Adapter](https://github.com/solana-mobile/mobile-wall
 
 We are no longer accepting PRs specifically for wallet adapters for _**mobile app wallets**_ or _**injected browser wallets**_ in this repo.
 
-This means any wallet embedded in a mobile app, webview, browser, or browser extension.
-
-If you have built this kind of wallet, you no longer need to publish an adapter at all.
+For any wallet in a mobile app, webview, browser, or browser extension, you no longer need to publish an adapter at all.
 
 Instead, check out the [reference implementations of Standard wallets](https://github.com/wallet-standard/wallet-standard/tree/master/packages/wallets) here.
 
