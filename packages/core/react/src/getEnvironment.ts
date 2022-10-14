@@ -12,6 +12,12 @@ type Config = Readonly<{
     userAgentString: string | null;
 }>;
 
+function isWebView(userAgentString: string) {
+    return /(WebView|Version\/.+(Chrome)\/(\d+)\.(\d+)\.(\d+)\.(\d+)|; wv\).+(Chrome)\/(\d+)\.(\d+)\.(\d+)\.(\d+))/i.test(
+        userAgentString
+    );
+}
+
 export default function getEnvironment({ adapters, userAgentString }: Config): Environment {
     if (
         adapters.some(
@@ -35,7 +41,7 @@ export default function getEnvironment({ adapters, userAgentString }: Config): E
         // Step 1: Check whether we're on a platform that supports MWA at all.
         /android/i.test(userAgentString) &&
         // Step 2: Determine that we are *not* running in a WebView.
-        !/\bwebview\b/i.test(userAgentString)
+        !isWebView(userAgentString)
     ) {
         return Environment.MOBILE_WEB;
     } else {
