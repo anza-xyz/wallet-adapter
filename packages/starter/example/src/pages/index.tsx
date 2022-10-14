@@ -22,8 +22,8 @@ import React from 'react';
 import pkg from '../../package.json';
 import { useAutoConnect } from '../components/AutoConnectProvider';
 import { RequestAirdrop } from '../components/RequestAirdrop';
-import { SendTransaction } from '../components/SendTransaction';
 import { SendLegacyTransaction } from '../components/SendLegacyTransaction';
+import { SendTransaction } from '../components/SendTransaction';
 import { SendV0Transaction } from '../components/SendV0Transaction';
 import { SignMessage } from '../components/SignMessage';
 
