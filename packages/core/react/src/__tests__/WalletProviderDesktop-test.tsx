@@ -19,6 +19,8 @@ import { act } from 'react-dom/test-utils';
 import { createRoot } from 'react-dom/client';
 import { useWallet } from '../useWallet.js';
 import { MockWalletAdapter } from '../__mocks__/MockWalletAdapter.js';
+import type { AddressSelector, AuthorizationResultCache } from '@solana-mobile/wallet-adapter-mobile';
+import { SolanaMobileWalletAdapter } from '@solana-mobile/wallet-adapter-mobile';
 
 jest.mock('../getEnvironment.js', () => ({
     ...jest.requireActual('../getEnvironment.js'),
@@ -131,6 +133,33 @@ describe('WalletProvider when the environment is `DESKTOP_WEB`', () => {
             it('should not clear the stored wallet name', () => {
                 expect(localStorage.removeItem).not.toHaveBeenCalledWith(WALLET_NAME_CACHE_KEY);
             });
+        });
+    });
+    describe('when there is no mobile wallet adapter in the adapters array', () => {
+        it('does not create a new mobile wallet adapter', () => {
+            renderTest({});
+            expect(jest.mocked(SolanaMobileWalletAdapter).mock.instances).toHaveLength(0);
+        });
+    });
+    describe('when a custom mobile wallet adapter is supplied in the adapters array', () => {
+        let customAdapter: Adapter;
+        const CUSTOM_APP_IDENTITY = {
+            uri: 'https://custom.com',
+        };
+        const CUSTOM_CLUSTER = 'devnet';
+        beforeEach(() => {
+            customAdapter = new SolanaMobileWalletAdapter({
+                addressSelector: jest.fn() as unknown as AddressSelector,
+                appIdentity: CUSTOM_APP_IDENTITY,
+                authorizationResultCache: jest.fn() as unknown as AuthorizationResultCache,
+                cluster: CUSTOM_CLUSTER,
+            });
+            adapters.push(customAdapter);
+            jest.clearAllMocks();
+        });
+        it('does not load the custom mobile wallet adapter into state as the default', () => {
+            renderTest({});
+            expect(ref.current?.getWalletContextState().wallet?.adapter).not.toBe(customAdapter);
         });
     });
     describe('when there exists no stored wallet name', () => {
