@@ -39,7 +39,7 @@ jobs:
         run: pnpm install
 
       - name: Build packages
-        run: pnpm release
+        run: pnpm build:release
 
       - name: Run tests
         run: pnpm test
