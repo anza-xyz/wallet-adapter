@@ -30,7 +30,7 @@
         "@mui/material": "^5.9.3",
         "@solana/wallet-adapter-base": "^0.9.18",
         "@solana/wallet-adapter-material-ui": "^0.16.16",
-        "@solana/wallet-adapter-react": "^0.15.20",
+        "@solana/wallet-adapter-react": "^0.15.21-rc.0",
         "@solana/wallet-adapter-wallets": "^0.19.1",
         "@solana/web3.js": "^1.61.0",
         "notistack": "2.0.5",
