@@ -202,6 +202,7 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                 appIdentity: CUSTOM_APP_IDENTITY,
                 authorizationResultCache: jest.fn() as unknown as AuthorizationResultCache,
                 cluster: CUSTOM_CLUSTER,
+                onWalletNotFound: jest.fn(),
             });
             adapters.push(customAdapter);
             jest.clearAllMocks();

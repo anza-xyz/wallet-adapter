@@ -1,6 +1,7 @@
 import {
     createDefaultAddressSelector,
     createDefaultAuthorizationResultCache,
+    createDefaultWalletNotFoundHandler,
     SolanaMobileWalletAdapter,
     SolanaMobileWalletAdapterWalletName,
 } from '@solana-mobile/wallet-adapter-mobile';
@@ -68,6 +69,7 @@ export function WalletProvider({
             },
             authorizationResultCache: createDefaultAuthorizationResultCache(),
             cluster: getInferredClusterFromEndpoint(connection?.rpcEndpoint),
+            onWalletNotFound: createDefaultWalletNotFoundHandler(),
         });
     }, [adaptersWithStandardAdapters, connection?.rpcEndpoint]);
     const adaptersWithMobileWalletAdapter = useMemo(() => {
