@@ -34,7 +34,7 @@
     },
     "dependencies": {
         "@solana/wallet-adapter-base": "^0.9.18",
-        "@solana/wallet-adapter-react": "^0.15.20",
+        "@solana/wallet-adapter-react": "^0.15.21-rc.0",
         "@solana/wallet-adapter-react-ui": "^0.9.18",
         "@solana/wallet-adapter-wallets": "^0.19.1",
         "next": "^12.2.5",
