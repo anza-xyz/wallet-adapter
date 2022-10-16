@@ -6,7 +6,7 @@ import {
     SolanaMobileWalletAdapterWalletName,
 } from '@solana-mobile/wallet-adapter-mobile';
 import type { Adapter, WalletError, WalletName } from '@solana/wallet-adapter-base';
-import { useStandardWalletAdapters } from '@wallet-standard/solana-wallet-adapter-react';
+import { useStandardWalletAdapters } from '@solana/wallet-standard-wallet-adapter-react';
 import type { ReactNode } from 'react';
 import React, { useEffect, useMemo, useRef } from 'react';
 import getEnvironment, { Environment } from './getEnvironment.js';
