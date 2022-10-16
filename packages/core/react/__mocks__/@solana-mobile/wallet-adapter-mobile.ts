@@ -4,6 +4,7 @@ import { MockWalletAdapter } from '../../src/__mocks__/MockWalletAdapter.js';
 export const SolanaMobileWalletAdapterWalletName = 'Solana Mobile Wallet Adapter Name For Tests';
 export const createDefaultAddressSelector = jest.fn();
 export const createDefaultAuthorizationResultCache = jest.fn();
+export const createDefaultWalletNotFoundHandler = jest.fn();
 
 class MockSolanaMobileWalletAdapter extends MockWalletAdapter {
     autoConnect_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = jest.fn();
