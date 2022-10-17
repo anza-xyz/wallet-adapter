@@ -17,7 +17,7 @@ See the guide [Wallet Adapter for Solana Wallets](https://github.com/solana-labs
 
 ## How can I get support?
 
-Please ask questions on the [Solana Stack Exchange](https://solana.stackexchange.com). There's also a `#developer-support` channel on the [Solana Discord](https://discord.com/invite/4hJfSRU).
+Please ask questions on the [Solana Stack Exchange](https://solana.stackexchange.com).
 
 After reading this FAQ, if you've found a bug or if you'd like to request a feature, please [open an issue](https://github.com/solana-labs/wallet-adapter/issues/new).
 
