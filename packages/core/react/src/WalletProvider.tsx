@@ -14,6 +14,7 @@ import getClusterFromConnection from './getClusterFromConnection.js';
 import { useConnection } from './useConnection.js';
 import { useLocalStorage } from './useLocalStorage.js';
 import { WalletProviderBase } from './WalletProviderBase.js';
+import { Cluster } from '@solana/web3.js';
 
 export interface WalletProviderProps {
     children: ReactNode;
@@ -62,13 +63,17 @@ export function WalletProvider({
         if (existingMobileWalletAdapter) {
             return existingMobileWalletAdapter;
         }
+        const cluster = getClusterFromConnection(connection);
+        if (cluster === ('localnet' as Cluster)) {
+            return null;
+        }
         return new SolanaMobileWalletAdapter({
             addressSelector: createDefaultAddressSelector(),
             appIdentity: {
                 uri: getUriForAppIdentity(),
             },
             authorizationResultCache: createDefaultAuthorizationResultCache(),
-            cluster: getClusterFromConnection(connection),
+            cluster,
             onWalletNotFound: createDefaultWalletNotFoundHandler(),
         });
     }, [adaptersWithStandardAdapters, connection]);
