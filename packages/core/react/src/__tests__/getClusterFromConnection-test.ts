@@ -1,36 +1,49 @@
 import { Connection } from '@solana/web3.js';
 import getClusterFromConnection from '../getClusterFromConnection.js';
 
-describe('getClusterFromConnection()', () => {
-    describe('when the connection is `undefined`', () => {
+describe('getClusterFromEndpoint()', () => {
+    describe('when the connection endpoint is `undefined`', () => {
         const connection = undefined;
-        it('creates a new mobile wallet adapter with `mainnet-beta` as the cluster', () => {
+        it('returns `mainnet-beta` as the cluster', () => {
             expect(getClusterFromConnection(connection)).toBe('mainnet-beta');
         });
     });
-    describe('when the connection specifies its own cluster', () => {
-        const connection = new Connection('https://foo-custom.com');
-        (connection as any).cluster = 'fakecluster';
-        it('creates a new mobile wallet adapter with `mainnet-beta` as the cluster', () => {
-            expect(getClusterFromConnection(connection)).toBe('fakecluster');
+    describe('when the connection endpoint is an empty string', () => {
+        const connection = new Connection('');
+        it('returns `mainnet-beta` as the cluster', () => {
+            expect(getClusterFromConnection(connection)).toBe('mainnet-beta');
         });
     });
-    describe("when the endpoint contains the word 'devnet'", () => {
+    describe("when the connection endpoint contains the word 'devnet'", () => {
         const connection = new Connection('https://foo-devnet.com');
-        it('creates a new mobile wallet adapter with `devnet` as the cluster', () => {
+        it('returns `devnet` as the cluster', () => {
             expect(getClusterFromConnection(connection)).toBe('devnet');
         });
     });
-    describe("when the endpoint contains the word 'testnet'", () => {
+    describe("when the connection endpoint contains the word 'testnet'", () => {
         const connection = new Connection('https://foo-testnet.com');
-        it('creates a new mobile wallet adapter with `testnet` as the cluster', () => {
+        it('returns `testnet` as the cluster', () => {
             expect(getClusterFromConnection(connection)).toBe('testnet');
         });
     });
-    describe("when the endpoint contains the word 'mainnet-beta'", () => {
+    describe("when the connection endpoint contains the word 'mainnet-beta'", () => {
         const connection = new Connection('https://foo-mainnet-beta.com');
-        it('creates a new mobile wallet adapter with `mainnet-beta` as the cluster', () => {
+        it('returns `mainnet-beta` as the cluster', () => {
             expect(getClusterFromConnection(connection)).toBe('mainnet-beta');
+        });
+    });
+    describe("when the connection endpoint contains the word 'localhost'", () => {
+        const connection = new Connection('http://localhost:8899');
+        it('returns `mainnet-beta` as the cluster', () => {
+            expect(getClusterFromConnection(connection)).toBe('mainnet-beta');
+        });
+    });
+    describe('when the connection cluster is `devnet`', () => {
+        // HACK: change when https://github.com/solana-labs/solana/pull/28435 lands
+        const connection = new Connection('https://foo-mainnet.com');
+        (connection as any).cluster = 'devnet';
+        it('returns `devnet` as the cluster', () => {
+            expect(getClusterFromConnection(connection)).toBe('devnet');
         });
     });
 });
