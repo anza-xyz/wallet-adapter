@@ -27,11 +27,19 @@ jest.mock('../getEnvironment.js', () => ({
     __esModule: true,
     default: () => jest.requireActual('../getEnvironment.js').Environment.MOBILE_WEB,
 }));
-jest.mock('../getInferredClusterFromEndpoint.js', () => ({
-    ...jest.requireActual('../getInferredClusterFromEndpoint.js'),
+jest.mock('../getClusterFromConnection.js', () => ({
+    ...jest.requireActual('../getClusterFromConnection.js'),
     __esModule: true,
-    default: (endpoint?: string) =>
-        endpoint === 'https://fake-endpoint-for-test.com' ? 'fake-cluster-for-test' : 'mainnet-beta',
+    default: (connection?: Connection) => {
+        switch (connection?.rpcEndpoint) {
+            case 'https://fake-localnet-for-test':
+                return 'localnet';
+            case 'https://fake-endpoint-for-test.com':
+                return 'fake-cluster-for-test';
+            default:
+                return 'mainnet-beta';
+        }
+    },
 }));
 jest.mock('../useConnection.js');
 
@@ -189,7 +197,22 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
             expect(jest.mocked(SolanaMobileWalletAdapter).mock.instances).toHaveLength(1);
             expect(jest.mocked(SolanaMobileWalletAdapter).mock.calls[0][0].cluster).toBe('fake-cluster-for-test');
         });
+        describe('when the cluster is `localnet`', () => {
+            beforeEach(() => {
+                jest.mocked(useConnection).mockRestore();
+                jest.mocked(useConnection).mockImplementation(() => ({
+                    connection: {
+                        rpcEndpoint: 'https://fake-localnet-for-test',
+                    } as Connection,
+                }));
+            });
+            it('does not construct any mobile wallet adapters', () => {
+                renderTest({});
+                expect(jest.mocked(SolanaMobileWalletAdapter).mock.calls.length).toBe(0);
+            });
+        });
     });
+
     describe('when a custom mobile wallet adapter is supplied in the adapters array', () => {
         let customAdapter: Adapter;
         const CUSTOM_APP_IDENTITY = {
