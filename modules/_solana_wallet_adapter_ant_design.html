@@ -14,9 +14,51 @@
 <li><a href="_solana_wallet_adapter_ant_design.html">@solana/wallet-adapter-ant-design</a></li></ul>
 <h1>Module @solana/wallet-adapter-ant-design</h1></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/81278c67/packages/ui/ant-design/src/index.ts#L1">packages/ui/ant-design/src/index.ts:1</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/solana-labs/wallet-adapter/blob/5d8ed5dc/packages/ui/ant-design/src/index.ts#L1">packages/ui/ant-design/src/index.ts:1</a></li></ul></aside>
 <section class="tsd-panel-group">
-<section class="tsd-panel tsd-typography"></section></section>
+<section class="tsd-panel tsd-typography">
+<a href="#solanawallet-adapter-ant-design" id="solanawallet-adapter-ant-design" style="color: inherit; text-decoration: none;">
+  <h1><code>@solana/wallet-adapter-ant-design</code></h1>
+</a>
+
+<a href="#quick-setup-using-create-react-app-with-craco-less" id="quick-setup-using-create-react-app-with-craco-less" style="color: inherit; text-decoration: none;">
+  <h1>Quick Setup (using Create-React-App with craco-less)</h1>
+</a>
+<p>See the <a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/example">example</a> package for more usage.</p>
+
+<a href="#install" id="install" style="color: inherit; text-decoration: none;">
+  <h2>Install</h2>
+</a>
+<ol>
+<li>Set up craco if you haven&#39;t already using the following <a href="https://github.com/gsoft-inc/craco/blob/master/packages/craco/README.md#installation">guide</a>.</li>
+<li>Add <code>craco-less</code> into the project <code>npm install --save craco-less</code>.<ol>
+<li>Add it to the <code>craco.config.js</code> file<pre><code class="language-javascript"><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-2">CracoLessPlugin</span><span class="hl-1"> = </span><span class="hl-3">require</span><span class="hl-1">(</span><span class="hl-4">&#39;craco-less&#39;</span><span class="hl-1">);</span><br/><span class="hl-5">module</span><span class="hl-1">.</span><span class="hl-5">exports</span><span class="hl-1"> = {</span><br/><span class="hl-1">    </span><span class="hl-6">plugins:</span><span class="hl-1"> [</span><br/><span class="hl-1">        {</span><br/><span class="hl-1">            </span><span class="hl-6">plugin:</span><span class="hl-1"> </span><span class="hl-6">CracoLessPlugin</span><span class="hl-1">,</span><br/><span class="hl-1">            </span><span class="hl-6">options:</span><span class="hl-1"> {</span><br/><span class="hl-1">                </span><span class="hl-6">lessLoaderOptions:</span><span class="hl-1"> {</span><br/><span class="hl-1">                    </span><span class="hl-6">lessOptions:</span><span class="hl-1"> {</span><br/><span class="hl-1">                        </span><span class="hl-6">modifyVars:</span><span class="hl-1"> { </span><span class="hl-4">&#39;@primary-color&#39;</span><span class="hl-6">:</span><span class="hl-1"> </span><span class="hl-4">&#39;#512da8&#39;</span><span class="hl-1"> },</span><br/><span class="hl-1">                        </span><span class="hl-6">javascriptEnabled:</span><span class="hl-1"> </span><span class="hl-0">true</span><span class="hl-1">,</span><br/><span class="hl-1">                    },</span><br/><span class="hl-1">                },</span><br/><span class="hl-1">            },</span><br/><span class="hl-1">        },</span><br/><span class="hl-1">    ],</span><br/><span class="hl-1">};</span>
+</code></pre>
+</li>
+</ol>
+</li>
+<li>Install these peer dependencies (or skip this if you have them already):</li>
+</ol>
+<pre><code><span class="hl-6">npm</span><span class="hl-1"> </span><span class="hl-6">install</span><span class="hl-1"> --</span><span class="hl-6">save</span><span class="hl-1"> \</span><br/><span class="hl-1">    </span><span class="hl-6">antd</span><span class="hl-1"> \</span><br/><span class="hl-1">    @</span><span class="hl-6">ant</span><span class="hl-1">-</span><span class="hl-6">design</span><span class="hl-1">/</span><span class="hl-6">icons</span><span class="hl-1"> \</span><br/><span class="hl-1">    @</span><span class="hl-6">solana</span><span class="hl-1">/</span><span class="hl-6">web3</span><span class="hl-1">.</span><span class="hl-6">js</span><span class="hl-1"> \</span><br/><span class="hl-1">    </span><span class="hl-6">react</span>
+</code></pre>
+<ol start="4">
+<li>Install these dependencies:</li>
+</ol>
+<pre><code><span class="hl-6">npm</span><span class="hl-1"> </span><span class="hl-6">install</span><span class="hl-1"> --</span><span class="hl-6">save</span><span class="hl-1"> \</span><br/><span class="hl-1">    @</span><span class="hl-6">solana</span><span class="hl-1">/</span><span class="hl-6">wallet</span><span class="hl-1">-</span><span class="hl-6">adapter</span><span class="hl-1">-</span><span class="hl-6">wallets</span><span class="hl-1"> \</span><br/><span class="hl-1">    @</span><span class="hl-6">solana</span><span class="hl-1">/</span><span class="hl-6">wallet</span><span class="hl-1">-</span><span class="hl-6">adapter</span><span class="hl-1">-</span><span class="hl-6">react</span><span class="hl-1"> \</span><br/><span class="hl-1">    @</span><span class="hl-6">solana</span><span class="hl-1">/</span><span class="hl-6">wallet</span><span class="hl-1">-</span><span class="hl-6">adapter</span><span class="hl-1">-</span><span class="hl-6">ant</span><span class="hl-1">-</span><span class="hl-6">design</span><span class="hl-1"> \</span><br/><span class="hl-1">    @</span><span class="hl-6">solana</span><span class="hl-1">/</span><span class="hl-6">wallet</span><span class="hl-1">-</span><span class="hl-6">adapter</span><span class="hl-1">-</span><span class="hl-6">base</span>
+</code></pre>
+
+<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+  <h2>Usage</h2>
+</a>
+<p>Check out usage in the <a href="https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/example">example</a> package.</p>
+
+<a href="#overrides" id="overrides" style="color: inherit; text-decoration: none;">
+  <h2>Overrides</h2>
+</a>
+<p>You can override the following elements from the stylesheet:</p>
+<pre><code><span class="hl-1">.</span><span class="hl-6">wallet</span><span class="hl-1">-</span><span class="hl-6">adapter</span><span class="hl-1">-</span><span class="hl-6">icon</span><br/><span class="hl-1">.</span><span class="hl-6">wallet</span><span class="hl-1">-</span><span class="hl-6">adapter</span><span class="hl-1">-</span><span class="hl-6">modal</span><span class="hl-1">-</span><span class="hl-6">menu</span><br/><span class="hl-1">.</span><span class="hl-6">wallet</span><span class="hl-1">-</span><span class="hl-6">adapter</span><span class="hl-1">-</span><span class="hl-6">modal</span><span class="hl-1">-</span><span class="hl-6">menu</span><span class="hl-1">-</span><span class="hl-6">item</span><br/><span class="hl-1">.</span><span class="hl-6">wallet</span><span class="hl-1">-</span><span class="hl-6">adapter</span><span class="hl-1">-</span><span class="hl-6">modal</span><span class="hl-1">-</span><span class="hl-6">menu</span><span class="hl-1">-</span><span class="hl-6">button</span><br/><span class="hl-1">.</span><span class="hl-6">wallet</span><span class="hl-1">-</span><span class="hl-6">adapter</span><span class="hl-1">-</span><span class="hl-6">modal</span><span class="hl-1">-</span><span class="hl-6">menu</span><span class="hl-1">-</span><span class="hl-6">button</span><span class="hl-1">-</span><span class="hl-6">icon</span><br/><span class="hl-1">.</span><span class="hl-6">wallet</span><span class="hl-1">-</span><span class="hl-6">adapter</span><span class="hl-1">-</span><span class="hl-6">multi</span><span class="hl-1">-</span><span class="hl-6">button</span><span class="hl-1">-</span><span class="hl-6">menu</span><br/><span class="hl-1">.</span><span class="hl-6">wallet</span><span class="hl-1">-</span><span class="hl-6">adapter</span><span class="hl-1">-</span><span class="hl-6">multi</span><span class="hl-1">-</span><span class="hl-6">button</span><span class="hl-1">-</span><span class="hl-6">menu</span><span class="hl-1">-</span><span class="hl-6">item</span><br/><span class="hl-1">.</span><span class="hl-6">wallet</span><span class="hl-1">-</span><span class="hl-6">adapter</span><span class="hl-1">-</span><span class="hl-6">multi</span><span class="hl-1">-</span><span class="hl-6">button</span><span class="hl-1">-</span><span class="hl-6">menu</span><span class="hl-1">-</span><span class="hl-6">button</span><br/><span class="hl-1">.</span><span class="hl-6">wallet</span><span class="hl-1">-</span><span class="hl-6">adapter</span><span class="hl-1">-</span><span class="hl-6">multi</span><span class="hl-1">-</span><span class="hl-6">button</span><span class="hl-1">-</span><span class="hl-6">icon</span><br/><span class="hl-1">.</span><span class="hl-6">wallet</span><span class="hl-1">-</span><span class="hl-6">adapter</span><span class="hl-1">-</span><span class="hl-6">multi</span><span class="hl-1">-</span><span class="hl-6">button</span><span class="hl-1">-</span><span class="hl-6">item</span>
+</code></pre>
+</section></section>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <h3 class="tsd-index-heading uppercase">Index</h3>
