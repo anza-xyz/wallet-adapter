@@ -27,11 +27,11 @@ jest.mock('../getEnvironment.js', () => ({
     __esModule: true,
     default: () => jest.requireActual('../getEnvironment.js').Environment.MOBILE_WEB,
 }));
-jest.mock('../getInferredClusterFromEndpoint.js', () => ({
-    ...jest.requireActual('../getInferredClusterFromEndpoint.js'),
+jest.mock('../getClusterFromConnection.js', () => ({
+    ...jest.requireActual('../getClusterFromConnection.js'),
     __esModule: true,
-    default: (endpoint?: string) =>
-        endpoint === 'https://fake-endpoint-for-test.com' ? 'fake-cluster-for-test' : 'mainnet-beta',
+    default: (connection?: Connection) =>
+        connection?.rpcEndpoint === 'https://fake-endpoint-for-test.com' ? 'fake-cluster-for-test' : 'mainnet-beta',
 }));
 jest.mock('../useConnection.js');
 

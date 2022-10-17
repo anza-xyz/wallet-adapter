@@ -1,4 +1,4 @@
-import type { ConnectionConfig } from '@solana/web3.js';
+import type { Cluster, ConnectionConfig } from '@solana/web3.js';
 import { Connection } from '@solana/web3.js';
 import type { FC, ReactNode } from 'react';
 import React, { useMemo } from 'react';
@@ -7,7 +7,8 @@ import { ConnectionContext } from './useConnection.js';
 export interface ConnectionProviderProps {
     children: ReactNode;
     endpoint: string;
-    config?: ConnectionConfig;
+    // HACK: remove intersection when https://github.com/solana-labs/solana/pull/28435 lands
+    config?: ConnectionConfig & { cluster?: Cluster };
 }
 
 export const ConnectionProvider: FC<ConnectionProviderProps> = ({

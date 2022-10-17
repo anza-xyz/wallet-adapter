@@ -40,7 +40,6 @@
         "@solana/wallet-standard-wallet-adapter-react": "^1.0.0-rc.1"
     },
     "devDependencies": {
-        "@solana-mobile/mobile-wallet-adapter-protocol": "^0.9.5",
         "@solana/web3.js": "^1.61.0",
         "@types/jest": "^28.1.6",
         "@types/react": "^18.0.0",
