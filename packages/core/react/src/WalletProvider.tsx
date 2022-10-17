@@ -7,14 +7,14 @@ import {
 } from '@solana-mobile/wallet-adapter-mobile';
 import type { Adapter, WalletError, WalletName } from '@solana/wallet-adapter-base';
 import { useStandardWalletAdapters } from '@solana/wallet-standard-wallet-adapter-react';
+import type { Cluster } from '@solana/web3.js';
 import type { ReactNode } from 'react';
 import React, { useEffect, useMemo, useRef } from 'react';
-import getEnvironment, { Environment } from './getEnvironment.js';
 import getClusterFromConnection from './getClusterFromConnection.js';
+import getEnvironment, { Environment } from './getEnvironment.js';
 import { useConnection } from './useConnection.js';
 import { useLocalStorage } from './useLocalStorage.js';
 import { WalletProviderBase } from './WalletProviderBase.js';
-import { Cluster } from '@solana/web3.js';
 
 export interface WalletProviderProps {
     children: ReactNode;

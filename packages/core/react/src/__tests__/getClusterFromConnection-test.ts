@@ -1,5 +1,5 @@
 import { Connection } from '@solana/web3.js';
-import getClusterFromConnection from '../getClusterFromConnection';
+import getClusterFromConnection from '../getClusterFromConnection.js';
 
 describe('getClusterFromConnection()', () => {
     describe('when the connection is `undefined`', () => {
