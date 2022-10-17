@@ -1,23 +1,6 @@
 import { FormControlLabel, Switch, Table, TableBody, TableCell, TableHead, TableRow, Tooltip } from '@mui/material';
-import {
-    WalletConnectButton as AntDesignWalletConnectButton,
-    WalletDisconnectButton as AntDesignWalletDisconnectButton,
-    WalletModalButton as AntDesignWalletModalButton,
-    WalletMultiButton as AntDesignWalletMultiButton,
-} from '@solana/wallet-adapter-ant-design';
-import {
-    WalletConnectButton as MaterialUIWalletConnectButton,
-    WalletDialogButton as MaterialUIWalletDialogButton,
-    WalletDisconnectButton as MaterialUIWalletDisconnectButton,
-    WalletMultiButton as MaterialUIWalletMultiButton,
-} from '@solana/wallet-adapter-material-ui';
-import {
-    WalletConnectButton as ReactUIWalletConnectButton,
-    WalletDisconnectButton as ReactUIWalletDisconnectButton,
-    WalletModalButton as ReactUIWalletModalButton,
-    WalletMultiButton as ReactUIWalletMultiButton,
-} from '@solana/wallet-adapter-react-ui';
 import type { NextPage } from 'next';
+import dynamic from 'next/dynamic';
 import React from 'react';
 import pkg from '../../package.json';
 import { useAutoConnect } from '../components/AutoConnectProvider';
@@ -25,7 +8,59 @@ import { RequestAirdrop } from '../components/RequestAirdrop';
 import { SendLegacyTransaction } from '../components/SendLegacyTransaction';
 import { SendTransaction } from '../components/SendTransaction';
 import { SendV0Transaction } from '../components/SendV0Transaction';
-import { SignMessage } from '../components/SignMessage';
+
+const AntDesignWalletConnectButtonDynamic = dynamic(
+    async () => (await import('@solana/wallet-adapter-ant-design')).WalletConnectButton,
+    { ssr: false }
+);
+const AntDesignWalletDisconnectButtonDynamic = dynamic(
+    async () => (await import('@solana/wallet-adapter-ant-design')).WalletDisconnectButton,
+    { ssr: false }
+);
+const AntDesignWalletMultiButtonDynamic = dynamic(
+    async () => (await import('@solana/wallet-adapter-ant-design')).WalletMultiButton,
+    { ssr: false }
+);
+const AntDesignWalletModalButtonDynamic = dynamic(
+    async () => (await import('@solana/wallet-adapter-ant-design')).WalletModalButton,
+    { ssr: false }
+);
+
+const MaterialUIWalletConnectButtonDynamic = dynamic(
+    async () => (await import('@solana/wallet-adapter-material-ui')).WalletConnectButton,
+    { ssr: false }
+);
+const MaterialUIWalletDisconnectButtonDynamic = dynamic(
+    async () => (await import('@solana/wallet-adapter-material-ui')).WalletDisconnectButton,
+    { ssr: false }
+);
+const MaterialUIWalletDialogButtonDynamic = dynamic(
+    async () => (await import('@solana/wallet-adapter-material-ui')).WalletDialogButton,
+    { ssr: false }
+);
+const MaterialUIWalletMultiButtonDynamic = dynamic(
+    async () => (await import('@solana/wallet-adapter-material-ui')).WalletMultiButton,
+    { ssr: false }
+);
+
+const ReactUIWalletConnectButtonDynamic = dynamic(
+    async () => (await import('@solana/wallet-adapter-react-ui')).WalletConnectButton,
+    { ssr: false }
+);
+const ReactUIWalletDisconnectButtonDynamic = dynamic(
+    async () => (await import('@solana/wallet-adapter-react-ui')).WalletDisconnectButton,
+    { ssr: false }
+);
+const ReactUIWalletMultiButtonDynamic = dynamic(
+    async () => (await import('@solana/wallet-adapter-react-ui')).WalletMultiButton,
+    { ssr: false }
+);
+const ReactUIWalletModalButtonDynamic = dynamic(
+    async () => (await import('@solana/wallet-adapter-react-ui')).WalletModalButton,
+    { ssr: false }
+);
+
+const SignMessageDynamic = dynamic(async () => (await import('../components/SignMessage')).SignMessage, { ssr: false });
 
 const Index: NextPage = () => {
     const { autoConnect, setAutoConnect } = useAutoConnect();
@@ -45,52 +80,52 @@ const Index: NextPage = () => {
                 <TableRow>
                     <TableCell>Connect Button</TableCell>
                     <TableCell>
-                        <MaterialUIWalletConnectButton />
+                        <MaterialUIWalletConnectButtonDynamic />
                     </TableCell>
                     <TableCell>
-                        <AntDesignWalletConnectButton />
+                        <AntDesignWalletConnectButtonDynamic />
                     </TableCell>
                     <TableCell>
-                        <ReactUIWalletConnectButton />
+                        <ReactUIWalletConnectButtonDynamic />
                     </TableCell>
                     <TableCell></TableCell>
                 </TableRow>
                 <TableRow>
                     <TableCell>Disconnect Button</TableCell>
                     <TableCell>
-                        <MaterialUIWalletDisconnectButton />
+                        <MaterialUIWalletDisconnectButtonDynamic />
                     </TableCell>
                     <TableCell>
-                        <AntDesignWalletDisconnectButton />
+                        <AntDesignWalletDisconnectButtonDynamic />
                     </TableCell>
                     <TableCell>
-                        <ReactUIWalletDisconnectButton />
+                        <ReactUIWalletDisconnectButtonDynamic />
                     </TableCell>
                     <TableCell></TableCell>
                 </TableRow>
                 <TableRow>
                     <TableCell>Dialog/Modal Button</TableCell>
                     <TableCell>
-                        <MaterialUIWalletDialogButton />
+                        <MaterialUIWalletDialogButtonDynamic />
                     </TableCell>
                     <TableCell>
-                        <AntDesignWalletModalButton />
+                        <AntDesignWalletModalButtonDynamic />
                     </TableCell>
                     <TableCell>
-                        <ReactUIWalletModalButton />
+                        <ReactUIWalletModalButtonDynamic />
                     </TableCell>
                     <TableCell></TableCell>
                 </TableRow>
                 <TableRow>
                     <TableCell>Multi Button</TableCell>
                     <TableCell>
-                        <MaterialUIWalletMultiButton />
+                        <MaterialUIWalletMultiButtonDynamic />
                     </TableCell>
                     <TableCell>
-                        <AntDesignWalletMultiButton />
+                        <AntDesignWalletMultiButtonDynamic />
                     </TableCell>
                     <TableCell>
-                        <ReactUIWalletMultiButton />
+                        <ReactUIWalletMultiButtonDynamic />
                     </TableCell>
                     <TableCell></TableCell>
                 </TableRow>
@@ -118,7 +153,7 @@ const Index: NextPage = () => {
                         <SendTransaction />
                     </TableCell>
                     <TableCell>
-                        <SignMessage />
+                        <SignMessageDynamic />
                     </TableCell>
                 </TableRow>
                 <TableRow>
