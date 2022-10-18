@@ -63,17 +63,13 @@ export function WalletProvider({
         if (existingMobileWalletAdapter) {
             return existingMobileWalletAdapter;
         }
-        const cluster = getClusterFromConnection(connection);
-        if (cluster === ('localnet' as Cluster)) {
-            return null;
-        }
         return new SolanaMobileWalletAdapter({
             addressSelector: createDefaultAddressSelector(),
             appIdentity: {
                 uri: getUriForAppIdentity(),
             },
             authorizationResultCache: createDefaultAuthorizationResultCache(),
-            cluster,
+            cluster: getClusterFromConnection(connection),
             onWalletNotFound: createDefaultWalletNotFoundHandler(),
         });
     }, [adaptersWithStandardAdapters, connection]);
