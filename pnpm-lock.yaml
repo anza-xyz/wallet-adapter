@@ -93,8 +93,8 @@ importers:
   packages/starter/create-react-app-starter:
     specifiers:
       '@solana/wallet-adapter-base': ^0.9.18
-      '@solana/wallet-adapter-react': ^0.15.21-rc.0
-      '@solana/wallet-adapter-react-ui': ^0.9.19-rc.0
+      '@solana/wallet-adapter-react': ^0.15.21-rc.1
+      '@solana/wallet-adapter-react-ui': ^0.9.19-rc.1
       '@solana/wallet-adapter-wallets': ^0.19.2
       '@solana/web3.js': ^1.61.0
       '@testing-library/jest-dom': ^5.16.5
@@ -149,8 +149,8 @@ importers:
       '@solana/wallet-adapter-ant-design': ^0.11.16-rc.0
       '@solana/wallet-adapter-base': ^0.9.18
       '@solana/wallet-adapter-material-ui': ^0.16.17-rc.0
-      '@solana/wallet-adapter-react': ^0.15.21-rc.0
-      '@solana/wallet-adapter-react-ui': ^0.9.19-rc.0
+      '@solana/wallet-adapter-react': ^0.15.21-rc.1
+      '@solana/wallet-adapter-react-ui': ^0.9.19-rc.1
       '@solana/wallet-adapter-wallets': ^0.19.2
       '@solana/web3.js': ^1.61.0
       '@types/bs58': ^4.0.1
@@ -212,7 +212,7 @@ importers:
       '@mui/material': ^5.9.3
       '@solana/wallet-adapter-base': ^0.9.18
       '@solana/wallet-adapter-material-ui': ^0.16.17-rc.0
-      '@solana/wallet-adapter-react': ^0.15.21-rc.0
+      '@solana/wallet-adapter-react': ^0.15.21-rc.1
       '@solana/wallet-adapter-wallets': ^0.19.2
       '@solana/web3.js': ^1.61.0
       '@types/react': ^18.0.0
@@ -250,8 +250,8 @@ importers:
   packages/starter/nextjs-starter:
     specifiers:
       '@solana/wallet-adapter-base': ^0.9.18
-      '@solana/wallet-adapter-react': ^0.15.21-rc.0
-      '@solana/wallet-adapter-react-ui': ^0.9.19-rc.0
+      '@solana/wallet-adapter-react': ^0.15.21-rc.1
+      '@solana/wallet-adapter-react-ui': ^0.9.19-rc.1
       '@solana/wallet-adapter-wallets': ^0.19.2
       '@types/node-fetch': ^2.6.2
       '@types/react': ^18.0.0
@@ -285,8 +285,8 @@ importers:
   packages/starter/react-ui-starter:
     specifiers:
       '@solana/wallet-adapter-base': ^0.9.18
-      '@solana/wallet-adapter-react': ^0.15.21-rc.0
-      '@solana/wallet-adapter-react-ui': ^0.9.19-rc.0
+      '@solana/wallet-adapter-react': ^0.15.21-rc.1
+      '@solana/wallet-adapter-react-ui': ^0.9.19-rc.1
       '@solana/wallet-adapter-wallets': ^0.19.2
       '@solana/web3.js': ^1.61.0
       '@types/react': ^18.0.0
