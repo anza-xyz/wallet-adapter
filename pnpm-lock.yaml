@@ -46,7 +46,7 @@ importers:
 
   packages/core/base:
     specifiers:
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       '@types/node-fetch': ^2.6.2
       eventemitter3: ^4.0.0
       shx: ^0.3.4
@@ -62,7 +62,7 @@ importers:
       '@solana-mobile/wallet-adapter-mobile': ^0.9.5
       '@solana/wallet-adapter-base': workspace:^
       '@solana/wallet-standard-wallet-adapter-react': ^1.0.0-rc.2
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       '@types/jest': ^28.1.6
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
@@ -96,7 +96,7 @@ importers:
       '@solana/wallet-adapter-react': ^0.15.21-rc.1
       '@solana/wallet-adapter-react-ui': ^0.9.19-rc.1
       '@solana/wallet-adapter-wallets': ^0.19.2
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       '@testing-library/jest-dom': ^5.16.5
       '@testing-library/react': ^13.3.0
       '@testing-library/user-event': ^14.4.3
@@ -152,7 +152,7 @@ importers:
       '@solana/wallet-adapter-react': ^0.15.21-rc.1
       '@solana/wallet-adapter-react-ui': ^0.9.19-rc.1
       '@solana/wallet-adapter-wallets': ^0.19.2
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       '@types/bs58': ^4.0.1
       '@types/node-fetch': ^2.6.2
       '@types/react': ^18.0.0
@@ -214,7 +214,7 @@ importers:
       '@solana/wallet-adapter-material-ui': ^0.16.17-rc.0
       '@solana/wallet-adapter-react': ^0.15.21-rc.1
       '@solana/wallet-adapter-wallets': ^0.19.2
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
       notistack: 2.0.5
@@ -288,7 +288,7 @@ importers:
       '@solana/wallet-adapter-react': ^0.15.21-rc.1
       '@solana/wallet-adapter-react-ui': ^0.9.19-rc.1
       '@solana/wallet-adapter-wallets': ^0.19.2
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
       parcel: ^2.3.2
@@ -320,7 +320,7 @@ importers:
       '@ant-design/icons': ^4.7.0
       '@solana/wallet-adapter-base': workspace:^
       '@solana/wallet-adapter-react': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
       antd: ^4.22.6
@@ -348,7 +348,7 @@ importers:
       '@mui/material': ^5.10.1
       '@solana/wallet-adapter-base': workspace:^
       '@solana/wallet-adapter-react': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
       react: ^18.0.0
@@ -373,7 +373,7 @@ importers:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
       '@solana/wallet-adapter-react': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
       react: ^18.0.0
@@ -393,7 +393,7 @@ importers:
   packages/wallets/alpha:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -404,7 +404,7 @@ importers:
   packages/wallets/avana:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -415,7 +415,7 @@ importers:
   packages/wallets/backpack:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -426,7 +426,7 @@ importers:
   packages/wallets/bitkeep:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -437,7 +437,7 @@ importers:
   packages/wallets/bitpie:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -449,7 +449,7 @@ importers:
     specifiers:
       '@blocto/sdk': ^0.2.21
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@blocto/sdk': 0.2.22_@solana+web3.js@1.65.0
@@ -461,7 +461,7 @@ importers:
   packages/wallets/brave:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -472,7 +472,7 @@ importers:
   packages/wallets/clover:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -483,7 +483,7 @@ importers:
   packages/wallets/coin98:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       '@types/bs58': ^4.0.1
       bs58: ^4.0.1
       shx: ^0.3.4
@@ -498,7 +498,7 @@ importers:
   packages/wallets/coinbase:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -509,7 +509,7 @@ importers:
   packages/wallets/coinhub:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -520,7 +520,7 @@ importers:
   packages/wallets/exodus:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -532,7 +532,7 @@ importers:
     specifiers:
       '@fractalwagmi/solana-wallet-adapter': ^0.0.3
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@fractalwagmi/solana-wallet-adapter': 0.0.3_443hqxnqucnio2x76gsz7orqgu
@@ -544,7 +544,7 @@ importers:
   packages/wallets/glow:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -555,7 +555,7 @@ importers:
   packages/wallets/huobi:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -566,7 +566,7 @@ importers:
   packages/wallets/hyperpay:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -578,7 +578,7 @@ importers:
     specifiers:
       '@keystonehq/sol-keyring': ^0.3.0
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@keystonehq/sol-keyring': 0.3.1
@@ -590,7 +590,7 @@ importers:
   packages/wallets/krystal:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -604,7 +604,7 @@ importers:
       '@ledgerhq/hw-transport': 6.27.1
       '@ledgerhq/hw-transport-webhid': 6.27.1
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       '@types/w3c-web-hid': ^1.0.2
       buffer: ^6.0.3
       shx: ^0.3.4
@@ -622,7 +622,7 @@ importers:
   packages/wallets/magiceden:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -633,7 +633,7 @@ importers:
   packages/wallets/mathwallet:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -644,7 +644,7 @@ importers:
   packages/wallets/neko:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -655,7 +655,7 @@ importers:
   packages/wallets/nightly:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -666,7 +666,7 @@ importers:
   packages/wallets/nufi:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -677,7 +677,7 @@ importers:
   packages/wallets/onto:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -689,7 +689,7 @@ importers:
     specifiers:
       '@particle-network/solana-wallet': ^0.5.0
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@particle-network/solana-wallet': 0.5.6_ihihrbwqrnxaipnmo6qzkha5ce
@@ -701,7 +701,7 @@ importers:
   packages/wallets/phantom:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -712,7 +712,7 @@ importers:
   packages/wallets/safepal:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -723,7 +723,7 @@ importers:
   packages/wallets/saifu:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -734,7 +734,7 @@ importers:
   packages/wallets/salmon:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       salmon-adapter-sdk: ^1.1.0
       shx: ^0.3.4
     dependencies:
@@ -747,7 +747,7 @@ importers:
   packages/wallets/sky:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -758,7 +758,7 @@ importers:
   packages/wallets/slope:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       '@types/bs58': ^4.0.1
       bs58: ^4.0.1
       shx: ^0.3.4
@@ -773,7 +773,7 @@ importers:
   packages/wallets/solflare:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       '@solflare-wallet/sdk': ^1.1.0
       shx: ^0.3.4
     dependencies:
@@ -787,7 +787,7 @@ importers:
     specifiers:
       '@project-serum/sol-wallet-adapter': ^0.2.6
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@project-serum/sol-wallet-adapter': 0.2.6_@solana+web3.js@1.65.0
@@ -799,7 +799,7 @@ importers:
   packages/wallets/solong:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -810,7 +810,7 @@ importers:
   packages/wallets/spot:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -821,7 +821,7 @@ importers:
   packages/wallets/strike:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       '@strike-protocols/solana-wallet-adapter': ^0.1.7
       shx: ^0.3.4
     dependencies:
@@ -834,7 +834,7 @@ importers:
   packages/wallets/tokenary:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -845,7 +845,7 @@ importers:
   packages/wallets/tokenpocket:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -856,7 +856,7 @@ importers:
   packages/wallets/torus:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       '@toruslabs/solana-embed': ^0.3.0
       '@types/keccak': ^3.0.1
       '@types/node-fetch': ^2.6.1
@@ -883,7 +883,7 @@ importers:
   packages/wallets/trust:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -894,7 +894,7 @@ importers:
   packages/wallets/unsafe-burner:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -906,7 +906,7 @@ importers:
     specifiers:
       '@jnwng/walletconnect-solana': ^0.1.3
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       '@types/pino': ^6.3.11
       '@walletconnect/types': ^2.0.0-rc.2
       shx: ^0.3.4
@@ -964,7 +964,7 @@ importers:
       '@solana/wallet-adapter-unsafe-burner': workspace:^
       '@solana/wallet-adapter-walletconnect': workspace:^
       '@solana/wallet-adapter-xdefi': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-alpha': link:../alpha
@@ -1017,7 +1017,7 @@ importers:
   packages/wallets/xdefi:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
@@ -5834,7 +5834,7 @@ packages:
   /@types/connect/3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 18.11.0
 
   /@types/eslint-scope/3.7.4:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}
@@ -6107,7 +6107,7 @@ packages:
   /@types/ws/7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 18.11.0
 
   /@types/ws/8.5.3:
     resolution: {integrity: sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==}

@@ -30,7 +30,7 @@
         "package": "shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.61.0"
+        "@solana/web3.js": "^1.58.0"
     },
     "dependencies": {
         "@ledgerhq/devices": "6.27.1",
@@ -40,7 +40,7 @@
         "buffer": "^6.0.3"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.61.0",
+        "@solana/web3.js": "^1.58.0",
         "@types/w3c-web-hid": "^1.0.2",
         "shx": "^0.3.4"
     },
