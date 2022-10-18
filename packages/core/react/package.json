@@ -37,7 +37,7 @@
     "dependencies": {
         "@solana-mobile/wallet-adapter-mobile": "^0.9.5",
         "@solana/wallet-adapter-base": "workspace:^",
-        "@solana/wallet-standard-wallet-adapter-react": "^1.0.0-rc.1"
+        "@solana/wallet-standard-wallet-adapter-react": "^1.0.0-rc.2"
     },
     "devDependencies": {
         "@solana/web3.js": "^1.61.0",
