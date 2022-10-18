@@ -8,13 +8,6 @@ describe('getClusterFromConnection()', () => {
             expect(getClusterFromConnection(connection)).toBe('mainnet-beta');
         });
     });
-    describe('when the connection specifies its own cluster', () => {
-        const connection = new Connection('https://foo-custom.com');
-        (connection as any).cluster = 'fakecluster';
-        it('creates a new mobile wallet adapter with `mainnet-beta` as the cluster', () => {
-            expect(getClusterFromConnection(connection)).toBe('fakecluster');
-        });
-    });
     describe("when the endpoint contains the word 'devnet'", () => {
         const connection = new Connection('https://foo-devnet.com');
         it('creates a new mobile wallet adapter with `devnet` as the cluster', () => {
