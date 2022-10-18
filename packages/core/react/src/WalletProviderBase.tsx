@@ -19,6 +19,7 @@ type Props = Readonly<
         isUnloadingRef: React.RefObject<boolean>;
         // NOTE: The presence/absence of this handler implies that auto-connect is enabled/disabled.
         onAutoConnectRequest?: () => Promise<void>;
+        onConnectError: () => void;
         onSelectWallet: (walletName: WalletName) => void;
     }
 >;
@@ -28,6 +29,7 @@ export function WalletProviderBase({
     children,
     isUnloadingRef,
     onAutoConnectRequest,
+    onConnectError,
     onError,
     onSelectWallet,
     wallets: adapters,
@@ -156,6 +158,7 @@ export function WalletProviderBase({
             try {
                 await onAutoConnectRequest();
             } catch {
+                onConnectError();
                 // Drop the error. It will be caught by `handleError` anyway.
             } finally {
                 setConnecting(false);
@@ -224,6 +227,9 @@ export function WalletProviderBase({
         setConnecting(true);
         try {
             await adapter.connect();
+        } catch (e) {
+            onConnectError();
+            throw e;
         } finally {
             setConnecting(false);
             isConnecting.current = false;

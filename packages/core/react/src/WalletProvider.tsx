@@ -9,7 +9,7 @@ import type { Adapter, WalletError, WalletName } from '@solana/wallet-adapter-ba
 import { useStandardWalletAdapters } from '@solana/wallet-standard-wallet-adapter-react';
 import type { Cluster } from '@solana/web3.js';
 import type { ReactNode } from 'react';
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import getClusterFromConnection from './getClusterFromConnection.js';
 import getEnvironment, { Environment } from './getEnvironment.js';
 import { useConnection } from './useConnection.js';
@@ -157,6 +157,12 @@ export function WalletProvider({
             window.removeEventListener('beforeunload', handleBeforeUnload);
         };
     }, [adaptersWithStandardAdapters, walletName]);
+    const handleConnectError = useCallback(() => {
+        if (adapter && adapter.name !== SolanaMobileWalletAdapterWalletName) {
+            // If any error happens while connecting, unset the adapter.
+            setWalletName(null);
+        }
+    }, [adapter]);
     return (
         <WalletProviderBase
             {...props}
@@ -164,6 +170,7 @@ export function WalletProvider({
             isUnloadingRef={isUnloading}
             key={adapter?.name}
             onAutoConnectRequest={handleAutoConnectRequest}
+            onConnectError={handleConnectError}
             onSelectWallet={setWalletName}
             wallets={adaptersWithMobileWalletAdapter}
         />

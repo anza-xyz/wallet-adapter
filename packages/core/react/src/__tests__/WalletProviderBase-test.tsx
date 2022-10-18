@@ -54,6 +54,7 @@ describe('WalletProviderBase', () => {
             root.render(
                 <WalletProviderBase
                     {...props}
+                    onConnectError={jest.fn()}
                     onSelectWallet={jest.fn()}
                     isUnloadingRef={isUnloading}
                     wallets={adapters}
