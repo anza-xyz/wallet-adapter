@@ -38,6 +38,9 @@
             "path": "../exodus/tsconfig.all.json"
         },
         {
+            "path": "../fractal/tsconfig.all.json"
+        },
+        {
             "path": "../glow/tsconfig.all.json"
         },
         {

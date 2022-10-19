@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-wallets",
-    "version": "0.19.2",
+    "version": "0.19.3",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -45,6 +45,7 @@
         "@solana/wallet-adapter-coinbase": "workspace:^",
         "@solana/wallet-adapter-coinhub": "workspace:^",
         "@solana/wallet-adapter-exodus": "workspace:^",
+        "@solana/wallet-adapter-fractal": "workspace:^",
         "@solana/wallet-adapter-glow": "workspace:^",
         "@solana/wallet-adapter-huobi": "workspace:^",
         "@solana/wallet-adapter-hyperpay": "workspace:^",
