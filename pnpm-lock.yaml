@@ -59,7 +59,7 @@ importers:
 
   packages/core/react:
     specifiers:
-      '@solana-mobile/wallet-adapter-mobile': ^0.9.5
+      '@solana-mobile/wallet-adapter-mobile': ^0.9.6
       '@solana/wallet-adapter-base': workspace:^
       '@solana/wallet-standard-wallet-adapter-react': ^1.0.0-rc.2
       '@solana/web3.js': ^1.58.0
@@ -74,7 +74,7 @@ importers:
       shx: ^0.3.4
       ts-jest: ^28.0.8
     dependencies:
-      '@solana-mobile/wallet-adapter-mobile': 0.9.5_wflj42ferjjaggu4kvovfbjbcy
+      '@solana-mobile/wallet-adapter-mobile': 0.9.6_wflj42ferjjaggu4kvovfbjbcy
       '@solana/wallet-adapter-base': link:../base
       '@solana/wallet-standard-wallet-adapter-react': 1.0.0-rc.2_6m273jeabj4h6sjnlmfgvycgyu
     devDependencies:
@@ -5159,12 +5159,12 @@ packages:
     resolution: {integrity: sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==}
     dev: false
 
-  /@solana-mobile/mobile-wallet-adapter-protocol-web3js/0.9.5_wflj42ferjjaggu4kvovfbjbcy:
-    resolution: {integrity: sha512-fGwhUwDWNdBzTLEQwR3r3ATlJ41IIu1fPQs6rLtkdPMIrZz1hrfLxmkiHUCvL0QPBTXD8RfTq6a29lbpBDWmhw==}
+  /@solana-mobile/mobile-wallet-adapter-protocol-web3js/0.9.6_wflj42ferjjaggu4kvovfbjbcy:
+    resolution: {integrity: sha512-IcI1YGK3XyLwa3dYcp/4Bs/tvR6vC8SIpZObD6ZQMOkBwPIH4VEld5HDUBtXRN8dEukzcBjpgq1qL43OTlXE/Q==}
     peerDependencies:
       '@solana/web3.js': ^1.58.0
     dependencies:
-      '@solana-mobile/mobile-wallet-adapter-protocol': 0.9.5_react-native@0.70.3
+      '@solana-mobile/mobile-wallet-adapter-protocol': 0.9.6_react-native@0.70.3
       '@solana/web3.js': 1.65.0
       bs58: 5.0.0
       js-base64: 3.7.2
@@ -5172,21 +5172,21 @@ packages:
       - react-native
     dev: false
 
-  /@solana-mobile/mobile-wallet-adapter-protocol/0.9.5_react-native@0.70.3:
-    resolution: {integrity: sha512-scF/2b6ekG9zHxgjQoGxWFFsWJeC7eDDH0tebTigPn0oqV8LKmM81solwa3GmAjUoSSPtnvC9XLrRcSCd/HHdg==}
+  /@solana-mobile/mobile-wallet-adapter-protocol/0.9.6_react-native@0.70.3:
+    resolution: {integrity: sha512-Hr8V5yz5K317z8HXfIbGxiYLqPkPbw+M4z/35xxsSL9VCRcDyiTmsYzr4cYoZ2rpWijIAV7ICTVnsUp6nQ6Bgg==}
     peerDependencies:
       react-native: '>0.69'
     dependencies:
       react-native: 0.70.3_sxyvc5w76clw6xultp2jaqrfwi
     dev: false
 
-  /@solana-mobile/wallet-adapter-mobile/0.9.5_wflj42ferjjaggu4kvovfbjbcy:
-    resolution: {integrity: sha512-LSrk/p7qgjT6bFsxs7mZXAP9ELxxXDvB6j+LXsH9mFGNN5W/MrcWiyUzlxO6mB/l99czOy2cjLILh4jP5DYlNw==}
+  /@solana-mobile/wallet-adapter-mobile/0.9.6_wflj42ferjjaggu4kvovfbjbcy:
+    resolution: {integrity: sha512-Z3Zv0Hrea7nQTbYaiJh11e1yKzphYZ5MBoLU99RTdHO4jHu4mz2dshitMtvnsnnb5KBHk8u760mX2RpbXcG+yA==}
     peerDependencies:
       '@solana/web3.js': ^1.58.0
     dependencies:
       '@react-native-async-storage/async-storage': 1.17.10_react-native@0.70.3
-      '@solana-mobile/mobile-wallet-adapter-protocol-web3js': 0.9.5_wflj42ferjjaggu4kvovfbjbcy
+      '@solana-mobile/mobile-wallet-adapter-protocol-web3js': 0.9.6_wflj42ferjjaggu4kvovfbjbcy
       '@solana/wallet-adapter-base': 0.9.18_@solana+web3.js@1.65.0
       '@solana/web3.js': 1.65.0
       js-base64: 3.7.2
