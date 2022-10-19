@@ -7,10 +7,9 @@ import {
 } from '@solana-mobile/wallet-adapter-mobile';
 import type { Adapter, WalletError, WalletName } from '@solana/wallet-adapter-base';
 import { useStandardWalletAdapters } from '@solana/wallet-standard-wallet-adapter-react';
-import type { Cluster } from '@solana/web3.js';
 import type { ReactNode } from 'react';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
-import getClusterFromConnection from './getClusterFromConnection.js';
+import getInferredClusterFromEndpoint from './getInferredClusterFromEndpoint.js';
 import getEnvironment, { Environment } from './getEnvironment.js';
 import { useConnection } from './useConnection.js';
 import { useLocalStorage } from './useLocalStorage.js';
@@ -69,10 +68,10 @@ export function WalletProvider({
                 uri: getUriForAppIdentity(),
             },
             authorizationResultCache: createDefaultAuthorizationResultCache(),
-            cluster: getClusterFromConnection(connection),
+            cluster: getInferredClusterFromEndpoint(connection?.rpcEndpoint),
             onWalletNotFound: createDefaultWalletNotFoundHandler(),
         });
-    }, [adaptersWithStandardAdapters, connection]);
+    }, [adaptersWithStandardAdapters, connection?.rpcEndpoint]);
     const adaptersWithMobileWalletAdapter = useMemo(() => {
         if (mobileWalletAdapter == null || adaptersWithStandardAdapters.indexOf(mobileWalletAdapter) !== -1) {
             return adaptersWithStandardAdapters;
