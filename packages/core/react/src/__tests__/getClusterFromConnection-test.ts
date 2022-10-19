@@ -1,29 +1,34 @@
-import { Connection } from '@solana/web3.js';
-import getClusterFromConnection from '../getClusterFromConnection.js';
+import getInferredClusterFromEndpoint from '../getInferredClusterFromEndpoint.js';
 
-describe('getClusterFromConnection()', () => {
-    describe('when the connection is `undefined`', () => {
-        const connection = undefined;
+describe('getInferredClusterFromEndpoint()', () => {
+    describe('when the endpoint is `undefined`', () => {
+        const endpoint = undefined;
         it('creates a new mobile wallet adapter with `mainnet-beta` as the cluster', () => {
-            expect(getClusterFromConnection(connection)).toBe('mainnet-beta');
+            expect(getInferredClusterFromEndpoint(endpoint)).toBe('mainnet-beta');
+        });
+    });
+    describe('when the endpoint is the empty string', () => {
+        const endpoint = '';
+        it('creates a new mobile wallet adapter with `mainnet-beta` as the cluster', () => {
+            expect(getInferredClusterFromEndpoint(endpoint)).toBe('mainnet-beta');
         });
     });
     describe("when the endpoint contains the word 'devnet'", () => {
-        const connection = new Connection('https://foo-devnet.com');
+        const endpoint = 'https://foo-devnet.com';
         it('creates a new mobile wallet adapter with `devnet` as the cluster', () => {
-            expect(getClusterFromConnection(connection)).toBe('devnet');
+            expect(getInferredClusterFromEndpoint(endpoint)).toBe('devnet');
         });
     });
     describe("when the endpoint contains the word 'testnet'", () => {
-        const connection = new Connection('https://foo-testnet.com');
+        const endpoint = 'https://foo-testnet.com';
         it('creates a new mobile wallet adapter with `testnet` as the cluster', () => {
-            expect(getClusterFromConnection(connection)).toBe('testnet');
+            expect(getInferredClusterFromEndpoint(endpoint)).toBe('testnet');
         });
     });
     describe("when the endpoint contains the word 'mainnet-beta'", () => {
-        const connection = new Connection('https://foo-mainnet-beta.com');
+        const endpoint = 'https://foo-mainnet-beta.com';
         it('creates a new mobile wallet adapter with `mainnet-beta` as the cluster', () => {
-            expect(getClusterFromConnection(connection)).toBe('mainnet-beta');
+            expect(getInferredClusterFromEndpoint(endpoint)).toBe('mainnet-beta');
         });
     });
 });
