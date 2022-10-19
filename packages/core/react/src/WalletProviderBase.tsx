@@ -165,7 +165,7 @@ export function WalletProviderBase({
                 isConnecting.current = false;
             }
         })();
-    }, [connected, onAutoConnectRequest, wallet]);
+    }, [connected, onAutoConnectRequest, onConnectError, wallet]);
 
     // Send a transaction using the provided connection
     const sendTransaction: WalletAdapterProps['sendTransaction'] = useCallback(
@@ -234,7 +234,7 @@ export function WalletProviderBase({
             setConnecting(false);
             isConnecting.current = false;
         }
-    }, [handleError, wallet]);
+    }, [handleError, onConnectError, wallet]);
 
     const handleDisconnect = useCallback(async () => {
         if (isDisconnecting.current) return;

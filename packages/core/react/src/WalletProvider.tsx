@@ -158,7 +158,7 @@ export function WalletProvider({
             // If any error happens while connecting, unset the adapter.
             setWalletName(null);
         }
-    }, [adapter]);
+    }, [adapter, setWalletName]);
     return (
         <WalletProviderBase
             {...props}
