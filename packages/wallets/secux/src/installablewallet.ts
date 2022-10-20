@@ -94,6 +94,7 @@ export class InstallableWallet implements WalletInterface {
         wallet.OnNotification = (data: Buffer) => {
             prevEvent?.(data);
             beginSendImage = true;
+            wallet.OnNotification = prevEvent;
         }
 
         try {
