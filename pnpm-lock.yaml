@@ -84,14 +84,14 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       shx: 0.3.4
-      ts-jest: 28.0.8_tdm5zcqep4nsvpmkmbrzs32za4
+      ts-jest: 28.0.8_xqn6xfgh5llevdlhtbp45jjr3y
 
   packages/starter/create-react-app-starter:
     specifiers:
       '@solana/wallet-adapter-base': ^0.9.18
       '@solana/wallet-adapter-react': ^0.15.20
       '@solana/wallet-adapter-react-ui': ^0.9.18
-      '@solana/wallet-adapter-wallets': ^0.19.3
+      '@solana/wallet-adapter-wallets': ^0.19.4
       '@solana/web3.js': ^1.58.0
       '@testing-library/jest-dom': ^5.16.5
       '@testing-library/react': ^13.3.0
@@ -147,7 +147,7 @@ importers:
       '@solana/wallet-adapter-material-ui': ^0.16.16
       '@solana/wallet-adapter-react': ^0.15.20
       '@solana/wallet-adapter-react-ui': ^0.9.18
-      '@solana/wallet-adapter-wallets': ^0.19.3
+      '@solana/wallet-adapter-wallets': ^0.19.4
       '@solana/web3.js': ^1.58.0
       '@types/bs58': ^4.0.1
       '@types/node-fetch': ^2.6.2
@@ -209,7 +209,7 @@ importers:
       '@solana/wallet-adapter-base': ^0.9.18
       '@solana/wallet-adapter-material-ui': ^0.16.16
       '@solana/wallet-adapter-react': ^0.15.20
-      '@solana/wallet-adapter-wallets': ^0.19.3
+      '@solana/wallet-adapter-wallets': ^0.19.4
       '@solana/web3.js': ^1.58.0
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
@@ -248,7 +248,7 @@ importers:
       '@solana/wallet-adapter-base': ^0.9.18
       '@solana/wallet-adapter-react': ^0.15.20
       '@solana/wallet-adapter-react-ui': ^0.9.18
-      '@solana/wallet-adapter-wallets': ^0.19.3
+      '@solana/wallet-adapter-wallets': ^0.19.4
       '@types/node-fetch': ^2.6.2
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
@@ -283,7 +283,7 @@ importers:
       '@solana/wallet-adapter-base': ^0.9.18
       '@solana/wallet-adapter-react': ^0.15.20
       '@solana/wallet-adapter-react-ui': ^0.9.18
-      '@solana/wallet-adapter-wallets': ^0.19.3
+      '@solana/wallet-adapter-wallets': ^0.19.4
       '@solana/web3.js': ^1.58.0
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
