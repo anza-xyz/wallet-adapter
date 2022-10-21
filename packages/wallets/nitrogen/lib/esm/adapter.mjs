@@ -1,4 +1,4 @@
-import { BaseMessageSignerWalletAdapter, scopePollingDetectionStrategy, WalletConnectionError, WalletError, WalletNotConnectedError, WalletNotReadyError, WalletPublicKeyError, WalletReadyState, WalletSignMessageError, WalletSignTransactionError } from '@solana/wallet-adapter-base';
+import { BaseMessageSignerWalletAdapter, WalletConnectionError, WalletError, WalletNotConnectedError, WalletNotReadyError, WalletPublicKeyError, WalletReadyState, WalletSignMessageError, WalletSignTransactionError, scopePollingDetectionStrategy, } from '@solana/wallet-adapter-base';
 import { PublicKey } from '@solana/web3.js';
 import bs58 from 'bs58';
 export const NitrogenWalletName = 'Nitrogen';
@@ -63,7 +63,7 @@ export class NitrogenWalletAdapter extends BaseMessageSignerWalletAdapter {
                             }
                             this._wallet = {
                                 ...wallet,
-                                publicKey
+                                publicKey,
                             };
                             this._wallet.isConnected = true;
                             this.emit('connect', this._publicKey);
@@ -110,7 +110,7 @@ export class NitrogenWalletAdapter extends BaseMessageSignerWalletAdapter {
                 if (!signature) {
                     throw new WalletSignTransactionError();
                 }
-                transaction.addSignature(this.publicKey, bs58.decode(signature));
+                transaction.addSignature(this.publicKey, Buffer.from(bs58.decode(signature)));
                 return transaction;
             }
             catch (error) {
@@ -141,7 +141,7 @@ export class NitrogenWalletAdapter extends BaseMessageSignerWalletAdapter {
                         if (!signatures[i] || !this.publicKey) {
                             throw new WalletSignTransactionError();
                         }
-                        transaction.addSignature(this.publicKey, bs58.decode(signatures[i].signature));
+                        transaction.addSignature(this.publicKey, Buffer.from(bs58.decode(signatures[i].signature)));
                     });
                 }
                 return transactions;

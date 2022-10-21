@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import type { WalletName } from '@solana/wallet-adapter-base';
 import {
   BaseMessageSignerWalletAdapter,
@@ -167,7 +168,7 @@ export class NitrogenWalletAdapter extends BaseMessageSignerWalletAdapter {
           throw new WalletSignTransactionError();
         }
 
-        transaction.addSignature(this.publicKey, bs58.decode(signature));
+        transaction.addSignature(this.publicKey, Buffer.from(bs58.decode(signature)));
         return transaction;
       } catch (error: any) {
         throw new WalletSignTransactionError(error?.message, error);
@@ -197,7 +198,7 @@ export class NitrogenWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!signatures[i] || !this.publicKey) {
               throw new WalletSignTransactionError();
             }
-            transaction.addSignature(this.publicKey, bs58.decode(signatures[i].signature));
+            transaction.addSignature(this.publicKey, Buffer.from(bs58.decode(signatures[i].signature)));
           });
         }
         return transactions;
@@ -235,4 +236,3 @@ export class NitrogenWalletAdapter extends BaseMessageSignerWalletAdapter {
     }
   }
 }
-

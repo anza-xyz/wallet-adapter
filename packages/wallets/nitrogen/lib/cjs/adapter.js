@@ -127,7 +127,7 @@ class NitrogenWalletAdapter extends wallet_adapter_base_1.BaseMessageSignerWalle
                     if (!signature) {
                         throw new wallet_adapter_base_1.WalletSignTransactionError();
                     }
-                    transaction.addSignature(this.publicKey, bs58_1.default.decode(signature));
+                    transaction.addSignature(this.publicKey, Buffer.from(bs58_1.default.decode(signature)));
                     return transaction;
                 }
                 catch (error) {
@@ -160,7 +160,7 @@ class NitrogenWalletAdapter extends wallet_adapter_base_1.BaseMessageSignerWalle
                             if (!signatures[i] || !this.publicKey) {
                                 throw new wallet_adapter_base_1.WalletSignTransactionError();
                             }
-                            transaction.addSignature(this.publicKey, bs58_1.default.decode(signatures[i].signature));
+                            transaction.addSignature(this.publicKey, Buffer.from(bs58_1.default.decode(signatures[i].signature)));
                         });
                     }
                     return transactions;
