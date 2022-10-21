@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import type {
     EventEmitter,
-    WalletName
+    WalletName,
 } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
@@ -170,9 +170,11 @@ export class NitrogenWalletAdapter extends BaseMessageSignerWalletAdapter {
                     pubkey: this.publicKey.toString(),
                 });
 
-                if (signature) {
-                    transaction.addSignature(this.publicKey, bs58.decode(signature));
+                if (!signature) {
+                    throw new WalletSignTransactionError();
                 }
+
+                transaction.addSignature(this.publicKey, bs58.decode(signature));
                 return transaction;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
@@ -196,9 +198,10 @@ export class NitrogenWalletAdapter extends BaseMessageSignerWalletAdapter {
 
                 if (signatures.length) {
                     transactions.forEach((transaction, i) => {
-                        if (this.publicKey) {
-                            transaction.addSignature(this.publicKey, bs58.decode(signatures[i]));
+                        if (!signatures[i] || !this.publicKey) {
+                            throw new WalletSignTransactionError();
                         }
+                        transaction.addSignature(this.publicKey, bs58.decode(signatures[i]));
                     });
                 }
                 return transactions;
@@ -222,6 +225,10 @@ export class NitrogenWalletAdapter extends BaseMessageSignerWalletAdapter {
                     pubkey: this.publicKey?.toString(),
                 });
 
+                if (!signature) {
+                    throw new WalletSignTransactionError();
+                }
+
                 return signature;
             } catch (error: any) {
                 throw new WalletSignMessageError(error?.message, error);
@@ -232,4 +239,3 @@ export class NitrogenWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 }
-
