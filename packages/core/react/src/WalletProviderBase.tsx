@@ -52,26 +52,30 @@ export function WalletProviderBase({
 
     // Wrap adapters to conform to the `Wallet` interface
     const [wallets, setWallets] = useState(() =>
-        adapters.map((adapter) => ({
-            adapter,
-            readyState: adapter.readyState,
-        }))
+        adapters
+            .map((adapter) => ({
+                adapter,
+                readyState: adapter.readyState,
+            }))
+            .filter(({ readyState }) => readyState !== WalletReadyState.Unsupported)
     );
 
     // When the adapters change, start to listen for changes to their `readyState`
     useEffect(() => {
         // When the adapters change, wrap them to conform to the `Wallet` interface
         setWallets((wallets) =>
-            adapters.map((adapter, index) => {
-                const wallet = wallets[index];
-                // If the wallet hasn't changed, return the same instance
-                return wallet && wallet.adapter === adapter && wallet.readyState === adapter.readyState
-                    ? wallet
-                    : {
-                          adapter: adapter,
-                          readyState: adapter.readyState,
-                      };
-            })
+            adapters
+                .map((adapter, index) => {
+                    const wallet = wallets[index];
+                    // If the wallet hasn't changed, return the same instance
+                    return wallet && wallet.adapter === adapter && wallet.readyState === adapter.readyState
+                        ? wallet
+                        : {
+                              adapter: adapter,
+                              readyState: adapter.readyState,
+                          };
+                })
+                .filter(({ readyState }) => readyState !== WalletReadyState.Unsupported)
         );
         function handleReadyStateChange(this: Adapter, readyState: WalletReadyState) {
             setWallets((prevWallets) => {
@@ -80,7 +84,11 @@ export function WalletProviderBase({
 
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 const { adapter } = prevWallets[index]!;
-                return [...prevWallets.slice(0, index), { adapter, readyState }, ...prevWallets.slice(index + 1)];
+                return [
+                    ...prevWallets.slice(0, index),
+                    { adapter, readyState },
+                    ...prevWallets.slice(index + 1),
+                ].filter(({ readyState }) => readyState !== WalletReadyState.Unsupported);
             });
         }
         adapters.forEach((adapter) => adapter.on('readyStateChange', handleReadyStateChange, adapter));
@@ -89,10 +97,7 @@ export function WalletProviderBase({
         };
     }, [adapter, adapters]);
 
-    const wallet = useMemo(
-        () => wallets.find(({ adapter: candidateAdapter }) => candidateAdapter === adapter) ?? null,
-        [adapter, wallets]
-    );
+    const wallet = useMemo(() => wallets.find((wallet) => wallet.adapter === adapter) ?? null, [adapter, wallets]);
 
     // Setup and teardown event listeners when the adapter changes
     useEffect(() => {
