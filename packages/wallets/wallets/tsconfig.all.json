@@ -134,6 +134,9 @@
             "path": "../xdefi/tsconfig.all.json"
         },
         {
+            "path": "../nitrogen/tsconfig.all.json"
+        },
+        {
             "path": "./tsconfig.cjs.json"
         },
         {

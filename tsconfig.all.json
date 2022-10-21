@@ -165,6 +165,10 @@
         },
         {
             "path": "./packages/wallets/xdefi/tsconfig.all.json"
+        },
+        {
+            "path": "./packages/wallets/nitrogen/tsconfig.all.json"
         }
+
     ]
 }
