@@ -163,7 +163,6 @@ export function WalletProvider({
             {...props}
             adapter={adapter}
             isUnloadingRef={isUnloading}
-            key={adapter?.name}
             onAutoConnectRequest={handleAutoConnectRequest}
             onConnectError={handleConnectError}
             onSelectWallet={setWalletName}
