@@ -182,6 +182,16 @@ describe('WalletProviderBase', () => {
             });
         });
     });
+    describe('given the presence of an unsupported wallet', () => {
+        beforeEach(() => {
+            bazWalletAdapter.readyStateValue = WalletReadyState.Unsupported;
+            renderTest({ adapter: fooWalletAdapter });
+        });
+        it('filters out the unsupported wallet', () => {
+            const adapters = ref.current?.getWalletContextState().wallets.map(({ adapter }) => adapter);
+            expect(adapters).not.toContain(bazWalletAdapter);
+        });
+    });
     describe('when auto connect is disabled', () => {
         beforeEach(() => {
             renderTest({ onAutoConnectRequest: undefined, adapter: fooWalletAdapter });
