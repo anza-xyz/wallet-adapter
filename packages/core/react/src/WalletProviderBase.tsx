@@ -43,7 +43,14 @@ export function WalletProviderBase({
     const handleError = useCallback(
         (error: WalletError, adapter?: Adapter) => {
             if (!isUnloadingRef.current) {
-                (onError || console.error)(error, adapter);
+                if (onError) {
+                    onError(error, adapter);
+                } else {
+                    console.error(error, adapter);
+                    if (error instanceof WalletNotReadyError && typeof window !== 'undefined' && adapter) {
+                        window.open(adapter.url, '_blank');
+                    }
+                }
             }
             return error;
         },
@@ -230,12 +237,8 @@ export function WalletProviderBase({
         if (isConnecting.current || isDisconnecting.current || wallet?.adapter.connected) return;
         if (!wallet) throw handleError(new WalletNotSelectedError());
         const { adapter, readyState } = wallet;
-        if (!(readyState === WalletReadyState.Installed || readyState === WalletReadyState.Loadable)) {
-            if (typeof window !== 'undefined') {
-                window.open(adapter.url, '_blank');
-            }
+        if (!(readyState === WalletReadyState.Installed || readyState === WalletReadyState.Loadable))
             throw handleError(new WalletNotReadyError(), adapter);
-        }
         isConnecting.current = true;
         setConnecting(true);
         try {
