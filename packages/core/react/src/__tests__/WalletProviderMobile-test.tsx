@@ -344,8 +344,7 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                 let adapter: Adapter;
                 beforeEach(() => {
                     act(() => {
-                        adapter = ref.current?.getWalletContextState().wallet
-                            ?.adapter as SolanaMobileWalletAdapter;
+                        adapter = ref.current?.getWalletContextState().wallet?.adapter as SolanaMobileWalletAdapter;
                         adapter.emit('error', errorThrown);
                     });
                 });
