@@ -257,16 +257,16 @@ describe('WalletProviderBase', () => {
     });
     describe('custom error handler', () => {
         const errorToEmit = new WalletError();
-        let handleError: (error: WalletError) => void;
+        let onError: jest.Mock;
         beforeEach(async () => {
-            handleError = jest.fn();
-            renderTest({ onError: handleError, adapter: fooWalletAdapter });
+            onError = jest.fn();
+            renderTest({ onError, adapter: fooWalletAdapter });
         });
         it('gets called in response to adapter errors', () => {
             act(() => {
                 fooWalletAdapter.emit('error', errorToEmit);
             });
-            expect(handleError).toBeCalledWith(errorToEmit);
+            expect(onError).toBeCalledWith(errorToEmit, fooWalletAdapter);
         });
         it('does not get called if the window is unloading', () => {
             const errorToEmit = new WalletError();
@@ -274,7 +274,7 @@ describe('WalletProviderBase', () => {
                 isUnloading.current = true;
                 fooWalletAdapter.emit('error', errorToEmit);
             });
-            expect(handleError).not.toBeCalled();
+            expect(onError).not.toBeCalled();
         });
     });
     describe('connect()', () => {

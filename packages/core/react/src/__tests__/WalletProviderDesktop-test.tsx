@@ -229,14 +229,15 @@ describe('WalletProvider when the environment is `DESKTOP_WEB`', () => {
             renderTest({ onError });
         });
         describe('when the wallet emits an error', () => {
+            let adapter: Adapter;
             beforeEach(() => {
                 act(() => {
-                    const adapter = ref.current?.getWalletContextState().wallet?.adapter as Adapter;
+                    adapter = ref.current?.getWalletContextState().wallet?.adapter as Adapter;
                     adapter.emit('error', errorThrown);
                 });
             });
             it('should fire the `onError` callback', () => {
-                expect(onError).toHaveBeenCalledWith(errorThrown);
+                expect(onError).toHaveBeenCalledWith(errorThrown, adapter);
             });
         });
         describe('when window `beforeunload` event fires', () => {

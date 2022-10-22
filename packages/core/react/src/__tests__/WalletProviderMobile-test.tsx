@@ -323,14 +323,15 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
             renderTest({ onError });
         });
         describe('when the wallet emits an error', () => {
+            let adapter: Adapter;
             beforeEach(() => {
                 act(() => {
-                    const adapter = ref.current?.getWalletContextState().wallet?.adapter as SolanaMobileWalletAdapter;
+                    adapter = ref.current?.getWalletContextState().wallet?.adapter as SolanaMobileWalletAdapter;
                     adapter.emit('error', errorThrown);
                 });
             });
             it('should fire the `onError` callback', () => {
-                expect(onError).toHaveBeenCalledWith(errorThrown);
+                expect(onError).toHaveBeenCalledWith(errorThrown, adapter);
             });
         });
         describe('when window `beforeunload` event fires', () => {
@@ -340,15 +341,15 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                 });
             });
             describe('then the wallet emits an error', () => {
+                let adapter: Adapter;
                 beforeEach(() => {
                     act(() => {
-                        const adapter = ref.current?.getWalletContextState().wallet
-                            ?.adapter as SolanaMobileWalletAdapter;
+                        adapter = ref.current?.getWalletContextState().wallet?.adapter as SolanaMobileWalletAdapter;
                         adapter.emit('error', errorThrown);
                     });
                 });
                 it('should fire the `onError` callback', () => {
-                    expect(onError).toHaveBeenCalledWith(errorThrown);
+                    expect(onError).toHaveBeenCalledWith(errorThrown, adapter);
                 });
             });
         });

@@ -1,4 +1,4 @@
-import type { WalletError } from '@solana/wallet-adapter-base';
+import type { Adapter, WalletError } from '@solana/wallet-adapter-base';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { WalletDialogProvider, WalletMultiButton } from '@solana/wallet-adapter-material-ui';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
@@ -47,9 +47,9 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
 
     const { enqueueSnackbar } = useSnackbar();
     const onError = useCallback(
-        (error: WalletError) => {
+        (error: WalletError, adapter?: Adapter) => {
             enqueueSnackbar(error.message ? `${error.name}: ${error.message}` : error.name, { variant: 'error' });
-            console.error(error);
+            console.error(error, adapter);
         },
         [enqueueSnackbar]
     );

@@ -41,9 +41,16 @@ export function WalletProviderBase({
     const [publicKey, setPublicKey] = useState(() => adapter?.publicKey ?? null);
     const [connected, setConnected] = useState(() => adapter?.connected ?? false);
     const handleError = useCallback(
-        (error: WalletError) => {
+        (error: WalletError, adapter?: Adapter) => {
             if (!isUnloadingRef.current) {
-                (onError || console.error)(error);
+                if (onError) {
+                    onError(error, adapter);
+                } else {
+                    console.error(error, adapter);
+                    if (error instanceof WalletNotReadyError && typeof window !== 'undefined' && adapter) {
+                        window.open(adapter.url, '_blank');
+                    }
+                }
             }
             return error;
         },
@@ -101,40 +108,48 @@ export function WalletProviderBase({
 
     // Setup and teardown event listeners when the adapter changes
     useEffect(() => {
-        function handleWalletConnectEvent(publicKey: PublicKey) {
+        if (!adapter) return;
+
+        const handleWalletConnectEvent = (publicKey: PublicKey) => {
             setPublicKey(publicKey);
             isConnecting.current = false;
             setConnecting(false);
             setConnected(true);
             isDisconnecting.current = false;
             setDisconnecting(false);
-        }
-        function handleWalletDisconnectEvent() {
-            if (!isUnloadingRef.current) {
-                isConnecting.current = false;
-                setConnecting(false);
-                setConnected(false);
-                isDisconnecting.current = false;
-                setDisconnecting(false);
-                setPublicKey(null);
-            }
-        }
-        if (adapter) {
-            adapter.on('connect', handleWalletConnectEvent);
-            adapter.on('disconnect', handleWalletDisconnectEvent);
-            adapter.on('error', handleError);
-            return () => {
-                adapter.off('connect', handleWalletConnectEvent);
-                adapter.off('disconnect', handleWalletDisconnectEvent);
-                adapter.off('error', handleError);
-                isConnecting.current = false;
-                setConnecting(false);
-                setConnected(false);
-                isDisconnecting.current = false;
-                setDisconnecting(false);
-                setPublicKey(null);
-            };
-        }
+        };
+
+        const handleWalletDisconnectEvent = () => {
+            if (isUnloadingRef.current) return;
+
+            isConnecting.current = false;
+            setConnecting(false);
+            setConnected(false);
+            isDisconnecting.current = false;
+            setDisconnecting(false);
+            setPublicKey(null);
+        };
+
+        const handleWalletErrorEvent = (error: WalletError) => {
+            handleError(error, adapter);
+        };
+
+        adapter.on('connect', handleWalletConnectEvent);
+        adapter.on('disconnect', handleWalletDisconnectEvent);
+        adapter.on('error', handleWalletErrorEvent);
+
+        return () => {
+            adapter.off('connect', handleWalletConnectEvent);
+            adapter.off('disconnect', handleWalletDisconnectEvent);
+            adapter.off('error', handleWalletErrorEvent);
+
+            isConnecting.current = false;
+            setConnecting(false);
+            setConnected(false);
+            isDisconnecting.current = false;
+            setDisconnecting(false);
+            setPublicKey(null);
+        };
     }, [adapter, handleError, isUnloadingRef]);
 
     // When the adapter changes, clear the `autoConnect` tracking flag
@@ -176,7 +191,7 @@ export function WalletProviderBase({
     const sendTransaction: WalletAdapterProps['sendTransaction'] = useCallback(
         async (transaction, connection, options) => {
             if (!adapter) throw handleError(new WalletNotSelectedError());
-            if (!connected) throw handleError(new WalletNotConnectedError());
+            if (!connected) throw handleError(new WalletNotConnectedError(), adapter);
             return await adapter.sendTransaction(transaction, connection, options);
         },
         [adapter, handleError, connected]
@@ -187,7 +202,7 @@ export function WalletProviderBase({
         () =>
             adapter && 'signTransaction' in adapter
                 ? async (transaction) => {
-                      if (!connected) throw handleError(new WalletNotConnectedError());
+                      if (!connected) throw handleError(new WalletNotConnectedError(), adapter);
                       return await adapter.signTransaction(transaction);
                   }
                 : undefined,
@@ -199,7 +214,7 @@ export function WalletProviderBase({
         () =>
             adapter && 'signAllTransactions' in adapter
                 ? async (transactions) => {
-                      if (!connected) throw handleError(new WalletNotConnectedError());
+                      if (!connected) throw handleError(new WalletNotConnectedError(), adapter);
                       return await adapter.signAllTransactions(transactions);
                   }
                 : undefined,
@@ -211,7 +226,7 @@ export function WalletProviderBase({
         () =>
             adapter && 'signMessage' in adapter
                 ? async (message) => {
-                      if (!connected) throw handleError(new WalletNotConnectedError());
+                      if (!connected) throw handleError(new WalletNotConnectedError(), adapter);
                       return await adapter.signMessage(message);
                   }
                 : undefined,
@@ -222,12 +237,8 @@ export function WalletProviderBase({
         if (isConnecting.current || isDisconnecting.current || wallet?.adapter.connected) return;
         if (!wallet) throw handleError(new WalletNotSelectedError());
         const { adapter, readyState } = wallet;
-        if (!(readyState === WalletReadyState.Installed || readyState === WalletReadyState.Loadable)) {
-            if (typeof window !== 'undefined') {
-                window.open(adapter.url, '_blank');
-            }
-            throw handleError(new WalletNotReadyError());
-        }
+        if (!(readyState === WalletReadyState.Installed || readyState === WalletReadyState.Loadable))
+            throw handleError(new WalletNotReadyError(), adapter);
         isConnecting.current = true;
         setConnecting(true);
         try {
