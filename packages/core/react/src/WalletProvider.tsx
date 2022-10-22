@@ -19,7 +19,7 @@ export interface WalletProviderProps {
     children: ReactNode;
     wallets: Adapter[];
     autoConnect?: boolean;
-    onError?: (error: WalletError) => void;
+    onError?: (error: WalletError, adapter?: Adapter) => void;
     localStorageKey?: string;
 }
 
