@@ -61,7 +61,7 @@ importers:
     specifiers:
       '@solana-mobile/wallet-adapter-mobile': ^0.9.6
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/wallet-standard-wallet-adapter-react': ^1.0.0-rc.2
+      '@solana/wallet-standard-wallet-adapter-react': ^1.0.0-rc.3
       '@solana/web3.js': ^1.58.0
       '@types/jest': ^28.1.6
       '@types/react': ^18.0.0
@@ -76,7 +76,7 @@ importers:
     dependencies:
       '@solana-mobile/wallet-adapter-mobile': 0.9.6_235pbdzs3y2h47b3jsjgakxkju
       '@solana/wallet-adapter-base': link:../base
-      '@solana/wallet-standard-wallet-adapter-react': 1.0.0-rc.2_xrck4243qv4bwkpbszkc6z7yiq
+      '@solana/wallet-standard-wallet-adapter-react': 1.0.0-rc.3_xrck4243qv4bwkpbszkc6z7yiq
     devDependencies:
       '@solana/web3.js': 1.66.1
       '@types/jest': 28.1.8
@@ -5276,8 +5276,8 @@ packages:
       bs58: 4.0.1
     dev: false
 
-  /@solana/wallet-standard-wallet-adapter-react/1.0.0-rc.2_xrck4243qv4bwkpbszkc6z7yiq:
-    resolution: {integrity: sha512-p7vF1LbZtsd0F3t7wUmwCqaL7MbddSRo7YJL1D2iRadhmfS3edVmF9PGAij+eO2HuKkcgx7UXiDKxy+BJ7qN+g==}
+  /@solana/wallet-standard-wallet-adapter-react/1.0.0-rc.3_xrck4243qv4bwkpbszkc6z7yiq:
+    resolution: {integrity: sha512-QZz/cXUBjaAwlwfTVLgHCU/ddjhYaXnBQr81ANPrQXmjjVE1KB6hfAFTY4sHQB21tH/frmotpR/k/CRjzUxqrg==}
     peerDependencies:
       '@solana/wallet-adapter-base': '*'
       react: '*'
