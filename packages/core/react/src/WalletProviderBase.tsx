@@ -20,7 +20,7 @@ type Props = Readonly<
         // NOTE: The presence/absence of this handler implies that auto-connect is enabled/disabled.
         onAutoConnectRequest?: () => Promise<void>;
         onConnectError: () => void;
-        onSelectWallet: (walletName: WalletName) => void;
+        onSelectWallet: (walletName: WalletName | null) => void;
     }
 >;
 
