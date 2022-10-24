@@ -4,11 +4,20 @@
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
-    "type": "module",
-    "sideEffects": false,
+    "publishConfig": {
+        "access": "public"
+    },
+    "files": [
+        "lib",
+        "src",
+        "LICENSE",
+        "styles.css"
+    ],
     "engines": {
         "node": ">=16"
     },
+    "type": "module",
+    "sideEffects": false,
     "main": "./lib/cjs/index.js",
     "module": "./lib/esm/index.js",
     "types": "./lib/types/index.d.ts",
@@ -19,15 +28,6 @@
             "types": "./lib/types/index.d.ts"
         },
         "./styles.css": "./styles.css"
-    },
-    "files": [
-        "lib",
-        "src",
-        "LICENSE",
-        "styles.css"
-    ],
-    "publishConfig": {
-        "access": "public"
     },
     "scripts": {
         "clean": "shx mkdir -p lib && shx rm -rf lib",
