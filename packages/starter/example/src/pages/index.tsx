@@ -22,8 +22,6 @@ import React from 'react';
 import pkg from '../../package.json';
 import { useAutoConnect } from '../components/AutoConnectProvider';
 import { RequestAirdrop } from '../components/RequestAirdrop';
-import { SendLegacyTransactionWithAnchorWallet } from '../components/SendLegacyTransactionWithAnchorWallet';
-import { SendV0TransactionWithAnchorWallet } from '../components/SendV0TransactionWithAnchorWallet';
 import { SendLegacyTransaction } from '../components/SendLegacyTransaction';
 import { SendTransaction } from '../components/SendTransaction';
 import { SendV0Transaction } from '../components/SendV0Transaction';
@@ -131,17 +129,6 @@ const Index: NextPage = () => {
                     </TableCell>
                     <TableCell>
                         <SendV0Transaction />
-                    </TableCell>
-                    <TableCell></TableCell>
-                </TableRow>
-                <TableRow>
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>
-                    <TableCell>
-                        <SendLegacyTransactionWithAnchorWallet />
-                    </TableCell>
-                    <TableCell>
-                        <SendV0TransactionWithAnchorWallet />
                     </TableCell>
                     <TableCell></TableCell>
                 </TableRow>

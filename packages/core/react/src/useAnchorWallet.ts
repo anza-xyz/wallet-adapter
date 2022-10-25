@@ -4,8 +4,8 @@ import { useWallet } from './useWallet.js';
 
 export interface AnchorWallet {
     publicKey: PublicKey;
-    signTransaction(transaction: Transaction | VersionedTransaction): Promise<Transaction | VersionedTransaction>;
-    signAllTransactions(transactions: (Transaction | VersionedTransaction)[]): Promise<(Transaction | VersionedTransaction)[]>;
+    signTransaction<T extends Transaction | VersionedTransaction>(transaction: T): Promise<T>;
+    signAllTransactions<T extends Transaction | VersionedTransaction>(transactions: T[]): Promise<T[]>;
 }
 
 export function useAnchorWallet(): AnchorWallet | undefined {
