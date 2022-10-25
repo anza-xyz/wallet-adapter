@@ -1,11 +1,11 @@
-import type { PublicKey, Transaction } from '@solana/web3.js';
+import type { PublicKey, Transaction, VersionedTransaction } from '@solana/web3.js';
 import { useMemo } from 'react';
 import { useWallet } from './useWallet.js';
 
 export interface AnchorWallet {
     publicKey: PublicKey;
-    signTransaction(transaction: Transaction): Promise<Transaction>;
-    signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
+    signTransaction<T extends Transaction | VersionedTransaction>(transaction: T): Promise<T>;
+    signAllTransactions<T extends Transaction | VersionedTransaction>(transactions: T[]): Promise<T[]>;
 }
 
 export function useAnchorWallet(): AnchorWallet | undefined {
