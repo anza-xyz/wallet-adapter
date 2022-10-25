@@ -10,7 +10,8 @@
     "files": [
         "lib",
         "src",
-        "LICENSE"
+        "LICENSE",
+        "styles.css"
     ],
     "engines": {
         "node": ">=16"
