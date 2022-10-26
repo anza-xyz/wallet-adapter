@@ -21,12 +21,16 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
     const wallets = useMemo(
         () => [
             /**
-             * Select the wallets you wish to support, by instantiating wallet adapters here.
+             * Wallets that implement either of these standards will be available automatically.
              *
-             * Common adapters can be found in the npm package `@solana/wallet-adapter-wallets`.
-             * That package supports tree shaking and lazy loading -- only the wallets you import
-             * will be compiled into your application, and only the dependencies of wallets that
-             * your users connect to will be loaded.
+             *   - Solana Mobile Stack Mobile Wallet Adatper Protocol
+             *     (https://github.com/solana-mobile/mobile-wallet-adapter)
+             *   - Wallet Standard
+             *     (https://github.com/wallet-standard/wallet-standard)
+             *
+             * If you wish to support a wallet that supports none of thost standards, instantiate
+             * its legacy wallet adapter here. Common legacy adapters can be found in the npm
+             * package `@solana/wallet-adapter-wallets`.
              */
             new UnsafeBurnerWalletAdapter(),
         ],

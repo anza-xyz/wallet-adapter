@@ -24,7 +24,7 @@ export interface WalletContextState {
     connected: boolean;
     disconnecting: boolean;
 
-    select(walletName: WalletName): void;
+    select(walletName: WalletName | null): void;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
 
@@ -41,7 +41,7 @@ const DEFAULT_CONTEXT = {
     connecting: false,
     connected: false,
     disconnecting: false,
-    select(_name: WalletName) {
+    select(_name: WalletName | null) {
         console.error(constructMissingProviderErrorMessage('get', 'select'));
     },
     connect() {
