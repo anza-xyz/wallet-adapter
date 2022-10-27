@@ -4,10 +4,6 @@ import dynamic from 'next/dynamic';
 import React from 'react';
 import pkg from '../../package.json';
 import { useAutoConnect } from '../components/AutoConnectProvider';
-import { RequestAirdrop } from '../components/RequestAirdrop';
-import { SendLegacyTransaction } from '../components/SendLegacyTransaction';
-import { SendTransaction } from '../components/SendTransaction';
-import { SendV0Transaction } from '../components/SendV0Transaction';
 
 const AntDesignWalletConnectButtonDynamic = dynamic(
     async () => (await import('@solana/wallet-adapter-ant-design')).WalletConnectButton,
@@ -60,7 +56,24 @@ const ReactUIWalletModalButtonDynamic = dynamic(
     { ssr: false }
 );
 
+const RequestAirdropDynamic = dynamic(async () => (await import('../components/RequestAirdrop')).RequestAirdrop, {
+    ssr: false,
+});
+const SendLegacyTransactionDynamic = dynamic(
+    async () => (await import('../components/SendLegacyTransaction')).SendLegacyTransaction,
+    { ssr: false }
+);
+const SendTransactionDynamic = dynamic(async () => (await import('../components/SendTransaction')).SendTransaction, {
+    ssr: false,
+});
+const SendV0TransactionDynamic = dynamic(
+    async () => (await import('../components/SendV0Transaction')).SendV0Transaction,
+    { ssr: false }
+);
 const SignMessageDynamic = dynamic(async () => (await import('../components/SignMessage')).SignMessage, { ssr: false });
+const SignTransactionDynamic = dynamic(async () => (await import('../components/SignTransaction')).SignTransaction, {
+    ssr: false,
+});
 
 const Index: NextPage = () => {
     const { autoConnect, setAutoConnect } = useAutoConnect();
@@ -147,10 +160,10 @@ const Index: NextPage = () => {
                         </Tooltip>
                     </TableCell>
                     <TableCell>
-                        <RequestAirdrop />
+                        <RequestAirdropDynamic />
                     </TableCell>
                     <TableCell>
-                        <SendTransaction />
+                        <SendTransactionDynamic />
                     </TableCell>
                     <TableCell>
                         <SignMessageDynamic />
@@ -160,12 +173,14 @@ const Index: NextPage = () => {
                     <TableCell></TableCell>
                     <TableCell></TableCell>
                     <TableCell>
-                        <SendLegacyTransaction />
+                        <SendLegacyTransactionDynamic />
                     </TableCell>
                     <TableCell>
-                        <SendV0Transaction />
+                        <SendV0TransactionDynamic />
                     </TableCell>
-                    <TableCell></TableCell>
+                    <TableCell>
+                        <SignTransactionDynamic />
+                    </TableCell>
                 </TableRow>
             </TableBody>
         </Table>
