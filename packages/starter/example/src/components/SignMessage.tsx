@@ -12,26 +12,22 @@ export const SignMessage: FC = () => {
 
     const onClick = useCallback(async () => {
         try {
-            // `publicKey` will be null if the wallet isn't connected
             if (!publicKey) throw new Error('Wallet not connected!');
-            // `signMessage` will be undefined if the wallet doesn't support it
             if (!signMessage) throw new Error('Wallet does not support message signing!');
 
-            // Encode anything as bytes
             const message = new TextEncoder().encode('Hello, world!');
-            // Sign the bytes using the wallet
             const signature = await signMessage(message);
-            // Verify that the bytes were signed using the private key that matches the known public key
-            if (!sign.detached.verify(message, signature, publicKey.toBytes())) throw new Error('Invalid signature!');
+            if (!sign.detached.verify(message, signature, publicKey.toBytes()))
+                throw new Error('Message signature invalid!');
 
             notify('success', `Message signature: ${bs58.encode(signature)}`);
         } catch (error: any) {
-            notify('error', `Signing failed: ${error?.message}`);
+            notify('error', `Message signing failing: ${error?.message}`);
         }
-    }, [publicKey, notify, signMessage]);
+    }, [publicKey, signMessage, notify]);
 
     return signMessage ? (
-        <Button variant="contained" color="secondary" onClick={onClick} disabled={!publicKey}>
+        <Button variant="contained" color="secondary" onClick={onClick} disabled={!publicKey || !signMessage}>
             Sign Message
         </Button>
     ) : null;
