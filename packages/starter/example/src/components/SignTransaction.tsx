@@ -31,8 +31,10 @@ export const SignTransaction: FC = () => {
 
             transaction = await signTransaction(transaction);
             if (!transaction.signature) throw new Error('Transaction not signed!');
-            if (!transaction.verifySignatures()) throw new Error('Transaction signature invalid!');
-            notify('info', 'Transaction signed:', bs58.encode(transaction.signature));
+            const signature = bs58.encode(transaction.signature);
+            notify('info', `Transaction signed: ${signature}`);
+            if (!transaction.verifySignatures()) throw new Error(`Transaction signature invalid! ${signature}`);
+            notify('success', `Transaction signature valid! ${signature}`);
         } catch (error: any) {
             notify('error', `Transaction signing failed! ${error?.message}`);
         }
