@@ -13,21 +13,13 @@ export const SendLegacyTransaction: FC = () => {
     const supportedTransactionVersions = wallet?.adapter.supportedTransactionVersions;
 
     const onClick = useCallback(async () => {
-        if (!publicKey) {
-            notify('error', 'Wallet not connected!');
-            return;
-        }
-
-        if (!supportedTransactionVersions) {
-            notify('error', "Wallet doesn't support versioned transactions!");
-            return;
-        } else if (!supportedTransactionVersions.has('legacy')) {
-            notify('error', "Wallet doesn't support legacy transactions!");
-            return;
-        }
-
-        let signature: TransactionSignature = '';
+        let signature: TransactionSignature | undefined = undefined;
         try {
+            if (!publicKey) throw new Error('Wallet not connected!');
+            if (!supportedTransactionVersions) throw new Error("Wallet doesn't support versioned transactions!");
+            if (!supportedTransactionVersions.has('legacy'))
+                throw new Error("Wallet doesn't support legacy transactions!");
+
             const {
                 context: { slot: minContextSlot },
                 value: { blockhash, lastValidBlockHeight },
@@ -35,6 +27,7 @@ export const SendLegacyTransaction: FC = () => {
 
             const message = new TransactionMessage({
                 payerKey: publicKey,
+                recentBlockhash: blockhash,
                 instructions: [
                     {
                         data: Buffer.from('Hello, from the Solana Wallet Adapter example app!'),
@@ -42,9 +35,7 @@ export const SendLegacyTransaction: FC = () => {
                         programId: new PublicKey('MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr'),
                     },
                 ],
-                recentBlockhash: blockhash,
             });
-
             const transaction = new VersionedTransaction(message.compileToLegacyMessage());
 
             signature = await sendTransaction(transaction, connection, { minContextSlot });
@@ -54,9 +45,8 @@ export const SendLegacyTransaction: FC = () => {
             notify('success', 'Transaction successful!', signature);
         } catch (error: any) {
             notify('error', `Transaction failed! ${error?.message}`, signature);
-            return;
         }
-    }, [publicKey, notify, connection, sendTransaction, supportedTransactionVersions]);
+    }, [publicKey, supportedTransactionVersions, connection, sendTransaction, notify]);
 
     return (
         <Button

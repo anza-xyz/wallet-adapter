@@ -37,7 +37,8 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
              */
             new UnsafeBurnerWalletAdapter(),
         ],
-        []
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [network]
     );
 
     return (

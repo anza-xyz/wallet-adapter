@@ -13,21 +13,12 @@ export const SendV0Transaction: FC = () => {
     const supportedTransactionVersions = wallet?.adapter.supportedTransactionVersions;
 
     const onClick = useCallback(async () => {
-        if (!publicKey) {
-            notify('error', 'Wallet not connected!');
-            return;
-        }
-
-        if (!supportedTransactionVersions) {
-            notify('error', "Wallet doesn't support versioned transactions!");
-            return;
-        } else if (!supportedTransactionVersions.has(0)) {
-            notify('error', "Wallet doesn't support v0 transactions!");
-            return;
-        }
-
-        let signature: TransactionSignature = '';
+        let signature: TransactionSignature | undefined = undefined;
         try {
+            if (!publicKey) throw new Error('Wallet not connected!');
+            if (!supportedTransactionVersions) throw new Error("Wallet doesn't support versioned transactions!");
+            if (!supportedTransactionVersions.has(0)) throw new Error("Wallet doesn't support v0 transactions!");
+
             /**
              * This lookup table only exists on devnet and can be replaced as
              * needed.  To create and manage a lookup table, use the `solana
@@ -36,10 +27,7 @@ export const SendV0Transaction: FC = () => {
             const { value: lookupTable } = await connection.getAddressLookupTable(
                 new PublicKey('F3MfgEJe1TApJiA14nN2m4uAH4EBVrqdBnHeGeSXvQ7B')
             );
-            if (!lookupTable) {
-                notify('error', "Address lookup table wasn't found!");
-                return;
-            }
+            if (!lookupTable) throw new Error("Address lookup table wasn't found!");
 
             const {
                 context: { slot: minContextSlot },
@@ -48,6 +36,7 @@ export const SendV0Transaction: FC = () => {
 
             const message = new TransactionMessage({
                 payerKey: publicKey,
+                recentBlockhash: blockhash,
                 instructions: [
                     {
                         data: Buffer.from('Hello, from the Solana Wallet Adapter example app!'),
@@ -59,11 +48,8 @@ export const SendV0Transaction: FC = () => {
                         programId: new PublicKey('Memo1UhkJRfHyvLMcVucJwxXeuD728EqVDDwQDxFMNo'),
                     },
                 ],
-                recentBlockhash: blockhash,
             });
-
-            const lookupTables = [lookupTable];
-            const transaction = new VersionedTransaction(message.compileToV0Message(lookupTables));
+            const transaction = new VersionedTransaction(message.compileToV0Message([lookupTable]));
 
             signature = await sendTransaction(transaction, connection, { minContextSlot });
             notify('info', 'Transaction sent:', signature);
@@ -72,9 +58,8 @@ export const SendV0Transaction: FC = () => {
             notify('success', 'Transaction successful!', signature);
         } catch (error: any) {
             notify('error', `Transaction failed! ${error?.message}`, signature);
-            return;
         }
-    }, [publicKey, notify, connection, sendTransaction, supportedTransactionVersions]);
+    }, [publicKey, supportedTransactionVersions, connection, sendTransaction, notify]);
 
     return (
         <Button

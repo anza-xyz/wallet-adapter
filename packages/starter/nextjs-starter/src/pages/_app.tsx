@@ -34,7 +34,8 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
              */
             new UnsafeBurnerWalletAdapter(),
         ],
-        []
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [network]
     );
 
     return (
