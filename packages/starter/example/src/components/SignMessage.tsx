@@ -26,9 +26,9 @@ export const SignMessage: FC = () => {
         }
     }, [publicKey, signMessage, notify]);
 
-    return signMessage ? (
+    return (
         <Button variant="contained" color="secondary" onClick={onClick} disabled={!publicKey || !signMessage}>
             Sign Message
         </Button>
-    ) : null;
+    );
 };
