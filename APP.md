@@ -62,7 +62,8 @@ export const Wallet: FC = () => {
              */
             new UnsafeBurnerWalletAdapter(),
         ],
-        []
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [network]
     );
 
     return (
