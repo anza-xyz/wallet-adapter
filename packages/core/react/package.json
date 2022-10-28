@@ -27,7 +27,7 @@
     },
     "scripts": {
         "clean": "shx mkdir -p lib && shx rm -rf lib",
-        "package": "shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json",
+        "package": "shx mkdir -p lib/cjs && shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json",
         "test": "jest"
     },
     "peerDependencies": {
