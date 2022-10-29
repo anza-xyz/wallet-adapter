@@ -1,13 +1,13 @@
-import type {
-    Adapter,
-    MessageSignerWalletAdapterProps,
-    SendTransactionOptions,
-    SignerWalletAdapterProps,
-    WalletAdapterProps,
-    WalletName,
-    WalletReadyState,
+import {
+    type Adapter,
+    type MessageSignerWalletAdapterProps,
+    type SendTransactionOptions,
+    type SignerWalletAdapterProps,
+    type WalletAdapterProps,
+    type WalletName,
+    type WalletReadyState,
 } from '@solana/wallet-adapter-base';
-import type { Connection, PublicKey, Transaction, VersionedTransaction } from '@solana/web3.js';
+import { type Connection, type PublicKey, type Transaction, type VersionedTransaction } from '@solana/web3.js';
 import { createContext, useContext } from 'react';
 
 export interface Wallet {

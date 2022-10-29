@@ -4,20 +4,20 @@
 
 'use strict';
 
-import type { AddressSelector, AuthorizationResultCache } from '@solana-mobile/wallet-adapter-mobile';
-import { SolanaMobileWalletAdapter } from '@solana-mobile/wallet-adapter-mobile';
-import type { Adapter, WalletName } from '@solana/wallet-adapter-base';
-import { WalletError, WalletReadyState } from '@solana/wallet-adapter-base';
+import {
+    SolanaMobileWalletAdapter,
+    type AddressSelector,
+    type AuthorizationResultCache,
+} from '@solana-mobile/wallet-adapter-mobile';
+import { WalletError, WalletReadyState, type Adapter, type WalletName } from '@solana/wallet-adapter-base';
 import { PublicKey } from '@solana/web3.js';
 import 'jest-localstorage-mock';
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
 import { createRoot } from 'react-dom/client';
 import { act } from 'react-dom/test-utils';
 import { MockWalletAdapter } from '../__mocks__/MockWalletAdapter.js';
-import type { WalletContextState } from '../useWallet.js';
-import { useWallet } from '../useWallet.js';
-import type { WalletProviderProps } from '../WalletProvider.js';
-import { WalletProvider } from '../WalletProvider.js';
+import { useWallet, type WalletContextState } from '../useWallet.js';
+import { WalletProvider, type WalletProviderProps } from '../WalletProvider.js';
 
 jest.mock('../getEnvironment.js', () => ({
     ...jest.requireActual('../getEnvironment.js'),

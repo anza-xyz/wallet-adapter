@@ -1,13 +1,15 @@
-import type {
-    Adapter,
-    MessageSignerWalletAdapterProps,
-    SignerWalletAdapterProps,
-    WalletAdapterProps,
-    WalletError,
-    WalletName,
+import {
+    WalletNotConnectedError,
+    WalletNotReadyError,
+    WalletReadyState,
+    type Adapter,
+    type MessageSignerWalletAdapterProps,
+    type SignerWalletAdapterProps,
+    type WalletAdapterProps,
+    type WalletError,
+    type WalletName,
 } from '@solana/wallet-adapter-base';
-import { WalletNotConnectedError, WalletNotReadyError, WalletReadyState } from '@solana/wallet-adapter-base';
-import type { PublicKey } from '@solana/web3.js';
+import { type PublicKey } from '@solana/web3.js';
 import React, { type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { WalletNotSelectedError } from './errors.js';
 import { WalletContext } from './useWallet.js';

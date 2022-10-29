@@ -1,4 +1,4 @@
-import type { WalletName } from '@solana/wallet-adapter-base';
+import { type WalletName } from '@solana/wallet-adapter-base';
 import { MockWalletAdapter } from '../../src/__mocks__/MockWalletAdapter.js';
 
 export const SolanaMobileWalletAdapterWalletName = 'Solana Mobile Wallet Adapter Name For Tests';
