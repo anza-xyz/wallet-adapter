@@ -122,12 +122,12 @@ export function WalletProviderBase({
         const handleWalletDisconnectEvent = () => {
             if (isUnloadingRef.current) return;
 
+            setPublicKey(null);
             isConnecting.current = false;
             setConnecting(false);
             setConnected(false);
             isDisconnecting.current = false;
             setDisconnecting(false);
-            setPublicKey(null);
         };
 
         const handleWalletErrorEvent = (error: WalletError) => {
