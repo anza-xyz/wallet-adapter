@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-react-ui
 
+## 0.9.21
+
+### Patch Changes
+
+-   Updated dependencies [0e62d22]
+    -   @solana/wallet-adapter-react@0.15.23
+
 ## 0.9.20
 
 ### Patch Changes
