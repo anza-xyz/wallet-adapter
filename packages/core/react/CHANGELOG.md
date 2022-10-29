@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-react
 
+## 0.15.23
+
+### Patch Changes
+
+-   0e62d22: Fix for WalletProvider state being reset when `onError` function changes #637
+
 ## 0.15.22
 
 ### Patch Changes
