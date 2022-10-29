@@ -16,10 +16,10 @@ export function useLocalStorage<T>(key: string, defaultState: T): [T, Dispatch<S
     });
     const value = state[0];
 
-    const isFirstRender = useRef(true);
+    const isFirstRenderRef = useRef(true);
     useEffect(() => {
-        if (isFirstRender.current) {
-            isFirstRender.current = false;
+        if (isFirstRenderRef.current) {
+            isFirstRenderRef.current = false;
             return;
         }
         try {

@@ -6,10 +6,8 @@
 
 import type { AddressSelector, AuthorizationResultCache } from '@solana-mobile/wallet-adapter-mobile';
 import { SolanaMobileWalletAdapter, SolanaMobileWalletAdapterWalletName } from '@solana-mobile/wallet-adapter-mobile';
-
 import type { Adapter, WalletName } from '@solana/wallet-adapter-base';
 import { BaseWalletAdapter, WalletError, WalletReadyState } from '@solana/wallet-adapter-base';
-
 import type { Connection } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import 'jest-localstorage-mock';
