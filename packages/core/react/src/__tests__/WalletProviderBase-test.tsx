@@ -276,6 +276,28 @@ describe('WalletProviderBase', () => {
             });
             expect(onError).not.toBeCalled();
         });
+        describe('when a wallet is connected', () => {
+            beforeEach(async () => {
+                await act(() => {
+                    ref.current?.getWalletContextState().connect();
+                });
+                expect(ref.current?.getWalletContextState()).toMatchObject({
+                    connected: true,
+                });
+            });
+            describe('then the `onError` function changes', () => {
+                beforeEach(async () => {
+                    const differentOnError = jest.fn(); /* Some function, different from the one above */
+                    renderTest({ adapter: fooWalletAdapter, onError: differentOnError });
+                });
+                it('does not cause state to be cleared when it changes', () => {
+                    // Regression test for https://github.com/solana-labs/wallet-adapter/issues/636
+                    expect(ref.current?.getWalletContextState()).toMatchObject({
+                        connected: true,
+                    });
+                });
+            });
+        });
     });
     describe('connect()', () => {
         describe('given an adapter that is not ready', () => {
