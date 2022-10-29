@@ -142,13 +142,6 @@ export function WalletProviderBase({
             adapter.off('connect', handleWalletConnectEvent);
             adapter.off('disconnect', handleWalletDisconnectEvent);
             adapter.off('error', handleWalletErrorEvent);
-
-            isConnecting.current = false;
-            setConnecting(false);
-            setConnected(false);
-            isDisconnecting.current = false;
-            setDisconnecting(false);
-            setPublicKey(null);
         };
     }, [adapter, handleError, isUnloadingRef]);
 
