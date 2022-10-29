@@ -1,6 +1,5 @@
 import { SolanaMobileWalletAdapterWalletName } from '@solana-mobile/wallet-adapter-mobile';
-import type { Adapter } from '@solana/wallet-adapter-base';
-import { WalletReadyState } from '@solana/wallet-adapter-base';
+import { WalletReadyState, type Adapter } from '@solana/wallet-adapter-base';
 
 export enum Environment {
     DESKTOP_WEB,

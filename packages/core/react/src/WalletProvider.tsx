@@ -5,12 +5,11 @@ import {
     SolanaMobileWalletAdapter,
     SolanaMobileWalletAdapterWalletName,
 } from '@solana-mobile/wallet-adapter-mobile';
-import type { Adapter, WalletError, WalletName } from '@solana/wallet-adapter-base';
+import { type Adapter, type WalletError, type WalletName } from '@solana/wallet-adapter-base';
 import { useStandardWalletAdapters } from '@solana/wallet-standard-wallet-adapter-react';
-import type { ReactNode } from 'react';
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
-import getInferredClusterFromEndpoint from './getInferredClusterFromEndpoint.js';
+import React, { useCallback, useEffect, useMemo, useRef, type ReactNode } from 'react';
 import getEnvironment, { Environment } from './getEnvironment.js';
+import getInferredClusterFromEndpoint from './getInferredClusterFromEndpoint.js';
 import { useConnection } from './useConnection.js';
 import { useLocalStorage } from './useLocalStorage.js';
 import { WalletProviderBase } from './WalletProviderBase.js';
@@ -19,8 +18,8 @@ export interface WalletProviderProps {
     children: ReactNode;
     wallets: Adapter[];
     autoConnect?: boolean;
-    onError?: (error: WalletError, adapter?: Adapter) => void;
     localStorageKey?: string;
+    onError?: (error: WalletError, adapter?: Adapter) => void;
 }
 
 let _userAgent: string | null;
@@ -45,10 +44,11 @@ function getUriForAppIdentity() {
 }
 
 export function WalletProvider({
+    children,
+    wallets: adapters,
     autoConnect,
     localStorageKey = 'walletName',
-    wallets: adapters,
-    ...props
+    onError,
 }: WalletProviderProps) {
     const { connection } = useConnection();
     const adaptersWithStandardAdapters = useStandardWalletAdapters(adapters);
@@ -91,7 +91,7 @@ export function WalletProvider({
             return;
         }
         function handleDisconnect() {
-            if (isUnloading.current) {
+            if (isUnloadingRef.current) {
                 return;
             }
             if (walletName === SolanaMobileWalletAdapterWalletName && getIsMobile(adaptersWithStandardAdapters)) {
@@ -131,14 +131,14 @@ export function WalletProvider({
             }
         };
     }, [adapter]);
-    const isUnloading = useRef(false);
+    const isUnloadingRef = useRef(false);
     useEffect(() => {
         if (walletName === SolanaMobileWalletAdapterWalletName && getIsMobile(adaptersWithStandardAdapters)) {
-            isUnloading.current = false;
+            isUnloadingRef.current = false;
             return;
         }
         function handleBeforeUnload() {
-            isUnloading.current = true;
+            isUnloadingRef.current = true;
         }
         /**
          * Some wallets fire disconnection events when the window unloads. Since there's no way to
@@ -160,13 +160,15 @@ export function WalletProvider({
     }, [adapter, setWalletName]);
     return (
         <WalletProviderBase
-            {...props}
+            wallets={adaptersWithMobileWalletAdapter}
             adapter={adapter}
-            isUnloadingRef={isUnloading}
+            isUnloadingRef={isUnloadingRef}
             onAutoConnectRequest={handleAutoConnectRequest}
             onConnectError={handleConnectError}
+            onError={onError}
             onSelectWallet={setWalletName}
-            wallets={adaptersWithMobileWalletAdapter}
-        />
+        >
+            {children}
+        </WalletProviderBase>
     );
 }

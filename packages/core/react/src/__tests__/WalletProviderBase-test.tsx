@@ -4,17 +4,20 @@
 
 'use strict';
 
-import type { Adapter, WalletName } from '@solana/wallet-adapter-base';
-import { BaseWalletAdapter, WalletError, WalletNotReadyError, WalletReadyState } from '@solana/wallet-adapter-base';
-
+import {
+    BaseWalletAdapter,
+    WalletError,
+    WalletNotReadyError,
+    WalletReadyState,
+    type Adapter,
+    type WalletName,
+} from '@solana/wallet-adapter-base';
 import { PublicKey } from '@solana/web3.js';
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
 import { createRoot } from 'react-dom/client';
 import { act } from 'react-dom/test-utils';
-import type { WalletContextState } from '../useWallet.js';
-import { useWallet } from '../useWallet.js';
-import type { WalletProviderProps } from '../WalletProvider.js';
-import { WalletProviderBase } from '../WalletProviderBase.js';
+import { useWallet, type WalletContextState } from '../useWallet.js';
+import { WalletProviderBase, type WalletProviderBaseProps } from '../WalletProviderBase.js';
 
 type TestRefType = {
     getWalletContextState(): WalletContextState;
@@ -45,19 +48,19 @@ describe('WalletProviderBase', () => {
     let isUnloading: React.MutableRefObject<boolean>;
 
     function renderTest(
-        props: Omit<WalletProviderProps, 'autoConnect' | 'children' | 'wallets'> & {
-            adapter: Adapter | null;
-            onAutoConnectRequest?: () => Promise<void>;
-        }
+        props: Omit<
+            WalletProviderBaseProps,
+            'children' | 'wallets' | 'isUnloadingRef' | 'onConnectError' | 'onSelectWallet'
+        >
     ) {
         act(() => {
             root.render(
                 <WalletProviderBase
-                    {...props}
+                    wallets={adapters}
+                    isUnloadingRef={isUnloading}
                     onConnectError={jest.fn()}
                     onSelectWallet={jest.fn()}
-                    isUnloadingRef={isUnloading}
-                    wallets={adapters}
+                    {...props}
                 >
                     <TestComponent ref={ref} />
                 </WalletProviderBase>
@@ -260,7 +263,7 @@ describe('WalletProviderBase', () => {
         let onError: jest.Mock;
         beforeEach(async () => {
             onError = jest.fn();
-            renderTest({ onError, adapter: fooWalletAdapter });
+            renderTest({ adapter: fooWalletAdapter, onError });
         });
         it('gets called in response to adapter errors', () => {
             act(() => {
@@ -275,6 +278,28 @@ describe('WalletProviderBase', () => {
                 fooWalletAdapter.emit('error', errorToEmit);
             });
             expect(onError).not.toBeCalled();
+        });
+        describe('when a wallet is connected', () => {
+            beforeEach(async () => {
+                await act(() => {
+                    ref.current?.getWalletContextState().connect();
+                });
+                expect(ref.current?.getWalletContextState()).toMatchObject({
+                    connected: true,
+                });
+            });
+            describe('then the `onError` function changes', () => {
+                beforeEach(async () => {
+                    const differentOnError = jest.fn(); /* Some function, different from the one above */
+                    renderTest({ adapter: fooWalletAdapter, onError: differentOnError });
+                });
+                it('does not cause state to be cleared when it changes', () => {
+                    // Regression test for https://github.com/solana-labs/wallet-adapter/issues/636
+                    expect(ref.current?.getWalletContextState()).toMatchObject({
+                        connected: true,
+                    });
+                });
+            });
         });
     });
     describe('connect()', () => {
