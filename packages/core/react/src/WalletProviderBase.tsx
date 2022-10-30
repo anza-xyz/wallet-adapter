@@ -26,6 +26,13 @@ export interface WalletProviderBaseProps {
     onSelectWallet: (walletName: WalletName | null) => void;
 }
 
+export function defaultOnError(error: WalletError, adapter?: Adapter) {
+    console.error(error, adapter);
+    if (error instanceof WalletNotReadyError && typeof window !== 'undefined' && adapter) {
+        window.open(adapter.url, '_blank');
+    }
+}
+
 export function WalletProviderBase({
     children,
     wallets: adapters,
@@ -33,12 +40,7 @@ export function WalletProviderBase({
     isUnloadingRef,
     onAutoConnectRequest,
     onConnectError,
-    onError = (error, adapter) => {
-        console.error(error, adapter);
-        if (error instanceof WalletNotReadyError && typeof window !== 'undefined' && adapter) {
-            window.open(adapter.url, '_blank');
-        }
-    },
+    onError,
     onSelectWallet,
 }: WalletProviderBaseProps) {
     const isConnectingRef = useRef(false);
@@ -50,14 +52,14 @@ export function WalletProviderBase({
 
     const handleErrorRef = useRef((error: WalletError, adapter?: Adapter) => {
         if (!isUnloadingRef.current) {
-            onError(error, adapter);
+            (onError || defaultOnError)(error, adapter);
         }
         return error;
     });
     useEffect(() => {
         handleErrorRef.current = (error, adapter) => {
             if (!isUnloadingRef.current) {
-                onError(error, adapter);
+                (onError || defaultOnError)(error, adapter);
             }
             return error;
         };
