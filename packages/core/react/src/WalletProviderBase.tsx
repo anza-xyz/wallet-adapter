@@ -26,13 +26,6 @@ export interface WalletProviderBaseProps {
     onSelectWallet: (walletName: WalletName | null) => void;
 }
 
-export function defaultOnError(error: WalletError, adapter?: Adapter) {
-    console.error(error, adapter);
-    if (error instanceof WalletNotReadyError && typeof window !== 'undefined' && adapter) {
-        window.open(adapter.url, '_blank');
-    }
-}
-
 export function WalletProviderBase({
     children,
     wallets: adapters,
@@ -50,20 +43,30 @@ export function WalletProviderBase({
     const [publicKey, setPublicKey] = useState(() => adapter?.publicKey ?? null);
     const [connected, setConnected] = useState(() => adapter?.connected ?? false);
 
+    /**
+     * Store the error handlers as refs so that a change in the
+     * custom error handler does not recompute other dependencies.
+     */
+    const customOnErrorRef = useRef(onError);
+    useEffect(() => {
+        customOnErrorRef.current = onError;
+        return () => {
+            customOnErrorRef.current = undefined;
+        };
+    }, [onError]);
     const handleErrorRef = useRef((error: WalletError, adapter?: Adapter) => {
         if (!isUnloadingRef.current) {
-            (onError || defaultOnError)(error, adapter);
+            if (customOnErrorRef.current) {
+                customOnErrorRef.current(error, adapter);
+            } else {
+                console.error(error, adapter);
+                if (error instanceof WalletNotReadyError && typeof window !== 'undefined' && adapter) {
+                    window.open(adapter.url, '_blank');
+                }
+            }
         }
         return error;
     });
-    useEffect(() => {
-        handleErrorRef.current = (error, adapter) => {
-            if (!isUnloadingRef.current) {
-                (onError || defaultOnError)(error, adapter);
-            }
-            return error;
-        };
-    }, [isUnloadingRef, onError]);
 
     // Wrap adapters to conform to the `Wallet` interface
     const [wallets, setWallets] = useState(() =>
