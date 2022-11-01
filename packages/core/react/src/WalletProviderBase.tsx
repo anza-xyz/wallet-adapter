@@ -47,17 +47,17 @@ export function WalletProviderBase({
      * Store the error handlers as refs so that a change in the
      * custom error handler does not recompute other dependencies.
      */
-    const customOnErrorRef = useRef(onError);
+    const onErrorRef = useRef(onError);
     useEffect(() => {
-        customOnErrorRef.current = onError;
+        onErrorRef.current = onError;
         return () => {
-            customOnErrorRef.current = undefined;
+            onErrorRef.current = undefined;
         };
     }, [onError]);
     const handleErrorRef = useRef((error: WalletError, adapter?: Adapter) => {
         if (!isUnloadingRef.current) {
-            if (customOnErrorRef.current) {
-                customOnErrorRef.current(error, adapter);
+            if (onErrorRef.current) {
+                onErrorRef.current(error, adapter);
             } else {
                 console.error(error, adapter);
                 if (error instanceof WalletNotReadyError && typeof window !== 'undefined' && adapter) {
