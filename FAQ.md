@@ -1,5 +1,7 @@
 # FAQ (Frequently Asked Questions)
 
+Please search https://solana.stackexchange.com and the issues in the repo. Issues are only for bug reports and feature requests.
+
 - [I am building an app, how do I use this?](#i-am-building-an-app-how-do-i-use-this)
 - [I am building a wallet, how do I use this?](#i-am-building-a-wallet-how-do-i-use-this)
 - [How can I get support?](#how-can-i-get-support)
