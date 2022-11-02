@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-react
 
+## 0.15.24
+
+### Patch Changes
+
+-   21200bc: Optimize `WalletProvider.onError`
+
 ## 0.15.23
 
 ### Patch Changes
