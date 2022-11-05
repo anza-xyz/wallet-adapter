@@ -1,7 +1,9 @@
-import { Button, ButtonProps } from '@mui/material';
+import type { ButtonProps } from '@mui/material';
+import { Button } from '@mui/material';
 import { useWallet } from '@solana/wallet-adapter-react';
-import React, { FC, MouseEventHandler, useCallback, useMemo } from 'react';
-import { WalletIcon } from './WalletIcon';
+import type { FC, MouseEventHandler } from 'react';
+import React, { useCallback, useMemo } from 'react';
+import { WalletIcon } from './WalletIcon.js';
 
 export const WalletDisconnectButton: FC<ButtonProps> = ({
     color = 'primary',

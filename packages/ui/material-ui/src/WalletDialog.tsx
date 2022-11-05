@@ -1,22 +1,23 @@
 import { Close as CloseIcon, ExpandLess as CollapseIcon, ExpandMore as ExpandIcon } from '@mui/icons-material';
+import type { DialogProps, Theme } from '@mui/material';
 import {
     Button,
     Collapse,
     Dialog,
     DialogContent,
-    DialogProps,
     DialogTitle,
     IconButton,
     List,
     ListItem,
     styled,
-    Theme,
 } from '@mui/material';
-import { WalletName } from '@solana/wallet-adapter-base';
+import type { WalletName } from '@solana/wallet-adapter-base';
+import { WalletReadyState } from '@solana/wallet-adapter-base';
 import { useWallet } from '@solana/wallet-adapter-react';
-import React, { FC, ReactElement, SyntheticEvent, useCallback, useMemo, useState } from 'react';
-import { useWalletDialog } from './useWalletDialog';
-import { WalletListItem } from './WalletListItem';
+import type { FC, ReactElement, SyntheticEvent } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
+import { useWalletDialog } from './useWalletDialog.js';
+import { WalletListItem } from './WalletListItem.js';
 
 const RootDialog = styled(Dialog)(({ theme }: { theme: Theme }) => ({
     '& .MuiDialog-paper': {
@@ -87,13 +88,14 @@ export const WalletDialog: FC<WalletDialogProps> = ({
     const { open, setOpen } = useWalletDialog();
     const [expanded, setExpanded] = useState(false);
 
-    const [featured, more] = useMemo(
-        () => [wallets.slice(0, featuredWallets), wallets.slice(featuredWallets)],
-        [wallets, featuredWallets]
-    );
+    const [featured, more] = useMemo(() => {
+        const supportedWallets = wallets.filter((wallet) => wallet.readyState !== WalletReadyState.Unsupported);
+        return [supportedWallets.slice(0, featuredWallets), supportedWallets.slice(featuredWallets)];
+    }, [wallets, featuredWallets]);
 
     const handleClose = useCallback(
         (event: SyntheticEvent, reason?: 'backdropClick' | 'escapeKeyDown') => {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             if (onClose) onClose(event, reason!);
             if (!event.defaultPrevented) setOpen(false);
         },

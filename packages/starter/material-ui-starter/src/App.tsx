@@ -1,18 +1,12 @@
-import { WalletAdapterNetwork, WalletError } from '@solana/wallet-adapter-base';
+import type { Adapter, WalletError } from '@solana/wallet-adapter-base';
+import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { WalletDialogProvider, WalletMultiButton } from '@solana/wallet-adapter-material-ui';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
-import {
-    LedgerWalletAdapter,
-    PhantomWalletAdapter,
-    SlopeWalletAdapter,
-    SolflareWalletAdapter,
-    SolletExtensionWalletAdapter,
-    SolletWalletAdapter,
-    TorusWalletAdapter,
-} from '@solana/wallet-adapter-wallets';
+import { UnsafeBurnerWalletAdapter } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 import { useSnackbar } from 'notistack';
-import React, { FC, ReactNode, useCallback, useMemo } from 'react';
+import type { FC, ReactNode } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Theme } from './Theme';
 
 export const App: FC = () => {
@@ -32,27 +26,31 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
     // You can also provide a custom RPC endpoint.
     const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 
-    // @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking and lazy loading --
-    // Only the wallets you configure here will be compiled into your application, and only the dependencies
-    // of wallets that your users connect to will be loaded.
     const wallets = useMemo(
         () => [
-            new PhantomWalletAdapter(),
-            new SlopeWalletAdapter(),
-            new SolflareWalletAdapter({ network }),
-            new TorusWalletAdapter(),
-            new LedgerWalletAdapter(),
-            new SolletWalletAdapter({ network }),
-            new SolletExtensionWalletAdapter({ network }),
+            /**
+             * Wallets that implement either of these standards will be available automatically.
+             *
+             *   - Solana Mobile Stack Mobile Wallet Adapter Protocol
+             *     (https://github.com/solana-mobile/mobile-wallet-adapter)
+             *   - Solana Wallet Standard
+             *     (https://github.com/solana-labs/wallet-standard)
+             *
+             * If you wish to support a wallet that supports neither of those standards,
+             * instantiate its legacy wallet adapter here. Common legacy adapters can be found
+             * in the npm package `@solana/wallet-adapter-wallets`.
+             */
+            new UnsafeBurnerWalletAdapter(),
         ],
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [network]
     );
 
     const { enqueueSnackbar } = useSnackbar();
     const onError = useCallback(
-        (error: WalletError) => {
+        (error: WalletError, adapter?: Adapter) => {
             enqueueSnackbar(error.message ? `${error.name}: ${error.message}` : error.name, { variant: 'error' });
-            console.error(error);
+            console.error(error, adapter);
         },
         [enqueueSnackbar]
     );

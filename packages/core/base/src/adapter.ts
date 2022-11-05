@@ -1,6 +1,8 @@
-import { Connection, PublicKey, SendOptions, Signer, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { Connection, PublicKey, SendOptions, Signer, Transaction, TransactionSignature } from '@solana/web3.js';
 import EventEmitter from 'eventemitter3';
-import { WalletError } from './errors';
+import type { WalletError } from './errors.js';
+import { WalletNotConnectedError } from './errors.js';
+import type { SupportedTransactionVersions, TransactionOrVersionedTransaction } from './types.js';
 
 export { EventEmitter };
 
@@ -15,29 +17,31 @@ export interface SendTransactionOptions extends SendOptions {
     signers?: Signer[];
 }
 
-// WalletName is a nominal type that wallet adapters should use, e.g. `'MyCryptoWallet' as WalletName`
+// WalletName is a nominal type that wallet adapters should use, e.g. `'MyCryptoWallet' as WalletName<'MyCryptoWallet'>`
 // https://medium.com/@KevinBGreene/surviving-the-typescript-ecosystem-branding-and-type-tagging-6cf6e516523d
-export type WalletName = string & { __brand__: 'WalletName' };
+export type WalletName<T extends string = string> = T & { __brand__: 'WalletName' };
 
-export interface WalletAdapterProps {
-    name: WalletName;
+export interface WalletAdapterProps<Name extends string = string> {
+    name: WalletName<Name>;
     url: string;
     icon: string;
     readyState: WalletReadyState;
     publicKey: PublicKey | null;
     connecting: boolean;
     connected: boolean;
+    supportedTransactionVersions?: SupportedTransactionVersions;
 
     connect(): Promise<void>;
     disconnect(): Promise<void>;
+
     sendTransaction(
-        transaction: Transaction,
+        transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
         connection: Connection,
         options?: SendTransactionOptions
     ): Promise<TransactionSignature>;
 }
 
-export type WalletAdapter = WalletAdapterProps & EventEmitter<WalletAdapterEvents>;
+export type WalletAdapter<Name extends string = string> = WalletAdapterProps<Name> & EventEmitter<WalletAdapterEvents>;
 
 /**
  * A wallet's readiness describes a series of states that the wallet can be in,
@@ -68,60 +72,81 @@ export enum WalletReadyState {
     Unsupported = 'Unsupported',
 }
 
-export abstract class BaseWalletAdapter extends EventEmitter<WalletAdapterEvents> implements WalletAdapter {
-    abstract name: WalletName;
+export abstract class BaseWalletAdapter<Name extends string = string>
+    extends EventEmitter<WalletAdapterEvents>
+    implements WalletAdapter<Name>
+{
+    abstract name: WalletName<Name>;
     abstract url: string;
     abstract icon: string;
     abstract readyState: WalletReadyState;
     abstract publicKey: PublicKey | null;
     abstract connecting: boolean;
+    abstract supportedTransactionVersions?: SupportedTransactionVersions;
 
-    get connected(): boolean {
+    get connected() {
         return !!this.publicKey;
     }
 
     abstract connect(): Promise<void>;
     abstract disconnect(): Promise<void>;
+
     abstract sendTransaction(
-        transaction: Transaction,
+        transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
         connection: Connection,
         options?: SendTransactionOptions
     ): Promise<TransactionSignature>;
-}
 
-type DisposeFn = () => void;
+    protected async prepareTransaction(
+        transaction: Transaction,
+        connection: Connection,
+        options: SendOptions = {}
+    ): Promise<Transaction> {
+        const publicKey = this.publicKey;
+        if (!publicKey) throw new WalletNotConnectedError();
+
+        transaction.feePayer = transaction.feePayer || publicKey;
+        transaction.recentBlockhash =
+            transaction.recentBlockhash ||
+            (
+                await connection.getLatestBlockhash({
+                    commitment: options.preflightCommitment,
+                    minContextSlot: options.minContextSlot,
+                })
+            ).blockhash;
+
+        return transaction;
+    }
+}
 
 export function scopePollingDetectionStrategy(detect: () => boolean): void {
     // Early return when server-side rendering
     if (typeof window === 'undefined' || typeof document === 'undefined') return;
 
-    function performDetection() {
-        const wasDetected = detect();
-        if (wasDetected) {
-            disposeHandles.forEach((disposeFn) => disposeFn());
-            disposeHandles.length = 0;
+    const disposers: (() => void)[] = [];
+
+    function detectAndDispose() {
+        const detected = detect();
+        if (detected) {
+            for (const dispose of disposers) {
+                dispose();
+            }
         }
     }
 
-    const disposeHandles: DisposeFn[] = [];
-
     // Strategy #1: Try detecting every second.
-    const intervalId =
+    const interval =
         // TODO: #334 Replace with idle callback strategy.
-        setInterval(performDetection, 1000);
-    disposeHandles.push(() => {
-        clearInterval(intervalId);
-    });
+        setInterval(detectAndDispose, 1000);
+    disposers.push(() => clearInterval(interval));
 
     // Strategy #2: Detect as soon as the DOM becomes 'ready'/'interactive'.
     if (
         // Implies that `DOMContentLoaded` has not yet fired.
         document.readyState === 'loading'
     ) {
-        document.addEventListener('DOMContentLoaded', performDetection, { once: true });
-        disposeHandles.push(() => {
-            document.removeEventListener('DOMContentLoaded', performDetection);
-        });
+        document.addEventListener('DOMContentLoaded', detectAndDispose, { once: true });
+        disposers.push(() => document.removeEventListener('DOMContentLoaded', detectAndDispose));
     }
 
     // Strategy #3: Detect after the `window` has fully loaded.
@@ -129,12 +154,10 @@ export function scopePollingDetectionStrategy(detect: () => boolean): void {
         // If the `complete` state has been reached, we're too late.
         document.readyState !== 'complete'
     ) {
-        window.addEventListener('load', performDetection, { once: true });
-        disposeHandles.push(() => {
-            window.removeEventListener('load', performDetection);
-        });
+        window.addEventListener('load', detectAndDispose, { once: true });
+        disposers.push(() => window.removeEventListener('load', detectAndDispose));
     }
 
-    // Strategy #4: Run the detector synchronously, now.
-    performDetection();
+    // Strategy #4: Detect synchronously, now.
+    detectAndDispose();
 }

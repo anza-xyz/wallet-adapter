@@ -1,6 +1,8 @@
-import React, { FC, ReactNode, useState } from 'react';
-import { WalletDialogContext } from './useWalletDialog';
-import { WalletDialog, WalletDialogProps } from './WalletDialog';
+import type { FC, ReactNode } from 'react';
+import React, { useState } from 'react';
+import { WalletDialogContext } from './useWalletDialog.js';
+import type { WalletDialogProps } from './WalletDialog.js';
+import { WalletDialog } from './WalletDialog.js';
 
 export interface WalletDialogProviderProps extends WalletDialogProps {
     children: ReactNode;

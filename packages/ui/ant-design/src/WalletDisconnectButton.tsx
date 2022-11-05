@@ -1,7 +1,9 @@
 import { useWallet } from '@solana/wallet-adapter-react';
-import { Button, ButtonProps } from 'antd';
-import React, { FC, MouseEventHandler, useCallback, useMemo } from 'react';
-import { WalletIcon } from './WalletIcon';
+import type { ButtonProps } from 'antd';
+import { Button } from 'antd';
+import type { FC, MouseEventHandler } from 'react';
+import React, { useCallback, useMemo } from 'react';
+import { WalletIcon } from './WalletIcon.js';
 
 export const WalletDisconnectButton: FC<ButtonProps> = ({
     type = 'primary',

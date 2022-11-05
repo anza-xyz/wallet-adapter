@@ -1,7 +1,9 @@
-import { Wallet } from '@solana/wallet-adapter-react';
-import { Button, Menu, MenuItemProps } from 'antd';
-import React, { FC, MouseEventHandler } from 'react';
-import { WalletIcon } from './WalletIcon';
+import type { Wallet } from '@solana/wallet-adapter-react';
+import type { MenuItemProps } from 'antd';
+import { Button, Menu } from 'antd';
+import type { FC, MouseEventHandler } from 'react';
+import React from 'react';
+import { WalletIcon } from './WalletIcon.js';
 
 interface WalletMenuItemProps extends Omit<MenuItemProps, 'onClick'> {
     onClick: MouseEventHandler<HTMLButtonElement>;

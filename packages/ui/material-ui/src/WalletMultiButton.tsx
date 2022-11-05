@@ -1,11 +1,13 @@
 import { FileCopy as CopyIcon, LinkOff as DisconnectIcon, SwapHoriz as SwitchIcon } from '@mui/icons-material';
-import { Button, ButtonProps, Collapse, Fade, ListItemIcon, Menu, MenuItem, styled, Theme } from '@mui/material';
+import type { ButtonProps, Theme } from '@mui/material';
+import { Button, Collapse, Fade, ListItemIcon, Menu, MenuItem, styled } from '@mui/material';
 import { useWallet } from '@solana/wallet-adapter-react';
-import React, { FC, useMemo, useState } from 'react';
-import { useWalletDialog } from './useWalletDialog';
-import { WalletConnectButton } from './WalletConnectButton';
-import { WalletDialogButton } from './WalletDialogButton';
-import { WalletIcon } from './WalletIcon';
+import type { FC } from 'react';
+import React, { useMemo, useState } from 'react';
+import { useWalletDialog } from './useWalletDialog.js';
+import { WalletConnectButton } from './WalletConnectButton.js';
+import { WalletDialogButton } from './WalletDialogButton.js';
+import { WalletIcon } from './WalletIcon.js';
 
 const StyledMenu = styled(Menu)(({ theme }: { theme: Theme }) => ({
     '& .MuiList-root': {

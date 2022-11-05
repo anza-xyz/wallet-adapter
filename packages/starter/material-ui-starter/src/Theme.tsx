@@ -1,7 +1,8 @@
 import { createTheme, StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
 import { SnackbarProvider } from 'notistack';
-import React, { FC, ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
+import React from 'react';
 
 const theme = createTheme({
     palette: {

@@ -8,9 +8,15 @@ module.exports = function (config, env) {
             rules: [
                 ...config.module.rules,
                 {
-                    test: /\.(m?js|ts)$/,
+                    test: /\.m?[jt]sx?$/,
                     enforce: 'pre',
                     use: ['source-map-loader'],
+                },
+                {
+                    test: /\.m?[jt]sx?$/,
+                    resolve: {
+                        fullySpecified: false,
+                    },
                 },
             ],
         },
@@ -25,6 +31,7 @@ module.exports = function (config, env) {
             fallback: {
                 assert: require.resolve('assert'),
                 buffer: require.resolve('buffer'),
+                crypto: require.resolve('crypto-browserify'),
                 stream: require.resolve('stream-browserify'),
             },
         },

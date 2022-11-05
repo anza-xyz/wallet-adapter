@@ -1,42 +1,55 @@
 {
     "name": "@solana/wallet-adapter-react",
-    "version": "0.15.3",
+    "version": "0.15.24",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
-    "type": "module",
-    "sideEffects": false,
-    "main": "lib/cjs/index.js",
-    "module": "lib/esm/index.mjs",
-    "types": "lib/types/index.d.ts",
-    "exports": {
-        "import": "./lib/esm/index.mjs",
-        "require": "./lib/cjs/index.js"
+    "publishConfig": {
+        "access": "public"
     },
     "files": [
         "lib",
         "src",
         "LICENSE"
     ],
-    "publishConfig": {
-        "access": "public"
+    "engines": {
+        "node": ">=16"
+    },
+    "type": "module",
+    "sideEffects": false,
+    "main": "./lib/cjs/index.js",
+    "module": "./lib/esm/index.js",
+    "types": "./lib/types/index.d.ts",
+    "exports": {
+        "require": "./lib/cjs/index.js",
+        "import": "./lib/esm/index.js",
+        "types": "./lib/types/index.d.ts"
     },
     "scripts": {
-        "clean": "shx rm -rf lib/*",
-        "build": "yarn clean && tsc -p tsconfig.json && tsc-esm -p tsconfig.json && tsc -p tsconfig.cjs.json",
-        "test": "jest",
-        "postbuild": "echo '{\"type\":\"commonjs\"}' | npx json > lib/cjs/package.json && echo '{\"type\":\"module\"} ' | npx json > lib/esm/package.json"
+        "clean": "shx mkdir -p lib && shx rm -rf lib",
+        "package": "shx mkdir -p lib/cjs && shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json",
+        "test": "jest"
+    },
+    "peerDependencies": {
+        "@solana/web3.js": "^1.58.0",
+        "react": "*"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.9.4",
-        "@solana/web3.js": "^1.20.0",
-        "react": "^17.0.0"
+        "@solana-mobile/wallet-adapter-mobile": "^0.9.7",
+        "@solana/wallet-adapter-base": "workspace:^",
+        "@solana/wallet-standard-wallet-adapter-react": "^1.0.0"
     },
     "devDependencies": {
-        "@types/jest": "^27.0.0",
-        "@types/react": "^17.0.0",
-        "jest": "^27.0.0",
+        "@solana/web3.js": "^1.58.0",
+        "@types/jest": "^28.1.6",
+        "@types/react": "^18.0.0",
+        "@types/react-dom": "^18.0.0",
+        "jest": "^28.1.3",
+        "jest-environment-jsdom": "^28.1.3",
         "jest-localstorage-mock": "^2.4.18",
-        "ts-jest": "^27.0.0"
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0",
+        "shx": "^0.3.4",
+        "ts-jest": "^28.0.8"
     }
 }

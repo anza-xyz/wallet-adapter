@@ -1,7 +1,9 @@
-import { Button, ListItem, ListItemProps } from '@mui/material';
-import { Wallet } from '@solana/wallet-adapter-react';
-import React, { FC, MouseEventHandler } from 'react';
-import { WalletIcon } from './WalletIcon';
+import type { ListItemProps } from '@mui/material';
+import { Button, ListItem } from '@mui/material';
+import type { Wallet } from '@solana/wallet-adapter-react';
+import type { FC, MouseEventHandler } from 'react';
+import React from 'react';
+import { WalletIcon } from './WalletIcon.js';
 
 interface WalletListItemProps extends Omit<ListItemProps, 'onClick' | 'button'> {
     onClick: MouseEventHandler<HTMLButtonElement>;

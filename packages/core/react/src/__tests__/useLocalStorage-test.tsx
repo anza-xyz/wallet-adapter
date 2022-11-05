@@ -6,9 +6,9 @@
 
 import 'jest-localstorage-mock';
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { act } from 'react-dom/test-utils';
-import { useLocalStorage } from '../useLocalStorage';
+import { useLocalStorage } from '../useLocalStorage.js';
 
 type TestRefType = {
     getPersistedValue(): string;
@@ -51,17 +51,18 @@ const TestComponent = forwardRef(function TestComponentImpl(_props, ref) {
                 setPersistedValue(newValue);
             },
         }),
-        [persistedValue]
+        [persistedValue, setPersistedValue]
     );
     return null;
 });
 
 describe('useLocalStorage', () => {
     let container: HTMLDivElement | null;
+    let root: ReturnType<typeof createRoot>;
     let ref: React.RefObject<TestRefType>;
     function renderTest() {
         act(() => {
-            render(<TestComponent ref={ref} />, container);
+            root.render(<TestComponent ref={ref} />);
         });
     }
     beforeEach(() => {
@@ -69,13 +70,12 @@ describe('useLocalStorage', () => {
         jest.resetAllMocks();
         container = document.createElement('div');
         document.body.appendChild(container);
+        root = createRoot(container);
         ref = createRef();
     });
     afterEach(() => {
-        if (container) {
-            unmountComponentAtNode(container);
-            container.remove();
-            container = null;
+        if (root) {
+            root.unmount();
         }
     });
     describe('getting the persisted value', () => {
@@ -132,11 +132,12 @@ describe('useLocalStorage', () => {
             let cachedLocalStorage: Storage;
             beforeEach(() => {
                 cachedLocalStorage = localStorage;
-                // @ts-ignore
+                // @ts-ignore - readonly
                 delete global.localStorage;
                 expect(renderTest).not.toThrow();
             });
             afterEach(() => {
+                // @ts-ignore - readonly
                 global.localStorage = cachedLocalStorage;
             });
             it('renders with the default value', () => {
@@ -244,11 +245,12 @@ describe('useLocalStorage', () => {
             let cachedLocalStorage: Storage;
             beforeEach(() => {
                 cachedLocalStorage = localStorage;
-                // @ts-ignore
+                // @ts-ignore - readonly
                 delete global.localStorage;
                 expect(renderTest).not.toThrow();
             });
             afterEach(() => {
+                // @ts-ignore - readonly
                 global.localStorage = cachedLocalStorage;
             });
             describe('when setting to a non-null value', () => {

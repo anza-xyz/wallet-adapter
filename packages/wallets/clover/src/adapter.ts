@@ -1,15 +1,17 @@
+import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
     WalletAccountError,
-    WalletName,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import type { Transaction } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 
 interface CloverWallet {
     isCloverWallet?: boolean;
@@ -27,13 +29,14 @@ declare const window: CloverWalletWindow;
 
 export interface CloverWalletAdapterConfig {}
 
-export const CloverWalletName = 'Clover' as WalletName;
+export const CloverWalletName = 'Clover' as WalletName<'Clover'>;
 
 export class CloverWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = CloverWalletName;
     url = 'https://clover.finance';
     icon =
         'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzQiIGhlaWdodD0iNzQiIHZpZXdCb3g9IjAgMCA3NCA3NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTczLjg5NDcgMTguNTc4OEM3My44OTQ3IDI4Ljc4MTUgNjUuNjIzOCAzNy4wNTI1IDU1LjQyMTEgMzcuMDUyNUM0NS4yNTczIDM3LjA1MjUgMzcuMDEwNiAyOC44NDQ2IDM2Ljk0NzcgMTguNjk1NkMzNi44ODUzIDI4LjgxMyAyOC42ODk5IDM3LjAwMTUgMTguNTY5OSAzNy4wNTI3QzI4LjcyODQgMzcuMTA0NSAzNi45NDc0IDQ1LjM1NTUgMzYuOTQ3NCA1NS41MjYyQzM2Ljk0NzQgNjUuNzI4OSAyOC42NzY0IDczLjk5OTggMTguNDczNyA3My45OTk4QzguMjcwOTUgNzMuOTk5OCAwIDY1LjcyODkgMCA1NS41MjYyQzAgNDUuMzU1MyA4LjIxOTM5IDM3LjEwNDEgMTguMzc4MiAzNy4wNTI3QzguMjE5NzIgMzcuMDAwOSAwLjAwMDcxOTU3MiAyOC43NDk5IDAuMDAwNzE5NTcyIDE4LjU3OTNDMC4wMDA3MTk1NzIgOC4zNzY1NCA4LjI3MTY3IDAuMTA1NTkxIDE4LjQ3NDQgMC4xMDU1OTFDMjguNjM4MiAwLjEwNTU5MSAzNi44ODQ5IDguMzEzNDggMzYuOTQ3NyAxOC40NjI1QzM3LjAxMDMgOC4zMTMyNiA0NS4yNTcxIDAuMTA1MTAzIDU1LjQyMTEgMC4xMDUxMDNDNjUuNjIzOCAwLjEwNTEwMyA3My44OTQ3IDguMzc2MDUgNzMuODk0NyAxOC41Nzg4Wk01NS40MjExIDM3LjA1MjVDNDUuMjE4MyAzNy4wNTI1IDM2Ljk0NzQgNDUuMzIzNCAzNi45NDc0IDU1LjUyNjJDMzYuOTQ3NCA2NS43Mjg5IDQ1LjIxODMgNzMuOTk5OCA1NS40MjExIDczLjk5OThDNjUuNjIzOCA3My45OTk4IDczLjg5NDcgNjUuNzI4OSA3My44OTQ3IDU1LjUyNjJDNzMuODk0NyA0NS4zMjM0IDY1LjYyMzggMzcuMDUyNSA1NS40MjExIDM3LjA1MjVaIiBmaWxsPSIjMjdBNTc3Ii8+PC9zdmc+Cg==';
+    readonly supportedTransactionVersions = null;
 
     private _connecting: boolean;
     private _wallet: CloverWallet | null;
@@ -61,15 +64,15 @@ export class CloverWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    get publicKey(): PublicKey | null {
+    get publicKey() {
         return this._publicKey;
     }
 
-    get connecting(): boolean {
+    get connecting() {
         return this._connecting;
     }
 
-    get readyState(): WalletReadyState {
+    get readyState() {
         return this._readyState;
     }
 
@@ -81,7 +84,7 @@ export class CloverWalletAdapter extends BaseMessageSignerWalletAdapter {
             this._connecting = true;
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window!.clover_solana!;
+            const wallet = window.clover_solana!;
 
             let account: string;
             try {
@@ -118,13 +121,13 @@ export class CloverWalletAdapter extends BaseMessageSignerWalletAdapter {
         this.emit('disconnect');
     }
 
-    async signTransaction(transaction: Transaction): Promise<Transaction> {
+    async signTransaction<T extends Transaction>(transaction: T): Promise<T> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return (await wallet.signTransaction(transaction)) || transaction;
+                return ((await wallet.signTransaction(transaction)) as T) || transaction;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -134,13 +137,13 @@ export class CloverWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signAllTransactions(transactions: Transaction[]): Promise<Transaction[]> {
+    async signAllTransactions<T extends Transaction>(transactions: T[]): Promise<T[]> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return (await wallet.signAllTransactions(transactions)) || transactions;
+                return ((await wallet.signAllTransactions(transactions)) as T[]) || transactions;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -159,7 +162,7 @@ export class CloverWalletAdapter extends BaseMessageSignerWalletAdapter {
                 const { signature } = await wallet.signMessage(message);
                 return Uint8Array.from(signature);
             } catch (error: any) {
-                throw new WalletSignTransactionError(error?.message, error);
+                throw new WalletSignMessageError(error?.message, error);
             }
         } catch (error: any) {
             this.emit('error', error);

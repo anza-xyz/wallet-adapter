@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type Dispatch, type SetStateAction } from 'react';
 
-export function useLocalStorage<T>(key: string, defaultState: T): [T, React.Dispatch<React.SetStateAction<T>>] {
+export function useLocalStorage<T>(key: string, defaultState: T): [T, Dispatch<SetStateAction<T>>] {
     const state = useState<T>(() => {
         try {
             const value = localStorage.getItem(key);
             if (value) return JSON.parse(value) as T;
-        } catch (error) {
+        } catch (error: any) {
             if (typeof window !== 'undefined') {
                 console.error(error);
             }
@@ -15,10 +15,10 @@ export function useLocalStorage<T>(key: string, defaultState: T): [T, React.Disp
     });
     const value = state[0];
 
-    const isFirstRender = useRef(true);
+    const isFirstRenderRef = useRef(true);
     useEffect(() => {
-        if (isFirstRender.current) {
-            isFirstRender.current = false;
+        if (isFirstRenderRef.current) {
+            isFirstRenderRef.current = false;
             return;
         }
         try {
@@ -27,12 +27,12 @@ export function useLocalStorage<T>(key: string, defaultState: T): [T, React.Disp
             } else {
                 localStorage.setItem(key, JSON.stringify(value));
             }
-        } catch (error) {
+        } catch (error: any) {
             if (typeof window !== 'undefined') {
                 console.error(error);
             }
         }
-    }, [value]);
+    }, [value, key]);
 
     return state;
 }
