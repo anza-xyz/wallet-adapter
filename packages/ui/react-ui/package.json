@@ -40,7 +40,8 @@
     },
     "dependencies": {
         "@solana/wallet-adapter-base": "workspace:^",
-        "@solana/wallet-adapter-react": "workspace:^"
+        "@solana/wallet-adapter-react": "workspace:^",
+        "react-intl": "^6.2.1"
     },
     "devDependencies": {
         "@solana/web3.js": "^1.58.0",

@@ -1,6 +1,7 @@
 import { useWallet } from '@solana/wallet-adapter-react';
 import type { FC } from 'react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 import type { ButtonProps } from './Button.js';
 import { Button } from './Button.js';
 import { useWalletModal } from './useWalletModal.js';
@@ -84,13 +85,13 @@ export const WalletMultiButton: FC<ButtonProps> = ({ children, ...props }) => {
                 role="menu"
             >
                 <li onClick={copyAddress} className="wallet-adapter-dropdown-list-item" role="menuitem">
-                    {copied ? 'Copied' : 'Copy address'}
+                    {copied ? <FormattedMessage id="copied" /> : <FormattedMessage id="copyAddress" />}
                 </li>
                 <li onClick={openModal} className="wallet-adapter-dropdown-list-item" role="menuitem">
-                    Change wallet
+                    <FormattedMessage id="changeWallet" />
                 </li>
                 <li onClick={disconnect} className="wallet-adapter-dropdown-list-item" role="menuitem">
-                    Disconnect
+                    <FormattedMessage id="disconnect" />
                 </li>
             </ul>
         </div>

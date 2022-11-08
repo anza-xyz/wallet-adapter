@@ -5,6 +5,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import type { FC, MouseEvent } from 'react';
 import React, { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { FormattedMessage } from 'react-intl';
 import { Collapse } from './Collapse.js';
 import { useWalletModal } from './useWalletModal.js';
 import { WalletListItem } from './WalletListItem.js';
@@ -13,6 +14,7 @@ import { WalletSVG } from './WalletSVG.js';
 export interface WalletModalProps {
     className?: string;
     container?: string;
+    locale?: string;
 }
 
 export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 'body' }) => {
@@ -150,7 +152,9 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
                         </button>
                         {installedWallets.length ? (
                             <>
-                                <h1 className="wallet-adapter-modal-title">Connect a wallet on Solana to continue</h1>
+                                <h1 className="wallet-adapter-modal-title">
+                                    <FormattedMessage id="connectToContinue"></FormattedMessage>
+                                </h1>
                                 <ul className="wallet-adapter-modal-list">
                                     {installedWallets.map((wallet) => (
                                         <WalletListItem
@@ -198,7 +202,7 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
                         ) : (
                             <>
                                 <h1 className="wallet-adapter-modal-title">
-                                    You'll need a wallet on Solana to continue
+                                    <FormattedMessage id="needWallet" />
                                 </h1>
                                 <div className="wallet-adapter-modal-middle">
                                     <WalletSVG />
@@ -207,7 +211,7 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
                                         className="wallet-adapter-modal-middle-button"
                                         onClick={(event) => handleWalletClick(event, getStartedWallet.adapter.name)}
                                     >
-                                        Get started
+                                        <FormattedMessage id="getStarted" />
                                     </button>
                                 </div>
                                 {otherWallets.length ? (
@@ -217,7 +221,13 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
                                             onClick={handleCollapseClick}
                                             tabIndex={0}
                                         >
-                                            <span>{expanded ? 'Hide ' : 'Already have a wallet? View '}options</span>
+                                            <span>
+                                                {expanded ? (
+                                                    <FormattedMessage id="hideOptions" />
+                                                ) : (
+                                                    <FormattedMessage id="viewOptions" />
+                                                )}
+                                            </span>
                                             <svg
                                                 width="13"
                                                 height="7"

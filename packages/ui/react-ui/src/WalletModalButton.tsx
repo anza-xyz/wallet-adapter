@@ -1,10 +1,15 @@
 import type { FC, MouseEvent } from 'react';
 import React, { useCallback } from 'react';
+import { FormattedMessage } from 'react-intl';
 import type { ButtonProps } from './Button.js';
 import { Button } from './Button.js';
 import { useWalletModal } from './useWalletModal.js';
 
-export const WalletModalButton: FC<ButtonProps> = ({ children = 'Select Wallet', onClick, ...props }) => {
+export const WalletModalButton: FC<ButtonProps> = ({
+    children = <FormattedMessage id="selectWallet" />,
+    onClick,
+    ...props
+}) => {
     const { visible, setVisible } = useWalletModal();
 
     const handleClick = useCallback(
