@@ -35,10 +35,10 @@ interface PhantomWallet extends EventEmitter<PhantomWalletEvents> {
     isPhantom?: boolean;
     publicKey?: { toBytes(): Uint8Array };
     isConnected: boolean;
-    signTransaction(transaction: Transaction): Promise<Transaction>;
-    signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
+    signTransaction(transaction: Transaction | VersionedTransaction): Promise<Transaction | VersionedTransaction>;
+    signAllTransactions(transactions: (Transaction | VersionedTransaction)[]): Promise<(Transaction | VersionedTransaction)[]>;
     signAndSendTransaction(
-        transaction: Transaction,
+        transaction: Transaction | VersionedTransaction,
         options?: SendOptions
     ): Promise<{ signature: TransactionSignature }>;
     signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
