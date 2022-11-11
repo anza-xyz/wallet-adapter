@@ -735,11 +735,11 @@ importers:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
       '@solana/web3.js': ^1.58.0
-      salmon-adapter-sdk: ^1.1.0
+      salmon-adapter-sdk: ^1.1.1
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
-      salmon-adapter-sdk: 1.1.0_@solana+web3.js@1.66.2
+      salmon-adapter-sdk: 1.1.1_@solana+web3.js@1.66.2
     devDependencies:
       '@solana/web3.js': 1.66.2
       shx: 0.3.4
@@ -16822,8 +16822,8 @@ packages:
   /safer-buffer/2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
 
-  /salmon-adapter-sdk/1.1.0_@solana+web3.js@1.66.2:
-    resolution: {integrity: sha512-8uKgA4+pwtUZRJ1k4tgA+EdF3yqHAst+wrdEJEqS8y9quYEuEGb5+EFonRdNzW1A9N0lX4PBHFalAlbiQ5BZtg==}
+  /salmon-adapter-sdk/1.1.1_@solana+web3.js@1.66.2:
+    resolution: {integrity: sha512-28ysSzmDjx2AbotxSggqdclh9MCwlPJUldKkCph48oS5Xtwu0QOg8T9ZRHS2Mben4Y8sTq6VvxXznKssCYFBJA==}
     peerDependencies:
       '@solana/web3.js': ^1.44.3
     dependencies:
