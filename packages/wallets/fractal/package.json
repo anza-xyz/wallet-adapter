@@ -33,7 +33,7 @@
         "@solana/web3.js": "^1.58.0"
     },
     "dependencies": {
-        "@fractalwagmi/solana-wallet-adapter": "^0.0.8",
+        "@fractalwagmi/solana-wallet-adapter": "0.0.9",
         "@solana/wallet-adapter-base": "workspace:^"
     },
     "devDependencies": {

@@ -1,7 +1,7 @@
 import type { FractalWalletAdapterImpl as FractalWallet } from '@fractalwagmi/solana-wallet-adapter';
 import type { WalletName } from '@solana/wallet-adapter-base';
 import {
-    BaseSignerWalletAdapter,
+    BaseMessageSignerWalletAdapter,
     WalletConfigError,
     WalletConnectionError,
     WalletDisconnectionError,
@@ -11,6 +11,7 @@ import {
     WalletPublicKeyError,
     WalletReadyState,
     WalletSignTransactionError,
+    WalletSignMessageError,
 } from '@solana/wallet-adapter-base';
 import type { Transaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
@@ -19,7 +20,7 @@ export interface FractalWalletAdapterConfig {}
 
 export const FractalWalletName = 'Fractal' as WalletName<'Fractal'>;
 
-export class FractalWalletAdapter extends BaseSignerWalletAdapter {
+export class FractalWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = FractalWalletName;
     url = 'https://developers.fractal.is/wallet-adapters/solana';
     icon =
@@ -144,6 +145,22 @@ export class FractalWalletAdapter extends BaseSignerWalletAdapter {
                 return wallet.signAllTransactions(transactions);
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
+            }
+        } catch (error: any) {
+            this.emit('error', error);
+            throw error;
+        }
+    }
+
+    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+        try {
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
+
+            try {
+                return wallet.signMessage(message);
+            } catch (error: any) {
+                throw new WalletSignMessageError(error?.message, error);
             }
         } catch (error: any) {
             this.emit('error', error);
