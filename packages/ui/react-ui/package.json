@@ -17,7 +17,9 @@
         "node": ">=16"
     },
     "type": "module",
-    "sideEffects": ["styles.css"],
+    "sideEffects": [
+        "styles.css"
+    ],
     "main": "./lib/cjs/index.js",
     "module": "./lib/esm/index.js",
     "types": "./lib/types/index.d.ts",
