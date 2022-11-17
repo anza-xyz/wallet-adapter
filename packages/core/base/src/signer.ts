@@ -3,6 +3,7 @@ import type { SendTransactionOptions, WalletAdapter, WalletAdapterProps } from '
 import { BaseWalletAdapter } from './adapter.js';
 import { WalletSendTransactionError, WalletSignTransactionError } from './errors.js';
 import type { TransactionOrVersionedTransaction } from './types.js';
+import { isVersionedTransaction } from './types.js';
 
 export interface SignerWalletAdapterProps<Name extends string = string> extends WalletAdapterProps<Name> {
     signTransaction<T extends TransactionOrVersionedTransaction<this['supportedTransactionVersions']>>(
@@ -26,7 +27,7 @@ export abstract class BaseSignerWalletAdapter<Name extends string = string>
     ): Promise<TransactionSignature> {
         let emit = true;
         try {
-            if ('version' in transaction) {
+            if (isVersionedTransaction(transaction)) {
                 if (!this.supportedTransactionVersions)
                     throw new WalletSendTransactionError(
                         `Sending versioned transactions isn't supported by this wallet`
@@ -89,7 +90,7 @@ export abstract class BaseSignerWalletAdapter<Name extends string = string>
         transactions: T[]
     ): Promise<T[]> {
         for (const transaction of transactions) {
-            if ('version' in transaction) {
+            if (isVersionedTransaction(transaction)) {
                 if (!this.supportedTransactionVersions)
                     throw new WalletSignTransactionError(
                         `Signing versioned transactions isn't supported by this wallet`

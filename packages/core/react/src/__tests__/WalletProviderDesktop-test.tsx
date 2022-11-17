@@ -5,11 +5,11 @@
 'use strict';
 
 import {
-    SolanaMobileWalletAdapter,
     type AddressSelector,
     type AuthorizationResultCache,
+    SolanaMobileWalletAdapter,
 } from '@solana-mobile/wallet-adapter-mobile';
-import { WalletError, WalletReadyState, type Adapter, type WalletName } from '@solana/wallet-adapter-base';
+import { type Adapter, WalletError, type WalletName, WalletReadyState } from '@solana/wallet-adapter-base';
 import { PublicKey } from '@solana/web3.js';
 import 'jest-localstorage-mock';
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
