@@ -7,7 +7,7 @@ import {
 } from '@solana-mobile/wallet-adapter-mobile';
 import { type Adapter, type WalletError, type WalletName } from '@solana/wallet-adapter-base';
 import { useStandardWalletAdapters } from '@solana/wallet-standard-wallet-adapter-react';
-import React, { useCallback, useEffect, useMemo, useRef, type ReactNode } from 'react';
+import React, { type ReactNode, useCallback, useEffect, useMemo, useRef } from 'react';
 import getEnvironment, { Environment } from './getEnvironment.js';
 import getInferredClusterFromEndpoint from './getInferredClusterFromEndpoint.js';
 import { useConnection } from './useConnection.js';

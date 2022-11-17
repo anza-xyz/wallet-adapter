@@ -1,4 +1,4 @@
-import { WalletReadyState, type Adapter } from '@solana/wallet-adapter-base';
+import { type Adapter, WalletReadyState } from '@solana/wallet-adapter-base';
 import getEnvironment, { Environment } from '../getEnvironment.js';
 
 describe('getEnvironment()', () => {

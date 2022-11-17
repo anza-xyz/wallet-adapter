@@ -5,12 +5,12 @@
 'use strict';
 
 import {
+    type Adapter,
     BaseWalletAdapter,
     WalletError,
+    type WalletName,
     WalletNotReadyError,
     WalletReadyState,
-    type Adapter,
-    type WalletName,
 } from '@solana/wallet-adapter-base';
 import { PublicKey } from '@solana/web3.js';
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
