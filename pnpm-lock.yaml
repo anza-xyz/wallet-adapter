@@ -530,12 +530,12 @@ importers:
 
   packages/wallets/fractal:
     specifiers:
-      '@fractalwagmi/solana-wallet-adapter': ^0.0.8
+      '@fractalwagmi/solana-wallet-adapter': 0.0.9
       '@solana/wallet-adapter-base': workspace:^
       '@solana/web3.js': ^1.58.0
       shx: ^0.3.4
     dependencies:
-      '@fractalwagmi/solana-wallet-adapter': 0.0.8_wsbx7ck6yxwqneralbc42gn53m
+      '@fractalwagmi/solana-wallet-adapter': 0.0.9_wsbx7ck6yxwqneralbc42gn53m
       '@solana/wallet-adapter-base': link:../../core/base
     devDependencies:
       '@solana/web3.js': 1.66.2
@@ -2975,8 +2975,8 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /@fractalwagmi/popup-connection/1.0.13_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-xt3xNJcSORXIVRjgdSt040VAvWzX7PVlddr4/75mICvDkubHXcnB99zHgbHaoaejMX3c495wYwHGsNktTkHIgQ==}
+  /@fractalwagmi/popup-connection/1.0.18_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-QcHe8bfeaQAKnFEvnxLqIAD7RFL7Z7bzn0BnOyDJxuj55NFBRVFGmq69MCqn2o6kmmfmusfYSQHNLWiv5L8H5A==}
     peerDependencies:
       react: ^16 || ^17 || ^18
       react-dom: ^16 || ^17 || ^18
@@ -2985,10 +2985,10 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@fractalwagmi/solana-wallet-adapter/0.0.8_wsbx7ck6yxwqneralbc42gn53m:
-    resolution: {integrity: sha512-0DX/8UfmLiK2QzAn9jlbahnol19ylCF9bRoORV2YmrEwJzX+zd540ovnA6luBcfxd3/qlY9DuFWM5b97BQfaNw==}
+  /@fractalwagmi/solana-wallet-adapter/0.0.9_wsbx7ck6yxwqneralbc42gn53m:
+    resolution: {integrity: sha512-8ppPZCRUOzu1LTc/3dFlzo/1uLHzzOew0HeZbWnoTT9uSAGo8zyfFM2qsOhzz3+mALTImmfAIgHXVkAJK8aLxQ==}
     dependencies:
-      '@fractalwagmi/popup-connection': 1.0.13_biqbaboplfbrettd7655fr4n2y
+      '@fractalwagmi/popup-connection': 1.0.18_biqbaboplfbrettd7655fr4n2y
       '@solana/wallet-adapter-base': 0.9.18_@solana+web3.js@1.66.2
       bs58: 5.0.0
     transitivePeerDependencies:
