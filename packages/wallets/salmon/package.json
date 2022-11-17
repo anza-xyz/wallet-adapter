@@ -34,7 +34,7 @@
     },
     "dependencies": {
         "@solana/wallet-adapter-base": "workspace:^",
-        "salmon-adapter-sdk": "^1.1.0"
+        "salmon-adapter-sdk": "^1.1.1"
     },
     "devDependencies": {
         "@solana/web3.js": "^1.58.0",
