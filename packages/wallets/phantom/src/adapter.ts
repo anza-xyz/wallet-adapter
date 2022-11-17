@@ -1,6 +1,7 @@
 import type { EventEmitter, SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
+    isVersionedTransaction,
     scopePollingDetectionStrategy,
     WalletAccountError,
     WalletConnectionError,
@@ -21,7 +22,7 @@ import type {
     Transaction,
     TransactionSignature,
     TransactionVersion,
-    VersionedTransaction
+    VersionedTransaction,
 } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 
@@ -35,10 +36,10 @@ interface PhantomWallet extends EventEmitter<PhantomWalletEvents> {
     isPhantom?: boolean;
     publicKey?: { toBytes(): Uint8Array };
     isConnected: boolean;
-    signTransaction(transaction: Transaction | VersionedTransaction): Promise<Transaction | VersionedTransaction>;
-    signAllTransactions(transactions: (Transaction | VersionedTransaction)[]): Promise<(Transaction | VersionedTransaction)[]>;
-    signAndSendTransaction(
-        transaction: Transaction | VersionedTransaction,
+    signTransaction<T extends Transaction | VersionedTransaction>(transaction: T): Promise<T>;
+    signAllTransactions<T extends Transaction | VersionedTransaction>(transactions: T[]): Promise<T[]>;
+    signAndSendTransaction<T extends Transaction | VersionedTransaction>(
+        transaction: T,
         options?: SendOptions
     ): Promise<{ signature: TransactionSignature }>;
     signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
@@ -169,8 +170,8 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
         this.emit('disconnect');
     }
 
-    async sendTransaction(
-        transaction: Transaction,
+    async sendTransaction<T extends Transaction | VersionedTransaction>(
+        transaction: T,
         connection: Connection,
         options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
@@ -181,9 +182,12 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
             try {
                 const { signers, ...sendOptions } = options;
 
-                transaction = await this.prepareTransaction(transaction, connection, sendOptions);
-
-                signers?.length && transaction.partialSign(...signers);
+                if (isVersionedTransaction(transaction)) {
+                    signers?.length && transaction.sign(signers);
+                } else {
+                    transaction = (await this.prepareTransaction(transaction, connection, sendOptions)) as T;
+                    signers?.length && (transaction as Transaction).partialSign(...signers);
+                }
 
                 sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;
 
@@ -205,7 +209,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return ((await wallet.signTransaction(transaction)) as T) || transaction;
+                return (await wallet.signTransaction(transaction)) || transaction;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -221,7 +225,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return ((await wallet.signAllTransactions(transactions)) as T[]) || transactions;
+                return (await wallet.signAllTransactions(transactions)) || transactions;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
