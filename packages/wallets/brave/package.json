@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-brave",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
