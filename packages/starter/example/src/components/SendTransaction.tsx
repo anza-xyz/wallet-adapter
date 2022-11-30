@@ -12,25 +12,25 @@ export const SendTransaction: FC = () => {
     const notify = useNotify();
 
     const onClick = useCallback(async () => {
-        if (!publicKey) {
-            notify('error', 'Wallet not connected!');
-            return;
-        }
-
-        let signature: TransactionSignature = '';
+        let signature: TransactionSignature | undefined = undefined;
         try {
-            const transaction = new Transaction().add(
+            if (!publicKey) throw new Error('Wallet not connected!');
+
+            const {
+                context: { slot: minContextSlot },
+                value: { blockhash, lastValidBlockHeight },
+            } = await connection.getLatestBlockhashAndContext();
+
+            const transaction = new Transaction({
+                feePayer: publicKey,
+                recentBlockhash: blockhash,
+            }).add(
                 new TransactionInstruction({
                     data: Buffer.from('Hello, from the Solana Wallet Adapter example app!'),
                     keys: [],
                     programId: new PublicKey('MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr'),
                 })
             );
-
-            const {
-                context: { slot: minContextSlot },
-                value: { blockhash, lastValidBlockHeight },
-            } = await connection.getLatestBlockhashAndContext();
 
             signature = await sendTransaction(transaction, connection, { minContextSlot });
             notify('info', 'Transaction sent:', signature);
@@ -39,9 +39,8 @@ export const SendTransaction: FC = () => {
             notify('success', 'Transaction successful!', signature);
         } catch (error: any) {
             notify('error', `Transaction failed! ${error?.message}`, signature);
-            return;
         }
-    }, [publicKey, notify, connection, sendTransaction]);
+    }, [publicKey, connection, sendTransaction, notify]);
 
     return (
         <Button variant="contained" color="secondary" onClick={onClick} disabled={!publicKey}>

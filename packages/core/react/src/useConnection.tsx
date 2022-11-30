@@ -1,4 +1,4 @@
-import type { Connection } from '@solana/web3.js';
+import { type Connection } from '@solana/web3.js';
 import { createContext, useContext } from 'react';
 
 export interface ConnectionContextState {

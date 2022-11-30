@@ -1,7 +1,5 @@
-import type { ConnectionConfig } from '@solana/web3.js';
-import { Connection } from '@solana/web3.js';
-import type { FC, ReactNode } from 'react';
-import React, { useMemo } from 'react';
+import { Connection, type ConnectionConfig } from '@solana/web3.js';
+import React, { type FC, type ReactNode, useMemo } from 'react';
 import { ConnectionContext } from './useConnection.js';
 
 export interface ConnectionProviderProps {
