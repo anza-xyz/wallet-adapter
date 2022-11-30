@@ -27,7 +27,9 @@
         "@typescript-eslint/no-unused-vars": "off",
         "@typescript-eslint/no-empty-interface": "off",
         "@typescript-eslint/consistent-type-imports": "error",
-        "react/no-unescaped-entities": ["error", { "forbid": [">"] }]
+        "react/no-unescaped-entities": ["error", { "forbid": [">"] }],
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn"
     },
     "overrides": [
         {

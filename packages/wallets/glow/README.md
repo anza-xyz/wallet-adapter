@@ -18,8 +18,8 @@ We support the following platforms:
 
 ## Setting Network
 
-On Glow, the dApp is responsible for choosing the network that processes the transaction. We simulate all transactions
-before prompting the user to approve them and if the dApp doesn't choose the right network, the simulation will fail.
+On Glow, the app is responsible for choosing the network that processes the transaction. We simulate all transactions
+before prompting the user to approve them and if the app doesn't choose the right network, the simulation will fail.
 
 ```ts
 // This will default to Mainnet
