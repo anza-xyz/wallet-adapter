@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-wallets
 
+## 0.19.7
+
+### Patch Changes
+
+-   Updated dependencies [6e1aa20]
+    -   @solana/wallet-adapter-fractal@0.1.4
+
 ## 0.19.6
 
 ### Patch Changes

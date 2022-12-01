@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-fractal
 
+## 0.1.4
+
+### Patch Changes
+
+-   6e1aa20: Fixes a bug with `signMessage` where the fractal.is popup was sending an incorrect signature Uint8Array
+
 ## 0.1.3
 
 ### Patch Changes
