@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-wallets
 
+## 0.19.8
+
+### Patch Changes
+
+-   d8b328e: Add Censo wallet
+-   Updated dependencies [d8b328e]
+    -   @solana/wallet-adapter-censo@0.1.0
+
 ## 0.19.7
 
 ### Patch Changes
