@@ -10,4 +10,5 @@ Modular TypeScript wallet adapters and components for Solana applications.
 - [FAQ (Frequently Asked Questions)](https://github.com/solana-labs/wallet-adapter/blob/master/FAQ.md)
 - [Build from Source](https://github.com/solana-labs/wallet-adapter/blob/master/BUILD.md)
 
+
 ![Wallets](wallets.png)

@@ -469,6 +469,19 @@ importers:
       '@solana/web3.js': 1.66.2
       shx: 0.3.4
 
+  packages/wallets/censo:
+    specifiers:
+      '@censo-custody/solana-wallet-adapter': ^0.1.0
+      '@solana/wallet-adapter-base': workspace:^
+      '@solana/web3.js': ^1.61.0
+      shx: ^0.3.4
+    dependencies:
+      '@censo-custody/solana-wallet-adapter': 0.1.0
+      '@solana/wallet-adapter-base': link:../../core/base
+    devDependencies:
+      '@solana/web3.js': 1.66.2
+      shx: 0.3.4
+
   packages/wallets/clover:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
@@ -928,6 +941,7 @@ importers:
       '@solana/wallet-adapter-bitpie': workspace:^
       '@solana/wallet-adapter-blocto': workspace:^
       '@solana/wallet-adapter-brave': workspace:^
+      '@solana/wallet-adapter-censo': workspace:^
       '@solana/wallet-adapter-clover': workspace:^
       '@solana/wallet-adapter-coin98': workspace:^
       '@solana/wallet-adapter-coinbase': workspace:^
@@ -975,6 +989,7 @@ importers:
       '@solana/wallet-adapter-bitpie': link:../bitpie
       '@solana/wallet-adapter-blocto': link:../blocto
       '@solana/wallet-adapter-brave': link:../brave
+      '@solana/wallet-adapter-censo': link:../censo
       '@solana/wallet-adapter-clover': link:../clover
       '@solana/wallet-adapter-coin98': link:../coin98
       '@solana/wallet-adapter-coinbase': link:../coinbase
@@ -2504,6 +2519,19 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
+      - utf-8-validate
+    dev: false
+
+  /@censo-custody/solana-wallet-adapter/0.1.0:
+    resolution: {integrity: sha512-iM1jFVzBMfk7iokgUVfA2xvGUegixklUISgMARa/VA2mFIjoi32t4xmD8PtWHht81fmg107aYhLnTV1cM7NkAg==}
+    dependencies:
+      '@solana/web3.js': 1.66.2
+      bs58: 4.0.1
+      eventemitter3: 4.0.7
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
       - utf-8-validate
     dev: false
 
@@ -5940,7 +5968,7 @@ packages:
   /@types/connect/3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 18.11.4
 
   /@types/eslint-scope/3.7.4:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}
@@ -6216,7 +6244,7 @@ packages:
   /@types/ws/7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 18.11.4
 
   /@types/ws/8.5.3:
     resolution: {integrity: sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==}

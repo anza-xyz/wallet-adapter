@@ -40,6 +40,7 @@
         "@solana/wallet-adapter-bitpie": "workspace:^",
         "@solana/wallet-adapter-blocto": "workspace:^",
         "@solana/wallet-adapter-brave": "workspace:^",
+        "@solana/wallet-adapter-censo": "workspace:^",
         "@solana/wallet-adapter-clover": "workspace:^",
         "@solana/wallet-adapter-coin98": "workspace:^",
         "@solana/wallet-adapter-coinbase": "workspace:^",

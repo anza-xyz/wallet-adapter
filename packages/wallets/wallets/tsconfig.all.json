@@ -23,6 +23,9 @@
             "path": "../brave/tsconfig.all.json"
         },
         {
+            "path": "../censo/tsconfig.all.json"
+        },
+        {
             "path": "../clover/tsconfig.all.json"
         },
         {
