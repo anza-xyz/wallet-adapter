@@ -12,9 +12,10 @@ import {
 } from '@solana-mobile/wallet-adapter-mobile';
 import {
     type Adapter,
+    type WalletAdapter,
+    type WalletName,
     BaseWalletAdapter,
     WalletError,
-    type WalletName,
     WalletReadyState,
 } from '@solana/wallet-adapter-base';
 import { type Connection, PublicKey } from '@solana/web3.js';
@@ -276,17 +277,17 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                 it('does not call `connect`', () => {
                     const adapter = ref.current?.getWalletContextState().wallet?.adapter as SolanaMobileWalletAdapter;
                     expect(adapter.connect).not.toHaveBeenCalled();
-                    expect(adapter.autoConnect_DO_NOT_USE_OR_YOU_WILL_BE_FIRED).not.toHaveBeenCalled();
+                    expect(adapter.autoConnect).not.toHaveBeenCalled();
                 });
             });
             describe('when autoConnect is enabled', () => {
                 beforeEach(() => {
                     renderTest({ autoConnect: true });
                 });
-                it('calls the special auto-connect method on the mobile wallet adapter', () => {
+                it('calls the auto-connect method on the mobile wallet adapter', () => {
                     const adapter = ref.current?.getWalletContextState().wallet?.adapter as SolanaMobileWalletAdapter;
                     expect(adapter.connect).not.toHaveBeenCalled();
-                    expect(adapter.autoConnect_DO_NOT_USE_OR_YOU_WILL_BE_FIRED).toHaveBeenCalled();
+                    expect(adapter.autoConnect).toHaveBeenCalled();
                 });
             });
         });
@@ -302,18 +303,19 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                 beforeEach(() => {
                     renderTest({ autoConnect: false });
                 });
-                it('calls `connect`', () => {
-                    const adapter = ref.current?.getWalletContextState().wallet?.adapter as Adapter;
+                it('does not call `autoConnect`', () => {
+                    const adapter = ref.current?.getWalletContextState().wallet?.adapter as WalletAdapter<string>;
                     expect(adapter.connect).not.toHaveBeenCalled();
+                    expect(adapter.autoConnect).not.toHaveBeenCalled();
                 });
             });
             describe('when autoConnect is enabled', () => {
                 beforeEach(() => {
                     renderTest({ autoConnect: true });
                 });
-                it('calls `connect`', () => {
-                    const adapter = ref.current?.getWalletContextState().wallet?.adapter as Adapter;
-                    expect(adapter.connect).toHaveBeenCalled();
+                it('calls `autoConnect`', () => {
+                    const adapter = ref.current?.getWalletContextState().wallet?.adapter as WalletAdapter<string>;
+                    expect(adapter.autoConnect).toHaveBeenCalled();
                 });
             });
         });

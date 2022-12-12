@@ -9,7 +9,13 @@ import {
     type AuthorizationResultCache,
     SolanaMobileWalletAdapter,
 } from '@solana-mobile/wallet-adapter-mobile';
-import { type Adapter, WalletError, type WalletName, WalletReadyState } from '@solana/wallet-adapter-base';
+import {
+    type WalletAdapter,
+    type Adapter,
+    type WalletName,
+    WalletError,
+    WalletReadyState,
+} from '@solana/wallet-adapter-base';
 import { PublicKey } from '@solana/web3.js';
 import 'jest-localstorage-mock';
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
@@ -205,18 +211,19 @@ describe('WalletProvider when the environment is `DESKTOP_WEB`', () => {
             beforeEach(() => {
                 renderTest({ autoConnect: false });
             });
-            it('calls `connect`', () => {
-                const adapter = ref.current?.getWalletContextState().wallet?.adapter as Adapter;
+            it('does not call `autoConnect`', () => {
+                const adapter = ref.current?.getWalletContextState().wallet?.adapter as WalletAdapter<string>;
                 expect(adapter.connect).not.toHaveBeenCalled();
+                expect(adapter.autoConnect).not.toHaveBeenCalled();
             });
         });
         describe('when autoConnect is enabled', () => {
             beforeEach(() => {
                 renderTest({ autoConnect: true });
             });
-            it('calls `connect`', () => {
-                const adapter = ref.current?.getWalletContextState().wallet?.adapter as Adapter;
-                expect(adapter.connect).toHaveBeenCalled();
+            it('calls `autoConnect`', () => {
+                const adapter = ref.current?.getWalletContextState().wallet?.adapter as WalletAdapter<string>;
+                expect(adapter.autoConnect).toHaveBeenCalled();
             });
         });
     });

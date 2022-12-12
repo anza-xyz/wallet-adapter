@@ -5,7 +5,7 @@ import {
     SolanaMobileWalletAdapter,
     SolanaMobileWalletAdapterWalletName,
 } from '@solana-mobile/wallet-adapter-mobile';
-import { type Adapter, type WalletError, type WalletName } from '@solana/wallet-adapter-base';
+import type { Adapter, WalletAdapter, WalletError, WalletName } from '@solana/wallet-adapter-base';
 import { useStandardWalletAdapters } from '@solana/wallet-standard-wallet-adapter-react';
 import React, { type ReactNode, useCallback, useEffect, useMemo, useRef } from 'react';
 import getEnvironment, { Environment } from './getEnvironment.js';
@@ -109,12 +109,9 @@ export function WalletProvider({
         if (autoConnect !== true || !adapter) {
             return;
         }
-        if (walletName === SolanaMobileWalletAdapterWalletName && getIsMobile(adaptersWithStandardAdapters)) {
-            return (adapter as SolanaMobileWalletAdapter).autoConnect_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.bind(adapter);
-        } else {
-            return adapter.connect.bind(adapter);
-        }
-    }, [adapter, adaptersWithStandardAdapters, autoConnect, walletName]);
+
+        return adapter.autoConnect.bind(adapter);
+    }, [adapter, autoConnect]);
     useEffect(() => {
         if (adapter == null) {
             return;

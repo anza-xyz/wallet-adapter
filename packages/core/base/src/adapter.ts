@@ -32,6 +32,7 @@ export interface WalletAdapterProps<Name extends string = string> {
     supportedTransactionVersions?: SupportedTransactionVersions;
 
     connect(): Promise<void>;
+    autoConnect(): Promise<void>;
     disconnect(): Promise<void>;
 
     sendTransaction(
@@ -90,6 +91,10 @@ export abstract class BaseWalletAdapter<Name extends string = string>
 
     abstract connect(): Promise<void>;
     abstract disconnect(): Promise<void>;
+
+    async autoConnect() {
+        await this.connect();
+    }
 
     abstract sendTransaction(
         transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,

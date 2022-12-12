@@ -190,6 +190,14 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
         this.emit('disconnect');
     }
 
+    async autoConnect(): Promise<void> {
+        // Skip autoconnect in the Loadable state
+        // We can't redirect to a universal link without user input
+        if (this.readyState === WalletReadyState.Installed) {
+            await this.connect();
+        }
+    }
+
     async sendTransaction<T extends Transaction | VersionedTransaction>(
         transaction: T,
         connection: Connection,
