@@ -116,23 +116,28 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
         return this._readyState;
     }
 
+    async autoConnect(): Promise<void> {
+        // Skip autoconnect in the Loadable state
+        // We can't redirect to a universal link without user input
+        if (this.readyState === WalletReadyState.Installed) {
+            await this.connect();
+        }
+    }
+
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
-
-            if (this.readyState !== WalletReadyState.Loadable && this.readyState !== WalletReadyState.Installed) {
-                throw new WalletNotReadyError();
-            }
 
             if (this.readyState === WalletReadyState.Loadable) {
                 // redirect to the Phantom /browse universal link
                 // this will open the current URL in the Phantom in-wallet browser
                 const url = encodeURI(window.location.href);
                 const ref = encodeURI(window.location.origin);
-                const redirectUrl = `https://phantom.app/ul/browse/${url}?ref=${ref}`;
-                window.location.href = redirectUrl;
+                window.location.href = `https://phantom.app/ul/browse/${url}?ref=${ref}`;
                 return;
             }
+
+            if (this.readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
 
             this._connecting = true;
 
@@ -188,14 +193,6 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
 
         this.emit('disconnect');
-    }
-
-    async autoConnect(): Promise<void> {
-        // Skip autoconnect in the Loadable state
-        // We can't redirect to a universal link without user input
-        if (this.readyState === WalletReadyState.Installed) {
-            await this.connect();
-        }
     }
 
     async sendTransaction<T extends Transaction | VersionedTransaction>(
