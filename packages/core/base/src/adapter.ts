@@ -31,8 +31,8 @@ export interface WalletAdapterProps<Name extends string = string> {
     connected: boolean;
     supportedTransactionVersions?: SupportedTransactionVersions;
 
-    connect(): Promise<void>;
     autoConnect(): Promise<void>;
+    connect(): Promise<void>;
     disconnect(): Promise<void>;
 
     sendTransaction(
@@ -89,12 +89,12 @@ export abstract class BaseWalletAdapter<Name extends string = string>
         return !!this.publicKey;
     }
 
-    abstract connect(): Promise<void>;
-    abstract disconnect(): Promise<void>;
-
     async autoConnect() {
         await this.connect();
     }
+
+    abstract connect(): Promise<void>;
+    abstract disconnect(): Promise<void>;
 
     abstract sendTransaction(
         transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
