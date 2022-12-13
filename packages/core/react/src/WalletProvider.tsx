@@ -110,7 +110,7 @@ export function WalletProvider({
             return;
         }
 
-        return adapter.autoConnect.bind(adapter);
+        return () => adapter.autoConnect();
     }, [adapter, autoConnect]);
     useEffect(() => {
         if (adapter == null) {
