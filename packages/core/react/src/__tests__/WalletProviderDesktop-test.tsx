@@ -214,7 +214,6 @@ describe('WalletProvider when the environment is `DESKTOP_WEB`', () => {
             it('does not call `autoConnect`', () => {
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 const adapter = ref.current!.getWalletContextState().wallet!.adapter;
-                expect(adapter.connect).not.toHaveBeenCalled();
                 expect(adapter.autoConnect).not.toHaveBeenCalled();
             });
         });

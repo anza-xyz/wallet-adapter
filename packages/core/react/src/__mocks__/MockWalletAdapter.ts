@@ -29,4 +29,5 @@ export abstract class MockWalletAdapter extends BaseWalletAdapter {
     });
     sendTransaction = jest.fn();
     supportedTransactionVersions = null;
+    autoConnect = jest.fn();
 }

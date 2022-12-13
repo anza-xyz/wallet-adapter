@@ -119,6 +119,7 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
         });
         sendTransaction = jest.fn();
         supportedTransactionVersions = null;
+        autoConnect = jest.fn();
     }
     class FooWalletAdapter extends MockWalletAdapter {
         name = 'FooWallet' as WalletName<'FooWallet'>;
@@ -276,7 +277,6 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                 });
                 it('does not call `connect`', () => {
                     const adapter = ref.current?.getWalletContextState().wallet?.adapter as SolanaMobileWalletAdapter;
-                    expect(adapter.connect).not.toHaveBeenCalled();
                     expect(adapter.autoConnect).not.toHaveBeenCalled();
                 });
             });
@@ -286,7 +286,6 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                 });
                 it('calls the auto-connect method on the mobile wallet adapter', () => {
                     const adapter = ref.current?.getWalletContextState().wallet?.adapter as SolanaMobileWalletAdapter;
-                    expect(adapter.connect).not.toHaveBeenCalled();
                     expect(adapter.autoConnect).toHaveBeenCalled();
                 });
             });
@@ -306,7 +305,6 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                 it('does not call `autoConnect`', () => {
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     const adapter = ref.current!.getWalletContextState().wallet!.adapter;
-                    expect(adapter.connect).not.toHaveBeenCalled();
                     expect(adapter.autoConnect).not.toHaveBeenCalled();
                 });
             });
