@@ -304,7 +304,8 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                     renderTest({ autoConnect: false });
                 });
                 it('does not call `autoConnect`', () => {
-                    const adapter = ref.current?.getWalletContextState().wallet?.adapter as WalletAdapter<string>;
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    const adapter = ref.current!.getWalletContextState().wallet!.adapter;
                     expect(adapter.connect).not.toHaveBeenCalled();
                     expect(adapter.autoConnect).not.toHaveBeenCalled();
                 });
@@ -314,7 +315,8 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                     renderTest({ autoConnect: true });
                 });
                 it('calls `autoConnect`', () => {
-                    const adapter = ref.current?.getWalletContextState().wallet?.adapter as WalletAdapter<string>;
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    const adapter = ref.current!.getWalletContextState().wallet!.adapter;
                     expect(adapter.autoConnect).toHaveBeenCalled();
                 });
             });
