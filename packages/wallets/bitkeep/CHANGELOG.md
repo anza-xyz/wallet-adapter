@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-bitkeep
 
+## 0.3.16
+
+### Patch Changes
+
+-   Updated dependencies [3eca471]
+    -   @solana/wallet-adapter-base@0.9.20
+
 ## 0.3.15
 
 ### Patch Changes

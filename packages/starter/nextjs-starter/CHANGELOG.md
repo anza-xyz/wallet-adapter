@@ -1,5 +1,16 @@
 # @solana/wallet-adapter-nextjs-starter
 
+## 0.8.16
+
+### Patch Changes
+
+-   3eca471: Allow wallets to customize autoConnect handling, adding support for Phantom deep links on iOS
+-   Updated dependencies [3eca471]
+    -   @solana/wallet-adapter-base@0.9.20
+    -   @solana/wallet-adapter-react@0.15.26
+    -   @solana/wallet-adapter-react-ui@0.9.24
+    -   @solana/wallet-adapter-wallets@0.19.9
+
 ## 0.8.15
 
 ### Patch Changes
