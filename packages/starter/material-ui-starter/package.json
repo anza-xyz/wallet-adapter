@@ -28,7 +28,7 @@
         "@emotion/styled": "^11.10.0",
         "@mui/icons-material": "^5.8.4",
         "@mui/material": "^5.9.3",
-        "@solana/wallet-adapter-base": "^0.9.18",
+        "@solana/wallet-adapter-base": "^0.9.19",
         "@solana/wallet-adapter-material-ui": "^0.16.18",
         "@solana/wallet-adapter-react": "^0.15.22",
         "@solana/wallet-adapter-wallets": "^0.19.5",

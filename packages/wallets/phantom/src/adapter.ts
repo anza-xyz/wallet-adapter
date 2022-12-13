@@ -15,6 +15,7 @@ import {
     WalletSendTransactionError,
     WalletSignMessageError,
     WalletSignTransactionError,
+    isIosAndRedirectable,
 } from '@solana/wallet-adapter-base';
 import type {
     Connection,
@@ -82,14 +83,20 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
         this._publicKey = null;
 
         if (this._readyState !== WalletReadyState.Unsupported) {
-            scopePollingDetectionStrategy(() => {
-                if (window.phantom?.solana?.isPhantom || window.solana?.isPhantom) {
-                    this._readyState = WalletReadyState.Installed;
-                    this.emit('readyStateChange', this._readyState);
-                    return true;
-                }
-                return false;
-            });
+            if (isIosAndRedirectable()) {
+                // when in iOS (not webview), set Phantom as loadable instead of checking for install
+                this._readyState = WalletReadyState.Loadable;
+                this.emit('readyStateChange', this._readyState);
+            } else {
+                scopePollingDetectionStrategy(() => {
+                    if (window.phantom?.solana?.isPhantom || window.solana?.isPhantom) {
+                        this._readyState = WalletReadyState.Installed;
+                        this.emit('readyStateChange', this._readyState);
+                        return true;
+                    }
+                    return false;
+                });
+            }
         }
     }
 
@@ -109,10 +116,28 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
         return this._readyState;
     }
 
+    async autoConnect(): Promise<void> {
+        // Skip autoconnect in the Loadable state
+        // We can't redirect to a universal link without user input
+        if (this.readyState === WalletReadyState.Installed) {
+            await this.connect();
+        }
+    }
+
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
-            if (this._readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
+
+            if (this.readyState === WalletReadyState.Loadable) {
+                // redirect to the Phantom /browse universal link
+                // this will open the current URL in the Phantom in-wallet browser
+                const url = encodeURI(window.location.href);
+                const ref = encodeURI(window.location.origin);
+                window.location.href = `https://phantom.app/ul/browse/${url}?ref=${ref}`;
+                return;
+            }
+
+            if (this.readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
 
             this._connecting = true;
 
