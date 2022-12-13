@@ -25,7 +25,7 @@
         "eject": "react-scripts eject"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "^0.9.18",
+        "@solana/wallet-adapter-base": "^0.9.19",
         "@solana/wallet-adapter-react": "^0.15.22",
         "@solana/wallet-adapter-react-ui": "^0.9.20",
         "@solana/wallet-adapter-wallets": "^0.19.5",
