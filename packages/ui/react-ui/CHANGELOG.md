@@ -1,5 +1,14 @@
 # @solana/wallet-adapter-react-ui
 
+## 0.9.24
+
+### Patch Changes
+
+-   3eca471: Allow wallets to customize autoConnect handling, adding support for Phantom deep links on iOS
+-   Updated dependencies [3eca471]
+    -   @solana/wallet-adapter-base@0.9.20
+    -   @solana/wallet-adapter-react@0.15.26
+
 ## 0.9.23
 
 ### Patch Changes
