@@ -94,9 +94,9 @@ importers:
   packages/starter/create-react-app-starter:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/wallet-adapter-react': ^0.15.22
-      '@solana/wallet-adapter-react-ui': ^0.9.20
-      '@solana/wallet-adapter-wallets': ^0.19.5
+      '@solana/wallet-adapter-react': ^0.15.26
+      '@solana/wallet-adapter-react-ui': ^0.9.24
+      '@solana/wallet-adapter-wallets': ^0.19.9
       '@solana/web3.js': ^1.58.0
       '@testing-library/jest-dom': ^5.16.5
       '@testing-library/react': ^13.3.0
@@ -124,7 +124,7 @@ importers:
       react: 18.2.0
       react-app-rewired: 2.2.1_react-scripts@5.0.1
       react-dom: 18.2.0_react@18.2.0
-      react-scripts: 5.0.1_yj7xztyo4flup4zk6yj3sg7fka
+      react-scripts: 5.0.1_n7mqr4n4gswjc26jfdbklgbjf4
       web-vitals: 2.1.4
     devDependencies:
       '@testing-library/jest-dom': 5.16.5
@@ -147,12 +147,12 @@ importers:
       '@emotion/styled': ^11.10.0
       '@mui/icons-material': ^5.8.4
       '@mui/material': ^5.9.3
-      '@solana/wallet-adapter-ant-design': ^0.11.17
+      '@solana/wallet-adapter-ant-design': ^0.11.21
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/wallet-adapter-material-ui': ^0.16.18
-      '@solana/wallet-adapter-react': ^0.15.22
-      '@solana/wallet-adapter-react-ui': ^0.9.20
-      '@solana/wallet-adapter-wallets': ^0.19.5
+      '@solana/wallet-adapter-material-ui': ^0.16.22
+      '@solana/wallet-adapter-react': ^0.15.26
+      '@solana/wallet-adapter-react-ui': ^0.9.24
+      '@solana/wallet-adapter-wallets': ^0.19.9
       '@solana/web3.js': ^1.58.0
       '@types/bs58': ^4.0.1
       '@types/node-fetch': ^2.6.2
@@ -212,9 +212,9 @@ importers:
       '@mui/icons-material': ^5.8.4
       '@mui/material': ^5.9.3
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/wallet-adapter-material-ui': ^0.16.18
-      '@solana/wallet-adapter-react': ^0.15.22
-      '@solana/wallet-adapter-wallets': ^0.19.5
+      '@solana/wallet-adapter-material-ui': ^0.16.22
+      '@solana/wallet-adapter-react': ^0.15.26
+      '@solana/wallet-adapter-wallets': ^0.19.9
       '@solana/web3.js': ^1.58.0
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
@@ -251,9 +251,9 @@ importers:
   packages/starter/nextjs-starter:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/wallet-adapter-react': ^0.15.22
-      '@solana/wallet-adapter-react-ui': ^0.9.20
-      '@solana/wallet-adapter-wallets': ^0.19.5
+      '@solana/wallet-adapter-react': ^0.15.26
+      '@solana/wallet-adapter-react-ui': ^0.9.24
+      '@solana/wallet-adapter-wallets': ^0.19.9
       '@types/node-fetch': ^2.6.2
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
@@ -286,9 +286,9 @@ importers:
   packages/starter/react-ui-starter:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/wallet-adapter-react': ^0.15.22
-      '@solana/wallet-adapter-react-ui': ^0.9.20
-      '@solana/wallet-adapter-wallets': ^0.19.5
+      '@solana/wallet-adapter-react': ^0.15.26
+      '@solana/wallet-adapter-react-ui': ^0.9.24
+      '@solana/wallet-adapter-wallets': ^0.19.9
       '@solana/web3.js': ^1.58.0
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
@@ -4901,7 +4901,7 @@ packages:
       react-native: ^0.0.0-0 || 0.60 - 0.71 || 1000.0.0
     dependencies:
       merge-options: 3.0.4
-      react-native: 0.70.6_gkfvc6x5loptk33ura547aycvm
+      react-native: 0.70.6_ildacul6tjko7jf3wnaev3ii3q
     dev: false
 
   /@react-native-community/cli-clean/9.2.1:
@@ -4996,7 +4996,7 @@ packages:
       - encoding
     dev: false
 
-  /@react-native-community/cli-plugin-metro/9.2.1:
+  /@react-native-community/cli-plugin-metro/9.2.1_@babel+core@7.20.5:
     resolution: {integrity: sha512-byBGBH6jDfUvcHGFA45W/sDwMlliv7flJ8Ns9foCh3VsIeYYPoDjjK7SawE9cPqRdMAD4SY7EVwqJnOtRbwLiQ==}
     dependencies:
       '@react-native-community/cli-server-api': 9.2.1
@@ -5005,11 +5005,12 @@ packages:
       metro: 0.72.3
       metro-config: 0.72.3
       metro-core: 0.72.3
-      metro-react-native-babel-transformer: 0.72.3
+      metro-react-native-babel-transformer: 0.72.3_@babel+core@7.20.5
       metro-resolver: 0.72.3
       metro-runtime: 0.72.3
       readline: 1.3.0
     transitivePeerDependencies:
+      - '@babel/core'
       - bufferutil
       - encoding
       - supports-color
@@ -5057,7 +5058,7 @@ packages:
       joi: 17.7.0
     dev: false
 
-  /@react-native-community/cli/9.3.2:
+  /@react-native-community/cli/9.3.2_@babel+core@7.20.5:
     resolution: {integrity: sha512-IAW4X0vmX/xozNpp/JVZaX7MrC85KV0OP2DF4o7lNGOfpUhzJAEWqTfkxFYS+VsRjZHDve4wSTiGIuXwE7FG1w==}
     engines: {node: '>=14'}
     hasBin: true
@@ -5067,7 +5068,7 @@ packages:
       '@react-native-community/cli-debugger-ui': 9.0.0
       '@react-native-community/cli-doctor': 9.3.0
       '@react-native-community/cli-hermes': 9.3.1
-      '@react-native-community/cli-plugin-metro': 9.2.1
+      '@react-native-community/cli-plugin-metro': 9.2.1_@babel+core@7.20.5
       '@react-native-community/cli-server-api': 9.2.1
       '@react-native-community/cli-tools': 9.2.1
       '@react-native-community/cli-types': 9.1.0
@@ -5080,6 +5081,7 @@ packages:
       prompts: 2.4.2
       semver: 6.3.0
     transitivePeerDependencies:
+      - '@babel/core'
       - bufferutil
       - encoding
       - supports-color
@@ -5211,7 +5213,7 @@ packages:
     peerDependencies:
       react-native: '>0.69'
     dependencies:
-      react-native: 0.70.6_gkfvc6x5loptk33ura547aycvm
+      react-native: 0.70.6_ildacul6tjko7jf3wnaev3ii3q
     dev: false
 
   /@solana-mobile/wallet-adapter-mobile/0.9.9_3tv4xfxviombnujbo4stayiyty:
@@ -6806,8 +6808,10 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.2:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -9369,7 +9373,7 @@ packages:
       eslint: 8.22.0
       eslint-import-resolver-node: 0.3.6
       eslint-import-resolver-typescript: 2.7.1_2iahngt3u2tkbdlu6s4gkur3pu
-      eslint-plugin-import: 2.26.0_fo6ej4fw4bc3vu23r3zzoriini
+      eslint-plugin-import: 2.26.0_eslint@8.22.0
       eslint-plugin-jsx-a11y: 6.6.1_eslint@8.22.0
       eslint-plugin-react: 7.31.11_eslint@8.22.0
       eslint-plugin-react-hooks: 4.6.0_eslint@8.22.0
@@ -9440,7 +9444,7 @@ packages:
     dependencies:
       debug: 4.3.4
       eslint: 8.22.0
-      eslint-plugin-import: 2.26.0_fo6ej4fw4bc3vu23r3zzoriini
+      eslint-plugin-import: 2.26.0_eslint@8.22.0
       glob: 7.2.3
       is-glob: 4.0.3
       resolve: 1.22.1
@@ -9449,7 +9453,7 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-module-utils/2.7.4_bqewe3nabnpuunj33xy7q3v4li:
+  /eslint-module-utils/2.7.4_7gfxlqsjhuntdifxknjgbjwpbu:
     resolution: {integrity: sha512-j4GT+rqzCoRKHwURX7pddtIPGySnX9Si/cgMI5ztrcqOPtk5dDEeZ34CQVPphnqkJytlc97Vuk05Um2mJ3gEQA==}
     engines: {node: '>=4'}
     peerDependencies:
@@ -9470,11 +9474,9 @@ packages:
       eslint-import-resolver-webpack:
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.46.1_4rv7y5c6xz3vfxwhbrcxxi73bq
       debug: 3.2.7
       eslint: 8.22.0
       eslint-import-resolver-node: 0.3.6
-      eslint-import-resolver-typescript: 2.7.1_2iahngt3u2tkbdlu6s4gkur3pu
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -9554,7 +9556,7 @@ packages:
       - supports-color
     dev: false
 
-  /eslint-plugin-import/2.26.0_fo6ej4fw4bc3vu23r3zzoriini:
+  /eslint-plugin-import/2.26.0_eslint@8.22.0:
     resolution: {integrity: sha512-hYfi3FXaM8WPLf4S1cikh/r4IxnO6zrhZbEGz2b660EJRbuxgpDS5gkCuYgGWg2xxh2rBuIr4Pvhve/7c31koA==}
     engines: {node: '>=4'}
     peerDependencies:
@@ -9564,14 +9566,13 @@ packages:
       '@typescript-eslint/parser':
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.46.1_4rv7y5c6xz3vfxwhbrcxxi73bq
       array-includes: 3.1.6
       array.prototype.flat: 1.3.1
       debug: 2.6.9
       doctrine: 2.1.0
       eslint: 8.22.0
       eslint-import-resolver-node: 0.3.6
-      eslint-module-utils: 2.7.4_bqewe3nabnpuunj33xy7q3v4li
+      eslint-module-utils: 2.7.4_7gfxlqsjhuntdifxknjgbjwpbu
       has: 1.0.3
       is-core-module: 2.11.0
       is-glob: 4.0.3
@@ -11531,13 +11532,13 @@ packages:
       '@types/connect': 3.4.35
       '@types/node': 12.20.55
       '@types/ws': 7.4.7
+      JSONStream: 1.3.5
       commander: 2.20.3
       delay: 5.0.0
       es6-promisify: 5.0.0
       eyes: 0.1.8
       isomorphic-ws: 4.0.1_ws@7.5.9
       json-stringify-safe: 5.0.1
-      JSONStream: 1.3.5
       lodash: 4.17.21
       uuid: 8.3.2
       ws: 7.5.9
@@ -13388,8 +13389,10 @@ packages:
       uglify-es: 3.3.9
     dev: false
 
-  /metro-react-native-babel-preset/0.72.3:
+  /metro-react-native-babel-preset/0.72.3_@babel+core@7.20.5:
     resolution: {integrity: sha512-uJx9y/1NIqoYTp6ZW1osJ7U5ZrXGAJbOQ/Qzl05BdGYvN1S7Qmbzid6xOirgK0EIT0pJKEEh1s8qbassYZe4cw==}
+    peerDependencies:
+      '@babel/core': '*'
     dependencies:
       '@babel/core': 7.20.5
       '@babel/plugin-proposal-async-generator-functions': 7.20.1_@babel+core@7.20.5
@@ -13434,14 +13437,16 @@ packages:
       - supports-color
     dev: false
 
-  /metro-react-native-babel-transformer/0.72.3:
+  /metro-react-native-babel-transformer/0.72.3_@babel+core@7.20.5:
     resolution: {integrity: sha512-Ogst/M6ujYrl/+9mpEWqE3zF7l2mTuftDTy3L8wZYwX1pWUQWQpfU1aJBeWiLxt1XlIq+uriRjKzKoRoIK57EA==}
+    peerDependencies:
+      '@babel/core': '*'
     dependencies:
       '@babel/core': 7.20.5
       babel-preset-fbjs: 3.4.0_@babel+core@7.20.5
       hermes-parser: 0.8.0
       metro-babel-transformer: 0.72.3
-      metro-react-native-babel-preset: 0.72.3
+      metro-react-native-babel-preset: 0.72.3_@babel+core@7.20.5
       metro-source-map: 0.72.3
       nullthrows: 1.1.1
     transitivePeerDependencies:
@@ -13562,7 +13567,7 @@ packages:
       metro-hermes-compiler: 0.72.3
       metro-inspector-proxy: 0.72.3
       metro-minify-uglify: 0.72.3
-      metro-react-native-babel-preset: 0.72.3
+      metro-react-native-babel-preset: 0.72.3_@babel+core@7.20.5
       metro-resolver: 0.72.3
       metro-runtime: 0.72.3
       metro-source-map: 0.72.3
@@ -16236,13 +16241,19 @@ packages:
     peerDependencies:
       react-scripts: '>=2.1.3'
     dependencies:
-      react-scripts: 5.0.1_yj7xztyo4flup4zk6yj3sg7fka
+      react-scripts: 5.0.1_n7mqr4n4gswjc26jfdbklgbjf4
       semver: 5.7.1
     dev: false
 
   /react-dev-utils/12.0.1_uxrk33lftfxfwytryt6oeiav4q:
     resolution: {integrity: sha512-84Ivxmr17KjUupyqzFode6xKhjwuEJDROWKJy/BthkL7Wn6NJ8h4WE6k/exAv6ImS+0oZLRRW5j/aINMHyeGeQ==}
     engines: {node: '>=14'}
+    peerDependencies:
+      typescript: '>=2.7'
+      webpack: '>=4'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
     dependencies:
       '@babel/code-frame': 7.18.6
       address: 1.2.1
@@ -16268,12 +16279,12 @@ packages:
       shell-quote: 1.7.4
       strip-ansi: 6.0.1
       text-table: 0.2.0
+      typescript: 4.7.4
+      webpack: 5.75.0
     transitivePeerDependencies:
       - eslint
       - supports-color
-      - typescript
       - vue-template-compiler
-      - webpack
     dev: false
 
   /react-devtools-core/4.24.0:
@@ -16359,7 +16370,7 @@ packages:
     resolution: {integrity: sha512-oOanj84fJEXUg9FoEAQomA8ISG+DVIrTZ3qF7m69VQUJyOGYyDZmPqKcjvRku4KXlEH6hWO9i4ACLzNBh8gC0A==}
     dev: false
 
-  /react-native/0.70.6_gkfvc6x5loptk33ura547aycvm:
+  /react-native/0.70.6_ildacul6tjko7jf3wnaev3ii3q:
     resolution: {integrity: sha512-xtQdImPHnwgraEx3HIZFOF+D1hJ9bC5mfpIdUGoMHRws6OmvHAjmFpO6qfdnaQ29vwbmZRq7yf14sbury74R/w==}
     engines: {node: '>=14'}
     hasBin: true
@@ -16367,7 +16378,7 @@ packages:
       react: 18.1.0
     dependencies:
       '@jest/create-cache-key-function': 27.5.1
-      '@react-native-community/cli': 9.3.2
+      '@react-native-community/cli': 9.3.2_@babel+core@7.20.5
       '@react-native-community/cli-platform-android': 9.3.1
       '@react-native-community/cli-platform-ios': 9.3.0
       '@react-native/assets': 1.0.0
@@ -16380,7 +16391,7 @@ packages:
       invariant: 2.2.4
       jsc-android: 250230.2.1
       memoize-one: 5.2.1
-      metro-react-native-babel-transformer: 0.72.3
+      metro-react-native-babel-transformer: 0.72.3_@babel+core@7.20.5
       metro-runtime: 0.72.3
       metro-source-map: 0.72.3
       mkdirp: 0.5.6
@@ -16400,6 +16411,7 @@ packages:
       whatwg-fetch: 3.6.2
       ws: 6.2.2
     transitivePeerDependencies:
+      - '@babel/core'
       - '@babel/preset-env'
       - bufferutil
       - encoding
@@ -16435,11 +16447,12 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /react-scripts/5.0.1_yj7xztyo4flup4zk6yj3sg7fka:
+  /react-scripts/5.0.1_n7mqr4n4gswjc26jfdbklgbjf4:
     resolution: {integrity: sha512-8VAmEm/ZAwQzJ+GOMLbBsTdDKOpuZh7RPs0UymvBR2vRk4iZWCskjbFnxqjrzoIvlNNRZ3QJFx6/qDSi6zSnaQ==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     peerDependencies:
+      eslint: '*'
       react: '>= 16'
       typescript: ^3.2.1 || ^4
     peerDependenciesMeta:
@@ -16488,7 +16501,7 @@ packages:
       semver: 7.3.8
       source-map-loader: 3.0.2_webpack@5.75.0
       style-loader: 3.3.1_webpack@5.75.0
-      tailwindcss: 3.2.4
+      tailwindcss: 3.2.4_postcss@8.4.20
       terser-webpack-plugin: 5.3.6_webpack@5.75.0
       typescript: 4.7.4
       webpack: 5.75.0
@@ -17094,7 +17107,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.2
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.2
       ajv-keywords: 5.1.0_ajv@8.11.2
     dev: false
 
@@ -17958,10 +17971,12 @@ packages:
   /symbol-tree/3.2.4:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
 
-  /tailwindcss/3.2.4:
+  /tailwindcss/3.2.4_postcss@8.4.20:
     resolution: {integrity: sha512-AhwtHCKMtR71JgeYDaswmZXhPcW9iuI9Sp2LvZPo9upDZ7231ZJ7eA9RaURbhpXGVlrjX4cFNlB4ieTetEb7hQ==}
     engines: {node: '>=12.13.0'}
     hasBin: true
+    peerDependencies:
+      postcss: ^8.0.9
     dependencies:
       arg: 5.0.2
       chokidar: 3.5.3
