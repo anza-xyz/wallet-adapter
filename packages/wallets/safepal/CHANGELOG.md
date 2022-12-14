@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-safepal
 
+## 0.5.15
+
+### Patch Changes
+
+-   Updated dependencies [912cc0e]
+    -   @solana/wallet-adapter-base@0.9.20
+
 ## 0.5.14
 
 ### Patch Changes

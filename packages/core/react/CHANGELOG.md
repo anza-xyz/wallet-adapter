@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-react
 
+## 0.15.26
+
+### Patch Changes
+
+-   912cc0e: Allow wallets to customize autoConnect handling, adding support for Phantom deep links on iOS
+-   Updated dependencies [912cc0e]
+    -   @solana/wallet-adapter-base@0.9.20
+
 ## 0.15.25
 
 ### Patch Changes

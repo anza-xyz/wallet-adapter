@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-salmon
 
+## 0.1.11
+
+### Patch Changes
+
+-   Updated dependencies [912cc0e]
+    -   @solana/wallet-adapter-base@0.9.20
+
 ## 0.1.10
 
 ### Patch Changes
