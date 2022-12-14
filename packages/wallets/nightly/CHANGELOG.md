@@ -1,12 +1,5 @@
 # @solana/wallet-adapter-nightly
 
-## 0.1.12
-
-### Patch Changes
-
--   Updated dependencies [b61bc2f]
-    -   @solana/wallet-adapter-base@0.9.20
-
 ## 0.1.11
 
 ### Patch Changes
