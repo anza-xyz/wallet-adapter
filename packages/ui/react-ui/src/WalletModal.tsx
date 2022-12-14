@@ -23,10 +23,10 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
     const [fadeIn, setFadeIn] = useState(false);
     const [portal, setPortal] = useState<Element | null>(null);
 
-    const [installedWallets, loadableWallets, notDetectedWallets] = useMemo(() => {
+    const [listedWallets, collapsedWallets] = useMemo(() => {
         const installed: Wallet[] = [];
-        const notDetected: Wallet[] = [];
         const loadable: Wallet[] = [];
+        const notDetected: Wallet[] = [];
 
         for (const wallet of wallets) {
             if (wallet.readyState === WalletReadyState.NotDetected) {
@@ -38,7 +38,20 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
             }
         }
 
-        return [installed, loadable, notDetected];
+        let listed: Wallet[] = [];
+        let collapsed: Wallet[] = [];
+
+        if (installed.length) {
+            listed = installed;
+            collapsed = [...loadable, ...notDetected];
+        } else if (loadable.length) {
+            listed = loadable;
+            collapsed = notDetected;
+        } else {
+            collapsed = notDetected;
+        }
+
+        return [listed, collapsed];
     }, [wallets]);
 
     const hideModal = useCallback(() => {
@@ -119,19 +132,6 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
     }, [hideModal, handleTabKey]);
 
     useLayoutEffect(() => setPortal(document.querySelector(container)), [container]);
-
-    let listedWallets: Wallet[] = [];
-    let collapsedWallets: Wallet[] = [];
-
-    if (installedWallets.length) {
-        listedWallets = installedWallets;
-        collapsedWallets = [...loadableWallets, ...notDetectedWallets];
-    } else if (loadableWallets.length) {
-        listedWallets = loadableWallets;
-        collapsedWallets = notDetectedWallets;
-    } else {
-        collapsedWallets = notDetectedWallets;
-    }
 
     return (
         portal &&
