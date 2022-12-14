@@ -41,16 +41,6 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
         return [installed, loadable, notDetected];
     }, [wallets]);
 
-    const getStartedWallet = useMemo(() => {
-        const otherWallets = [...loadableWallets, ...notDetectedWallets];
-        return installedWallets.length
-            ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              installedWallets[0]!
-            : wallets.find((wallet: { readyState: any }) => wallet.readyState === WalletReadyState.Loadable) ||
-                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                  otherWallets[0]!;
-    }, [installedWallets, wallets, loadableWallets, notDetectedWallets]);
-
     const hideModal = useCallback(() => {
         setFadeIn(false);
         setTimeout(() => setVisible(false), 150);
@@ -214,13 +204,6 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
                                 </h1>
                                 <div className="wallet-adapter-modal-middle">
                                     <WalletSVG />
-                                    <button
-                                        type="button"
-                                        className="wallet-adapter-modal-middle-button"
-                                        onClick={(event) => handleWalletClick(event, getStartedWallet.adapter.name)}
-                                    >
-                                        Get started
-                                    </button>
                                 </div>
                                 {collapsedWallets.length ? (
                                     <>
