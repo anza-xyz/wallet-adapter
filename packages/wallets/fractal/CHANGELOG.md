@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-fractal
 
+## 0.1.5
+
+### Patch Changes
+
+-   b61bc2f: Allow wallets to customize autoConnect handling, adding support for Phantom deep links on iOS
+-   Updated dependencies [b61bc2f]
+    -   @solana/wallet-adapter-base@0.9.20
+
 ## 0.1.4
 
 ### Patch Changes
