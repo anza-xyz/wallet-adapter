@@ -116,10 +116,11 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
         return this._readyState;
     }
 
-    async autoConnect(): Promise<void> {
-        // Skip autoconnect in the Loadable state
+    async autoConnect(hasUserSelectedAWallet: boolean): Promise<void> {
+        // Skip autoconnect in the Loadable state, until the user has selected a wallet
         // We can't redirect to a universal link without user input
-        if (this.readyState === WalletReadyState.Installed) {
+        // If it's from user selection then we should redirect
+        if (this.readyState === WalletReadyState.Installed || hasUserSelectedAWallet) {
             await this.connect();
         }
     }
