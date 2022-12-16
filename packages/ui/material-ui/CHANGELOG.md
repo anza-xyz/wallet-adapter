@@ -1,11 +1,5 @@
 # @solana/wallet-adapter-material-ui
 
-## 0.16.23
-
-### Patch Changes
-
--   caad1b1: UI tweaks for wallet modal/dialogs
-
 ## 0.16.22
 
 ### Patch Changes

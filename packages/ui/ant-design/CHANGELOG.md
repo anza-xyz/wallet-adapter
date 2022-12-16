@@ -1,11 +1,5 @@
 # @solana/wallet-adapter-ant-design
 
-## 0.11.22
-
-### Patch Changes
-
--   caad1b1: UI tweaks for wallet modal/dialogs
-
 ## 0.11.21
 
 ### Patch Changes
