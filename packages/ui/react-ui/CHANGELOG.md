@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-react-ui
 
+## 0.9.25
+
+### Patch Changes
+
+-   e2a5b34: UI tweaks for wallet modal/dialogs
+
 ## 0.9.24
 
 ### Patch Changes
