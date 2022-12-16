@@ -23,10 +23,10 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
     const [fadeIn, setFadeIn] = useState(false);
     const [portal, setPortal] = useState<Element | null>(null);
 
-    const [installedWallets, loadableWallets, notDetectedWallets] = useMemo(() => {
+    const [listedWallets, collapsedWallets] = useMemo(() => {
         const installed: Wallet[] = [];
-        const notDetected: Wallet[] = [];
         const loadable: Wallet[] = [];
+        const notDetected: Wallet[] = [];
 
         for (const wallet of wallets) {
             if (wallet.readyState === WalletReadyState.NotDetected) {
@@ -38,18 +38,21 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
             }
         }
 
-        return [installed, loadable, notDetected];
-    }, [wallets]);
+        let listed: Wallet[] = [];
+        let collapsed: Wallet[] = [];
 
-    const getStartedWallet = useMemo(() => {
-        const otherWallets = [...loadableWallets, ...notDetectedWallets];
-        return installedWallets.length
-            ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              installedWallets[0]!
-            : wallets.find((wallet: { readyState: any }) => wallet.readyState === WalletReadyState.Loadable) ||
-                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                  otherWallets[0]!;
-    }, [installedWallets, wallets, loadableWallets, notDetectedWallets]);
+        if (installed.length) {
+            listed = installed;
+            collapsed = [...loadable, ...notDetected];
+        } else if (loadable.length) {
+            listed = loadable;
+            collapsed = notDetected;
+        } else {
+            collapsed = notDetected;
+        }
+
+        return [listed, collapsed];
+    }, [wallets]);
 
     const hideModal = useCallback(() => {
         setFadeIn(false);
@@ -130,19 +133,6 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
 
     useLayoutEffect(() => setPortal(document.querySelector(container)), [container]);
 
-    let listedWallets: Wallet[] = [];
-    let collapsedWallets: Wallet[] = [];
-
-    if (installedWallets.length) {
-        listedWallets = installedWallets;
-        collapsedWallets = [...loadableWallets, ...notDetectedWallets];
-    } else if (loadableWallets.length) {
-        listedWallets = loadableWallets;
-        collapsedWallets = notDetectedWallets;
-    } else {
-        collapsedWallets = notDetectedWallets;
-    }
-
     return (
         portal &&
         createPortal(
@@ -214,13 +204,6 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
                                 </h1>
                                 <div className="wallet-adapter-modal-middle">
                                     <WalletSVG />
-                                    <button
-                                        type="button"
-                                        className="wallet-adapter-modal-middle-button"
-                                        onClick={(event) => handleWalletClick(event, getStartedWallet.adapter.name)}
-                                    >
-                                        Get started
-                                    </button>
                                 </div>
                                 {collapsedWallets.length ? (
                                     <>

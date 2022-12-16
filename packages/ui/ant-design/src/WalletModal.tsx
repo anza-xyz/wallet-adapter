@@ -1,6 +1,6 @@
 import type { WalletName } from '@solana/wallet-adapter-base';
 import { WalletReadyState } from '@solana/wallet-adapter-base';
-import { useWallet } from '@solana/wallet-adapter-react';
+import { useWallet, type Wallet } from '@solana/wallet-adapter-react';
 import type { ModalProps } from 'antd';
 import { Menu, Modal } from 'antd';
 import type { FC, MouseEvent } from 'react';
@@ -23,8 +23,22 @@ export const WalletModal: FC<WalletModalProps> = ({
     const [expanded, setExpanded] = useState(false);
 
     const [featured, more] = useMemo(() => {
-        const supportedWallets = wallets.filter((wallet) => wallet.readyState !== WalletReadyState.Unsupported);
-        return [supportedWallets.slice(0, featuredWallets), supportedWallets.slice(featuredWallets)];
+        const installed: Wallet[] = [];
+        const loadable: Wallet[] = [];
+        const notDetected: Wallet[] = [];
+
+        for (const wallet of wallets) {
+            if (wallet.readyState === WalletReadyState.NotDetected) {
+                notDetected.push(wallet);
+            } else if (wallet.readyState === WalletReadyState.Loadable) {
+                loadable.push(wallet);
+            } else if (wallet.readyState === WalletReadyState.Installed) {
+                installed.push(wallet);
+            }
+        }
+
+        const orderedWallets = [...installed, ...loadable, ...notDetected];
+        return [orderedWallets.slice(0, featuredWallets), orderedWallets.slice(featuredWallets)];
     }, [wallets, featuredWallets]);
 
     const handleCancel = useCallback(
