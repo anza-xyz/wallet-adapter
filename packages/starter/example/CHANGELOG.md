@@ -1,5 +1,15 @@
 # @solana/wallet-adapter-example
 
+## 0.18.18
+
+### Patch Changes
+
+-   caad1b1: UI tweaks for wallet modal/dialogs
+-   Updated dependencies [caad1b1]
+    -   @solana/wallet-adapter-ant-design@0.11.22
+    -   @solana/wallet-adapter-material-ui@0.16.23
+    -   @solana/wallet-adapter-react-ui@0.9.25
+
 ## 0.18.17
 
 ### Patch Changes
