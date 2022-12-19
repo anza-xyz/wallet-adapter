@@ -111,7 +111,7 @@ export function WalletProvider({
             return;
         }
 
-        return () => adapter.autoConnect(hasUserSelectedAWallet.current);
+        return () => (hasUserSelectedAWallet.current ? adapter.connect() : adapter.autoConnect());
     }, [adapter, autoConnect]);
     useEffect(() => {
         if (adapter == null) {

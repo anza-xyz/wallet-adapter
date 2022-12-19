@@ -31,7 +31,7 @@ export interface WalletAdapterProps<Name extends string = string> {
     connected: boolean;
     supportedTransactionVersions?: SupportedTransactionVersions;
 
-    autoConnect(hasUserSelectedAWallet: boolean | undefined): Promise<void>;
+    autoConnect(): Promise<void>;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
 
@@ -89,7 +89,7 @@ export abstract class BaseWalletAdapter<Name extends string = string>
         return !!this.publicKey;
     }
 
-    async autoConnect(_hasUserSelectedAWallet: boolean) {
+    async autoConnect() {
         await this.connect();
     }
 
