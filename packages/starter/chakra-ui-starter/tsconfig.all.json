@@ -1,0 +1,39 @@
+{
+    "extends": "../../../tsconfig.root.json",
+    "references": [
+        {
+            "path": "../../core/base/tsconfig.all.json"
+        },
+        {
+            "path": "../../core/react/tsconfig.all.json"
+        },
+        {
+            "path": "../../ui/material-ui/tsconfig.all.json"
+        },
+        {
+            "path": "../../wallets/wallets/tsconfig.all.json"
+        },
+        {
+            "path": "./tsconfig.base.json"
+        }
+    ],
+    "compilerOptions": {
+        "target": "es5",
+        "module": "esnext",
+        "lib": ["dom", "esnext"],
+        "declaration": true,
+        "sourceMap": true,
+        "moduleResolution": "node",
+        "skipLibCheck": true,
+        "strict": true,
+        "isolatedModules": true,
+        "noFallthroughCasesInSwitch": true,
+        "jsx": "react",
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "allowSyntheticDefaultImports": true,
+        "downlevelIteration": true,
+        "declarationMap": true,
+        "forceConsistentCasingInFileNames": true
+    }
+}

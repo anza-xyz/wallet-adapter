@@ -1,0 +1,14 @@
+{
+    "include": ["src"],
+    "compilerOptions": {
+        "noEmit": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "node",
+        "jsx": "react",
+        "strict": true,
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true
+    }
+}

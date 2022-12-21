@@ -1,0 +1,51 @@
+{
+    "name": "@solana/wallet-adapter-material-ui-starter",
+    "version": "0.13.16",
+    "author": "Solana Maintainers <maintainers@solana.foundation>",
+    "repository": "https://github.com/solana-labs/wallet-adapter",
+    "license": "Apache-2.0",
+    "publishConfig": {
+        "access": "public"
+    },
+    "files": [
+        "src",
+        ".editorconfig",
+        ".env",
+        ".gitignore",
+        ".prettierignore",
+        ".prettierrc",
+        "LICENSE",
+        "package.json",
+        "tsconfig.json"
+    ],
+    "scripts": {
+        "clean": "shx mkdir -p .parcel-cache dist lib && shx rm -rf .parcel-cache dist lib",
+        "start": "parcel src/index.html",
+        "build": "parcel build src/index.html"
+    },
+    "dependencies": {
+        "@chakra-ui/react": "^2.4.4",
+        "@emotion/react": "^11.10.5",
+        "@emotion/styled": "^11.10.5",
+        "@mui/icons-material": "^5.8.4",
+        "@mui/material": "^5.9.3",
+        "@solana/wallet-adapter-base": "^0.9.20",
+        "@solana/wallet-adapter-chakra-ui": "workspace:^",
+        "@solana/wallet-adapter-react": "^0.15.26",
+        "@solana/wallet-adapter-wallets": "^0.19.9",
+        "@solana/web3.js": "^1.58.0",
+        "framer-motion": "^7.10.3",
+        "notistack": "^2.0.8",
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0"
+    },
+    "devDependencies": {
+        "@types/react": "^18.0.0",
+        "@types/react-dom": "^18.0.0",
+        "parcel": "^2.7.0",
+        "prettier": "^2.7.1",
+        "process": "^0.11.10",
+        "shx": "^0.3.4",
+        "typescript": "~4.7.4"
+    }
+}

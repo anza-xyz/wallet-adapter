@@ -1,0 +1,58 @@
+{
+    "name": "@solana/wallet-adapter-chakra-ui",
+    "version": "0.16.23",
+    "author": "Solana Maintainers <maintainers@solana.foundation>",
+    "repository": "https://github.com/solana-labs/wallet-adapter",
+    "license": "Apache-2.0",
+    "publishConfig": {
+        "access": "public"
+    },
+    "files": [
+        "lib",
+        "src",
+        "LICENSE"
+    ],
+    "engines": {
+        "node": ">=16"
+    },
+    "type": "module",
+    "sideEffects": false,
+    "main": "./lib/cjs/index.js",
+    "module": "./lib/esm/index.js",
+    "types": "./lib/types/index.d.ts",
+    "exports": {
+        "require": "./lib/cjs/index.js",
+        "import": "./lib/esm/index.js",
+        "types": "./lib/types/index.d.ts"
+    },
+    "scripts": {
+        "clean": "shx mkdir -p lib && shx rm -rf lib",
+        "package": "shx mkdir -p lib/cjs && shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json"
+    },
+    "peerDependencies": {
+        "@chakra-ui/icons": "^2.0.14",
+        "@chakra-ui/react": "^2.4.4",
+        "@mui/icons-material": "*",
+        "@mui/material": "*",
+        "@solana/web3.js": "^1.58.0",
+        "framer-motion": "^7.10.3",
+        "react": "*",
+        "react-dom": "*"
+    },
+    "dependencies": {
+        "@solana/wallet-adapter-base": "workspace:^",
+        "@solana/wallet-adapter-react": "workspace:^"
+    },
+    "devDependencies": {
+        "@emotion/react": "^11.10.5",
+        "@emotion/styled": "^11.10.5",
+        "@mui/icons-material": "^5.8.4",
+        "@mui/material": "^5.10.1",
+        "@solana/web3.js": "^1.58.0",
+        "@types/react": "^18.0.0",
+        "@types/react-dom": "^18.0.0",
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0",
+        "shx": "^0.3.4"
+    }
+}
