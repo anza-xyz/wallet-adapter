@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-react
 
+## 0.15.27
+
+### Patch Changes
+
+-   faf61e6: Only call autoConnect if the connect is not a user selection
+
 ## 0.15.26
 
 ### Patch Changes
