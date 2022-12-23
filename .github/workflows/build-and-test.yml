@@ -1,14 +1,13 @@
-name: Release
+name: Build & Test
 
 on:
   push:
-    branches: [master]
-
-concurrency: ${{ github.workflow }}-${{ github.ref }}
+    branches-ignore: [master]
+  pull_request:
 
 jobs:
-  release:
-    name: Release
+  build-and-test:
+    name: Build & Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -48,11 +47,8 @@ jobs:
         id: install-deps
         run: pnpm install --frozen-lockfile
 
-      - name: Create release pull request OR build, test, and publish to npm
-        id: changesets
-        uses: changesets/action@v1
-        with:
-          publish: pnpm release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Build packages
+        run: pnpm build:clean
+
+      - name: Run tests
+        run: pnpm test
