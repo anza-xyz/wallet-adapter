@@ -4,7 +4,7 @@ on:
   issues:
     types: [labeled, unlabeled]
   pull_request:
-    types: [ labeled, unlabeled ]
+    types: [labeled, unlabeled]
 
 permissions:
   contents: read
@@ -12,8 +12,9 @@ permissions:
   pull-requests: write
 
 jobs:
-  name: Label Actions
-  runs-on: ubuntu-latest
-  steps:
-    - name: Label Actions
-      uses: dessant/label-actions@v3
+  label-actions:
+    name: Label Actions
+    runs-on: ubuntu-latest
+    steps:
+      - name: Label Actions
+        uses: dessant/label-actions@v3
