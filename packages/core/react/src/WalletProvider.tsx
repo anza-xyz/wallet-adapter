@@ -105,12 +105,13 @@ export function WalletProvider({
             adapter.off('disconnect', handleDisconnect);
         };
     }, [adapter, adaptersWithStandardAdapters, setWalletName, walletName]);
+    const hasUserSelectedAWallet = useRef(false);
     const handleAutoConnectRequest = useMemo(() => {
         if (autoConnect !== true || !adapter) {
             return;
         }
 
-        return () => adapter.autoConnect();
+        return () => (hasUserSelectedAWallet.current ? adapter.connect() : adapter.autoConnect());
     }, [adapter, autoConnect]);
     useEffect(() => {
         if (adapter == null) {
@@ -155,6 +156,13 @@ export function WalletProvider({
             setWalletName(null);
         }
     }, [adapter, setWalletName]);
+    const selectWallet = useCallback(
+        (walletName: WalletName | null) => {
+            hasUserSelectedAWallet.current = true;
+            setWalletName(walletName);
+        },
+        [setWalletName]
+    );
     return (
         <WalletProviderBase
             wallets={adaptersWithMobileWalletAdapter}
@@ -163,7 +171,7 @@ export function WalletProvider({
             onAutoConnectRequest={handleAutoConnectRequest}
             onConnectError={handleConnectError}
             onError={onError}
-            onSelectWallet={setWalletName}
+            onSelectWallet={selectWallet}
         >
             {children}
         </WalletProviderBase>

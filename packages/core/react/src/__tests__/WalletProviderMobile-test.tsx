@@ -277,6 +277,7 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                 });
                 it('does not call `connect`', () => {
                     const adapter = ref.current?.getWalletContextState().wallet?.adapter as SolanaMobileWalletAdapter;
+                    expect(adapter.connect).not.toHaveBeenCalled();
                     expect(adapter.autoConnect).not.toHaveBeenCalled();
                 });
             });
@@ -284,9 +285,10 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                 beforeEach(() => {
                     renderTest({ autoConnect: true });
                 });
-                it('calls the auto-connect method on the mobile wallet adapter', () => {
+                it('calls the connect method on the mobile wallet adapter', () => {
                     const adapter = ref.current?.getWalletContextState().wallet?.adapter as SolanaMobileWalletAdapter;
-                    expect(adapter.autoConnect).toHaveBeenCalled();
+                    expect(adapter.connect).toHaveBeenCalled();
+                    expect(adapter.autoConnect).not.toHaveBeenCalled();
                 });
             });
         });
@@ -305,6 +307,7 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                 it('does not call `autoConnect`', () => {
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     const adapter = ref.current!.getWalletContextState().wallet!.adapter;
+                    expect(adapter.connect).not.toHaveBeenCalled();
                     expect(adapter.autoConnect).not.toHaveBeenCalled();
                 });
             });
@@ -312,10 +315,11 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                 beforeEach(() => {
                     renderTest({ autoConnect: true });
                 });
-                it('calls `autoConnect`', () => {
+                it('calls `connect`', () => {
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     const adapter = ref.current!.getWalletContextState().wallet!.adapter;
-                    expect(adapter.autoConnect).toHaveBeenCalled();
+                    expect(adapter.connect).toHaveBeenCalled();
+                    expect(adapter.autoConnect).not.toHaveBeenCalled();
                 });
             });
         });
