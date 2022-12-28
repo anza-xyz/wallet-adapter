@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-react
 
+## 0.15.28
+
+### Patch Changes
+
+-   0a5f56e: Wallet adapter no longer accidentally disconnects upon refreshing the page when in React Strict Mode.
+
 ## 0.15.27
 
 ### Patch Changes
