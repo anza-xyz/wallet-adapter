@@ -18,10 +18,12 @@
         "tsconfig.json"
     ],
     "scripts": {
+        "build": "tsc --build --verbose && react-app-rewired build",
         "clean": "shx mkdir -p build lib && shx rm -rf build lib",
+        "lint": "prettier --check 'src/{*,**/*}.{ts,tsx,js,jsx,json}' && eslint",
         "start": "react-app-rewired start",
-        "build": "react-app-rewired build",
-        "test": "react-app-rewired test --passWithNoTests",
+        "test": "CI=true react-app-rewired test --passWithNoTests",
+        "test:watch": "react-app-rewired test --passWithNoTests",
         "eject": "react-scripts eject"
     },
     "dependencies": {

@@ -1,6 +1,8 @@
 {
+    "extends": "../../../tsconfig.root.json",
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
     "compilerOptions": {
+        "outDir": "lib",
         "target": "es6",
         "lib": ["dom", "dom.iterable", "esnext"],
         "allowJs": true,
