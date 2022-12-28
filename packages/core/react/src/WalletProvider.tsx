@@ -86,6 +86,22 @@ export function WalletProvider({
         () => adaptersWithMobileWalletAdapter.find((a) => a.name === walletName) ?? null,
         [adaptersWithMobileWalletAdapter, walletName]
     );
+    const changeWallet = useCallback(
+        (walletName: WalletName<string> | null) => {
+            if (
+                adapter &&
+                // Selecting a wallet other than the mobile wallet adapter is not
+                // sufficient reason to call `disconnect` on the mobile wallet adapter.
+                // Calling `disconnect` on the mobile wallet adapter causes the entire
+                // authorization store to be wiped.
+                adapter.name !== SolanaMobileWalletAdapterWalletName
+            ) {
+                adapter.disconnect();
+            }
+            setWalletName(walletName);
+        },
+        [adapter, setWalletName]
+    );
     useEffect(() => {
         if (adapter == null) {
             return;
@@ -113,22 +129,6 @@ export function WalletProvider({
 
         return () => (hasUserSelectedAWallet.current ? adapter.connect() : adapter.autoConnect());
     }, [adapter, autoConnect]);
-    useEffect(() => {
-        if (adapter == null) {
-            return;
-        }
-        return () => {
-            if (
-                // Selecting a wallet other than the mobile wallet adapter is not
-                // sufficient reason to call `disconnect` on the mobile wallet adapter.
-                // Calling `disconnect` on the mobile wallet adapter causes the entire
-                // authorization store to be wiped.
-                adapter.name !== SolanaMobileWalletAdapterWalletName
-            ) {
-                adapter.disconnect();
-            }
-        };
-    }, [adapter]);
     const isUnloadingRef = useRef(false);
     useEffect(() => {
         if (walletName === SolanaMobileWalletAdapterWalletName && getIsMobile(adaptersWithStandardAdapters)) {
@@ -153,15 +153,15 @@ export function WalletProvider({
     const handleConnectError = useCallback(() => {
         if (adapter && adapter.name !== SolanaMobileWalletAdapterWalletName) {
             // If any error happens while connecting, unset the adapter.
-            setWalletName(null);
+            changeWallet(null);
         }
-    }, [adapter, setWalletName]);
+    }, [adapter, changeWallet]);
     const selectWallet = useCallback(
         (walletName: WalletName | null) => {
             hasUserSelectedAWallet.current = true;
-            setWalletName(walletName);
+            changeWallet(walletName);
         },
-        [setWalletName]
+        [changeWallet]
     );
     return (
         <WalletProviderBase
