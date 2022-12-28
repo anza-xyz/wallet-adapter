@@ -87,7 +87,10 @@ export function WalletProvider({
         [adaptersWithMobileWalletAdapter, walletName]
     );
     const changeWallet = useCallback(
-        (walletName: WalletName<string> | null) => {
+        (nextWalletName: WalletName<string> | null) => {
+            if (walletName === nextWalletName) {
+                return;
+            }
             if (
                 adapter &&
                 // Selecting a wallet other than the mobile wallet adapter is not
@@ -98,9 +101,9 @@ export function WalletProvider({
             ) {
                 adapter.disconnect();
             }
-            setWalletName(walletName);
+            setWalletName(nextWalletName);
         },
-        [adapter, setWalletName]
+        [adapter, setWalletName, walletName]
     );
     useEffect(() => {
         if (adapter == null) {

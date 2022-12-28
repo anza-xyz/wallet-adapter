@@ -293,6 +293,17 @@ describe('WalletProvider when the environment is `DESKTOP_WEB`', () => {
                     expect(fooWalletAdapter.disconnect).toHaveBeenCalled();
                 });
             });
+            describe('and you select the same wallet', () => {
+                beforeEach(async () => {
+                    await act(async () => {
+                        ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
+                        await Promise.resolve(); // Flush all promises in effects after calling `select()`.
+                    });
+                });
+                it('should not disconnect the old wallet', () => {
+                    expect(fooWalletAdapter.disconnect).not.toHaveBeenCalled();
+                });
+            });
             describe('once disconnected', () => {
                 beforeEach(async () => {
                     jest.clearAllMocks();
