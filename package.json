@@ -19,7 +19,7 @@
         "build:clean": "pnpm run clean && pnpm run build",
         "release": "pnpm run build:clean && pnpm test && changeset publish && git push --follow-tags && git status",
         "watch": "pnpm run watch:ts",
-        "watch:ts": "tsc --build --verbose --watch tsconfig.json",
+        "watch:ts": "tsc --build --verbose --watch tsconfig.all.json",
         "fmt": "prettier --write '{*,**/*}.{ts,tsx,js,jsx,json}'",
         "lint": "turbo run lint",
         "lint:fix": "pnpm run fmt && eslint --fix .",
