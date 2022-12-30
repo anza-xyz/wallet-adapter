@@ -788,11 +788,11 @@ importers:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
       '@solana/web3.js': ^1.58.0
-      '@solflare-wallet/sdk': ^1.1.0
+      '@solflare-wallet/sdk': ^1.2.0
       shx: ^0.3.4
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
-      '@solflare-wallet/sdk': 1.1.0_@solana+web3.js@1.70.1
+      '@solflare-wallet/sdk': 1.2.0_@solana+web3.js@1.70.1
     devDependencies:
       '@solana/web3.js': 1.70.1
       shx: 0.3.4
@@ -5319,8 +5319,8 @@ packages:
       - encoding
       - utf-8-validate
 
-  /@solflare-wallet/sdk/1.1.0_@solana+web3.js@1.70.1:
-    resolution: {integrity: sha512-h/OmjgRMDC6CkPHlkUQgOIRv1QXEZp+kQg132zU1KAcikZvc25xf0yMMRU0APUypQ6EJEz6bgQR6BRvvVA9/ZA==}
+  /@solflare-wallet/sdk/1.2.0_@solana+web3.js@1.70.1:
+    resolution: {integrity: sha512-J3KZJdeYJ2R7jPHa0F53iCtkQEdcD1j7yeFQ4oa6Kk6gU1MOqSEWZxrr56sVDKWuPT/gunzEXGrgcwjd7nxwjg==}
     peerDependencies:
       '@solana/web3.js': ^1.61.0
     dependencies:
