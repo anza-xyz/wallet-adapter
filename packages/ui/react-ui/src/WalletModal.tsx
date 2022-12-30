@@ -23,10 +23,10 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
     const [fadeIn, setFadeIn] = useState(false);
     const [portal, setPortal] = useState<Element | null>(null);
 
-    const [installedWallets, otherWallets] = useMemo(() => {
+    const [listedWallets, collapsedWallets] = useMemo(() => {
         const installed: Wallet[] = [];
-        const notDetected: Wallet[] = [];
         const loadable: Wallet[] = [];
+        const notDetected: Wallet[] = [];
 
         for (const wallet of wallets) {
             if (wallet.readyState === WalletReadyState.NotDetected) {
@@ -38,19 +38,21 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
             }
         }
 
-        return [installed, [...loadable, ...notDetected]];
-    }, [wallets]);
+        let listed: Wallet[] = [];
+        let collapsed: Wallet[] = [];
 
-    const getStartedWallet = useMemo(() => {
-        return installedWallets.length
-            ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              installedWallets[0]!
-            : wallets.find((wallet: { adapter: { name: WalletName } }) => wallet.adapter.name === 'Torus') ||
-                  wallets.find((wallet: { adapter: { name: WalletName } }) => wallet.adapter.name === 'Phantom') ||
-                  wallets.find((wallet: { readyState: any }) => wallet.readyState === WalletReadyState.Loadable) ||
-                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                  otherWallets[0]!;
-    }, [installedWallets, wallets, otherWallets]);
+        if (installed.length) {
+            listed = installed;
+            collapsed = [...loadable, ...notDetected];
+        } else if (loadable.length) {
+            listed = loadable;
+            collapsed = notDetected;
+        } else {
+            collapsed = notDetected;
+        }
+
+        return [listed, collapsed];
+    }, [wallets]);
 
     const hideModal = useCallback(() => {
         setFadeIn(false);
@@ -148,20 +150,20 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
                                 <path d="M14 12.461 8.3 6.772l5.234-5.233L12.006 0 6.772 5.234 1.54 0 0 1.539l5.234 5.233L0 12.006l1.539 1.528L6.772 8.3l5.69 5.7L14 12.461z" />
                             </svg>
                         </button>
-                        {installedWallets.length ? (
+                        {listedWallets.length ? (
                             <>
                                 <h1 className="wallet-adapter-modal-title">Connect a wallet on Solana to continue</h1>
                                 <ul className="wallet-adapter-modal-list">
-                                    {installedWallets.map((wallet) => (
+                                    {listedWallets.map((wallet) => (
                                         <WalletListItem
                                             key={wallet.adapter.name}
                                             handleClick={(event) => handleWalletClick(event, wallet.adapter.name)}
                                             wallet={wallet}
                                         />
                                     ))}
-                                    {otherWallets.length ? (
+                                    {collapsedWallets.length ? (
                                         <Collapse expanded={expanded} id="wallet-adapter-modal-collapse">
-                                            {otherWallets.map((wallet) => (
+                                            {collapsedWallets.map((wallet) => (
                                                 <WalletListItem
                                                     key={wallet.adapter.name}
                                                     handleClick={(event) =>
@@ -174,7 +176,7 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
                                         </Collapse>
                                     ) : null}
                                 </ul>
-                                {otherWallets.length ? (
+                                {collapsedWallets.length ? (
                                     <button
                                         className="wallet-adapter-modal-list-more"
                                         onClick={handleCollapseClick}
@@ -202,15 +204,8 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
                                 </h1>
                                 <div className="wallet-adapter-modal-middle">
                                     <WalletSVG />
-                                    <button
-                                        type="button"
-                                        className="wallet-adapter-modal-middle-button"
-                                        onClick={(event) => handleWalletClick(event, getStartedWallet.adapter.name)}
-                                    >
-                                        Get started
-                                    </button>
                                 </div>
-                                {otherWallets.length ? (
+                                {collapsedWallets.length ? (
                                     <>
                                         <button
                                             className="wallet-adapter-modal-list-more"
@@ -232,7 +227,7 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
                                         </button>
                                         <Collapse expanded={expanded} id="wallet-adapter-modal-collapse">
                                             <ul className="wallet-adapter-modal-list">
-                                                {otherWallets.map((wallet) => (
+                                                {collapsedWallets.map((wallet) => (
                                                     <WalletListItem
                                                         key={wallet.adapter.name}
                                                         handleClick={(event) =>

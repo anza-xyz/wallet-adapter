@@ -1,307 +1,182 @@
-import type {
-    Adapter,
-    MessageSignerWalletAdapterProps,
-    SignerWalletAdapterProps,
-    WalletAdapterProps,
-    WalletError,
-    WalletName,
-} from '@solana/wallet-adapter-base';
-import { WalletNotConnectedError, WalletNotReadyError, WalletReadyState } from '@solana/wallet-adapter-base';
-import type { PublicKey } from '@solana/web3.js';
-import type { FC, ReactNode } from 'react';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { WalletNotSelectedError } from './errors.js';
+import {
+    createDefaultAddressSelector,
+    createDefaultAuthorizationResultCache,
+    createDefaultWalletNotFoundHandler,
+    SolanaMobileWalletAdapter,
+    SolanaMobileWalletAdapterWalletName,
+} from '@solana-mobile/wallet-adapter-mobile';
+import { type Adapter, type WalletError, type WalletName } from '@solana/wallet-adapter-base';
+import { useStandardWalletAdapters } from '@solana/wallet-standard-wallet-adapter-react';
+import React, { type ReactNode, useCallback, useEffect, useMemo, useRef } from 'react';
+import getEnvironment, { Environment } from './getEnvironment.js';
+import getInferredClusterFromEndpoint from './getInferredClusterFromEndpoint.js';
+import { useConnection } from './useConnection.js';
 import { useLocalStorage } from './useLocalStorage.js';
-import type { Wallet } from './useWallet.js';
-import { WalletContext } from './useWallet.js';
+import { WalletProviderBase } from './WalletProviderBase.js';
 
 export interface WalletProviderProps {
     children: ReactNode;
     wallets: Adapter[];
     autoConnect?: boolean;
-    onError?: (error: WalletError) => void;
     localStorageKey?: string;
+    onError?: (error: WalletError, adapter?: Adapter) => void;
 }
 
-const initialState: {
-    wallet: Wallet | null;
-    adapter: Adapter | null;
-    publicKey: PublicKey | null;
-    connected: boolean;
-} = {
-    wallet: null,
-    adapter: null,
-    publicKey: null,
-    connected: false,
-};
+let _userAgent: string | null;
+function getUserAgent() {
+    if (_userAgent === undefined) {
+        _userAgent = globalThis.navigator?.userAgent ?? null;
+    }
+    return _userAgent;
+}
 
-export const WalletProvider: FC<WalletProviderProps> = ({
+function getIsMobile(adapters: Adapter[]) {
+    const userAgentString = getUserAgent();
+    return getEnvironment({ adapters, userAgentString }) === Environment.MOBILE_WEB;
+}
+
+function getUriForAppIdentity() {
+    const location = globalThis.location;
+    if (location == null) {
+        return;
+    }
+    return `${location.protocol}//${location.host}`;
+}
+
+export function WalletProvider({
     children,
     wallets: adapters,
-    autoConnect = false,
-    onError,
+    autoConnect,
     localStorageKey = 'walletName',
-}) => {
-    const [name, setName] = useLocalStorage<WalletName | null>(localStorageKey, null);
-    const [{ wallet, adapter, publicKey, connected }, setState] = useState(initialState);
-    const readyState = adapter?.readyState || WalletReadyState.Unsupported;
-    const [connecting, setConnecting] = useState(false);
-    const [disconnecting, setDisconnecting] = useState(false);
-    const isConnecting = useRef(false);
-    const isDisconnecting = useRef(false);
-    const isUnloading = useRef(false);
-
-    // Wrap adapters to conform to the `Wallet` interface
-    const [wallets, setWallets] = useState(() =>
-        adapters.map((adapter) => ({
-            adapter,
-            readyState: adapter.readyState,
-        }))
-    );
-
-    // When the adapters change, start to listen for changes to their `readyState`
-    useEffect(() => {
-        // When the adapters change, wrap them to conform to the `Wallet` interface
-        setWallets((wallets) =>
-            adapters.map((adapter, index) => {
-                const wallet = wallets[index];
-                // If the wallet hasn't changed, return the same instance
-                return wallet && wallet.adapter === adapter && wallet.readyState === adapter.readyState
-                    ? wallet
-                    : {
-                          adapter: adapter,
-                          readyState: adapter.readyState,
-                      };
-            })
+    onError,
+}: WalletProviderProps) {
+    const { connection } = useConnection();
+    const adaptersWithStandardAdapters = useStandardWalletAdapters(adapters);
+    const mobileWalletAdapter = useMemo(() => {
+        if (!getIsMobile(adaptersWithStandardAdapters)) {
+            return null;
+        }
+        const existingMobileWalletAdapter = adaptersWithStandardAdapters.find(
+            (adapter) => adapter.name === SolanaMobileWalletAdapterWalletName
         );
-
-        function handleReadyStateChange(this: Adapter, readyState: WalletReadyState) {
-            setWallets((prevWallets) => {
-                const index = prevWallets.findIndex(({ adapter }) => adapter === this);
-                if (index === -1) return prevWallets;
-
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                const { adapter } = prevWallets[index]!;
-                return [...prevWallets.slice(0, index), { adapter, readyState }, ...prevWallets.slice(index + 1)];
-            });
+        if (existingMobileWalletAdapter) {
+            return existingMobileWalletAdapter;
         }
-
-        adapters.forEach((adapter) => adapter.on('readyStateChange', handleReadyStateChange, adapter));
-        return () => adapters.forEach((adapter) => adapter.off('readyStateChange', handleReadyStateChange, adapter));
-    }, [adapters]);
-
-    // When the selected wallet changes, initialize the state
-    useEffect(() => {
-        const wallet = name && wallets.find(({ adapter }) => adapter.name === name);
-        if (wallet) {
-            setState({
-                wallet,
-                adapter: wallet.adapter,
-                connected: wallet.adapter.connected,
-                publicKey: wallet.adapter.publicKey,
-            });
-        } else {
-            setState(initialState);
+        return new SolanaMobileWalletAdapter({
+            addressSelector: createDefaultAddressSelector(),
+            appIdentity: {
+                uri: getUriForAppIdentity(),
+            },
+            authorizationResultCache: createDefaultAuthorizationResultCache(),
+            cluster: getInferredClusterFromEndpoint(connection?.rpcEndpoint),
+            onWalletNotFound: createDefaultWalletNotFoundHandler(),
+        });
+    }, [adaptersWithStandardAdapters, connection?.rpcEndpoint]);
+    const adaptersWithMobileWalletAdapter = useMemo(() => {
+        if (mobileWalletAdapter == null || adaptersWithStandardAdapters.indexOf(mobileWalletAdapter) !== -1) {
+            return adaptersWithStandardAdapters;
         }
-    }, [name, wallets]);
-
-    // If the window is closing or reloading, ignore disconnect and error events from the adapter
-    useEffect(() => {
-        function listener() {
-            isUnloading.current = true;
-        }
-
-        window.addEventListener('beforeunload', listener);
-        return () => window.removeEventListener('beforeunload', listener);
-    }, [isUnloading]);
-
-    // Handle the adapter's connect event
-    const handleConnect = useCallback(() => {
-        if (!adapter) return;
-        setState((state) => ({ ...state, connected: adapter.connected, publicKey: adapter.publicKey }));
-    }, [adapter]);
-
-    // Handle the adapter's disconnect event
-    const handleDisconnect = useCallback(() => {
-        // Clear the selected wallet unless the window is unloading
-        if (!isUnloading.current) setName(null);
-    }, [isUnloading, setName]);
-
-    // Handle the adapter's error event, and local errors
-    const handleError = useCallback(
-        (error: WalletError) => {
-            // Call onError unless the window is unloading
-            if (!isUnloading.current) (onError || console.error)(error);
-            return error;
-        },
-        [isUnloading, onError]
+        return [mobileWalletAdapter, ...adaptersWithStandardAdapters];
+    }, [adaptersWithStandardAdapters, mobileWalletAdapter]);
+    const [walletName, setWalletName] = useLocalStorage<WalletName | null>(
+        localStorageKey,
+        getIsMobile(adaptersWithStandardAdapters) ? SolanaMobileWalletAdapterWalletName : null
     );
-
-    // Setup and teardown event listeners when the adapter changes
+    const adapter = useMemo(
+        () => adaptersWithMobileWalletAdapter.find((a) => a.name === walletName) ?? null,
+        [adaptersWithMobileWalletAdapter, walletName]
+    );
+    const changeWallet = useCallback(
+        (nextWalletName: WalletName<string> | null) => {
+            if (walletName === nextWalletName) {
+                return;
+            }
+            if (
+                adapter &&
+                // Selecting a wallet other than the mobile wallet adapter is not
+                // sufficient reason to call `disconnect` on the mobile wallet adapter.
+                // Calling `disconnect` on the mobile wallet adapter causes the entire
+                // authorization store to be wiped.
+                adapter.name !== SolanaMobileWalletAdapterWalletName
+            ) {
+                adapter.disconnect();
+            }
+            setWalletName(nextWalletName);
+        },
+        [adapter, setWalletName, walletName]
+    );
     useEffect(() => {
-        if (adapter) {
-            adapter.on('connect', handleConnect);
-            adapter.on('disconnect', handleDisconnect);
-            adapter.on('error', handleError);
-            return () => {
-                adapter.off('connect', handleConnect);
-                adapter.off('disconnect', handleDisconnect);
-                adapter.off('error', handleError);
-            };
-        }
-    }, [adapter, handleConnect, handleDisconnect, handleError]);
-
-    // When the adapter changes, disconnect the old one
-    useEffect(() => {
-        return () => {
-            adapter?.disconnect();
-        };
-    }, [adapter]);
-
-    // If autoConnect is enabled, try to connect when the adapter changes and is ready
-    useEffect(() => {
-        if (
-            isConnecting.current ||
-            connected ||
-            !autoConnect ||
-            !adapter ||
-            !(readyState === WalletReadyState.Installed || readyState === WalletReadyState.Loadable)
-        )
+        if (adapter == null) {
             return;
-
-        (async function () {
-            isConnecting.current = true;
-            setConnecting(true);
-            try {
-                await adapter.connect();
-            } catch (error: any) {
-                // Clear the selected wallet
-                setName(null);
-                // Don't throw error, but handleError will still be called
-            } finally {
-                setConnecting(false);
-                isConnecting.current = false;
+        }
+        function handleDisconnect() {
+            if (isUnloadingRef.current) {
+                return;
             }
-        })();
-    }, [isConnecting, connected, autoConnect, adapter, readyState, setName]);
-
-    // Connect the adapter to the wallet
-    const connect = useCallback(async () => {
-        if (isConnecting.current || isDisconnecting.current || connected) return;
-        if (!adapter) throw handleError(new WalletNotSelectedError());
-
-        if (!(readyState === WalletReadyState.Installed || readyState === WalletReadyState.Loadable)) {
-            // Clear the selected wallet
-            setName(null);
-
-            if (typeof window !== 'undefined') {
-                window.open(adapter.url, '_blank');
+            if (walletName === SolanaMobileWalletAdapterWalletName && getIsMobile(adaptersWithStandardAdapters)) {
+                // Leave the adapter selected in the event of a disconnection.
+                return;
             }
-
-            throw handleError(new WalletNotReadyError());
+            setWalletName(null);
+        }
+        adapter.on('disconnect', handleDisconnect);
+        return () => {
+            adapter.off('disconnect', handleDisconnect);
+        };
+    }, [adapter, adaptersWithStandardAdapters, setWalletName, walletName]);
+    const hasUserSelectedAWallet = useRef(false);
+    const handleAutoConnectRequest = useMemo(() => {
+        if (autoConnect !== true || !adapter) {
+            return;
         }
 
-        isConnecting.current = true;
-        setConnecting(true);
-        try {
-            await adapter.connect();
-        } catch (error: any) {
-            // Clear the selected wallet
-            setName(null);
-            // Rethrow the error, and handleError will also be called
-            throw error;
-        } finally {
-            setConnecting(false);
-            isConnecting.current = false;
+        return () => (hasUserSelectedAWallet.current ? adapter.connect() : adapter.autoConnect());
+    }, [adapter, autoConnect]);
+    const isUnloadingRef = useRef(false);
+    useEffect(() => {
+        if (walletName === SolanaMobileWalletAdapterWalletName && getIsMobile(adaptersWithStandardAdapters)) {
+            isUnloadingRef.current = false;
+            return;
         }
-    }, [isConnecting, isDisconnecting, connected, adapter, readyState, handleError, setName]);
-
-    // Disconnect the adapter from the wallet
-    const disconnect = useCallback(async () => {
-        if (isDisconnecting.current) return;
-        if (!adapter) return setName(null);
-
-        isDisconnecting.current = true;
-        setDisconnecting(true);
-        try {
-            await adapter.disconnect();
-        } catch (error: any) {
-            // Clear the selected wallet
-            setName(null);
-            // Rethrow the error, and handleError will also be called
-            throw error;
-        } finally {
-            setDisconnecting(false);
-            isDisconnecting.current = false;
+        function handleBeforeUnload() {
+            isUnloadingRef.current = true;
         }
-    }, [isDisconnecting, adapter, setName]);
-
-    // Send a transaction using the provided connection
-    const sendTransaction: WalletAdapterProps['sendTransaction'] = useCallback(
-        async (transaction, connection, options) => {
-            if (!adapter) throw handleError(new WalletNotSelectedError());
-            if (!connected) throw handleError(new WalletNotConnectedError());
-            return await adapter.sendTransaction(transaction, connection, options);
+        /**
+         * Some wallets fire disconnection events when the window unloads. Since there's no way to
+         * distinguish between a disconnection event received because a user initiated it, and one
+         * that was received because they've closed the window, we have to track window unload
+         * events themselves. Downstream components use this information to decide whether to act
+         * upon or drop wallet events and errors.
+         */
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, [adaptersWithStandardAdapters, walletName]);
+    const handleConnectError = useCallback(() => {
+        if (adapter && adapter.name !== SolanaMobileWalletAdapterWalletName) {
+            // If any error happens while connecting, unset the adapter.
+            changeWallet(null);
+        }
+    }, [adapter, changeWallet]);
+    const selectWallet = useCallback(
+        (walletName: WalletName | null) => {
+            hasUserSelectedAWallet.current = true;
+            changeWallet(walletName);
         },
-        [adapter, handleError, connected]
+        [changeWallet]
     );
-
-    // Sign a transaction if the wallet supports it
-    const signTransaction: SignerWalletAdapterProps['signTransaction'] | undefined = useMemo(
-        () =>
-            adapter && 'signTransaction' in adapter
-                ? async (transaction) => {
-                      if (!connected) throw handleError(new WalletNotConnectedError());
-                      return await adapter.signTransaction(transaction);
-                  }
-                : undefined,
-        [adapter, handleError, connected]
-    );
-
-    // Sign multiple transactions if the wallet supports it
-    const signAllTransactions: SignerWalletAdapterProps['signAllTransactions'] | undefined = useMemo(
-        () =>
-            adapter && 'signAllTransactions' in adapter
-                ? async (transactions) => {
-                      if (!connected) throw handleError(new WalletNotConnectedError());
-                      return await adapter.signAllTransactions(transactions);
-                  }
-                : undefined,
-        [adapter, handleError, connected]
-    );
-
-    // Sign an arbitrary message if the wallet supports it
-    const signMessage: MessageSignerWalletAdapterProps['signMessage'] | undefined = useMemo(
-        () =>
-            adapter && 'signMessage' in adapter
-                ? async (message) => {
-                      if (!connected) throw handleError(new WalletNotConnectedError());
-                      return await adapter.signMessage(message);
-                  }
-                : undefined,
-        [adapter, handleError, connected]
-    );
-
     return (
-        <WalletContext.Provider
-            value={{
-                autoConnect,
-                wallets,
-                wallet,
-                publicKey,
-                connected,
-                connecting,
-                disconnecting,
-                select: setName,
-                connect,
-                disconnect,
-                sendTransaction,
-                signTransaction,
-                signAllTransactions,
-                signMessage,
-            }}
+        <WalletProviderBase
+            wallets={adaptersWithMobileWalletAdapter}
+            adapter={adapter}
+            isUnloadingRef={isUnloadingRef}
+            onAutoConnectRequest={handleAutoConnectRequest}
+            onConnectError={handleConnectError}
+            onError={onError}
+            onSelectWallet={selectWallet}
         >
             {children}
-        </WalletContext.Provider>
+        </WalletProviderBase>
     );
-};
+}

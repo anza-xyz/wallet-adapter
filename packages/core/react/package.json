@@ -1,14 +1,22 @@
 {
     "name": "@solana/wallet-adapter-react",
-    "version": "0.15.19",
+    "version": "0.15.28",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
-    "type": "module",
-    "sideEffects": false,
+    "publishConfig": {
+        "access": "public"
+    },
+    "files": [
+        "lib",
+        "src",
+        "LICENSE"
+    ],
     "engines": {
         "node": ">=16"
     },
+    "type": "module",
+    "sideEffects": false,
     "main": "./lib/cjs/index.js",
     "module": "./lib/esm/index.js",
     "types": "./lib/types/index.d.ts",
@@ -17,29 +25,22 @@
         "import": "./lib/esm/index.js",
         "types": "./lib/types/index.d.ts"
     },
-    "files": [
-        "lib",
-        "src",
-        "LICENSE"
-    ],
-    "publishConfig": {
-        "access": "public"
-    },
     "scripts": {
         "clean": "shx mkdir -p lib && shx rm -rf lib",
-        "package": "shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json",
+        "package": "shx mkdir -p lib/cjs && shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json",
         "test": "jest"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.61.0",
-        "react": "*",
-        "react-dom": "*"
+        "@solana/web3.js": "^1.58.0",
+        "react": "*"
     },
     "dependencies": {
-        "@solana/wallet-adapter-base": "workspace:^"
+        "@solana-mobile/wallet-adapter-mobile": "^0.9.9",
+        "@solana/wallet-adapter-base": "workspace:^",
+        "@solana/wallet-standard-wallet-adapter-react": "^1.0.0"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.61.0",
+        "@solana/web3.js": "^1.58.0",
         "@types/jest": "^28.1.6",
         "@types/react": "^18.0.0",
         "@types/react-dom": "^18.0.0",

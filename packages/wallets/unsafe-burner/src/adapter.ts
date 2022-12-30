@@ -1,6 +1,11 @@
 import type { WalletName } from '@solana/wallet-adapter-base';
-import { BaseSignerWalletAdapter, WalletNotConnectedError, WalletReadyState } from '@solana/wallet-adapter-base';
-import type { PublicKey, Transaction, TransactionVersion, VersionedTransaction } from '@solana/web3.js';
+import {
+    BaseSignerWalletAdapter,
+    isVersionedTransaction,
+    WalletNotConnectedError,
+    WalletReadyState,
+} from '@solana/wallet-adapter-base';
+import type { Transaction, TransactionVersion, VersionedTransaction } from '@solana/web3.js';
 import { Keypair } from '@solana/web3.js';
 
 export const UnsafeBurnerWalletName = 'Burner Wallet' as WalletName<'Burner Wallet'>;
@@ -41,7 +46,7 @@ export class UnsafeBurnerWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     get readyState() {
-        return WalletReadyState.Installed;
+        return WalletReadyState.Loadable;
     }
 
     async connect(): Promise<void> {
@@ -57,7 +62,7 @@ export class UnsafeBurnerWalletAdapter extends BaseSignerWalletAdapter {
     async signTransaction<T extends Transaction | VersionedTransaction>(transaction: T): Promise<T> {
         if (!this._keypair) throw new WalletNotConnectedError();
 
-        if ('version' in transaction) {
+        if (isVersionedTransaction(transaction)) {
             transaction.sign([this._keypair]);
         } else {
             transaction.partialSign(this._keypair);

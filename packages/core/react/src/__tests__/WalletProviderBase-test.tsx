@@ -4,23 +4,26 @@
 
 'use strict';
 
-import type { Adapter, WalletName } from '@solana/wallet-adapter-base';
-import { BaseWalletAdapter, WalletError, WalletNotReadyError, WalletReadyState } from '@solana/wallet-adapter-base';
+import {
+    type Adapter,
+    BaseWalletAdapter,
+    WalletError,
+    type WalletName,
+    WalletNotReadyError,
+    WalletReadyState,
+} from '@solana/wallet-adapter-base';
 import { PublicKey } from '@solana/web3.js';
-import 'jest-localstorage-mock';
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
 import { createRoot } from 'react-dom/client';
 import { act } from 'react-dom/test-utils';
-import type { WalletContextState } from '../useWallet.js';
-import { useWallet } from '../useWallet.js';
-import type { WalletProviderProps } from '../WalletProvider.js';
-import { WalletProvider } from '../WalletProvider.js';
+import { useWallet, type WalletContextState } from '../useWallet.js';
+import { WalletProviderBase, type WalletProviderBaseProps } from '../WalletProviderBase.js';
 
 type TestRefType = {
     getWalletContextState(): WalletContextState;
 };
 
-const TestComponent = forwardRef(function TestComponentImpl(props, ref) {
+const TestComponent = forwardRef(function TestComponentImpl(_props, ref) {
     const wallet = useWallet();
     useImperativeHandle(
         ref,
@@ -34,7 +37,7 @@ const TestComponent = forwardRef(function TestComponentImpl(props, ref) {
     return null;
 });
 
-describe('WalletProvider', () => {
+describe('WalletProviderBase', () => {
     let ref: React.RefObject<TestRefType>;
     let root: ReturnType<typeof createRoot>;
     let container: HTMLElement;
@@ -42,13 +45,25 @@ describe('WalletProvider', () => {
     let barWalletAdapter: MockWalletAdapter;
     let bazWalletAdapter: MockWalletAdapter;
     let adapters: Adapter[];
+    let isUnloading: React.MutableRefObject<boolean>;
 
-    function renderTest(props: Omit<WalletProviderProps, 'children' | 'wallets'>) {
+    function renderTest(
+        props: Omit<
+            WalletProviderBaseProps,
+            'children' | 'wallets' | 'isUnloadingRef' | 'onConnectError' | 'onSelectWallet'
+        >
+    ) {
         act(() => {
             root.render(
-                <WalletProvider {...props} wallets={adapters}>
+                <WalletProviderBase
+                    wallets={adapters}
+                    isUnloadingRef={isUnloading}
+                    onConnectError={jest.fn()}
+                    onSelectWallet={jest.fn()}
+                    {...props}
+                >
                     <TestComponent ref={ref} />
-                </WalletProvider>
+                </WalletProviderBase>
             );
         });
     }
@@ -110,10 +125,10 @@ describe('WalletProvider', () => {
     }
 
     beforeEach(() => {
-        localStorage.clear();
         jest.resetAllMocks();
         container = document.createElement('div');
         document.body.appendChild(container);
+        isUnloading = { current: false };
         root = createRoot(container);
         ref = createRef();
         fooWalletAdapter = new FooWalletAdapter();
@@ -129,11 +144,7 @@ describe('WalletProvider', () => {
     describe('given a selected wallet', () => {
         beforeEach(async () => {
             fooWalletAdapter.readyStateValue = WalletReadyState.NotDetected;
-            renderTest({});
-            await act(async () => {
-                ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
-                await Promise.resolve(); // Flush all promises in effects after calling `select()`.
-            });
+            renderTest({ adapter: fooWalletAdapter });
             expect(ref.current?.getWalletContextState().wallet?.readyState).toBe(WalletReadyState.NotDetected);
         });
         describe('that then becomes ready', () => {
@@ -153,12 +164,8 @@ describe('WalletProvider', () => {
                     fooWalletAdapter.disconnect();
                 });
             });
-            it('should clear the stored wallet name', () => {
-                expect(localStorage.removeItem).toHaveBeenCalled();
-            });
-            it('updates state tracking variables appropriately', () => {
+            it('clears out the state', () => {
                 expect(ref.current?.getWalletContextState()).toMatchObject({
-                    wallet: null,
                     connected: false,
                     connecting: false,
                     publicKey: null,
@@ -168,82 +175,84 @@ describe('WalletProvider', () => {
         describe('when the wallet disconnects as a consequence of the window unloading', () => {
             beforeEach(() => {
                 act(() => {
-                    window.dispatchEvent(new Event('beforeunload'));
+                    isUnloading.current = true;
                     fooWalletAdapter.disconnect();
                 });
             });
-            it('should not clear the stored wallet name', () => {
-                expect(localStorage.removeItem).not.toHaveBeenCalled();
+            it('should not clear out the state', () => {
+                expect(ref.current?.getWalletContextState().wallet?.adapter).toBe(fooWalletAdapter);
+                expect(ref.current?.getWalletContextState().publicKey).not.toBeNull();
             });
         });
     });
-    describe('when there exists no stored wallet name', () => {
+    describe('given the presence of an unsupported wallet', () => {
         beforeEach(() => {
-            (localStorage.getItem as jest.Mock).mockReturnValue(null);
+            bazWalletAdapter.readyStateValue = WalletReadyState.Unsupported;
+            renderTest({ adapter: fooWalletAdapter });
         });
-        it('loads no wallet into state', () => {
-            renderTest({});
-            expect(ref.current?.getWalletContextState().wallet).toBeNull();
-        });
-        it('loads no public key into state', () => {
-            renderTest({});
-            expect(ref.current?.getWalletContextState().publicKey).toBeNull();
+        it('filters out the unsupported wallet', () => {
+            const adapters = ref.current?.getWalletContextState().wallets.map(({ adapter }) => adapter);
+            expect(adapters).not.toContain(bazWalletAdapter);
         });
     });
-    describe('when there exists a stored wallet name', () => {
+    describe('when auto connect is disabled', () => {
         beforeEach(() => {
-            (localStorage.getItem as jest.Mock).mockReturnValue(JSON.stringify('FooWallet'));
+            renderTest({ onAutoConnectRequest: undefined, adapter: fooWalletAdapter });
         });
-        it('loads the corresponding adapter into state', () => {
-            renderTest({});
-            expect(ref.current?.getWalletContextState().wallet?.adapter).toBeInstanceOf(FooWalletAdapter);
+        it('`autoConnect` is `false` on state', () => {
+            expect(ref.current?.getWalletContextState().autoConnect).toBe(false);
         });
-        it('loads the corresponding public key into state', () => {
-            renderTest({});
-            expect(ref.current?.getWalletContextState().publicKey).toBe(fooWalletAdapter.publicKey);
+    });
+    describe('and auto connect is enabled', () => {
+        let onAutoConnectRequest: jest.Mock;
+        beforeEach(() => {
+            onAutoConnectRequest = jest.fn();
+            fooWalletAdapter.readyStateValue = WalletReadyState.NotDetected;
+            renderTest({ adapter: fooWalletAdapter, onAutoConnectRequest });
         });
-        it('sets state tracking variables to defaults', () => {
-            renderTest({});
-            expect(ref.current?.getWalletContextState()).toMatchObject({
-                connected: false,
-                connecting: false,
-            });
+        it('`autoConnect` is `true` on state', () => {
+            expect(ref.current?.getWalletContextState().autoConnect).toBe(true);
         });
-        describe('and auto connect is disabled', () => {
-            const props = { autoConnect: false };
-            beforeEach(() => {
-                renderTest(props);
-            });
-            it('`autoConnect` is `false` on state', () => {
-                expect(ref.current?.getWalletContextState().autoConnect).toBe(false);
-            });
+        describe('before the adapter is ready', () => {
             it('does not call `connect` on the adapter', () => {
                 expect(fooWalletAdapter.connect).not.toHaveBeenCalled();
             });
-        });
-        describe('and auto connect is enabled', () => {
-            const props = { autoConnect: true };
-            beforeEach(() => {
-                fooWalletAdapter.readyStateValue = WalletReadyState.NotDetected;
-                renderTest(props);
-            });
-            it('`autoConnect` is `true` on state', () => {
-                expect(ref.current?.getWalletContextState().autoConnect).toBe(true);
-            });
-            describe('before the adapter is ready', () => {
-                it('does not call `connect` on the adapter', () => {
-                    expect(fooWalletAdapter.connect).not.toHaveBeenCalled();
+            describe('once the adapter becomes ready', () => {
+                beforeEach(async () => {
+                    await act(async () => {
+                        fooWalletAdapter.readyStateValue = WalletReadyState.Installed;
+                        fooWalletAdapter.emit('readyStateChange', WalletReadyState.Installed);
+                        await Promise.resolve(); // Flush all promises in effects after calling `select()`.
+                    });
                 });
-                describe('once the adapter becomes ready', () => {
+                it('calls `onAutoConnectRequest`', () => {
+                    expect(onAutoConnectRequest).toHaveBeenCalledTimes(1);
+                });
+                describe('when switching to another adapter', () => {
+                    beforeEach(async () => {
+                        jest.clearAllMocks();
+                        renderTest({ adapter: barWalletAdapter, onAutoConnectRequest });
+                    });
+                    it('calls `onAutoConnectRequest` despite having called it once before on the old adapter', () => {
+                        expect(onAutoConnectRequest).toHaveBeenCalledTimes(1);
+                    });
+                });
+                describe('once the adapter connects', () => {
                     beforeEach(async () => {
                         await act(async () => {
-                            fooWalletAdapter.readyStateValue = WalletReadyState.Installed;
-                            fooWalletAdapter.emit('readyStateChange', WalletReadyState.Installed);
-                            await Promise.resolve(); // Flush all promises in effects after calling `select()`.
+                            await fooWalletAdapter.connect();
                         });
                     });
-                    it('calls `connect` on the adapter', () => {
-                        expect(fooWalletAdapter.connect).toHaveBeenCalledTimes(1);
+                    describe('then disconnects', () => {
+                        beforeEach(async () => {
+                            jest.clearAllMocks();
+                            await act(async () => {
+                                await fooWalletAdapter.disconnect();
+                            });
+                        });
+                        it('does not make a second attempt to auto connect', () => {
+                            expect(onAutoConnectRequest).not.toHaveBeenCalled();
+                        });
                     });
                 });
             });
@@ -251,50 +260,57 @@ describe('WalletProvider', () => {
     });
     describe('custom error handler', () => {
         const errorToEmit = new WalletError();
-        let handleError: (error: WalletError) => void;
+        let onError: jest.Mock;
         beforeEach(async () => {
-            handleError = jest.fn();
-            renderTest({ onError: handleError });
-            await act(async () => {
-                ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
-                await Promise.resolve(); // Flush all promises in effects after calling `select()`.
-            });
+            onError = jest.fn();
+            renderTest({ adapter: fooWalletAdapter, onError });
         });
         it('gets called in response to adapter errors', () => {
             act(() => {
                 fooWalletAdapter.emit('error', errorToEmit);
             });
-            expect(handleError).toBeCalledWith(errorToEmit);
+            expect(onError).toBeCalledWith(errorToEmit, fooWalletAdapter);
         });
         it('does not get called if the window is unloading', () => {
             const errorToEmit = new WalletError();
             act(() => {
-                window.dispatchEvent(new Event('beforeunload'));
+                isUnloading.current = true;
                 fooWalletAdapter.emit('error', errorToEmit);
             });
-            expect(handleError).not.toBeCalled();
+            expect(onError).not.toBeCalled();
+        });
+        describe('when a wallet is connected', () => {
+            beforeEach(async () => {
+                await act(() => {
+                    ref.current?.getWalletContextState().connect();
+                });
+                expect(ref.current?.getWalletContextState()).toMatchObject({
+                    connected: true,
+                });
+            });
+            describe('then the `onError` function changes', () => {
+                beforeEach(async () => {
+                    const differentOnError = jest.fn(); /* Some function, different from the one above */
+                    renderTest({ adapter: fooWalletAdapter, onError: differentOnError });
+                });
+                it('does not cause state to be cleared when it changes', () => {
+                    // Regression test for https://github.com/solana-labs/wallet-adapter/issues/636
+                    expect(ref.current?.getWalletContextState()).toMatchObject({
+                        connected: true,
+                    });
+                });
+            });
         });
     });
     describe('connect()', () => {
-        describe('given a wallet that is not ready', () => {
+        describe('given an adapter that is not ready', () => {
             beforeEach(async () => {
                 window.open = jest.fn();
                 fooWalletAdapter.readyStateValue = WalletReadyState.NotDetected;
-                renderTest({});
-                act(() => {
-                    ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
-                });
+                renderTest({ adapter: fooWalletAdapter });
                 expect(ref.current?.getWalletContextState().wallet?.readyState).toBe(WalletReadyState.NotDetected);
                 act(() => {
-                    expect(ref.current?.getWalletContextState().connect).rejects.toThrow();
-                });
-            });
-            it('clears out the state', () => {
-                expect(ref.current?.getWalletContextState()).toMatchObject({
-                    wallet: null,
-                    connected: false,
-                    connecting: false,
-                    publicKey: null,
+                    expect(ref.current?.getWalletContextState().connect()).rejects.toThrow();
                 });
             });
             it("opens the wallet's URL in a new window", () => {
@@ -306,14 +322,10 @@ describe('WalletProvider', () => {
                 });
             });
         });
-        describe('given a wallet that is ready', () => {
+        describe('given an adapter that is ready', () => {
             let commitConnection: () => void;
             beforeEach(async () => {
-                renderTest({});
-                await act(async () => {
-                    ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
-                    await Promise.resolve(); // Flush all promises in effects after calling `select()`.
-                });
+                renderTest({ adapter: fooWalletAdapter });
                 fooWalletAdapter.connectionPromise = new Promise<void>((resolve) => {
                     commitConnection = resolve;
                 });
@@ -346,15 +358,11 @@ describe('WalletProvider', () => {
         });
     });
     describe('disconnect()', () => {
-        describe('when there is already a wallet connected', () => {
+        describe('when there is already an adapter supplied', () => {
             let commitDisconnection: () => void;
             beforeEach(async () => {
                 window.open = jest.fn();
-                renderTest({});
-                await act(async () => {
-                    ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
-                    await Promise.resolve(); // Flush all promises in effects after calling `select()`.
-                });
+                renderTest({ adapter: fooWalletAdapter });
                 await act(() => {
                     ref.current?.getWalletContextState().connect();
                 });
@@ -376,12 +384,8 @@ describe('WalletProvider', () => {
                         commitDisconnection();
                     });
                 });
-                it('should clear the stored wallet name', () => {
-                    expect(localStorage.removeItem).toHaveBeenCalled();
-                });
                 it('clears out the state', () => {
                     expect(ref.current?.getWalletContextState()).toMatchObject({
-                        wallet: null,
                         connected: false,
                         connecting: false,
                         publicKey: null,
@@ -390,69 +394,66 @@ describe('WalletProvider', () => {
             });
         });
     });
-    describe('select()', () => {
-        describe('when there is no wallet connected', () => {
-            describe('and you select a wallet', () => {
-                beforeEach(async () => {
-                    renderTest({});
-                    await act(async () => {
-                        ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
-                        await Promise.resolve(); // Flush all promises in effects after calling `select()`.
-                    });
-                });
-                it('sets the state tracking variables', () => {
-                    expect(ref.current?.getWalletContextState()).toMatchObject({
-                        wallet: { adapter: fooWalletAdapter, readyState: fooWalletAdapter.readyState },
-                        connected: false,
-                        connecting: false,
-                        publicKey: fooWalletAdapter.publicKey,
-                    });
+    describe('when there is no adapter supplied', () => {
+        beforeEach(() => {
+            renderTest({ adapter: null });
+        });
+        describe('and one becomes supplied', () => {
+            beforeEach(() => {
+                renderTest({ adapter: fooWalletAdapter });
+            });
+            it('sets the state tracking variables', () => {
+                expect(ref.current?.getWalletContextState()).toMatchObject({
+                    wallet: { adapter: fooWalletAdapter, readyState: fooWalletAdapter.readyState },
+                    connected: false,
+                    connecting: false,
+                    publicKey: null,
                 });
             });
         });
-        describe('when there is already a wallet selected', () => {
-            let commitFooWalletDisconnection: () => void;
-            beforeEach(async () => {
-                fooWalletAdapter.disconnectionPromise = new Promise<void>((resolve) => {
-                    commitFooWalletDisconnection = resolve;
-                });
-                renderTest({});
-                await act(async () => {
-                    ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
-                    await Promise.resolve(); // Flush all promises in effects after calling `select()`.
+    });
+    describe('when there is already an adapter supplied', () => {
+        let commitFooWalletDisconnection: () => void;
+        beforeEach(async () => {
+            fooWalletAdapter.disconnectionPromise = new Promise<void>((resolve) => {
+                commitFooWalletDisconnection = resolve;
+            });
+            renderTest({ adapter: fooWalletAdapter });
+        });
+        describe('when you null out the adapter', () => {
+            beforeEach(() => {
+                renderTest({ adapter: null });
+            });
+            it('clears out the state', () => {
+                expect(ref.current?.getWalletContextState()).toMatchObject({
+                    wallet: null,
+                    connected: false,
+                    connecting: false,
+                    publicKey: null,
                 });
             });
-            describe('and you select a different wallet', () => {
+        });
+        describe('and a different adapter becomes supplied', () => {
+            beforeEach(async () => {
+                renderTest({ adapter: barWalletAdapter });
+            });
+            it('the adapter of the new wallet should be set in state', () => {
+                expect(ref.current?.getWalletContextState().wallet?.adapter).toBe(barWalletAdapter);
+            });
+            /**
+             * Regression test: a race condition in the wallet name setter could result in the
+             * wallet reverting back to an old value, depending on the cadence of the previous
+             * wallets' disconnect operation.
+             */
+            describe('then a different one becomes supplied before the first one has disconnected', () => {
                 beforeEach(async () => {
-                    await act(async () => {
-                        ref.current?.getWalletContextState().select('BarWallet' as WalletName<'BarWallet'>);
-                        await Promise.resolve(); // Flush all promises in effects after calling `select()`.
+                    renderTest({ adapter: bazWalletAdapter });
+                    act(() => {
+                        commitFooWalletDisconnection();
                     });
                 });
-                it('should disconnect the old wallet', () => {
-                    expect(fooWalletAdapter.disconnect).toHaveBeenCalled();
-                });
-                it('the adapter of the new wallet should be set in state', () => {
-                    expect(ref.current?.getWalletContextState().wallet?.adapter).toBe(barWalletAdapter);
-                });
-                /**
-                 * Regression test: a race condition in the wallet name setter could result in the
-                 * wallet reverting back to an old value, depending on the cadence of the previous
-                 * wallets' disconnect operation.
-                 */
-                describe('then change your mind before the first one has disconnected', () => {
-                    beforeEach(async () => {
-                        await act(async () => {
-                            ref.current?.getWalletContextState().select('BazWallet' as WalletName<'BazWallet'>);
-                            await Promise.resolve(); // Flush all promises in effects after calling `select()`.
-                        });
-                        act(() => {
-                            commitFooWalletDisconnection();
-                        });
-                    });
-                    it('the wallet you selected last should be set in state', () => {
-                        expect(ref.current?.getWalletContextState().wallet?.adapter).toBe(bazWalletAdapter);
-                    });
+                it('the wallet you selected last should be set in state', () => {
+                    expect(ref.current?.getWalletContextState().wallet?.adapter).toBe(bazWalletAdapter);
                 });
             });
         });

@@ -4,22 +4,23 @@
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
-    "type": "module",
-    "sideEffects": false,
     "engines": {
         "node": ">=16",
         "pnpm": ">=7"
     },
+    "type": "module",
+    "sideEffects": false,
     "scripts": {
         "nuke": "shx rm -rf packages/*/*/node_modules node_modules pnpm-lock.yaml || true",
         "reinstall": "pnpm run nuke && pnpm install",
         "clean": "pnpm --recursive --workspace-concurrency=0 run clean && shx rm -rf **/*.tsbuildinfo",
         "ts": "pnpm run build:ts",
-        "build": "pnpm run build:ts && pnpm run build:other",
+        "build": "pnpm run build:ts && pnpm run build:package && pnpm run build:other",
         "build:ts": "tsc --build --verbose tsconfig.all.json",
+        "build:package": "pnpm --recursive --workspace-concurrency=0 run package",
         "build:other": "pnpm --recursive --workspace-concurrency=0 run build",
-        "package": "pnpm --recursive --workspace-concurrency=0 run package",
-        "release": "pnpm run clean && pnpm run build:ts && pnpm run package && pnpm run build:other",
+        "build:clean": "pnpm run clean && pnpm run build",
+        "release": "pnpm run build:clean && pnpm test && changeset publish && git push --follow-tags && git status",
         "watch": "pnpm run watch:ts",
         "watch:ts": "tsc --build --verbose --watch tsconfig.all.json",
         "fmt": "prettier --write '{*,**/*}.{ts,tsx,js,jsx,json}'",
@@ -33,7 +34,8 @@
         "deploy:example": "pnpm run example && gh-pages --dist packages/starter/example/out --dest example --dotfiles"
     },
     "devDependencies": {
-        "@types/node": "^18.6.4",
+        "@changesets/cli": "^2.25.0",
+        "@types/node": "^18.11.4",
         "@typescript-eslint/eslint-plugin": "^5.32.0",
         "@typescript-eslint/parser": "^5.32.0",
         "eslint": "^8.20.0",
@@ -43,22 +45,24 @@
         "eslint-plugin-react-hooks": "^4.6.0",
         "eslint-plugin-require-extensions": "^0.1.1",
         "gh-pages": "^4.0.0",
-        "pnpm": "^7.13.0",
+        "pnpm": "^7.13.4",
         "prettier": "^2.7.1",
         "shx": "^0.3.4",
-        "typedoc": "^0.23.10",
+        "typedoc": "^0.23.18",
         "typescript": "~4.7.4"
     },
     "overrides": {
         "@ledgerhq/devices": "6.27.1",
         "@ledgerhq/hw-transport": "6.27.1",
         "@ledgerhq/hw-transport-webhid": "6.27.1",
+        "@solana/wallet-adapter-base": "workspace:^",
         "eslint": "8.22.0"
     },
     "resolutions": {
         "@ledgerhq/devices": "6.27.1",
         "@ledgerhq/hw-transport": "6.27.1",
         "@ledgerhq/hw-transport-webhid": "6.27.1",
+        "@solana/wallet-adapter-base": "workspace:^",
         "eslint": "8.22.0"
     }
 }

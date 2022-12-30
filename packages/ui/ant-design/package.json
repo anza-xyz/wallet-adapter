@@ -1,14 +1,23 @@
 {
     "name": "@solana/wallet-adapter-ant-design",
-    "version": "0.11.14",
+    "version": "0.11.24",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
-    "type": "module",
-    "sideEffects": false,
+    "publishConfig": {
+        "access": "public"
+    },
+    "files": [
+        "lib",
+        "src",
+        "LICENSE",
+        "styles.css"
+    ],
     "engines": {
         "node": ">=16"
     },
+    "type": "module",
+    "sideEffects": false,
     "main": "./lib/cjs/index.js",
     "module": "./lib/esm/index.js",
     "types": "./lib/types/index.d.ts",
@@ -20,22 +29,13 @@
         },
         "./styles.css": "./styles.css"
     },
-    "files": [
-        "lib",
-        "src",
-        "LICENSE",
-        "styles.css"
-    ],
-    "publishConfig": {
-        "access": "public"
-    },
     "scripts": {
         "clean": "shx mkdir -p lib && shx rm -rf lib",
-        "package": "shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json"
+        "package": "shx mkdir -p lib/cjs && shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json"
     },
     "peerDependencies": {
         "@ant-design/icons": "*",
-        "@solana/web3.js": "^1.61.0",
+        "@solana/web3.js": "^1.58.0",
         "antd": "*",
         "react": "*",
         "react-dom": "*"
@@ -46,7 +46,7 @@
     },
     "devDependencies": {
         "@ant-design/icons": "^4.7.0",
-        "@solana/web3.js": "^1.61.0",
+        "@solana/web3.js": "^1.58.0",
         "@types/react": "^18.0.0",
         "@types/react-dom": "^18.0.0",
         "antd": "^4.22.6",
