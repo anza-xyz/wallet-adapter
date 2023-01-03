@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-solflare
 
+## 0.6.21
+
+### Patch Changes
+
+-   21d2c863: Add support for `accountChanged` event to Solflare adapter
+
 ## 0.6.20
 
 ### Patch Changes
