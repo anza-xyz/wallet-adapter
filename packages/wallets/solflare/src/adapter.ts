@@ -124,6 +124,7 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
             }
 
             wallet.on('disconnect', this._disconnected);
+            wallet.on('accountChanged', this._accountChanged);
 
             this._wallet = wallet;
             this._publicKey = publicKey;
@@ -141,6 +142,7 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
         const wallet = this._wallet;
         if (wallet) {
             wallet.off('disconnect', this._disconnected);
+            wallet.off('accountChanged', this._accountChanged);
 
             this._wallet = null;
             this._publicKey = null;
@@ -214,5 +216,24 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
             this.emit('error', new WalletDisconnectedError());
             this.emit('disconnect');
         }
+    };
+
+    private _accountChanged = (newPublicKey?: PublicKey) => {
+        if (!newPublicKey) return;
+
+        const publicKey = this._publicKey;
+        if (!publicKey) return;
+
+        try {
+            newPublicKey = new PublicKey(newPublicKey.toBytes());
+        } catch (error: any) {
+            this.emit('error', new WalletPublicKeyError(error?.message, error));
+            return;
+        }
+
+        if (publicKey.equals(newPublicKey)) return;
+
+        this._publicKey = newPublicKey;
+        this.emit('connect', newPublicKey);
     };
 }
