@@ -18,6 +18,8 @@ export const SignTransaction: FC = () => {
 
             const { blockhash } = await connection.getLatestBlockhash();
 
+            console.log({ blockhash });
+
             let transaction = new Transaction({
                 feePayer: publicKey,
                 recentBlockhash: blockhash,

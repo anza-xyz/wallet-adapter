@@ -25,6 +25,8 @@ export const SendLegacyTransaction: FC = () => {
                 value: { blockhash, lastValidBlockHeight },
             } = await connection.getLatestBlockhashAndContext();
 
+            console.log({ minContextSlot, blockhash, lastValidBlockHeight });
+
             const message = new TransactionMessage({
                 payerKey: publicKey,
                 recentBlockhash: blockhash,
