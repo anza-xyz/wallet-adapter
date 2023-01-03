@@ -19,9 +19,10 @@
         "tsconfig.json"
     ],
     "scripts": {
+        "build": "tsc --build --verbose && parcel build src/index.html",
         "clean": "shx mkdir -p .parcel-cache dist lib && shx rm -rf .parcel-cache dist lib",
-        "start": "parcel src/index.html",
-        "build": "parcel build src/index.html"
+        "lint": "prettier --check 'src/{*,**/*}.{ts,tsx,js,jsx,json}' && eslint",
+        "start": "parcel src/index.html"
     },
     "dependencies": {
         "@emotion/react": "^11.10.0",

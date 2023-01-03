@@ -32,7 +32,9 @@
         "./styles.css": "./styles.css"
     },
     "scripts": {
+        "build": "tsc --build --verbose && pnpm run package",
         "clean": "shx mkdir -p lib && shx rm -rf lib",
+        "lint": "prettier --check 'src/{*,**/*}.{ts,tsx,js,jsx,json}' && eslint",
         "package": "shx mkdir -p lib/cjs && shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json"
     },
     "peerDependencies": {

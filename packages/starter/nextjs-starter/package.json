@@ -26,11 +26,11 @@
         "node": ">=16"
     },
     "scripts": {
+        "build": "tsc --build --verbose && next build",
         "clean": "shx rm -rf .next .swc lib",
         "dev": "NODE_OPTIONS='--inspect' next dev",
-        "build": "next build",
         "start": "next start",
-        "lint": "next lint"
+        "lint": "prettier --check 'src/{*,**/*}.{ts,tsx,js,jsx,json}' && eslint && next lint"
     },
     "dependencies": {
         "@solana/wallet-adapter-base": "^0.9.20",
