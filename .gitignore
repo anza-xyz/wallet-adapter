@@ -16,3 +16,5 @@ dist
 docs
 out
 *.tsbuildinfo
+
+.turbo

@@ -1,6 +1,8 @@
 {
+    "extends": "../../../tsconfig.root.json",
     "include": ["src"],
     "compilerOptions": {
+        "outDir": "lib",
         "target": "es5",
         "lib": ["dom", "dom.iterable", "esnext"],
         "allowJs": true,
