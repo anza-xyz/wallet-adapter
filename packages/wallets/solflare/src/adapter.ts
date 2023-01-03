@@ -218,23 +218,22 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     };
 
-    private _accountChanged = (publicKey?: PublicKey) => {
-        if (!publicKey || !this._publicKey) {
+    private _accountChanged = (newPublicKey?: PublicKey) => {
+        if (!newPublicKey) return;
+
+        const publicKey = this._publicKey;
+        if (!publicKey) return;
+
+        try {
+            newPublicKey = new PublicKey(newPublicKey.toBytes());
+        } catch (error: any) {
+            this.emit('error', new WalletPublicKeyError(error?.message, error));
             return;
         }
 
-        try {
-            const newPublicKey = new PublicKey(publicKey.toBytes());
+        if (publicKey.equals(newPublicKey)) return;
 
-            if (newPublicKey.equals(this._publicKey)) {
-                return;
-            }
-
-            this._publicKey = newPublicKey;
-
-            this.emit('connect', newPublicKey);
-        } catch (error: any) {
-            this.emit('error', new WalletPublicKeyError(error?.message, error));
-        }
+        this._publicKey = newPublicKey;
+        this.emit('connect', newPublicKey);
     };
 }
