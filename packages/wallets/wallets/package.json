@@ -60,6 +60,7 @@
         "@solana/wallet-adapter-neko": "workspace:^",
         "@solana/wallet-adapter-nightly": "workspace:^",
         "@solana/wallet-adapter-nufi": "workspace:^",
+        "@solana/wallet-adapter-okxwallet": "workspace:^",
         "@solana/wallet-adapter-onto": "workspace:^",
         "@solana/wallet-adapter-particle": "workspace:^",
         "@solana/wallet-adapter-phantom": "workspace:^",
