@@ -131,8 +131,8 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (this.readyState === WalletReadyState.Loadable) {
                 // redirect to the Phantom /browse universal link
                 // this will open the current URL in the Phantom in-wallet browser
-                const url = encodeURI(window.location.href);
-                const ref = encodeURI(window.location.origin);
+                const url = encodeURIComponent(window.location.href);
+                const ref = encodeURIComponent(window.location.origin);
                 window.location.href = `https://phantom.app/ul/browse/${url}?ref=${ref}`;
                 return;
             }

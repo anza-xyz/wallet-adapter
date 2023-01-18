@@ -13,6 +13,7 @@ import {
     WalletReadyState,
     WalletSignMessageError,
     WalletSignTransactionError,
+    isIosAndRedirectable,
 } from '@solana/wallet-adapter-base';
 import type { Transaction, TransactionVersion, VersionedTransaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
@@ -84,11 +85,28 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
         return this._readyState;
     }
 
+    async autoConnect(): Promise<void> {
+        // Skip autoconnect in the Loadable state on iOS
+        // We can't redirect to a universal link without user input
+        if (!(this.readyState === WalletReadyState.Loadable && isIosAndRedirectable())) {
+            await this.connect();
+        }
+    }
+
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
             if (this._readyState !== WalletReadyState.Loadable && this._readyState !== WalletReadyState.Installed)
                 throw new WalletNotReadyError();
+
+            // redirect to the Solflare /browse universal link
+            // this will open the current URL in the Solflare in-wallet browser
+            if (this.readyState === WalletReadyState.Loadable && isIosAndRedirectable()) {
+                const url = encodeURIComponent(window.location.href);
+                const ref = encodeURIComponent(window.location.origin);
+                window.location.href = `https://solflare.com/ul/v1/browse/${url}?ref=${ref}`;
+                return;
+            }
 
             let SolflareClass: typeof Solflare;
             try {
