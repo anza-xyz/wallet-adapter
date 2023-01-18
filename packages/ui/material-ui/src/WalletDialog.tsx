@@ -1,4 +1,7 @@
-import { Close as CloseIcon, ExpandLess as CollapseIcon, ExpandMore as ExpandIcon } from '@mui/icons-material';
+import CloseIcon from '@mui/icons-material/Close';
+import CollapseIcon from '@mui/icons-material/ExpandLess';
+import ExpandIcon from '@mui/icons-material/ExpandMore';
+
 import type { DialogProps, Theme } from '@mui/material';
 import {
     Button,
