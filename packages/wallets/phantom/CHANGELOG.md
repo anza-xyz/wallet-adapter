@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-phantom
 
+## 0.9.20
+
+### Patch Changes
+
+-   b4558126: Add support for redirecting to Solflare browser on iOS
+
 ## 0.9.19
 
 ### Patch Changes

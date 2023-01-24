@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-solflare
 
+## 0.6.22
+
+### Patch Changes
+
+-   b4558126: Add support for redirecting to Solflare browser on iOS
+
 ## 0.6.21
 
 ### Patch Changes
