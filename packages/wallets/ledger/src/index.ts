@@ -1,2 +1,2 @@
 export * from './adapter.js';
-export { getDerivationPath } from './util.js';
+export { pathToBuffer } from './util.js';

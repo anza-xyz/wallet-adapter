@@ -2,34 +2,12 @@ import type { default as Transport } from '@ledgerhq/hw-transport';
 import { StatusCodes, TransportStatusError } from '@ledgerhq/hw-transport';
 import type { Transaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
+import BIPPath from 'bip32-path';
 import './polyfills/index.js';
-
-export function getDerivationPath(account?: number, change?: number): Buffer {
-    const length = account !== undefined ? (change === undefined ? 3 : 4) : 2;
-    const derivationPath = Buffer.alloc(1 + length * 4);
-
-    let offset = derivationPath.writeUInt8(length, 0);
-    offset = derivationPath.writeUInt32BE(harden(44), offset); // Using BIP44
-    offset = derivationPath.writeUInt32BE(harden(501), offset); // Solana's BIP44 path
-
-    if (account !== undefined) {
-        offset = derivationPath.writeUInt32BE(harden(account), offset);
-        if (change !== undefined) {
-            derivationPath.writeUInt32BE(harden(change), offset);
-        }
-    }
-
-    return derivationPath;
-}
-
-const BIP32_HARDENED_BIT = (1 << 31) >>> 0;
-
-function harden(n: number): number {
-    return (n | BIP32_HARDENED_BIT) >>> 0;
-}
 
 const INS_GET_PUBKEY = 0x05;
 const INS_SIGN_MESSAGE = 0x06;
+const INS_SIGN_MESSAGE_OFFCHAIN = 0x07;
 
 const P1_NON_CONFIRM = 0x00;
 const P1_CONFIRM = 0x01;
@@ -60,6 +38,34 @@ export async function signTransaction(
     const data = Buffer.concat([paths, derivationPath, message]);
 
     return await send(transport, INS_SIGN_MESSAGE, P1_CONFIRM, data);
+}
+
+/** @internal */
+export async function signMessage(transport: Transport, message: Buffer, derivationPath: Buffer): Promise<Buffer> {
+    const paths = Buffer.alloc(1);
+    paths.writeUInt8(1, 0);
+
+    const data = Buffer.concat([paths, derivationPath, message]);
+
+    return await send(transport, INS_SIGN_MESSAGE_OFFCHAIN, P1_CONFIRM, data);
+}
+
+export function pathToBuffer(originalPath: string) {
+    const path = originalPath
+        .split('/')
+        .map((value) => (value.endsWith("'") || value.endsWith('h') ? value : `${value}'`))
+        .join('/');
+    const pathNums: number[] = BIPPath.fromString(path).toPathArray();
+    return serializePath(pathNums);
+}
+
+function serializePath(path: number[]) {
+    const buf = Buffer.alloc(1 + path.length * 4);
+    buf.writeUInt8(path.length, 0);
+    for (const [i, num] of path.entries()) {
+        buf.writeUInt32BE(num, 1 + i * 4);
+    }
+    return buf;
 }
 
 async function send(transport: Transport, instruction: number, p1: number, data: Buffer): Promise<Buffer> {
