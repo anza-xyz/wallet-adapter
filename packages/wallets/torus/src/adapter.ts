@@ -21,7 +21,7 @@ import type { default as Torus, TorusParams } from '@toruslabs/solana-embed';
 
 export interface TorusWalletAdapterConfig {
     params?: TorusParams;
-    umd?: boolean;
+    umd?: boolean; // set umd to false if you want to skip auto polyfill. Default is true
 }
 
 interface TorusWindow extends Window {
