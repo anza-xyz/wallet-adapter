@@ -21,6 +21,7 @@ import type { default as Torus, TorusParams } from '@toruslabs/solana-embed';
 
 export interface TorusWalletAdapterConfig {
     params?: TorusParams;
+    umd?: boolean;
 }
 
 interface TorusWindow extends Window {
@@ -42,19 +43,21 @@ export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
     private _wallet: Torus | null;
     private _publicKey: PublicKey | null;
     private _params: TorusParams;
+    private _umd: boolean | undefined;
     private _readyState: WalletReadyState =
         typeof window === 'undefined' || typeof document === 'undefined'
             ? WalletReadyState.Unsupported
             : WalletReadyState.Loadable;
 
     constructor(
-        { params = { showTorusButton: false } }: TorusWalletAdapterConfig = { params: { showTorusButton: false } }
+        { params = { showTorusButton: false }, umd }: TorusWalletAdapterConfig = { params: { showTorusButton: false } }
     ) {
         super();
         this._connecting = false;
         this._wallet = null;
         this._publicKey = null;
         this._params = params;
+        this._umd = umd;
     }
 
     get publicKey() {
@@ -82,7 +85,13 @@ export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             let TorusClass: typeof Torus;
             try {
-                TorusClass = (await import('@toruslabs/solana-embed')).default;
+                if (!this._umd) {
+                    TorusClass = (await import('@toruslabs/solana-embed')).default;
+                } else {
+                    // @ts-ignore Import module
+                    TorusClass = (await import('@toruslabs/solana-embed/dist/solanaEmbed.umd.min.js')).default
+                        .default as Torus;
+                }
             } catch (error: any) {
                 throw new WalletLoadError(error?.message, error);
             }
