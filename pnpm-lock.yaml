@@ -873,7 +873,7 @@ importers:
     specifiers:
       '@solana/wallet-adapter-base': workspace:^
       '@solana/web3.js': ^1.58.0
-      '@toruslabs/solana-embed': ^0.3.0
+      '@toruslabs/solana-embed': ^0.3.3
       '@types/keccak': ^3.0.1
       '@types/node-fetch': ^2.6.1
       '@types/readable-stream': ^2.3.14
@@ -884,7 +884,7 @@ importers:
       stream-browserify: ^3.0.0
     dependencies:
       '@solana/wallet-adapter-base': link:../../core/base
-      '@toruslabs/solana-embed': 0.3.2_@babel+runtime@7.20.7
+      '@toruslabs/solana-embed': 0.3.3_@babel+runtime@7.20.7
       assert: 2.0.0
       crypto-browserify: 3.12.0
       process: 0.11.10
@@ -5801,8 +5801,8 @@ packages:
       randombytes: 2.1.0
     dev: false
 
-  /@toruslabs/solana-embed/0.3.2_@babel+runtime@7.20.7:
-    resolution: {integrity: sha512-yY0sTAi++lOM/kJ6tpR3/mRXqqpqrHNnm1PL/1Zkj1Tpnt+SmlPPp9ivveLXK+1vRLtha2UpjRk1KdsG+QJGyg==}
+  /@toruslabs/solana-embed/0.3.3_@babel+runtime@7.20.7:
+    resolution: {integrity: sha512-Edw0p1oNNG+fk+3XIZZiIiwdi75lgtOpCjIK7G7PbR3ygJPVgM7e6L0MCOVNkX0LSJTc5HJFi9E0MiAf4cG7UQ==}
     engines: {node: '>=14.17.0', npm: '>=6.x'}
     peerDependencies:
       '@babel/runtime': 7.x
