@@ -20,8 +20,8 @@ import {
     WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import type { Connection, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
-import { PublicKey } from '@solana/web3.js';
+import type { Connection, SendOptions, TransactionSignature } from '@solana/web3.js';
+import { PublicKey, Transaction } from '@solana/web3.js';
 
 interface GlowWalletEvents {
     connect(...args: unknown[]): unknown;
@@ -32,13 +32,20 @@ interface GlowWallet extends EventEmitter<GlowWalletEvents> {
     isGlow?: boolean;
     publicKey?: { toBytes(): Uint8Array };
     isConnected: boolean;
-    signTransaction(transaction: Transaction, network?: WalletAdapterNetwork | null): Promise<Transaction>;
-    signAllTransactions(transactions: Transaction[], network?: WalletAdapterNetwork | null): Promise<Transaction[]>;
-    signAndSendTransaction(
-        transaction: Transaction,
-        options?: SendOptions & { network?: WalletAdapterNetwork | null }
-    ): Promise<{ signature: TransactionSignature }>;
-    signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
+    signTransaction: (opts: {
+        transactionBase64: string;
+        network?: string;
+    }) => Promise<{ signedTransactionBase64: string }>;
+    signAllTransactions: (opts: {
+        transactionsBase64: string[];
+        network?: string;
+    }) => Promise<{ signedTransactionsBase64: string[] }>;
+    signAndSendTransaction(opts: {
+        transactionBase64: string;
+        network?: string;
+        waitForConfirmation?: boolean;
+    }): Promise<{ signature: string }>;
+    signMessage: (opts: { messageBase64: Uint8Array }) => Promise<{ signedMessageBase64: string }>;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
 }
@@ -196,8 +203,14 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
 
                 sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;
 
-                const { signature } = await wallet.signAndSendTransaction(transaction, {
-                    ...sendOptions,
+                const { signature } = await wallet.signAndSendTransaction({
+                    transactionBase64: transaction
+                        .serialize({
+                            requireAllSignatures: false,
+                            verifySignatures: true,
+                        })
+                        .toString('base64'),
+                    // ...sendOptions,
                     network: this._network,
                 });
                 return signature;
@@ -217,7 +230,16 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return ((await wallet.signTransaction(transaction, this._network)) as T) || transaction;
+                const { signedTransactionBase64 } = await wallet.signTransaction({
+                    transactionBase64: transaction
+                        .serialize({
+                            requireAllSignatures: false,
+                            verifySignatures: true,
+                        })
+                        .toString('base64'),
+                    network: this._network,
+                });
+                return Transaction.from(Buffer.from(signedTransactionBase64, 'base64')) as T;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -233,7 +255,20 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return ((await wallet.signAllTransactions(transactions, this._network)) as T[]) || transactions;
+                const { signedTransactionsBase64 } = await wallet.signAllTransactions({
+                    transactionsBase64: transactions.map((transation) =>
+                        transation
+                            .serialize({
+                                requireAllSignatures: false,
+                                verifySignatures: true,
+                            })
+                            .toString('base64')
+                    ),
+                    network: this._network,
+                });
+                return signedTransactionsBase64.map(
+                    (signedTransactionBase64) => Transaction.from(Buffer.from(signedTransactionBase64, 'base64')) as T
+                );
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
@@ -249,8 +284,10 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                const { signature } = await wallet.signMessage(message);
-                return signature;
+                const { signedMessageBase64 } = await wallet.signMessage({
+                    messageBase64: message,
+                });
+                return Buffer.from(message).toString('base64');
             } catch (error: any) {
                 throw new WalletSignMessageError(error?.message, error);
             }
