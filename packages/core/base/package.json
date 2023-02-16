@@ -35,6 +35,7 @@
         "@solana/web3.js": "^1.58.0"
     },
     "dependencies": {
+        "@solana/wallet-standard-wallet-adapter-base": "^1.0.0",
         "eventemitter3": "^4.0.0"
     },
     "devDependencies": {
