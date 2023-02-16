@@ -33,7 +33,6 @@ export interface WalletAdapterProps<Name extends string = string> {
     autoConnect(): Promise<void>;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
-
     sendTransaction(
         transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
         connection: Connection,
