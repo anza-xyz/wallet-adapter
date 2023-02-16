@@ -1,9 +1,9 @@
-import type { StandardAdapter } from '@solana/wallet-standard-wallet-adapter-base';
 import type { Transaction, TransactionVersion, VersionedTransaction } from '@solana/web3.js';
 import type { WalletAdapter } from './adapter.js';
 import type { MessageSignerWalletAdapter, SignerWalletAdapter } from './signer.js';
+import type { StandardWalletAdapter } from './standard.js';
 
-export type Adapter = WalletAdapter | SignerWalletAdapter | MessageSignerWalletAdapter | StandardAdapter;
+export type Adapter = WalletAdapter | SignerWalletAdapter | MessageSignerWalletAdapter | StandardWalletAdapter;
 
 export enum WalletAdapterNetwork {
     Mainnet = 'mainnet-beta',
