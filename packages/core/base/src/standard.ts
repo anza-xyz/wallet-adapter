@@ -5,7 +5,7 @@ import type {
 } from '@solana/wallet-standard-features';
 import type { WalletWithFeatures } from '@wallet-standard/base';
 import type { ConnectFeature, DisconnectFeature, EventsFeature } from '@wallet-standard/features';
-import type { WalletAdapter } from './adapter.js';
+import type { WalletAdapter, WalletAdapterProps } from './adapter.js';
 
 export type WalletAdapterCompatibleStandardWallet = WalletWithFeatures<
     ConnectFeature &
@@ -14,7 +14,10 @@ export type WalletAdapterCompatibleStandardWallet = WalletWithFeatures<
         (DisconnectFeature | SolanaSignMessageFeature | never)
 >;
 
-export type StandardWalletAdapter = WalletAdapter & {
+export interface StandardWalletAdapterProps<Name extends string = string> extends WalletAdapterProps<Name> {
     wallet: WalletAdapterCompatibleStandardWallet;
     standard: true;
-};
+}
+
+export type StandardWalletAdapter<Name extends string = string> = WalletAdapter<Name> &
+    StandardWalletAdapterProps<Name>;
