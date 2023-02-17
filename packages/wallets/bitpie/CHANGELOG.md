@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-bitpie
 
+## 0.5.16
+
+### Patch Changes
+
+-   Updated dependencies [a664e306]
+    -   @solana/wallet-adapter-base@0.9.21
+
 ## 0.5.15
 
 ### Patch Changes
