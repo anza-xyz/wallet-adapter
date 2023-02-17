@@ -11,7 +11,7 @@ export type WalletAdapterCompatibleStandardWallet = StandardWalletWithFeatures<
     ConnectFeature &
         EventsFeature &
         (SolanaSignAndSendTransactionFeature | SolanaSignTransactionFeature) &
-        (DisconnectFeature | SolanaSignMessageFeature | never)
+        (DisconnectFeature | SolanaSignMessageFeature | object)
 >;
 
 export interface StandardWalletAdapterProps<Name extends string = string> extends WalletAdapterProps<Name> {
