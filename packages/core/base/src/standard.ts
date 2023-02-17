@@ -3,11 +3,11 @@ import type {
     SolanaSignMessageFeature,
     SolanaSignTransactionFeature,
 } from '@solana/wallet-standard-features';
-import type { Wallet, WalletWithFeatures } from '@wallet-standard/base';
+import type { Wallet as StandardWallet, WalletWithFeatures as StandardWalletWithFeatures } from '@wallet-standard/base';
 import type { ConnectFeature, DisconnectFeature, EventsFeature } from '@wallet-standard/features';
 import type { WalletAdapter, WalletAdapterProps } from './adapter.js';
 
-export type WalletAdapterCompatibleStandardWallet = WalletWithFeatures<
+export type WalletAdapterCompatibleStandardWallet = StandardWalletWithFeatures<
     ConnectFeature &
         EventsFeature &
         (SolanaSignAndSendTransactionFeature | SolanaSignTransactionFeature) &
@@ -23,7 +23,7 @@ export type StandardWalletAdapter<Name extends string = string> = WalletAdapter<
     StandardWalletAdapterProps<Name>;
 
 export function isWalletAdapterCompatibleStandardWallet(
-    wallet: Wallet
+    wallet: StandardWallet
 ): wallet is WalletAdapterCompatibleStandardWallet {
     return (
         'standard:connect' in wallet.features &&
