@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-particle
 
+## 0.1.8
+
+### Patch Changes
+
+-   Updated dependencies [a664e306]
+    -   @solana/wallet-adapter-base@0.9.21
+
 ## 0.1.7
 
 ### Patch Changes

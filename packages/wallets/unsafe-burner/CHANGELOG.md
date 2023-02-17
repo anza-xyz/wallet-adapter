@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-unsafe-burner
 
+## 0.1.5
+
+### Patch Changes
+
+-   Updated dependencies [a664e306]
+    -   @solana/wallet-adapter-base@0.9.21
+
 ## 0.1.4
 
 ### Patch Changes
