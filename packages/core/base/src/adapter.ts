@@ -1,8 +1,7 @@
 import type { Connection, PublicKey, SendOptions, Signer, Transaction, TransactionSignature } from '@solana/web3.js';
 import EventEmitter from 'eventemitter3';
-import type { WalletError } from './errors.js';
-import { WalletNotConnectedError } from './errors.js';
-import type { SupportedTransactionVersions, TransactionOrVersionedTransaction } from './types.js';
+import { type WalletError, WalletNotConnectedError } from './errors.js';
+import type { SupportedTransactionVersions, TransactionOrVersionedTransaction } from './transaction.js';
 
 export { EventEmitter };
 
@@ -34,7 +33,6 @@ export interface WalletAdapterProps<Name extends string = string> {
     autoConnect(): Promise<void>;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
-
     sendTransaction(
         transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
         connection: Connection,
