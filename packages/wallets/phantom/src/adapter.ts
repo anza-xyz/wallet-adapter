@@ -108,10 +108,6 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
         return this._connecting;
     }
 
-    get connected() {
-        return !!this._wallet?.isConnected;
-    }
-
     get readyState() {
         return this._readyState;
     }
