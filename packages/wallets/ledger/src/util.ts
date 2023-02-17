@@ -1,6 +1,7 @@
 import type { default as Transport } from '@ledgerhq/hw-transport';
 import { StatusCodes, TransportStatusError } from '@ledgerhq/hw-transport';
-import type { Transaction } from '@solana/web3.js';
+import { isVersionedTransaction } from '@solana/wallet-adapter-base';
+import type { Transaction, VersionedTransaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import './polyfills/index.js';
 
@@ -50,13 +51,15 @@ export async function getPublicKey(transport: Transport, derivationPath: Buffer)
 /** @internal */
 export async function signTransaction(
     transport: Transport,
-    transaction: Transaction,
+    transaction: Transaction | VersionedTransaction,
     derivationPath: Buffer
 ): Promise<Buffer> {
     const paths = Buffer.alloc(1);
     paths.writeUInt8(1, 0);
 
-    const message = transaction.serializeMessage();
+    const message = isVersionedTransaction(transaction)
+        ? transaction.message.serialize()
+        : transaction.serializeMessage();
     const data = Buffer.concat([paths, derivationPath, message]);
 
     return await send(transport, INS_SIGN_MESSAGE, P1_CONFIRM, data);
