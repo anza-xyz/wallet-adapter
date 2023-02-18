@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-base
 
+## 0.9.21
+
+### Patch Changes
+
+-   f99c2154: Add StandardAdapter to base Adapter type
+
 ## 0.9.20
 
 ### Patch Changes

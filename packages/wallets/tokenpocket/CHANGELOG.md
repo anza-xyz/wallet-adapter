@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-tokenpocket
 
+## 0.4.17
+
+### Patch Changes
+
+-   Updated dependencies [f99c2154]
+    -   @solana/wallet-adapter-base@0.9.21
+
 ## 0.4.16
 
 ### Patch Changes

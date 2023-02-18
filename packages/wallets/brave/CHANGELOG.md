@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-brave
 
+## 0.1.15
+
+### Patch Changes
+
+-   Updated dependencies [f99c2154]
+    -   @solana/wallet-adapter-base@0.9.21
+
 ## 0.1.14
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-sky
 
+## 0.1.13
+
+### Patch Changes
+
+-   Updated dependencies [f99c2154]
+    -   @solana/wallet-adapter-base@0.9.21
+
 ## 0.1.12
 
 ### Patch Changes

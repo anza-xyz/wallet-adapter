@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-nufi
 
+## 0.1.14
+
+### Patch Changes
+
+-   Updated dependencies [f99c2154]
+    -   @solana/wallet-adapter-base@0.9.21
+
 ## 0.1.13
 
 ### Patch Changes

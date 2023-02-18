@@ -1,5 +1,14 @@
 # @solana/wallet-adapter-material-ui
 
+## 0.16.26
+
+### Patch Changes
+
+-   f99c2154: Uses default import for @mui/icons-material
+-   Updated dependencies [f99c2154]
+    -   @solana/wallet-adapter-base@0.9.21
+    -   @solana/wallet-adapter-react@0.15.29
+
 ## 0.16.25
 
 ### Patch Changes
