@@ -622,7 +622,6 @@ importers:
       '@solana/wallet-adapter-base': workspace:^
       '@solana/web3.js': ^1.58.0
       '@types/w3c-web-hid': ^1.0.2
-      bip32-path: ^0.4.2
       buffer: ^6.0.3
       shx: ^0.3.4
     dependencies:
@@ -630,7 +629,6 @@ importers:
       '@ledgerhq/hw-transport': 6.27.1
       '@ledgerhq/hw-transport-webhid': 6.27.1
       '@solana/wallet-adapter-base': link:../../core/base
-      bip32-path: 0.4.2
       buffer: 6.0.3
     devDependencies:
       '@solana/web3.js': 1.72.0
@@ -7690,10 +7688,6 @@ packages:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
     dependencies:
       file-uri-to-path: 1.0.0
-
-  /bip32-path/0.4.2:
-    resolution: {integrity: sha512-ZBMCELjJfcNMkz5bDuJ1WrYvjlhEF5k6mQ8vUr4N7MbVRsXei7ZOg8VhhwMfNiW68NWmLkgkc6WvTickrLGprQ==}
-    dev: false
 
   /bip66/1.1.5:
     resolution: {integrity: sha512-nemMHz95EmS38a26XbbdxIYj5csHd3RMP3H5bwQknX0WYHF01qhpufP42mLOwVICuH2JmhIhXiWs89MfUGL7Xw==}
