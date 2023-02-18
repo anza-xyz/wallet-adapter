@@ -1,13 +1,5 @@
 # @solana/wallet-adapter-phantom
 
-## 0.9.21
-
-### Patch Changes
-
--   e99af277: Fix for Phantom adapter's `connected` state
--   Updated dependencies [a664e306]
-    -   @solana/wallet-adapter-base@0.9.21
-
 ## 0.9.20
 
 ### Patch Changes
