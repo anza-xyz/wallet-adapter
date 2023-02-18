@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-clover
 
+## 0.4.17
+
+### Patch Changes
+
+-   f99c2154: Update URL and icon for Clover adapter
+-   Updated dependencies [f99c2154]
+    -   @solana/wallet-adapter-base@0.9.21
+
 ## 0.4.16
 
 ### Patch Changes

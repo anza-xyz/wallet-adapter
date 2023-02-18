@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-ledger
 
+## 0.9.23
+
+### Patch Changes
+
+-   f99c2154: Add v0 tx support to Ledger adapter
+-   Updated dependencies [f99c2154]
+    -   @solana/wallet-adapter-base@0.9.21
+
 ## 0.9.22
 
 ### Patch Changes

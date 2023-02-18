@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-exodus
 
+## 0.1.16
+
+### Patch Changes
+
+-   Updated dependencies [f99c2154]
+    -   @solana/wallet-adapter-base@0.9.21
+
 ## 0.1.15
 
 ### Patch Changes
