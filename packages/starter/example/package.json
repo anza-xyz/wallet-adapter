@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-example",
-    "version": "0.18.18",
+    "version": "0.18.19",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -41,7 +41,7 @@
         "@mui/material": "^5.9.3",
         "@solana/wallet-adapter-ant-design": "^0.11.22",
         "@solana/wallet-adapter-base": "^0.9.20",
-        "@solana/wallet-adapter-material-ui": "^0.16.23",
+        "@solana/wallet-adapter-material-ui": "^0.16.27",
         "@solana/wallet-adapter-react": "^0.15.26",
         "@solana/wallet-adapter-react-ui": "^0.9.25",
         "@solana/wallet-adapter-wallets": "^0.19.9",
