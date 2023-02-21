@@ -1,4 +1,7 @@
-import LaunchIcon from '@mui/icons-material/Launch';
+import {
+    // FIXME(https://github.com/mui/material-ui/issues/35233)
+    Launch as LaunchIcon,
+} from '@mui/icons-material';
 import { Link } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import type { VariantType } from 'notistack';
