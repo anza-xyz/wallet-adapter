@@ -157,7 +157,7 @@ importers:
       '@mui/material': ^5.9.3
       '@solana/wallet-adapter-ant-design': ^0.11.22
       '@solana/wallet-adapter-base': workspace:^
-      '@solana/wallet-adapter-material-ui': ^0.16.23
+      '@solana/wallet-adapter-material-ui': ^0.16.27
       '@solana/wallet-adapter-react': ^0.15.26
       '@solana/wallet-adapter-react-ui': ^0.9.25
       '@solana/wallet-adapter-wallets': ^0.19.9
