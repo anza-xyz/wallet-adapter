@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-walletconnect
 
+## 0.1.12
+
+### Patch Changes
+
+-   f5abf15c: Using WalletConnect (alone, or through `@solana/wallet-adapter-wallets` no longer fatals in Next 13.
+
 ## 0.1.11
 
 ### Patch Changes
