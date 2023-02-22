@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-base
 
+## 0.9.22
+
+### Patch Changes
+
+-   8a8fdc72: Update dependencies
+
 ## 0.9.21
 
 ### Patch Changes
