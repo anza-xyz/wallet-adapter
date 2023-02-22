@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-ledger",
-    "version": "0.9.22",
+    "version": "0.9.24",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -42,8 +42,8 @@
         "buffer": "^6.0.3"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.58.0",
-        "@types/w3c-web-hid": "^1.0.2",
+        "@solana/web3.js": "^1.73.2",
+        "@types/w3c-web-hid": "^1.0.3",
         "shx": "^0.3.4"
     },
     "overrides": {

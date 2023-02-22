@@ -1,7 +1,11 @@
-import CloseIcon from '@mui/icons-material/Close';
-import CollapseIcon from '@mui/icons-material/ExpandLess';
-import ExpandIcon from '@mui/icons-material/ExpandMore';
-
+import {
+    // FIXME(https://github.com/mui/material-ui/issues/35233)
+    Close as CloseIcon,
+    // FIXME(https://github.com/mui/material-ui/issues/35233)
+    ExpandLess as CollapseIcon,
+    // FIXME(https://github.com/mui/material-ui/issues/35233)
+    ExpandMore as ExpandIcon,
+} from '@mui/icons-material';
 import type { DialogProps, Theme } from '@mui/material';
 import {
     Button,

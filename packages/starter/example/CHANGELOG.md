@@ -1,5 +1,26 @@
 # @solana/wallet-adapter-example
 
+## 0.18.20
+
+### Patch Changes
+
+-   3f73508d: Update dependencies
+-   Updated dependencies [3f73508d]
+    -   @solana/wallet-adapter-wallets@0.19.15
+    -   @solana/wallet-adapter-material-ui@0.16.28
+    -   @solana/wallet-adapter-ant-design@0.11.26
+    -   @solana/wallet-adapter-react-ui@0.9.29
+    -   @solana/wallet-adapter-react@0.15.30
+    -   @solana/wallet-adapter-base@0.9.22
+
+## 0.18.19
+
+### Patch Changes
+
+-   f9e20fa0: Updated imports of Material UI icons in such a way that sidesteps the problem described here: https://github.com/mui/material-ui/issues/35233
+-   Updated dependencies [f9e20fa0]
+    -   @solana/wallet-adapter-material-ui@0.16.27
+
 ## 0.18.18
 
 ### Patch Changes

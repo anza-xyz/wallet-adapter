@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-particle",
-    "version": "0.1.7",
+    "version": "0.1.9",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -35,11 +35,11 @@
         "@solana/web3.js": "^1.58.0"
     },
     "dependencies": {
-        "@particle-network/solana-wallet": "^0.5.0",
+        "@particle-network/solana-wallet": "^0.5.6",
         "@solana/wallet-adapter-base": "workspace:^"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.58.0",
+        "@solana/web3.js": "^1.73.2",
         "shx": "^0.3.4"
     }
 }

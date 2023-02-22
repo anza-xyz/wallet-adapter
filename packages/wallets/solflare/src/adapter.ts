@@ -1,6 +1,7 @@
 import type { WalletAdapterNetwork, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
+    isIosAndRedirectable,
     scopePollingDetectionStrategy,
     WalletConfigError,
     WalletConnectionError,
@@ -13,7 +14,6 @@ import {
     WalletReadyState,
     WalletSignMessageError,
     WalletSignTransactionError,
-    isIosAndRedirectable,
 } from '@solana/wallet-adapter-base';
 import type { Transaction, TransactionVersion, VersionedTransaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';

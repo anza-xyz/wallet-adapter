@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-keystone",
-    "version": "0.1.9",
+    "version": "0.1.11",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -35,11 +35,11 @@
         "@solana/web3.js": "^1.58.0"
     },
     "dependencies": {
-        "@keystonehq/sol-keyring": "^0.3.0",
+        "@keystonehq/sol-keyring": "^0.3.1",
         "@solana/wallet-adapter-base": "workspace:^"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.58.0",
+        "@solana/web3.js": "^1.73.2",
         "shx": "^0.3.4"
     }
 }

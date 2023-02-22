@@ -1,7 +1,11 @@
-import CopyIcon from '@mui/icons-material/FileCopy';
-import DisconnectIcon from '@mui/icons-material/LinkOff';
-import SwitchIcon from '@mui/icons-material/SwapHoriz';
-
+import {
+    // FIXME(https://github.com/mui/material-ui/issues/35233)
+    FileCopy as CopyIcon,
+    // FIXME(https://github.com/mui/material-ui/issues/35233)
+    LinkOff as DisconnectIcon,
+    // FIXME(https://github.com/mui/material-ui/issues/35233)
+    SwapHoriz as SwitchIcon,
+} from '@mui/icons-material';
 import type { ButtonProps, Theme } from '@mui/material';
 import { Button, Collapse, Fade, ListItemIcon, Menu, MenuItem, styled } from '@mui/material';
 import { useWallet } from '@solana/wallet-adapter-react';

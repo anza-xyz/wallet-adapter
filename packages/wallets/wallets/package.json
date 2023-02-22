@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-wallets",
-    "version": "0.19.11",
+    "version": "0.19.15",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -82,7 +82,7 @@
         "@solana/wallet-adapter-xdefi": "workspace:^"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.58.0",
+        "@solana/web3.js": "^1.73.2",
         "shx": "^0.3.4"
     }
 }

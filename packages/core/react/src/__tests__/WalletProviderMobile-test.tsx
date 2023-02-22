@@ -12,10 +12,9 @@ import {
 } from '@solana-mobile/wallet-adapter-mobile';
 import {
     type Adapter,
-    type WalletAdapter,
-    type WalletName,
     BaseWalletAdapter,
     WalletError,
+    type WalletName,
     WalletReadyState,
 } from '@solana/wallet-adapter-base';
 import { type Connection, PublicKey } from '@solana/web3.js';

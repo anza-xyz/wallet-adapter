@@ -1,6 +1,7 @@
 import type { EventEmitter, SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
+    isIosAndRedirectable,
     isVersionedTransaction,
     scopePollingDetectionStrategy,
     WalletAccountError,
@@ -15,7 +16,6 @@ import {
     WalletSendTransactionError,
     WalletSignMessageError,
     WalletSignTransactionError,
-    isIosAndRedirectable,
 } from '@solana/wallet-adapter-base';
 import type {
     Connection,
@@ -106,10 +106,6 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
 
     get connecting() {
         return this._connecting;
-    }
-
-    get connected() {
-        return !!this._wallet?.isConnected;
     }
 
     get readyState() {

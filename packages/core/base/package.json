@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-base",
-    "version": "0.9.20",
+    "version": "0.9.22",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -35,10 +35,13 @@
         "@solana/web3.js": "^1.58.0"
     },
     "dependencies": {
-        "eventemitter3": "^4.0.0"
+        "@solana/wallet-standard-features": "^1.0.1",
+        "@wallet-standard/base": "^1.0.1",
+        "@wallet-standard/features": "^1.0.3",
+        "eventemitter3": "^4.0.7"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.58.0",
+        "@solana/web3.js": "^1.73.2",
         "@types/node-fetch": "^2.6.2",
         "shx": "^0.3.4"
     }

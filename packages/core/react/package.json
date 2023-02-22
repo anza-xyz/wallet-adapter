@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-react",
-    "version": "0.15.28",
+    "version": "0.15.30",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -39,18 +39,18 @@
     "dependencies": {
         "@solana-mobile/wallet-adapter-mobile": "^0.9.9",
         "@solana/wallet-adapter-base": "workspace:^",
-        "@solana/wallet-standard-wallet-adapter-react": "^1.0.0"
+        "@solana/wallet-standard-wallet-adapter-react": "^1.0.1"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.58.0",
-        "@types/jest": "^28.1.6",
-        "@types/react": "^18.0.0",
-        "@types/react-dom": "^18.0.0",
+        "@solana/web3.js": "^1.73.2",
+        "@types/jest": "^28.1.8",
+        "@types/react": "^18.0.28",
+        "@types/react-dom": "^18.0.11",
         "jest": "^28.1.3",
         "jest-environment-jsdom": "^28.1.3",
-        "jest-localstorage-mock": "^2.4.18",
-        "react": "^18.0.0",
-        "react-dom": "^18.0.0",
+        "jest-localstorage-mock": "^2.4.26",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
         "shx": "^0.3.4",
         "ts-jest": "^28.0.8"
     }
