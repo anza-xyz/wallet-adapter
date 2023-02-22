@@ -1,3 +1,4 @@
+import type { CensoWallet } from '@censo-custody/solana-wallet-adapter';
 import type { SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseSignerWalletAdapter,
@@ -12,7 +13,6 @@ import {
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import type { Connection, PublicKey, Transaction, TransactionSignature } from '@solana/web3.js';
-import type { CensoWallet } from '@censo-custody/solana-wallet-adapter';
 
 interface CensoWindow extends Window {
     censo?: CensoWallet;
