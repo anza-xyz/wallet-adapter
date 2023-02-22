@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-clover
 
+## 0.4.18
+
+### Patch Changes
+
+-   3f73508d: Update dependencies
+-   Updated dependencies [3f73508d]
+    -   @solana/wallet-adapter-base@0.9.22
+
 ## 0.4.17
 
 ### Patch Changes

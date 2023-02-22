@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-spot
 
+## 0.1.14
+
+### Patch Changes
+
+-   3f73508d: Update dependencies
+-   Updated dependencies [3f73508d]
+    -   @solana/wallet-adapter-base@0.9.22
+
 ## 0.1.13
 
 ### Patch Changes
