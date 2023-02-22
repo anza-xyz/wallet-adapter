@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-ledger
 
+## 0.9.24
+
+### Patch Changes
+
+-   3f73508d: Update dependencies
+-   Updated dependencies [3f73508d]
+    -   @solana/wallet-adapter-base@0.9.22
+
 ## 0.9.23
 
 ### Patch Changes
