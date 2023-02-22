@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-walletconnect
 
+## 0.1.13
+
+### Patch Changes
+
+-   61e86b58: Taking a new version of `@jnwng/walletconnect-solana` with upgraded dependencies on `@walletconnect/sign-client`
+
 ## 0.1.12
 
 ### Patch Changes
