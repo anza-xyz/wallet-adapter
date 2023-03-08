@@ -1,4 +1,4 @@
-import { type Cluster } from '@solana/web3.js';
+import type { Cluster } from '@solana/web3.js';
 
 export default function getInferredClusterFromEndpoint(endpoint?: string): Cluster {
     if (!endpoint) {

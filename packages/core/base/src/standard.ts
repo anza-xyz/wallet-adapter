@@ -1,17 +1,15 @@
-import {
-    SolanaSignAndSendTransaction,
-    type SolanaSignAndSendTransactionFeature,
-    type SolanaSignMessageFeature,
-    SolanaSignTransaction,
-    type SolanaSignTransactionFeature,
+import type {
+    SolanaSignAndSendTransactionFeature,
+    SolanaSignMessageFeature,
+    SolanaSignTransactionFeature,
 } from '@solana/wallet-standard-features';
+import { SolanaSignAndSendTransaction, SolanaSignTransaction } from '@solana/wallet-standard-features';
 import type { Wallet as StandardWallet, WalletWithFeatures as StandardWalletWithFeatures } from '@wallet-standard/base';
-import {
-    StandardConnect,
-    type StandardConnectFeature,
-    type StandardDisconnectFeature,
-    StandardEvents,
-    type StandardEventsFeature,
+import { StandardConnect, StandardEvents } from '@wallet-standard/features';
+import type {
+    StandardConnectFeature,
+    StandardDisconnectFeature,
+    StandardEventsFeature,
 } from '@wallet-standard/features';
 import type { WalletAdapter, WalletAdapterProps } from './adapter.js';
 

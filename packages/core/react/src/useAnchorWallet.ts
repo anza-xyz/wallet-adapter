@@ -1,4 +1,4 @@
-import { type PublicKey, type Transaction } from '@solana/web3.js';
+import type { PublicKey, Transaction } from '@solana/web3.js';
 import { useMemo } from 'react';
 import { useWallet } from './useWallet.js';
 

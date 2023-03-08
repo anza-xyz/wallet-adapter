@@ -4,20 +4,16 @@
 
 'use strict';
 
-import {
-    type Adapter,
-    BaseWalletAdapter,
-    WalletError,
-    type WalletName,
-    WalletNotReadyError,
-    WalletReadyState,
-} from '@solana/wallet-adapter-base';
+import type { Adapter, WalletName } from '@solana/wallet-adapter-base';
+import { BaseWalletAdapter, WalletError, WalletNotReadyError, WalletReadyState } from '@solana/wallet-adapter-base';
 import { PublicKey } from '@solana/web3.js';
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
 import { createRoot } from 'react-dom/client';
 import { act } from 'react-dom/test-utils';
-import { useWallet, type WalletContextState } from '../useWallet.js';
-import { WalletProviderBase, type WalletProviderBaseProps } from '../WalletProviderBase.js';
+import type { WalletContextState } from '../useWallet.js';
+import { useWallet } from '../useWallet.js';
+import type { WalletProviderBaseProps } from '../WalletProviderBase.js';
+import { WalletProviderBase } from '../WalletProviderBase.js';
 
 type TestRefType = {
     getWalletContextState(): WalletContextState;

@@ -1,6 +1,7 @@
 import type { Connection, PublicKey, SendOptions, Signer, Transaction, TransactionSignature } from '@solana/web3.js';
 import EventEmitter from 'eventemitter3';
-import { type WalletError, WalletNotConnectedError } from './errors.js';
+import type { WalletError } from './errors.js';
+import { WalletNotConnectedError } from './errors.js';
 import type { SupportedTransactionVersions, TransactionOrVersionedTransaction } from './transaction.js';
 
 export { EventEmitter };

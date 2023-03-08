@@ -1,12 +1,9 @@
 import type { Connection, TransactionSignature } from '@solana/web3.js';
-import {
-    BaseWalletAdapter,
-    type SendTransactionOptions,
-    type WalletAdapter,
-    type WalletAdapterProps,
-} from './adapter.js';
+import type { SendTransactionOptions, WalletAdapter, WalletAdapterProps } from './adapter.js';
+import { BaseWalletAdapter } from './adapter.js';
 import { WalletSendTransactionError, WalletSignTransactionError } from './errors.js';
-import { isVersionedTransaction, type TransactionOrVersionedTransaction } from './transaction.js';
+import type { TransactionOrVersionedTransaction } from './transaction.js';
+import { isVersionedTransaction } from './transaction.js';
 
 export interface SignerWalletAdapterProps<Name extends string = string> extends WalletAdapterProps<Name> {
     signTransaction<T extends TransactionOrVersionedTransaction<this['supportedTransactionVersions']>>(

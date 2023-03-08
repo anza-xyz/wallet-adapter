@@ -20,7 +20,8 @@ import {
 } from '@mui/material';
 import type { WalletName } from '@solana/wallet-adapter-base';
 import { WalletReadyState } from '@solana/wallet-adapter-base';
-import { useWallet, type Wallet } from '@solana/wallet-adapter-react';
+import type { Wallet } from '@solana/wallet-adapter-react';
+import { useWallet } from '@solana/wallet-adapter-react';
 import type { FC, ReactElement, SyntheticEvent } from 'react';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useWalletDialog } from './useWalletDialog.js';
