@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-ant-design
 
+## 0.11.27
+
+### Patch Changes
+
+-   Updated dependencies [61d62efa]
+    -   @solana/wallet-adapter-react@0.15.31
+
 ## 0.11.26
 
 ### Patch Changes
