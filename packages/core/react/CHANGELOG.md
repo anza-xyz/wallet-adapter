@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-react
 
+## 0.15.31
+
+### Patch Changes
+
+-   61d62efa: Add VersionedTransaction support to AnchorWallet interface and useAnchorWallet hook
+
 ## 0.15.30
 
 ### Patch Changes
