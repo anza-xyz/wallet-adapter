@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-react
 
+## 0.15.32
+
+### Patch Changes
+
+-   f62ce364: Update to 2.0.0 of the Solana Mobile Wallet adapter. This fixes a bug where the app's `AppIdentity` would not be forwarded to the wallet when `reauthorize` was called, as demanded by the specification.
+
 ## 0.15.31
 
 ### Patch Changes

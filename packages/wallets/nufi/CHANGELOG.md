@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-nufi
 
+## 0.1.16
+
+### Patch Changes
+
+-   4bb73bc7: Support versioned transactions in NuFi adapter
+
 ## 0.1.15
 
 ### Patch Changes
