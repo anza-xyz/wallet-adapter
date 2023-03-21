@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-nightly
 
+## 0.1.15
+
+### Patch Changes
+
+-   6f7b4595: Support versioned transactions in Nightly wallet adapter
+
 ## 0.1.14
 
 ### Patch Changes
