@@ -1,58 +1,58 @@
 import type { EventEmitter, SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
-    BaseMessageSignerWalletAdapter,
-    isIosAndRedirectable,
-    isVersionedTransaction,
-    scopePollingDetectionStrategy,
-    WalletAccountError,
-    WalletConnectionError,
-    WalletDisconnectedError,
-    WalletDisconnectionError,
-    WalletError,
-    WalletNotConnectedError,
-    WalletNotReadyError,
-    WalletPublicKeyError,
-    WalletReadyState,
-    WalletSendTransactionError,
-    WalletSignMessageError,
-    WalletSignTransactionError,
+  BaseMessageSignerWalletAdapter,
+  isIosAndRedirectable,
+  isVersionedTransaction,
+  scopePollingDetectionStrategy,
+  WalletAccountError,
+  WalletConnectionError,
+  WalletDisconnectedError,
+  WalletDisconnectionError,
+  WalletError,
+  WalletNotConnectedError,
+  WalletNotReadyError,
+  WalletPublicKeyError,
+  WalletReadyState,
+  WalletSendTransactionError,
+  WalletSignMessageError,
+  WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import type {
-    Connection,
-    SendOptions,
-    Transaction,
-    TransactionSignature,
-    TransactionVersion,
-    VersionedTransaction,
+  Connection,
+  SendOptions,
+  Transaction,
+  TransactionSignature,
+  TransactionVersion,
+  VersionedTransaction,
 } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 
 interface PhantomWalletEvents {
-    connect(...args: unknown[]): unknown;
-    disconnect(...args: unknown[]): unknown;
-    accountChanged(newPublicKey: PublicKey): unknown;
+  connect(...args: unknown[]): unknown;
+  disconnect(...args: unknown[]): unknown;
+  accountChanged(newPublicKey: PublicKey): unknown;
 }
 
 interface PhantomWallet extends EventEmitter<PhantomWalletEvents> {
-    isPhantom?: boolean;
-    publicKey?: { toBytes(): Uint8Array };
-    isConnected: boolean;
-    signTransaction<T extends Transaction | VersionedTransaction>(transaction: T): Promise<T>;
-    signAllTransactions<T extends Transaction | VersionedTransaction>(transactions: T[]): Promise<T[]>;
-    signAndSendTransaction<T extends Transaction | VersionedTransaction>(
-        transaction: T,
-        options?: SendOptions
-    ): Promise<{ signature: TransactionSignature }>;
-    signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
-    connect(): Promise<void>;
-    disconnect(): Promise<void>;
+  isPhantom?: boolean;
+  publicKey?: { toBytes(): Uint8Array };
+  isConnected: boolean;
+  signTransaction<T extends Transaction | VersionedTransaction>(transaction: T): Promise<T>;
+  signAllTransactions<T extends Transaction | VersionedTransaction>(transactions: T[]): Promise<T[]>;
+  signAndSendTransaction<T extends Transaction | VersionedTransaction>(
+    transaction: T,
+    options?: SendOptions
+  ): Promise<{ signature: TransactionSignature }>;
+  signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
+  connect(): Promise<void>;
+  disconnect(): Promise<void>;
 }
 
 interface PhantomWindow extends Window {
-    phantom?: {
-        solana?: PhantomWallet;
-    };
+  phantom?: {
     solana?: PhantomWallet;
+  };
+  solana?: PhantomWallet;
 }
 
 declare const window: PhantomWindow;
@@ -62,245 +62,245 @@ export interface PhantomWalletAdapterConfig {}
 export const PhantomWalletName = 'Phantom' as WalletName<'Phantom'>;
 
 export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
-    name = PhantomWalletName;
-    url = 'https://phantom.app';
-    icon =
-        'data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBoZWlnaHQ9IjM0IiB3aWR0aD0iMzQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGxpbmVhckdyYWRpZW50IGlkPSJhIiB4MT0iLjUiIHgyPSIuNSIgeTE9IjAiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiM1MzRiYjEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM1NTFiZjkiLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iYiIgeDE9Ii41IiB4Mj0iLjUiIHkxPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZmZmIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZmZmIiBzdG9wLW9wYWNpdHk9Ii44MiIvPjwvbGluZWFyR3JhZGllbnQ+PGNpcmNsZSBjeD0iMTciIGN5PSIxNyIgZmlsbD0idXJsKCNhKSIgcj0iMTciLz48cGF0aCBkPSJtMjkuMTcwMiAxNy4yMDcxaC0yLjk5NjljMC02LjEwNzQtNC45NjgzLTExLjA1ODE3LTExLjA5NzUtMTEuMDU4MTctNi4wNTMyNSAwLTEwLjk3NDYzIDQuODI5NTctMTEuMDk1MDggMTAuODMyMzctLjEyNDYxIDYuMjA1IDUuNzE3NTIgMTEuNTkzMiAxMS45NDUzOCAxMS41OTMyaC43ODM0YzUuNDkwNiAwIDEyLjg0OTctNC4yODI5IDEzLjk5OTUtOS41MDEzLjIxMjMtLjk2MTktLjU1MDItMS44NjYxLTEuNTM4OC0xLjg2NjF6bS0xOC41NDc5LjI3MjFjMCAuODE2Ny0uNjcwMzggMS40ODQ3LTEuNDkwMDEgMS40ODQ3LS44MTk2NCAwLTEuNDg5OTgtLjY2ODMtMS40ODk5OC0xLjQ4NDd2LTIuNDAxOWMwLS44MTY3LjY3MDM0LTEuNDg0NyAxLjQ4OTk4LTEuNDg0Ny44MTk2MyAwIDEuNDkwMDEuNjY4IDEuNDkwMDEgMS40ODQ3em01LjE3MzggMGMwIC44MTY3LS42NzAzIDEuNDg0Ny0xLjQ4OTkgMS40ODQ3LS44MTk3IDAtMS40OS0uNjY4My0xLjQ5LTEuNDg0N3YtMi40MDE5YzAtLjgxNjcuNjcwNi0xLjQ4NDcgMS40OS0xLjQ4NDcuODE5NiAwIDEuNDg5OS42NjggMS40ODk5IDEuNDg0N3oiIGZpbGw9InVybCgjYikiLz48L3N2Zz4K';
-    supportedTransactionVersions: ReadonlySet<TransactionVersion> = new Set(['legacy', 0]);
+  name = PhantomWalletName;
+  url = 'https://phantom.app';
+  icon =
+    'data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBoZWlnaHQ9IjM0IiB3aWR0aD0iMzQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGxpbmVhckdyYWRpZW50IGlkPSJhIiB4MT0iLjUiIHgyPSIuNSIgeTE9IjAiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiM1MzRiYjEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM1NTFiZjkiLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iYiIgeDE9Ii41IiB4Mj0iLjUiIHkxPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZmZmIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZmZmIiBzdG9wLW9wYWNpdHk9Ii44MiIvPjwvbGluZWFyR3JhZGllbnQ+PGNpcmNsZSBjeD0iMTciIGN5PSIxNyIgZmlsbD0idXJsKCNhKSIgcj0iMTciLz48cGF0aCBkPSJtMjkuMTcwMiAxNy4yMDcxaC0yLjk5NjljMC02LjEwNzQtNC45NjgzLTExLjA1ODE3LTExLjA5NzUtMTEuMDU4MTctNi4wNTMyNSAwLTEwLjk3NDYzIDQuODI5NTctMTEuMDk1MDggMTAuODMyMzctLjEyNDYxIDYuMjA1IDUuNzE3NTIgMTEuNTkzMiAxMS45NDUzOCAxMS41OTMyaC43ODM0YzUuNDkwNiAwIDEyLjg0OTctNC4yODI5IDEzLjk5OTUtOS41MDEzLjIxMjMtLjk2MTktLjU1MDItMS44NjYxLTEuNTM4OC0xLjg2NjF6bS0xOC41NDc5LjI3MjFjMCAuODE2Ny0uNjcwMzggMS40ODQ3LTEuNDkwMDEgMS40ODQ3LS44MTk2NCAwLTEuNDg5OTgtLjY2ODMtMS40ODk5OC0xLjQ4NDd2LTIuNDAxOWMwLS44MTY3LjY3MDM0LTEuNDg0NyAxLjQ4OTk4LTEuNDg0Ny44MTk2MyAwIDEuNDkwMDEuNjY4IDEuNDkwMDEgMS40ODQ3em01LjE3MzggMGMwIC44MTY3LS42NzAzIDEuNDg0Ny0xLjQ4OTkgMS40ODQ3LS44MTk3IDAtMS40OS0uNjY4My0xLjQ5LTEuNDg0N3YtMi40MDE5YzAtLjgxNjcuNjcwNi0xLjQ4NDcgMS40OS0xLjQ4NDcuODE5NiAwIDEuNDg5OS42NjggMS40ODk5IDEuNDg0N3oiIGZpbGw9InVybCgjYikiLz48L3N2Zz4K';
+  supportedTransactionVersions: ReadonlySet<TransactionVersion> = new Set(['legacy', 0]);
 
-    private _connecting: boolean;
-    private _wallet: PhantomWallet | null;
-    private _publicKey: PublicKey | null;
-    private _readyState: WalletReadyState =
-        typeof window === 'undefined' || typeof document === 'undefined'
-            ? WalletReadyState.Unsupported
-            : WalletReadyState.NotDetected;
+  private _connecting: boolean;
+  private _wallet: PhantomWallet | null;
+  private _publicKey: PublicKey | null;
+  private _readyState: WalletReadyState =
+    typeof window === 'undefined' || typeof document === 'undefined'
+      ? WalletReadyState.Unsupported
+      : WalletReadyState.NotDetected;
 
-    constructor(config: PhantomWalletAdapterConfig = {}) {
-        super();
-        this._connecting = false;
-        this._wallet = null;
-        this._publicKey = null;
+  constructor(config: PhantomWalletAdapterConfig = {}) {
+    super();
+    this._connecting = false;
+    this._wallet = null;
+    this._publicKey = null;
 
-        if (this._readyState !== WalletReadyState.Unsupported) {
-            if (isIosAndRedirectable()) {
-                // when in iOS (not webview), set Phantom as loadable instead of checking for install
-                this._readyState = WalletReadyState.Loadable;
-                this.emit('readyStateChange', this._readyState);
-            } else {
-                scopePollingDetectionStrategy(() => {
-                    if (window.phantom?.solana?.isPhantom || window.solana?.isPhantom) {
-                        this._readyState = WalletReadyState.Installed;
-                        this.emit('readyStateChange', this._readyState);
-                        return true;
-                    }
-                    return false;
-                });
-            }
-        }
+    if (this._readyState !== WalletReadyState.Unsupported) {
+      if (isIosAndRedirectable()) {
+        // when in iOS (not webview), set Phantom as loadable instead of checking for install
+        this._readyState = WalletReadyState.Loadable;
+        this.emit('readyStateChange', this._readyState);
+      } else {
+        scopePollingDetectionStrategy(() => {
+          if (window.phantom?.solana?.isPhantom || window.solana?.isPhantom) {
+            this._readyState = WalletReadyState.Installed;
+            this.emit('readyStateChange', this._readyState);
+            return true;
+          }
+          return false;
+        });
+      }
     }
+  }
 
-    get publicKey() {
-        return this._publicKey;
+  get publicKey() {
+    return this._publicKey;
+  }
+
+  get connecting() {
+    return this._connecting;
+  }
+
+  get readyState() {
+    return this._readyState;
+  }
+
+  async autoConnect(): Promise<void> {
+    // Skip autoconnect in the Loadable state
+    // We can't redirect to a universal link without user input
+    if (this.readyState === WalletReadyState.Installed) {
+      await this.connect();
     }
+  }
 
-    get connecting() {
-        return this._connecting;
-    }
+  async connect(): Promise<void> {
+    try {
+      if (this.connected || this.connecting) return;
 
-    get readyState() {
-        return this._readyState;
-    }
+      if (this.readyState === WalletReadyState.Loadable) {
+        // redirect to the Phantom /browse universal link
+        // this will open the current URL in the Phantom in-wallet browser
+        const url = encodeURIComponent(window.location.href);
+        const ref = encodeURIComponent(window.location.origin);
+        window.location.href = `https://phantom.app/ul/browse/${url}?ref=${ref}`;
+        return;
+      }
 
-    async autoConnect(): Promise<void> {
-        // Skip autoconnect in the Loadable state
-        // We can't redirect to a universal link without user input
-        if (this.readyState === WalletReadyState.Installed) {
-            await this.connect();
-        }
-    }
+      if (this.readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
 
-    async connect(): Promise<void> {
+      this._connecting = true;
+
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const wallet = window.phantom?.solana || window.solana!;
+
+      if (!wallet.isConnected) {
         try {
-            if (this.connected || this.connecting) return;
-
-            if (this.readyState === WalletReadyState.Loadable) {
-                // redirect to the Phantom /browse universal link
-                // this will open the current URL in the Phantom in-wallet browser
-                const url = encodeURIComponent(window.location.href);
-                const ref = encodeURIComponent(window.location.origin);
-                window.location.href = `https://phantom.app/ul/browse/${url}?ref=${ref}`;
-                return;
-            }
-
-            if (this.readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
-
-            this._connecting = true;
-
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const wallet = window.phantom?.solana || window.solana!;
-
-            if (!wallet.isConnected) {
-                try {
-                    await wallet.connect();
-                } catch (error: any) {
-                    throw new WalletConnectionError(error?.message, error);
-                }
-            }
-
-            if (!wallet.publicKey) throw new WalletAccountError();
-
-            let publicKey: PublicKey;
-            try {
-                publicKey = new PublicKey(wallet.publicKey.toBytes());
-            } catch (error: any) {
-                throw new WalletPublicKeyError(error?.message, error);
-            }
-
-            wallet.on('disconnect', this._disconnected);
-            wallet.on('accountChanged', this._accountChanged);
-
-            this._wallet = wallet;
-            this._publicKey = publicKey;
-
-            this.emit('connect', publicKey);
+          await wallet.connect();
         } catch (error: any) {
-            this.emit('error', error);
-            throw error;
-        } finally {
-            this._connecting = false;
+          throw new WalletConnectionError(error?.message, error);
         }
+      }
+
+      if (!wallet.publicKey) throw new WalletAccountError();
+
+      let publicKey: PublicKey;
+      try {
+        publicKey = new PublicKey(wallet.publicKey.toBytes());
+      } catch (error: any) {
+        throw new WalletPublicKeyError(error?.message, error);
+      }
+
+      wallet.on('disconnect', this._disconnected);
+      wallet.on('accountChanged', this._accountChanged);
+
+      this._wallet = wallet;
+      this._publicKey = publicKey;
+
+      this.emit('connect', publicKey);
+    } catch (error: any) {
+      this.emit('error', error);
+      throw error;
+    } finally {
+      this._connecting = false;
+    }
+  }
+
+  async disconnect(): Promise<void> {
+    const wallet = this._wallet;
+    if (wallet) {
+      wallet.off('disconnect', this._disconnected);
+      wallet.off('accountChanged', this._accountChanged);
+
+      this._wallet = null;
+      this._publicKey = null;
+
+      try {
+        await wallet.disconnect();
+      } catch (error: any) {
+        this.emit('error', new WalletDisconnectionError(error?.message, error));
+      }
     }
 
-    async disconnect(): Promise<void> {
-        const wallet = this._wallet;
-        if (wallet) {
-            wallet.off('disconnect', this._disconnected);
-            wallet.off('accountChanged', this._accountChanged);
+    this.emit('disconnect');
+  }
 
-            this._wallet = null;
-            this._publicKey = null;
+  async sendTransaction<T extends Transaction | VersionedTransaction>(
+    transaction: T,
+    connection: Connection,
+    options: SendTransactionOptions = {}
+  ): Promise<TransactionSignature> {
+    try {
+      const wallet = this._wallet;
+      if (!wallet) throw new WalletNotConnectedError();
 
-            try {
-                await wallet.disconnect();
-            } catch (error: any) {
-                this.emit('error', new WalletDisconnectionError(error?.message, error));
-            }
+      try {
+        const { signers, ...sendOptions } = options;
+
+        if (isVersionedTransaction(transaction)) {
+          signers?.length && transaction.sign(signers);
+        } else {
+          transaction = (await this.prepareTransaction(transaction, connection, sendOptions)) as T;
+          signers?.length && (transaction as Transaction).partialSign(...signers);
         }
 
-        this.emit('disconnect');
+        sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;
+
+        const { signature } = await wallet.signAndSendTransaction(transaction, sendOptions);
+        return signature;
+      } catch (error: any) {
+        if (error instanceof WalletError) throw error;
+        throw new WalletSendTransactionError(error?.message, error);
+      }
+    } catch (error: any) {
+      this.emit('error', error);
+      throw error;
+    }
+  }
+
+  async signTransaction<T extends Transaction | VersionedTransaction>(transaction: T): Promise<T> {
+    try {
+      const wallet = this._wallet;
+      if (!wallet) throw new WalletNotConnectedError();
+
+      try {
+        return (await wallet.signTransaction(transaction)) || transaction;
+      } catch (error: any) {
+        throw new WalletSignTransactionError(error?.message, error);
+      }
+    } catch (error: any) {
+      this.emit('error', error);
+      throw error;
+    }
+  }
+
+  async signAllTransactions<T extends Transaction | VersionedTransaction>(transactions: T[]): Promise<T[]> {
+    try {
+      const wallet = this._wallet;
+      if (!wallet) throw new WalletNotConnectedError();
+
+      try {
+        return (await wallet.signAllTransactions(transactions)) || transactions;
+      } catch (error: any) {
+        throw new WalletSignTransactionError(error?.message, error);
+      }
+    } catch (error: any) {
+      this.emit('error', error);
+      throw error;
+    }
+  }
+
+  async signMessage(message: Uint8Array): Promise<Uint8Array> {
+    try {
+      const wallet = this._wallet;
+      if (!wallet) throw new WalletNotConnectedError();
+
+      try {
+        const { signature } = await wallet.signMessage(message);
+        return signature;
+      } catch (error: any) {
+        throw new WalletSignMessageError(error?.message, error);
+      }
+    } catch (error: any) {
+      this.emit('error', error);
+      throw error;
+    }
+  }
+
+  private _disconnected = () => {
+    const wallet = this._wallet;
+    if (wallet) {
+      wallet.off('disconnect', this._disconnected);
+      wallet.off('accountChanged', this._accountChanged);
+
+      this._wallet = null;
+      this._publicKey = null;
+
+      this.emit('error', new WalletDisconnectedError());
+      this.emit('disconnect');
+    }
+  };
+
+  private _accountChanged = (newPublicKey: PublicKey) => {
+    const publicKey = this._publicKey;
+    if (!publicKey) return;
+
+    try {
+      newPublicKey = new PublicKey(newPublicKey.toBytes());
+    } catch (error: any) {
+      this.emit('error', new WalletPublicKeyError(error?.message, error));
+      return;
     }
 
-    async sendTransaction<T extends Transaction | VersionedTransaction>(
-        transaction: T,
-        connection: Connection,
-        options: SendTransactionOptions = {}
-    ): Promise<TransactionSignature> {
-        try {
-            const wallet = this._wallet;
-            if (!wallet) throw new WalletNotConnectedError();
+    if (publicKey.equals(newPublicKey)) return;
 
-            try {
-                const { signers, ...sendOptions } = options;
-
-                if (isVersionedTransaction(transaction)) {
-                    signers?.length && transaction.sign(signers);
-                } else {
-                    transaction = (await this.prepareTransaction(transaction, connection, sendOptions)) as T;
-                    signers?.length && (transaction as Transaction).partialSign(...signers);
-                }
-
-                sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;
-
-                const { signature } = await wallet.signAndSendTransaction(transaction, sendOptions);
-                return signature;
-            } catch (error: any) {
-                if (error instanceof WalletError) throw error;
-                throw new WalletSendTransactionError(error?.message, error);
-            }
-        } catch (error: any) {
-            this.emit('error', error);
-            throw error;
-        }
-    }
-
-    async signTransaction<T extends Transaction | VersionedTransaction>(transaction: T): Promise<T> {
-        try {
-            const wallet = this._wallet;
-            if (!wallet) throw new WalletNotConnectedError();
-
-            try {
-                return (await wallet.signTransaction(transaction)) || transaction;
-            } catch (error: any) {
-                throw new WalletSignTransactionError(error?.message, error);
-            }
-        } catch (error: any) {
-            this.emit('error', error);
-            throw error;
-        }
-    }
-
-    async signAllTransactions<T extends Transaction | VersionedTransaction>(transactions: T[]): Promise<T[]> {
-        try {
-            const wallet = this._wallet;
-            if (!wallet) throw new WalletNotConnectedError();
-
-            try {
-                return (await wallet.signAllTransactions(transactions)) || transactions;
-            } catch (error: any) {
-                throw new WalletSignTransactionError(error?.message, error);
-            }
-        } catch (error: any) {
-            this.emit('error', error);
-            throw error;
-        }
-    }
-
-    async signMessage(message: Uint8Array): Promise<Uint8Array> {
-        try {
-            const wallet = this._wallet;
-            if (!wallet) throw new WalletNotConnectedError();
-
-            try {
-                const { signature } = await wallet.signMessage(message);
-                return signature;
-            } catch (error: any) {
-                throw new WalletSignMessageError(error?.message, error);
-            }
-        } catch (error: any) {
-            this.emit('error', error);
-            throw error;
-        }
-    }
-
-    private _disconnected = () => {
-        const wallet = this._wallet;
-        if (wallet) {
-            wallet.off('disconnect', this._disconnected);
-            wallet.off('accountChanged', this._accountChanged);
-
-            this._wallet = null;
-            this._publicKey = null;
-
-            this.emit('error', new WalletDisconnectedError());
-            this.emit('disconnect');
-        }
-    };
-
-    private _accountChanged = (newPublicKey: PublicKey) => {
-        const publicKey = this._publicKey;
-        if (!publicKey) return;
-
-        try {
-            newPublicKey = new PublicKey(newPublicKey.toBytes());
-        } catch (error: any) {
-            this.emit('error', new WalletPublicKeyError(error?.message, error));
-            return;
-        }
-
-        if (publicKey.equals(newPublicKey)) return;
-
-        this._publicKey = newPublicKey;
-        this.emit('connect', newPublicKey);
-    };
+    this._publicKey = newPublicKey;
+    this.emit('connect', newPublicKey);
+  };
 }

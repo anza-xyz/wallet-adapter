@@ -1,9 +1,9 @@
 {
-    "extends": "../../../tsconfig.cjs.json",
-    "include": ["src"],
-    "exclude": ["src/**/__mocks__", "src/**/__tests__"],
-    "compilerOptions": {
-        "outDir": "lib/cjs",
-        "jsx": "react"
-    }
+  "extends": "../../../tsconfig.cjs.json",
+  "include": ["src"],
+  "exclude": ["src/**/__mocks__", "src/**/__tests__"],
+  "compilerOptions": {
+    "outDir": "lib/cjs",
+    "jsx": "react"
+  }
 }

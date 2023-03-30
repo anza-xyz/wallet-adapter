@@ -3,11 +3,11 @@ import type { Transaction, TransactionVersion, VersionedTransaction } from '@sol
 export type SupportedTransactionVersions = ReadonlySet<TransactionVersion> | null | undefined;
 
 export type TransactionOrVersionedTransaction<S extends SupportedTransactionVersions> = S extends null | undefined
-    ? Transaction
-    : Transaction | VersionedTransaction;
+  ? Transaction
+  : Transaction | VersionedTransaction;
 
 export function isVersionedTransaction(
-    transaction: Transaction | VersionedTransaction
+  transaction: Transaction | VersionedTransaction
 ): transaction is VersionedTransaction {
-    return 'version' in transaction;
+  return 'version' in transaction;
 }

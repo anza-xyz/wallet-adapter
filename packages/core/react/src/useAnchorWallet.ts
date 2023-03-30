@@ -3,18 +3,18 @@ import { useMemo } from 'react';
 import { useWallet } from './useWallet.js';
 
 export interface AnchorWallet {
-    publicKey: PublicKey;
-    signTransaction<T extends Transaction | VersionedTransaction>(transaction: T): Promise<T>;
-    signAllTransactions<T extends Transaction | VersionedTransaction>(transactions: T[]): Promise<T[]>;
+  publicKey: PublicKey;
+  signTransaction<T extends Transaction | VersionedTransaction>(transaction: T): Promise<T>;
+  signAllTransactions<T extends Transaction | VersionedTransaction>(transactions: T[]): Promise<T[]>;
 }
 
 export function useAnchorWallet(): AnchorWallet | undefined {
-    const { publicKey, signTransaction, signAllTransactions } = useWallet();
-    return useMemo(
-        () =>
-            publicKey && signTransaction && signAllTransactions
-                ? { publicKey, signTransaction, signAllTransactions }
-                : undefined,
-        [publicKey, signTransaction, signAllTransactions]
-    );
+  const { publicKey, signTransaction, signAllTransactions } = useWallet();
+  return useMemo(
+    () =>
+      publicKey && signTransaction && signAllTransactions
+        ? { publicKey, signTransaction, signAllTransactions }
+        : undefined,
+    [publicKey, signTransaction, signAllTransactions]
+  );
 }

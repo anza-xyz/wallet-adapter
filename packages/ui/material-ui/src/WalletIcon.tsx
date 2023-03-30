@@ -5,14 +5,14 @@ import type { DetailedHTMLProps, FC, ImgHTMLAttributes } from 'react';
 import React from 'react';
 
 const Img = styled('img')(({ theme }: { theme: Theme }) => ({
-    width: theme.spacing(3),
-    height: theme.spacing(3),
+  width: theme.spacing(3),
+  height: theme.spacing(3),
 }));
 
 export interface WalletIconProps extends DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
-    wallet: Wallet | null;
+  wallet: Wallet | null;
 }
 
 export const WalletIcon: FC<WalletIconProps> = ({ wallet, ...props }) => {
-    return wallet && <Img src={wallet.adapter.icon} alt={`${wallet.adapter.name} icon`} {...props} />;
+  return wallet && <Img src={wallet.adapter.icon} alt={`${wallet.adapter.name} icon`} {...props} />;
 };

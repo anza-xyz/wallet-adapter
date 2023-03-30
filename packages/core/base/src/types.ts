@@ -5,7 +5,7 @@ import type { StandardWalletAdapter } from './standard.js';
 export type Adapter = WalletAdapter | SignerWalletAdapter | MessageSignerWalletAdapter | StandardWalletAdapter;
 
 export enum WalletAdapterNetwork {
-    Mainnet = 'mainnet-beta',
-    Testnet = 'testnet',
-    Devnet = 'devnet',
+  Mainnet = 'mainnet-beta',
+  Testnet = 'testnet',
+  Devnet = 'devnet',
 }

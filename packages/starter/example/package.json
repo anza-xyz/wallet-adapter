@@ -1,70 +1,70 @@
 {
-    "name": "@solana/wallet-adapter-example",
-    "version": "0.18.20",
-    "author": "Solana Maintainers <maintainers@solana.foundation>",
-    "repository": "https://github.com/solana-labs/wallet-adapter",
-    "license": "Apache-2.0",
-    "publishConfig": {
-        "access": "public"
-    },
-    "files": [
-        "public",
-        "src",
-        ".editorconfig",
-        ".eslintrc.json",
-        ".gitignore",
-        ".prettierignore",
-        ".prettierrc",
-        "LICENSE",
-        "next.config.js",
-        "next-env.d.ts",
-        "package.json",
-        "README.md",
-        "tsconfig.json"
-    ],
-    "engines": {
-        "node": ">=16"
-    },
-    "scripts": {
-        "build": "tsc --build --verbose && next build",
-        "clean": "shx rm -rf .next .swc lib",
-        "dev": "NODE_OPTIONS='--inspect' next dev",
-        "start": "next start",
-        "lint": "prettier --check 'src/{*,**/*}.{ts,tsx,js,jsx,json}' && eslint && next lint",
-        "export": "next export"
-    },
-    "dependencies": {
-        "@ant-design/icons": "^4.8.0",
-        "@emotion/react": "^11.10.6",
-        "@emotion/styled": "^11.10.6",
-        "@mui/icons-material": "^5.11.9",
-        "@mui/material": "^5.11.10",
-        "@solana/wallet-adapter-ant-design": "workspace:^0.11.26",
-        "@solana/wallet-adapter-base": "workspace:^",
-        "@solana/wallet-adapter-material-ui": "workspace:^0.16.28",
-        "@solana/wallet-adapter-react": "workspace:^0.15.30",
-        "@solana/wallet-adapter-react-ui": "workspace:^0.9.29",
-        "@solana/wallet-adapter-wallets": "workspace:^0.19.15",
-        "@solana/web3.js": "^1.73.2",
-        "antd": "^4.24.8",
-        "bs58": "^4.0.1",
-        "next": "^12.3.4",
-        "notistack": "^2.0.8",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "tweetnacl": "^1.0.3"
-    },
-    "devDependencies": {
-        "@types/bs58": "^4.0.1",
-        "@types/node-fetch": "^2.6.2",
-        "@types/react": "^18.0.28",
-        "@types/react-dom": "^18.0.11",
-        "eslint": "8.22.0",
-        "eslint-config-next": "^12.3.4",
-        "next-compose-plugins": "^2.2.1",
-        "next-plugin-antd-less": "^1.8.0",
-        "prettier": "^2.8.4",
-        "shx": "^0.3.4",
-        "typescript": "~4.7.4"
-    }
+  "name": "@solana/wallet-adapter-example",
+  "version": "0.18.20",
+  "author": "Solana Maintainers <maintainers@solana.foundation>",
+  "repository": "https://github.com/solana-labs/wallet-adapter",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "public",
+    "src",
+    ".editorconfig",
+    ".eslintrc.json",
+    ".gitignore",
+    ".prettierignore",
+    ".prettierrc",
+    "LICENSE",
+    "next.config.js",
+    "next-env.d.ts",
+    "package.json",
+    "README.md",
+    "tsconfig.json"
+  ],
+  "engines": {
+    "node": ">=16"
+  },
+  "scripts": {
+    "build": "tsc --build --verbose && next build",
+    "clean": "shx rm -rf .next .swc lib",
+    "dev": "NODE_OPTIONS='--inspect' next dev",
+    "start": "next start",
+    "lint": "prettier --check 'src/{*,**/*}.{ts,tsx,js,jsx,json}' && eslint && next lint",
+    "export": "next export"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^4.8.0",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/icons-material": "^5.11.9",
+    "@mui/material": "^5.11.10",
+    "@solana/wallet-adapter-ant-design": "workspace:^0.11.26",
+    "@solana/wallet-adapter-base": "workspace:^",
+    "@solana/wallet-adapter-material-ui": "workspace:^0.16.28",
+    "@solana/wallet-adapter-react": "workspace:^0.15.30",
+    "@solana/wallet-adapter-react-ui": "workspace:^0.9.29",
+    "@solana/wallet-adapter-wallets": "workspace:^0.19.15",
+    "@solana/web3.js": "^1.73.2",
+    "antd": "^4.24.8",
+    "bs58": "^4.0.1",
+    "next": "^12.3.4",
+    "notistack": "^2.0.8",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tweetnacl": "^1.0.3"
+  },
+  "devDependencies": {
+    "@types/bs58": "^4.0.1",
+    "@types/node-fetch": "^2.6.2",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "eslint": "8.22.0",
+    "eslint-config-next": "^12.3.4",
+    "next-compose-plugins": "^2.2.1",
+    "next-plugin-antd-less": "^1.8.0",
+    "prettier": "^2.8.4",
+    "shx": "^0.3.4",
+    "typescript": "~4.7.4"
+  }
 }

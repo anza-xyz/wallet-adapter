@@ -11,16 +11,16 @@ require('@solana/wallet-adapter-react-ui/styles.css');
 require('../styles/globals.css');
 
 const App: FC<AppProps> = ({ Component, pageProps }) => {
-    return (
-        <>
-            <Head>
-                <title>@solana/wallet-adapter Example</title>
-            </Head>
-            <ContextProvider>
-                <Component {...pageProps} />
-            </ContextProvider>
-        </>
-    );
+  return (
+    <>
+      <Head>
+        <title>@solana/wallet-adapter Example</title>
+      </Head>
+      <ContextProvider>
+        <Component {...pageProps} />
+      </ContextProvider>
+    </>
+  );
 };
 
 export default App;

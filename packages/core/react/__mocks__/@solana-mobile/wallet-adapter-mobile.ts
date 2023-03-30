@@ -7,16 +7,16 @@ export const createDefaultAuthorizationResultCache = jest.fn();
 export const createDefaultWalletNotFoundHandler = jest.fn();
 
 class MockSolanaMobileWalletAdapter extends MockWalletAdapter {
-    name = SolanaMobileWalletAdapterWalletName as WalletName<string>;
-    icon = 'sms.png';
-    url = 'https://solanamobile.com';
-    publicKey = null;
+  name = SolanaMobileWalletAdapterWalletName as WalletName<string>;
+  icon = 'sms.png';
+  url = 'https://solanamobile.com';
+  publicKey = null;
 }
 
 export const SolanaMobileWalletAdapter = jest.fn().mockImplementation(
-    (...args) =>
-        new MockSolanaMobileWalletAdapter(
-            // @ts-ignore
-            ...args
-        )
+  (...args) =>
+    new MockSolanaMobileWalletAdapter(
+      // @ts-ignore
+      ...args
+    )
 );
