@@ -2,20 +2,29 @@
 
 Please search https://solana.stackexchange.com and the issues in the repo. Issues are only for bug reports and feature requests.
 
-- [I am building an app, how do I use this?](#i-am-building-an-app-how-do-i-use-this)
-- [I am building a wallet, how do I use this?](#i-am-building-a-wallet-how-do-i-use-this)
-- [How can I get support?](#how-can-i-get-support)
-- [Can I use this with ___?](#can-i-use-this-with-___)
-- [What does this error mean?](#what-does-this-error-mean)
-- [How can I sign and verify messages?](#how-can-i-sign-and-verify-messages)
+- [FAQ (Frequently Asked Questions)](#faq-frequently-asked-questions)
+  - [I am building an app, how do I use this?](#i-am-building-an-app-how-do-i-use-this)
+  - [I am building a wallet, how do I use this?](#i-am-building-a-wallet-how-do-i-use-this)
+  - [How can I get support?](#how-can-i-get-support)
+  - [Can I use this with \_\_\_?](#can-i-use-this-with-___)
+    - [React - including Next.js, Material UI, Ant Design, etc?](#react---including-nextjs-material-ui-ant-design-etc)
+    - [Svelte, Vue, Angular, etc?](#svelte-vue-angular-etc)
+    - [Anchor](#anchor)
+    - [Webpack / Gatsby](#webpack--gatsby)
+    - [Babel / Rollup / Vite / Snowpack / esbuild](#babel--rollup--vite--snowpack--esbuild)
+  - [What does this error mean?](#what-does-this-error-mean)
+    - [`Failed to compile. [...] Module not found: Can't resolve [...]`](#failed-to-compile--module-not-found-cant-resolve-)
+    - [`[...] is not a function` / `[...] is undefined` / `Uncaught TypeError: Cannot destructure property` / `Uncaught (in promise) WalletNotConnectedError`](#-is-not-a-function---is-undefined--uncaught-typeerror-cannot-destructure-property--uncaught-in-promise-walletnotconnectederror)
+    - [`[...] is not a function`](#-is-not-a-function)
+  - [How can I sign and verify messages?](#how-can-i-sign-and-verify-messages)
 
 ## I am building an app, how do I use this?
 
-See the guide [Wallet Adapter for Solana Apps](https://github.com/solana-labs/wallet-adapter/blob/master/APP.md).
+See [./README.md#for-solana-dapp-developers].
 
 ## I am building a wallet, how do I use this?
 
-See the guide [Wallet Adapter for Solana Wallets](https://github.com/solana-labs/wallet-adapter/blob/master/WALLET.md).
+See [./README.md#for-solana-wallet-app-developers].
 
 ## How can I get support?
 
@@ -25,31 +34,16 @@ After reading this FAQ, if you've found a bug or if you'd like to request a feat
 
 ## Can I use this with ___?
 
-### React
-Yes, see the [react-ui-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/react-ui-starter) package.
+### React - including Next.js, Material UI, Ant Design, etc?
 
+Yes. See [./README.md#ui-components]
+
+### Svelte, Vue, Angular, etc?
+
+Yes. See [./README.md#community]
 ### Anchor
 Yes, use the [`useAnchorWallet()`](https://github.com/solana-labs/wallet-adapter/blob/master/packages/core/react/src/useAnchorWallet.ts) hook in the React package to easily get an [Anchor-compatible Wallet interface](https://github.com/project-serum/anchor/blob/0faed886002a9b01ad0513c860e19d7570cb0221/ts/src/provider.ts#L220-L224).
 
-### Next.js (with React)
-Yes, see the [nextjs-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/nextjs-starter) package for very basic configuration, or the [example](https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/example) package for more complete configuration.
-
-If you're using one of the [react-ui](https://github.com/solana-labs/wallet-adapter/tree/master/packages/ui/react-ui), [material-ui](https://github.com/solana-labs/wallet-adapter/tree/master/packages/ui/material-ui), or [ant-design](https://github.com/solana-labs/wallet-adapter/tree/master/packages/ui/ant-design) packages too, make sure to configure the `WalletModalProvider` or `WalletDialogProvider` context [as shown here](https://github.com/solana-labs/wallet-adapter#setup).
-
-### Material UI (with React)
-Yes, see the [material-ui-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/material-ui-starter) package.
-
-### Ant Design (with React)
-Yes, see the [ant-design](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/ant-design) package.
-
-### Vue
-Yes, see the community-maintained [Vue](https://github.com/lorisleiva/solana-wallets-vue) package.
-
-### Angular / RxJS
-Yes, see the community-maintained [Angular](https://github.com/heavy-duty/platform/tree/master/libs/wallet-adapter) package.
-
-### Svelte
-Yes, see the community-maintained [Svelte](https://github.com/svelte-on-solana/wallet-adapter) package.
 
 ### Webpack / Gatsby
 Yes, but you may need to set up polyfills for certain imported modules.
@@ -60,20 +54,21 @@ npm install --save buffer
 ```
 
 And configure `webpack.config.js`:
+
 ```js
 const webpack = require('webpack');
 
 module.exports = {
-    plugins: [
-        new webpack.ProvidePlugin({
-            Buffer: ['buffer', 'Buffer']
-        })
-    ],
-    resolve: {
-        fallback: {
-            crypto: false
-        }
-    }
+  plugins: [
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer'],
+    }),
+  ],
+  resolve: {
+    fallback: {
+      crypto: false,
+    },
+  },
 };
 ```
 
@@ -83,7 +78,7 @@ Most of the packages are built using the TypeScript compiler, which outputs modu
 
 If you're using Create React App, craco, or one of the React-based starter projects using them, this should be handled automatically.
 
-If you're using Next.js, this requires configuration, which is provided in the [nextjs-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/nextjs-starter) package.
+If you're using Next.js, this requires configuration, which is provided in the [nextjs-starter](packages/starter/nextjs-starter) package.
 
 If you're using something else, you may have to configure your build tool to transpile the packages similarly to how it's done in the Next.js config.
 Please open an issue or pull request to document your solution!
@@ -98,7 +93,7 @@ If this doesn't fix the problem, please [open an issue](https://github.com/solan
 
 ### `[...] is not a function` / `[...] is undefined` / `Uncaught TypeError: Cannot destructure property` / `Uncaught (in promise) WalletNotConnectedError`
 
-This can happen if you don't wrap your app with the `WalletContext` and `ConnectionContext` provided by the [react](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/react) package.
+This can happen if you don't wrap your app with the `WalletContext` and `ConnectionContext` provided by the [react](packages/core/react) package.
 See issues [#62](https://github.com/solana-labs/wallet-adapter/issues/62#issuecomment-916421795), [#73](https://github.com/solana-labs/wallet-adapter/issues/73#issuecomment-919237687), and [#85](https://github.com/solana-labs/wallet-adapter/issues/85).
 
 This shouldn't happen if you're using one of the starter projects, since they set up the contexts for you.
