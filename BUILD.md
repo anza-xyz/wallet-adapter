@@ -29,7 +29,7 @@ pnpm install
 
 ### 3. Build all packages:
 ```shell
-pnpm run build:ts
+pnpm build
 ```
 Please be patient! This may take a while the first time you do it. Subsequent builds will be incremental and are quite fast.
 
