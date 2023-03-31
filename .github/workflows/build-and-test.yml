@@ -52,7 +52,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build packages
-        run: pnpm build:clean
+        run: pnpm run build
 
       - name: Run tests
         run: pnpm test

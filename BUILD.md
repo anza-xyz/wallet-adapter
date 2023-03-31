@@ -29,7 +29,7 @@ pnpm install
 
 ### 3. Build all packages:
 ```shell
-pnpm build
+pnpm run build
 ```
 Please be patient! This may take a while the first time you do it. Subsequent builds will be incremental and are quite fast.
 
@@ -38,6 +38,6 @@ You can also use `pnpm watch` to run incremental builds when source files change
 ### 4. Run locally:
 ```shell
 cd packages/starter/react-ui-starter
-pnpm start
+pnpm run start
 open http://localhost:1234
 ```
