@@ -13,7 +13,7 @@ corepack prepare pnpm@`npm info pnpm --json | jq -r .version` --activate
 
 Corepack requires a version to enable, so if you don't have [jq](https://stedolan.github.io/jq/) installed, you can [install it](https://formulae.brew.sh/formula/jq), or just manually get the current version of pnpm with `npm info pnpm` and use it like this:
 ```shell
-corepack prepare pnpm@7.13.4 --activate
+corepack prepare pnpm@8.1.0 --activate
 ```
 
 ### 1. Clone the project:

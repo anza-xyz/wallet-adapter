@@ -40,7 +40,7 @@
         "eslint-plugin-react-hooks": "^4.6.0",
         "eslint-plugin-require-extensions": "^0.1.2",
         "gh-pages": "^4.0.0",
-        "pnpm": "^7.27.1",
+        "pnpm": "^8.1.0",
         "prettier": "^2.8.4",
         "shx": "^0.3.4",
         "turbo": "^1.8.2",
