@@ -36,7 +36,7 @@ export interface WalletContextState {
 
 const EMPTY_ARRAY: ReadonlyArray<never> = [];
 
-const DEFAULT_CONTEXT = {
+export const DEFAULT_CONTEXT = {
     autoConnect: false,
     connecting: false,
     connected: false,
