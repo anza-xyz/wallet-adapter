@@ -61,7 +61,6 @@
         "@types/react-dom": "^18.0.11",
         "eslint": "8.22.0",
         "eslint-config-next": "^12.3.4",
-        "next-compose-plugins": "^2.2.1",
         "next-plugin-antd-less": "^1.8.0",
         "prettier": "^2.8.4",
         "shx": "^0.3.4",

@@ -282,9 +282,6 @@ importers:
       eslint-config-next:
         specifier: ^12.3.4
         version: 12.3.4(eslint@8.22.0)(typescript@4.7.4)
-      next-compose-plugins:
-        specifier: ^2.2.1
-        version: 2.2.1
       next-plugin-antd-less:
         specifier: ^1.8.0
         version: 1.8.0(webpack@5.77.0)
@@ -14313,10 +14310,6 @@ packages:
 
   /neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
-
-  /next-compose-plugins@2.2.1:
-    resolution: {integrity: sha512-OjJ+fV15FXO2uQXQagLD4C0abYErBjyjE0I0FHpOEIB8upw0hg1ldFP6cqHTJBH1cZqy96OeR3u1dJ+Ez2D4Bg==}
-    dev: true
 
   /next-plugin-antd-less@1.8.0(webpack@5.77.0):
     resolution: {integrity: sha512-LwJAoXVvWfDqsSTlRof7EWKxlFlxgLD/6DkwUX6jnqrJMxH4KAEo3U09w4y3hn1fMh0LIRUWYLdnc1HTgDyh/A==}
