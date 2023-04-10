@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-example
 
+## 0.18.21
+
+### Patch Changes
+
+-   3b93799: Fix next.js warnings when building starter project
+
 ## 0.18.20
 
 ### Patch Changes
