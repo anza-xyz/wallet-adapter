@@ -6,7 +6,7 @@ import { Button } from './Button.js';
 import { WalletIcon } from './WalletIcon.js';
 
 export const WalletDisconnectButton: FC<ButtonProps> = ({ children, disabled, onClick, ...props }) => {
-    const { wallet, disconnect, disconnecting } = useWallet();
+    const { wallet, connected, disconnect, disconnecting } = useWallet();
 
     const handleClick: MouseEventHandler<HTMLButtonElement> = useCallback(
         (event) => {
@@ -27,7 +27,7 @@ export const WalletDisconnectButton: FC<ButtonProps> = ({ children, disabled, on
     return (
         <Button
             className="wallet-adapter-button-trigger"
-            disabled={disabled || !wallet}
+            disabled={disabled || !connected}
             startIcon={wallet ? <WalletIcon wallet={wallet} /> : undefined}
             onClick={handleClick}
             {...props}
