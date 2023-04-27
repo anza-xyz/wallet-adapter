@@ -51,6 +51,9 @@ Yes, see the community-maintained [Angular](https://github.com/heavy-duty/platfo
 ### Svelte
 Yes, see the community-maintained [Svelte](https://github.com/svelte-on-solana/wallet-adapter) package.
 
+### Unity
+Yes, see the community-maintained [Unity](https://github.com/magicblock-labs/Solana.Unity-SDK) package.
+
 ### Webpack / Gatsby
 Yes, but you may need to set up polyfills for certain imported modules.
 
