@@ -19,5 +19,7 @@ module.exports = function (phase, { defaultConfig }) {
         basePath: phase === PHASE_PRODUCTION_BUILD ? '/wallet-adapter/example' : '',
     });
 
+    config.output = 'export';
+
     return config;
 };
