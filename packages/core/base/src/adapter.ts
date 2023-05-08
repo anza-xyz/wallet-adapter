@@ -189,5 +189,8 @@ export function isIosAndRedirectable() {
     // so we will redirect only if Safari is also included
     const isSafari = userAgent.includes('safari');
 
-    return isIos && isSafari;
+    // if it's a PWA then we can't do a redirect
+    const isPWA = window.matchMedia('(display-mode: standalone)').matches
+
+    return isIos && isSafari && !isPWA;
 }
