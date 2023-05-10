@@ -55,7 +55,7 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const network = WalletAdapterNetwork.Mainnet;
 
     // You can also provide a custom RPC endpoint
-    const endpoint = useMemo(() => process.env.NEXT_PUBLIC_MAINNET_RPC_URL, [network]);
+    const endpoint = useMemo(() => process.env.NEXT_PUBLIC_MAINNET_RPC_URL!, [network]);
 
     const wallets = useMemo(
         () => [
