@@ -6,7 +6,7 @@ import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { WalletDialogProvider as MaterialUIWalletDialogProvider } from '@solana/wallet-adapter-material-ui';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider as ReactUIWalletModalProvider } from '@solana/wallet-adapter-react-ui';
-import { UnsafeBurnerWalletAdapter, WalletConnectWalletAdapter } from '@solana/wallet-adapter-wallets';
+import { UnsafeBurnerWalletAdapter } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 import { SnackbarProvider, useSnackbar } from 'notistack';
 import type { FC, ReactNode } from 'react';
@@ -52,11 +52,10 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const { autoConnect } = useAutoConnect();
 
     // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
-    const network = WalletAdapterNetwork.Mainnet;
+    const network = WalletAdapterNetwork.Devnet;
 
     // You can also provide a custom RPC endpoint
-    // const endpoint = useMemo(() => process.env.NEXT_PUBLIC_MAINNET_RPC_URL!, [network]);
-    const endpoint = useMemo(() => clusterApiUrl(WalletAdapterNetwork.Devnet), [network]);
+    const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 
     const wallets = useMemo(
         () => [
@@ -72,21 +71,7 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
              * instantiate its legacy wallet adapter here. Common legacy adapters can be found
              * in the npm package `@solana/wallet-adapter-wallets`.
              */
-            new WalletConnectWalletAdapter({
-                network,
-                options: {
-                    relayUrl: 'wss://relay.walletconnect.com',
-                    // example WC app project ID
-                    projectId: 'f1559cce010fd0ba641c3e6e02ca3aa4',
-                    metadata: {
-                        name: 'Example App',
-                        description: 'Example App',
-                        url: 'https://github.com/solana-labs/wallet-adapter',
-                        icons: ['https://avatars.githubusercontent.com/u/35608259?s=200'],
-                    },
-                },
-            }),
-            // new UnsafeBurnerWalletAdapter(),
+            new UnsafeBurnerWalletAdapter(),
         ],
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [network]
