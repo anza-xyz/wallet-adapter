@@ -35,7 +35,7 @@
         "@solana/web3.js": "^1.63.0"
     },
     "dependencies": {
-        "@jnwng/walletconnect-solana": "0.2.0-1",
+        "@jnwng/walletconnect-solana": "0.2.0",
         "@solana/wallet-adapter-base": "workspace:^"
     },
     "devDependencies": {
