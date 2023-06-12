@@ -1,51 +1,39 @@
-import { useWallet } from '@solana/wallet-adapter-react';
+import { useWalletDisconnectButton } from '@solana/wallet-adapter-react';
 import type { ButtonProps } from 'antd';
-import { Button } from 'antd';
-import type { FC, MouseEventHandler } from 'react';
-import React, { useCallback, useMemo } from 'react';
-import { WalletIcon } from './WalletIcon.js';
+import React from 'react';
+import { BaseWalletConnectionButton } from './BaseWalletConnectionButton.js';
 
-export const WalletDisconnectButton: FC<ButtonProps> = ({
-    type = 'primary',
-    size = 'large',
-    htmlType = 'button',
-    children,
-    disabled,
-    onClick,
-    ...props
-}) => {
-    const { wallet, disconnect, disconnecting } = useWallet();
-
-    const handleClick: MouseEventHandler<HTMLButtonElement> = useCallback(
-        (event) => {
-            if (onClick) onClick(event);
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
-            if (!event.defaultPrevented)
-                disconnect().catch(() => {
-                    // Silently catch because any errors are caught by the context `onError` handler
-                });
-        },
-        [onClick, disconnect]
-    );
-
-    const content = useMemo(() => {
-        if (children) return children;
-        if (disconnecting) return 'Disconnecting ...';
-        if (wallet) return 'Disconnect';
-        return 'Disconnect Wallet';
-    }, [children, disconnecting, wallet]);
-
+export function WalletDisconnectButton({ children, disabled, onClick, ...props }: ButtonProps) {
+    const { buttonDisabled, buttonState, onButtonClick, walletIcon, walletName } = useWalletDisconnectButton();
+    let label;
+    if (children) {
+        label = children;
+    } else if (buttonState === 'disconnecting') {
+        label = 'Disconnecting ...';
+    } else if (buttonState === 'has-wallet') {
+        label = 'Disconnect';
+    } else {
+        label = 'Disconnect Wallet';
+    }
     return (
-        <Button
-            onClick={handleClick}
-            disabled={disabled || !wallet}
-            icon={<WalletIcon wallet={wallet} />}
-            type={type}
-            size={size}
-            htmlType={htmlType}
+        <BaseWalletConnectionButton
             {...props}
+            disabled={disabled || buttonDisabled}
+            onClick={(e) => {
+                if (onClick) {
+                    onClick(e);
+                }
+                if (e.defaultPrevented) {
+                    return;
+                }
+                if (onButtonClick) {
+                    onButtonClick();
+                }
+            }}
+            walletIcon={walletIcon}
+            walletName={walletName}
         >
-            {content}
-        </Button>
+            {label}
+        </BaseWalletConnectionButton>
     );
-};
+}
