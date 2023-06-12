@@ -7,14 +7,12 @@ import {
     SwapHoriz as SwitchIcon,
 } from '@mui/icons-material';
 import type { ButtonProps, Theme } from '@mui/material';
-import { Button, Collapse, Fade, ListItemIcon, Menu, MenuItem, styled } from '@mui/material';
-import { useWallet } from '@solana/wallet-adapter-react';
-import type { FC } from 'react';
+import { Collapse, Fade, ListItemIcon, Menu, MenuItem, styled } from '@mui/material';
 import React, { useMemo, useState } from 'react';
+
+import { useWalletMultiButton } from '@solana/wallet-adapter-react';
+import { BaseWalletConnectionButton } from './BaseWalletConnectionButton.js';
 import { useWalletDialog } from './useWalletDialog.js';
-import { WalletConnectButton } from './WalletConnectButton.js';
-import { WalletDialogButton } from './WalletDialogButton.js';
-import { WalletIcon } from './WalletIcon.js';
 
 const StyledMenu = styled(Menu)(({ theme }: { theme: Theme }) => ({
     '& .MuiList-root': {
@@ -39,7 +37,7 @@ const WalletActionMenuItem = styled(MenuItem)(({ theme }: { theme: Theme }) => (
     },
 }));
 
-const WalletMenuItem = styled(WalletActionMenuItem)(({ theme }: { theme: Theme }) => ({
+const WalletMenuItem = styled(WalletActionMenuItem)(() => ({
     padding: 0,
 
     '& .MuiButton-root': {
@@ -47,58 +45,64 @@ const WalletMenuItem = styled(WalletActionMenuItem)(({ theme }: { theme: Theme }
     },
 }));
 
-export const WalletMultiButton: FC<ButtonProps> = ({
-    color = 'primary',
-    variant = 'contained',
-    type = 'button',
-    children,
-    ...props
-}) => {
-    const { publicKey, wallet, disconnect } = useWallet();
-    const { setOpen } = useWalletDialog();
-    const [anchor, setAnchor] = useState<HTMLElement>();
-
-    const base58 = useMemo(() => publicKey?.toBase58(), [publicKey]);
+export function WalletMultiButton({ children, ...props }: ButtonProps) {
+    const { setOpen: setModalVisible } = useWalletDialog();
+    const anchorRef = React.createRef<HTMLButtonElement>();
+    const [menuOpen, setMenuOpen] = useState(false);
+    const { buttonState, onConnect, onDisconnect, publicKey, walletIcon, walletName } = useWalletMultiButton({
+        onSelectWallet() {
+            setModalVisible(true);
+        },
+    });
     const content = useMemo(() => {
-        if (children) return children;
-        if (!wallet || !base58) return null;
-        return base58.slice(0, 4) + '..' + base58.slice(-4);
-    }, [children, wallet, base58]);
-
-    if (!wallet) {
-        return (
-            <WalletDialogButton color={color} variant={variant} type={type} {...props}>
-                {children}
-            </WalletDialogButton>
-        );
-    }
-    if (!base58) {
-        return (
-            <WalletConnectButton color={color} variant={variant} type={type} {...props}>
-                {children}
-            </WalletConnectButton>
-        );
-    }
-
+        if (children) {
+            return children;
+        } else if (buttonState === 'connecting') {
+            return 'Connecting ...';
+        } else if (publicKey) {
+            const base58 = publicKey.toBase58();
+            return base58.slice(0, 4) + '..' + base58.slice(-4);
+        } else if (buttonState === 'has-wallet') {
+            return 'Connect';
+        } else {
+            return 'Select Wallet';
+        }
+    }, [buttonState, children, publicKey]);
     return (
         <>
-            <Button
-                color={color}
-                variant={variant}
-                type={type}
-                startIcon={<WalletIcon wallet={wallet} />}
-                onClick={(event) => setAnchor(event.currentTarget)}
+            <BaseWalletConnectionButton
+                {...props}
                 aria-controls="wallet-menu"
                 aria-haspopup="true"
-                {...props}
+                onClick={() => {
+                    switch (buttonState) {
+                        case 'no-wallet':
+                            setModalVisible(true);
+                            break;
+                        case 'has-wallet':
+                            if (onConnect) {
+                                onConnect();
+                            }
+                            break;
+                        case 'connected':
+                            setMenuOpen(true);
+                            break;
+                    }
+                }}
+                ref={anchorRef}
+                walletIcon={walletIcon}
+                walletName={walletName}
             >
                 {content}
-            </Button>
+            </BaseWalletConnectionButton>
             <StyledMenu
                 id="wallet-menu"
-                anchorEl={anchor}
-                open={!!anchor}
-                onClose={() => setAnchor(undefined)}
+                anchorEl={
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    () => anchorRef.current!
+                }
+                open={menuOpen}
+                onClose={() => setMenuOpen(false)}
                 marginThreshold={0}
                 TransitionComponent={Fade}
                 transitionDuration={250}
@@ -108,35 +112,35 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                     horizontal: 'left',
                 }}
             >
-                <WalletMenuItem onClick={() => setAnchor(undefined)}>
-                    <Button
-                        color={color}
-                        variant={variant}
-                        type={type}
-                        startIcon={<WalletIcon wallet={wallet} />}
-                        onClick={(event) => setAnchor(undefined)}
-                        fullWidth
+                <WalletMenuItem onClick={() => setMenuOpen(false)}>
+                    <BaseWalletConnectionButton
                         {...props}
+                        fullWidth
+                        onClick={() => setMenuOpen(false)}
+                        walletIcon={walletIcon}
+                        walletName={walletName}
                     >
-                        {wallet.adapter.name}
-                    </Button>
+                        {walletName}
+                    </BaseWalletConnectionButton>
                 </WalletMenuItem>
-                <Collapse in={!!anchor}>
-                    <WalletActionMenuItem
-                        onClick={async () => {
-                            setAnchor(undefined);
-                            await navigator.clipboard.writeText(base58);
-                        }}
-                    >
-                        <ListItemIcon>
-                            <CopyIcon />
-                        </ListItemIcon>
-                        Copy address
-                    </WalletActionMenuItem>
+                <Collapse in={menuOpen}>
+                    {publicKey ? (
+                        <WalletActionMenuItem
+                            onClick={async () => {
+                                setMenuOpen(false);
+                                await navigator.clipboard.writeText(publicKey.toBase58());
+                            }}
+                        >
+                            <ListItemIcon>
+                                <CopyIcon />
+                            </ListItemIcon>
+                            Copy address
+                        </WalletActionMenuItem>
+                    ) : null}
                     <WalletActionMenuItem
                         onClick={() => {
-                            setAnchor(undefined);
-                            setOpen(true);
+                            setMenuOpen(false);
+                            setModalVisible(true);
                         }}
                     >
                         <ListItemIcon>
@@ -144,22 +148,21 @@ export const WalletMultiButton: FC<ButtonProps> = ({
                         </ListItemIcon>
                         Change wallet
                     </WalletActionMenuItem>
-                    <WalletActionMenuItem
-                        onClick={() => {
-                            setAnchor(undefined);
-                            // eslint-disable-next-line @typescript-eslint/no-empty-function
-                            disconnect().catch(() => {
-                                // Silently catch because any errors are caught by the context `onError` handler
-                            });
-                        }}
-                    >
-                        <ListItemIcon>
-                            <DisconnectIcon />
-                        </ListItemIcon>
-                        Disconnect
-                    </WalletActionMenuItem>
+                    {onDisconnect ? (
+                        <WalletActionMenuItem
+                            onClick={() => {
+                                setMenuOpen(false);
+                                onDisconnect();
+                            }}
+                        >
+                            <ListItemIcon>
+                                <DisconnectIcon />
+                            </ListItemIcon>
+                            Disconnect
+                        </WalletActionMenuItem>
+                    ) : null}
                 </Collapse>
             </StyledMenu>
         </>
     );
-};
+}
