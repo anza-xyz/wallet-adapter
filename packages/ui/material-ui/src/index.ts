@@ -1,4 +1,7 @@
 export * from './useWalletDialog.js';
+export * from './BaseWalletConnectButton.js';
+export * from './BaseWalletDisconnectButton.js';
+export * from './BaseWalletMultiButton.js';
 export * from './WalletConnectButton.js';
 export * from './WalletDialog.js';
 export * from './WalletDialogButton.js';
