@@ -42,7 +42,7 @@
         "@solana/wallet-standard-wallet-adapter-react": "^1.0.1"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.73.2",
+        "@solana/web3.js": "^1.74.0",
         "@types/jest": "^28.1.8",
         "@types/react": "^18.0.28",
         "@types/react-dom": "^18.0.11",

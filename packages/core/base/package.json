@@ -41,7 +41,7 @@
         "eventemitter3": "^4.0.7"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.73.2",
+        "@solana/web3.js": "^1.74.0",
         "@types/node-fetch": "^2.6.2",
         "shx": "^0.3.4"
     }
