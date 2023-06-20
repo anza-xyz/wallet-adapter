@@ -48,7 +48,7 @@
     },
     "devDependencies": {
         "@ant-design/icons": "^4.8.0",
-        "@solana/web3.js": "^1.73.2",
+        "@solana/web3.js": "^1.74.0",
         "@types/react": "^18.0.28",
         "@types/react-dom": "^18.0.11",
         "antd": "^4.24.8",

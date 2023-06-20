@@ -32,14 +32,14 @@
         "package": "shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.61.0"
+        "@solana/web3.js": "^1.74.0"
     },
     "dependencies": {
         "@censo-custody/solana-wallet-adapter": "^0.1.0",
         "@solana/wallet-adapter-base": "workspace:^"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.73.2",
+        "@solana/web3.js": "^1.74.0",
         "shx": "^0.3.4"
     }
 }

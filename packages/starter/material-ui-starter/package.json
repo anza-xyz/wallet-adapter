@@ -33,7 +33,7 @@
         "@solana/wallet-adapter-material-ui": "workspace:^0.16.28",
         "@solana/wallet-adapter-react": "workspace:^0.15.30",
         "@solana/wallet-adapter-wallets": "workspace:^0.19.15",
-        "@solana/web3.js": "^1.73.2",
+        "@solana/web3.js": "^1.74.0",
         "notistack": "^2.0.8",
         "react": "^18.2.0",
         "react-dom": "^18.2.0"

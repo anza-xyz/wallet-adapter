@@ -45,7 +45,7 @@
         "@solana/wallet-adapter-react": "workspace:^0.15.30",
         "@solana/wallet-adapter-react-ui": "workspace:^0.9.29",
         "@solana/wallet-adapter-wallets": "workspace:^0.19.15",
-        "@solana/web3.js": "^1.73.2",
+        "@solana/web3.js": "^1.74.0",
         "antd": "^4.24.8",
         "bs58": "^4.0.1",
         "next": "^12.3.4",

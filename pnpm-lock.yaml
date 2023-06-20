@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 overrides:
   '@ledgerhq/devices': 6.27.1
   '@ledgerhq/hw-transport': 6.27.1
@@ -54,8 +58,8 @@ importers:
         specifier: ^0.3.4
         version: 0.3.4
       turbo:
-        specifier: ^1.8.2
-        version: 1.8.8
+        specifier: ^1.10.3
+        version: 1.10.3
       typedoc:
         specifier: ^0.23.25
         version: 0.23.28(typescript@4.7.4)
@@ -79,7 +83,7 @@ importers:
         version: 4.0.7
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       '@types/node-fetch':
         specifier: ^2.6.2
@@ -101,7 +105,7 @@ importers:
         version: 1.0.2(@solana/wallet-adapter-base@packages+core+base)(@solana/web3.js@1.74.0)(bs58@4.0.1)(react@18.2.0)
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       '@types/jest':
         specifier: ^28.1.8
@@ -149,7 +153,7 @@ importers:
         specifier: workspace:^0.19.15
         version: link:../../wallets/wallets
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       react:
         specifier: ^18.2.0
@@ -240,7 +244,7 @@ importers:
         specifier: workspace:^0.19.15
         version: link:../../wallets/wallets
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       antd:
         specifier: ^4.24.8
@@ -322,7 +326,7 @@ importers:
         specifier: workspace:^0.19.15
         version: link:../../wallets/wallets
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       notistack:
         specifier: ^2.0.8
@@ -420,7 +424,7 @@ importers:
         specifier: workspace:^0.19.15
         version: link:../../wallets/wallets
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       react:
         specifier: ^18.2.0
@@ -464,7 +468,7 @@ importers:
         specifier: ^4.8.0
         version: 4.8.0(react-dom@18.2.0)(react@18.2.0)
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       '@types/react':
         specifier: ^18.0.28
@@ -507,7 +511,7 @@ importers:
         specifier: ^5.11.10
         version: 5.11.15(@emotion/react@11.10.6)(@emotion/styled@11.10.6)(@types/react@18.0.31)(react-dom@18.2.0)(react@18.2.0)
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       '@types/react':
         specifier: ^18.0.28
@@ -535,7 +539,7 @@ importers:
         version: link:../../core/react
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       '@types/react':
         specifier: ^18.0.28
@@ -560,7 +564,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -573,7 +577,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -586,7 +590,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -599,7 +603,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -612,7 +616,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -628,7 +632,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -641,7 +645,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -657,7 +661,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -670,7 +674,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -686,7 +690,7 @@ importers:
         version: 4.0.1
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       '@types/bs58':
         specifier: ^4.0.1
@@ -702,7 +706,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -715,7 +719,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -728,7 +732,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -744,7 +748,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -757,7 +761,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -770,7 +774,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -783,7 +787,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -799,7 +803,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -812,7 +816,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -837,7 +841,7 @@ importers:
         version: 6.0.3
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       '@types/w3c-web-hid':
         specifier: ^1.0.3
@@ -853,7 +857,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -866,7 +870,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -879,7 +883,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -892,7 +896,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -905,7 +909,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -918,7 +922,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -934,7 +938,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -947,7 +951,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -960,7 +964,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -973,7 +977,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -989,7 +993,7 @@ importers:
         version: 1.1.1(@solana/web3.js@1.74.0)
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -1002,7 +1006,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -1018,7 +1022,7 @@ importers:
         version: 4.0.1
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       '@types/bs58':
         specifier: ^4.0.1
@@ -1037,7 +1041,7 @@ importers:
         version: 1.2.1(@solana/web3.js@1.74.0)
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -1053,7 +1057,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -1066,7 +1070,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -1079,7 +1083,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -1095,7 +1099,7 @@ importers:
         version: 0.1.8
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -1108,7 +1112,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -1121,7 +1125,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -1149,7 +1153,7 @@ importers:
         version: 3.0.0
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       '@types/keccak':
         specifier: ^3.0.1
@@ -1171,7 +1175,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -1184,7 +1188,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -1193,21 +1197,21 @@ importers:
   packages/wallets/walletconnect:
     dependencies:
       '@jnwng/walletconnect-solana':
-        specifier: ^0.1.5
-        version: 0.1.5(@solana/web3.js@1.74.0)(@types/node@18.15.11)(typescript@4.7.4)
+        specifier: ^0.2.0
+        version: 0.2.0(@solana/web3.js@1.74.0)(@types/node@18.15.11)(typescript@4.7.4)
       '@solana/wallet-adapter-base':
         specifier: workspace:^
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       '@types/pino':
         specifier: ^6.3.12
         version: 6.3.12
       '@walletconnect/types':
-        specifier: ^2.4.5
-        version: 2.5.2(@types/node@18.15.11)(typescript@4.7.4)
+        specifier: ^2.7.7
+        version: 2.7.7
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -1351,7 +1355,7 @@ importers:
         version: link:../xdefi
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -1364,7 +1368,7 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.73.2
+        specifier: ^1.74.0
         version: 1.74.0
       shx:
         specifier: ^0.3.4
@@ -3068,6 +3072,7 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
+    dev: false
 
   /@csstools/normalize.css@12.0.0:
     resolution: {integrity: sha512-M0qqxAcwCsIVfpFQSlGN5XjXWu8l5JDZN+fPt1LeW5SZexQTgnaEvgXAY+CeygRw0EeppWHi12JxESWiWrB0Sg==}
@@ -3898,14 +3903,14 @@ packages:
       chalk: 4.1.2
     dev: false
 
-  /@jnwng/walletconnect-solana@0.1.5(@solana/web3.js@1.74.0)(@types/node@18.15.11)(typescript@4.7.4):
-    resolution: {integrity: sha512-n8YLfF6NIVOqn+YeJEFRaZbbeNTGXL+VPBl+hqMpxLH+Fp+qgdm4CYH+ULH/OSszL2DBO1j+hB/XFDPiswCNeA==}
+  /@jnwng/walletconnect-solana@0.2.0(@solana/web3.js@1.74.0)(@types/node@18.15.11)(typescript@4.7.4):
+    resolution: {integrity: sha512-nyRq0xLEj9i2J4UXQ0Mr4KzsooTMbLu0ewHOqdQV7iZE0PfbtKa8poTSF4ZBAQD8hoMHEx+I7zGFCNMI9BTrTA==}
     peerDependencies:
-      '@solana/web3.js': ^1.52.0
+      '@solana/web3.js': ^1.63.0
     dependencies:
       '@solana/web3.js': 1.74.0
       '@walletconnect/qrcode-modal': 1.8.0
-      '@walletconnect/sign-client': 2.5.2(@types/node@18.15.11)(typescript@4.7.4)
+      '@walletconnect/sign-client': 2.8.1
       '@walletconnect/utils': 2.5.2(@types/node@18.15.11)(typescript@4.7.4)
       bs58: 5.0.0
     transitivePeerDependencies:
@@ -3962,6 +3967,7 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.0
       '@jridgewell/sourcemap-codec': 1.4.14
+    dev: false
 
   /@json-rpc-tools/provider@1.7.6:
     resolution: {integrity: sha512-z7D3xvJ33UfCGv77n40lbzOYjZKVM3k2+5cV7xS8G6SCvKTzMkhkUYuD/qzQUNT4cG/lv0e9mRToweEEVLVVmA==}
@@ -6258,15 +6264,19 @@ packages:
 
   /@tsconfig/node10@1.0.9:
     resolution: {integrity: sha512-jNsYVVxU8v5g43Erja32laIDHXeoNvFEpX33OK4d6hljo3jDhCBDhx5dhCCTMWUojscpAagGiRkBKxpdl9fxqA==}
+    dev: false
 
   /@tsconfig/node12@1.0.11:
     resolution: {integrity: sha512-cqefuRsh12pWyGsIoBKJA9luFu3mRxCA+ORZvA4ktLSzIuCUtWVxGIuXigEwO5/ywWFMZ2QEGKWvkZG1zDMTag==}
+    dev: false
 
   /@tsconfig/node14@1.0.3:
     resolution: {integrity: sha512-ysT8mhdixWK6Hw3i1V2AeRqZ5WfXg1G43mqoYlM2nc6388Fq5jcXyr5mRsqViLx/GJYdoL0bfXD8nmF+Zn/Iow==}
+    dev: false
 
   /@tsconfig/node16@1.0.3:
     resolution: {integrity: sha512-yOlFc+7UtL/89t2ZhjPvvB/DeAr3r+Dq58IgzsFkOAvVC6NMJXmCGjbptdXdR9qsX7pKcTL+s87FtYREi2dEEQ==}
+    dev: false
 
   /@types/aria-query@5.0.1:
     resolution: {integrity: sha512-XTIieEY+gvJ39ChLcB4If5zHtPxt3Syj5rgZR+e1ctpmK8NjPf0zFqsz4JpLJT0xla9GFDKjy8Cpu331nrmE1Q==}
@@ -6790,33 +6800,29 @@ packages:
       detect-browser: 5.2.0
     dev: false
 
-  /@walletconnect/core@2.5.2(@types/node@18.15.11)(typescript@4.7.4):
-    resolution: {integrity: sha512-R0D9NKgHBpdun65q+1L49GOIGDLaIodnyb+Dq0tXGVzvXzy2lkXOlh2e9am61ixaVrUsHt7b96b318geqsuk4Q==}
+  /@walletconnect/core@2.8.1:
+    resolution: {integrity: sha512-mN9Zkdl/NeThntK8cydDoQOW6jUEpOeFgYR1RCKPLH51VQwlbdSgvvQIeanSQXEY4U7AM3x8cs1sxqMomIfRQg==}
     dependencies:
-      '@walletconnect/heartbeat': 1.2.0(@types/node@18.15.11)(typescript@4.7.4)
-      '@walletconnect/jsonrpc-provider': 1.0.10
-      '@walletconnect/jsonrpc-utils': 1.0.6
-      '@walletconnect/jsonrpc-ws-connection': 1.0.10
+      '@walletconnect/heartbeat': 1.2.1
+      '@walletconnect/jsonrpc-provider': 1.0.13
+      '@walletconnect/jsonrpc-types': 1.0.3
+      '@walletconnect/jsonrpc-utils': 1.0.8
+      '@walletconnect/jsonrpc-ws-connection': 1.0.11
       '@walletconnect/keyvaluestorage': 1.0.2
       '@walletconnect/logger': 2.0.1
       '@walletconnect/relay-api': 1.0.9
       '@walletconnect/relay-auth': 1.0.4
-      '@walletconnect/safe-json': 1.0.1
+      '@walletconnect/safe-json': 1.0.2
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.5.2(@types/node@18.15.11)(typescript@4.7.4)
-      '@walletconnect/utils': 2.5.2(@types/node@18.15.11)(typescript@4.7.4)
+      '@walletconnect/types': 2.8.1
+      '@walletconnect/utils': 2.8.1
       events: 3.3.0
       lodash.isequal: 4.5.0
-      pino: 7.11.0
       uint8arrays: 3.1.1
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
-      - '@swc/core'
-      - '@swc/wasm'
-      - '@types/node'
       - bufferutil
       - lokijs
-      - typescript
       - utf-8-validate
     dev: false
 
@@ -6846,34 +6852,42 @@ packages:
       - '@swc/wasm'
       - '@types/node'
       - typescript
+    dev: false
 
-  /@walletconnect/jsonrpc-provider@1.0.10:
-    resolution: {integrity: sha512-g0ffPSpY3P6GqGjWGHsr3yqvQUhj7q2k6pAikoXv5XTXWaJRzFvrlbFkSgxziXsBrwrMZn0qvPufvpN4mMZ5FA==}
+  /@walletconnect/heartbeat@1.2.1:
+    resolution: {integrity: sha512-yVzws616xsDLJxuG/28FqtZ5rzrTA4gUjdEMTbWB5Y8V1XHRmqq4efAxCw5ie7WjbXFSUyBHaWlMR+2/CpQC5Q==}
     dependencies:
-      '@walletconnect/jsonrpc-utils': 1.0.6
-      '@walletconnect/safe-json': 1.0.1
+      '@walletconnect/events': 1.0.1
+      '@walletconnect/time': 1.0.2
+      tslib: 1.14.1
+
+  /@walletconnect/jsonrpc-provider@1.0.13:
+    resolution: {integrity: sha512-K73EpThqHnSR26gOyNEL+acEex3P7VWZe6KE12ZwKzAt2H4e5gldZHbjsu2QR9cLeJ8AXuO7kEMOIcRv1QEc7g==}
+    dependencies:
+      '@walletconnect/jsonrpc-utils': 1.0.8
+      '@walletconnect/safe-json': 1.0.2
       tslib: 1.14.1
     dev: false
 
-  /@walletconnect/jsonrpc-types@1.0.2:
-    resolution: {integrity: sha512-CZe8tjJX73OWdHjrBHy7HtAapJ2tT0Q3TYhPBhRxi3643lwPIQWC9En45ldY14TZwgSewkbZ0FtGBZK0G7Bbyg==}
+  /@walletconnect/jsonrpc-types@1.0.3:
+    resolution: {integrity: sha512-iIQ8hboBl3o5ufmJ8cuduGad0CQm3ZlsHtujv9Eu16xq89q+BG7Nh5VLxxUgmtpnrePgFkTwXirCTkwJH1v+Yw==}
     dependencies:
       keyvaluestorage-interface: 1.0.0
       tslib: 1.14.1
 
-  /@walletconnect/jsonrpc-utils@1.0.6:
-    resolution: {integrity: sha512-snp0tfkjPiDLQp/jrBewI+9SM33GPV4+Gjgldod6XQ7rFyQ5FZjnBxUkY4xWH0+arNxzQSi6v5iDXjCjSaorpg==}
+  /@walletconnect/jsonrpc-utils@1.0.8:
+    resolution: {integrity: sha512-vdeb03bD8VzJUL6ZtzRYsFMq1eZQcM3EAzT0a3st59dyLfJ0wq+tKMpmGH7HlB7waD858UWgfIcudbPFsbzVdw==}
     dependencies:
       '@walletconnect/environment': 1.0.1
-      '@walletconnect/jsonrpc-types': 1.0.2
+      '@walletconnect/jsonrpc-types': 1.0.3
       tslib: 1.14.1
     dev: false
 
-  /@walletconnect/jsonrpc-ws-connection@1.0.10:
-    resolution: {integrity: sha512-/tidvjfCXZuYugjF5fOswsNDPoMo9QRML3DFQ0dfNUarL4f5HGqu8NDGerr2n0+4MOX23GsT6Vv2POSwFbvgGw==}
+  /@walletconnect/jsonrpc-ws-connection@1.0.11:
+    resolution: {integrity: sha512-TiFJ6saasKXD+PwGkm5ZGSw0837nc6EeFmurSPgIT/NofnOV4Tv7CVJqGQN0rQYoJUSYu21cwHNYaFkzNpUN+w==}
     dependencies:
-      '@walletconnect/jsonrpc-utils': 1.0.6
-      '@walletconnect/safe-json': 1.0.1
+      '@walletconnect/jsonrpc-utils': 1.0.8
+      '@walletconnect/safe-json': 1.0.2
       events: 3.3.0
       tslib: 1.14.1
       ws: 7.5.9
@@ -6922,7 +6936,7 @@ packages:
   /@walletconnect/relay-api@1.0.9:
     resolution: {integrity: sha512-Q3+rylJOqRkO1D9Su0DPE3mmznbAalYapJ9qmzDgK28mYF9alcP3UwG/og5V7l7CFOqzCLi7B8BvcBUrpDj0Rg==}
     dependencies:
-      '@walletconnect/jsonrpc-types': 1.0.2
+      '@walletconnect/jsonrpc-types': 1.0.3
       tslib: 1.14.1
     dev: false
 
@@ -6931,7 +6945,7 @@ packages:
     dependencies:
       '@stablelib/ed25519': 1.0.3
       '@stablelib/random': 1.0.2
-      '@walletconnect/safe-json': 1.0.1
+      '@walletconnect/safe-json': 1.0.2
       '@walletconnect/time': 1.0.2
       tslib: 1.14.1
       uint8arrays: 3.1.1
@@ -6947,27 +6961,28 @@ packages:
       tslib: 1.14.1
     dev: false
 
-  /@walletconnect/sign-client@2.5.2(@types/node@18.15.11)(typescript@4.7.4):
-    resolution: {integrity: sha512-eKUnGCVgYqN+6b4gm27ML/064m0c/2hTlTHy6tbUszYtEPTzb+q4fvpnWs6blaOjzc18l8NFwX3c1+MHxVdQUQ==}
+  /@walletconnect/safe-json@1.0.2:
+    resolution: {integrity: sha512-Ogb7I27kZ3LPC3ibn8ldyUr5544t3/STow9+lzz7Sfo808YD7SBWk7SAsdBFlYgP2zDRy2hS3sKRcuSRM0OTmA==}
     dependencies:
-      '@walletconnect/core': 2.5.2(@types/node@18.15.11)(typescript@4.7.4)
+      tslib: 1.14.1
+    dev: false
+
+  /@walletconnect/sign-client@2.8.1:
+    resolution: {integrity: sha512-6DbpjP9BED2YZOZdpVgYo0HwPBV7k99imnsdMFrTn16EFAxhuYP0/qPwum9d072oNMGWJSA6d4rzc8FHNtHsCA==}
+    dependencies:
+      '@walletconnect/core': 2.8.1
       '@walletconnect/events': 1.0.1
-      '@walletconnect/heartbeat': 1.2.0(@types/node@18.15.11)(typescript@4.7.4)
-      '@walletconnect/jsonrpc-utils': 1.0.6
+      '@walletconnect/heartbeat': 1.2.1
+      '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/logger': 2.0.1
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.5.2(@types/node@18.15.11)(typescript@4.7.4)
-      '@walletconnect/utils': 2.5.2(@types/node@18.15.11)(typescript@4.7.4)
+      '@walletconnect/types': 2.8.1
+      '@walletconnect/utils': 2.8.1
       events: 3.3.0
-      pino: 7.11.0
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
-      - '@swc/core'
-      - '@swc/wasm'
-      - '@types/node'
       - bufferutil
       - lokijs
-      - typescript
       - utf-8-validate
     dev: false
 
@@ -6986,7 +7001,7 @@ packages:
     dependencies:
       '@walletconnect/events': 1.0.1
       '@walletconnect/heartbeat': 1.2.0(@types/node@18.15.11)(typescript@4.7.4)
-      '@walletconnect/jsonrpc-types': 1.0.2
+      '@walletconnect/jsonrpc-types': 1.0.3
       '@walletconnect/keyvaluestorage': 1.0.2
       '@walletconnect/logger': 2.0.1
       events: 3.3.0
@@ -6997,6 +7012,35 @@ packages:
       - '@types/node'
       - lokijs
       - typescript
+    dev: false
+
+  /@walletconnect/types@2.7.7:
+    resolution: {integrity: sha512-Z4Y+BKPX7X1UBCf7QV35mVy2QU9CS+5G+EthCaJwpieirZNHamHEwNXUjuUUb3PrYOLwlfRYUT5edeFW9wvoeQ==}
+    dependencies:
+      '@walletconnect/events': 1.0.1
+      '@walletconnect/heartbeat': 1.2.1
+      '@walletconnect/jsonrpc-types': 1.0.3
+      '@walletconnect/keyvaluestorage': 1.0.2
+      '@walletconnect/logger': 2.0.1
+      events: 3.3.0
+    transitivePeerDependencies:
+      - '@react-native-async-storage/async-storage'
+      - lokijs
+    dev: true
+
+  /@walletconnect/types@2.8.1:
+    resolution: {integrity: sha512-MLISp85b+27vVkm3Wkud+eYCwySXCdOrmn0yQCSN6DnRrrunrD05ksz4CXGP7h2oXUvvXPDt/6lXBf1B4AfqrA==}
+    dependencies:
+      '@walletconnect/events': 1.0.1
+      '@walletconnect/heartbeat': 1.2.1
+      '@walletconnect/jsonrpc-types': 1.0.3
+      '@walletconnect/keyvaluestorage': 1.0.2
+      '@walletconnect/logger': 2.0.1
+      events: 3.3.0
+    transitivePeerDependencies:
+      - '@react-native-async-storage/async-storage'
+      - lokijs
+    dev: false
 
   /@walletconnect/utils@2.5.2(@types/node@18.15.11)(typescript@4.7.4):
     resolution: {integrity: sha512-s5bpY5q/RaXMc6LgPp+E7qPbKhrff9TjrLRjN2m9COnt9cERowpQEFrPzWmh10FatRZ7dNrudJ5I/c36nFc+hw==}
@@ -7006,7 +7050,7 @@ packages:
       '@stablelib/random': 1.0.2
       '@stablelib/sha256': 1.0.1
       '@stablelib/x25519': 1.0.3
-      '@walletconnect/jsonrpc-utils': 1.0.6
+      '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/relay-api': 1.0.9
       '@walletconnect/safe-json': 1.0.1
       '@walletconnect/time': 1.0.2
@@ -7025,6 +7069,28 @@ packages:
       - typescript
     dev: false
 
+  /@walletconnect/utils@2.8.1:
+    resolution: {integrity: sha512-d6p9OX3v70m6ijp+j4qvqiQZQU1vbEHN48G8HqXasyro3Z+N8vtcB5/gV4pTYsbWgLSDtPHj49mzbWQ0LdIdTw==}
+    dependencies:
+      '@stablelib/chacha20poly1305': 1.0.1
+      '@stablelib/hkdf': 1.0.1
+      '@stablelib/random': 1.0.2
+      '@stablelib/sha256': 1.0.1
+      '@stablelib/x25519': 1.0.3
+      '@walletconnect/relay-api': 1.0.9
+      '@walletconnect/safe-json': 1.0.2
+      '@walletconnect/time': 1.0.2
+      '@walletconnect/types': 2.8.1
+      '@walletconnect/window-getters': 1.0.1
+      '@walletconnect/window-metadata': 1.0.1
+      detect-browser: 5.3.0
+      query-string: 7.1.3
+      uint8arrays: 3.1.1
+    transitivePeerDependencies:
+      - '@react-native-async-storage/async-storage'
+      - lokijs
+    dev: false
+
   /@walletconnect/window-getters@1.0.0:
     resolution: {integrity: sha512-xB0SQsLaleIYIkSsl43vm8EwETpBzJ2gnzk7e0wMF3ktqiTGS6TFHxcprMl5R44KKh4tCcHCJwolMCaDSwtAaA==}
     dev: false
@@ -7038,7 +7104,7 @@ packages:
   /@walletconnect/window-metadata@1.0.0:
     resolution: {integrity: sha512-9eFvmJxIKCC3YWOL97SgRkKhlyGXkrHwamfechmqszbypFspaSk+t2jQXAEU7YClHF6Qjw5eYOmy1//zFi9/GA==}
     dependencies:
-      '@walletconnect/window-getters': 1.0.0
+      '@walletconnect/window-getters': 1.0.1
     dev: false
 
   /@walletconnect/window-metadata@1.0.1:
@@ -7204,6 +7270,7 @@ packages:
   /acorn-walk@8.2.0:
     resolution: {integrity: sha512-k+iyHEuPgSw6SbuDpGQM+06HQUa04DZ3o+F6CSzXMvvI5KMvnaEqXe+YVe555R9nn6GPt404fos4wcgpw12SDA==}
     engines: {node: '>=0.4.0'}
+    dev: false
 
   /acorn@7.4.1:
     resolution: {integrity: sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==}
@@ -7297,6 +7364,7 @@ packages:
   /ansi-colors@4.1.1:
     resolution: {integrity: sha512-JoX0apGbHaUJBNl6yF+p6JAFYZ666/hhCGKN5t9QFjbJQKUU/g8MNbFDbvfrgKXvI1QpZplPOnwIo99lX/AAmA==}
     engines: {node: '>=6'}
+    dev: false
 
   /ansi-colors@4.1.3:
     resolution: {integrity: sha512-/6w/C21Pm1A7aZitlI5Ni/2J6FFQN8i1Cvz3kHABAAbw93v/NlvKdVOqz7CCWz/3iv/JplRSEEZ83XION15ovw==}
@@ -7426,6 +7494,7 @@ packages:
 
   /arg@4.1.3:
     resolution: {integrity: sha512-58S9QDqG0Xx27YwPSt9fJxivjYl432YCwfDMfZ+71RAqUrZef7LrKQZ3LHLOwCS4FLNBplP533Zx895SeOCHvA==}
+    dev: false
 
   /arg@5.0.2:
     resolution: {integrity: sha512-PYjyFOLKQ9y57JvQ6QLo8dAgNqswh8M1RMJYdQduT6xbWSgK36P/Z/v+p888pM69jMMfS8Xd8F6I1kQ/I9HUGg==}
@@ -7574,6 +7643,7 @@ packages:
 
   /assertion-error@1.1.0:
     resolution: {integrity: sha512-jgsaNduz+ndvGyFt3uSuWqvy4lCnIJiovtouQN5JZHOKCS2QuhEdbcQHFhVksz2N2U9hXJo8odG7ETyWlEeuDw==}
+    dev: false
 
   /assign-symbols@1.0.0:
     resolution: {integrity: sha512-Q+JC7Whu8HhmTdBph/Tq59IoRtoy6KAm5zzPv00WdujX82lbAL8K7WVjne7vdCsAmbF4AYaDOPyO3k0kl8qIrw==}
@@ -7998,6 +8068,7 @@ packages:
   /binary-extensions@2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
     engines: {node: '>=8'}
+    dev: false
 
   /bindings@1.5.0:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
@@ -8116,6 +8187,7 @@ packages:
 
   /browser-stdout@1.3.1:
     resolution: {integrity: sha512-qhAVI1+Av2X7qelOfAIYwXONood6XlZE/fXaBSmW/T5SzLAmCgzi+eiWE7fUvbHaeNBQH13UftjpXxsfLkMpgw==}
+    dev: false
 
   /browserify-aes@1.2.0:
     resolution: {integrity: sha512-+7CHXqGuspUn/Sl5aO7Ea0xWGAtETPXNSAjHo48JfLdPWcMng33Xe4znFvQweqc/uzk5zSOI3H52CYnjCfb5hA==}
@@ -8380,6 +8452,7 @@ packages:
       loupe: 2.3.6
       pathval: 1.1.1
       type-detect: 4.0.8
+    dev: false
 
   /chalk@2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}
@@ -8419,6 +8492,7 @@ packages:
 
   /check-error@1.0.2:
     resolution: {integrity: sha512-BrgHpW9NURQgzoNyjfq0Wu6VFO6D7IZEmJNdtgNqpzGG8RuNFHt2jQxWlAs4HMe119chBnv+34syEZtc6IhLtA==}
+    dev: false
 
   /check-types@11.2.2:
     resolution: {integrity: sha512-HBiYvXvn9Z70Z88XKjz3AEKd4HJhBXsa3j7xFnITAzoS8+q6eIGi8qDB8FKPBAjtuxjI/zFpwuiCb8oDtKOYrA==}
@@ -8437,6 +8511,7 @@ packages:
       readdirp: 3.6.0
     optionalDependencies:
       fsevents: 2.3.2
+    dev: false
 
   /chrome-trace-event@1.0.3:
     resolution: {integrity: sha512-p3KULyQg4S7NIHixdwbGX+nFHkoBiA4YQmyWtjb8XngSKV124nJmRysgAeujbUVb15vh+RvFUfCPqU7rXk+hZg==}
@@ -8513,6 +8588,7 @@ packages:
       string-width: 4.2.3
       strip-ansi: 6.0.1
       wrap-ansi: 7.0.0
+    dev: false
 
   /cliui@8.0.1:
     resolution: {integrity: sha512-BSeNnyus75C4//NQ9gQt1/csTXyo/8Sb+afLAkzAptFuMsod9HFokGNudZpi/oQV73hnVK+sR+5PVRMd+Dr7YQ==}
@@ -8824,6 +8900,7 @@ packages:
 
   /create-require@1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
+    dev: false
 
   /cross-spawn@5.1.0:
     resolution: {integrity: sha512-pTgQJ5KC0d2hcY8eyL1IzlBPYjTkyH72XRZPnLyKus2mBfNjQs3klqbJU2VILqZryAZUt9JOb3h/mWMy23/f5A==}
@@ -9210,6 +9287,7 @@ packages:
   /decamelize@4.0.0:
     resolution: {integrity: sha512-9iE1PgSik9HeIIw2JO94IidnE3eBoQrFJ3w7sFuzSX4DpmZ3v5sZpUiV5Swcf6mQEF+Y0ru8Neo+p+nyh2J+hQ==}
     engines: {node: '>=10'}
+    dev: false
 
   /decimal.js@10.4.3:
     resolution: {integrity: sha512-VBBaLc1MgL5XpzgIP7ny5Z6Nx3UrRkIViUkPUdtl9aya5amy3De1gsUUSB1g3+3sExYNjCAsAznmukyxCb1GRA==}
@@ -9227,6 +9305,7 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       type-detect: 4.0.8
+    dev: false
 
   /deep-equal@2.2.0:
     resolution: {integrity: sha512-RdpzE0Hv4lhowpIUKKMJfeH6C1pXdtT1/it80ubgWqwI3qpuxUBpC1S4hnHg+zjnuOoDkzUtUCEEkG+XG5l3Mw==}
@@ -9403,10 +9482,12 @@ packages:
   /diff@4.0.2:
     resolution: {integrity: sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==}
     engines: {node: '>=0.3.1'}
+    dev: false
 
   /diff@5.0.0:
     resolution: {integrity: sha512-/VTCrvm5Z0JGty/BWHljh+BAiw3IK+2j87NGMu8Nwc/f48WoDAC395uomO9ZD117ZOBaHmkX1oyLvkVM/aIT3w==}
     engines: {node: '>=0.3.1'}
+    dev: false
 
   /diffie-hellman@5.0.3:
     resolution: {integrity: sha512-kqag/Nl+f3GwyK25fhUMYj81BUOrZ9IuJsjIcDE5icNM9FJHAVm3VcUDxdLPoQtTuUylWm6ZIknYJwwaPxsUzg==}
@@ -10665,6 +10746,7 @@ packages:
   /flat@5.0.2:
     resolution: {integrity: sha512-b6suED+5/3rTpUBdG1gupIl8MPFCAMA0QXwmljLhvCUKcUvdE4gWky9zpuGCcXHOsz4J9wPGNWq6OKpmIzz3hQ==}
     hasBin: true
+    dev: false
 
   /flatted@3.2.7:
     resolution: {integrity: sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==}
@@ -10842,6 +10924,7 @@ packages:
 
   /get-func-name@2.0.0:
     resolution: {integrity: sha512-Hm0ixYtaSZ/V7C8FJrtZIuBBI+iSgL+1Aq82zSu8VQNB4S3Gk8e7Qs3VwBDJAhmRZcFqkl3tQu36g/Foh5I5ig==}
+    dev: false
 
   /get-intrinsic@1.2.0:
     resolution: {integrity: sha512-L049y6nFOuom5wGyRc3/gdTLO94dySVKRACj1RmJZBQXlbTMhtNIgkWkUHq+jYmZvKf14EW1EoJnnjbmoHij0Q==}
@@ -10946,6 +11029,7 @@ packages:
       minimatch: 3.1.2
       once: 1.4.0
       path-is-absolute: 1.0.1
+    dev: false
 
   /glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
@@ -11139,6 +11223,7 @@ packages:
   /he@1.2.0:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
+    dev: false
 
   /help-me@4.2.0:
     resolution: {integrity: sha512-TAOnTB8Tz5Dw8penUuzHVrKNKlCIbwwbHnXraNJxPwf8LRtE2HlM84RYuezMFcwOJmoYOCWVDyJ8TQGxn9PgxA==}
@@ -11580,6 +11665,7 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       binary-extensions: 2.2.0
+    dev: false
 
   /is-boolean-object@1.1.2:
     resolution: {integrity: sha512-gDYaKHJmnj4aWxyj6YHyXVpdQawtVLHU5cb+eztPGczf6cjuTdwve5ZIEfgXqH4e57An1D1AKf8CZ3kYrQRqYA==}
@@ -11757,6 +11843,7 @@ packages:
   /is-plain-obj@2.1.0:
     resolution: {integrity: sha512-YWnfyRwxL/+SsrWYfOpUtz5b3YD+nyfkHvjbcanzk8zgyO4ASD67uVMRt8k5bM4lLMDnXfriRhOpemw+NfT1eA==}
     engines: {node: '>=8'}
+    dev: false
 
   /is-plain-obj@3.0.0:
     resolution: {integrity: sha512-gwsOE28k+23GP1B6vFl1oVh/WOzmawBrKwo5Ev6wMKzPkaXaCDIQKzLnvsA42DRlbVTWorkgTKIviAKCWkfUwA==}
@@ -11843,6 +11930,7 @@ packages:
   /is-unicode-supported@0.1.0:
     resolution: {integrity: sha512-knxG2q4UC3u8stRGyAVJCOdxFmv5DZiRcdlIaAQXAbSfJya+OhopNotLQrstBhququ4ZpuKbDc/8S6mgXgPFPw==}
     engines: {node: '>=10'}
+    dev: false
 
   /is-weakmap@2.0.1:
     resolution: {integrity: sha512-NSBR4kH5oVj1Uwvv970ruUkCV7O1mzgVFO4/rev2cLRda9Tm9HrL70ZPut4rOHgY0FNrUu9BCbXA2sdQ+x0chA==}
@@ -13547,6 +13635,7 @@ packages:
     dependencies:
       chalk: 4.1.2
       is-unicode-supported: 0.1.0
+    dev: false
 
   /logkitty@0.7.1:
     resolution: {integrity: sha512-/3ER20CTTbahrCrpYfPn7Xavv9diBROZpoXGVZDWMw4b/X4uuUwAC0ki85tgsdMRONURyIJbcOvS94QsUBYPbQ==}
@@ -13572,6 +13661,7 @@ packages:
     resolution: {integrity: sha512-RaPMZKiMy8/JruncMU5Bt6na1eftNoo++R4Y+N2FrxkDVTrGvcyzFTsaGif4QTeKESheMGegbhw6iUAq+5A8zA==}
     dependencies:
       get-func-name: 2.0.0
+    dev: false
 
   /lower-case@2.0.2:
     resolution: {integrity: sha512-7fm3l3NAF9WfN6W3JOmf5drwpVqX78JtoGJ3A6W0a6ZnldM41w2fV5D490psKFTpMds8TJse/eHLFFsNHHjHgg==}
@@ -14125,6 +14215,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       brace-expansion: 2.0.1
+    dev: false
 
   /minimatch@5.1.6:
     resolution: {integrity: sha512-lKwV/1brpG6mBUFHtb7NUmtABCb2WZZmm2wNiOA5hAb8VdCS4B3dtMWyvcoViccwAW/COERjXLt0zP1zXUN26g==}
@@ -14197,6 +14288,7 @@ packages:
       yargs: 16.2.0
       yargs-parser: 20.2.4
       yargs-unparser: 2.0.0
+    dev: false
 
   /moment@2.29.4:
     resolution: {integrity: sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==}
@@ -14257,6 +14349,7 @@ packages:
     resolution: {integrity: sha512-p1sjXuopFs0xg+fPASzQ28agW1oHD7xDsd9Xkf3T15H3c/cifrFHVwrh74PdoklAPi+i7MdRsE47vm2r6JoB+w==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
+    dev: false
 
   /nanoid@3.3.6:
     resolution: {integrity: sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==}
@@ -14934,6 +15027,7 @@ packages:
 
   /pathval@1.1.1:
     resolution: {integrity: sha512-Dp6zGqpTdETdR63lehJYPeIOqpiNBNtc7BpWSLrOje7UaIsE5aY92r/AunQA7rsXvet3lrJ3JnZX29UPTKXyKQ==}
+    dev: false
 
   /pbkdf2@3.1.2:
     resolution: {integrity: sha512-iuh7L6jA7JEGu2WxDwtQP1ddOpaJNC4KlDEFfdQajSGgGPNi4OyDc2R7QnbY2bR9QjBVGwgvTdNJZoE7RaxUMA==}
@@ -16097,6 +16191,16 @@ packages:
       strict-uri-encode: 2.0.0
     dev: false
 
+  /query-string@7.1.3:
+    resolution: {integrity: sha512-hh2WYhq4fi8+b+/2Kg9CEge4fDPvHS534aOOvOZeQ3+Vf2mCFsaFBYj0i+iXcAq6I9Vzp5fjMFBlONvayDC1qg==}
+    engines: {node: '>=6'}
+    dependencies:
+      decode-uri-component: 0.2.2
+      filter-obj: 1.1.0
+      split-on-first: 1.1.0
+      strict-uri-encode: 2.0.0
+    dev: false
+
   /querystringify@2.2.0:
     resolution: {integrity: sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==}
 
@@ -17071,6 +17175,7 @@ packages:
     engines: {node: '>=8.10.0'}
     dependencies:
       picomatch: 2.3.1
+    dev: false
 
   /readline@1.3.0:
     resolution: {integrity: sha512-k2d6ACCkiNYz222Fs/iNze30rRJ1iIicW7JuX/7/cozvih6YCkFZH+J6mAFDVgv0dRBaAyr4jDqC95R2y4IADg==}
@@ -17578,6 +17683,7 @@ packages:
     resolution: {integrity: sha512-Qr3TosvguFt8ePWqsvRfrKyQXIiW+nGbYpy8XK24NQHE83caxWt+mIymTT19DGFbNWNLfEwsrkSmN64lVWB9ag==}
     dependencies:
       randombytes: 2.1.0
+    dev: false
 
   /serialize-javascript@6.0.1:
     resolution: {integrity: sha512-owoXEFjWRllis8/M1Q+Cw5k8ZH40e3zhp/ovX+Xr/vi1qj6QesbyXXViFbpNvWvPNAD62SutwEXavefrLJWj7w==}
@@ -18683,6 +18789,7 @@ packages:
       typescript: 4.7.4
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
+    dev: false
 
   /tsconfig-paths@3.14.2:
     resolution: {integrity: sha512-o/9iXgCYc5L/JxCHPe3Hvh8Q/2xm5Z+p18PESBU6Ff33695QnCHBEjcytY2q19ua7Mbl/DavtBOLq+oG0RCL+g==}
@@ -18721,65 +18828,65 @@ packages:
       yargs: 17.7.1
     dev: true
 
-  /turbo-darwin-64@1.8.8:
-    resolution: {integrity: sha512-18cSeIm7aeEvIxGyq7PVoFyEnPpWDM/0CpZvXKHpQ6qMTkfNt517qVqUTAwsIYqNS8xazcKAqkNbvU1V49n65Q==}
+  /turbo-darwin-64@1.10.3:
+    resolution: {integrity: sha512-IIB9IomJGyD3EdpSscm7Ip1xVWtYb7D0x7oH3vad3gjFcjHJzDz9xZ/iw/qItFEW+wGFcLSRPd+1BNnuLM8AsA==}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-darwin-arm64@1.8.8:
-    resolution: {integrity: sha512-ruGRI9nHxojIGLQv1TPgN7ud4HO4V8mFBwSgO6oDoZTNuk5ybWybItGR+yu6fni5vJoyMHXOYA2srnxvOc7hjQ==}
+  /turbo-darwin-arm64@1.10.3:
+    resolution: {integrity: sha512-SBNmOZU9YEB0eyNIxeeQ+Wi0Ufd+nprEVp41rgUSRXEIpXjsDjyBnKnF+sQQj3+FLb4yyi/yZQckB+55qXWEsw==}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-linux-64@1.8.8:
-    resolution: {integrity: sha512-N/GkHTHeIQogXB1/6ZWfxHx+ubYeb8Jlq3b/3jnU4zLucpZzTQ8XkXIAfJG/TL3Q7ON7xQ8yGOyGLhHL7MpFRg==}
+  /turbo-linux-64@1.10.3:
+    resolution: {integrity: sha512-kvAisGKE7xHJdyMxZLvg53zvHxjqPK1UVj4757PQqtx9dnjYHSc8epmivE6niPgDHon5YqImzArCjVZJYpIGHQ==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-linux-arm64@1.8.8:
-    resolution: {integrity: sha512-hKqLbBHgUkYf2Ww8uBL9UYdBFQ5677a7QXdsFhONXoACbDUPvpK4BKlz3NN7G4NZ+g9dGju+OJJjQP0VXRHb5w==}
+  /turbo-linux-arm64@1.10.3:
+    resolution: {integrity: sha512-Qgaqln0IYRgyL0SowJOi+PNxejv1I2xhzXOI+D+z4YHbgSx87ox1IsALYBlK8VRVYY8VCXl+PN12r1ioV09j7A==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-windows-64@1.8.8:
-    resolution: {integrity: sha512-2ndjDJyzkNslXxLt+PQuU21AHJWc8f6MnLypXy3KsN4EyX/uKKGZS0QJWz27PeHg0JS75PVvhfFV+L9t9i+Yyg==}
+  /turbo-windows-64@1.10.3:
+    resolution: {integrity: sha512-rbH9wManURNN8mBnN/ZdkpUuTvyVVEMiUwFUX4GVE5qmV15iHtZfDLUSGGCP2UFBazHcpNHG1OJzgc55GFFrUw==}
     cpu: [x64]
     os: [win32]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-windows-arm64@1.8.8:
-    resolution: {integrity: sha512-xCA3oxgmW9OMqpI34AAmKfOVsfDljhD5YBwgs0ZDsn5h3kCHhC4x9W5dDk1oyQ4F5EXSH3xVym5/xl1J6WRpUg==}
+  /turbo-windows-arm64@1.10.3:
+    resolution: {integrity: sha512-ThlkqxhcGZX39CaTjsHqJnqVe+WImjX13pmjnpChz6q5HHbeRxaJSFzgrHIOt0sUUVx90W/WrNRyoIt/aafniw==}
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo@1.8.8:
-    resolution: {integrity: sha512-qYJ5NjoTX+591/x09KgsDOPVDUJfU9GoS+6jszQQlLp1AHrf1wRFA3Yps8U+/HTG03q0M4qouOfOLtRQP4QypA==}
+  /turbo@1.10.3:
+    resolution: {integrity: sha512-U4gKCWcKgLcCjQd4Pl8KJdfEKumpyWbzRu75A6FCj6Ctea1PIm58W6Ltw1QXKqHrl2pF9e1raAskf/h6dlrPCA==}
     hasBin: true
     requiresBuild: true
     optionalDependencies:
-      turbo-darwin-64: 1.8.8
-      turbo-darwin-arm64: 1.8.8
-      turbo-linux-64: 1.8.8
-      turbo-linux-arm64: 1.8.8
-      turbo-windows-64: 1.8.8
-      turbo-windows-arm64: 1.8.8
+      turbo-darwin-64: 1.10.3
+      turbo-darwin-arm64: 1.10.3
+      turbo-linux-64: 1.10.3
+      turbo-linux-arm64: 1.10.3
+      turbo-windows-64: 1.10.3
+      turbo-windows-arm64: 1.10.3
     dev: true
 
   /tweetnacl@1.0.3:
@@ -19066,6 +19173,7 @@ packages:
 
   /v8-compile-cache-lib@3.0.1:
     resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
+    dev: false
 
   /v8-compile-cache@2.3.0:
     resolution: {integrity: sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==}
@@ -19633,6 +19741,7 @@ packages:
 
   /workerpool@6.2.1:
     resolution: {integrity: sha512-ILEIE97kDZvF9Wb9f6h5aXK4swSlKGUcOEGiIYb2OOu/IrDU9iwj0fD//SsA6E5ibwJxpEvhullJY4Sl4GcpAw==}
+    dev: false
 
   /wrap-ansi@5.1.0:
     resolution: {integrity: sha512-QC1/iN/2/RPVJ5jYK8BGttj5z83LmSKmvbvrXPNCLZSEb32KKVDJDl/MOt2N01qU2H/FkzEa9PKto1BqDjtd7Q==}
@@ -19805,10 +19914,12 @@ packages:
   /yargs-parser@20.2.4:
     resolution: {integrity: sha512-WOkpgNhPTlE73h4VFAFsOnomJVaovO8VqLDzy5saChRBFQFBoMYirowyW+Q9HB4HFF4Z7VZTiG3iSzJJA29yRA==}
     engines: {node: '>=10'}
+    dev: false
 
   /yargs-parser@20.2.9:
     resolution: {integrity: sha512-y11nGElTIV+CT3Zv9t7VKl+Q3hTQoT9a1Qzezhhl6Rp21gJ/IVTW7Z3y9EWXhuUBC2Shnf+DX0antecpAwSP8w==}
     engines: {node: '>=10'}
+    dev: false
 
   /yargs-parser@21.1.1:
     resolution: {integrity: sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==}
@@ -19822,6 +19933,7 @@ packages:
       decamelize: 4.0.0
       flat: 5.0.2
       is-plain-obj: 2.1.0
+    dev: false
 
   /yargs@13.3.2:
     resolution: {integrity: sha512-AX3Zw5iPruN5ie6xGRIDgqkT+ZhnRlZMLMHAs8tg7nRruy2Nb+i5o9bwghAogtM08q1dpr2LVoS8KSTMYpWXUw==}
@@ -19865,6 +19977,7 @@ packages:
       string-width: 4.2.3
       y18n: 5.0.8
       yargs-parser: 20.2.9
+    dev: false
 
   /yargs@17.7.1:
     resolution: {integrity: sha512-cwiTb08Xuv5fqF4AovYacTFNxk62th7LKJ6BL9IGUpTJrWoU7/7WdQGTP2SjKf1dUNBGzDd28p/Yfs/GI6JrLw==}
@@ -19881,6 +19994,7 @@ packages:
   /yn@3.1.1:
     resolution: {integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==}
     engines: {node: '>=6'}
+    dev: false
 
   /yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
