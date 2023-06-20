@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-walletconnect
 
+## 0.1.15
+
+### Patch Changes
+
+-   18e023f: Add support for versioned transactions
+
 ## 0.1.14
 
 ### Patch Changes
