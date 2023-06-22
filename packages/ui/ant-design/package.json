@@ -49,9 +49,9 @@
     "devDependencies": {
         "@ant-design/icons": "^4.8.0",
         "@solana/web3.js": "^1.77.3",
-        "@types/react": "^18.0.28",
-        "@types/react-dom": "^18.0.11",
-        "antd": "^4.24.8",
+        "@types/react": "^18.2.13",
+        "@types/react-dom": "^18.2.6",
+        "antd": "^4.24.10",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "shx": "^0.3.4"

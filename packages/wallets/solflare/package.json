@@ -36,7 +36,7 @@
     },
     "dependencies": {
         "@solana/wallet-adapter-base": "workspace:^",
-        "@solflare-wallet/sdk": "^1.2.0"
+        "@solflare-wallet/sdk": "^1.2.1"
     },
     "devDependencies": {
         "@solana/web3.js": "^1.77.3",

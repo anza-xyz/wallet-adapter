@@ -42,7 +42,7 @@
     },
     "devDependencies": {
         "@solana/web3.js": "^1.77.3",
-        "@types/node-fetch": "^2.6.2",
+        "@types/node-fetch": "^2.6.4",
         "shx": "^0.3.4"
     }
 }
