@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const withAntdLess = require('next-plugin-antd-less');
 const { PHASE_PRODUCTION_BUILD } = require('next/constants');
 
