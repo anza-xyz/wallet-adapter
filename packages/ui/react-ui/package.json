@@ -38,7 +38,7 @@
         "package": "shx mkdir -p lib/cjs && shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.58.0",
+        "@solana/web3.js": "^1.77.3",
         "react": "*",
         "react-dom": "*"
     },
@@ -47,7 +47,7 @@
         "@solana/wallet-adapter-react": "workspace:^"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.74.0",
+        "@solana/web3.js": "^1.77.3",
         "@types/react": "^18.0.28",
         "@types/react-dom": "^18.0.11",
         "react": "^18.2.0",

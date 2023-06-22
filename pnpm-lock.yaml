@@ -83,8 +83,8 @@ importers:
         version: 4.0.7
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       '@types/node-fetch':
         specifier: ^2.6.2
         version: 2.6.3
@@ -96,17 +96,17 @@ importers:
     dependencies:
       '@solana-mobile/wallet-adapter-mobile':
         specifier: ^2.0.0
-        version: 2.0.0(@solana/web3.js@1.74.0)(react-native@0.71.5)
+        version: 2.0.0(@solana/web3.js@1.77.3)(react-native@0.71.5)
       '@solana/wallet-adapter-base':
         specifier: workspace:^
         version: link:../base
       '@solana/wallet-standard-wallet-adapter-react':
         specifier: ^1.0.1
-        version: 1.0.2(@solana/wallet-adapter-base@packages+core+base)(@solana/web3.js@1.74.0)(bs58@4.0.1)(react@18.2.0)
+        version: 1.0.2(@solana/wallet-adapter-base@packages+core+base)(@solana/web3.js@1.77.3)(bs58@4.0.1)(react@18.2.0)
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       '@types/jest':
         specifier: ^28.1.8
         version: 28.1.8
@@ -153,8 +153,8 @@ importers:
         specifier: workspace:^0.19.15
         version: link:../../wallets/wallets
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -244,8 +244,8 @@ importers:
         specifier: workspace:^0.19.15
         version: link:../../wallets/wallets
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       antd:
         specifier: ^4.24.8
         version: 4.24.8(react-dom@18.2.0)(react@18.2.0)
@@ -326,8 +326,8 @@ importers:
         specifier: workspace:^0.19.15
         version: link:../../wallets/wallets
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       notistack:
         specifier: ^2.0.8
         version: 2.0.8(@emotion/react@11.10.6)(@emotion/styled@11.10.6)(@mui/material@5.11.15)(react-dom@18.2.0)(react@18.2.0)
@@ -424,8 +424,8 @@ importers:
         specifier: workspace:^0.19.15
         version: link:../../wallets/wallets
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -468,8 +468,8 @@ importers:
         specifier: ^4.8.0
         version: 4.8.0(react-dom@18.2.0)(react@18.2.0)
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       '@types/react':
         specifier: ^18.0.28
         version: 18.0.31
@@ -511,8 +511,8 @@ importers:
         specifier: ^5.11.10
         version: 5.11.15(@emotion/react@11.10.6)(@emotion/styled@11.10.6)(@types/react@18.0.31)(react-dom@18.2.0)(react@18.2.0)
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       '@types/react':
         specifier: ^18.0.28
         version: 18.0.31
@@ -539,8 +539,8 @@ importers:
         version: link:../../core/react
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       '@types/react':
         specifier: ^18.0.28
         version: 18.0.31
@@ -564,8 +564,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -577,8 +577,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -590,8 +590,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -603,8 +603,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -616,8 +616,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -626,14 +626,14 @@ importers:
     dependencies:
       '@blocto/sdk':
         specifier: ^0.2.22
-        version: 0.2.22(@solana/web3.js@1.74.0)
+        version: 0.2.22(@solana/web3.js@1.77.3)
       '@solana/wallet-adapter-base':
         specifier: workspace:^
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -645,8 +645,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -661,8 +661,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -674,8 +674,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -690,8 +690,8 @@ importers:
         version: 4.0.1
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       '@types/bs58':
         specifier: ^4.0.1
         version: 4.0.1
@@ -706,8 +706,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -719,8 +719,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -732,8 +732,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -748,8 +748,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -761,8 +761,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -774,8 +774,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -787,8 +787,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -803,8 +803,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -816,8 +816,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -841,8 +841,8 @@ importers:
         version: 6.0.3
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       '@types/w3c-web-hid':
         specifier: ^1.0.3
         version: 1.0.3
@@ -857,8 +857,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -870,8 +870,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -883,8 +883,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -896,8 +896,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -909,8 +909,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -922,8 +922,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -932,14 +932,14 @@ importers:
     dependencies:
       '@particle-network/solana-wallet':
         specifier: ^0.5.6
-        version: 0.5.6(@solana/web3.js@1.74.0)(bs58@4.0.1)
+        version: 0.5.6(@solana/web3.js@1.77.3)(bs58@4.0.1)
       '@solana/wallet-adapter-base':
         specifier: workspace:^
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -951,8 +951,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -964,8 +964,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -977,8 +977,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -990,11 +990,11 @@ importers:
         version: link:../../core/base
       salmon-adapter-sdk:
         specifier: ^1.1.1
-        version: 1.1.1(@solana/web3.js@1.74.0)
+        version: 1.1.1(@solana/web3.js@1.77.3)
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -1006,8 +1006,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -1022,8 +1022,8 @@ importers:
         version: 4.0.1
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       '@types/bs58':
         specifier: ^4.0.1
         version: 4.0.1
@@ -1038,11 +1038,11 @@ importers:
         version: link:../../core/base
       '@solflare-wallet/sdk':
         specifier: ^1.2.0
-        version: 1.2.1(@solana/web3.js@1.74.0)
+        version: 1.2.1(@solana/web3.js@1.77.3)
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -1051,14 +1051,14 @@ importers:
     dependencies:
       '@project-serum/sol-wallet-adapter':
         specifier: ^0.2.6
-        version: 0.2.6(@solana/web3.js@1.74.0)
+        version: 0.2.6(@solana/web3.js@1.77.3)
       '@solana/wallet-adapter-base':
         specifier: workspace:^
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -1070,8 +1070,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -1083,8 +1083,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -1099,8 +1099,8 @@ importers:
         version: 0.1.8
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -1112,8 +1112,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -1125,8 +1125,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -1153,8 +1153,8 @@ importers:
         version: 3.0.0
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       '@types/keccak':
         specifier: ^3.0.1
         version: 3.0.1
@@ -1175,8 +1175,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -1188,8 +1188,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -1198,14 +1198,14 @@ importers:
     dependencies:
       '@jnwng/walletconnect-solana':
         specifier: ^0.2.0
-        version: 0.2.0(@solana/web3.js@1.74.0)(@types/node@18.15.11)(typescript@4.7.4)
+        version: 0.2.0(@solana/web3.js@1.77.3)(@types/node@18.15.11)(typescript@4.7.4)
       '@solana/wallet-adapter-base':
         specifier: workspace:^
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       '@types/pino':
         specifier: ^6.3.12
         version: 6.3.12
@@ -1355,8 +1355,8 @@ importers:
         version: link:../xdefi
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -1368,8 +1368,8 @@ importers:
         version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
-        specifier: ^1.74.0
-        version: 1.74.0
+        specifier: ^1.77.3
+        version: 1.77.3
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -2835,12 +2835,12 @@ packages:
   /@bcoe/v8-coverage@0.2.3:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
 
-  /@blocto/sdk@0.2.22(@solana/web3.js@1.74.0):
+  /@blocto/sdk@0.2.22(@solana/web3.js@1.77.3):
     resolution: {integrity: sha512-Ro1AiISSlOiri/It932NEFxnDuF83Ide+z0p3KHs5+CdYYLYgCMmyroQnfRtoh3mbXdrTvI+EAuSkr+meWNqrg==}
     peerDependencies:
       '@solana/web3.js': ^1.30.2
     dependencies:
-      '@solana/web3.js': 1.74.0
+      '@solana/web3.js': 1.77.3
       bs58: 4.0.1
       buffer: 6.0.3
       eip1193-provider: 1.0.1
@@ -2854,7 +2854,7 @@ packages:
   /@censo-custody/solana-wallet-adapter@0.1.0:
     resolution: {integrity: sha512-iM1jFVzBMfk7iokgUVfA2xvGUegixklUISgMARa/VA2mFIjoi32t4xmD8PtWHht81fmg107aYhLnTV1cM7NkAg==}
     dependencies:
-      '@solana/web3.js': 1.74.0
+      '@solana/web3.js': 1.77.3
       bs58: 4.0.1
       eventemitter3: 4.0.7
       uuid: 8.3.2
@@ -3903,12 +3903,12 @@ packages:
       chalk: 4.1.2
     dev: false
 
-  /@jnwng/walletconnect-solana@0.2.0(@solana/web3.js@1.74.0)(@types/node@18.15.11)(typescript@4.7.4):
+  /@jnwng/walletconnect-solana@0.2.0(@solana/web3.js@1.77.3)(@types/node@18.15.11)(typescript@4.7.4):
     resolution: {integrity: sha512-nyRq0xLEj9i2J4UXQ0Mr4KzsooTMbLu0ewHOqdQV7iZE0PfbtKa8poTSF4ZBAQD8hoMHEx+I7zGFCNMI9BTrTA==}
     peerDependencies:
       '@solana/web3.js': ^1.63.0
     dependencies:
-      '@solana/web3.js': 1.74.0
+      '@solana/web3.js': 1.77.3
       '@walletconnect/qrcode-modal': 1.8.0
       '@walletconnect/sign-client': 2.8.1
       '@walletconnect/utils': 2.5.2(@types/node@18.15.11)(typescript@4.7.4)
@@ -4033,7 +4033,7 @@ packages:
       '@keystonehq/bc-ur-registry': 0.5.4
       '@keystonehq/bc-ur-registry-sol': 0.3.1
       '@keystonehq/sdk': 0.13.1
-      '@solana/web3.js': 1.74.0
+      '@solana/web3.js': 1.77.3
       bs58: 5.0.0
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -4527,8 +4527,10 @@ packages:
       eslint-scope: 5.1.1
     dev: false
 
-  /@noble/ed25519@1.7.3:
-    resolution: {integrity: sha512-iR8GBkDt0Q3GyaVcIu7mSsVIqnFbkbRzGLWlvhwunacoLwt4J3swfKhfaM6rN6WY+TBGoYT1GtT1mIh2/jGbRQ==}
+  /@noble/curves@1.1.0:
+    resolution: {integrity: sha512-091oBExgENk/kGj3AZmtBDMpxQPDtxQABR2B9lb1JbVTs6ytdzZNwvhxQ4MWasRNEzlbEH8jCWFCwhF/Obj5AA==}
+    dependencies:
+      '@noble/hashes': 1.3.1
 
   /@noble/hashes@1.2.0:
     resolution: {integrity: sha512-FZfhjEDbT5GRswV3C6uvLPHMiVD6lQBmpoX5+eSiPaMTXte/IKqI5dykDxzZB/WBeK/CDuQRBWarPdi3FNY2zQ==}
@@ -4537,8 +4539,13 @@ packages:
   /@noble/hashes@1.3.0:
     resolution: {integrity: sha512-ilHEACi9DwqJB0pw7kv+Apvh50jiiSyR/cQ3y4W7lOR5mhvn/50FLUfsnfJz0BDZtl/RR16kXvptiv6q1msYZg==}
 
+  /@noble/hashes@1.3.1:
+    resolution: {integrity: sha512-EbqwksQwz9xDRGfDST86whPBgM65E0OH/pCgqW0GBVzO22bNE+NuIbeTb714+IfSjU3aRk47EUvXIb5bTsenKA==}
+    engines: {node: '>= 16'}
+
   /@noble/secp256k1@1.7.1:
     resolution: {integrity: sha512-hOUk6AyBFmqVrv7k5WAw/LpszxVbj9gGN4JRkIX52fdFAj1UA61KXmZDvqVEm+pOyec3+fIeZB02LYa/pWOArw==}
+    dev: false
 
   /@nodelib/fs.scandir@2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -5224,14 +5231,14 @@ packages:
       uuid: 8.3.2
     dev: false
 
-  /@particle-network/solana-wallet@0.5.6(@solana/web3.js@1.74.0)(bs58@4.0.1):
+  /@particle-network/solana-wallet@0.5.6(@solana/web3.js@1.77.3)(bs58@4.0.1):
     resolution: {integrity: sha512-Ad0hwJsWRCbptp+mmLFsbrERDQbW+QhFQOmWRT8+6gGrY6qNTApwI9+jlpkxOzEI9rvSqFD1qKKMlqy1n+fJNA==}
     peerDependencies:
       '@solana/web3.js': ^1.50.1
       bs58: ^4.0.1
     dependencies:
       '@particle-network/auth': 0.5.6
-      '@solana/web3.js': 1.74.0
+      '@solana/web3.js': 1.77.3
       bs58: 4.0.1
     dev: false
 
@@ -5282,24 +5289,24 @@ packages:
   /@popperjs/core@2.11.7:
     resolution: {integrity: sha512-Cr4OjIkipTtcXKjAsm8agyleBuDHvxzeBoa1v543lbv1YaIwQjESsVcmjiWiPEbC1FIeHOG/Op9kdCmAmiS3Kw==}
 
-  /@project-serum/sol-wallet-adapter@0.2.0(@solana/web3.js@1.74.0):
+  /@project-serum/sol-wallet-adapter@0.2.0(@solana/web3.js@1.77.3):
     resolution: {integrity: sha512-ed7wZwlDqjF88VCq7eHVO8njHqdUkBxBL8WEVOnB47ooLO4btOJt6GBdkKpKqKX86c86LiEROJclcdW8e7kIjg==}
     engines: {node: '>=10'}
     peerDependencies:
       '@solana/web3.js': ^1.5.0
     dependencies:
-      '@solana/web3.js': 1.74.0
+      '@solana/web3.js': 1.77.3
       bs58: 4.0.1
       eventemitter3: 4.0.7
     dev: false
 
-  /@project-serum/sol-wallet-adapter@0.2.6(@solana/web3.js@1.74.0):
+  /@project-serum/sol-wallet-adapter@0.2.6(@solana/web3.js@1.77.3):
     resolution: {integrity: sha512-cpIb13aWPW8y4KzkZAPDgw+Kb+DXjCC6rZoH74MGm3I/6e/zKyGnfAuW5olb2zxonFqsYgnv7ev8MQnvSgJ3/g==}
     engines: {node: '>=10'}
     peerDependencies:
       '@solana/web3.js': ^1.5.0
     dependencies:
-      '@solana/web3.js': 1.74.0
+      '@solana/web3.js': 1.77.3
       bs58: 4.0.1
       eventemitter3: 4.0.7
     dev: false
@@ -5653,13 +5660,13 @@ packages:
     resolution: {integrity: sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==}
     dev: false
 
-  /@solana-mobile/mobile-wallet-adapter-protocol-web3js@2.0.0(@solana/web3.js@1.74.0)(react-native@0.71.5):
+  /@solana-mobile/mobile-wallet-adapter-protocol-web3js@2.0.0(@solana/web3.js@1.77.3)(react-native@0.71.5):
     resolution: {integrity: sha512-cMADp/UIAN42QJVCM1oyj1wFM/9DTZNIa5z5eHXUXBksw/bNv2fWkiO+4ZUoQj1P4UoMoZJUBx9+qMVl18sPOA==}
     peerDependencies:
       '@solana/web3.js': ^1.58.0
     dependencies:
       '@solana-mobile/mobile-wallet-adapter-protocol': 2.0.0(react-native@0.71.5)
-      '@solana/web3.js': 1.74.0
+      '@solana/web3.js': 1.77.3
       bs58: 5.0.0
       js-base64: 3.7.5
     transitivePeerDependencies:
@@ -5674,15 +5681,15 @@ packages:
       react-native: 0.71.5(@babel/core@7.21.4)(@babel/preset-env@7.21.4)(react@18.2.0)
     dev: false
 
-  /@solana-mobile/wallet-adapter-mobile@2.0.0(@solana/web3.js@1.74.0)(react-native@0.71.5):
+  /@solana-mobile/wallet-adapter-mobile@2.0.0(@solana/web3.js@1.77.3)(react-native@0.71.5):
     resolution: {integrity: sha512-q/m0X+LUhoSYBUaQsw+9YhttbokA5+klrC2euLhbDu+Wy/n9hL4NXNvw7291bzVvNXVh9ovBi7DjoCdcfPXRWA==}
     peerDependencies:
       '@solana/web3.js': ^1.58.0
     dependencies:
       '@react-native-async-storage/async-storage': 1.18.1(react-native@0.71.5)
-      '@solana-mobile/mobile-wallet-adapter-protocol-web3js': 2.0.0(@solana/web3.js@1.74.0)(react-native@0.71.5)
+      '@solana-mobile/mobile-wallet-adapter-protocol-web3js': 2.0.0(@solana/web3.js@1.77.3)(react-native@0.71.5)
       '@solana/wallet-adapter-base': link:packages/core/base
-      '@solana/web3.js': 1.74.0
+      '@solana/web3.js': 1.77.3
       js-base64: 3.7.5
     transitivePeerDependencies:
       - react-native
@@ -5717,7 +5724,7 @@ packages:
       '@solana/wallet-standard-features': 1.0.1
     dev: false
 
-  /@solana/wallet-standard-wallet-adapter-base@1.0.2(@solana/web3.js@1.74.0)(bs58@4.0.1):
+  /@solana/wallet-standard-wallet-adapter-base@1.0.2(@solana/web3.js@1.77.3)(bs58@4.0.1):
     resolution: {integrity: sha512-QqkupdWvWuihX87W6ijt174u6ZdP5OSFlNhZhuhoMlIdyI/sj7MhGsdppuRlMh65oVO2WNWTL9y2bO5Pbx+dfg==}
     engines: {node: '>=16'}
     peerDependencies:
@@ -5728,7 +5735,7 @@ packages:
       '@solana/wallet-standard-chains': 1.0.0
       '@solana/wallet-standard-features': 1.0.1
       '@solana/wallet-standard-util': 1.0.0
-      '@solana/web3.js': 1.74.0
+      '@solana/web3.js': 1.77.3
       '@wallet-standard/app': 1.0.1
       '@wallet-standard/base': 1.0.1
       '@wallet-standard/features': 1.0.3
@@ -5736,7 +5743,7 @@ packages:
       bs58: 4.0.1
     dev: false
 
-  /@solana/wallet-standard-wallet-adapter-react@1.0.2(@solana/wallet-adapter-base@packages+core+base)(@solana/web3.js@1.74.0)(bs58@4.0.1)(react@18.2.0):
+  /@solana/wallet-standard-wallet-adapter-react@1.0.2(@solana/wallet-adapter-base@packages+core+base)(@solana/web3.js@1.77.3)(bs58@4.0.1)(react@18.2.0):
     resolution: {integrity: sha512-0YTPUnjiSG5ajDP2hK8EipxkeHhO3+nCtXeF1eS/ZP2QcFAgS/4luywrn/6CdfzQ2cQYPCFdnG/QculpUp6bBg==}
     engines: {node: '>=16'}
     peerDependencies:
@@ -5744,7 +5751,7 @@ packages:
       react: '*'
     dependencies:
       '@solana/wallet-adapter-base': link:packages/core/base
-      '@solana/wallet-standard-wallet-adapter-base': 1.0.2(@solana/web3.js@1.74.0)(bs58@4.0.1)
+      '@solana/wallet-standard-wallet-adapter-base': 1.0.2(@solana/web3.js@1.77.3)(bs58@4.0.1)
       '@wallet-standard/app': 1.0.1
       '@wallet-standard/base': 1.0.1
       react: 18.2.0
@@ -5753,22 +5760,21 @@ packages:
       - bs58
     dev: false
 
-  /@solana/web3.js@1.74.0:
-    resolution: {integrity: sha512-RKZyPqizPCxmpMGfpu4fuplNZEWCrhRBjjVstv5QnAJvgln1jgOfgui+rjl1ExnqDnWKg9uaZ5jtGROH/cwabg==}
+  /@solana/web3.js@1.77.3:
+    resolution: {integrity: sha512-PHaO0BdoiQRPpieC1p31wJsBaxwIOWLh8j2ocXNKX8boCQVldt26Jqm2tZE4KlrvnCIV78owPLv1pEUgqhxZ3w==}
     dependencies:
       '@babel/runtime': 7.21.0
-      '@noble/ed25519': 1.7.3
+      '@noble/curves': 1.1.0
       '@noble/hashes': 1.3.0
-      '@noble/secp256k1': 1.7.1
       '@solana/buffer-layout': 4.0.1
       agentkeepalive: 4.3.0
       bigint-buffer: 1.1.5
       bn.js: 5.2.1
       borsh: 0.7.0
       bs58: 4.0.1
-      buffer: 6.0.1
+      buffer: 6.0.3
       fast-stable-stringify: 1.0.0
-      jayson: 3.7.0
+      jayson: 4.1.0
       node-fetch: 2.6.9
       rpc-websockets: 7.5.1
       superstruct: 0.14.2
@@ -5778,13 +5784,13 @@ packages:
       - supports-color
       - utf-8-validate
 
-  /@solflare-wallet/sdk@1.2.1(@solana/web3.js@1.74.0):
+  /@solflare-wallet/sdk@1.2.1(@solana/web3.js@1.77.3):
     resolution: {integrity: sha512-ESF3rGZtcVFaIkX9gv7SXUbwbfBOn53l8u9vZJme3RZv4MEY/O1v5Sj2oYXhZiJ9V0PnZfByDUj8yx55j86F+A==}
     peerDependencies:
       '@solana/web3.js': ^1.61.0
     dependencies:
-      '@project-serum/sol-wallet-adapter': 0.2.0(@solana/web3.js@1.74.0)
-      '@solana/web3.js': 1.74.0
+      '@project-serum/sol-wallet-adapter': 0.2.0(@solana/web3.js@1.77.3)
+      '@solana/web3.js': 1.77.3
       bs58: 4.0.1
       eventemitter3: 4.0.7
       uuid: 8.3.2
@@ -5909,7 +5915,7 @@ packages:
   /@strike-protocols/solana-wallet-adapter@0.1.8:
     resolution: {integrity: sha512-8gZAfjkoFgwf5fLFzrVuE2MtxAc7Pc0loBgi0zfcb3ijOy/FEpm5RJKLruKOhcThS6CHrfFxDU80AsZe+msObw==}
     dependencies:
-      '@solana/web3.js': 1.74.0
+      '@solana/web3.js': 1.77.3
       bs58: 4.0.1
       eventemitter3: 4.0.7
       uuid: 8.3.2
@@ -6240,7 +6246,7 @@ packages:
       '@babel/runtime': 7.x
     dependencies:
       '@babel/runtime': 7.21.0
-      '@solana/web3.js': 1.74.0
+      '@solana/web3.js': 1.77.3
       '@toruslabs/base-controllers': 2.8.1(@babel/runtime@7.21.0)
       '@toruslabs/http-helpers': 3.3.0(@babel/runtime@7.21.0)
       '@toruslabs/openlogin-jrpc': 3.2.0(@babel/runtime@7.21.0)
@@ -8307,12 +8313,6 @@ packages:
       base64-js: 1.5.1
       ieee754: 1.2.1
     dev: false
-
-  /buffer@6.0.1:
-    resolution: {integrity: sha512-rVAXBwEcEoYtxnHSO5iWyhzV/O1WMtkUYWlfdLS7FjU4PnSJJHEfHXi/uHPI5EwltmOA794gN3bm3/pzuctWjQ==}
-    dependencies:
-      base64-js: 1.5.1
-      ieee754: 1.2.1
 
   /buffer@6.0.3:
     resolution: {integrity: sha512-FTiCpNxtwiZZHEZbcbTIcZjERVICn9yq/pDFkTl95/AxzD1naBctN7YO68riM/gLSDY7sdrMby8hofADYuuqOA==}
@@ -12047,8 +12047,8 @@ packages:
       minimatch: 3.1.2
     dev: false
 
-  /jayson@3.7.0:
-    resolution: {integrity: sha512-tfy39KJMrrXJ+mFcMpxwBvFDetS8LAID93+rycFglIQM4kl3uNR3W4lBLE/FFhsoUCEox5Dt2adVpDm/XtebbQ==}
+  /jayson@4.1.0:
+    resolution: {integrity: sha512-R6JlbyLN53Mjku329XoRT2zJAE6ZgOQ8f91ucYdMCD4nkGCF9kZSrcGXpHIU4jeKj58zUZke2p+cdQchU7Ly7A==}
     engines: {node: '>=8'}
     hasBin: true
     dependencies:
@@ -12062,7 +12062,6 @@ packages:
       eyes: 0.1.8
       isomorphic-ws: 4.0.1(ws@7.5.9)
       json-stringify-safe: 5.0.1
-      lodash: 4.17.21
       uuid: 8.3.2
       ws: 7.5.9
     transitivePeerDependencies:
@@ -17513,13 +17512,13 @@ packages:
   /safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
 
-  /salmon-adapter-sdk@1.1.1(@solana/web3.js@1.74.0):
+  /salmon-adapter-sdk@1.1.1(@solana/web3.js@1.77.3):
     resolution: {integrity: sha512-28ysSzmDjx2AbotxSggqdclh9MCwlPJUldKkCph48oS5Xtwu0QOg8T9ZRHS2Mben4Y8sTq6VvxXznKssCYFBJA==}
     peerDependencies:
       '@solana/web3.js': ^1.44.3
     dependencies:
-      '@project-serum/sol-wallet-adapter': 0.2.6(@solana/web3.js@1.74.0)
-      '@solana/web3.js': 1.74.0
+      '@project-serum/sol-wallet-adapter': 0.2.6(@solana/web3.js@1.77.3)
+      '@solana/web3.js': 1.77.3
       eventemitter3: 4.0.7
     dev: false
 
