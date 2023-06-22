@@ -39,6 +39,7 @@
         "@emotion/styled": "^11.11.0",
         "@mui/icons-material": "^5.11.16",
         "@mui/material": "^5.13.5",
+        "@noble/curves": "^1.1.0",
         "@solana/wallet-adapter-ant-design": "workspace:^",
         "@solana/wallet-adapter-base": "workspace:^",
         "@solana/wallet-adapter-material-ui": "workspace:^",
@@ -51,8 +52,7 @@
         "next": "^12.3.4",
         "notistack": "^2.0.8",
         "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "tweetnacl": "^1.0.3"
+        "react-dom": "^18.2.0"
     },
     "devDependencies": {
         "@types/bs58": "^4.0.1",

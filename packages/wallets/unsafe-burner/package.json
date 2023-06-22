@@ -35,6 +35,7 @@
         "@solana/web3.js": "^1.77.3"
     },
     "dependencies": {
+        "@noble/curves": "^1.1.0",
         "@solana/wallet-adapter-base": "workspace:^"
     },
     "devDependencies": {

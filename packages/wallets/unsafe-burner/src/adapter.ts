@@ -1,6 +1,7 @@
+import { ed25519 } from '@noble/curves/ed25519';
 import type { WalletName } from '@solana/wallet-adapter-base';
 import {
-    BaseSignerWalletAdapter,
+    BaseMessageSignerWalletAdapter,
     isVersionedTransaction,
     WalletNotConnectedError,
     WalletReadyState,
@@ -14,7 +15,7 @@ export const UnsafeBurnerWalletName = 'Burner Wallet' as WalletName<'Burner Wall
  * This burner wallet adapter is unsafe to use and is only included to provide an easy way for applications to test
  * Wallet Adapter without using a third-party wallet.
  */
-export class UnsafeBurnerWalletAdapter extends BaseSignerWalletAdapter {
+export class UnsafeBurnerWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = UnsafeBurnerWalletName;
     url = 'https://github.com/solana-labs/wallet-adapter#usage';
     icon =
@@ -69,5 +70,11 @@ export class UnsafeBurnerWalletAdapter extends BaseSignerWalletAdapter {
         }
 
         return transaction;
+    }
+
+    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+        if (!this._keypair) throw new WalletNotConnectedError();
+
+        return ed25519.sign(message, this._keypair.secretKey.slice(0, 32));
     }
 }
