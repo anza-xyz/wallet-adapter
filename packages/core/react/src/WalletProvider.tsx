@@ -18,6 +18,7 @@ export interface WalletProviderProps {
     children: ReactNode;
     wallets: Adapter[];
     autoConnect?: boolean;
+    autoSignIn?: boolean;
     localStorageKey?: string;
     onError?: (error: WalletError, adapter?: Adapter) => void;
 }
@@ -47,6 +48,8 @@ export function WalletProvider({
     children,
     wallets: adapters,
     autoConnect,
+    // FIXME: implement
+    autoSignIn,
     localStorageKey = 'walletName',
     onError,
 }: WalletProviderProps) {

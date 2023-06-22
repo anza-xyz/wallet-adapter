@@ -2,6 +2,7 @@ import {
     type Adapter,
     type MessageSignerWalletAdapterProps,
     type SignerWalletAdapterProps,
+    type SignInMessageSignerWalletAdapterProps,
     type WalletAdapterProps,
     type WalletError,
     type WalletName,
@@ -239,6 +240,17 @@ export function WalletProviderBase({
         [adapter, connected]
     );
 
+    // Sign in if the wallet supports it
+    const signIn: SignInMessageSignerWalletAdapterProps['signIn'] | undefined = useMemo(
+        () =>
+            adapter && 'signIn' in adapter
+                ? async (input) => {
+                      return await adapter.signIn(input);
+                  }
+                : undefined,
+        [adapter]
+    );
+
     const handleConnect = useCallback(async () => {
         if (isConnectingRef.current || isDisconnectingRef.current || wallet?.adapter.connected) return;
         if (!wallet) throw handleErrorRef.current(new WalletNotSelectedError());
@@ -288,6 +300,7 @@ export function WalletProviderBase({
                 signTransaction,
                 signAllTransactions,
                 signMessage,
+                signIn,
             }}
         >
             {children}
