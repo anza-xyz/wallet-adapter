@@ -34,7 +34,7 @@
         "@solana/wallet-adapter-react": "workspace:^",
         "@solana/wallet-adapter-wallets": "workspace:^",
         "@solana/web3.js": "^1.77.3",
-        "notistack": "^2.0.8",
+        "notistack": "^3.0.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0"
     },
