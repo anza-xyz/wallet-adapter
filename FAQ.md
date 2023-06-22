@@ -143,6 +143,7 @@ export const SignMessageButton: FC = () => {
             const message = new TextEncoder().encode('Hello, world!');
             // Sign the bytes using the wallet
             const signature = await signMessage(message);
+            // FIXME: replace with `verifySignMessage`
             // Verify that the bytes were signed using the private key that matches the known public key
             if (!ed25519.verify(signature, message, publicKey.toBytes())) throw new Error('Invalid signature!');
 
