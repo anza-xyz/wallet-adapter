@@ -1,3 +1,4 @@
+import type { SolanaSignInInput, SolanaSignInOutput } from '@solana/wallet-standard-features';
 import type { Connection, TransactionSignature } from '@solana/web3.js';
 import {
     BaseWalletAdapter,
@@ -126,4 +127,18 @@ export abstract class BaseMessageSignerWalletAdapter<Name extends string = strin
     implements MessageSignerWalletAdapter<Name>
 {
     abstract signMessage(message: Uint8Array): Promise<Uint8Array>;
+}
+
+export interface SignInMessageSignerWalletAdapterProps<Name extends string = string> extends WalletAdapterProps<Name> {
+    signIn(input?: SolanaSignInInput): Promise<SolanaSignInOutput>;
+}
+
+export type SignInMessageSignerWalletAdapter<Name extends string = string> = WalletAdapter<Name> &
+    SignInMessageSignerWalletAdapterProps<Name>;
+
+export abstract class BaseSignInMessageSignerWalletAdapter<Name extends string = string>
+    extends BaseMessageSignerWalletAdapter<Name>
+    implements SignInMessageSignerWalletAdapter<Name>
+{
+    abstract signIn(input?: SolanaSignInInput): Promise<SolanaSignInOutput>;
 }

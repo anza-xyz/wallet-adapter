@@ -1,6 +1,7 @@
 import {
     SolanaSignAndSendTransaction,
     type SolanaSignAndSendTransactionFeature,
+    type SolanaSignInFeature,
     type SolanaSignMessageFeature,
     SolanaSignTransaction,
     type SolanaSignTransactionFeature,
@@ -19,7 +20,7 @@ export type WalletAdapterCompatibleStandardWallet = StandardWalletWithFeatures<
     StandardConnectFeature &
         StandardEventsFeature &
         (SolanaSignAndSendTransactionFeature | SolanaSignTransactionFeature) &
-        (StandardDisconnectFeature | SolanaSignMessageFeature | object)
+        (StandardDisconnectFeature | SolanaSignMessageFeature | SolanaSignInFeature | object)
 >;
 
 export interface StandardWalletAdapterProps<Name extends string = string> extends WalletAdapterProps<Name> {
