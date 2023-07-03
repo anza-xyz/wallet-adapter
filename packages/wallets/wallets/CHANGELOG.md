@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-wallets
 
+## 0.19.18
+
+### Patch Changes
+
+-   Updated dependencies [4de663e]
+    -   @solana/wallet-adapter-phantom@0.9.23
+
 ## 0.19.17
 
 ### Patch Changes
