@@ -1,6 +1,5 @@
 import { Button } from '@mui/material';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { verifySignMessage } from '@solana/wallet-standard-util';
 import bs58 from 'bs58';
 import type { FC } from 'react';
 import React, { useCallback } from 'react';
@@ -17,25 +16,6 @@ export const SignMessage: FC = () => {
 
             const message = new TextEncoder().encode('Hello, world!');
             const signature = await signMessage(message);
-            if (
-                // FIXME: wrap this for wallet adapter to simplify args
-                !verifySignMessage(
-                    {
-                        account: {
-                            address: publicKey.toBase58(),
-                            publicKey: publicKey.toBytes(),
-                            chains: [],
-                            features: [],
-                        },
-                        message,
-                    },
-                    {
-                        signedMessage: message,
-                        signature,
-                    }
-                )
-            )
-                throw new Error('Message signature invalid!');
 
             notify('success', `Message signature: ${bs58.encode(signature)}`);
         } catch (error: any) {
