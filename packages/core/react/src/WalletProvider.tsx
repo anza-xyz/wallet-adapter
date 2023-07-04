@@ -17,8 +17,7 @@ import { WalletProviderBase } from './WalletProviderBase.js';
 export interface WalletProviderProps {
     children: ReactNode;
     wallets: Adapter[];
-    autoConnect?: boolean;
-    autoSignIn?: boolean;
+    autoConnect?: boolean | ((adapter: Adapter) => Promise<boolean>);
     localStorageKey?: string;
     onError?: (error: WalletError, adapter?: Adapter) => void;
 }
@@ -48,8 +47,6 @@ export function WalletProvider({
     children,
     wallets: adapters,
     autoConnect,
-    // FIXME: implement
-    autoSignIn,
     localStorageKey = 'walletName',
     onError,
 }: WalletProviderProps) {
@@ -129,12 +126,18 @@ export function WalletProvider({
     }, [adapter, adaptersWithStandardAdapters, setWalletName, walletName]);
     const hasUserSelectedAWallet = useRef(false);
     const handleAutoConnectRequest = useMemo(() => {
-        if (autoConnect !== true || !adapter) {
-            return;
-        }
-
-        return () => (hasUserSelectedAWallet.current ? adapter.connect() : adapter.autoConnect());
-    }, [adapter, autoConnect]);
+        if (!autoConnect || !adapter) return;
+        return async () => {
+            // If autoConnect is true or returns true, use the default autoConnect behavior.
+            if (autoConnect === true || (await autoConnect(adapter))) {
+                if (hasUserSelectedAWallet.current) {
+                    await adapter.connect();
+                } else {
+                    await adapter.autoConnect();
+                }
+            }
+        };
+    }, [autoConnect, adapter]);
     const isUnloadingRef = useRef(false);
     useEffect(() => {
         if (walletName === SolanaMobileWalletAdapterWalletName && getIsMobile(adaptersWithStandardAdapters)) {
