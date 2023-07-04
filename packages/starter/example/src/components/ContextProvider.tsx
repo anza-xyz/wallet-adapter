@@ -94,7 +94,7 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
         const input: SolanaSignInInput = {};
         const output = await adapter.signIn(input);
 
-        if (!verifySignIn(input, output)) throw new Error('Verification failed!');
+        if (!verifySignIn(input, output)) throw new Error('Sign In verification failed!');
 
         return false;
     }, []);
