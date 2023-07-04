@@ -175,9 +175,9 @@ export function WalletProviderBase({
             connected ||
             !onAutoConnectRequest ||
             !(wallet?.readyState === WalletReadyState.Installed || wallet?.readyState === WalletReadyState.Loadable)
-        ) {
+        )
             return;
-        }
+
         isConnectingRef.current = true;
         setConnecting(true);
         didAttemptAutoConnectRef.current = true;

@@ -37,9 +37,7 @@ function getIsMobile(adapters: Adapter[]) {
 
 function getUriForAppIdentity() {
     const location = globalThis.location;
-    if (location == null) {
-        return;
-    }
+    if (!location) return;
     return `${location.protocol}//${location.host}`;
 }
 
@@ -88,9 +86,7 @@ export function WalletProvider({
     );
     const changeWallet = useCallback(
         (nextWalletName: WalletName<string> | null) => {
-            if (walletName === nextWalletName) {
-                return;
-            }
+            if (walletName === nextWalletName) return;
             if (
                 adapter &&
                 // Selecting a wallet other than the mobile wallet adapter is not
@@ -106,17 +102,11 @@ export function WalletProvider({
         [adapter, setWalletName, walletName]
     );
     useEffect(() => {
-        if (adapter == null) {
-            return;
-        }
+        if (!adapter) return;
         function handleDisconnect() {
-            if (isUnloadingRef.current) {
-                return;
-            }
-            if (walletName === SolanaMobileWalletAdapterWalletName && getIsMobile(adaptersWithStandardAdapters)) {
-                // Leave the adapter selected in the event of a disconnection.
-                return;
-            }
+            if (isUnloadingRef.current) return;
+            // Leave the adapter selected in the event of a disconnection.
+            if (walletName === SolanaMobileWalletAdapterWalletName && getIsMobile(adaptersWithStandardAdapters)) return;
             setWalletName(null);
         }
         adapter.on('disconnect', handleDisconnect);
