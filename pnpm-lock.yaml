@@ -261,6 +261,12 @@ importers:
       '@solana/wallet-adapter-wallets':
         specifier: workspace:^
         version: link:../../wallets/wallets
+      '@solana/wallet-standard-features':
+        specifier: ^1.1.0-alpha.5
+        version: 1.1.0-alpha.5
+      '@solana/wallet-standard-util':
+        specifier: ^1.1.0-alpha.9
+        version: 1.1.0-alpha.9
       '@solana/web3.js':
         specifier: ^1.77.3
         version: 1.77.3
