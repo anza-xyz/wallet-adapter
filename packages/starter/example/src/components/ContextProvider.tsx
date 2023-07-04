@@ -7,6 +7,8 @@ import { WalletDialogProvider as MaterialUIWalletDialogProvider } from '@solana/
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider as ReactUIWalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { UnsafeBurnerWalletAdapter } from '@solana/wallet-adapter-wallets';
+import { type SolanaSignInInput } from '@solana/wallet-standard-features';
+import { verifySignIn } from '@solana/wallet-standard-util';
 import { clusterApiUrl } from '@solana/web3.js';
 import { SnackbarProvider, useSnackbar } from 'notistack';
 import type { FC, ReactNode } from 'react';
@@ -86,9 +88,20 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
         [enqueueSnackbar]
     );
 
+    const autoSignIn = useCallback(async (adapter: Adapter) => {
+        if (!('signIn' in adapter)) return true;
+
+        const input: SolanaSignInInput = {};
+        const output = await adapter.signIn(input);
+
+        if (!verifySignIn(input, output)) throw new Error('Verification failed!');
+
+        return false;
+    }, []);
+
     return (
         <ConnectionProvider endpoint={endpoint}>
-            <WalletProvider wallets={wallets} onError={onError} autoConnect={autoConnect}>
+            <WalletProvider wallets={wallets} onError={onError} autoConnect={autoConnect && autoSignIn}>
                 <MaterialUIWalletDialogProvider>
                     <AntDesignWalletModalProvider>
                         <ReactUIWalletModalProvider>{children}</ReactUIWalletModalProvider>
