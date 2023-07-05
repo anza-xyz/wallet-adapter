@@ -14,7 +14,7 @@ export const WalletDisconnectButton: FC<ButtonProps> = ({
     onClick,
     ...props
 }) => {
-    const { wallet, disconnect, disconnecting } = useWallet();
+    const { wallet, connected, disconnect, disconnecting } = useWallet();
 
     const handleClick: MouseEventHandler<HTMLButtonElement> = useCallback(
         (event) => {
@@ -41,7 +41,7 @@ export const WalletDisconnectButton: FC<ButtonProps> = ({
             variant={variant}
             type={type}
             onClick={handleClick}
-            disabled={disabled || !wallet}
+            disabled={disabled || !connected}
             startIcon={<WalletIcon wallet={wallet} />}
             {...props}
         >
