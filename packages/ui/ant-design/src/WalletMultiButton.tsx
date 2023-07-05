@@ -3,100 +3,100 @@ import {
     DisconnectOutlined as DisconnectIcon,
     SwapOutlined as SwitchIcon,
 } from '@ant-design/icons';
-import { useWallet } from '@solana/wallet-adapter-react';
 import type { ButtonProps } from 'antd';
-import { Button, Dropdown, Menu } from 'antd';
-import type { FC } from 'react';
+import { Dropdown, Menu } from 'antd';
 import React, { useMemo } from 'react';
+
+import { useWalletMultiButton } from '@solana/wallet-adapter-react';
+import { BaseWalletConnectionButton } from './BaseWalletConnectionButton.js';
 import { useWalletModal } from './useWalletModal.js';
-import { WalletConnectButton } from './WalletConnectButton.js';
-import { WalletIcon } from './WalletIcon.js';
-import { WalletModalButton } from './WalletModalButton.js';
 
-export const WalletMultiButton: FC<ButtonProps> = ({
-    type = 'primary',
-    size = 'large',
-    htmlType = 'button',
-    children,
-    ...props
-}) => {
-    const { publicKey, wallet, disconnect } = useWallet();
-    const { setVisible } = useWalletModal();
-
-    const base58 = useMemo(() => publicKey?.toBase58(), [publicKey]);
+export function WalletMultiButton({ children, ...props }: ButtonProps) {
+    const { setVisible: setModalVisible } = useWalletModal();
+    const { buttonState, onConnect, onDisconnect, publicKey, walletIcon, walletName } = useWalletMultiButton({
+        onSelectWallet() {
+            setModalVisible(true);
+        },
+    });
     const content = useMemo(() => {
-        if (children) return children;
-        if (!wallet || !base58) return null;
-        return base58.slice(0, 4) + '..' + base58.slice(-4);
-    }, [children, wallet, base58]);
-
-    if (!wallet) {
-        return (
-            <WalletModalButton type={type} size={size} htmlType={htmlType} {...props}>
-                {children}
-            </WalletModalButton>
-        );
-    }
-    if (!base58) {
-        return (
-            <WalletConnectButton type={type} size={size} htmlType={htmlType} {...props}>
-                {children}
-            </WalletConnectButton>
-        );
-    }
-
+        if (children) {
+            return children;
+        } else if (buttonState === 'connecting') {
+            return 'Connecting ...';
+        } else if (publicKey) {
+            const base58 = publicKey.toBase58();
+            return base58.slice(0, 4) + '..' + base58.slice(-4);
+        } else if (buttonState === 'has-wallet') {
+            return 'Connect';
+        } else {
+            return 'Select Wallet';
+        }
+    }, [buttonState, children, publicKey]);
     return (
         <Dropdown
             overlay={
                 <Menu className="wallet-adapter-multi-button-menu">
                     <Menu.Item className="wallet-adapter-multi-button-menu-item">
-                        <Button
-                            icon={<WalletIcon wallet={wallet} />}
-                            type={type}
-                            size={size}
-                            htmlType={htmlType}
-                            className="wallet-adapter-multi-button-menu-button"
-                            block
+                        <BaseWalletConnectionButton
                             {...props}
+                            block
+                            className="wallet-adapter-multi-button-menu-button"
+                            walletIcon={walletIcon}
+                            walletName={walletName}
                         >
-                            {wallet.adapter.name}
-                        </Button>
+                            {walletName}
+                        </BaseWalletConnectionButton>
                     </Menu.Item>
+                    {publicKey ? (
+                        <Menu.Item
+                            className="wallet-adapter-multi-button-item"
+                            icon={<CopyIcon className=".wallet-adapter-multi-button-icon" />}
+                            onClick={async () => {
+                                await navigator.clipboard.writeText(publicKey?.toBase58());
+                            }}
+                        >
+                            Copy address
+                        </Menu.Item>
+                    ) : null}
                     <Menu.Item
-                        onClick={async () => {
-                            await navigator.clipboard.writeText(base58);
-                        }}
-                        icon={<CopyIcon className=".wallet-adapter-multi-button-icon" />}
-                        className="wallet-adapter-multi-button-item"
-                    >
-                        Copy address
-                    </Menu.Item>
-                    <Menu.Item
-                        onClick={() => setTimeout(() => setVisible(true), 100)}
+                        onClick={() => setTimeout(() => setModalVisible(true), 100)}
                         icon={<SwitchIcon className=".wallet-adapter-multi-button-icon" />}
                         className="wallet-adapter-multi-button-item"
                     >
                         Change wallet
                     </Menu.Item>
-                    <Menu.Item
-                        onClick={() => {
-                            // eslint-disable-next-line @typescript-eslint/no-empty-function
-                            disconnect().catch(() => {
-                                // Silently catch because any errors are caught by the context `onError` handler
-                            });
-                        }}
-                        icon={<DisconnectIcon className=".wallet-adapter-multi-button-icon" />}
-                        className="wallet-adapter-multi-button-item"
-                    >
-                        Disconnect
-                    </Menu.Item>
+                    {onDisconnect ? (
+                        <Menu.Item
+                            onClick={onDisconnect}
+                            icon={<DisconnectIcon className=".wallet-adapter-multi-button-icon" />}
+                            className="wallet-adapter-multi-button-item"
+                        >
+                            Disconnect
+                        </Menu.Item>
+                    ) : null}
                 </Menu>
             }
-            trigger={['click']}
+            trigger={buttonState === 'connected' ? ['click'] : []}
         >
-            <Button icon={<WalletIcon wallet={wallet} />} type={type} size={size} htmlType={htmlType} {...props}>
+            <BaseWalletConnectionButton
+                {...props}
+                onClick={() => {
+                    switch (buttonState) {
+                        case 'no-wallet':
+                            setModalVisible(true);
+                            break;
+                        case 'has-wallet':
+                            if (onConnect) {
+                                onConnect();
+                            }
+                            break;
+                    }
+                }}
+                walletIcon={walletIcon}
+                walletName={walletName}
+            >
                 {content}
-            </Button>
+            </BaseWalletConnectionButton>
         </Dropdown>
     );
-};
+}
