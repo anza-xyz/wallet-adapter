@@ -10,7 +10,7 @@ const Img = styled('img')(({ theme }: { theme: Theme }) => ({
 }));
 
 export interface WalletIconProps extends DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
-    wallet: Wallet | null;
+    wallet: { adapter: Pick<Wallet['adapter'], 'icon' | 'name'> } | null;
 }
 
 export const WalletIcon: FC<WalletIconProps> = ({ wallet, ...props }) => {
