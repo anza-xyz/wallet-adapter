@@ -4,7 +4,7 @@ import {
     isIosAndRedirectable,
     isVersionedTransaction,
     scopePollingDetectionStrategy,
-    SendTransactionOptions,
+    type SendTransactionOptions,
     WalletConfigError,
     WalletConnectionError,
     WalletDisconnectedError,
@@ -20,7 +20,7 @@ import {
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
 import type { Transaction, TransactionVersion, VersionedTransaction } from '@solana/web3.js';
-import { Connection, PublicKey, TransactionSignature } from '@solana/web3.js';
+import { type Connection, PublicKey, type TransactionSignature } from '@solana/web3.js';
 import type { default as Solflare } from '@solflare-wallet/sdk';
 
 interface SolflareWindow extends Window {
@@ -202,7 +202,6 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
 
                 return await wallet.signAndSendTransaction(transaction, sendOptions);
             } catch (error: any) {
-                console.log(error);
                 if (error instanceof WalletError) throw error;
                 throw new WalletSendTransactionError(error?.message, error);
             }
