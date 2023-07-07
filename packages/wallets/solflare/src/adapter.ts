@@ -200,8 +200,6 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
 
                 sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;
 
-                console.log(wallet);
-
                 return await wallet.signAndSendTransaction(transaction, sendOptions);
             } catch (error: any) {
                 console.log(error);
