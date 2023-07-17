@@ -1,13 +1,13 @@
 import { Button } from '@mui/material';
 import { NonceContainer } from '@solana/wallet-adapter-base';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import type { TransactionSignature } from '@solana/web3.js';
+import { BlockhashWithExpiryBlockHeight, Transaction, TransactionInstruction, TransactionSignature } from '@solana/web3.js';
 import { PublicKey, TransactionMessage, VersionedTransaction } from '@solana/web3.js';
 import type { FC } from 'react';
 import React, { useCallback } from 'react';
 import { useNotify } from './notify';
 
-export const SendLegacyTransaction: FC = () => {
+export const SendNonceTx: FC = () => {
     const { connection } = useConnection();
     const { publicKey, sendTransaction, wallet } = useWallet();
     const notify = useNotify();
@@ -19,50 +19,65 @@ export const SendLegacyTransaction: FC = () => {
         const numTries = 10;
         for (let i = 0; i < numTries; i++) {
             const startTime = performance.now(); // record start time            
+            const nonceContainer: NonceContainer | undefined = wallet?.adapter.nonceContainer;
+            console.log('Nonce: ', nonceContainer);
             let signature: TransactionSignature | undefined = undefined;
             try {
                 if (!publicKey) throw new Error('Wallet not connected!');
                 if (!supportedTransactionVersions) throw new Error("Wallet doesn't support versioned transactions!");
                 if (!supportedTransactionVersions.has('legacy'))
                     throw new Error("Wallet doesn't support legacy transactions!");
+                const transaction = new Transaction();
+                const instruction = new TransactionInstruction({
+                    data: Buffer.from('Nonce Txs save time'),
+                    keys: [],
+                    programId: new PublicKey('MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr'),
+                },);
+                let blockhashInfo: BlockhashWithExpiryBlockHeight;
 
-                const {
-                    context: { slot: minContextSlot },
-                    value: { blockhash, lastValidBlockHeight },
-                } = await connection.getLatestBlockhashAndContext();
+                if (nonceContainer) {
+                    transaction.add(nonceContainer.advanceNonce, instruction);
+                    transaction.recentBlockhash = nonceContainer.currentNonce;
+                }
+                else {
+                    transaction.add(instruction);
+                    blockhashInfo = await connection.getLatestBlockhash();
+                    transaction.recentBlockhash = blockhashInfo.blockhash;
+                }
 
-                const message = new TransactionMessage({
-                    payerKey: publicKey,
-                    recentBlockhash: blockhash,
-                    instructions: [
-                        {
-                            data: Buffer.from('Hello, from the Solana Wallet Adapter example app!'),
-                            keys: [],
-                            programId: new PublicKey('MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr'),
-                        },
-                    ],
-                });
-                const transaction = new VersionedTransaction(message.compileToLegacyMessage());
+                transaction.feePayer = publicKey;
 
-                signature = await sendTransaction(transaction, connection, { minContextSlot });
+                signature = await sendTransaction(transaction, connection);
                 notify('info', 'Transaction sent:', signature);
-
-                await connection.confirmTransaction({ blockhash, lastValidBlockHeight, signature }, 'confirmed');
+                if (nonceContainer) {
+                    await connection.confirmTransaction({
+                        signature,
+                        minContextSlot: 0,
+                        nonceAccountPubkey: nonceContainer.nonceAccount,
+                        nonceValue: nonceContainer.currentNonce
+                    }, 'confirmed');
+                }
+                else {
+                    //@ts-ignore
+                    await connection.confirmTransaction({ signature, blockhash: blockhashInfo.blockhash, lastValidBlockHeight: blockhashInfo.lastValidBlockHeight }, 'confirmed');
+                }
                 notify('success', 'Transaction successful!', signature);
                 const endTime = performance.now(); // record end time
                 const duration = endTime - startTime; // calculate duration
                 console.log(`Transaction ${i + 1} completed in ${duration}ms`);
-                summary.push(duration);
                 await new Promise(resolve => setTimeout(resolve, 10000));
+                summary.push(duration);
+
             } catch (error: any) {
-                skipped++;
                 notify('error', `Transaction failed! ${error?.message}`, signature);
-            }  finally {
+                skipped++;
+            } finally {
                 if (i === numTries - 1) {
-                    console.log('Blockhash Summary: ', summary);
+                    console.log('Nonce Summary: ', summary);
                     const avg = summary.reduce((a, b) => a + b, 0) / summary.length;
-                    console.log('Blockhash Average: ', avg);
+                    console.log('Nonce Average: ', avg);
                     console.log('Skipped: ', skipped);
+
                 }
             }
         }
@@ -75,7 +90,7 @@ export const SendLegacyTransaction: FC = () => {
             onClick={onClick}
             disabled={!publicKey || !supportedTransactionVersions?.has('legacy')}
         >
-            Send 10 Legacy Transaction (devnet)
+            Send 10 Nonce Tx (devnet)
         </Button>
     );
 };

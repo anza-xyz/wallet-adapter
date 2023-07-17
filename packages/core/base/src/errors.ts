@@ -71,3 +71,15 @@ export class WalletWindowBlockedError extends WalletError {
 export class WalletWindowClosedError extends WalletError {
     name = 'WalletWindowClosedError';
 }
+
+export class WalletNoNonceError extends WalletError {
+    name = 'WalletNoNonceError'
+}
+
+export class WalletNonceAlreadyExistsError extends WalletError {
+    name = 'WalletNonceAlreadyExistsError'
+}
+
+export class WalletNonceNotFoundError extends WalletError {
+    name = 'WalletNonceNotFoundError'
+}

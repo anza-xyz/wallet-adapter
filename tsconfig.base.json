@@ -9,6 +9,7 @@
         "noEmitOnError": true,
         "resolveJsonModule": true,
         "strict": true,
-        "stripInternal": true
+        "stripInternal": true,
+        "skipLibCheck": true
     }
 }

@@ -63,6 +63,10 @@ const SendLegacyTransactionDynamic = dynamic(
     async () => (await import('../components/SendLegacyTransaction')).SendLegacyTransaction,
     { ssr: false }
 );
+const SendNonceTransaction = dynamic(
+    async () => (await import('../components/SendNonceTx')).SendNonceTx,
+    { ssr: false }
+);
 const SendTransactionDynamic = dynamic(async () => (await import('../components/SendTransaction')).SendTransaction, {
     ssr: false,
 });
@@ -118,7 +122,7 @@ const Index: NextPage = () => {
                         <TableCell></TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell>Dialog/Modal Button</TableCell>
+                        <TableCell>Dialog/Modal Buttonz</TableCell>
                         <TableCell>
                             <MaterialUIWalletDialogButtonDynamic />
                         </TableCell>
@@ -192,6 +196,7 @@ const Index: NextPage = () => {
                         </TableCell>
                         <TableCell>
                             <SendLegacyTransactionDynamic />
+                            <SendNonceTransaction/>
                         </TableCell>
                         <TableCell>
                             <SendV0TransactionDynamic />

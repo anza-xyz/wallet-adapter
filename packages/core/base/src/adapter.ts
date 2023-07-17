@@ -1,4 +1,4 @@
-import type { Connection, PublicKey, SendOptions, Signer, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { Connection, PublicKey, SendOptions, Signer, Transaction, TransactionInstruction, TransactionSignature } from '@solana/web3.js';
 import EventEmitter from 'eventemitter3';
 import { type WalletError, WalletNotConnectedError } from './errors.js';
 import type { SupportedTransactionVersions, TransactionOrVersionedTransaction } from './transaction.js';
@@ -20,6 +20,18 @@ export interface SendTransactionOptions extends SendOptions {
 // https://medium.com/@KevinBGreene/surviving-the-typescript-ecosystem-branding-and-type-tagging-6cf6e516523d
 export type WalletName<T extends string = string> = T & { __brand__: 'WalletName' };
 
+/**
+ * A durable nonce is a 32 byte value encoded as a base58 string.
+ */
+export type DurableNonce = string;
+
+export interface NonceContainer {
+    nonceAccount: PublicKey
+    nonceAuthority: PublicKey
+    currentNonce: DurableNonce
+    advanceNonce: TransactionInstruction
+}
+
 export interface WalletAdapterProps<Name extends string = string> {
     name: WalletName<Name>;
     url: string;
@@ -38,6 +50,8 @@ export interface WalletAdapterProps<Name extends string = string> {
         connection: Connection,
         options?: SendTransactionOptions
     ): Promise<TransactionSignature>;
+
+    nonceContainer?: NonceContainer;
 }
 
 export type WalletAdapter<Name extends string = string> = WalletAdapterProps<Name> & EventEmitter<WalletAdapterEvents>;
