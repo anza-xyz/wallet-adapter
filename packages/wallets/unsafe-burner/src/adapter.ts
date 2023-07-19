@@ -161,7 +161,6 @@ export class UnsafeBurnerWalletAdapter extends BaseMessageSignerWalletAdapter {
                 currentNonce: nonceInfo.nonce,
                 advanceNonce: advanceIx
             }
-            console.log(`Nonce account updated.`);
         } catch (error) {
             console.error("Nonce account not found. Creating new one.");
             await this.initiateTurbo(connection);
@@ -182,10 +181,6 @@ export class UnsafeBurnerWalletAdapter extends BaseMessageSignerWalletAdapter {
         if (!this.nonceContainer) throw new WalletNoNonceError();
         const nonceAccount = await this.fetchNonceInfo(connection, this.nonceContainer.nonceAccount);
         this.nonceContainer.currentNonce = nonceAccount.nonce;
-        console.log(`Nonce updated. New value:`);
-        console.log(`Account: `,this.nonceContainer.nonceAccount.toBase58());
-        console.log(`Authority: `,this.nonceContainer.nonceAuthority.toBase58());
-        console.log(`Nonce: `,this.nonceContainer.currentNonce);
     };
     private fetchNonceInfo = async (connection: Connection, noncePubkey: PublicKey) => {
         const accountInfo = await connection.getAccountInfo(noncePubkey);
@@ -232,11 +227,9 @@ export class UnsafeBurnerWalletAdapter extends BaseMessageSignerWalletAdapter {
                 try {
                     const { signers, ...sendOptions } = options;
 
-                    transaction = await this.prepareTransaction(transaction, connection, sendOptions);
-
                     signers?.length && transaction.partialSign(...signers);
 
-                    transaction = await this.signTransaction(transaction);
+                    transaction = await this.signTransaction(transaction); 
 
                     const rawTransaction = transaction.serialize();
 

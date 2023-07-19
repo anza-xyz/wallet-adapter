@@ -196,7 +196,6 @@ const Index: NextPage = () => {
                         </TableCell>
                         <TableCell>
                             <SendLegacyTransactionDynamic />
-                            <SendNonceTransaction/>
                         </TableCell>
                         <TableCell>
                             <SendV0TransactionDynamic />

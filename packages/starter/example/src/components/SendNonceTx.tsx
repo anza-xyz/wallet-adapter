@@ -7,20 +7,57 @@ import type { FC } from 'react';
 import React, { useCallback } from 'react';
 import { useNotify } from './notify';
 
-export const SendNonceTx: FC = () => {
+export type TestType = 'Nonce' | 'Blockhash';
+interface RunTestLoopParams {
+    test: TestType;
+    numTries?: number;
+    loopPause?: number;
+    txPause?: number;
+    confirmPause?: number;
+}
+export interface TestResult {
+    duration: number;
+    type: TestType;
+    id: number;
+}
+
+interface SendNonceTxProps {
+    onLoopComplete: (result: TestResult) => void;
+    onTestComplete: () => void;
+}
+
+export const SendNonceTx: FC<SendNonceTxProps> = ({ onLoopComplete, onTestComplete }) => {
     const { connection } = useConnection();
-    const { publicKey, sendTransaction, wallet } = useWallet();
+    const { publicKey, sendTransaction, wallet, signTransaction } = useWallet();
     const notify = useNotify();
+
     const supportedTransactionVersions = wallet?.adapter.supportedTransactionVersions;
 
     const onClick = useCallback(async () => {
+        const numTries = 3;
+        runTestLoop({
+            numTries,
+            test: 'Nonce',
+        });
+        runTestLoop({
+            numTries,
+            test: 'Blockhash'
+        });
+    }, [publicKey, supportedTransactionVersions, connection, sendTransaction, notify]);
+
+    const runTestLoop = useCallback(async ({
+        test,
+        numTries = 3,
+        loopPause = 5000,
+        txPause = 1000,
+        confirmPause = 200,
+    }: RunTestLoopParams) => {
         const summary = [];
         let skipped = 0;
-        const numTries = 10;
+
         for (let i = 0; i < numTries; i++) {
             const startTime = performance.now(); // record start time            
             const nonceContainer: NonceContainer | undefined = wallet?.adapter.nonceContainer;
-            console.log('Nonce: ', nonceContainer);
             let signature: TransactionSignature | undefined = undefined;
             try {
                 if (!publicKey) throw new Error('Wallet not connected!');
@@ -29,57 +66,62 @@ export const SendNonceTx: FC = () => {
                     throw new Error("Wallet doesn't support legacy transactions!");
                 const transaction = new Transaction();
                 const instruction = new TransactionInstruction({
-                    data: Buffer.from('Nonce Txs save time'),
+                    data: Buffer.from(`${test} Test ${i + 1}`),
                     keys: [],
                     programId: new PublicKey('MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr'),
-                },);
-                let blockhashInfo: BlockhashWithExpiryBlockHeight;
+                });
 
-                if (nonceContainer) {
+                if (test === 'Nonce' && nonceContainer) {
                     transaction.add(nonceContainer.advanceNonce, instruction);
                     transaction.recentBlockhash = nonceContainer.currentNonce;
                 }
                 else {
                     transaction.add(instruction);
+                    let blockhashInfo: BlockhashWithExpiryBlockHeight;
                     blockhashInfo = await connection.getLatestBlockhash();
                     transaction.recentBlockhash = blockhashInfo.blockhash;
                 }
 
                 transaction.feePayer = publicKey;
-
-                signature = await sendTransaction(transaction, connection);
+                if (!signTransaction) throw new Error('Wallet does not support signing transactions!');
+                const signed = await signTransaction(transaction);
+                signature = await sendTransaction(signed, connection);
                 notify('info', 'Transaction sent:', signature);
-                if (nonceContainer) {
-                    await connection.confirmTransaction({
-                        signature,
-                        minContextSlot: 0,
-                        nonceAccountPubkey: nonceContainer.nonceAccount,
-                        nonceValue: nonceContainer.currentNonce
-                    }, 'confirmed');
-                }
-                else {
-                    //@ts-ignore
-                    await connection.confirmTransaction({ signature, blockhash: blockhashInfo.blockhash, lastValidBlockHeight: blockhashInfo.lastValidBlockHeight }, 'confirmed');
+
+                // Using this in lieu of confirmationTransaciton because propogation time is too long
+                let confirmed = false;
+                await wait(txPause);
+                while (!confirmed) {
+                    await wait(confirmPause);
+                    connection.getSignatureStatus(signature).then((result) => {
+                        if (result.value?.confirmationStatus === ('confirmed' || 'finalized')) { confirmed = true }
+                    });
                 }
                 notify('success', 'Transaction successful!', signature);
                 const endTime = performance.now(); // record end time
                 const duration = endTime - startTime; // calculate duration
-                console.log(`Transaction ${i + 1} completed in ${duration}ms`);
-                await new Promise(resolve => setTimeout(resolve, 10000));
                 summary.push(duration);
+                const result: TestResult = {
+                    type: test,
+                    duration,
+                    id: i + 1,
+                };
+                onLoopComplete(result);
+                await wait(loopPause);
 
             } catch (error: any) {
                 notify('error', `Transaction failed! ${error?.message}`, signature);
                 skipped++;
             } finally {
                 if (i === numTries - 1) {
-                    console.log('Nonce Summary: ', summary);
+                    console.log(`${test} Summary`, summary);
                     const avg = summary.reduce((a, b) => a + b, 0) / summary.length;
-                    console.log('Nonce Average: ', avg);
-                    console.log('Skipped: ', skipped);
-
+                    console.log(`${test} Average`, avg);
+                    console.log(`${test} Skipped`, skipped);
+                    onTestComplete();
                 }
             }
+            
         }
     }, [publicKey, supportedTransactionVersions, connection, sendTransaction, notify]);
 
@@ -87,10 +129,13 @@ export const SendNonceTx: FC = () => {
         <Button
             variant="contained"
             color="secondary"
-            onClick={onClick}
+            onClick={() => onClick()}
             disabled={!publicKey || !supportedTransactionVersions?.has('legacy')}
         >
-            Send 10 Nonce Tx (devnet)
+            Run Test
         </Button>
     );
 };
+
+
+const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
