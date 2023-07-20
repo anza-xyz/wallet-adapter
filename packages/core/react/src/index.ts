@@ -4,7 +4,4 @@ export * from './useAnchorWallet.js';
 export * from './useConnection.js';
 export * from './useLocalStorage.js';
 export * from './useWallet.js';
-export * from './useWalletConnectButton.js';
-export * from './useWalletDisconnectButton.js';
-export * from './useWalletMultiButton.js';
 export * from './WalletProvider.js';

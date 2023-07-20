@@ -1,36 +1,33 @@
+import { useWallet, type Wallet } from '@solana/wallet-adapter-react';
 import { useCallback } from 'react';
-import type { Wallet } from './useWallet.js';
-import { useWallet } from './useWallet.js';
 
 type ButtonState = {
     buttonDisabled: boolean;
-    buttonState: 'connecting' | 'connected' | 'has-wallet' | 'no-wallet';
+    buttonState: 'disconnecting' | 'has-wallet' | 'no-wallet';
     onButtonClick?: () => void;
     walletIcon?: Wallet['adapter']['icon'];
     walletName?: Wallet['adapter']['name'];
 };
 
-export function useWalletConnectButton(): ButtonState {
-    const { connect, connected, connecting, wallet } = useWallet();
+export function useWalletDisconnectButton(): ButtonState {
+    const { disconnecting, disconnect, wallet } = useWallet();
     let buttonState: ButtonState['buttonState'];
-    if (connecting) {
-        buttonState = 'connecting';
-    } else if (connected) {
-        buttonState = 'connected';
+    if (disconnecting) {
+        buttonState = 'disconnecting';
     } else if (wallet) {
         buttonState = 'has-wallet';
     } else {
         buttonState = 'no-wallet';
     }
-    const handleConnectButtonClick = useCallback(() => {
-        connect().catch(() => {
+    const handleDisconnectButtonClick = useCallback(() => {
+        disconnect().catch(() => {
             // Silently catch because any errors are caught by the context `onError` handler
         });
-    }, [connect]);
+    }, [disconnect]);
     return {
         buttonDisabled: buttonState !== 'has-wallet',
         buttonState,
-        onButtonClick: buttonState === 'has-wallet' ? handleConnectButtonClick : undefined,
+        onButtonClick: buttonState === 'has-wallet' ? handleDisconnectButtonClick : undefined,
         walletIcon: wallet?.adapter.icon,
         walletName: wallet?.adapter.name,
     };
