@@ -1055,8 +1055,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/base
       '@solflare-wallet/sdk':
-        specifier: ^1.2.1
-        version: 1.2.1(@solana/web3.js@1.77.3)
+        specifier: ^1.3.0
+        version: 1.3.0(@solana/web3.js@1.77.3)
     devDependencies:
       '@solana/web3.js':
         specifier: ^1.77.3
@@ -5508,17 +5508,6 @@ packages:
   /@popperjs/core@2.11.8:
     resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
 
-  /@project-serum/sol-wallet-adapter@0.2.0(@solana/web3.js@1.77.3):
-    resolution: {integrity: sha512-ed7wZwlDqjF88VCq7eHVO8njHqdUkBxBL8WEVOnB47ooLO4btOJt6GBdkKpKqKX86c86LiEROJclcdW8e7kIjg==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      '@solana/web3.js': ^1.5.0
-    dependencies:
-      '@solana/web3.js': 1.77.3
-      bs58: 4.0.1
-      eventemitter3: 4.0.7
-    dev: false
-
   /@project-serum/sol-wallet-adapter@0.2.6(@solana/web3.js@1.77.3):
     resolution: {integrity: sha512-cpIb13aWPW8y4KzkZAPDgw+Kb+DXjCC6rZoH74MGm3I/6e/zKyGnfAuW5olb2zxonFqsYgnv7ev8MQnvSgJ3/g==}
     engines: {node: '>=10'}
@@ -6035,16 +6024,15 @@ packages:
       - supports-color
       - utf-8-validate
 
-  /@solflare-wallet/sdk@1.2.1(@solana/web3.js@1.77.3):
-    resolution: {integrity: sha512-ESF3rGZtcVFaIkX9gv7SXUbwbfBOn53l8u9vZJme3RZv4MEY/O1v5Sj2oYXhZiJ9V0PnZfByDUj8yx55j86F+A==}
+  /@solflare-wallet/sdk@1.3.0(@solana/web3.js@1.77.3):
+    resolution: {integrity: sha512-wzHJTATtsrvPzhZJG58TkcJmsMZl6yTULnWsw1txuUOWJzol916jUndcvPSlVM3zA/WU/AUk96UCVeFUOq27Nw==}
     peerDependencies:
-      '@solana/web3.js': ^1.61.0
+      '@solana/web3.js': '*'
     dependencies:
-      '@project-serum/sol-wallet-adapter': 0.2.0(@solana/web3.js@1.77.3)
       '@solana/web3.js': 1.77.3
-      bs58: 4.0.1
-      eventemitter3: 4.0.7
-      uuid: 8.3.2
+      bs58: 5.0.0
+      eventemitter3: 5.0.1
+      uuid: 9.0.0
     dev: false
 
   /@stablelib/aead@1.0.1:
@@ -10495,6 +10483,10 @@ packages:
 
   /eventemitter3@4.0.7:
     resolution: {integrity: sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==}
+
+  /eventemitter3@5.0.1:
+    resolution: {integrity: sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==}
+    dev: false
 
   /events@3.3.0:
     resolution: {integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==}
@@ -18797,6 +18789,11 @@ packages:
   /uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
     hasBin: true
+
+  /uuid@9.0.0:
+    resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
+    hasBin: true
+    dev: false
 
   /v8-compile-cache@2.3.0:
     resolution: {integrity: sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==}
