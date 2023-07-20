@@ -1,5 +1,19 @@
 # @solana/wallet-adapter-material-ui
 
+## 0.16.31
+
+### Patch Changes
+
+-   7b06737: Use wallet button hooks from base-ui package
+-   ba57f75: feat: extract wallet buttons and text labels into separate components
+    Now that the wallet connection state is an enum, it makes it easier to extract the labels from the components. You can now bring your own i18n framework to bear on the `Base*` version of `WalletConnectButton`, `WalletDisconnectButton`, and `WalletMultiButton` to inject your own translated labels.
+-   Updated dependencies [7b06737]
+-   Updated dependencies [ba57f75]
+-   Updated dependencies [7c6f2e1]
+-   Updated dependencies [7b06737]
+    -   @solana/wallet-adapter-react@0.15.33
+    -   @solana/wallet-adapter-base-ui@0.1.0
+
 ## 0.16.30
 
 ### Patch Changes
