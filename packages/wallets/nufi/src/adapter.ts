@@ -1,8 +1,8 @@
 import type { EventEmitter, SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
+    BaseMessageSignerWalletAdapter,
     isVersionedTransaction,
     scopePollingDetectionStrategy,
-    BaseMessageSignerWalletAdapter,
     WalletAccountError,
     WalletConnectionError,
     WalletDisconnectedError,
@@ -19,9 +19,9 @@ import {
 import type {
     Connection,
     Transaction,
-    VersionedTransaction,
     TransactionSignature,
     TransactionVersion,
+    VersionedTransaction,
 } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 
