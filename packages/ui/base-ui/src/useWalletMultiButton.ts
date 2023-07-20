@@ -1,7 +1,6 @@
+import { useWallet, type Wallet } from '@solana/wallet-adapter-react';
 import type { PublicKey } from '@solana/web3.js';
 import { useCallback } from 'react';
-import type { Wallet } from './useWallet.js';
-import { useWallet } from './useWallet.js';
 
 type ButtonState = {
     buttonState: 'connecting' | 'connected' | 'disconnecting' | 'has-wallet' | 'no-wallet';

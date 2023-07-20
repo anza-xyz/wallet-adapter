@@ -44,6 +44,7 @@
     },
     "dependencies": {
         "@solana/wallet-adapter-base": "workspace:^",
+        "@solana/wallet-adapter-base-ui": "workspace:^",
         "@solana/wallet-adapter-react": "workspace:^"
     },
     "devDependencies": {
