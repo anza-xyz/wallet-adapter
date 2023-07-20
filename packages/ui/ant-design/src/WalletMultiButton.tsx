@@ -1,102 +1,16 @@
-import {
-    CopyOutlined as CopyIcon,
-    DisconnectOutlined as DisconnectIcon,
-    SwapOutlined as SwitchIcon,
-} from '@ant-design/icons';
-import { useWallet } from '@solana/wallet-adapter-react';
 import type { ButtonProps } from 'antd';
-import { Button, Dropdown, Menu } from 'antd';
-import type { FC } from 'react';
-import React, { useMemo } from 'react';
-import { useWalletModal } from './useWalletModal.js';
-import { WalletConnectButton } from './WalletConnectButton.js';
-import { WalletIcon } from './WalletIcon.js';
-import { WalletModalButton } from './WalletModalButton.js';
+import React from 'react';
+import { BaseWalletMultiButton } from './BaseWalletMultiButton.js';
 
-export const WalletMultiButton: FC<ButtonProps> = ({
-    type = 'primary',
-    size = 'large',
-    htmlType = 'button',
-    children,
-    ...props
-}) => {
-    const { publicKey, wallet, disconnect } = useWallet();
-    const { setVisible } = useWalletModal();
+const LABELS = {
+    'change-wallet': 'Change wallet',
+    connecting: 'Connecting ...',
+    'copy-address': 'Copy address',
+    disconnect: 'Disconnect',
+    'has-wallet': 'Connect',
+    'no-wallet': 'Select Wallet',
+} as const;
 
-    const base58 = useMemo(() => publicKey?.toBase58(), [publicKey]);
-    const content = useMemo(() => {
-        if (children) return children;
-        if (!wallet || !base58) return null;
-        return base58.slice(0, 4) + '..' + base58.slice(-4);
-    }, [children, wallet, base58]);
-
-    if (!wallet) {
-        return (
-            <WalletModalButton type={type} size={size} htmlType={htmlType} {...props}>
-                {children}
-            </WalletModalButton>
-        );
-    }
-    if (!base58) {
-        return (
-            <WalletConnectButton type={type} size={size} htmlType={htmlType} {...props}>
-                {children}
-            </WalletConnectButton>
-        );
-    }
-
-    return (
-        <Dropdown
-            overlay={
-                <Menu className="wallet-adapter-multi-button-menu">
-                    <Menu.Item className="wallet-adapter-multi-button-menu-item">
-                        <Button
-                            icon={<WalletIcon wallet={wallet} />}
-                            type={type}
-                            size={size}
-                            htmlType={htmlType}
-                            className="wallet-adapter-multi-button-menu-button"
-                            block
-                            {...props}
-                        >
-                            {wallet.adapter.name}
-                        </Button>
-                    </Menu.Item>
-                    <Menu.Item
-                        onClick={async () => {
-                            await navigator.clipboard.writeText(base58);
-                        }}
-                        icon={<CopyIcon className=".wallet-adapter-multi-button-icon" />}
-                        className="wallet-adapter-multi-button-item"
-                    >
-                        Copy address
-                    </Menu.Item>
-                    <Menu.Item
-                        onClick={() => setTimeout(() => setVisible(true), 100)}
-                        icon={<SwitchIcon className=".wallet-adapter-multi-button-icon" />}
-                        className="wallet-adapter-multi-button-item"
-                    >
-                        Change wallet
-                    </Menu.Item>
-                    <Menu.Item
-                        onClick={() => {
-                            // eslint-disable-next-line @typescript-eslint/no-empty-function
-                            disconnect().catch(() => {
-                                // Silently catch because any errors are caught by the context `onError` handler
-                            });
-                        }}
-                        icon={<DisconnectIcon className=".wallet-adapter-multi-button-icon" />}
-                        className="wallet-adapter-multi-button-item"
-                    >
-                        Disconnect
-                    </Menu.Item>
-                </Menu>
-            }
-            trigger={['click']}
-        >
-            <Button icon={<WalletIcon wallet={wallet} />} type={type} size={size} htmlType={htmlType} {...props}>
-                {content}
-            </Button>
-        </Dropdown>
-    );
-};
+export function WalletMultiButton(props: ButtonProps) {
+    return <BaseWalletMultiButton {...props} labels={LABELS} />;
+}

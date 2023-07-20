@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-material-ui-starter",
-    "version": "0.13.18",
+    "version": "0.13.19",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",

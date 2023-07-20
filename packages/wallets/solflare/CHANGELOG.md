@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-solflare
 
+## 0.6.25
+
+### Patch Changes
+
+-   e5024dc: Support `signAndSendTransaction` method in Solflare adapter
+
 ## 0.6.24
 
 ### Patch Changes
