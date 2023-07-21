@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-coin98
 
+## 0.5.20-alpha.2
+
+### Patch Changes
+
+-   Add Sign in With Solana
+-   Updated dependencies
+    -   @solana/wallet-adapter-base@0.9.23-alpha.2
+
 ## 0.5.19
 
 ### Patch Changes

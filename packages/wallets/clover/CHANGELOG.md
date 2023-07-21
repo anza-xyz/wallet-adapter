@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-clover
 
+## 0.4.19-alpha.2
+
+### Patch Changes
+
+-   Add Sign in With Solana
+-   Updated dependencies
+    -   @solana/wallet-adapter-base@0.9.23-alpha.2
+
 ## 0.4.18
 
 ### Patch Changes

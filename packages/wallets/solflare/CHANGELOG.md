@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-solflare
 
+## 0.6.26-alpha.2
+
+### Patch Changes
+
+-   Add Sign in With Solana
+-   Updated dependencies
+    -   @solana/wallet-adapter-base@0.9.23-alpha.2
+
 ## 0.6.25
 
 ### Patch Changes

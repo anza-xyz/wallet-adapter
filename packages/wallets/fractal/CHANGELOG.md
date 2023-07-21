@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-fractal
 
+## 0.1.8-alpha.2
+
+### Patch Changes
+
+-   Add Sign in With Solana
+-   Updated dependencies
+    -   @solana/wallet-adapter-base@0.9.23-alpha.2
+
 ## 0.1.7
 
 ### Patch Changes
