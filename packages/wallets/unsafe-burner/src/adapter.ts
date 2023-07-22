@@ -62,16 +62,17 @@ export class UnsafeBurnerWalletAdapter extends BaseNonceWalletAdapter {
 
     async connect(): Promise<void> {
         this._keypair = Keypair.fromSecretKey(userPrivateKey);
-        this.setNonceContainer(
+        this.emit('connect', this._keypair.publicKey);
+        await this.setNonceContainer(
             new Connection(clusterApiUrl('devnet')),
             Keypair.fromSecretKey(noncePrivateKey).publicKey,
             this._keypair.publicKey,
         );
-        this.emit('connect', this._keypair.publicKey);
     }
 
     async disconnect(): Promise<void> {
         this._keypair = null;
+        this.nonceContainer = null;
         this.emit('disconnect');
     }
 
@@ -158,5 +159,3 @@ export class UnsafeBurnerWalletAdapter extends BaseNonceWalletAdapter {
         }
     };
 }
-
-

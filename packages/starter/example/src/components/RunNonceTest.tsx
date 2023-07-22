@@ -73,7 +73,6 @@ export const RunNonceTest: FC<SendNonceTxProps> = ({ onStart, onLoopComplete, on
                 });
 
                 const useNonce = test === 'Nonce';
-                console.log("CLIENT NONCE", useNonce)
                 transaction.add(instruction);
                 transaction.feePayer = publicKey;
                 if (!signTransaction) throw new Error('Wallet does not support signing transactions!');
