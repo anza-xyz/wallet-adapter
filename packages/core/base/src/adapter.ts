@@ -37,7 +37,7 @@ export interface WalletAdapterProps<Name extends string = string> {
     sendTransaction(
         transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
         connection: Connection,
-        options?: SendTransactionOptions,
+        options?: SendTransactionOptions
     ): Promise<TransactionSignature>;
 }
 
@@ -98,13 +98,13 @@ export abstract class BaseWalletAdapter<Name extends string = string>
     abstract sendTransaction(
         transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
         connection: Connection,
-        options?: SendTransactionOptions,
+        options?: SendTransactionOptions
     ): Promise<TransactionSignature>;
 
     protected async prepareTransaction(
         transaction: Transaction,
         connection: Connection,
-        options: SendOptions = {},
+        options: SendOptions = {}
     ): Promise<Transaction> {
         const publicKey = this.publicKey;
         if (!publicKey) throw new WalletNotConnectedError();
