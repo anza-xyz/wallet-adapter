@@ -3,6 +3,7 @@ import {
     type MessageSignerWalletAdapterProps,
     type SignerWalletAdapterProps,
     type WalletAdapterProps,
+    type NonceWalletAdapterProps,
     type WalletName,
     type WalletReadyState,
 } from '@solana/wallet-adapter-base';
@@ -22,11 +23,12 @@ export interface WalletContextState {
     connecting: boolean;
     connected: boolean;
     disconnecting: boolean;
+    nonceContainer?: NonceWalletAdapterProps;
 
     select(walletName: WalletName | null): void;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
-
+    
     sendTransaction: WalletAdapterProps['sendTransaction'];
     signTransaction: SignerWalletAdapterProps['signTransaction'] | undefined;
     signAllTransactions: SignerWalletAdapterProps['signAllTransactions'] | undefined;

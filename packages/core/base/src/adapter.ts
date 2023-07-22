@@ -1,4 +1,4 @@
-import type { Connection, PublicKey, SendOptions, Signer, Transaction, TransactionInstruction, TransactionSignature } from '@solana/web3.js';
+import { Connection, PublicKey, SendOptions, Signer, Transaction, TransactionSignature } from '@solana/web3.js';
 import EventEmitter from 'eventemitter3';
 import { type WalletError, WalletNotConnectedError } from './errors.js';
 import type { SupportedTransactionVersions, TransactionOrVersionedTransaction } from './transaction.js';
@@ -14,23 +14,12 @@ export interface WalletAdapterEvents {
 
 export interface SendTransactionOptions extends SendOptions {
     signers?: Signer[];
+    useNonce?: boolean;
 }
 
 // WalletName is a nominal type that wallet adapters should use, e.g. `'MyCryptoWallet' as WalletName<'MyCryptoWallet'>`
 // https://medium.com/@KevinBGreene/surviving-the-typescript-ecosystem-branding-and-type-tagging-6cf6e516523d
 export type WalletName<T extends string = string> = T & { __brand__: 'WalletName' };
-
-/**
- * A durable nonce is a 32 byte value encoded as a base58 string.
- */
-export type DurableNonce = string;
-
-export interface NonceContainer {
-    nonceAccount: PublicKey
-    nonceAuthority: PublicKey
-    currentNonce: DurableNonce
-    advanceNonce: TransactionInstruction
-}
 
 export interface WalletAdapterProps<Name extends string = string> {
     name: WalletName<Name>;
@@ -48,10 +37,8 @@ export interface WalletAdapterProps<Name extends string = string> {
     sendTransaction(
         transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
         connection: Connection,
-        options?: SendTransactionOptions
+        options?: SendTransactionOptions,
     ): Promise<TransactionSignature>;
-
-    nonceContainer?: NonceContainer;
 }
 
 export type WalletAdapter<Name extends string = string> = WalletAdapterProps<Name> & EventEmitter<WalletAdapterEvents>;
@@ -111,13 +98,13 @@ export abstract class BaseWalletAdapter<Name extends string = string>
     abstract sendTransaction(
         transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
         connection: Connection,
-        options?: SendTransactionOptions
+        options?: SendTransactionOptions,
     ): Promise<TransactionSignature>;
 
     protected async prepareTransaction(
         transaction: Transaction,
         connection: Connection,
-        options: SendOptions = {}
+        options: SendOptions = {},
     ): Promise<Transaction> {
         const publicKey = this.publicKey;
         if (!publicKey) throw new WalletNotConnectedError();

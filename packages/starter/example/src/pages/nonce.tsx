@@ -1,9 +1,9 @@
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Button, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { useWallet } from '@solana/wallet-adapter-react';
 import type { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import React, { useState, useMemo } from 'react';
-import { TestResult } from '../components/SendNonceTx';
+import { TestResult } from '../components/RunNonceTest';
 import { formatNumber } from '../utils/helpers';
 
 const WalletMultiButton = dynamic(
@@ -11,10 +11,14 @@ const WalletMultiButton = dynamic(
     { ssr: false }
 );
 
-const SendNonceTransaction = dynamic(
-    async () => (await import('../components/SendNonceTx')).SendNonceTx,
+const RunNonceTest = dynamic(
+    async () => (await import('../components/RunNonceTest')).RunNonceTest,
     { ssr: false }
 );
+
+const RequestAirdropDynamic = dynamic(async () => (await import('../components/RequestAirdrop')).RequestAirdrop, {
+    ssr: false,
+});
 
 export interface Result {
     id: number;
@@ -26,6 +30,7 @@ const Index: NextPage = () => {
     const { connected } = useWallet();
     const [results, setResults] = useState<Array<Result>>([]);
     const [showAverage, setShowAverage] = useState(false);
+    const [running, setRunning] = useState(false);
 
     const handleLoopComplete = (result: TestResult) => {
         setResults(prevResults => {
@@ -60,12 +65,27 @@ const Index: NextPage = () => {
                         <TableCell width={450} colSpan={2}><WalletMultiButton /></TableCell>
                     </TableRow>
                 </TableHead>
+                {/* Airdrop if Balance = 0 */}
+                <TableRow>
+                    <TableCell width={150}>Airdrop</TableCell>
+                    <TableCell width={450} colSpan={2}><RequestAirdropDynamic /></TableCell>
+                </TableRow>
+                {/* Init Turbo if Balance > 0 &&  */}
+                <TableRow>
+                    <TableCell width={150}>Init Nonce</TableCell>
+                    <TableCell width={450} colSpan={2}><Button >Init Nonce</Button></TableCell>
+                </TableRow>
                 <TableBody>
-                {connected && <TableRow>
+                    {connected && !running && <TableRow>
                         <TableCell width={600} colSpan={3} style={{ textAlign: 'center' }}>
-                             <SendNonceTransaction
+                            <RunNonceTest
+                                onStart={() => setRunning(true)}
                                 onLoopComplete={handleLoopComplete}
-                                onTestComplete={() => setShowAverage(true)}
+                                onTestComplete={() => {
+                                    setShowAverage(true)
+                                    setRunning(false)
+                                }}
+                                running
                             />
                         </TableCell>
                     </TableRow>}

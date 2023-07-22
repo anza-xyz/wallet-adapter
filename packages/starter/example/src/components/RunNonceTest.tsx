@@ -1,9 +1,8 @@
 import { Button } from '@mui/material';
-import { NonceContainer } from '@solana/wallet-adapter-base';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { BlockhashWithExpiryBlockHeight, Transaction, TransactionInstruction, TransactionSignature } from '@solana/web3.js';
-import { PublicKey, TransactionMessage, VersionedTransaction } from '@solana/web3.js';
-import type { FC } from 'react';
+import { Transaction, TransactionInstruction, TransactionSignature } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
+import { FC } from 'react';
 import React, { useCallback } from 'react';
 import { useNotify } from './notify';
 
@@ -22,19 +21,22 @@ export interface TestResult {
 }
 
 interface SendNonceTxProps {
+    onStart: () => void;
     onLoopComplete: (result: TestResult) => void;
     onTestComplete: () => void;
+    running: boolean;
 }
 
-export const SendNonceTx: FC<SendNonceTxProps> = ({ onLoopComplete, onTestComplete }) => {
+export const RunNonceTest: FC<SendNonceTxProps> = ({ onStart, onLoopComplete, onTestComplete, running }) => {
     const { connection } = useConnection();
-    const { publicKey, sendTransaction, wallet, signTransaction } = useWallet();
+    const { publicKey, sendTransaction, wallet, signTransaction, nonceContainer } = useWallet();
     const notify = useNotify();
-
+    let numComplete = 0;
     const supportedTransactionVersions = wallet?.adapter.supportedTransactionVersions;
 
     const onClick = useCallback(async () => {
-        const numTries = 3;
+        const numTries = 5;
+        onStart();
         runTestLoop({
             numTries,
             test: 'Nonce',
@@ -57,7 +59,6 @@ export const SendNonceTx: FC<SendNonceTxProps> = ({ onLoopComplete, onTestComple
 
         for (let i = 0; i < numTries; i++) {
             const startTime = performance.now(); // record start time            
-            const nonceContainer: NonceContainer | undefined = wallet?.adapter.nonceContainer;
             let signature: TransactionSignature | undefined = undefined;
             try {
                 if (!publicKey) throw new Error('Wallet not connected!');
@@ -71,21 +72,12 @@ export const SendNonceTx: FC<SendNonceTxProps> = ({ onLoopComplete, onTestComple
                     programId: new PublicKey('MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr'),
                 });
 
-                if (test === 'Nonce' && nonceContainer) {
-                    transaction.add(nonceContainer.advanceNonce, instruction);
-                    transaction.recentBlockhash = nonceContainer.currentNonce;
-                }
-                else {
-                    transaction.add(instruction);
-                    let blockhashInfo: BlockhashWithExpiryBlockHeight;
-                    blockhashInfo = await connection.getLatestBlockhash();
-                    transaction.recentBlockhash = blockhashInfo.blockhash;
-                }
-
+                const useNonce = test === 'Nonce';
+                console.log("CLIENT NONCE", useNonce)
+                transaction.add(instruction);
                 transaction.feePayer = publicKey;
                 if (!signTransaction) throw new Error('Wallet does not support signing transactions!');
-                const signed = await signTransaction(transaction);
-                signature = await sendTransaction(signed, connection);
+                signature = await sendTransaction(transaction, connection, { useNonce });
                 notify('info', 'Transaction sent:', signature);
 
                 // Using this in lieu of confirmationTransaciton because propogation time is too long
@@ -118,10 +110,13 @@ export const SendNonceTx: FC<SendNonceTxProps> = ({ onLoopComplete, onTestComple
                     const avg = summary.reduce((a, b) => a + b, 0) / summary.length;
                     console.log(`${test} Average`, avg);
                     console.log(`${test} Skipped`, skipped);
-                    onTestComplete();
+
+                    // Wait until both tests finish before calling onTestComplete
+                    numComplete++;
+                    if (numComplete === 2) onTestComplete();
                 }
             }
-            
+
         }
     }, [publicKey, supportedTransactionVersions, connection, sendTransaction, notify]);
 
