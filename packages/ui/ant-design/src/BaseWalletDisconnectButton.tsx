@@ -1,4 +1,4 @@
-import { useWalletDisconnectButton } from '@solana/wallet-adapter-react';
+import { useWalletDisconnectButton } from '@solana/wallet-adapter-base-ui';
 import type { ButtonProps } from 'antd';
 import React from 'react';
 import { BaseWalletConnectionButton } from './BaseWalletConnectionButton.js';

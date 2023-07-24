@@ -1,8 +1,7 @@
-import React from 'react';
-
 import type { ButtonProps } from '@mui/material';
 import { Button } from '@mui/material';
 import type { WalletName } from '@solana/wallet-adapter-base';
+import React from 'react';
 import { WalletIcon } from './WalletIcon.js';
 
 type Props = ButtonProps & {
