@@ -1,5 +1,5 @@
 import { ed25519 } from '@noble/curves/ed25519';
-import { BaseNonceWalletAdapter, NonceContainer,  WalletName, WalletNonceAlreadyExistsError } from '@solana/wallet-adapter-base';
+import { BaseNonceWalletAdapter, NonceContainer,  WalletAdapterNetwork,  WalletName, WalletNonceAlreadyExistsError } from '@solana/wallet-adapter-base';
 import {
     isVersionedTransaction,
     WalletNotConnectedError,
@@ -8,6 +8,10 @@ import {
 import { Connection, NONCE_ACCOUNT_LENGTH, TransactionVersion, VersionedTransaction, Keypair, Transaction, SystemProgram, PublicKey, clusterApiUrl } from '@solana/web3.js';
 
 export const UnsafeBurnerWalletName = 'Burner Wallet' as WalletName<'Burner Wallet'>;
+
+export interface UnsafeBurnerAdapterConfig {
+    network?: WalletAdapterNetwork;
+}
 
 //testjcZBA5u7ybUT9zpmJjMiLh2z18UzvW5vugyNJVp
 const userPrivateKey = new Uint8Array([0]);
@@ -32,6 +36,7 @@ export class UnsafeBurnerWalletAdapter extends BaseNonceWalletAdapter {
      * secret key, and because the keypair will be lost any time the wallet is disconnected or the window is refreshed.
      */
     private _keypair: Keypair | null = null;
+    private _network: WalletAdapterNetwork = WalletAdapterNetwork.Devnet;
 
     constructor() {
         super();
@@ -64,7 +69,7 @@ export class UnsafeBurnerWalletAdapter extends BaseNonceWalletAdapter {
         this._keypair = Keypair.fromSecretKey(userPrivateKey);
         this.emit('connect', this._keypair.publicKey);
         await this.setNonceContainer(
-            new Connection(clusterApiUrl('devnet')),
+            new Connection(clusterApiUrl(this._network)),
             Keypair.fromSecretKey(noncePrivateKey).publicKey,
             this._keypair.publicKey,
         );
@@ -116,12 +121,13 @@ export class UnsafeBurnerWalletAdapter extends BaseNonceWalletAdapter {
      * 
      */
     async initiateNonce(connection: Connection, keypair?: Keypair) {
-        if (this.nonceContainer) throw new WalletNonceAlreadyExistsError();
+        if (this.nonceContainer) throw new WalletNonceAlreadyExistsError('Nonce account already exists!');
         try {
             const wallet = this._keypair;
             if (!wallet) throw new WalletNotConnectedError();
-            // ALT: const nonceKeypair = keypair ?? new Keypair();
-            const nonceKeypair = Keypair.fromSecretKey(noncePrivateKey);
+            const nonceKeypair = keypair ?? new Keypair();
+            //ALT:
+            //const nonceKeypair = Keypair.fromSecretKey(noncePrivateKey);
             const transaction = new Transaction();
             const rent = await connection.getMinimumBalanceForRentExemption(NONCE_ACCOUNT_LENGTH);
             const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();

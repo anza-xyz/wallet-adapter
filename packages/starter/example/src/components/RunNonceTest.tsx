@@ -27,9 +27,9 @@ interface SendNonceTxProps {
     running: boolean;
 }
 
-export const RunNonceTest: FC<SendNonceTxProps> = ({ onStart, onLoopComplete, onTestComplete, running }) => {
+export const RunNonceTest: FC<SendNonceTxProps> = ({ onStart, onLoopComplete, onTestComplete }) => {
     const { connection } = useConnection();
-    const { publicKey, sendTransaction, wallet, signTransaction, nonceContainer } = useWallet();
+    const { publicKey, sendTransaction, wallet, signTransaction } = useWallet();
     const notify = useNotify();
     let numComplete = 0;
     const supportedTransactionVersions = wallet?.adapter.supportedTransactionVersions;

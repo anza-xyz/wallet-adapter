@@ -12,7 +12,7 @@ export interface NonceContainer {
 }
 
 export interface NonceWalletAdapterProps<Name extends string = string> extends WalletAdapterProps<Name> {
-    nonnceContainer?: NonceContainer;
+    nonceContainer: NonceContainer | null;
 }
 
 export type NonceWalletAdapter<Name extends string = string> = WalletAdapter<Name> &

@@ -20,6 +20,10 @@ const RequestAirdropDynamic = dynamic(async () => (await import('../components/R
     ssr: false,
 });
 
+const InitiateNonce = dynamic(async () => (await import('../components/InitiateNonce')).InitiateNonce, {
+    ssr: false,
+});
+
 export interface Result {
     id: number;
     nonceDuration?: number;
@@ -73,7 +77,7 @@ const Index: NextPage = () => {
                 {/* Init Turbo if Balance > 0 &&  */}
                 <TableRow>
                     <TableCell width={150}>Init Nonce</TableCell>
-                    <TableCell width={450} colSpan={2}><Button >Init Nonce</Button></TableCell>
+                    <TableCell width={450} colSpan={2}><InitiateNonce/></TableCell>
                 </TableRow>
                 <TableBody>
                     {connected && !running && <TableRow>
