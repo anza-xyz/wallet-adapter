@@ -13,13 +13,6 @@ export interface UnsafeBurnerAdapterConfig {
     network?: WalletAdapterNetwork;
 }
 
-//testjcZBA5u7ybUT9zpmJjMiLh2z18UzvW5vugyNJVp
-const userPrivateKey = new Uint8Array([0]);
-
-//Non9fKyoGUxkH3mGpR1eGNTpamdRkDctTARYee54CVC
-const noncePrivateKey = new Uint8Array([0]);
-
-
 /**
  * This burner wallet adapter is unsafe to use and is only included to provide an easy way for applications to test
  * Wallet Adapter without using a third-party wallet.
@@ -66,11 +59,11 @@ export class UnsafeBurnerWalletAdapter extends BaseNonceWalletAdapter {
     }
 
     async connect(): Promise<void> {
-        this._keypair = Keypair.fromSecretKey(userPrivateKey);
+        this._keypair = new Keypair();
         this.emit('connect', this._keypair.publicKey);
         await this.setNonceContainer(
             new Connection(clusterApiUrl(this._network)),
-            Keypair.fromSecretKey(noncePrivateKey).publicKey,
+            new Keypair().publicKey,
             this._keypair.publicKey,
         );
     }
@@ -126,8 +119,6 @@ export class UnsafeBurnerWalletAdapter extends BaseNonceWalletAdapter {
             const wallet = this._keypair;
             if (!wallet) throw new WalletNotConnectedError();
             const nonceKeypair = keypair ?? new Keypair();
-            //ALT:
-            //const nonceKeypair = Keypair.fromSecretKey(noncePrivateKey);
             const transaction = new Transaction();
             const rent = await connection.getMinimumBalanceForRentExemption(NONCE_ACCOUNT_LENGTH);
             const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();

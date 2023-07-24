@@ -4,7 +4,8 @@ import { Transaction, TransactionInstruction, TransactionSignature } from '@sola
 import { PublicKey } from '@solana/web3.js';
 import { FC } from 'react';
 import React, { useCallback } from 'react';
-import { useNotify } from './notify';
+import { useNotify } from '../notify';
+import { wait } from '../../utils/helpers';
 
 export type TestType = 'Nonce' | 'Blockhash';
 interface RunTestLoopParams {
@@ -130,6 +131,3 @@ export const RunNonceTest: FC<SendNonceTxProps> = ({ onStart, onLoopComplete, on
         </Button>
     );
 };
-
-
-const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));

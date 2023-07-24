@@ -3,9 +3,13 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { UnsafeBurnerWalletAdapter } from '@solana/wallet-adapter-wallets';
 import type { FC } from 'react';
 import React, { useCallback } from 'react';
-import { useNotify } from './notify';
+import { useNotify } from '../notify';
 
-export const InitiateNonce: FC = () => {
+interface InitiateNonceProps {
+    onInit?: () => void;
+}
+
+export const InitiateNonce: FC<InitiateNonceProps> = ({onInit}) => {
     const { connection } = useConnection();
     const { publicKey, wallet } = useWallet();
     const adapter = wallet?.adapter as UnsafeBurnerWalletAdapter;
@@ -17,6 +21,7 @@ export const InitiateNonce: FC = () => {
             if (!adapter.initiateNonce) throw new Error('Wallet does not support nonce initiation!');
             await adapter.initiateNonce(connection)
             notify('success', 'Nonce account created!');
+            onInit && onInit();
         } catch (error: any) {
             notify('error', `Nonce initiation failed! ${error?.message}`);
         }

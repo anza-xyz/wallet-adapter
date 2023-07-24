@@ -1,28 +1,28 @@
-import { Button, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { useWallet } from '@solana/wallet-adapter-react';
 import type { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import React, { useState, useMemo } from 'react';
-import { TestResult } from '../components/RunNonceTest';
-import { formatNumber } from '../utils/helpers';
+import { TestResult } from '../../components/nonce/RunNonceTest';
+import { formatNumber } from '../../utils/helpers';
 
 const WalletMultiButton = dynamic(
     async () => (await import('@solana/wallet-adapter-react-ui')).WalletMultiButton,
     { ssr: false }
 );
 
+const RequestAirdropDynamic = dynamic(async () => (await import('../../components/RequestAirdrop')).RequestAirdrop, {
+    ssr: false,
+});
+
+const InitiateNonce = dynamic(async () => (await import('../../components/nonce/InitiateNonce')).InitiateNonce, {
+    ssr: false,
+});
+
 const RunNonceTest = dynamic(
-    async () => (await import('../components/RunNonceTest')).RunNonceTest,
+    async () => (await import('../../components/nonce/RunNonceTest')).RunNonceTest,
     { ssr: false }
 );
-
-const RequestAirdropDynamic = dynamic(async () => (await import('../components/RequestAirdrop')).RequestAirdrop, {
-    ssr: false,
-});
-
-const InitiateNonce = dynamic(async () => (await import('../components/InitiateNonce')).InitiateNonce, {
-    ssr: false,
-});
 
 export interface Result {
     id: number;
