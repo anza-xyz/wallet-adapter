@@ -42,7 +42,7 @@ const Index: NextPage = () => {
                     <TableCell width={450} colSpan={2}><InitiateNonce /></TableCell>
                 </TableRow>
                 <TableRow>
-                    <TableCell width={150}>Init Nonce</TableCell>
+                    <TableCell width={150}>Send Tx w/ Nonce</TableCell>
                     <TableCell width={450} colSpan={2}><SendNonceTransaction /></TableCell>
                 </TableRow>
                 </TableBody>
