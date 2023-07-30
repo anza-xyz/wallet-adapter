@@ -17,7 +17,13 @@ Submission to July, 2023 [Encode Solana Hackahton](https://encodeclub.notion.sit
 The Nonce Wallet Adapter interface makes it easy for clients to use durable nonces. This can make transactions faster (consistent 100ms - 200ms savings experienced on Solana Pulbic Devnet) and less likely to fail.
 
 This video shows a simulation of a simple transaction loop on Solana Public Devnet. The transaction on the left uses a nonce (using the Nonce Wallet Adapter), while the transaction on the right uses a recent blockhash. The transactions are simultaneously sent to the network. The transaction on the left is consistently ~200ms faster than the transaction on the left.
-![Test Nonce vs. Blockhash](./public/simulation.mov)
+
+
+
+
+https://github.com/amilz/wallet-adapter/assets/85324096/de0040ce-0a7b-4f76-9d68-46e805c9e609
+
+
 
 
 ### What the Nonce Wallet Adapter? 
@@ -125,7 +131,7 @@ The Nonce Wallet Adapter is optional and does not impact existing dApps.
 - Run `pnpm run dev` to start the example app
 - Navitage to [http://localhost:3000/nonce](http://localhost:3000/nonce)
 
-![Demo Nonce Wallet Adapter](./public/test.mov)
+https://github.com/amilz/wallet-adapter/assets/85324096/3287ac96-4248-454d-afef-ee304887b9f4
 
 ## Additional Resources
 - [Solana Wallet Adapter](https://github.com/solana-labs/wallet-adapter)
