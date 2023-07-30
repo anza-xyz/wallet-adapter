@@ -10,6 +10,8 @@ created: 2023-07-29
 # Nonce Wallet Adapter
 *Nonce to Meet You: Your Wallet's New Best Friend*
 
+Submission to July, 2023 [Encode Solana Hackahton](https://encodeclub.notion.site/Encode-Summer-Hackathon-Sponsored-by-the-Solana-Foundation-Hacker-Pack-6f5e4239fbd54cc5ad423a6b5b854701).
+
 ## Summary
 
 The Nonce Wallet Adapter interface makes it easy for clients to use durable nonces. This can make transactions faster (consistent 100ms - 200ms savings experienced on Solana Pulbic Devnet) and less likely to fail.
