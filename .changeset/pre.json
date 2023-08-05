@@ -61,6 +61,7 @@
     "@solana/wallet-adapter-xdefi": "0.1.6"
   },
   "changesets": [
-    "clean-pandas-share"
+    "clean-pandas-share",
+    "short-shirts-love"
   ]
 }

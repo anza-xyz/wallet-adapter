@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-keystone
 
+## 0.1.12-alpha.3
+
+### Patch Changes
+
+-   55ed3be4: Add Sign in With Solana
+-   Updated dependencies [55ed3be4]
+    -   @solana/wallet-adapter-base@0.9.23-alpha.3
+
 ## 0.1.12-alpha.2
 
 ### Patch Changes

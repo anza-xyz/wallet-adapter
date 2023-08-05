@@ -1,5 +1,57 @@
 # @solana/wallet-adapter-wallets
 
+## 0.19.20-alpha.3
+
+### Patch Changes
+
+-   55ed3be4: Add Sign in With Solana
+-   Updated dependencies [55ed3be4]
+    -   @solana/wallet-adapter-unsafe-burner@0.1.7-alpha.3
+    -   @solana/wallet-adapter-walletconnect@0.1.16-alpha.3
+    -   @solana/wallet-adapter-tokenpocket@0.4.19-alpha.3
+    -   @solana/wallet-adapter-mathwallet@0.9.18-alpha.3
+    -   @solana/wallet-adapter-magiceden@0.1.13-alpha.3
+    -   @solana/wallet-adapter-backpack@0.1.14-alpha.3
+    -   @solana/wallet-adapter-coinbase@0.1.18-alpha.3
+    -   @solana/wallet-adapter-hyperpay@0.1.14-alpha.3
+    -   @solana/wallet-adapter-keystone@0.1.12-alpha.3
+    -   @solana/wallet-adapter-particle@0.1.10-alpha.3
+    -   @solana/wallet-adapter-solflare@0.6.26-alpha.3
+    -   @solana/wallet-adapter-tokenary@0.1.12-alpha.3
+    -   @solana/wallet-adapter-bitkeep@0.3.19-alpha.3
+    -   @solana/wallet-adapter-coinhub@0.3.18-alpha.3
+    -   @solana/wallet-adapter-fractal@0.1.8-alpha.3
+    -   @solana/wallet-adapter-krystal@0.1.12-alpha.3
+    -   @solana/wallet-adapter-nightly@0.1.16-alpha.3
+    -   @solana/wallet-adapter-phantom@0.9.24-alpha.3
+    -   @solana/wallet-adapter-safepal@0.5.18-alpha.3
+    -   @solana/wallet-adapter-bitpie@0.5.18-alpha.3
+    -   @solana/wallet-adapter-blocto@0.5.22-alpha.3
+    -   @solana/wallet-adapter-clover@0.4.19-alpha.3
+    -   @solana/wallet-adapter-coin98@0.5.20-alpha.3
+    -   @solana/wallet-adapter-exodus@0.1.18-alpha.3
+    -   @solana/wallet-adapter-ledger@0.9.25-alpha.3
+    -   @solana/wallet-adapter-salmon@0.1.14-alpha.3
+    -   @solana/wallet-adapter-sollet@0.11.17-alpha.3
+    -   @solana/wallet-adapter-solong@0.9.18-alpha.3
+    -   @solana/wallet-adapter-strike@0.1.13-alpha.3
+    -   @solana/wallet-adapter-alpha@0.1.10-alpha.3
+    -   @solana/wallet-adapter-avana@0.1.13-alpha.3
+    -   @solana/wallet-adapter-brave@0.1.17-alpha.3
+    -   @solana/wallet-adapter-censo@0.1.4-alpha.3
+    -   @solana/wallet-adapter-huobi@0.1.15-alpha.3
+    -   @solana/wallet-adapter-saifu@0.1.15-alpha.3
+    -   @solana/wallet-adapter-slope@0.5.21-alpha.3
+    -   @solana/wallet-adapter-torus@0.11.28-alpha.3
+    -   @solana/wallet-adapter-trust@0.1.13-alpha.3
+    -   @solana/wallet-adapter-xdefi@0.1.7-alpha.3
+    -   @solana/wallet-adapter-glow@0.1.18-alpha.3
+    -   @solana/wallet-adapter-neko@0.2.12-alpha.3
+    -   @solana/wallet-adapter-nufi@0.1.17-alpha.3
+    -   @solana/wallet-adapter-onto@0.1.7-alpha.3
+    -   @solana/wallet-adapter-spot@0.1.15-alpha.3
+    -   @solana/wallet-adapter-sky@0.1.15-alpha.3
+
 ## 0.19.20-alpha.2
 
 ### Patch Changes
