@@ -46,7 +46,7 @@
         "@solana/wallet-adapter-react-ui": "workspace:^",
         "@solana/wallet-adapter-wallets": "workspace:^",
         "@solana/wallet-standard-features": "^1.1.0-alpha.5",
-        "@solana/wallet-standard-util": "^1.1.0-alpha.9",
+        "@solana/wallet-standard-util": "^1.1.0-alpha.10",
         "@solana/web3.js": "^1.77.3",
         "antd": "^4.24.10",
         "bs58": "^4.0.1",
