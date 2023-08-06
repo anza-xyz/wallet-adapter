@@ -1,4 +1,5 @@
 import { Button } from '@mui/material';
+import { ed25519 } from '@noble/curves/ed25519';
 import { useWallet } from '@solana/wallet-adapter-react';
 import bs58 from 'bs58';
 import type { FC } from 'react';
@@ -14,8 +15,13 @@ export const SignMessage: FC = () => {
             if (!publicKey) throw new Error('Wallet not connected!');
             if (!signMessage) throw new Error('Wallet does not support message signing!');
 
-            const message = new TextEncoder().encode('Hello, world!');
+            const message = new TextEncoder().encode(
+                'localhost:3000 wants you to sign in with your Solana account:\n' +
+                    '66xB9m2t999tD3Gpi6a47wvkqhL6tMzWeBChUvFkiFm'
+            );
             const signature = await signMessage(message);
+
+            if (!ed25519.verify(signature, message, publicKey.toBytes())) throw new Error('Message signature invalid!');
 
             notify('success', `Message signature: ${bs58.encode(signature)}`);
         } catch (error: any) {

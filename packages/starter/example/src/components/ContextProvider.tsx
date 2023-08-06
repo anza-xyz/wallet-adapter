@@ -91,7 +91,9 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const autoSignIn = useCallback(async (adapter: Adapter) => {
         if (!('signIn' in adapter)) return true;
 
-        const input: SolanaSignInInput = {};
+        const input: SolanaSignInInput = {
+            statement: 'This is a statement\n\nIt has multiple lines',
+        };
         const output = await adapter.signIn(input);
 
         if (!verifySignIn(input, output)) throw new Error('Sign In verification failed!');

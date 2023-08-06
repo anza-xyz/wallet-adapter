@@ -1,5 +1,7 @@
 import { Button } from '@mui/material';
 import { useWallet } from '@solana/wallet-adapter-react';
+import type { SolanaSignInInput } from '@solana/wallet-standard-features';
+import { verifySignIn } from '@solana/wallet-standard-util';
 import bs58 from 'bs58';
 import type { FC } from 'react';
 import React, { useCallback } from 'react';
@@ -13,9 +15,12 @@ export const SignIn: FC = () => {
         try {
             if (!signIn) throw new Error('Wallet does not support message signing!');
 
-            const { signature } = await signIn();
+            const input: SolanaSignInInput = {};
+            const output = await signIn(input);
 
-            notify('success', `Message signature: ${bs58.encode(signature)}`);
+            if (!verifySignIn(input, output)) throw new Error('Sign In verification failed!');
+
+            notify('success', `Message signature: ${bs58.encode(output.signature)}`);
         } catch (error: any) {
             notify('error', `Sign In failed: ${error?.message}`);
         }
