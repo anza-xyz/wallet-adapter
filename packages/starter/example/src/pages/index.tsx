@@ -70,6 +70,7 @@ const SendV0TransactionDynamic = dynamic(
     async () => (await import('../components/SendV0Transaction')).SendV0Transaction,
     { ssr: false }
 );
+const SignInDynamic = dynamic(async () => (await import('../components/SignIn')).SignIn, { ssr: false });
 const SignMessageDynamic = dynamic(async () => (await import('../components/SignMessage')).SignMessage, { ssr: false });
 const SignTransactionDynamic = dynamic(async () => (await import('../components/SignTransaction')).SignTransaction, {
     ssr: false,
@@ -183,7 +184,9 @@ const Index: NextPage = () => {
                         <TableCell>
                             <SignMessageDynamic />
                         </TableCell>
-                        <TableCell></TableCell>
+                        <TableCell>
+                            <SignInDynamic />
+                        </TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell></TableCell>
