@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-avana
 
+## 0.1.13
+
+### Patch Changes
+
+-   Updated dependencies [a3d35a1]
+    -   @solana/wallet-adapter-base@0.9.23
+
 ## 0.1.12
 
 ### Patch Changes

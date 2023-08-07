@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-torus
 
+## 0.11.28
+
+### Patch Changes
+
+-   Updated dependencies [a3d35a1]
+    -   @solana/wallet-adapter-base@0.9.23
+
 ## 0.11.27
 
 ### Patch Changes
