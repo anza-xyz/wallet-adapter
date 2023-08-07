@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-react
 
+## 0.15.34
+
+### Patch Changes
+
+-   a3d35a1: Add `signIn` (Sign In With Solana) method
+-   Updated dependencies [a3d35a1]
+    -   @solana/wallet-adapter-base@0.9.23
+
 ## 0.15.33
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-censo
 
+## 0.1.4
+
+### Patch Changes
+
+-   Updated dependencies [a3d35a1]
+    -   @solana/wallet-adapter-base@0.9.23
+
 ## 0.1.3
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-base
 
+## 0.9.23
+
+### Patch Changes
+
+-   a3d35a1: Add `signIn` (Sign In With Solana) method
+
 ## 0.9.22
 
 ### Patch Changes

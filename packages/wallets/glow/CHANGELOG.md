@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-glow
 
+## 0.1.18
+
+### Patch Changes
+
+-   Updated dependencies [a3d35a1]
+    -   @solana/wallet-adapter-base@0.9.23
+
 ## 0.1.17
 
 ### Patch Changes
