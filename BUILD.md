@@ -3,7 +3,7 @@
 ### 0. Prerequisites
 
 * Node 16+
-* PNPM
+* PNPM 8
 
 If you have Node 16+, you can [activate PNPM with Corepack](https://pnpm.io/installation#using-corepack):
 ```shell

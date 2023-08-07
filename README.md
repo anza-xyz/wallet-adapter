@@ -1,14 +1,19 @@
 # Wallet Adapter
 
-Modular TypeScript wallet adapters and components for Solana applications.
-
-- [Demo](https://solana-labs.github.io/wallet-adapter/example/)
-- [TypeScript Docs](https://solana-labs.github.io/wallet-adapter/)
-- [For Solana Apps](https://github.com/solana-labs/wallet-adapter/blob/master/APP.md)
-- [For Solana Wallets](https://github.com/solana-labs/wallet-adapter/blob/master/WALLET.md)
-- [Packages](https://github.com/solana-labs/wallet-adapter/blob/master/PACKAGES.md)
-- [FAQ (Frequently Asked Questions)](https://github.com/solana-labs/wallet-adapter/blob/master/FAQ.md)
-- [Build from Source](https://github.com/solana-labs/wallet-adapter/blob/master/BUILD.md)
-
+The wallet adapter allows Solana apps (also called distributed apps or dApps) to work with installed Solana wallet apps (often called 'wallets').
 
 ![Wallets](wallets.png)
+
+[Live Demo](https://solana-labs.github.io/wallet-adapter/example/)
+
+Wallet apps may either:
+
+ - Support the [Wallet Standard](https://github.com/wallet-standard/wallet-standard) - a newer, cross-chain standard that allows any installed wallet app to be discovered and used by Solana apps
+ - Have an individual adapter to take advantage of particular unique features of the wallet app.
+
+See [the packages needed to add Wallet Adapter to your app](./PACKAGES.md) and [instructions for building the packages in this repository](./BUILD.md)
+
+- [For developers building Solana Apps](./APP.md)
+- [For developers building Solana Wallet apps](./WALLET.md)
+- [TypeScript Docs](https://solana-labs.github.io/wallet-adapter/)
+- [FAQ (Frequently Asked Questions)](./FAQ.md)
