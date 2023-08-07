@@ -27,7 +27,7 @@ export const SignIn: FC = () => {
         } catch (error: any) {
             notify('error', `Sign In failed: ${error?.message}`);
         }
-    }, [signIn, notify]);
+    }, [signIn, publicKey, notify]);
 
     return (
         <Button variant="contained" color="secondary" onClick={onClick} disabled={!signIn}>
