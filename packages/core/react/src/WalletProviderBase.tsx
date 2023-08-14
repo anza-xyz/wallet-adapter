@@ -25,6 +25,8 @@ export interface WalletProviderBaseProps {
     onConnectError: () => void;
     onError?: (error: WalletError, adapter?: Adapter) => void;
     onSelectWallet: (walletName: WalletName | null) => void;
+    onConnect?: (publicKey?: PublicKey | null) => void;
+    onDisconnect?: () => void;
 }
 
 export function WalletProviderBase({
@@ -35,6 +37,8 @@ export function WalletProviderBase({
     onAutoConnectRequest,
     onConnectError,
     onError,
+    onConnect,
+    onDisconnect,
     onSelectWallet,
 }: WalletProviderBaseProps) {
     const isConnectingRef = useRef(false);
@@ -129,6 +133,10 @@ export function WalletProviderBase({
             setConnected(true);
             isDisconnectingRef.current = false;
             setDisconnecting(false);
+
+            if (onConnect) {
+                onConnect(publicKey);
+            }
         };
 
         const handleDisconnect = () => {
@@ -267,6 +275,10 @@ export function WalletProviderBase({
         } finally {
             setConnecting(false);
             isConnectingRef.current = false;
+
+            if (onConnect) {
+                onConnect(adapter.publicKey);
+            }
         }
     }, [onConnectError, wallet]);
 
@@ -280,6 +292,10 @@ export function WalletProviderBase({
         } finally {
             setDisconnecting(false);
             isDisconnectingRef.current = false;
+
+            if (onDisconnect) {
+                onDisconnect();
+            }
         }
     }, [adapter]);
 

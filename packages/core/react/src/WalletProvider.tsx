@@ -13,12 +13,15 @@ import getInferredClusterFromEndpoint from './getInferredClusterFromEndpoint.js'
 import { useConnection } from './useConnection.js';
 import { useLocalStorage } from './useLocalStorage.js';
 import { WalletProviderBase } from './WalletProviderBase.js';
+import type { PublicKey } from '@solana/web3.js';
 
 export interface WalletProviderProps {
     children: ReactNode;
     wallets: Adapter[];
     autoConnect?: boolean | ((adapter: Adapter) => Promise<boolean>);
     localStorageKey?: string;
+    onConnect?: (publicKey?: PublicKey | null) => void;
+    onDisconnect?: () => void;
     onError?: (error: WalletError, adapter?: Adapter) => void;
 }
 
@@ -46,6 +49,8 @@ export function WalletProvider({
     wallets: adapters,
     autoConnect,
     localStorageKey = 'walletName',
+    onDisconnect,
+    onConnect,
     onError,
 }: WalletProviderProps) {
     const { connection } = useConnection();
@@ -171,6 +176,8 @@ export function WalletProvider({
             onConnectError={handleConnectError}
             onError={onError}
             onSelectWallet={selectWallet}
+            onConnect={onConnect}
+            onDisconnect={onDisconnect}
         >
             {children}
         </WalletProviderBase>
