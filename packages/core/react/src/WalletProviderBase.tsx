@@ -275,10 +275,6 @@ export function WalletProviderBase({
         } finally {
             setConnecting(false);
             isConnectingRef.current = false;
-
-            if (onConnect) {
-                onConnect(adapter.publicKey);
-            }
         }
     }, [onConnectError, wallet]);
 
