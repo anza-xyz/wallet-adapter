@@ -66,6 +66,7 @@
         "@solana/wallet-adapter-tokenary": "workspace:^",
         "@solana/wallet-adapter-tokenpocket": "workspace:^",
         "@solana/wallet-adapter-torus": "workspace:^",
+        "@solana/wallet-adapter-trezor": "workspace:^",
         "@solana/wallet-adapter-trust": "workspace:^",
         "@solana/wallet-adapter-unsafe-burner": "workspace:^",
         "@solana/wallet-adapter-walletconnect": "workspace:^",

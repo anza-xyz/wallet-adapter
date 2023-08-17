@@ -29,6 +29,7 @@ export * from '@solana/wallet-adapter-spot';
 export * from '@solana/wallet-adapter-tokenary';
 export * from '@solana/wallet-adapter-tokenpocket';
 export * from '@solana/wallet-adapter-torus';
+export * from '@solana/wallet-adapter-trezor';
 export * from '@solana/wallet-adapter-trust';
 export * from '@solana/wallet-adapter-unsafe-burner';
 export * from '@solana/wallet-adapter-walletconnect';
