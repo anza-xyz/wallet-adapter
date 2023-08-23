@@ -1,3 +1,0 @@
-Do not move this directory or the icons within it.
-
-https://github.com/solana-labs/wallet-adapter/issues/74
