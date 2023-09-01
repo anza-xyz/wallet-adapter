@@ -1091,6 +1091,9 @@ importers:
       '@solana/wallet-adapter-base':
         specifier: workspace:^
         version: link:../../core/base
+      '@solflare-wallet/metamask-wallet-standard':
+        specifier: ^1.0.1
+        version: 1.0.1(@solana/web3.js@1.78.0)
       '@solflare-wallet/sdk':
         specifier: ^1.3.0
         version: 1.3.0(@solana/web3.js@1.78.0)
@@ -4324,6 +4327,11 @@ packages:
       read-yaml-file: 1.1.0
     dev: true
 
+  /@metamask/detect-provider@2.0.0:
+    resolution: {integrity: sha512-sFpN+TX13E9fdBDh9lvQeZdJn4qYoRb/6QF2oZZK/Pn559IhCFacPMU1rMuqyXoFQF3JSJfii2l98B87QDPeCQ==}
+    engines: {node: '>=14.0.0'}
+    dev: false
+
   /@metamask/rpc-errors@5.1.1:
     resolution: {integrity: sha512-JjZnDi2y2CfvbohhBl+FOQRzmFlJpybcQlIk37zEX8B96eVSPbH/T8S0p7cSF8IE33IWx6JkD8Ycsd+2TXFxCw==}
     engines: {node: '>=16.0.0'}
@@ -6113,6 +6121,31 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
+
+  /@solflare-wallet/metamask-sdk@1.0.0(@solana/web3.js@1.78.0):
+    resolution: {integrity: sha512-Pn1yceYn5PuH2F6hIk6+8wFxGbIWRYDy7JdM8nx840li8CWHejbplW49kaLLE1oY4jFTjErhg7zZclJ0iyBtfA==}
+    peerDependencies:
+      '@solana/web3.js': '*'
+    dependencies:
+      '@metamask/detect-provider': 2.0.0
+      '@solana/web3.js': 1.78.0
+      bs58: 5.0.0
+      eventemitter3: 5.0.1
+      uuid: 9.0.0
+    dev: false
+
+  /@solflare-wallet/metamask-wallet-standard@1.0.1(@solana/web3.js@1.78.0):
+    resolution: {integrity: sha512-tJosPdGwBfaHoqIsZBOCTyDn/geqs02s2AD4Tbv5XEQBT+LVFDk+L6AwUQzhNpEbZSPIloii8Otr/mI49BJjZQ==}
+    peerDependencies:
+      '@solana/web3.js': '*'
+    dependencies:
+      '@solana/wallet-standard-features': 1.1.0
+      '@solana/web3.js': 1.78.0
+      '@solflare-wallet/metamask-sdk': 1.0.0(@solana/web3.js@1.78.0)
+      '@wallet-standard/base': 1.0.1
+      '@wallet-standard/features': 1.0.3
+      bs58: 5.0.0
+    dev: false
 
   /@solflare-wallet/sdk@1.3.0(@solana/web3.js@1.78.0):
     resolution: {integrity: sha512-wzHJTATtsrvPzhZJG58TkcJmsMZl6yTULnWsw1txuUOWJzol916jUndcvPSlVM3zA/WU/AUk96UCVeFUOq27Nw==}

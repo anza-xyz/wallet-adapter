@@ -22,6 +22,7 @@ import {
 import type { Transaction, TransactionVersion, VersionedTransaction } from '@solana/web3.js';
 import { type Connection, PublicKey, type TransactionSignature } from '@solana/web3.js';
 import type { default as Solflare } from '@solflare-wallet/sdk';
+import { initializeWhenDetected as initializeMetamaskAdapter } from '@solflare-wallet/metamask-wallet-standard';
 
 interface SolflareWindow extends Window {
     solflare?: {
@@ -71,6 +72,8 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
                 return false;
             });
         }
+
+        initializeMetamaskAdapter();
     }
 
     get publicKey() {
