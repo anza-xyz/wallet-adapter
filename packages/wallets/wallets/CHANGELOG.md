@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-wallets
 
+## 0.19.21
+
+### Patch Changes
+
+-   bdc0eff: Remove deprecated wallet adapters that implement the Wallet Standard or are no longer functioning
+
 ## 0.19.20
 
 ### Patch Changes
