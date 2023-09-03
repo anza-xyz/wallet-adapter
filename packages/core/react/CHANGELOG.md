@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-react
 
+## 0.15.35
+
+### Patch Changes
+
+-   bdc0eff: Remove deprecated wallet adapters that implement the Wallet Standard or are no longer functioning
+
 ## 0.15.34
 
 ### Patch Changes
