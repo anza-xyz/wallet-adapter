@@ -1092,8 +1092,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/base
       '@solflare-wallet/metamask-wallet-standard':
-        specifier: ^1.0.3
-        version: 1.0.3(@solana/web3.js@1.78.0)
+        specifier: ^1.0.4
+        version: 1.0.4(@solana/web3.js@1.78.0)
       '@solflare-wallet/sdk':
         specifier: ^1.3.0
         version: 1.3.0(@solana/web3.js@1.78.0)
@@ -6131,8 +6131,8 @@ packages:
       uuid: 9.0.0
     dev: false
 
-  /@solflare-wallet/metamask-wallet-standard@1.0.3(@solana/web3.js@1.78.0):
-    resolution: {integrity: sha512-1xjzu9H5jXZGYWFfBOFSde2cqkdG7L4oJR+8W/7gESLku1NOamJrvfjQGaATe4UbMQJnV8xZRwzIdRLfwCh4lQ==}
+  /@solflare-wallet/metamask-wallet-standard@1.0.4(@solana/web3.js@1.78.0):
+    resolution: {integrity: sha512-RjMJTaNu4H6IthMo8vFD2GTQHz88xIVRXwPT9g7cFCy5vQiLY03HdZwNAlnHNkVIrnlwgxVCvgclgMFOdzWpZw==}
     peerDependencies:
       '@solana/web3.js': '*'
     dependencies:
