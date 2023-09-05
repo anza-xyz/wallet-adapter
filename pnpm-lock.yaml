@@ -1091,9 +1091,9 @@ importers:
       '@solana/wallet-adapter-base':
         specifier: workspace:^
         version: link:../../core/base
-      '@solflare-wallet/metamask-wallet-standard':
-        specifier: ^1.0.4
-        version: 1.0.4(@solana/web3.js@1.78.0)
+      '@solflare-wallet/metamask-sdk':
+        specifier: ^1.0.2
+        version: 1.0.2(@solana/web3.js@1.78.0)
       '@solflare-wallet/sdk':
         specifier: ^1.3.0
         version: 1.3.0(@solana/web3.js@1.78.0)
@@ -6120,28 +6120,17 @@ packages:
       - supports-color
       - utf-8-validate
 
-  /@solflare-wallet/metamask-sdk@1.0.1(@solana/web3.js@1.78.0):
-    resolution: {integrity: sha512-laZrXuq5dSpuqltoSwp0eGbMGJxM/oxnfoWJTx17TUo0QU1dAuyHoWmBTrsZweuxJHeOUP4uPcOZrAFiQFvNwQ==}
-    peerDependencies:
-      '@solana/web3.js': '*'
-    dependencies:
-      '@solana/web3.js': 1.78.0
-      bs58: 5.0.0
-      eventemitter3: 5.0.1
-      uuid: 9.0.0
-    dev: false
-
-  /@solflare-wallet/metamask-wallet-standard@1.0.4(@solana/web3.js@1.78.0):
-    resolution: {integrity: sha512-RjMJTaNu4H6IthMo8vFD2GTQHz88xIVRXwPT9g7cFCy5vQiLY03HdZwNAlnHNkVIrnlwgxVCvgclgMFOdzWpZw==}
+  /@solflare-wallet/metamask-sdk@1.0.2(@solana/web3.js@1.78.0):
+    resolution: {integrity: sha512-IoHz81EfU8x/QlmUlVimt45FTPlqOQzTcVpB4T3h1E/J9jtuywHHsdRAzmjw71phPCp/5fgFIfg+pD48GIqmQA==}
     peerDependencies:
       '@solana/web3.js': '*'
     dependencies:
       '@solana/wallet-standard-features': 1.1.0
       '@solana/web3.js': 1.78.0
-      '@solflare-wallet/metamask-sdk': 1.0.1(@solana/web3.js@1.78.0)
       '@wallet-standard/base': 1.0.1
-      '@wallet-standard/features': 1.0.3
       bs58: 5.0.0
+      eventemitter3: 5.0.1
+      uuid: 9.0.0
     dev: false
 
   /@solflare-wallet/sdk@1.3.0(@solana/web3.js@1.78.0):
