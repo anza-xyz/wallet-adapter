@@ -41,19 +41,10 @@
             "path": "./packages/wallets/avana/tsconfig.json"
         },
         {
-            "path": "./packages/wallets/backpack/tsconfig.json"
-        },
-        {
             "path": "./packages/wallets/bitkeep/tsconfig.json"
         },
         {
             "path": "./packages/wallets/bitpie/tsconfig.json"
-        },
-        {
-            "path": "./packages/wallets/blocto/tsconfig.json"
-        },
-        {
-            "path": "./packages/wallets/brave/tsconfig.json"
         },
         {
             "path": "./packages/wallets/censo/tsconfig.json"
@@ -71,13 +62,7 @@
             "path": "./packages/wallets/coinhub/tsconfig.json"
         },
         {
-            "path": "./packages/wallets/exodus/tsconfig.json"
-        },
-        {
             "path": "./packages/wallets/fractal/tsconfig.json"
-        },
-        {
-            "path": "./packages/wallets/glow/tsconfig.json"
         },
         {
             "path": "./packages/wallets/huobi/tsconfig.json"
@@ -93,9 +78,6 @@
         },
         {
             "path": "./packages/wallets/ledger/tsconfig.json"
-        },
-        {
-            "path": "./packages/wallets/magiceden/tsconfig.json"
         },
         {
             "path": "./packages/wallets/mathwallet/tsconfig.json"
@@ -131,22 +113,13 @@
             "path": "./packages/wallets/sky/tsconfig.json"
         },
         {
-            "path": "./packages/wallets/slope/tsconfig.json"
-        },
-        {
             "path": "./packages/wallets/solflare/tsconfig.json"
-        },
-        {
-            "path": "./packages/wallets/sollet/tsconfig.json"
         },
         {
             "path": "./packages/wallets/solong/tsconfig.json"
         },
         {
             "path": "./packages/wallets/spot/tsconfig.json"
-        },
-        {
-            "path": "./packages/wallets/strike/tsconfig.json"
         },
         {
             "path": "./packages/wallets/tokenary/tsconfig.json"

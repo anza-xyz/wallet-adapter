@@ -638,19 +638,6 @@ importers:
         specifier: ^0.3.4
         version: 0.3.4
 
-  packages/wallets/backpack:
-    dependencies:
-      '@solana/wallet-adapter-base':
-        specifier: workspace:^
-        version: link:../../core/base
-    devDependencies:
-      '@solana/web3.js':
-        specifier: ^1.77.3
-        version: 1.78.0
-      shx:
-        specifier: ^0.3.4
-        version: 0.3.4
-
   packages/wallets/bitkeep:
     dependencies:
       '@solana/wallet-adapter-base':
@@ -665,35 +652,6 @@ importers:
         version: 0.3.4
 
   packages/wallets/bitpie:
-    dependencies:
-      '@solana/wallet-adapter-base':
-        specifier: workspace:^
-        version: link:../../core/base
-    devDependencies:
-      '@solana/web3.js':
-        specifier: ^1.77.3
-        version: 1.78.0
-      shx:
-        specifier: ^0.3.4
-        version: 0.3.4
-
-  packages/wallets/blocto:
-    dependencies:
-      '@blocto/sdk':
-        specifier: ^0.2.22
-        version: 0.2.22(@solana/web3.js@1.78.0)
-      '@solana/wallet-adapter-base':
-        specifier: workspace:^
-        version: link:../../core/base
-    devDependencies:
-      '@solana/web3.js':
-        specifier: ^1.77.3
-        version: 1.78.0
-      shx:
-        specifier: ^0.3.4
-        version: 0.3.4
-
-  packages/wallets/brave:
     dependencies:
       '@solana/wallet-adapter-base':
         specifier: workspace:^
@@ -780,37 +738,11 @@ importers:
         specifier: ^0.3.4
         version: 0.3.4
 
-  packages/wallets/exodus:
-    dependencies:
-      '@solana/wallet-adapter-base':
-        specifier: workspace:^
-        version: link:../../core/base
-    devDependencies:
-      '@solana/web3.js':
-        specifier: ^1.77.3
-        version: 1.78.0
-      shx:
-        specifier: ^0.3.4
-        version: 0.3.4
-
   packages/wallets/fractal:
     dependencies:
       '@fractalwagmi/solana-wallet-adapter':
         specifier: ^0.1.1
         version: 0.1.1(react-dom@18.2.0)(react@18.2.0)
-      '@solana/wallet-adapter-base':
-        specifier: workspace:^
-        version: link:../../core/base
-    devDependencies:
-      '@solana/web3.js':
-        specifier: ^1.77.3
-        version: 1.78.0
-      shx:
-        specifier: ^0.3.4
-        version: 0.3.4
-
-  packages/wallets/glow:
-    dependencies:
       '@solana/wallet-adapter-base':
         specifier: workspace:^
         version: link:../../core/base
@@ -901,19 +833,6 @@ importers:
       '@types/w3c-web-hid':
         specifier: ^1.0.3
         version: 1.0.3
-      shx:
-        specifier: ^0.3.4
-        version: 0.3.4
-
-  packages/wallets/magiceden:
-    dependencies:
-      '@solana/wallet-adapter-base':
-        specifier: workspace:^
-        version: link:../../core/base
-    devDependencies:
-      '@solana/web3.js':
-        specifier: ^1.77.3
-        version: 1.78.0
       shx:
         specifier: ^0.3.4
         version: 0.3.4
@@ -1067,25 +986,6 @@ importers:
         specifier: ^0.3.4
         version: 0.3.4
 
-  packages/wallets/slope:
-    dependencies:
-      '@solana/wallet-adapter-base':
-        specifier: workspace:^
-        version: link:../../core/base
-      bs58:
-        specifier: ^4.0.1
-        version: 4.0.1
-    devDependencies:
-      '@solana/web3.js':
-        specifier: ^1.77.3
-        version: 1.78.0
-      '@types/bs58':
-        specifier: ^4.0.1
-        version: 4.0.1
-      shx:
-        specifier: ^0.3.4
-        version: 0.3.4
-
   packages/wallets/solflare:
     dependencies:
       '@solana/wallet-adapter-base':
@@ -1097,22 +997,6 @@ importers:
       '@solflare-wallet/sdk':
         specifier: ^1.3.0
         version: 1.3.0(@solana/web3.js@1.78.0)
-    devDependencies:
-      '@solana/web3.js':
-        specifier: ^1.77.3
-        version: 1.78.0
-      shx:
-        specifier: ^0.3.4
-        version: 0.3.4
-
-  packages/wallets/sollet:
-    dependencies:
-      '@project-serum/sol-wallet-adapter':
-        specifier: ^0.2.6
-        version: 0.2.6(@solana/web3.js@1.78.0)
-      '@solana/wallet-adapter-base':
-        specifier: workspace:^
-        version: link:../../core/base
     devDependencies:
       '@solana/web3.js':
         specifier: ^1.77.3
@@ -1139,22 +1023,6 @@ importers:
       '@solana/wallet-adapter-base':
         specifier: workspace:^
         version: link:../../core/base
-    devDependencies:
-      '@solana/web3.js':
-        specifier: ^1.77.3
-        version: 1.78.0
-      shx:
-        specifier: ^0.3.4
-        version: 0.3.4
-
-  packages/wallets/strike:
-    dependencies:
-      '@solana/wallet-adapter-base':
-        specifier: workspace:^
-        version: link:../../core/base
-      '@strike-protocols/solana-wallet-adapter':
-        specifier: ^0.1.8
-        version: 0.1.8
     devDependencies:
       '@solana/web3.js':
         specifier: ^1.77.3
@@ -1291,21 +1159,12 @@ importers:
       '@solana/wallet-adapter-avana':
         specifier: workspace:^
         version: link:../avana
-      '@solana/wallet-adapter-backpack':
-        specifier: workspace:^
-        version: link:../backpack
       '@solana/wallet-adapter-bitkeep':
         specifier: workspace:^
         version: link:../bitkeep
       '@solana/wallet-adapter-bitpie':
         specifier: workspace:^
         version: link:../bitpie
-      '@solana/wallet-adapter-blocto':
-        specifier: workspace:^
-        version: link:../blocto
-      '@solana/wallet-adapter-brave':
-        specifier: workspace:^
-        version: link:../brave
       '@solana/wallet-adapter-censo':
         specifier: workspace:^
         version: link:../censo
@@ -1321,15 +1180,9 @@ importers:
       '@solana/wallet-adapter-coinhub':
         specifier: workspace:^
         version: link:../coinhub
-      '@solana/wallet-adapter-exodus':
-        specifier: workspace:^
-        version: link:../exodus
       '@solana/wallet-adapter-fractal':
         specifier: workspace:^
         version: link:../fractal
-      '@solana/wallet-adapter-glow':
-        specifier: workspace:^
-        version: link:../glow
       '@solana/wallet-adapter-huobi':
         specifier: workspace:^
         version: link:../huobi
@@ -1345,9 +1198,6 @@ importers:
       '@solana/wallet-adapter-ledger':
         specifier: workspace:^
         version: link:../ledger
-      '@solana/wallet-adapter-magiceden':
-        specifier: workspace:^
-        version: link:../magiceden
       '@solana/wallet-adapter-mathwallet':
         specifier: workspace:^
         version: link:../mathwallet
@@ -1381,24 +1231,15 @@ importers:
       '@solana/wallet-adapter-sky':
         specifier: workspace:^
         version: link:../sky
-      '@solana/wallet-adapter-slope':
-        specifier: workspace:^
-        version: link:../slope
       '@solana/wallet-adapter-solflare':
         specifier: workspace:^
         version: link:../solflare
-      '@solana/wallet-adapter-sollet':
-        specifier: workspace:^
-        version: link:../sollet
       '@solana/wallet-adapter-solong':
         specifier: workspace:^
         version: link:../solong
       '@solana/wallet-adapter-spot':
         specifier: workspace:^
         version: link:../spot
-      '@solana/wallet-adapter-strike':
-        specifier: workspace:^
-        version: link:../strike
       '@solana/wallet-adapter-tokenary':
         specifier: workspace:^
         version: link:../tokenary
@@ -3029,22 +2870,6 @@ packages:
   /@bcoe/v8-coverage@0.2.3:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
 
-  /@blocto/sdk@0.2.22(@solana/web3.js@1.78.0):
-    resolution: {integrity: sha512-Ro1AiISSlOiri/It932NEFxnDuF83Ide+z0p3KHs5+CdYYLYgCMmyroQnfRtoh3mbXdrTvI+EAuSkr+meWNqrg==}
-    peerDependencies:
-      '@solana/web3.js': ^1.30.2
-    dependencies:
-      '@solana/web3.js': 1.78.0
-      bs58: 4.0.1
-      buffer: 6.0.3
-      eip1193-provider: 1.0.1
-      js-sha3: 0.8.0
-    transitivePeerDependencies:
-      - bufferutil
-      - debug
-      - utf-8-validate
-    dev: false
-
   /@censo-custody/solana-wallet-adapter@0.1.0:
     resolution: {integrity: sha512-iM1jFVzBMfk7iokgUVfA2xvGUegixklUISgMARa/VA2mFIjoi32t4xmD8PtWHht81fmg107aYhLnTV1cM7NkAg==}
     dependencies:
@@ -4139,35 +3964,6 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.0
       '@jridgewell/sourcemap-codec': 1.4.14
-
-  /@json-rpc-tools/provider@1.7.6:
-    resolution: {integrity: sha512-z7D3xvJ33UfCGv77n40lbzOYjZKVM3k2+5cV7xS8G6SCvKTzMkhkUYuD/qzQUNT4cG/lv0e9mRToweEEVLVVmA==}
-    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
-    dependencies:
-      '@json-rpc-tools/utils': 1.7.6
-      axios: 0.21.4
-      safe-json-utils: 1.1.1
-      ws: 7.5.9
-    transitivePeerDependencies:
-      - bufferutil
-      - debug
-      - utf-8-validate
-    dev: false
-
-  /@json-rpc-tools/types@1.7.6:
-    resolution: {integrity: sha512-nDSqmyRNEqEK9TZHtM15uNnDljczhCUdBmRhpNZ95bIPKEDQ+nTDmGMFd2lLin3upc5h2VVVd9tkTDdbXUhDIQ==}
-    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
-    dependencies:
-      keyvaluestorage-interface: 1.0.0
-    dev: false
-
-  /@json-rpc-tools/utils@1.7.6:
-    resolution: {integrity: sha512-HjA8x/U/Q78HRRe19yh8HVKoZ+Iaoo3YZjakJYxR+rw52NHo6jM+VE9b8+7ygkCFXl/EHID5wh/MkXaE/jGyYw==}
-    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
-    dependencies:
-      '@json-rpc-tools/types': 1.7.6
-      '@pedrouid/environment': 1.0.1
-    dev: false
 
   /@keystonehq/bc-ur-registry-sol@0.3.1:
     resolution: {integrity: sha512-Okr5hwPxBZxB4EKLK1GSC9vsrh/tFMQ5dvs3EQ9NCOmCn7CXdXIMSeafrpGCHk484Jf5c6X0Wq0yf0VqY2A/8Q==}
@@ -5558,10 +5354,6 @@ packages:
       bs58: 4.0.1
     dev: false
 
-  /@pedrouid/environment@1.0.1:
-    resolution: {integrity: sha512-HaW78NszGzRZd9SeoI3JD11JqY+lubnaOx7Pewj5pfjqWXOEATpeKIFb9Z4t2WBUK2iryiXX3lzWwmYWgUL0Ug==}
-    dev: false
-
   /@pmmmwh/react-refresh-webpack-plugin@0.5.10(react-refresh@0.11.0)(webpack-dev-server@4.15.1)(webpack@5.88.2):
     resolution: {integrity: sha512-j0Ya0hCFZPd4x40qLzbhGsh9TMtdb+CJQiso+WxLOPNasohq9cc5SNUcwsZaRH6++Xh91Xkm/xHCkuIiIu0LUA==}
     engines: {node: '>= 10.13'}
@@ -6258,20 +6050,6 @@ packages:
       '@stablelib/keyagreement': 1.0.1
       '@stablelib/random': 1.0.2
       '@stablelib/wipe': 1.0.1
-    dev: false
-
-  /@strike-protocols/solana-wallet-adapter@0.1.8:
-    resolution: {integrity: sha512-8gZAfjkoFgwf5fLFzrVuE2MtxAc7Pc0loBgi0zfcb3ijOy/FEpm5RJKLruKOhcThS6CHrfFxDU80AsZe+msObw==}
-    dependencies:
-      '@solana/web3.js': 1.78.0
-      bs58: 4.0.1
-      eventemitter3: 4.0.7
-      uuid: 8.3.2
-    transitivePeerDependencies:
-      - bufferutil
-      - encoding
-      - supports-color
-      - utf-8-validate
     dev: false
 
   /@surma/rollup-plugin-off-main-thread@2.2.3:
@@ -8112,14 +7890,6 @@ packages:
     resolution: {integrity: sha512-zIURGIS1E1Q4pcrMjp+nnEh+16G56eG/MUllJH8yEvw7asDo7Ac9uhC9KIH5jzpITueEZolfYglnCGIuSBz39g==}
     engines: {node: '>=4'}
 
-  /axios@0.21.4:
-    resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
-    dependencies:
-      follow-redirects: 1.15.2
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
   /axobject-query@3.2.1:
     resolution: {integrity: sha512-jsyHu61e6N4Vbz/v18DHwWYKK0bSWLqn47eeDSKPB7m8tqMHF9YJ+mhIk2lVteyZrY8tnSj/jHOv4YiTCuCJgg==}
     dependencies:
@@ -9879,17 +9649,6 @@ packages:
 
   /ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
-    dev: false
-
-  /eip1193-provider@1.0.1:
-    resolution: {integrity: sha512-kSuqwQ26d7CzuS/t3yRXo2Su2cVH0QfvyKbr2H7Be7O5YDyIq4hQGCNTo5wRdP07bt+E2R/8nPCzey4ojBHf7g==}
-    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
-    dependencies:
-      '@json-rpc-tools/provider': 1.7.6
-    transitivePeerDependencies:
-      - bufferutil
-      - debug
-      - utf-8-validate
     dev: false
 
   /ejs@3.1.9:
@@ -13110,10 +12869,6 @@ packages:
 
   /js-base64@3.7.5:
     resolution: {integrity: sha512-3MEt5DTINKqfScXKfJFrRbxkrnk2AxPWGBL/ycjz4dK8iqiSJ06UxD8jh8xuh6p10TX4t2+7FsBYVxxQbMg+qA==}
-    dev: false
-
-  /js-sha3@0.8.0:
-    resolution: {integrity: sha512-gF1cRrHhIzNfToc802P800N8PpXS+evLLXfsVpowqmAFR9uwbi89WvXg2QspOmXL8QL86J4T1EpFu+yUkwJY3Q==}
     dev: false
 
   /js-tokens@4.0.0:
