@@ -1,50 +1,59 @@
-import type { WindowWithEthereum, EthereumProvider } from '@solflare-wallet/metamask-sdk';
+import type { EthereumProvider, WindowWithEthereum } from '@solflare-wallet/metamask-sdk';
+import { registerWallet } from '@wallet-standard/wallet';
+import { SolflareMetaMaskWallet } from './wallet.js';
 
-export async function isSnapSupported(provider: EthereumProvider) {
+let stopPolling = false;
+
+/** @internal */
+export function detectAndRegisterSolflareMetaMaskWallet(): boolean {
+    // If detected, stop polling.
+    if (stopPolling) return true;
+    (async function () {
+        try {
+            // Try to detect, stop polling if detected, and register the wallet.
+            if (await isSnapProviderDetected()) {
+                stopPolling = true;
+                registerWallet(new SolflareMetaMaskWallet());
+            }
+        } catch (error) {
+            // Stop polling on unhandled errors (this should never happen).
+            stopPolling = true;
+        }
+    })();
+    // Keep polling.
+    return false;
+}
+
+async function isSnapProviderDetected(): Promise<boolean> {
     try {
-        await provider.request({ method: 'wallet_getSnaps' });
-        return true;
+        const provider = (window as WindowWithEthereum).ethereum;
+        if (!provider) return false;
+
+        const providerProviders = provider.providers;
+        if (providerProviders && Array.isArray(providerProviders)) {
+            for (const provider of providerProviders) {
+                if (await isSnapSupported(provider)) return true;
+            }
+        }
+
+        const providerDetected = provider.detected;
+        if (providerDetected && Array.isArray(providerDetected)) {
+            for (const provider of providerDetected) {
+                if (await isSnapSupported(provider)) return true;
+            }
+        }
+
+        return await isSnapSupported(provider);
     } catch (error) {
         return false;
     }
 }
 
-export async function detectEthereumProvider() {
+async function isSnapSupported(provider: EthereumProvider): Promise<boolean> {
     try {
-        // @ts-ignore
-        const provider = (window as WindowWithEthereum).ethereum;
-
-        if (!provider) {
-            return null;
-        }
-
-        if (provider.providers && Array.isArray(provider.providers)) {
-            const providers = provider.providers;
-
-            for (const provider of providers) {
-                if (await isSnapSupported(provider)) {
-                    return provider;
-                }
-            }
-        }
-
-        if (provider.detected && Array.isArray(provider.detected)) {
-            const providers = provider.detected;
-
-            for (const provider of providers) {
-                if (await isSnapSupported(provider)) {
-                    return provider;
-                }
-            }
-        }
-
-        if (await isSnapSupported(provider)) {
-            return provider;
-        }
-
-        return null;
+        await provider.request({ method: 'wallet_getSnaps' });
+        return true;
     } catch (error) {
-        console.error(error);
-        return null;
+        return false;
     }
 }

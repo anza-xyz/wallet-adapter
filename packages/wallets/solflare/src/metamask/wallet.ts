@@ -1,3 +1,5 @@
+import { WalletNotConnectedError } from '@solana/wallet-adapter-base';
+import { SOLANA_CHAINS } from '@solana/wallet-standard-chains';
 import {
     SolanaSignAndSendTransaction,
     type SolanaSignAndSendTransactionFeature,
@@ -9,6 +11,7 @@ import {
     type SolanaSignTransactionFeature,
     type SolanaSignTransactionMethod,
 } from '@solana/wallet-standard-features';
+import type { default as SolflareMetaMask } from '@solflare-wallet/metamask-sdk';
 import type { Wallet } from '@wallet-standard/base';
 import {
     StandardConnect,
@@ -18,29 +21,20 @@ import {
     type StandardDisconnectFeature,
     type StandardDisconnectMethod,
     StandardEvents,
+    type StandardEventsChangeProperties,
     type StandardEventsFeature,
     type StandardEventsListeners,
     type StandardEventsNames,
     type StandardEventsOnMethod,
 } from '@wallet-standard/features';
 import { icon } from './icon.js';
-import type { default as SolflareMetaMask, SolflareMetaMaskConfig } from '@solflare-wallet/metamask-sdk';
-
-export const SolflareMetaMaskNamespace = 'solflareMetaMask:';
-
-export type SolflareMetaMaskFeature = {
-    [SolflareMetaMaskNamespace]: {
-        solflareMetaMask: SolflareMetaMask | null;
-    };
-};
 
 export class SolflareMetaMaskWallet implements Wallet {
     readonly #listeners: { [E in StandardEventsNames]?: StandardEventsListeners[E][] } = {};
     readonly #version = '1.0.0' as const;
     readonly #name = 'MetaMask' as const;
     readonly #icon = icon;
-    #instance: SolflareMetaMask | null = null;
-    readonly #config: SolflareMetaMaskConfig = {};
+    #solflareMetaMask: SolflareMetaMask | null = null;
 
     get version() {
         return this.#version;
@@ -55,7 +49,7 @@ export class SolflareMetaMaskWallet implements Wallet {
     }
 
     get chains() {
-        return ['solana:mainnet', 'solana:devnet', 'solana:testnet', 'solana:localnet'] as const;
+        return SOLANA_CHAINS.slice();
     }
 
     get features(): StandardConnectFeature &
@@ -63,8 +57,7 @@ export class SolflareMetaMaskWallet implements Wallet {
         StandardEventsFeature &
         SolanaSignAndSendTransactionFeature &
         SolanaSignTransactionFeature &
-        SolanaSignMessageFeature &
-        SolflareMetaMaskFeature {
+        SolanaSignMessageFeature {
         return {
             [StandardConnect]: {
                 version: '1.0.0',
@@ -92,18 +85,11 @@ export class SolflareMetaMaskWallet implements Wallet {
                 version: '1.0.0',
                 signMessage: this.#signMessage,
             },
-            [SolflareMetaMaskNamespace]: {
-                solflareMetaMask: this.#instance,
-            },
         };
     }
 
     get accounts() {
-        return this.#instance ? this.#instance.standardAccounts : [];
-    }
-
-    constructor(config?: SolflareMetaMaskConfig) {
-        this.#config = config || {};
+        return this.#solflareMetaMask ? this.#solflareMetaMask.standardAccounts : [];
     }
 
     #on: StandardEventsOnMethod = (event, listener) => {
@@ -121,43 +107,43 @@ export class SolflareMetaMaskWallet implements Wallet {
     }
 
     #connect: StandardConnectMethod = async () => {
-        if (!this.#instance) {
-            let SDK: typeof SolflareMetaMask;
+        if (!this.#solflareMetaMask) {
+            let SolflareMetaMaskClass: typeof SolflareMetaMask;
             try {
-                SDK = (await import('@solflare-wallet/metamask-sdk')).default;
+                SolflareMetaMaskClass = (await import('@solflare-wallet/metamask-sdk')).default;
             } catch (error: any) {
                 throw new Error('Unable to load Solflare MetaMask SDK');
             }
-
-            this.#instance = new SDK(this.#config);
-
-            this.#instance.on('standard_change', (data) => this.#emit('change', data));
+            this.#solflareMetaMask = new SolflareMetaMaskClass();
+            this.#solflareMetaMask.on('standard_change', (properties: StandardEventsChangeProperties) =>
+                this.#emit('change', properties)
+            );
         }
 
         if (!this.accounts.length) {
-            await this.#instance.connect();
+            await this.#solflareMetaMask.connect();
         }
 
         return { accounts: this.accounts };
     };
 
     #disconnect: StandardDisconnectMethod = async () => {
-        if (!this.#instance) return;
-        await this.#instance.disconnect();
+        if (!this.#solflareMetaMask) return;
+        await this.#solflareMetaMask.disconnect();
     };
 
     #signAndSendTransaction: SolanaSignAndSendTransactionMethod = async (...inputs) => {
-        if (!this.#instance) throw new Error('not connected');
-        return await this.#instance.standardSignAndSendTransaction(...inputs);
+        if (!this.#solflareMetaMask) throw new WalletNotConnectedError();
+        return await this.#solflareMetaMask.standardSignAndSendTransaction(...inputs);
     };
 
     #signTransaction: SolanaSignTransactionMethod = async (...inputs) => {
-        if (!this.#instance) throw new Error('not connected');
-        return await this.#instance.standardSignTransaction(...inputs);
+        if (!this.#solflareMetaMask) throw new WalletNotConnectedError();
+        return await this.#solflareMetaMask.standardSignTransaction(...inputs);
     };
 
     #signMessage: SolanaSignMessageMethod = async (...inputs) => {
-        if (!this.#instance) throw new Error('not connected');
-        return await this.#instance.standardSignMessage(...inputs);
+        if (!this.#solflareMetaMask) throw new WalletNotConnectedError();
+        return await this.#solflareMetaMask.standardSignMessage(...inputs);
     };
 }
