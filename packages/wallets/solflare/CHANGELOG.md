@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-solflare
 
+## 0.6.27
+
+### Patch Changes
+
+-   a4566f89: Add Solflare MetaMask Snap support
+
 ## 0.6.26
 
 ### Patch Changes
