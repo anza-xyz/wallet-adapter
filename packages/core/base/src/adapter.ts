@@ -137,10 +137,17 @@ export function scopePollingDetectionStrategy(detect: () => boolean): void {
         }
     }
 
-    // Strategy #1: Try detecting every second.
+    // Strategy #1: Try detecting every second for a fixed number of times.
+    let intervalAttempts = 5;
     const interval =
         // TODO: #334 Replace with idle callback strategy.
-        setInterval(detectAndDispose, 1000);
+        setInterval(function () {
+            detectAndDispose();
+            intervalAttempts--;
+            if (intervalAttempts <= 0) {
+                clearInterval(interval);
+            }
+        }, 1000);
     disposers.push(() => clearInterval(interval));
 
     // Strategy #2: Detect as soon as the DOM becomes 'ready'/'interactive'.
