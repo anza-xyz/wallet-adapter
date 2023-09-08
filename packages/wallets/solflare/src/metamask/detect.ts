@@ -3,19 +3,17 @@ import { registerWallet } from '@wallet-standard/wallet';
 import { SolflareMetaMaskWallet } from './wallet.js';
 
 let stopPolling = false;
-let registered = false;
 
 /** @internal */
 export function detectAndRegisterSolflareMetaMaskWallet(): boolean {
     // If detected, stop polling.
-    if (stopPolling || registered) return true;
+    if (stopPolling) return true;
     (async function () {
         try {
             // Try to detect, stop polling if detected, and register the wallet.
             if (await isSnapProviderDetected()) {
-                stopPolling = true;
-                if (!registered) {
-                    registered = true;
+                if (!stopPolling) {
+                    stopPolling = true;
                     registerWallet(new SolflareMetaMaskWallet());
                 }
             }
