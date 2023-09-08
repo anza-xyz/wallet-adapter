@@ -1,5 +1,5 @@
 import { WalletNotConnectedError } from '@solana/wallet-adapter-base';
-import { SOLANA_CHAINS } from '@solana/wallet-standard-chains';
+import { SOLANA_DEVNET_CHAIN, SOLANA_MAINNET_CHAIN, SOLANA_TESTNET_CHAIN } from '@solana/wallet-standard-chains';
 import {
     SolanaSignAndSendTransaction,
     type SolanaSignAndSendTransactionFeature,
@@ -49,7 +49,7 @@ export class SolflareMetaMaskWallet implements Wallet {
     }
 
     get chains() {
-        return SOLANA_CHAINS.slice();
+        return [SOLANA_MAINNET_CHAIN, SOLANA_DEVNET_CHAIN, SOLANA_TESTNET_CHAIN] as const;
     }
 
     get features(): StandardConnectFeature &
