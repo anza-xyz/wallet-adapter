@@ -738,6 +738,25 @@ importers:
         specifier: ^0.3.4
         version: 0.3.4
 
+  packages/wallets/fordefi:
+    dependencies:
+      '@solana/wallet-adapter-base':
+        specifier: workspace:^
+        version: link:../../core/base
+      '@solana/wallet-standard-chains':
+        specifier: ^1.1.0
+        version: 1.1.0
+      '@wallet-standard/wallet':
+        specifier: ^1.0.1
+        version: 1.0.1
+    devDependencies:
+      '@solana/web3.js':
+        specifier: ^1.77.3
+        version: 1.78.0
+      shx:
+        specifier: ^0.3.4
+        version: 0.3.4
+
   packages/wallets/fractal:
     dependencies:
       '@fractalwagmi/solana-wallet-adapter':
@@ -1186,6 +1205,9 @@ importers:
       '@solana/wallet-adapter-coinhub':
         specifier: workspace:^
         version: link:../coinhub
+      '@solana/wallet-adapter-fordefi':
+        specifier: workspace:^
+        version: link:../fordefi
       '@solana/wallet-adapter-fractal':
         specifier: workspace:^
         version: link:../fractal

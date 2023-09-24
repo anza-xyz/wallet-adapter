@@ -62,6 +62,9 @@
             "path": "./packages/wallets/coinhub/tsconfig.json"
         },
         {
+            "path": "./packages/wallets/fordefi/tsconfig.json"
+        },
+        {
             "path": "./packages/wallets/fractal/tsconfig.json"
         },
         {
