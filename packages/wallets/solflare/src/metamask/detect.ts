@@ -1,6 +1,8 @@
-import type { EthereumProvider, WindowWithEthereum } from '@solflare-wallet/metamask-sdk';
+import type { MetaMaskInpageProvider } from '@metamask/providers';
 import { registerWallet } from '@wallet-standard/wallet';
 import { SolflareMetaMaskWallet } from './wallet.js';
+
+let providerInstance: MetaMaskInpageProvider | null = null;
 
 let stopPolling = false;
 
@@ -11,7 +13,7 @@ export function detectAndRegisterSolflareMetaMaskWallet(): boolean {
     (async function () {
         try {
             // Try to detect, stop polling if detected, and register the wallet.
-            if (await isSnapProviderDetected()) {
+            if (await isSnapSupported()) {
                 if (!stopPolling) {
                     stopPolling = true;
                     registerWallet(new SolflareMetaMaskWallet());
@@ -26,35 +28,36 @@ export function detectAndRegisterSolflareMetaMaskWallet(): boolean {
     return false;
 }
 
-async function isSnapProviderDetected(): Promise<boolean> {
-    try {
-        const provider = (window as WindowWithEthereum).ethereum;
-        if (!provider) return false;
-
-        const providerProviders = provider.providers;
-        if (providerProviders && Array.isArray(providerProviders)) {
-            for (const provider of providerProviders) {
-                if (await isSnapSupported(provider)) return true;
-            }
-        }
-
-        const providerDetected = provider.detected;
-        if (providerDetected && Array.isArray(providerDetected)) {
-            for (const provider of providerDetected) {
-                if (await isSnapSupported(provider)) return true;
-            }
-        }
-
-        return await isSnapSupported(provider);
-    } catch (error) {
-        return false;
+async function getMetamaskProvider(): Promise<MetaMaskInpageProvider> {
+    if (providerInstance) {
+        return providerInstance;
     }
+
+    const { WindowPostMessageStream } = await import('./WindowPostMessageStream.js');
+    const { MetaMaskInpageProvider } = await import('@metamask/providers');
+
+    const metamaskStream = new WindowPostMessageStream({
+        name: 'metamask-inpage',
+        target: 'metamask-contentscript',
+    }) as any;
+
+    providerInstance = new MetaMaskInpageProvider(metamaskStream, {
+        shouldSendMetadata: false,
+    });
+
+    return providerInstance;
 }
 
-async function isSnapSupported(provider: EthereumProvider): Promise<boolean> {
+async function isSnapSupported(): Promise<boolean> {
     try {
-        await provider.request({ method: 'wallet_getSnaps' });
-        return true;
+        const provider = await getMetamaskProvider();
+
+        const snaps = await Promise.race([
+            provider.request({ method: 'wallet_getSnaps' }),
+            new Promise((resolve, reject) => setTimeout(() => reject('MetaMask provider not found'), 1000)),
+        ]);
+
+        return typeof snaps === 'object';
     } catch (error) {
         return false;
     }
