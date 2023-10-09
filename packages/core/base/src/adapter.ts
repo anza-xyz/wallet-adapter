@@ -1,19 +1,28 @@
-import type { Connection, PublicKey, SendOptions, Signer, Transaction, TransactionSignature } from '@solana/web3.js';
 import EventEmitter from 'eventemitter3';
-import { type WalletError, WalletNotConnectedError } from './errors.js';
-import type { SupportedTransactionVersions, TransactionOrVersionedTransaction } from './transaction.js';
+import { type WalletError } from './errors.js';
+import type { SupportedTransactionVersions } from './transaction.js';
+import type { createSolanaRpc, Base58EncodedAddress, Transaction, TransactionSignature } from 'web3js-experimental';
+
+export type SolanaRpc = ReturnType<typeof createSolanaRpc>;
+
+type Commitment = 'confirmed' | 'finalized' | 'processed';
+type Slot = bigint;
 
 export { EventEmitter };
 
 export interface WalletAdapterEvents {
-    connect(publicKey: PublicKey): void;
+    connect(address: Base58EncodedAddress): void;
     disconnect(): void;
     error(error: WalletError): void;
     readyStateChange(readyState: WalletReadyState): void;
 }
 
-export interface SendTransactionOptions extends SendOptions {
-    signers?: Signer[];
+export interface SendTransactionOptions {
+    skipPreflight?: boolean;
+    preflightCommitment?: Commitment;
+    maxRetries?: bigint;
+    minContextSlot?: Slot;
+    // For now I've removed `signers`. The transaction must be signed by all signers except the wallet before being sent
 }
 
 // WalletName is a nominal type that wallet adapters should use, e.g. `'MyCryptoWallet' as WalletName<'MyCryptoWallet'>`
@@ -25,7 +34,7 @@ export interface WalletAdapterProps<Name extends string = string> {
     url: string;
     icon: string;
     readyState: WalletReadyState;
-    publicKey: PublicKey | null;
+    publicKey: Base58EncodedAddress | null;
     connecting: boolean;
     connected: boolean;
     supportedTransactionVersions?: SupportedTransactionVersions;
@@ -34,8 +43,8 @@ export interface WalletAdapterProps<Name extends string = string> {
     connect(): Promise<void>;
     disconnect(): Promise<void>;
     sendTransaction(
-        transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
-        connection: Connection,
+        transaction: Transaction,
+        rpc: SolanaRpc,
         options?: SendTransactionOptions
     ): Promise<TransactionSignature>;
 }
@@ -79,7 +88,7 @@ export abstract class BaseWalletAdapter<Name extends string = string>
     abstract url: string;
     abstract icon: string;
     abstract readyState: WalletReadyState;
-    abstract publicKey: PublicKey | null;
+    abstract publicKey: Base58EncodedAddress | null;
     abstract connecting: boolean;
     abstract supportedTransactionVersions?: SupportedTransactionVersions;
 
@@ -95,31 +104,10 @@ export abstract class BaseWalletAdapter<Name extends string = string>
     abstract disconnect(): Promise<void>;
 
     abstract sendTransaction(
-        transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
-        connection: Connection,
+        transaction: Transaction,
+        rpc: SolanaRpc,
         options?: SendTransactionOptions
     ): Promise<TransactionSignature>;
-
-    protected async prepareTransaction(
-        transaction: Transaction,
-        connection: Connection,
-        options: SendOptions = {}
-    ): Promise<Transaction> {
-        const publicKey = this.publicKey;
-        if (!publicKey) throw new WalletNotConnectedError();
-
-        transaction.feePayer = transaction.feePayer || publicKey;
-        transaction.recentBlockhash =
-            transaction.recentBlockhash ||
-            (
-                await connection.getLatestBlockhash({
-                    commitment: options.preflightCommitment,
-                    minContextSlot: options.minContextSlot,
-                })
-            ).blockhash;
-
-        return transaction;
-    }
 }
 
 export function scopePollingDetectionStrategy(detect: () => boolean): void {

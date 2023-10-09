@@ -1,6 +1,6 @@
 {
-    "name": "@solana/wallet-adapter-base",
-    "version": "0.9.23",
+    "name": "@mcintyre94/wallet-adapter-base",
+    "version": "1.0.0-development",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",
     "license": "Apache-2.0",
@@ -32,7 +32,7 @@
         "package": "shx mkdir -p lib/cjs && shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.77.3"
+        "web3js-experimental": "npm:@solana/web3.js@experimental"
     },
     "dependencies": {
         "@solana/wallet-standard-features": "^1.1.0",
@@ -41,7 +41,7 @@
         "eventemitter3": "^4.0.7"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.77.3",
+        "web3js-experimental": "npm:@solana/web3.js@experimental",
         "@types/node-fetch": "^2.6.4",
         "shx": "^0.3.4"
     }
