@@ -29,12 +29,12 @@ export function detectAndRegisterSolflareMetaMaskWallet(): boolean {
 }
 
 async function getMetamaskProvider(): Promise<MetaMaskInpageProvider> {
+    const { WindowPostMessageStream } = await import('./WindowPostMessageStream.js');
+    const { MetaMaskInpageProvider } = await import('@metamask/providers');
+
     if (providerInstance) {
         return providerInstance;
     }
-
-    const { WindowPostMessageStream } = await import('./WindowPostMessageStream.js');
-    const { MetaMaskInpageProvider } = await import('@metamask/providers');
 
     const metamaskStream = new WindowPostMessageStream({
         name: 'metamask-inpage',
