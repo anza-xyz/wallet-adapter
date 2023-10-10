@@ -1,61 +1,52 @@
-import type { EthereumProvider, WindowWithEthereum } from '@solflare-wallet/metamask-sdk';
 import { registerWallet } from '@wallet-standard/wallet';
 import { SolflareMetaMaskWallet } from './wallet.js';
 
-let stopPolling = false;
+let registered = false;
+
+function register() {
+    if (registered) return;
+    registerWallet(new SolflareMetaMaskWallet());
+    registered = true;
+}
 
 /** @internal */
-export function detectAndRegisterSolflareMetaMaskWallet(): boolean {
-    // If detected, stop polling.
-    if (stopPolling) return true;
-    (async function () {
-        try {
-            // Try to detect, stop polling if detected, and register the wallet.
-            if (await isSnapProviderDetected()) {
-                if (!stopPolling) {
-                    stopPolling = true;
-                    registerWallet(new SolflareMetaMaskWallet());
+export async function detectAndRegisterSolflareMetaMaskWallet(): Promise<void> {
+    const id = 'solflare-detect-metamask';
+
+    function postMessage() {
+        window.postMessage(
+            {
+                target: 'metamask-contentscript',
+                data: {
+                    name: 'metamask-provider',
+                    data: {
+                        id,
+                        jsonrpc: '2.0',
+                        method: 'wallet_getSnaps',
+                    },
+                },
+            },
+            window.location.origin
+        );
+    }
+
+    function onMessage(event: MessageEvent) {
+        const message = event.data;
+        if (message?.target === 'metamask-inpage' && message.data?.name === 'metamask-provider') {
+            if (message.data.data?.id === id) {
+                window.removeEventListener('message', onMessage);
+
+                if (!message.data.data.error) {
+                    register();
                 }
-            }
-        } catch (error) {
-            // Stop polling on unhandled errors (this should never happen).
-            stopPolling = true;
-        }
-    })();
-    // Keep polling.
-    return false;
-}
-
-async function isSnapProviderDetected(): Promise<boolean> {
-    try {
-        const provider = (window as WindowWithEthereum).ethereum;
-        if (!provider) return false;
-
-        const providerProviders = provider.providers;
-        if (providerProviders && Array.isArray(providerProviders)) {
-            for (const provider of providerProviders) {
-                if (await isSnapSupported(provider)) return true;
+            } else {
+                postMessage();
             }
         }
-
-        const providerDetected = provider.detected;
-        if (providerDetected && Array.isArray(providerDetected)) {
-            for (const provider of providerDetected) {
-                if (await isSnapSupported(provider)) return true;
-            }
-        }
-
-        return await isSnapSupported(provider);
-    } catch (error) {
-        return false;
     }
-}
 
-async function isSnapSupported(provider: EthereumProvider): Promise<boolean> {
-    try {
-        await provider.request({ method: 'wallet_getSnaps' });
-        return true;
-    } catch (error) {
-        return false;
-    }
+    window.addEventListener('message', onMessage);
+    window.setTimeout(() => window.removeEventListener('message', onMessage), 5000);
+
+    postMessage();
 }
