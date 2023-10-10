@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-wallets
 
+## 0.19.23
+
+### Patch Changes
+
+-   Updated dependencies [3d2e0cd5]
+    -   @solana/wallet-adapter-solflare@0.6.28
+
 ## 0.19.22
 
 ### Patch Changes
