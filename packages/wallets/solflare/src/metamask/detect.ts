@@ -1,6 +1,14 @@
 import { registerWallet } from '@wallet-standard/wallet';
 import { SolflareMetaMaskWallet } from './wallet.js';
 
+let registered = false;
+
+function register() {
+    if (registered) return;
+    registerWallet(new SolflareMetaMaskWallet());
+    registered = true;
+}
+
 /** @internal */
 export async function detectAndRegisterSolflareMetaMaskWallet(): Promise<void> {
     const id = 'solflare-detect-metamask';
@@ -29,7 +37,7 @@ export async function detectAndRegisterSolflareMetaMaskWallet(): Promise<void> {
                 window.removeEventListener('message', onMessage);
 
                 if (!message.data.data.error) {
-                    registerWallet(new SolflareMetaMaskWallet());
+                    register();
                 }
             } else {
                 postMessage();
