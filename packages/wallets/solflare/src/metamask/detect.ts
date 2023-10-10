@@ -37,5 +37,5 @@ export async function detectAndRegisterSolflareMetaMaskWallet(): Promise<void> {
         window.location.origin
     );
 
-    setTimeout(() => window.removeEventListener('message', onMessage), 5000);
+    window.setTimeout(() => window.removeEventListener('message', onMessage), 5000);
 }
