@@ -71,7 +71,7 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
                 }
                 return false;
             });
-            scopePollingDetectionStrategy(detectAndRegisterSolflareMetaMaskWallet);
+            detectAndRegisterSolflareMetaMaskWallet();
         }
     }
 

@@ -1,82 +1,41 @@
 import { registerWallet } from '@wallet-standard/wallet';
 import { SolflareMetaMaskWallet } from './wallet.js';
 
-let stopPolling = false;
-let counter = 10;
-
 /** @internal */
-export function detectAndRegisterSolflareMetaMaskWallet(): boolean {
-    // If detected, stop polling.
-    if (stopPolling || counter <= 0) return true;
-    (async function () {
-        try {
-            counter--;
-            // Try to detect, stop polling if detected, and register the wallet.
-            if (await isSnapSupported()) {
-                if (!stopPolling) {
-                    stopPolling = true;
-                    registerWallet(new SolflareMetaMaskWallet());
-                }
-            }
-        } catch (error) {
-            // Stop polling on unhandled errors (this should never happen).
-            stopPolling = true;
-        }
-    })();
-    // Keep polling.
-    return false;
-}
+export async function detectAndRegisterSolflareMetaMaskWallet(): Promise<void> {
+    const id = 'solflare-detect-metamask';
 
-async function metamaskRequest(request: Record<string, any>) {
-    return new Promise((resolve, reject) => {
-        const id = Math.floor(Math.random() * 1000000).toString();
+    function onMessage(event: MessageEvent) {
+        const message = event.data;
+        if (
+            message?.target === 'metamask-inpage' &&
+            message.data?.name === 'metamask-provider' &&
+            message.data.data?.id === id
+        ) {
+            window.removeEventListener('message', onMessage);
 
-        function handleMessage(event: MessageEvent) {
-            const message = event.data;
-
-            if (
-                message?.target === 'metamask-inpage' &&
-                message.data?.name === 'metamask-provider' &&
-                message.data.data?.id === id
-            ) {
-                window.removeEventListener('message', handleMessage);
-
-                if (message?.data.data.error) {
-                    reject(message.data.data.error.message);
-                } else {
-                    resolve(message.data.data.result);
-                }
+            if (!message.data.data.error) {
+                registerWallet(new SolflareMetaMaskWallet());
             }
         }
+    }
 
-        window.addEventListener('message', handleMessage);
+    window.addEventListener('message', onMessage);
 
-        window.postMessage(
-            {
-                target: 'metamask-contentscript',
+    window.postMessage(
+        {
+            target: 'metamask-contentscript',
+            data: {
+                name: 'metamask-provider',
                 data: {
-                    name: 'metamask-provider',
-                    data: {
-                        ...request,
-                        jsonrpc: '2.0',
-                        id,
-                    },
+                    id,
+                    jsonrpc: '2.0',
+                    method: 'wallet_getSnaps',
                 },
             },
-            window.location.origin
-        );
-    });
-}
+        },
+        window.location.origin
+    );
 
-async function isSnapSupported(): Promise<boolean> {
-    try {
-        const snaps = await Promise.race([
-            metamaskRequest({ method: 'wallet_getSnaps' }),
-            new Promise((resolve, reject) => setTimeout(() => reject('MetaMask provider not found'), 1000)),
-        ]);
-
-        return typeof snaps === 'object';
-    } catch (error) {
-        return false;
-    }
+    setTimeout(() => window.removeEventListener('message', onMessage), 5000);
 }
