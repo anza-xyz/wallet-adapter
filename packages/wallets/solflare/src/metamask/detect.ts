@@ -1,17 +1,16 @@
-import type { MetaMaskInpageProvider } from '@metamask/providers';
 import { registerWallet } from '@wallet-standard/wallet';
 import { SolflareMetaMaskWallet } from './wallet.js';
 
-let providerInstance: MetaMaskInpageProvider | null = null;
-
 let stopPolling = false;
+let counter = 10;
 
 /** @internal */
 export function detectAndRegisterSolflareMetaMaskWallet(): boolean {
     // If detected, stop polling.
-    if (stopPolling) return true;
+    if (stopPolling || counter <= 0) return true;
     (async function () {
         try {
+            counter--;
             // Try to detect, stop polling if detected, and register the wallet.
             if (await isSnapSupported()) {
                 if (!stopPolling) {
@@ -28,32 +27,51 @@ export function detectAndRegisterSolflareMetaMaskWallet(): boolean {
     return false;
 }
 
-async function getMetamaskProvider(): Promise<MetaMaskInpageProvider> {
-    const { WindowPostMessageStream } = await import('./WindowPostMessageStream.js');
-    const { MetaMaskInpageProvider } = await import('@metamask/providers');
+async function metamaskRequest(request: Record<string, any>) {
+    return new Promise((resolve, reject) => {
+        const id = Math.floor(Math.random() * 1000000).toString();
 
-    if (providerInstance) {
-        return providerInstance;
-    }
+        function handleMessage(event: MessageEvent) {
+            const message = event.data;
 
-    const metamaskStream = new WindowPostMessageStream({
-        name: 'metamask-inpage',
-        target: 'metamask-contentscript',
-    }) as any;
+            if (
+                message?.target === 'metamask-inpage' &&
+                message.data?.name === 'metamask-provider' &&
+                message.data.data?.id === id
+            ) {
+                window.removeEventListener('message', handleMessage);
 
-    providerInstance = new MetaMaskInpageProvider(metamaskStream, {
-        shouldSendMetadata: false,
+                if (message?.data.data.error) {
+                    reject(message.data.data.error.message);
+                } else {
+                    resolve(message.data.data.result);
+                }
+            }
+        }
+
+        window.addEventListener('message', handleMessage);
+
+        window.postMessage(
+            {
+                target: 'metamask-contentscript',
+                data: {
+                    name: 'metamask-provider',
+                    data: {
+                        ...request,
+                        jsonrpc: '2.0',
+                        id,
+                    },
+                },
+            },
+            window.location.origin
+        );
     });
-
-    return providerInstance;
 }
 
 async function isSnapSupported(): Promise<boolean> {
     try {
-        const provider = await getMetamaskProvider();
-
         const snaps = await Promise.race([
-            provider.request({ method: 'wallet_getSnaps' }),
+            metamaskRequest({ method: 'wallet_getSnaps' }),
             new Promise((resolve, reject) => setTimeout(() => reject('MetaMask provider not found'), 1000)),
         ]);
 
