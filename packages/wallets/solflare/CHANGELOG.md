@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-solflare
 
+## 0.6.28
+
+### Patch Changes
+
+-   3d2e0cd5: Optimize Solflare MetaMask snap detection
+
 ## 0.6.27
 
 ### Patch Changes
