@@ -1,5 +1,5 @@
 {
-    "name": "@solana/wallet-adapter-bitkeep",
+    "name": "@solana/wallet-adapter-bitgetwallet",
     "version": "0.3.19",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/solana-labs/wallet-adapter",

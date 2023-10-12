@@ -32,11 +32,11 @@ interface BitgetWalletWindow {
 
 declare const window: BitgetWalletWindow;
 
-export interface BitKeepWalletAdapterConfig {}
+export interface BitgetWalletAdapterConfig {}
 
 export const BitgetWalletName = WalletInfo?.name as WalletName<'Bitget Wallet'>;
 
-export class BitKeepWalletAdapter extends BaseMessageSignerWalletAdapter {
+export class BitgetWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = BitgetWalletName;
     url = WalletInfo?.homepage;
     icon = WalletInfo?.logolist?.base64;
@@ -50,7 +50,7 @@ export class BitKeepWalletAdapter extends BaseMessageSignerWalletAdapter {
             ? WalletReadyState.Unsupported
             : WalletReadyState.NotDetected;
 
-    constructor(config: BitKeepWalletAdapterConfig = {}) {
+    constructor(config: BitgetWalletAdapterConfig = {}) {
         super();
         this._connecting = false;
         this._wallet = null;
