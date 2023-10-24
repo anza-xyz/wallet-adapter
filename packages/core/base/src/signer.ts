@@ -24,7 +24,7 @@ export abstract class BaseSignerWalletAdapter<Name extends string = string>
     extends BaseWalletAdapter<Name>
     implements SignerWalletAdapter<Name>
 {
-    async sendTransaction(
+    async signAndSendTransaction(
         transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
         connection: Connection,
         options: SignAndSendTransactionOptions = {}
