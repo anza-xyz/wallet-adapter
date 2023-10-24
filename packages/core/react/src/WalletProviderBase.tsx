@@ -194,12 +194,22 @@ export function WalletProviderBase({
         })();
     }, [connected, onAutoConnectRequest, onConnectError, wallet]);
 
-    // Send a transaction using the provided connection
-    const sendTransaction: WalletAdapterProps['sendTransaction'] = useCallback(
+    // Sign and send a transaction using the provided connection
+    const signAndSendTransaction: WalletAdapterProps['signAndSendTransaction'] = useCallback(
         async (transaction, connection, options) => {
             if (!adapter) throw handleErrorRef.current(new WalletNotSelectedError());
             if (!connected) throw handleErrorRef.current(new WalletNotConnectedError(), adapter);
-            return await adapter.sendTransaction(transaction, connection, options);
+            return await adapter.signAndSendTransaction(transaction, connection, options);
+        },
+        [adapter, connected]
+    );
+
+    // Sign and send multiple transactions using the provided connection
+    const signAndSendAllTransactions: WalletAdapterProps['signAndSendAllTransactions'] = useCallback(
+        async (transactions, connection, options) => {
+            if (!adapter) throw handleErrorRef.current(new WalletNotSelectedError());
+            if (!connected) throw handleErrorRef.current(new WalletNotConnectedError(), adapter);
+            return await adapter.signAndSendAllTransactions(transactions, connection, options);
         },
         [adapter, connected]
     );
@@ -251,6 +261,9 @@ export function WalletProviderBase({
         [adapter]
     );
 
+    // Deprecated alias for `signAndSendTransaction`.
+    const sendTransaction: WalletAdapterProps['sendTransaction'] = signAndSendTransaction;
+
     const handleConnect = useCallback(async () => {
         if (isConnectingRef.current || isDisconnectingRef.current || wallet?.adapter.connected) return;
         if (!wallet) throw handleErrorRef.current(new WalletNotSelectedError());
@@ -296,11 +309,13 @@ export function WalletProviderBase({
                 select: onSelectWallet,
                 connect: handleConnect,
                 disconnect: handleDisconnect,
-                sendTransaction,
+                signAndSendTransaction,
+                signAndSendAllTransactions,
                 signTransaction,
                 signAllTransactions,
                 signMessage,
                 signIn,
+                sendTransaction,
             }}
         >
             {children}

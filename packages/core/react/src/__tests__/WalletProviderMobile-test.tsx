@@ -116,7 +116,7 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                 this.emit('disconnect');
             });
         });
-        sendTransaction = jest.fn();
+        signAndSendTransaction = jest.fn();
         supportedTransactionVersions = null;
         autoConnect = jest.fn();
     }

@@ -28,11 +28,14 @@ export interface WalletContextState {
     connect(): Promise<void>;
     disconnect(): Promise<void>;
 
-    sendTransaction: WalletAdapterProps['sendTransaction'];
+    signAndSendTransaction: WalletAdapterProps['signAndSendTransaction'];
+    signAndSendAllTransactions: WalletAdapterProps['signAndSendAllTransactions'];
     signTransaction: SignerWalletAdapterProps['signTransaction'] | undefined;
     signAllTransactions: SignerWalletAdapterProps['signAllTransactions'] | undefined;
     signMessage: MessageSignerWalletAdapterProps['signMessage'] | undefined;
     signIn: SignInMessageSignerWalletAdapterProps['signIn'] | undefined;
+    /** @deprecated Use `signAndSendTransaction` instead. */
+    sendTransaction: WalletAdapterProps['sendTransaction'];
 }
 
 const EMPTY_ARRAY: ReadonlyArray<never> = [];
@@ -51,8 +54,11 @@ const DEFAULT_CONTEXT: Partial<WalletContextState> = {
     disconnect() {
         return Promise.reject(logMissingProviderError('call', 'disconnect'));
     },
-    sendTransaction() {
-        return Promise.reject(logMissingProviderError('call', 'sendTransaction'));
+    signAndSendTransaction() {
+        return Promise.reject(logMissingProviderError('call', 'signAndSendTransaction'));
+    },
+    signAndSendAllTransactions() {
+        return Promise.reject(logMissingProviderError('call', 'signAndSendAllTransactions'));
     },
     signTransaction() {
         return Promise.reject(logMissingProviderError('call', 'signTransaction'));
@@ -65,6 +71,9 @@ const DEFAULT_CONTEXT: Partial<WalletContextState> = {
     },
     signIn() {
         return Promise.reject(logMissingProviderError('call', 'signIn'));
+    },
+    sendTransaction() {
+        return Promise.reject(logMissingProviderError('call', 'sendTransaction'));
     },
 };
 Object.defineProperty(DEFAULT_CONTEXT, 'wallets', {

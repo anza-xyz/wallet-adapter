@@ -8,7 +8,7 @@ import { useNotify } from './notify';
 
 export const SendLegacyTransaction: FC = () => {
     const { connection } = useConnection();
-    const { publicKey, sendTransaction, wallet } = useWallet();
+    const { publicKey, signAndSendTransaction, wallet } = useWallet();
     const notify = useNotify();
     const supportedTransactionVersions = wallet?.adapter.supportedTransactionVersions;
 
@@ -38,7 +38,7 @@ export const SendLegacyTransaction: FC = () => {
             });
             const transaction = new VersionedTransaction(message.compileToLegacyMessage());
 
-            signature = await sendTransaction(transaction, connection, { minContextSlot });
+            signature = await signAndSendTransaction(transaction, connection, { minContextSlot });
             notify('info', 'Transaction sent:', signature);
 
             await connection.confirmTransaction({ blockhash, lastValidBlockHeight, signature });
@@ -46,7 +46,7 @@ export const SendLegacyTransaction: FC = () => {
         } catch (error: any) {
             notify('error', `Transaction failed! ${error?.message}`, signature);
         }
-    }, [publicKey, supportedTransactionVersions, connection, sendTransaction, notify]);
+    }, [publicKey, supportedTransactionVersions, connection, signAndSendTransaction, notify]);
 
     return (
         <Button
