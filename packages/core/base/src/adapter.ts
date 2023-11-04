@@ -1,7 +1,7 @@
 import EventEmitter from 'eventemitter3';
 import { type WalletError } from './errors.js';
 import type { SupportedTransactionVersions } from './transaction.js';
-import type { createSolanaRpc, Base58EncodedAddress, Transaction, TransactionSignature } from 'web3js-experimental';
+import type { createSolanaRpc, Base58EncodedAddress, Transaction, TransactionSignature } from '@solana/web3.js';
 
 export type SolanaRpc = ReturnType<typeof createSolanaRpc>;
 

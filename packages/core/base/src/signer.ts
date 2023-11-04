@@ -14,7 +14,7 @@ import {
     ITransactionWithFeePayer,
     ITransactionWithBlockhashLifetime,
     ITransactionWithSignatures,
-} from 'web3js-experimental';
+} from '@solana/web3.js';
 
 type CompilableTransaction = Transaction &
     ITransactionWithFeePayer &
