@@ -17,6 +17,7 @@ export * from '@solana/wallet-adapter-mathwallet';
 export * from '@solana/wallet-adapter-neko';
 export * from '@solana/wallet-adapter-nightly';
 export * from '@solana/wallet-adapter-nufi';
+export * from '@solana/wallet-adapter-onekey';
 export * from '@solana/wallet-adapter-onto';
 export * from '@solana/wallet-adapter-particle';
 export * from '@solana/wallet-adapter-phantom';
