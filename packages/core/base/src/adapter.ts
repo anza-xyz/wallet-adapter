@@ -1,9 +1,23 @@
-import type { Connection, PublicKey, SendOptions, Signer, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { Commitment, PublicKey, SendOptions, Signer, Transaction, TransactionSignature } from '@solana/web3.js';
 import EventEmitter from 'eventemitter3';
 import { type WalletError, WalletNotConnectedError } from './errors.js';
 import type { SupportedTransactionVersions, TransactionOrVersionedTransaction } from './transaction.js';
 
 export { EventEmitter };
+
+type BlockhashFetcher = (config?: {
+    commitment?: Commitment;
+    minContextSlot?: number;
+}) => Promise<{ blockhash: string }>;
+
+export interface ConnectionContext {
+    commitment?: Commitment;
+    getLatestBlockhash: BlockhashFetcher;
+    sendRawTransaction(
+        rawTransaction: Buffer | Uint8Array | Array<number>,
+        options?: SendOptions
+    ): Promise<TransactionSignature>;
+}
 
 export interface WalletAdapterEvents {
     connect(publicKey: PublicKey): void;
@@ -35,7 +49,7 @@ export interface WalletAdapterProps<Name extends string = string> {
     disconnect(): Promise<void>;
     sendTransaction(
         transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
-        connection: Connection,
+        connectionContext: ConnectionContext,
         options?: SendTransactionOptions
     ): Promise<TransactionSignature>;
 }
@@ -96,13 +110,13 @@ export abstract class BaseWalletAdapter<Name extends string = string>
 
     abstract sendTransaction(
         transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
-        connection: Connection,
+        connectionContext: ConnectionContext,
         options?: SendTransactionOptions
     ): Promise<TransactionSignature>;
 
     protected async prepareTransaction(
         transaction: Transaction,
-        connection: Connection,
+        blockhashFetchingContext: Readonly<{ getLatestBlockhash: BlockhashFetcher }>,
         options: SendOptions = {}
     ): Promise<Transaction> {
         const publicKey = this.publicKey;
@@ -112,7 +126,7 @@ export abstract class BaseWalletAdapter<Name extends string = string>
         transaction.recentBlockhash =
             transaction.recentBlockhash ||
             (
-                await connection.getLatestBlockhash({
+                await blockhashFetchingContext.getLatestBlockhash({
                     commitment: options.preflightCommitment,
                     minContextSlot: options.minContextSlot,
                 })

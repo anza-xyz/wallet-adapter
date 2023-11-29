@@ -1,4 +1,4 @@
-import type { EventEmitter, SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
+import type { ConnectionContext, EventEmitter, SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
     isVersionedTransaction,
@@ -16,13 +16,7 @@ import {
     WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import type {
-    Connection,
-    Transaction,
-    TransactionSignature,
-    TransactionVersion,
-    VersionedTransaction,
-} from '@solana/web3.js';
+import type { Transaction, TransactionSignature, TransactionVersion, VersionedTransaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 
 interface NufiWalletEvents {
@@ -161,7 +155,7 @@ export class NufiWalletAdapter extends BaseMessageSignerWalletAdapter {
 
     async sendTransaction<T extends Transaction | VersionedTransaction>(
         transaction: T,
-        connection: Connection,
+        connectionContext: ConnectionContext,
         options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         try {
@@ -174,11 +168,11 @@ export class NufiWalletAdapter extends BaseMessageSignerWalletAdapter {
                 if (isVersionedTransaction(transaction)) {
                     signers?.length && transaction.sign(signers);
                 } else {
-                    transaction = (await this.prepareTransaction(transaction, connection, sendOptions)) as T;
+                    transaction = (await this.prepareTransaction(transaction, connectionContext, sendOptions)) as T;
                     signers?.length && (transaction as Transaction).partialSign(...signers);
                 }
 
-                sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;
+                sendOptions.preflightCommitment = sendOptions.preflightCommitment || connectionContext.commitment;
                 const { signature } = await wallet.signAndSendTransaction(transaction);
                 return signature;
             } catch (error: any) {

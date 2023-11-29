@@ -1,4 +1,4 @@
-import type { EventEmitter, SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
+import type { ConnectionContext, EventEmitter, SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
@@ -15,7 +15,7 @@ import {
     WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import type { Connection, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 
 interface SaifuWalletEvents {
@@ -158,7 +158,7 @@ export class SaifuWalletAdapter extends BaseMessageSignerWalletAdapter {
 
     async sendTransaction(
         transaction: Transaction,
-        connection: Connection,
+        connectionContext: ConnectionContext,
         options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         try {
@@ -169,11 +169,11 @@ export class SaifuWalletAdapter extends BaseMessageSignerWalletAdapter {
                 try {
                     const { signers, ...sendOptions } = options;
 
-                    transaction = await this.prepareTransaction(transaction, connection, sendOptions);
+                    transaction = await this.prepareTransaction(transaction, connectionContext, sendOptions);
 
                     signers?.length && transaction.partialSign(...signers);
 
-                    sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;
+                    sendOptions.preflightCommitment = sendOptions.preflightCommitment || connectionContext.commitment;
 
                     const { signature } = await wallet.signAndSendTransaction(transaction, sendOptions);
                     return signature;
@@ -187,7 +187,7 @@ export class SaifuWalletAdapter extends BaseMessageSignerWalletAdapter {
             throw error;
         }
 
-        return await super.sendTransaction(transaction, connection, options);
+        return await super.sendTransaction(transaction, connectionContext, options);
     }
 
     async signTransaction<T extends Transaction>(transaction: T): Promise<T> {

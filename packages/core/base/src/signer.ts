@@ -1,7 +1,8 @@
 import type { SolanaSignInInput, SolanaSignInOutput } from '@solana/wallet-standard-features';
-import type { Connection, TransactionSignature } from '@solana/web3.js';
+import type { TransactionSignature } from '@solana/web3.js';
 import {
     BaseWalletAdapter,
+    type ConnectionContext,
     type SendTransactionOptions,
     type WalletAdapter,
     type WalletAdapterProps,
@@ -26,7 +27,7 @@ export abstract class BaseSignerWalletAdapter<Name extends string = string>
 {
     async sendTransaction(
         transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
-        connection: Connection,
+        connectionContext: ConnectionContext,
         options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         let emit = true;
@@ -47,7 +48,7 @@ export abstract class BaseSignerWalletAdapter<Name extends string = string>
 
                     const rawTransaction = transaction.serialize();
 
-                    return await connection.sendRawTransaction(rawTransaction, options);
+                    return await connectionContext.sendRawTransaction(rawTransaction, options);
                 } catch (error: any) {
                     // If the error was thrown by `signTransaction`, rethrow it and don't emit a duplicate event
                     if (error instanceof WalletSignTransactionError) {
@@ -60,7 +61,7 @@ export abstract class BaseSignerWalletAdapter<Name extends string = string>
                 try {
                     const { signers, ...sendOptions } = options;
 
-                    transaction = await this.prepareTransaction(transaction, connection, sendOptions);
+                    transaction = await this.prepareTransaction(transaction, connectionContext, sendOptions);
 
                     signers?.length && transaction.partialSign(...signers);
 
@@ -68,7 +69,7 @@ export abstract class BaseSignerWalletAdapter<Name extends string = string>
 
                     const rawTransaction = transaction.serialize();
 
-                    return await connection.sendRawTransaction(rawTransaction, sendOptions);
+                    return await connectionContext.sendRawTransaction(rawTransaction, sendOptions);
                 } catch (error: any) {
                     // If the error was thrown by `signTransaction`, rethrow it and don't emit a duplicate event
                     if (error instanceof WalletSignTransactionError) {
