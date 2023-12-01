@@ -71,13 +71,13 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
 
   private _particleNetwork: ParticleNetwork | null = null;
 
-  constructor(config: ParticleAdapterConfig = {}) {
+  constructor(config: ParticleAdapterConfig) {
     super();
     this._connecting = false;
     this._publicKey = null;
     this._wallet = null;
 
-    const nestedConfig: NestedConfig = config.config || {};
+    const nestedConfig: NestedConfig = config.config;
 
     const chainId =
       nestedConfig.chainId !== undefined ? nestedConfig.chainId : 101;
