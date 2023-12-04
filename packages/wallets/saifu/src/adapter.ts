@@ -1,7 +1,7 @@
-import type { EventEmitter, SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
+import type { EventEmitter, SignAndSendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
-    scopePollingDetectionStrategy,
+    SendOptions,
     WalletAccountError,
     WalletConnectionError,
     WalletDisconnectedError,
@@ -14,8 +14,9 @@ import {
     WalletSendTransactionError,
     WalletSignMessageError,
     WalletSignTransactionError,
+    scopePollingDetectionStrategy,
 } from '@solana/wallet-adapter-base';
-import type { Connection, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { Connection, Transaction, TransactionSignature } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 
 interface SaifuWalletEvents {
@@ -156,10 +157,10 @@ export class SaifuWalletAdapter extends BaseMessageSignerWalletAdapter {
         this.emit('disconnect');
     }
 
-    async sendTransaction(
+    async signAndSendTransaction(
         transaction: Transaction,
         connection: Connection,
-        options: SendTransactionOptions = {}
+        options: SignAndSendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;
@@ -187,7 +188,7 @@ export class SaifuWalletAdapter extends BaseMessageSignerWalletAdapter {
             throw error;
         }
 
-        return await super.sendTransaction(transaction, connection, options);
+        return await super.signAndSendTransaction(transaction, connection, options);
     }
 
     async signTransaction<T extends Transaction>(transaction: T): Promise<T> {

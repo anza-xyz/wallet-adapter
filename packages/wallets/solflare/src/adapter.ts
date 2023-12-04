@@ -17,7 +17,7 @@ import {
     isIosAndRedirectable,
     isVersionedTransaction,
     scopePollingDetectionStrategy,
-    type SendTransactionOptions,
+    type SignAndSendTransactionOptions,
 } from '@solana/wallet-adapter-base';
 import type { Transaction, TransactionVersion, VersionedTransaction } from '@solana/web3.js';
 import { PublicKey, type Connection, type TransactionSignature } from '@solana/web3.js';
@@ -181,10 +181,10 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
         this.emit('disconnect');
     }
 
-    async sendTransaction<T extends Transaction | VersionedTransaction>(
+    async signAndSendTransaction<T extends Transaction | VersionedTransaction>(
         transaction: T,
         connection: Connection,
-        options: SendTransactionOptions = {}
+        options: SignAndSendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;

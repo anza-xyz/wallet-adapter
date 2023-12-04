@@ -1,5 +1,5 @@
 import type { CensoWallet } from '@censo-custody/solana-wallet-adapter';
-import type { SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
+import type { SignAndSendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseSignerWalletAdapter,
     WalletConfigError,
@@ -122,10 +122,10 @@ export class CensoWalletAdapter extends BaseSignerWalletAdapter {
         this.emit('disconnect');
     }
 
-    async sendTransaction(
+    async signAndSendTransaction(
         transaction: Transaction,
         connection: Connection,
-        options: SendTransactionOptions = {}
+        options: SignAndSendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         try {
             const wallet = this._wallet;

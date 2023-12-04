@@ -2,7 +2,7 @@ import type { SolanaSignInInput, SolanaSignInOutput } from '@solana/wallet-stand
 import type { Connection, TransactionSignature } from '@solana/web3.js';
 import {
     BaseWalletAdapter,
-    type SendTransactionOptions,
+    type SignAndSendTransactionOptions,
     type WalletAdapter,
     type WalletAdapterProps,
 } from './adapter.js';
@@ -24,10 +24,10 @@ export abstract class BaseSignerWalletAdapter<Name extends string = string>
     extends BaseWalletAdapter<Name>
     implements SignerWalletAdapter<Name>
 {
-    async sendTransaction(
+    async signAndSendTransaction(
         transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
         connection: Connection,
-        options: SendTransactionOptions = {}
+        options: SignAndSendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         let emit = true;
         try {

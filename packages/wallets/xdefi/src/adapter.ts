@@ -1,7 +1,7 @@
 import type { EventEmitter, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
-    scopePollingDetectionStrategy,
+    SendOptions,
     WalletAccountError,
     WalletConnectionError,
     WalletDisconnectedError,
@@ -12,8 +12,9 @@ import {
     WalletReadyState,
     WalletSignMessageError,
     WalletSignTransactionError,
+    scopePollingDetectionStrategy,
 } from '@solana/wallet-adapter-base';
-import type { SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { Transaction, TransactionSignature } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 
 interface XDEFIWalletEvents {

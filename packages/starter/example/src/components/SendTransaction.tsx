@@ -8,7 +8,7 @@ import { useNotify } from './notify';
 
 export const SendTransaction: FC = () => {
     const { connection } = useConnection();
-    const { publicKey, sendTransaction } = useWallet();
+    const { publicKey, signAndSendTransaction } = useWallet();
     const notify = useNotify();
 
     const onClick = useCallback(async () => {
@@ -32,7 +32,7 @@ export const SendTransaction: FC = () => {
                 })
             );
 
-            signature = await sendTransaction(transaction, connection, { minContextSlot });
+            signature = await signAndSendTransaction(transaction, connection, { minContextSlot });
             notify('info', 'Transaction sent:', signature);
 
             await connection.confirmTransaction({ blockhash, lastValidBlockHeight, signature });
@@ -40,7 +40,7 @@ export const SendTransaction: FC = () => {
         } catch (error: any) {
             notify('error', `Transaction failed! ${error?.message}`, signature);
         }
-    }, [publicKey, connection, sendTransaction, notify]);
+    }, [publicKey, connection, signAndSendTransaction, notify]);
 
     return (
         <Button variant="contained" color="secondary" onClick={onClick} disabled={!publicKey}>

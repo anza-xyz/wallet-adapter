@@ -102,7 +102,7 @@ describe('WalletProviderBase', () => {
                 this.emit('disconnect');
             });
         });
-        sendTransaction = jest.fn();
+        signAndSendTransaction = jest.fn();
         supportedTransactionVersions = null;
     }
     class FooWalletAdapter extends MockWalletAdapter {

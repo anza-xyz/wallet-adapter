@@ -8,7 +8,7 @@ import { useNotify } from './notify';
 
 export const SendV0Transaction: FC = () => {
     const { connection } = useConnection();
-    const { publicKey, sendTransaction, wallet } = useWallet();
+    const { publicKey, signAndSendTransaction, wallet } = useWallet();
     const notify = useNotify();
     const supportedTransactionVersions = wallet?.adapter.supportedTransactionVersions;
 
@@ -51,7 +51,7 @@ export const SendV0Transaction: FC = () => {
             });
             const transaction = new VersionedTransaction(message.compileToV0Message([lookupTable]));
 
-            signature = await sendTransaction(transaction, connection, { minContextSlot });
+            signature = await signAndSendTransaction(transaction, connection, { minContextSlot });
             notify('info', 'Transaction sent:', signature);
 
             await connection.confirmTransaction({ blockhash, lastValidBlockHeight, signature });
@@ -59,7 +59,7 @@ export const SendV0Transaction: FC = () => {
         } catch (error: any) {
             notify('error', `Transaction failed! ${error?.message}`, signature);
         }
-    }, [publicKey, supportedTransactionVersions, connection, sendTransaction, notify]);
+    }, [publicKey, supportedTransactionVersions, connection, signAndSendTransaction, notify]);
 
     return (
         <Button

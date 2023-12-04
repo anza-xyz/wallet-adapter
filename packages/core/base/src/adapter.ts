@@ -1,6 +1,6 @@
-import type { Connection, PublicKey, SendOptions, Signer, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { Commitment, Connection, PublicKey, Signer, Transaction, TransactionSignature } from '@solana/web3.js';
 import EventEmitter from 'eventemitter3';
-import { type WalletError, WalletNotConnectedError } from './errors.js';
+import { WalletNotConnectedError, type WalletError } from './errors.js';
 import type { SupportedTransactionVersions, TransactionOrVersionedTransaction } from './transaction.js';
 
 export { EventEmitter };
@@ -12,8 +12,27 @@ export interface WalletAdapterEvents {
     readyStateChange(readyState: WalletReadyState): void;
 }
 
-export interface SendTransactionOptions extends SendOptions {
+export interface SignAndSendTransactionOptions extends SendOptions {
     signers?: Signer[];
+}
+
+export interface SendOptions {
+    minContextSlot?: number;
+    /** @deprecated Wallets are not expected  to support this option. */
+    skipPreflight?: boolean;
+    /** @deprecated Wallets are not expected  to support this option. */
+    preflightCommitment?: Commitment;
+    /** @deprecated Wallets are not expected  to support this option. */
+    maxRetries?: number;
+}
+
+/** @deprecated Use `SignAndSendTransactionOptions` instead. */
+export type SendTransactionOptions = SignAndSendTransactionOptions;
+
+export interface SignAndSendAllTransactionsError {
+    type: string;
+    code: number;
+    message: string;
 }
 
 // WalletName is a nominal type that wallet adapters should use, e.g. `'MyCryptoWallet' as WalletName<'MyCryptoWallet'>`
@@ -33,10 +52,21 @@ export interface WalletAdapterProps<Name extends string = string> {
     autoConnect(): Promise<void>;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
+    signAndSendTransaction(
+        transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
+        connection: Connection,
+        options?: SignAndSendTransactionOptions
+    ): Promise<TransactionSignature>;
+    signAndSendAllTransactions(
+        transactions: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>[],
+        connection: Connection,
+        options?: SignAndSendTransactionOptions
+    ): Promise<(TransactionSignature | SignAndSendAllTransactionsError)[]>;
+    /** @deprecated Use `signAndSendTransaction` instead. */
     sendTransaction(
         transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
         connection: Connection,
-        options?: SendTransactionOptions
+        options?: SignAndSendTransactionOptions
     ): Promise<TransactionSignature>;
 }
 
@@ -94,11 +124,38 @@ export abstract class BaseWalletAdapter<Name extends string = string>
     abstract connect(): Promise<void>;
     abstract disconnect(): Promise<void>;
 
-    abstract sendTransaction(
+    abstract signAndSendTransaction(
         transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
         connection: Connection,
-        options?: SendTransactionOptions
+        options?: SignAndSendTransactionOptions
     ): Promise<TransactionSignature>;
+
+    async signAndSendAllTransactions(
+        transactions: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>[],
+        connection: Connection,
+        options?: SignAndSendTransactionOptions | undefined
+    ): Promise<(TransactionSignature | SignAndSendAllTransactionsError)[]> {
+        const results = await Promise.allSettled(
+            transactions.map((transaction) => this.signAndSendTransaction(transaction, connection, options))
+        );
+        return results.map((result) => {
+            if (result.status === 'fulfilled') return result.value;
+            return {
+                type: result.reason.type || result.reason.name,
+                code: result.reason.code,
+                message: result.reason.message,
+            };
+        });
+    }
+
+    /** @deprecated Use `signAndSendTransaction` instead. */
+    sendTransaction(
+        transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
+        connection: Connection,
+        options?: SignAndSendTransactionOptions
+    ): Promise<TransactionSignature> {
+        return this.signAndSendTransaction(transaction, connection, options);
+    }
 
     protected async prepareTransaction(
         transaction: Transaction,
