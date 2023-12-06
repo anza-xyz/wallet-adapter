@@ -25,7 +25,7 @@ interface NestedConfig {
 }
 
 export interface ParticleAdapterConfig {
-    config: NestedConfig;
+    config?: NestedConfig;
     preferredAuthType?: string;
 }
 
@@ -47,13 +47,22 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
 
     private _particleNetwork: ParticleNetwork | null = null;
 
-    constructor(config: ParticleAdapterConfig) {
+    constructor(config: ParticleAdapterConfig = {}) {
         super();
         this._connecting = false;
         this._publicKey = null;
         this._wallet = null;
 
-        const nestedConfig: NestedConfig = config.config || {};
+      const defaultNestedConfig: NestedConfig = {
+          projectId: '',
+          clientKey: '',
+          appId: '',
+      };
+      
+      const nestedConfig: NestedConfig = {
+          ...defaultNestedConfig,
+          ...(config.config as NestedConfig || {}),
+      };
 
         const chainId = nestedConfig.chainId !== undefined ? nestedConfig.chainId : 101;
         const chainName = nestedConfig.chainName !== undefined ? nestedConfig.chainName : 'solana';
