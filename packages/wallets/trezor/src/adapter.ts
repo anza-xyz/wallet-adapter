@@ -43,7 +43,7 @@ export class TrezorWalletAdapter extends BaseSignerWalletAdapter {
     constructor(config: TrezorWalletAdapterConfig = {}) {
         super();
         this._derivationPath = config.derivationPath || `m/44'/501'/0'/0'`;
-        this._connectUrl = config.connectUrl;
+        this._connectUrl = config.connectUrl && config.connectUrl + (config.connectUrl.endsWith('/') ? '' : '/');
         this._connecting = false;
         this._publicKey = null;
     }
@@ -67,8 +67,6 @@ export class TrezorWalletAdapter extends BaseSignerWalletAdapter {
 
             this._connecting = true;
 
-            const connectUrl = this._connectUrl && this._connectUrl + (this._connectUrl.endsWith('/') ? '' : '/');
-
             await TrezorConnect.init({
                 manifest: {
                     email: 'maintainers@solana.foundation',
@@ -77,8 +75,8 @@ export class TrezorWalletAdapter extends BaseSignerWalletAdapter {
                 lazyLoad: true,
                 ...(this._connectUrl
                     ? {
-                          connectSrc: connectUrl,
-                          iframeSrc: connectUrl,
+                          connectSrc: this._connectUrl,
+                          iframeSrc: this._connectUrl,
                       }
                     : {}),
             });
