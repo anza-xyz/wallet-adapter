@@ -61,7 +61,7 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
       
       const nestedConfig: NestedConfig = {
           ...defaultNestedConfig,
-          ...(config.config as NestedConfig || {}),
+          ...config.config,
       };
 
         const chainId = nestedConfig.chainId !== undefined ? nestedConfig.chainId : 101;
