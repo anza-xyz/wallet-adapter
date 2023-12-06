@@ -24,7 +24,7 @@ interface BitgetWalletWindow extends Window {
 
 declare const window: BitgetWalletWindow;
 
-export interface BitKeepWalletAdapterConfig {}
+export interface BitgetWalletAdapterConfig {}
 
 export const BitgetWalletName = 'Bitget' as WalletName<'Bitget'>;
 
@@ -42,7 +42,7 @@ export class BitgetWalletAdapter extends BaseMessageSignerWalletAdapter {
             ? WalletReadyState.Unsupported
             : WalletReadyState.NotDetected;
 
-    constructor(config: BitKeepWalletAdapterConfig = {}) {
+    constructor(config: BitgetWalletAdapterConfig = {}) {
         super();
         this._connecting = false;
         this._wallet = null;
@@ -198,10 +198,17 @@ interface BitKeepWallet {
     signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
     signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
 }
+
 /**
  * @deprecated Since 'Bitkeep' has been rebranded to 'Bitget', please use 'BitgetWalletName' instead."
  */
 export const BitKeepWalletName = 'BitKeep' as WalletName<'BitKeep'>;
+
+/**
+ * @deprecated Since 'Bitkeep' has been rebranded to 'Bitget', please use 'BitgetWalletAdapterConfig' instead."
+ */
+export interface BitKeepWalletAdapterConfig {}
+
 /**
  * @deprecated Since 'Bitkeep' has been rebranded to 'Bitget', please use 'BitgetWalletAdapter' instead."
  */
