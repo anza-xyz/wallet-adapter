@@ -1,7 +1,8 @@
 import type { WalletName } from '@solana/wallet-adapter-base';
-import TrezorConnect, { DEVICE, DEVICE_EVENT } from '@trezor/connect-web';
+import type { TrezorConnect } from '@trezor/connect-web';
 import {
     BaseSignerWalletAdapter,
+    WalletConfigError,
     WalletDisconnectedError,
     WalletDisconnectionError,
     WalletNotConnectedError,
@@ -13,6 +14,7 @@ import {
 } from '@solana/wallet-adapter-base';
 import type { Transaction, TransactionVersion, VersionedTransaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
+import { DEVICE, DEVICE_EVENT } from './constants.js';
 
 export interface TrezorWalletAdapterConfig {
     derivationPath?: string;
@@ -29,6 +31,7 @@ export class TrezorWalletAdapter extends BaseSignerWalletAdapter {
     supportedTransactionVersions: ReadonlySet<TransactionVersion> = new Set(['legacy', 0]);
 
     private _derivationPath: string;
+    private _wallet: TrezorConnect | null;
     private _connectUrl?: string;
     private _connecting: boolean;
     private _publicKey: PublicKey | null;
@@ -43,6 +46,7 @@ export class TrezorWalletAdapter extends BaseSignerWalletAdapter {
     constructor(config: TrezorWalletAdapterConfig = {}) {
         super();
         this._derivationPath = config.derivationPath || `m/44'/501'/0'/0'`;
+        this._wallet = null;
         this._connectUrl = config.connectUrl && config.connectUrl + (config.connectUrl.endsWith('/') ? '' : '/');
         this._connecting = false;
         this._publicKey = null;
@@ -67,7 +71,15 @@ export class TrezorWalletAdapter extends BaseSignerWalletAdapter {
 
             this._connecting = true;
 
-            await TrezorConnect.init({
+            try {
+                const { default: TrezorConnect } = await import('@trezor/connect-web');
+                // @ts-ignore
+                this._wallet = TrezorConnect.default as TrezorConnect;
+            } catch (error: any) {
+                throw new WalletConfigError(error?.message, error);
+            }
+
+            await this._wallet.init({
                 manifest: {
                     email: 'maintainers@solana.foundation',
                     appUrl: 'https://github.com/solana-labs/wallet-adapter',
@@ -83,7 +95,7 @@ export class TrezorWalletAdapter extends BaseSignerWalletAdapter {
 
             let result;
             try {
-                result = await TrezorConnect.solanaGetPublicKey({
+                result = await this._wallet.solanaGetPublicKey({
                     path: this._derivationPath,
                 });
             } catch (error: any) {
@@ -96,7 +108,7 @@ export class TrezorWalletAdapter extends BaseSignerWalletAdapter {
 
             const publicKey = result.payload.publicKey;
 
-            TrezorConnect.on(DEVICE_EVENT, (event: any) => {
+            this._wallet.on(DEVICE_EVENT, (event: any) => {
                 if (event.type === DEVICE.DISCONNECT) {
                     this._disconnected();
                 }
@@ -117,7 +129,7 @@ export class TrezorWalletAdapter extends BaseSignerWalletAdapter {
         this._publicKey = null;
 
         try {
-            await TrezorConnect.dispose();
+            await this._wallet?.dispose();
         } catch (error: any) {
             this.emit('error', new WalletDisconnectionError(error?.message, error));
         }
@@ -127,8 +139,9 @@ export class TrezorWalletAdapter extends BaseSignerWalletAdapter {
 
     async signTransaction<T extends Transaction | VersionedTransaction>(transaction: T): Promise<T> {
         try {
+            const wallet = this._wallet;
             const publicKey = this._publicKey;
-            if (!publicKey) throw new WalletNotConnectedError();
+            if (!wallet || !publicKey) throw new WalletNotConnectedError();
 
             const serializedTransaction = isVersionedTransaction(transaction)
                 ? transaction.message.serialize()
@@ -136,7 +149,7 @@ export class TrezorWalletAdapter extends BaseSignerWalletAdapter {
 
             let result;
             try {
-                result = await TrezorConnect.solanaSignTransaction({
+                result = await wallet.solanaSignTransaction({
                     path: this._derivationPath,
                     serializedTx: Buffer.from(serializedTransaction).toString('hex'),
                 });
@@ -158,7 +171,7 @@ export class TrezorWalletAdapter extends BaseSignerWalletAdapter {
     }
 
     private _disconnected = () => {
-        TrezorConnect.dispose();
+        this._wallet?.dispose();
         this._publicKey = null;
 
         this.emit('error', new WalletDisconnectedError());
