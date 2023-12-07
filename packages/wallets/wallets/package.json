@@ -39,7 +39,6 @@
         "@solana/wallet-adapter-avana": "workspace:^",
         "@solana/wallet-adapter-bitkeep": "workspace:^",
         "@solana/wallet-adapter-bitpie": "workspace:^",
-        "@solana/wallet-adapter-censo": "workspace:^",
         "@solana/wallet-adapter-clover": "workspace:^",
         "@solana/wallet-adapter-coin98": "workspace:^",
         "@solana/wallet-adapter-coinbase": "workspace:^",

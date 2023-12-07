@@ -47,9 +47,6 @@
             "path": "./packages/wallets/bitpie/tsconfig.json"
         },
         {
-            "path": "./packages/wallets/censo/tsconfig.json"
-        },
-        {
             "path": "./packages/wallets/clover/tsconfig.json"
         },
         {
