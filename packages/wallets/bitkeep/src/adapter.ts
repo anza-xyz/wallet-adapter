@@ -182,21 +182,16 @@ export class BitgetWalletAdapter extends BaseMessageSignerWalletAdapter {
 }
 
 /**
- * @deprecated Since 'Bitkeep' has been rebranded to 'Bitget', please use 'BitgetWalletName' instead."
+ * @deprecated Use 'BitgetWalletName' instead."
  */
-export const BitKeepWalletName = 'Bitget' as WalletName<'Bitget'>;
+export const BitKeepWalletName = BitgetWalletName;
 
 /**
- * @deprecated Since 'Bitkeep' has been rebranded to 'Bitget', please use 'BitgetWalletName' instead."
+ * @deprecated Use 'BitgetWalletAdapterConfig' instead."
  */
-export interface BitKeepWalletAdapterConfig {}
+export type BitKeepWalletAdapterConfig = BitgetWalletAdapterConfig;
 
 /**
- * @deprecated Since 'Bitkeep' has been rebranded to 'Bitget', please use 'BitgetWalletName' instead."
+ * @deprecated Use 'BitgetWalletAdapter' instead."
  */
-export class BitKeepWalletAdapter extends BitgetWalletAdapter{
-    constructor(config: BitKeepWalletAdapterConfig = {}) {
-        super(config);
-        console.warn("Warning: 'Bitkeep' has been rebranded to 'Bitget', please use 'BitgetWalletAdapter' instead.");
-    }
-}
+export const BitKeepWalletAdapter = BitgetWalletAdapter;
