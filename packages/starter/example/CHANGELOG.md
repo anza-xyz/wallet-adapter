@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-example
 
+## 0.18.28
+
+### Patch Changes
+
+-   Updated dependencies [46f06e72]
+    -   @solana/wallet-adapter-wallets@0.19.24
+
 ## 0.18.27
 
 ### Patch Changes

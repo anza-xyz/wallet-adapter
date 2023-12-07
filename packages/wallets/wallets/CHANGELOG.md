@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-wallets
 
+## 0.19.24
+
+### Patch Changes
+
+-   46f06e72: Remove Censor adapter (non-functioning)
+-   Updated dependencies [f1ac88db]
+    -   @solana/wallet-adapter-bitkeep@0.3.20
+
 ## 0.19.23
 
 ### Patch Changes

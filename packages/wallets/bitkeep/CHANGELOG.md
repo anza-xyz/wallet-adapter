@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-bitkeep
 
+## 0.3.20
+
+### Patch Changes
+
+-   f1ac88db: Rename BitKeep adapter to Bitget (non-breakingly)
+
 ## 0.3.19
 
 ### Patch Changes
