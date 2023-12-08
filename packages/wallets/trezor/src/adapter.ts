@@ -81,7 +81,7 @@ export class TrezorWalletAdapter extends BaseSignerWalletAdapter {
 
             await this._wallet.init({
                 manifest: {
-                    email: 'maintainers@solana.foundation',
+                    email: 'gabriel.kerekes@vacuumlabs.com',
                     appUrl: 'https://github.com/solana-labs/wallet-adapter',
                 },
                 lazyLoad: true,
