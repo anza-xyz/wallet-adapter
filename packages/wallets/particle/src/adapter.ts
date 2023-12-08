@@ -53,16 +53,16 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
         this._publicKey = null;
         this._wallet = null;
 
-      const defaultNestedConfig: NestedConfig = {
-          projectId: '',
-          clientKey: '',
-          appId: '',
-      };
-      
-      const nestedConfig: NestedConfig = {
-          ...defaultNestedConfig,
-          ...config.config,
-      };
+        const defaultNestedConfig: NestedConfig = {
+            projectId: '',
+            clientKey: '',
+            appId: '',
+        };
+
+        const nestedConfig: NestedConfig = {
+            ...defaultNestedConfig,
+            ...config.config,
+        };
 
         const chainId = nestedConfig.chainId !== undefined ? nestedConfig.chainId : 101;
         const chainName = nestedConfig.chainName !== undefined ? nestedConfig.chainName : 'solana';
