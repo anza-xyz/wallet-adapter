@@ -80,11 +80,11 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
         };
     }
 
-    public get auth(): ParticleNetwork['auth'] {
+    public get particle(): ParticleNetwork {
         if (!this._particleNetwork) {
             throw new Error('ParticleNetwork is not initialized.');
         }
-        return this._particleNetwork.auth;
+        return this._particleNetwork;
     }
 
     get publicKey() {
