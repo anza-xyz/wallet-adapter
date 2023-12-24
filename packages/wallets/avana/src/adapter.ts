@@ -64,6 +64,7 @@ export class AvanaWalletAdapter extends BaseMessageSignerWalletAdapter {
         typeof window === 'undefined' || typeof document === 'undefined'
             ? WalletReadyState.Unsupported
             : WalletReadyState.NotDetected;
+    private _onDisconnectBound: (() => void) | null = null;
 
     constructor(config: AvanaWalletAdapterConfig = {}) {
         super();
@@ -108,6 +109,7 @@ export class AvanaWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const wallet = window.avana!.solana!;
+            if (!wallet) throw new WalletNotReadyError();
 
             if (!wallet.isConnected) {
                 try {
@@ -126,7 +128,10 @@ export class AvanaWalletAdapter extends BaseMessageSignerWalletAdapter {
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
-            wallet.on('disconnect', this._disconnected);
+            if (!this._onDisconnectBound) {
+                this._onDisconnectBound = this._disconnected.bind(this);
+                wallet.on('disconnect', this._onDisconnectBound);
+            }
 
             this._wallet = wallet;
             this._publicKey = publicKey;
@@ -143,7 +148,10 @@ export class AvanaWalletAdapter extends BaseMessageSignerWalletAdapter {
     async disconnect(): Promise<void> {
         const wallet = this._wallet;
         if (wallet) {
-            wallet.off('disconnect', this._disconnected);
+            if (this._onDisconnectBound) {
+                wallet.off('disconnect', this._onDisconnectBound);
+                this._onDisconnectBound = null;
+            }
 
             this._wallet = null;
             this._publicKey = null;
@@ -237,10 +245,13 @@ export class AvanaWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    private _disconnected = () => {
+    private _disconnected() {
         const wallet = this._wallet;
         if (wallet) {
-            wallet.off('disconnect', this._disconnected);
+            if (this._onDisconnectBound) {
+                wallet.off('disconnect', this._onDisconnectBound);
+                this._onDisconnectBound = null;
+            }
 
             this._wallet = null;
             this._publicKey = null;
@@ -248,5 +259,5 @@ export class AvanaWalletAdapter extends BaseMessageSignerWalletAdapter {
             this.emit('error', new WalletDisconnectedError());
             this.emit('disconnect');
         }
-    };
+    }
 }

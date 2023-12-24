@@ -57,6 +57,7 @@ export class HyperPayWalletAdapter extends BaseMessageSignerWalletAdapter {
         typeof window === 'undefined' || typeof document === 'undefined'
             ? WalletReadyState.Unsupported
             : WalletReadyState.NotDetected;
+    private _onDisconnectBound: (() => void) | null = null;
 
     constructor(config: HyperPayWalletAdapterConfig = {}) {
         super();
@@ -101,6 +102,7 @@ export class HyperPayWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const wallet = window.hyperPay!.solana!;
+            if (!wallet) throw new WalletNotReadyError();
 
             try {
                 await wallet.connect();
@@ -117,7 +119,10 @@ export class HyperPayWalletAdapter extends BaseMessageSignerWalletAdapter {
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
-            wallet.on('disconnect', this._disconnected);
+            if (!this._onDisconnectBound) {
+                this._onDisconnectBound = this._disconnected.bind(this);
+                wallet.on('disconnect', this._onDisconnectBound);
+            }
 
             this._wallet = wallet;
             this._publicKey = publicKey;
@@ -134,7 +139,10 @@ export class HyperPayWalletAdapter extends BaseMessageSignerWalletAdapter {
     async disconnect(): Promise<void> {
         const wallet = this._wallet;
         if (wallet) {
-            wallet.off('disconnect', this._disconnected);
+            if (this._onDisconnectBound) {
+                wallet.off('disconnect', this._onDisconnectBound);
+                this._onDisconnectBound = null;
+            }
 
             this._wallet = null;
             this._publicKey = null;
@@ -192,10 +200,13 @@ export class HyperPayWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    private _disconnected = () => {
+    private _disconnected() {
         const wallet = this._wallet;
         if (wallet) {
-            wallet.off('disconnect', this._disconnected);
+            if (this._onDisconnectBound) {
+                wallet.off('disconnect', this._onDisconnectBound);
+                this._onDisconnectBound = null;
+            }
 
             this._wallet = null;
             this._publicKey = null;
@@ -203,5 +214,5 @@ export class HyperPayWalletAdapter extends BaseMessageSignerWalletAdapter {
             this.emit('error', new WalletDisconnectedError());
             this.emit('disconnect');
         }
-    };
+    }
 }

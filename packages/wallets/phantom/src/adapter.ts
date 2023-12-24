@@ -75,6 +75,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
         typeof window === 'undefined' || typeof document === 'undefined'
             ? WalletReadyState.Unsupported
             : WalletReadyState.NotDetected;
+    private _onDisconnectBound: (() => void) | null = null;
 
     constructor(config: PhantomWalletAdapterConfig = {}) {
         super();
@@ -139,6 +140,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const wallet = window.phantom?.solana || window.solana!;
+            if (!wallet) throw new WalletNotReadyError();
 
             if (!wallet.isConnected) {
                 try {
@@ -157,7 +159,10 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
-            wallet.on('disconnect', this._disconnected);
+            if (!this._onDisconnectBound) {
+                this._onDisconnectBound = this._disconnected.bind(this);
+                wallet.on('disconnect', this._onDisconnectBound);
+            }
             wallet.on('accountChanged', this._accountChanged);
 
             this._wallet = wallet;
@@ -175,7 +180,10 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
     async disconnect(): Promise<void> {
         const wallet = this._wallet;
         if (wallet) {
-            wallet.off('disconnect', this._disconnected);
+            if (this._onDisconnectBound) {
+                wallet.off('disconnect', this._onDisconnectBound);
+                this._onDisconnectBound = null;
+            }
             wallet.off('accountChanged', this._accountChanged);
 
             this._wallet = null;
@@ -273,11 +281,13 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    private _disconnected = () => {
+    private _disconnected() {
         const wallet = this._wallet;
         if (wallet) {
-            wallet.off('disconnect', this._disconnected);
-            wallet.off('accountChanged', this._accountChanged);
+            if (this._onDisconnectBound) {
+                wallet.off('disconnect', this._onDisconnectBound);
+                this._onDisconnectBound = null;
+            }
 
             this._wallet = null;
             this._publicKey = null;
@@ -285,7 +295,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
             this.emit('error', new WalletDisconnectedError());
             this.emit('disconnect');
         }
-    };
+    }
 
     private _accountChanged = (newPublicKey: PublicKey) => {
         const publicKey = this._publicKey;

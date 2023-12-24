@@ -54,6 +54,7 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
         typeof window === 'undefined' || typeof document === 'undefined'
             ? WalletReadyState.Unsupported
             : WalletReadyState.Loadable;
+    private _onDisconnectBound: (() => void) | null = null;
 
     constructor(config: SolflareWalletAdapterConfig = {}) {
         super();
@@ -128,6 +129,7 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
                 throw new WalletConfigError(error?.message, error);
             }
 
+            if (!wallet) throw new WalletNotReadyError();
             this._connecting = true;
 
             if (!wallet.connected) {
@@ -147,7 +149,10 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
-            wallet.on('disconnect', this._disconnected);
+            if (!this._onDisconnectBound) {
+                this._onDisconnectBound = this._disconnected.bind(this);
+                wallet.on('disconnect', this._onDisconnectBound);
+            }
             wallet.on('accountChanged', this._accountChanged);
 
             this._wallet = wallet;
@@ -165,7 +170,10 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
     async disconnect(): Promise<void> {
         const wallet = this._wallet;
         if (wallet) {
-            wallet.off('disconnect', this._disconnected);
+            if (this._onDisconnectBound) {
+                wallet.off('disconnect', this._onDisconnectBound);
+                this._onDisconnectBound = null;
+            }
             wallet.off('accountChanged', this._accountChanged);
 
             this._wallet = null;
@@ -261,10 +269,13 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    private _disconnected = () => {
+    private _disconnected() {
         const wallet = this._wallet;
         if (wallet) {
-            wallet.off('disconnect', this._disconnected);
+            if (this._onDisconnectBound) {
+                wallet.off('disconnect', this._onDisconnectBound);
+                this._onDisconnectBound = null;
+            }
 
             this._wallet = null;
             this._publicKey = null;
@@ -272,7 +283,7 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
             this.emit('error', new WalletDisconnectedError());
             this.emit('disconnect');
         }
-    };
+    }
 
     private _accountChanged = (newPublicKey?: PublicKey) => {
         if (!newPublicKey) return;

@@ -56,6 +56,7 @@ export class NekoWalletAdapter extends BaseMessageSignerWalletAdapter {
         typeof window === 'undefined' || typeof document === 'undefined'
             ? WalletReadyState.Unsupported
             : WalletReadyState.NotDetected;
+    private _onDisconnectBound: (() => void) | null = null;
 
     constructor(config: NekoWalletAdapterConfig = {}) {
         super();
@@ -100,6 +101,7 @@ export class NekoWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const wallet = window.neko!;
+            if (!wallet) throw new WalletNotReadyError();
 
             if (!wallet.isConnected) {
                 try {
@@ -118,7 +120,10 @@ export class NekoWalletAdapter extends BaseMessageSignerWalletAdapter {
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
-            wallet.on('disconnect', this._disconnected);
+            if (!this._onDisconnectBound) {
+                this._onDisconnectBound = this._disconnected.bind(this);
+                wallet.on('disconnect', this._onDisconnectBound);
+            }
 
             this._wallet = wallet;
             this._publicKey = publicKey;
@@ -135,7 +140,10 @@ export class NekoWalletAdapter extends BaseMessageSignerWalletAdapter {
     async disconnect(): Promise<void> {
         const wallet = this._wallet;
         if (wallet) {
-            wallet.off('disconnect', this._disconnected);
+            if (this._onDisconnectBound) {
+                wallet.off('disconnect', this._onDisconnectBound);
+                this._onDisconnectBound = null;
+            }
 
             this._wallet = null;
             this._publicKey = null;
@@ -199,10 +207,13 @@ export class NekoWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    private _disconnected = () => {
+    private _disconnected() {
         const wallet = this._wallet;
         if (wallet) {
-            wallet.off('disconnect', this._disconnected);
+            if (this._onDisconnectBound) {
+                wallet.off('disconnect', this._onDisconnectBound);
+                this._onDisconnectBound = null;
+            }
 
             this._wallet = null;
             this._publicKey = null;
@@ -210,5 +221,5 @@ export class NekoWalletAdapter extends BaseMessageSignerWalletAdapter {
             this.emit('error', new WalletDisconnectedError());
             this.emit('disconnect');
         }
-    };
+    }
 }

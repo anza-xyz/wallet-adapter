@@ -47,6 +47,7 @@ export class SalmonWalletAdapter extends BaseMessageSignerWalletAdapter {
         typeof window === 'undefined' || typeof document === 'undefined'
             ? WalletReadyState.Unsupported
             : WalletReadyState.Loadable;
+    private _onDisconnectBound: (() => void) | null = null;
 
     constructor({ network = WalletAdapterNetwork.Mainnet }: SalmonWalletAdapterConfig = {}) {
         super();
@@ -105,6 +106,7 @@ export class SalmonWalletAdapter extends BaseMessageSignerWalletAdapter {
                 throw new WalletConfigError(error?.message, error);
             }
 
+            if (!wallet) throw new WalletNotReadyError();
             if (!wallet.connected) {
                 try {
                     await wallet.connect();
@@ -122,7 +124,10 @@ export class SalmonWalletAdapter extends BaseMessageSignerWalletAdapter {
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
-            wallet.on('disconnect', this._disconnected);
+            if (!this._onDisconnectBound) {
+                this._onDisconnectBound = this._disconnected.bind(this);
+                wallet.on('disconnect', this._onDisconnectBound);
+            }
 
             this._wallet = wallet;
             this._publicKey = publicKey;
@@ -139,7 +144,10 @@ export class SalmonWalletAdapter extends BaseMessageSignerWalletAdapter {
     async disconnect(): Promise<void> {
         const wallet = this._wallet;
         if (wallet) {
-            wallet.off('disconnect', this._disconnected);
+            if (this._onDisconnectBound) {
+                wallet.off('disconnect', this._onDisconnectBound);
+                this._onDisconnectBound = null;
+            }
 
             this._wallet = null;
             this._publicKey = null;
@@ -202,10 +210,13 @@ export class SalmonWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    private _disconnected = () => {
+    private _disconnected() {
         const wallet = this._wallet;
         if (wallet) {
-            wallet.off('disconnect', this._disconnected);
+            if (this._onDisconnectBound) {
+                wallet.off('disconnect', this._onDisconnectBound);
+                this._onDisconnectBound = null;
+            }
 
             this._wallet = null;
             this._publicKey = null;
@@ -213,5 +224,5 @@ export class SalmonWalletAdapter extends BaseMessageSignerWalletAdapter {
             this.emit('error', new WalletDisconnectedError());
             this.emit('disconnect');
         }
-    };
+    }
 }
