@@ -1,26 +1,42 @@
 # @solana/wallet-adapter-nextjs-starter
 
-## 0.8.20-alpha.3
+## 0.8.24
 
 ### Patch Changes
 
--   55ed3be4: Add Sign in With Solana
--   Updated dependencies [55ed3be4]
-    -   @solana/wallet-adapter-wallets@0.19.20-alpha.3
-    -   @solana/wallet-adapter-react-ui@0.9.33-alpha.3
-    -   @solana/wallet-adapter-react@0.15.34-alpha.3
-    -   @solana/wallet-adapter-base@0.9.23-alpha.3
+-   Updated dependencies [46f06e72]
+    -   @solana/wallet-adapter-wallets@0.19.24
 
-## 0.8.20-alpha.2
+## 0.8.23
 
 ### Patch Changes
 
--   Add Sign in With Solana
--   Updated dependencies
-    -   @solana/wallet-adapter-react@0.15.34-alpha.2
-    -   @solana/wallet-adapter-base@0.9.23-alpha.2
-    -   @solana/wallet-adapter-react-ui@0.9.33-alpha.2
-    -   @solana/wallet-adapter-wallets@0.19.20-alpha.2
+-   @solana/wallet-adapter-wallets@0.19.23
+
+## 0.8.22
+
+### Patch Changes
+
+-   @solana/wallet-adapter-wallets@0.19.22
+
+## 0.8.21
+
+### Patch Changes
+
+-   Updated dependencies [bdc0eff]
+    -   @solana/wallet-adapter-wallets@0.19.21
+    -   @solana/wallet-adapter-react@0.15.35
+    -   @solana/wallet-adapter-react-ui@0.9.34
+
+## 0.8.20
+
+### Patch Changes
+
+-   Updated dependencies [a3d35a1]
+    -   @solana/wallet-adapter-react@0.15.34
+    -   @solana/wallet-adapter-base@0.9.23
+    -   @solana/wallet-adapter-wallets@0.19.20
+    -   @solana/wallet-adapter-react-ui@0.9.33
 
 ## 0.8.19
 
