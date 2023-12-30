@@ -1,0 +1,12 @@
+/* walletconnect.module.css */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  .button {
+    margin-top: 10px
+  }
