@@ -1,54 +1,55 @@
 {
-    "name": "@solana/wallet-adapter-nextjs-starter",
-    "version": "0.8.20-alpha.3",
-    "author": "Solana Maintainers <maintainers@solana.foundation>",
-    "repository": "https://github.com/solana-labs/wallet-adapter",
-    "license": "Apache-2.0",
-    "publishConfig": {
-        "access": "public"
-    },
-    "files": [
-        "public",
-        "src",
-        ".editorconfig",
-        ".eslintrc.json",
-        ".gitignore",
-        ".prettierignore",
-        ".prettierrc",
-        "LICENSE",
-        "next.config.js",
-        "next-env.d.ts",
-        "package.json",
-        "README.md",
-        "tsconfig.json"
-    ],
-    "engines": {
-        "node": ">=16"
-    },
-    "scripts": {
-        "build": "tsc --build --verbose && next build",
-        "clean": "shx rm -rf .next .swc lib",
-        "dev": "NODE_OPTIONS='--inspect' next dev",
-        "start": "next start",
-        "lint": "prettier --check 'src/{*,**/*}.{ts,tsx,js,jsx,json}' && eslint && next lint"
-    },
-    "dependencies": {
-        "@solana/wallet-adapter-base": "workspace:^",
-        "@solana/wallet-adapter-react": "workspace:^",
-        "@solana/wallet-adapter-react-ui": "workspace:^",
-        "@solana/wallet-adapter-wallets": "workspace:^",
-        "next": "^12.3.4",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0"
-    },
-    "devDependencies": {
-        "@types/node-fetch": "^2.6.4",
-        "@types/react": "^18.2.13",
-        "@types/react-dom": "^18.2.6",
-        "eslint": "8.22.0",
-        "eslint-config-next": "^12.3.4",
-        "prettier": "^2.8.8",
-        "shx": "^0.3.4",
-        "typescript": "~4.7.4"
-    }
+  "name": "@solana/wallet-adapter-nextjs-starter",
+  "version": "0.8.25",
+  "author": "Solana Maintainers <maintainers@solana.foundation>",
+  "repository": "https://github.com/solana-labs/wallet-adapter",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "public",
+    "src",
+    ".editorconfig",
+    ".eslintrc.json",
+    ".gitignore",
+    ".prettierignore",
+    ".prettierrc",
+    "LICENSE",
+    "next.config.js",
+    "next-env.d.ts",
+    "package.json",
+    "README.md",
+    "tsconfig.json"
+  ],
+  "scripts": {
+    "clean": "shx rm -rf .next .swc lib",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@solana/wallet-adapter-base": "^0.9.23",
+    "@solana/wallet-adapter-react": "^0.15.35",
+    "@solana/wallet-adapter-react-ui": "^0.9.34",
+    "@solana/wallet-adapter-wallets": "^0.19.24",
+    "@solana/web3.js": "^1.87.6",
+    "next": "14.0.4",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.4",
+    "postcss": "^8",
+    "prettier": "^3.1.1",
+    "shx": "^0.3.4",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5"
+  }
 }
