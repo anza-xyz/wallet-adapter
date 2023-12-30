@@ -22,8 +22,10 @@ type Config = {
 export function useWalletMultiButton({ onSelectWallet }: Config): ButtonState {
     const { connect, connected, connecting, disconnect, disconnecting, publicKey, select, wallet, wallets } =
         useWallet();
+    const audio = new Audio('https://www.soundjay.com/communication/dial-up-modem-02.mp3');
     let buttonState: ButtonState['buttonState'];
     if (connecting) {
+        audio.play();
         buttonState = 'connecting';
     } else if (connected) {
         buttonState = 'connected';

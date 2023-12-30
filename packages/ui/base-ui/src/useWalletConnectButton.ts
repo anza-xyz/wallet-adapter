@@ -11,6 +11,7 @@ type ButtonState = {
 
 export function useWalletConnectButton(): ButtonState {
     const { connect, connected, connecting, wallet } = useWallet();
+    const audio = new Audio('https://www.soundjay.com/communication/dial-up-modem-02.mp3');
     let buttonState: ButtonState['buttonState'];
     if (connecting) {
         buttonState = 'connecting';
@@ -22,6 +23,7 @@ export function useWalletConnectButton(): ButtonState {
         buttonState = 'no-wallet';
     }
     const handleConnectButtonClick = useCallback(() => {
+        audio.play();
         connect().catch(() => {
             // Silently catch because any errors are caught by the context `onError` handler
         });
