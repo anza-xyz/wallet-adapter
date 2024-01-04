@@ -128,6 +128,9 @@
             "path": "./packages/wallets/torus/tsconfig.json"
         },
         {
+            "path": "./packages/wallets/trezor/tsconfig.json"
+        },
+        {
             "path": "./packages/wallets/trust/tsconfig.json"
         },
         {
