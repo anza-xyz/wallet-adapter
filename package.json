@@ -52,6 +52,7 @@
         "@ledgerhq/hw-transport": "6.27.1",
         "@ledgerhq/hw-transport-webhid": "6.27.1",
         "@solana/wallet-adapter-base": "workspace:^",
+        "@types/web": "npm:typescript@~4.7.4",
         "eslint": "8.22.0"
     },
     "resolutions": {
@@ -59,6 +60,7 @@
         "@ledgerhq/hw-transport": "6.27.1",
         "@ledgerhq/hw-transport-webhid": "6.27.1",
         "@solana/wallet-adapter-base": "workspace:^",
+        "@types/web": "npm:typescript@~4.7.4",
         "eslint": "8.22.0"
     }
 }
