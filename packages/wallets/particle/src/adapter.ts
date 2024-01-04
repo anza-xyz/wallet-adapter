@@ -15,6 +15,7 @@ import {
 } from '@solana/wallet-adapter-base';
 import type { Transaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
+import { LoginOptions } from '@particle-network/auth';
 
 interface NestedConfig {
     chainId?: number;
@@ -80,10 +81,7 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
         };
     }
 
-    public get particle(): ParticleNetwork {
-        if (!this._particleNetwork) {
-            throw new Error('ParticleNetwork is not initialized.');
-        }
+    public get particle(): ParticleNetwork | null {
         return this._particleNetwork;
     }
 
@@ -119,9 +117,9 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
 
             let particleNetwork: ParticleNetwork;
 
-            const authOptions: any = {};
+            const authOptions: LoginOptions = {};
             if (this._config.preferredAuthType) {
-                authOptions.preferredAuthType = this._config.preferredAuthType;
+                authOptions.preferredAuthType = this._config.preferredAuthType as LoginOptions['preferredAuthType'];
             }
 
             try {
@@ -132,8 +130,6 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
             } catch (error: any) {
                 throw new WalletConfigError(error?.message, error);
             }
-
-            this._particleNetwork = particleNetwork;
 
             let wallet: SolanaWallet;
             try {
@@ -153,6 +149,7 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
             }
 
             this._wallet = wallet;
+            this._particleNetwork = particleNetwork;
             this._publicKey = publicKey;
 
             this.emit('connect', publicKey);
