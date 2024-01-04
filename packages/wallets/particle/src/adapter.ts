@@ -4,7 +4,6 @@ import {
     BaseMessageSignerWalletAdapter,
     WalletAccountError,
     WalletConfigError,
-    WalletConnectionError,
     WalletDisconnectionError,
     WalletLoadError,
     WalletNotConnectedError,
@@ -16,9 +15,19 @@ import {
 } from '@solana/wallet-adapter-base';
 import type { Transaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
+import { LoginOptions } from '@particle-network/auth';
+
+interface NestedConfig {
+    chainId?: number;
+    chainName?: string;
+    projectId: string;
+    clientKey: string;
+    appId: string;
+}
 
 export interface ParticleAdapterConfig {
-    config?: Config;
+    config?: NestedConfig;
+    preferredAuthType?: string;
 }
 
 export const ParticleName = 'Particle' as WalletName<'Particle'>;
@@ -37,12 +46,43 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
     private _readyState: WalletReadyState =
         typeof window === 'undefined' ? WalletReadyState.Unsupported : WalletReadyState.Loadable;
 
+    private _particleNetwork: ParticleNetwork | null = null;
+
     constructor(config: ParticleAdapterConfig = {}) {
         super();
         this._connecting = false;
         this._publicKey = null;
         this._wallet = null;
-        this._config = config;
+
+        const defaultNestedConfig: NestedConfig = {
+            projectId: '',
+            clientKey: '',
+            appId: '',
+        };
+
+        const nestedConfig: NestedConfig = {
+            ...defaultNestedConfig,
+            ...config.config,
+        };
+
+        const chainId = nestedConfig.chainId !== undefined ? nestedConfig.chainId : 101;
+        const chainName = nestedConfig.chainName !== undefined ? nestedConfig.chainName : 'solana';
+
+        this._config = {
+            ...config,
+            config: {
+                ...nestedConfig,
+                chainId,
+                chainName,
+                projectId: nestedConfig.projectId,
+                clientKey: nestedConfig.clientKey,
+                appId: nestedConfig.appId,
+            },
+        };
+    }
+
+    public get particle(): ParticleNetwork | null {
+        return this._particleNetwork;
     }
 
     get publicKey() {
@@ -66,6 +106,7 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
 
             let ParticleClass: typeof ParticleNetwork;
             let WalletClass: typeof SolanaWallet;
+
             try {
                 ({ ParticleNetwork: ParticleClass, SolanaWallet: WalletClass } = await import(
                     '@particle-network/solana-wallet'
@@ -74,17 +115,27 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
                 throw new WalletLoadError(error?.message, error);
             }
 
-            let wallet: SolanaWallet;
+            let particleNetwork: ParticleNetwork;
+
+            const authOptions: LoginOptions = {};
+            if (this._config.preferredAuthType) {
+                authOptions.preferredAuthType = this._config.preferredAuthType as LoginOptions['preferredAuthType'];
+            }
+
             try {
-                wallet = new WalletClass(new ParticleClass(this._config?.config).auth);
+                particleNetwork = new ParticleClass(this._config?.config as Config);
+                if (!particleNetwork.auth.isLogin()) {
+                    await particleNetwork.auth.login(authOptions);
+                }
             } catch (error: any) {
                 throw new WalletConfigError(error?.message, error);
             }
 
+            let wallet: SolanaWallet;
             try {
-                await wallet.connect();
+                wallet = new WalletClass(particleNetwork.auth);
             } catch (error: any) {
-                throw new WalletConnectionError(error?.message, error);
+                throw new WalletConfigError(error?.message, error);
             }
 
             const account = wallet.publicKey;
@@ -98,6 +149,7 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
             }
 
             this._wallet = wallet;
+            this._particleNetwork = particleNetwork;
             this._publicKey = publicKey;
 
             this.emit('connect', publicKey);
