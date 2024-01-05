@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-nextjs-starter
 
+## 0.8.25
+
+### Patch Changes
+
+-   @solana/wallet-adapter-wallets@0.19.25
+
 ## 0.8.24
 
 ### Patch Changes
