@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-particle
 
+## 0.1.11
+
+### Patch Changes
+
+-   7d41f2fe: Update Particle adapter
+
 ## 0.1.10
 
 ### Patch Changes

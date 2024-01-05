@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-create-react-app-starter
 
+## 0.1.23
+
+### Patch Changes
+
+-   @solana/wallet-adapter-wallets@0.19.25
+
 ## 0.1.22
 
 ### Patch Changes
