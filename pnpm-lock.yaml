@@ -96,8 +96,8 @@ importers:
   packages/core/react:
     dependencies:
       '@solana-mobile/wallet-adapter-mobile':
-        specifier: ^2.0.0
-        version: 2.0.1(@solana/web3.js@1.78.0)(react-native@0.72.3)
+        specifier: ^2.0.3
+        version: 2.0.3(@solana/web3.js@1.78.0)(react-native@0.72.3)
       '@solana/wallet-adapter-base':
         specifier: workspace:^
         version: link:../base
@@ -119,7 +119,7 @@ importers:
         version: 18.2.7
       jest:
         specifier: ^28.1.3
-        version: 28.1.3(@types/node@18.16.19)
+        version: 28.1.3
       jest-environment-jsdom:
         specifier: ^28.1.3
         version: 28.1.3
@@ -5559,12 +5559,14 @@ packages:
 
   /@react-native-async-storage/async-storage@1.19.1(react-native@0.72.3):
     resolution: {integrity: sha512-5QXuGCtB+HL3VtKL2JN3+6t4qh8VXizK+aGDAv6Dqiq3MLrzgZHb4tjVgtEWMd8CcDtD/JqaAI1b6/EaYGtFIA==}
+    requiresBuild: true
     peerDependencies:
       react-native: ^0.0.0-0 || 0.60 - 0.72 || 1000.0.0
     dependencies:
       merge-options: 3.0.4
       react-native: 0.72.3(@babel/core@7.22.9)(@babel/preset-env@7.22.9)(react@18.2.0)
     dev: false
+    optional: true
 
   /@react-native-community/cli-clean@11.3.5:
     resolution: {integrity: sha512-1+7BU962wKkIkHRp/uW3jYbQKKGtU7L+R3g59D8K6uLccuxJYUBJv18753ojMa6SD3SAq5Xh31bAre+YwVcOTA==}
@@ -5924,12 +5926,12 @@ packages:
     resolution: {integrity: sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==}
     dev: false
 
-  /@solana-mobile/mobile-wallet-adapter-protocol-web3js@2.0.1(@solana/web3.js@1.78.0)(react-native@0.72.3):
-    resolution: {integrity: sha512-zpMEU40PJ2rmRgqXbn7JqyHhrygQLX9MVszAczVDzqg39aMD7yo6VyTI8NEH422JzCj3Cjl9DndQZJRNdqdOHw==}
+  /@solana-mobile/mobile-wallet-adapter-protocol-web3js@2.0.3(@solana/web3.js@1.78.0)(react-native@0.72.3):
+    resolution: {integrity: sha512-T+aX+M4MEtM9B8ecWbt6Ueuj9RuUF4bVO1r6k7OeV0P6xhdqkblKOM9WsTmo+gSddSc6X1x8w4C9Dvyh93Ogbg==}
     peerDependencies:
       '@solana/web3.js': ^1.58.0
     dependencies:
-      '@solana-mobile/mobile-wallet-adapter-protocol': 1.0.1(react-native@0.72.3)
+      '@solana-mobile/mobile-wallet-adapter-protocol': 2.0.2(react-native@0.72.3)
       '@solana/web3.js': 1.78.0
       bs58: 5.0.0
       js-base64: 3.7.5
@@ -5937,24 +5939,28 @@ packages:
       - react-native
     dev: false
 
-  /@solana-mobile/mobile-wallet-adapter-protocol@1.0.1(react-native@0.72.3):
-    resolution: {integrity: sha512-T+xroGLYaYeI8TXy85oNul2m1k/oF9dAW7eRy/MF9up1EQ5SPL5KWFICQfV2gy87jBZd1y0k0M2GayVN7QdQpA==}
+  /@solana-mobile/mobile-wallet-adapter-protocol@2.0.2(react-native@0.72.3):
+    resolution: {integrity: sha512-UbDICKE5NFM8BePy8oKSWpO+7F8zU2We8rQOSKrmY9T/7lnrkv0KFT3ytbmYa9mE65cxAOhrVPkSv/louSam1w==}
     peerDependencies:
       react-native: '>0.69'
     dependencies:
+      '@solana/wallet-standard-util': 1.1.1
+      js-base64: 3.7.5
       react-native: 0.72.3(@babel/core@7.22.9)(@babel/preset-env@7.22.9)(react@18.2.0)
     dev: false
 
-  /@solana-mobile/wallet-adapter-mobile@2.0.1(@solana/web3.js@1.78.0)(react-native@0.72.3):
-    resolution: {integrity: sha512-QIM8nqVRmv8yEsTEfMbzWH7NoVVC6F417Z/tf6FpOVn1N6MqiZc5kvajsaRJKXrHzi5r5023SKErjg9LjZshXw==}
+  /@solana-mobile/wallet-adapter-mobile@2.0.3(@solana/web3.js@1.78.0)(react-native@0.72.3):
+    resolution: {integrity: sha512-4RrBTZyMTxuIZevRhS++WNX2hxrF2uPl3wIqMz2k6KK5Bwk5F5DAyVwyg1N27XaABu7k+YjdhoMqXDIp9XA9zw==}
     peerDependencies:
       '@solana/web3.js': ^1.58.0
     dependencies:
-      '@react-native-async-storage/async-storage': 1.19.1(react-native@0.72.3)
-      '@solana-mobile/mobile-wallet-adapter-protocol-web3js': 2.0.1(@solana/web3.js@1.78.0)(react-native@0.72.3)
+      '@solana-mobile/mobile-wallet-adapter-protocol-web3js': 2.0.3(@solana/web3.js@1.78.0)(react-native@0.72.3)
       '@solana/wallet-adapter-base': link:packages/core/base
+      '@solana/wallet-standard-features': 1.1.0
       '@solana/web3.js': 1.78.0
       js-base64: 3.7.5
+    optionalDependencies:
+      '@react-native-async-storage/async-storage': 1.19.1(react-native@0.72.3)
     transitivePeerDependencies:
       - react-native
     dev: false
@@ -5980,6 +5986,14 @@ packages:
       '@wallet-standard/features': 1.0.3
     dev: false
 
+  /@solana/wallet-standard-features@1.2.0:
+    resolution: {integrity: sha512-tUd9srDLkRpe1BYg7we+c4UhRQkq+XQWswsr/L1xfGmoRDF47BPSXf4zE7ZU2GRBGvxtGt7lwJVAufQyQYhxTQ==}
+    engines: {node: '>=16'}
+    dependencies:
+      '@wallet-standard/base': 1.0.1
+      '@wallet-standard/features': 1.0.3
+    dev: false
+
   /@solana/wallet-standard-util@1.1.0:
     resolution: {integrity: sha512-vssoCIx43sY5EMrT1pVltsZZKPAQfKpPG3ib2fuqRqpTRGkeRFCPDf4lrVFAYYp238tFr3Xrr/3JLcGvPP7uYw==}
     engines: {node: '>=16'}
@@ -5987,6 +6001,15 @@ packages:
       '@noble/curves': 1.1.0
       '@solana/wallet-standard-chains': 1.1.0
       '@solana/wallet-standard-features': 1.1.0
+    dev: false
+
+  /@solana/wallet-standard-util@1.1.1:
+    resolution: {integrity: sha512-dPObl4ntmfOc0VAGGyyFvrqhL8UkHXmVsgbj0K9RcznKV4KB3MgjGwzo8CTSX5El5lkb0rDeEzFqvToJXRz3dw==}
+    engines: {node: '>=16'}
+    dependencies:
+      '@noble/curves': 1.2.0
+      '@solana/wallet-standard-chains': 1.1.0
+      '@solana/wallet-standard-features': 1.2.0
     dev: false
 
   /@solana/wallet-standard-wallet-adapter-base@1.1.0(@solana/web3.js@1.78.0)(bs58@4.0.1):
@@ -10432,7 +10455,7 @@ packages:
       confusing-browser-globals: 1.0.11
       eslint: 8.22.0
       eslint-plugin-flowtype: 8.0.3(@babel/plugin-syntax-flow@7.22.5)(@babel/plugin-transform-react-jsx@7.22.5)(eslint@8.22.0)
-      eslint-plugin-import: 2.27.5(@typescript-eslint/parser@5.62.0)(eslint-import-resolver-typescript@2.7.1)(eslint@8.22.0)
+      eslint-plugin-import: 2.27.5(@typescript-eslint/parser@5.62.0)(eslint@8.22.0)
       eslint-plugin-jest: 25.7.0(@typescript-eslint/eslint-plugin@5.62.0)(eslint@8.22.0)(jest@27.5.1)(typescript@4.7.4)
       eslint-plugin-jsx-a11y: 6.7.1(eslint@8.22.0)
       eslint-plugin-react: 7.33.0(eslint@8.22.0)
@@ -10549,6 +10572,39 @@ packages:
       - eslint-import-resolver-typescript
       - eslint-import-resolver-webpack
       - supports-color
+
+  /eslint-plugin-import@2.27.5(@typescript-eslint/parser@5.62.0)(eslint@8.22.0):
+    resolution: {integrity: sha512-LmEt3GVofgiGuiE+ORpnvP+kAm3h6MLZJ4Q5HCyHADofsb4VzXFsRiWj3c0OFiV+3DWFh0qg3v9gcPlfc3zRow==}
+    engines: {node: '>=4'}
+    peerDependencies:
+      '@typescript-eslint/parser': '*'
+      eslint: ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8
+    peerDependenciesMeta:
+      '@typescript-eslint/parser':
+        optional: true
+    dependencies:
+      '@typescript-eslint/parser': 5.62.0(eslint@8.22.0)(typescript@4.7.4)
+      array-includes: 3.1.6
+      array.prototype.flat: 1.3.1
+      array.prototype.flatmap: 1.3.1
+      debug: 3.2.7
+      doctrine: 2.1.0
+      eslint: 8.22.0
+      eslint-import-resolver-node: 0.3.7
+      eslint-module-utils: 2.8.0(@typescript-eslint/parser@5.62.0)(eslint-import-resolver-node@0.3.7)(eslint-import-resolver-typescript@2.7.1)(eslint@8.22.0)
+      has: 1.0.3
+      is-core-module: 2.12.1
+      is-glob: 4.0.3
+      minimatch: 3.1.2
+      object.values: 1.1.6
+      resolve: 1.22.2
+      semver: 6.3.1
+      tsconfig-paths: 3.14.2
+    transitivePeerDependencies:
+      - eslint-import-resolver-typescript
+      - eslint-import-resolver-webpack
+      - supports-color
+    dev: false
 
   /eslint-plugin-jest@25.7.0(@typescript-eslint/eslint-plugin@5.62.0)(eslint@8.22.0)(jest@27.5.1)(typescript@4.7.4):
     resolution: {integrity: sha512-PWLUEXeeF7C9QGKqvdSbzLOiLTx+bno7/HC9eefePfEb257QFHg7ye3dh80AZVkaa/RQsBB1Q/ORQvg2X7F0NQ==}
@@ -12136,6 +12192,7 @@ packages:
     resolution: {integrity: sha512-YWnfyRwxL/+SsrWYfOpUtz5b3YD+nyfkHvjbcanzk8zgyO4ASD67uVMRt8k5bM4lLMDnXfriRhOpemw+NfT1eA==}
     engines: {node: '>=8'}
     dev: false
+    optional: true
 
   /is-plain-obj@3.0.0:
     resolution: {integrity: sha512-gwsOE28k+23GP1B6vFl1oVh/WOzmawBrKwo5Ev6wMKzPkaXaCDIQKzLnvsA42DRlbVTWorkgTKIviAKCWkfUwA==}
@@ -12449,7 +12506,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /jest-cli@28.1.3(@types/node@18.16.19):
+  /jest-cli@28.1.3:
     resolution: {integrity: sha512-roY3kvrv57Azn1yPgdTebPAXvdR2xfezaKKYzVxZ6It/5NCxzJym6tUI5P1zkdWhfUYkxEI9uZWcQdaFLo8mJQ==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     hasBin: true
@@ -13308,7 +13365,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /jest@28.1.3(@types/node@18.16.19):
+  /jest@28.1.3:
     resolution: {integrity: sha512-N4GT5on8UkZgH0O5LUavMRV1EDEhNTL0KEfRmDIeZHSV7p2XgLoY9t9VDUgL6o+yfdgYHVxuz81G8oB9VG5uyA==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     hasBin: true
@@ -13321,7 +13378,7 @@ packages:
       '@jest/core': 28.1.3
       '@jest/types': 28.1.3
       import-local: 3.1.0
-      jest-cli: 28.1.3(@types/node@18.16.19)
+      jest-cli: 28.1.3
     transitivePeerDependencies:
       - '@types/node'
       - supports-color
@@ -14064,6 +14121,7 @@ packages:
     dependencies:
       is-plain-obj: 2.1.0
     dev: false
+    optional: true
 
   /merge-stream@2.0.0:
     resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==}
@@ -18853,7 +18911,7 @@ packages:
       '@babel/core': 7.22.9
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      jest: 28.1.3(@types/node@18.16.19)
+      jest: 28.1.3
       jest-util: 28.1.3
       json5: 2.2.3
       lodash.memoize: 4.1.2
