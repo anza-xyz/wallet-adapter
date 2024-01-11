@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-react
 
+## 0.15.36
+
+### Patch Changes
+
+-   d1cd3913: Update to 2.0.3 of the Solana Mobile Wallet adapter. This release adds support for version 2.0 of the Mobile Wallet Adapter specification.
+
 ## 0.15.35
 
 ### Patch Changes
