@@ -23,8 +23,8 @@ import { WalletReadyState } from '@solana/wallet-adapter-base';
 import { useWallet, type Wallet } from '@solana/wallet-adapter-react';
 import type { FC, ReactElement, SyntheticEvent } from 'react';
 import React, { useCallback, useMemo, useState } from 'react';
-import { useWalletDialog } from './useWalletDialog.js';
 import { WalletListItem } from './WalletListItem.js';
+import { useWalletDialog } from './useWalletDialog.js';
 
 const RootDialog = styled(Dialog)(({ theme }: { theme: Theme }) => ({
     '& .MuiDialog-paper': {
@@ -97,20 +97,17 @@ export const WalletDialog: FC<WalletDialogProps> = ({
 
     const [featured, more] = useMemo(() => {
         const installed: Wallet[] = [];
-        const loadable: Wallet[] = [];
-        const notDetected: Wallet[] = [];
+        const notInstalled: Wallet[] = [];
 
         for (const wallet of wallets) {
-            if (wallet.readyState === WalletReadyState.NotDetected) {
-                notDetected.push(wallet);
-            } else if (wallet.readyState === WalletReadyState.Loadable) {
-                loadable.push(wallet);
-            } else if (wallet.readyState === WalletReadyState.Installed) {
+            if (wallet.readyState === WalletReadyState.Installed) {
                 installed.push(wallet);
+            } else {
+                notInstalled.push(wallet);
             }
         }
 
-        const orderedWallets = [...installed, ...loadable, ...notDetected];
+        const orderedWallets = [...installed, ...notInstalled];
         return [orderedWallets.slice(0, featuredWallets), orderedWallets.slice(featuredWallets)];
     }, [wallets, featuredWallets]);
 

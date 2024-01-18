@@ -24,20 +24,17 @@ export const WalletModal: FC<WalletModalProps> = ({
 
     const [featured, more] = useMemo(() => {
         const installed: Wallet[] = [];
-        const loadable: Wallet[] = [];
-        const notDetected: Wallet[] = [];
+        const notInstalled: Wallet[] = [];
 
         for (const wallet of wallets) {
-            if (wallet.readyState === WalletReadyState.NotDetected) {
-                notDetected.push(wallet);
-            } else if (wallet.readyState === WalletReadyState.Loadable) {
-                loadable.push(wallet);
-            } else if (wallet.readyState === WalletReadyState.Installed) {
+            if (wallet.readyState === WalletReadyState.Installed) {
                 installed.push(wallet);
+            } else {
+                notInstalled.push(wallet);
             }
         }
 
-        const orderedWallets = [...installed, ...loadable, ...notDetected];
+        const orderedWallets = [...installed, ...notInstalled];
         return [orderedWallets.slice(0, featuredWallets), orderedWallets.slice(featuredWallets)];
     }, [wallets, featuredWallets]);
 
