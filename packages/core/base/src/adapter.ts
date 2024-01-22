@@ -18,22 +18,21 @@ export interface SignAndSendTransactionOptions extends SendOptions {
 
 export interface SendOptions {
     minContextSlot?: number;
-    /** @deprecated Wallets are not expected  to support this option. */
+    /** @deprecated Wallets are not expected to support this option. */
     skipPreflight?: boolean;
-    /** @deprecated Wallets are not expected  to support this option. */
+    /** @deprecated Wallets are not expected to support this option. */
     preflightCommitment?: Commitment;
-    /** @deprecated Wallets are not expected  to support this option. */
+    /** @deprecated Wallets are not expected to support this option. */
     maxRetries?: number;
+    /** Mode for signing and sending transactions. */
+    mode?: SolanaSignAndSendTransactionMode;
 }
+
+/** Mode for signing and sending transactions. */
+export type SolanaSignAndSendTransactionMode = 'parallel' | 'serial';
 
 /** @deprecated Use `SignAndSendTransactionOptions` instead. */
 export type SendTransactionOptions = SignAndSendTransactionOptions;
-
-export interface SignAndSendAllTransactionsError {
-    type: string;
-    code: number;
-    message: string;
-}
 
 // WalletName is a nominal type that wallet adapters should use, e.g. `'MyCryptoWallet' as WalletName<'MyCryptoWallet'>`
 // https://medium.com/@KevinBGreene/surviving-the-typescript-ecosystem-branding-and-type-tagging-6cf6e516523d
@@ -61,7 +60,7 @@ export interface WalletAdapterProps<Name extends string = string> {
         transactions: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>[],
         connection: Connection,
         options?: SignAndSendTransactionOptions
-    ): Promise<(TransactionSignature | SignAndSendAllTransactionsError)[]>;
+    ): Promise<(TransactionSignature | undefined)[]>;
     /** @deprecated Use `signAndSendTransaction` instead. */
     sendTransaction(
         transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
@@ -134,17 +133,12 @@ export abstract class BaseWalletAdapter<Name extends string = string>
         transactions: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>[],
         connection: Connection,
         options?: SignAndSendTransactionOptions | undefined
-    ): Promise<(TransactionSignature | SignAndSendAllTransactionsError)[]> {
+    ): Promise<(TransactionSignature | undefined)[]> {
         const results = await Promise.allSettled(
             transactions.map((transaction) => this.signAndSendTransaction(transaction, connection, options))
         );
         return results.map((result) => {
-            if (result.status === 'fulfilled') return result.value;
-            return {
-                type: result.reason.type || result.reason.name,
-                code: result.reason.code,
-                message: result.reason.message,
-            };
+            return result.status === 'fulfilled' ? result.value : undefined;
         });
     }
 
