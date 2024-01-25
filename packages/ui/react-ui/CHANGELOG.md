@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-react-ui
 
+## 0.9.35
+
+### Patch Changes
+
+-   cb29215: Simplify wallet ordering to respect order provided by application
+
 ## 0.9.34
 
 ### Patch Changes

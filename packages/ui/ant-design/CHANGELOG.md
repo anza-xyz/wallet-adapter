@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-ant-design
 
+## 0.11.32
+
+### Patch Changes
+
+-   cb29215: Simplify wallet ordering to respect order provided by application
+
 ## 0.11.31
 
 ### Patch Changes

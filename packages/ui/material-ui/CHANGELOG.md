@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-material-ui
 
+## 0.16.34
+
+### Patch Changes
+
+-   cb29215: Simplify wallet ordering to respect order provided by application
+
 ## 0.16.33
 
 ### Patch Changes
