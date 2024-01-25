@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-wallets
 
+## 0.19.26
+
+### Patch Changes
+
+-   Updated dependencies [bef1cad]
+    -   @solana/wallet-adapter-particle@0.1.12
+
 ## 0.19.25
 
 ### Patch Changes
