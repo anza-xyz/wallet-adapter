@@ -890,8 +890,8 @@ importers:
   packages/wallets/particle:
     dependencies:
       '@particle-network/solana-wallet':
-        specifier: 1.2.1
-        version: 1.2.1(@particle-network/auth@1.2.2)(@solana/web3.js@1.78.0)(bs58@4.0.1)
+        specifier: ^1.3.2
+        version: 1.3.2(@solana/web3.js@1.78.0)(bs58@4.0.1)
       '@solana/wallet-adapter-base':
         specifier: workspace:^
         version: link:../../core/base
@@ -5414,8 +5414,8 @@ packages:
       uuidv4: 6.2.13
     dev: false
 
-  /@particle-network/auth@1.2.2:
-    resolution: {integrity: sha512-xm5j+qex8z0cYxNy9XuxVaIBdb1x7edl4W5XDWx1Px/TdtuqbhGwMsCGbzkTc++yB/LTSIXzzdbDW8a4gRU/gQ==}
+  /@particle-network/auth@1.3.1:
+    resolution: {integrity: sha512-hu6ie5RjjN4X+6y/vfjyCsSX3pQuS8k8ZoMb61QWwhWsnZXKzpBUVeAEk55aGfxxXY+KfBkSmZosyaZHGoHnfw==}
     dependencies:
       '@particle-network/analytics': 1.0.1
       '@particle-network/chains': 1.3.3
@@ -5435,14 +5435,13 @@ packages:
       uuidv4: 6.2.13
     dev: false
 
-  /@particle-network/solana-wallet@1.2.1(@particle-network/auth@1.2.2)(@solana/web3.js@1.78.0)(bs58@4.0.1):
-    resolution: {integrity: sha512-s7kG1NdC+aB4+pp4KGr+N9DwPUEG6V1rYVh3n3xRDjXBd7QoycY8UZIyKthELeSrBrTQdr2rSq3Dhmh4LAtOCg==}
+  /@particle-network/solana-wallet@1.3.2(@solana/web3.js@1.78.0)(bs58@4.0.1):
+    resolution: {integrity: sha512-KviKVP87OtWq813y8IumM3rIQMNkTjHBaQmCUbTWGebz3csFOv54JIoy1r+3J3NnA+mBxBdZeRedZ5g+07v75w==}
     peerDependencies:
-      '@particle-network/auth': '*'
       '@solana/web3.js': ^1.50.1
       bs58: ^4.0.1
     dependencies:
-      '@particle-network/auth': 1.2.2
+      '@particle-network/auth': 1.3.1
       '@solana/web3.js': 1.78.0
       bs58: 4.0.1
     dev: false
