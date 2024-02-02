@@ -108,7 +108,7 @@ This shouldn't happen if you're using one of the starter projects, since they se
 
 ### `[...] is not a function`
 
-This can happen if you try to use `signTransaction`, `signAllTransactions`, or `signMessage` without checking if they are defined first.
+This can happen if you try to use `signTransaction`, `signAllTransactions`, `signAndSendAllTransactions`, `signMessage`, or `signIn` without checking if they are defined first.
 
 `sendTransaction` is the primary method that all wallets support, and it signs transactions.
 The other methods are optional APIs, so you have to feature-detect them before using them.

@@ -1,11 +1,13 @@
 import type { SolanaSignInInput, SolanaSignInOutput } from '@solana/wallet-standard-features';
 import type { Connection, TransactionSignature } from '@solana/web3.js';
+import type { SignAndSendAllTransactionsError } from './adapter.js';
 import {
     BaseWalletAdapter,
     type SignAndSendTransactionOptions,
     type WalletAdapter,
     type WalletAdapterProps,
 } from './adapter.js';
+import { WalletSignAndSendAllTransactionsError } from './errors.js';
 import { WalletSendTransactionError, WalletSignTransactionError } from './errors.js';
 import { isVersionedTransaction, type TransactionOrVersionedTransaction } from './transaction.js';
 
@@ -24,6 +26,20 @@ export abstract class BaseSignerWalletAdapter<Name extends string = string>
     extends BaseWalletAdapter<Name>
     implements SignerWalletAdapter<Name>
 {
+    async signAndSendAllTransactions(
+        transactions: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>[],
+        connection: Connection,
+        options: SignAndSendTransactionOptions = {}
+    ): Promise<(TransactionSignature | WalletSignAndSendAllTransactionsError)[]> {
+        const results = await Promise.allSettled(
+            transactions.map((transaction) => this.signAndSendTransaction(transaction, connection, options))
+        );
+        return results.map((result) => {
+            if (result.status === 'fulfilled') return result.value;
+            return new WalletSignAndSendAllTransactionsError(result.reason);
+        });
+    }
+
     async signAndSendTransaction(
         transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
         connection: Connection,

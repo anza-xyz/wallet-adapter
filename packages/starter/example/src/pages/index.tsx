@@ -59,15 +59,24 @@ const ReactUIWalletModalButtonDynamic = dynamic(
 const RequestAirdropDynamic = dynamic(async () => (await import('../components/RequestAirdrop')).RequestAirdrop, {
     ssr: false,
 });
-const SendLegacyTransactionDynamic = dynamic(
-    async () => (await import('../components/SendLegacyTransaction')).SendLegacyTransaction,
+const SignAndSendLegacyTransactionDynamic = dynamic(
+    async () => (await import('../components/SignAndSendLegacyTransaction')).SignAndSendLegacyTransaction,
     { ssr: false }
 );
-const SendTransactionDynamic = dynamic(async () => (await import('../components/SendTransaction')).SendTransaction, {
-    ssr: false,
-});
-const SendV0TransactionDynamic = dynamic(
-    async () => (await import('../components/SendV0Transaction')).SendV0Transaction,
+const SignAndSendTransactionDynamic = dynamic(
+    async () => (await import('../components/SignAndSendTransaction')).SignAndSendTransaction,
+    {
+        ssr: false,
+    }
+);
+const SignAndSendAllTransactionsDynamic = dynamic(
+    async () => (await import('../components/SignAndSendAllTransactions')).SignAndSendAllTransactions,
+    {
+        ssr: false,
+    }
+);
+const SignAndSendV0TransactionDynamic = dynamic(
+    async () => (await import('../components/SignAndSendV0Transaction')).SignAndSendV0Transaction,
     { ssr: false }
 );
 const SignInDynamic = dynamic(async () => (await import('../components/SignIn')).SignIn, { ssr: false });
@@ -191,13 +200,13 @@ const Index: NextPage = () => {
                     <TableRow>
                         <TableCell></TableCell>
                         <TableCell>
-                            <SendTransactionDynamic />
+                            <SignAndSendTransactionDynamic />
                         </TableCell>
                         <TableCell>
-                            <SendLegacyTransactionDynamic />
+                            <SignAndSendLegacyTransactionDynamic />
                         </TableCell>
                         <TableCell>
-                            <SendV0TransactionDynamic />
+                            <SignAndSendV0TransactionDynamic />
                         </TableCell>
                         <TableCell></TableCell>
                     </TableRow>

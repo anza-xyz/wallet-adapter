@@ -43,10 +43,6 @@ interface PhantomWallet extends EventEmitter<PhantomWalletEvents> {
         transaction: T,
         options?: SendOptions
     ): Promise<{ signature: TransactionSignature }>;
-    signAndSendAllTransactions<T extends Transaction | VersionedTransaction>(
-        transactions: T[],
-        options?: SendOptions
-    ): Promise<{ signatures: TransactionSignature[] }>;
     signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
@@ -218,43 +214,6 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
 
                 const { signature } = await wallet.signAndSendTransaction(transaction, sendOptions);
                 return signature;
-            } catch (error: any) {
-                if (error instanceof WalletError) throw error;
-                throw new WalletSendTransactionError(error?.message, error);
-            }
-        } catch (error: any) {
-            this.emit('error', error);
-            throw error;
-        }
-    }
-
-    async signAndSendAllTransactions<T extends Transaction | VersionedTransaction>(
-        transactions: T[],
-        connection: Connection,
-        options: SignAndSendTransactionOptions = {}
-    ): Promise<TransactionSignature[]> {
-        try {
-            const wallet = this._wallet;
-            if (!wallet) throw new WalletNotConnectedError();
-
-            try {
-                const { signers, ...sendOptions } = options;
-
-                transactions = await Promise.all(
-                    transactions.map(async (transaction) => {
-                        if (isVersionedTransaction(transaction)) {
-                            signers?.length && transaction.sign(signers);
-                        } else {
-                            transaction = (await this.prepareTransaction(transaction, connection, sendOptions)) as T;
-                            signers?.length && (transaction as Transaction).partialSign(...signers);
-                        }
-                        return transaction;
-                    })
-                );
-                sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;
-
-                const { signatures } = await wallet.signAndSendAllTransactions(transactions, sendOptions);
-                return signatures;
             } catch (error: any) {
                 if (error instanceof WalletError) throw error;
                 throw new WalletSendTransactionError(error?.message, error);

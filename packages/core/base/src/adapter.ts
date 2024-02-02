@@ -1,7 +1,9 @@
 import type { Commitment, Connection, PublicKey, Signer, Transaction, TransactionSignature } from '@solana/web3.js';
 import EventEmitter from 'eventemitter3';
+import type { WalletSignAndSendAllTransactionsError } from './errors.js';
 import { WalletNotConnectedError, type WalletError } from './errors.js';
 import type { SupportedTransactionVersions, TransactionOrVersionedTransaction } from './transaction.js';
+import type { SolanaSignAndSendTransactionMode } from '@solana/wallet-standard-features';
 
 export { EventEmitter };
 
@@ -28,11 +30,14 @@ export interface SendOptions {
     mode?: SolanaSignAndSendTransactionMode;
 }
 
-/** Mode for signing and sending transactions. */
-export type SolanaSignAndSendTransactionMode = 'parallel' | 'serial';
-
 /** @deprecated Use `SignAndSendTransactionOptions` instead. */
 export type SendTransactionOptions = SignAndSendTransactionOptions;
+
+export interface SignAndSendAllTransactionsError {
+    type: string;
+    code: number;
+    message: string;
+}
 
 // WalletName is a nominal type that wallet adapters should use, e.g. `'MyCryptoWallet' as WalletName<'MyCryptoWallet'>`
 // https://medium.com/@KevinBGreene/surviving-the-typescript-ecosystem-branding-and-type-tagging-6cf6e516523d
@@ -60,7 +65,7 @@ export interface WalletAdapterProps<Name extends string = string> {
         transactions: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>[],
         connection: Connection,
         options?: SignAndSendTransactionOptions
-    ): Promise<(TransactionSignature | undefined)[]>;
+    ): Promise<(TransactionSignature | WalletSignAndSendAllTransactionsError)[]>;
     /** @deprecated Use `signAndSendTransaction` instead. */
     sendTransaction(
         transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
@@ -129,18 +134,11 @@ export abstract class BaseWalletAdapter<Name extends string = string>
         options?: SignAndSendTransactionOptions
     ): Promise<TransactionSignature>;
 
-    async signAndSendAllTransactions(
+    abstract signAndSendAllTransactions(
         transactions: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>[],
         connection: Connection,
         options?: SignAndSendTransactionOptions | undefined
-    ): Promise<(TransactionSignature | undefined)[]> {
-        const results = await Promise.allSettled(
-            transactions.map((transaction) => this.signAndSendTransaction(transaction, connection, options))
-        );
-        return results.map((result) => {
-            return result.status === 'fulfilled' ? result.value : undefined;
-        });
-    }
+    ): Promise<(TransactionSignature | WalletSignAndSendAllTransactionsError)[]>;
 
     /** @deprecated Use `signAndSendTransaction` instead. */
     sendTransaction(

@@ -6,7 +6,7 @@ import type { FC } from 'react';
 import React, { useCallback } from 'react';
 import { useNotify } from './notify';
 
-export const SendV0Transaction: FC = () => {
+export const SignAndSendV0Transaction: FC = () => {
     const { connection } = useConnection();
     const { publicKey, signAndSendTransaction, wallet } = useWallet();
     const notify = useNotify();
@@ -68,7 +68,7 @@ export const SendV0Transaction: FC = () => {
             onClick={onClick}
             disabled={!publicKey || !supportedTransactionVersions?.has(0)}
         >
-            Send V0 Transaction using Address Lookup Table (devnet)
+            Sign and Send V0 Transaction using Address Lookup Table (devnet)
         </Button>
     );
 };

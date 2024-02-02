@@ -6,7 +6,7 @@ import type { FC } from 'react';
 import React, { useCallback } from 'react';
 import { useNotify } from './notify';
 
-export const SendLegacyTransaction: FC = () => {
+export const SignAndSendLegacyTransaction: FC = () => {
     const { connection } = useConnection();
     const { publicKey, signAndSendTransaction, wallet } = useWallet();
     const notify = useNotify();
@@ -55,7 +55,7 @@ export const SendLegacyTransaction: FC = () => {
             onClick={onClick}
             disabled={!publicKey || !supportedTransactionVersions?.has('legacy')}
         >
-            Send Legacy Transaction (devnet)
+            Sign and Send Legacy Transaction (devnet)
         </Button>
     );
 };

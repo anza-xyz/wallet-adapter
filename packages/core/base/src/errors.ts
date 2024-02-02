@@ -75,3 +75,23 @@ export class WalletWindowBlockedError extends WalletError {
 export class WalletWindowClosedError extends WalletError {
     name = 'WalletWindowClosedError';
 }
+
+export class WalletSignAndSendAllTransactionsError extends WalletError {
+    name = 'WalletSignAndSendAllTransactionsError';
+
+    // Holds the original error object or details
+    error: any;
+
+    // Type of the error (if available)
+    type?: string;
+
+    // Error code (if available)
+    code?: number;
+
+    constructor(error: any) {
+        super(error?.reason?.message, error);
+        this.error = error;
+        this.type = error.type || error.name;
+        this.code = error.code;
+    }
+}
