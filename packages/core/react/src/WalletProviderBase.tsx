@@ -204,10 +204,10 @@ export function WalletProviderBase({
         [adapter, connected]
     );
 
-    // Sign and send multiple transactions using the provided connection
-    const signAndSendAllTransactions: WalletAdapterProps['signAndSendAllTransactions'] | undefined = useMemo(
+    // Sign and send multiple transactions using the provided connection if the wallet supports it
+    const signAndSendAllTransactions: SignerWalletAdapterProps['signAndSendAllTransactions'] | undefined = useMemo(
         () =>
-            adapter && 'signAndSendTransactions' in adapter
+            adapter && 'signAndSendAllTransactions' in adapter
                 ? async (transactions, connection, options) => {
                       if (!adapter) throw handleErrorRef.current(new WalletNotSelectedError());
                       if (!connected) throw handleErrorRef.current(new WalletNotConnectedError(), adapter);

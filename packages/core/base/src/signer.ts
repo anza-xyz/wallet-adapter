@@ -18,6 +18,11 @@ export interface SignerWalletAdapterProps<Name extends string = string> extends 
     signAllTransactions<T extends TransactionOrVersionedTransaction<this['supportedTransactionVersions']>>(
         transactions: T[]
     ): Promise<T[]>;
+    signAndSendAllTransactions(
+        transactions: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>[],
+        connection: Connection,
+        options?: SignAndSendTransactionOptions
+    ): Promise<(TransactionSignature | WalletSignAndSendAllTransactionsError)[]>;
 }
 
 export type SignerWalletAdapter<Name extends string = string> = WalletAdapter<Name> & SignerWalletAdapterProps<Name>;

@@ -61,11 +61,6 @@ export interface WalletAdapterProps<Name extends string = string> {
         connection: Connection,
         options?: SignAndSendTransactionOptions
     ): Promise<TransactionSignature>;
-    signAndSendAllTransactions(
-        transactions: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>[],
-        connection: Connection,
-        options?: SignAndSendTransactionOptions
-    ): Promise<(TransactionSignature | WalletSignAndSendAllTransactionsError)[]>;
     /** @deprecated Use `signAndSendTransaction` instead. */
     sendTransaction(
         transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
@@ -133,12 +128,6 @@ export abstract class BaseWalletAdapter<Name extends string = string>
         connection: Connection,
         options?: SignAndSendTransactionOptions
     ): Promise<TransactionSignature>;
-
-    abstract signAndSendAllTransactions(
-        transactions: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>[],
-        connection: Connection,
-        options?: SignAndSendTransactionOptions | undefined
-    ): Promise<(TransactionSignature | WalletSignAndSendAllTransactionsError)[]>;
 
     /** @deprecated Use `signAndSendTransaction` instead. */
     sendTransaction(

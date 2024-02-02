@@ -15,6 +15,7 @@ export const SignAndSendAllTransactions: FC = () => {
     const onClick = useCallback(async () => {
         try {
             if (!publicKey) throw new Error('Wallet not connected!');
+            if (!signAndSendAllTransactions) throw new Error('Wallet does not supoport signAndSendAllTransactions!');
 
             const {
                 context: { slot: minContextSlot },
