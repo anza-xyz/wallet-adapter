@@ -29,7 +29,7 @@ export interface WalletContextState {
     disconnect(): Promise<void>;
 
     signAndSendTransaction: WalletAdapterProps['signAndSendTransaction'];
-    signAndSendAllTransactions: WalletAdapterProps['signAndSendAllTransactions'];
+    signAndSendAllTransactions: SignerWalletAdapterProps['signAndSendAllTransactions'] | undefined;
     signTransaction: SignerWalletAdapterProps['signTransaction'] | undefined;
     signAllTransactions: SignerWalletAdapterProps['signAllTransactions'] | undefined;
     signMessage: MessageSignerWalletAdapterProps['signMessage'] | undefined;

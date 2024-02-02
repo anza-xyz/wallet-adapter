@@ -6,6 +6,7 @@ import {
     type WalletAdapter,
     type WalletAdapterProps,
 } from './adapter.js';
+import { WalletSignAndSendAllTransactionsError } from './errors.js';
 import { WalletSendTransactionError, WalletSignTransactionError } from './errors.js';
 import { isVersionedTransaction, type TransactionOrVersionedTransaction } from './transaction.js';
 
@@ -16,6 +17,11 @@ export interface SignerWalletAdapterProps<Name extends string = string> extends 
     signAllTransactions<T extends TransactionOrVersionedTransaction<this['supportedTransactionVersions']>>(
         transactions: T[]
     ): Promise<T[]>;
+    signAndSendAllTransactions(
+        transactions: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>[],
+        connection: Connection,
+        options?: SignAndSendTransactionOptions
+    ): Promise<(TransactionSignature | WalletSignAndSendAllTransactionsError)[]>;
 }
 
 export type SignerWalletAdapter<Name extends string = string> = WalletAdapter<Name> & SignerWalletAdapterProps<Name>;
@@ -84,6 +90,20 @@ export abstract class BaseSignerWalletAdapter<Name extends string = string>
             }
             throw error;
         }
+    }
+
+    async signAndSendAllTransactions(
+        transactions: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>[],
+        connection: Connection,
+        options: SignAndSendTransactionOptions = {}
+    ): Promise<(TransactionSignature | WalletSignAndSendAllTransactionsError)[]> {
+        const results = await Promise.allSettled(
+            transactions.map((transaction) => this.signAndSendTransaction(transaction, connection, options))
+        );
+        return results.map((result) => {
+            if (result.status === 'fulfilled') return result.value;
+            return new WalletSignAndSendAllTransactionsError(result.reason);
+        });
     }
 
     abstract signTransaction<T extends TransactionOrVersionedTransaction<this['supportedTransactionVersions']>>(

@@ -1,14 +1,24 @@
 import { ed25519 } from '@noble/curves/ed25519';
-import type { WalletName } from '@solana/wallet-adapter-base';
+import type { SignAndSendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseSignInMessageSignerWalletAdapter,
     isVersionedTransaction,
+    WalletError,
     WalletNotConnectedError,
     WalletReadyState,
+    WalletSendTransactionError,
+    WalletSignTransactionError,
+    WalletSignAndSendAllTransactionsError,
 } from '@solana/wallet-adapter-base';
 import { type SolanaSignInInput, type SolanaSignInOutput } from '@solana/wallet-standard-features';
 import { createSignInMessage } from '@solana/wallet-standard-util';
-import type { Transaction, TransactionVersion, VersionedTransaction } from '@solana/web3.js';
+import type {
+    Connection,
+    Transaction,
+    TransactionSignature,
+    TransactionVersion,
+    VersionedTransaction,
+} from '@solana/web3.js';
 import { Keypair } from '@solana/web3.js';
 
 export const UnsafeBurnerWalletName = 'Burner Wallet' as WalletName<'Burner Wallet'>;
@@ -104,5 +114,70 @@ export class UnsafeBurnerWalletAdapter extends BaseSignInMessageSignerWalletAdap
             signedMessage,
             signature,
         };
+    }
+
+    async signAndSendAllTransactions<T extends Transaction | VersionedTransaction>(
+        transactions: T[],
+        connection: Connection,
+        options: SignAndSendTransactionOptions = {}
+    ): Promise<(TransactionSignature | WalletSignAndSendAllTransactionsError)[]> {
+        try {
+            if (!this._keypair) throw new WalletNotConnectedError();
+
+            try {
+                const { signers, ...sendOptions } = options;
+                sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;
+
+                transactions = await Promise.all(
+                    transactions.map(async (transaction) => {
+                        if (isVersionedTransaction(transaction)) {
+                            signers?.length && transaction.sign(signers);
+                        } else {
+                            transaction = (await this.prepareTransaction(transaction, connection, sendOptions)) as T;
+                            signers?.length && (transaction as Transaction).partialSign(...signers);
+                        }
+                        return transaction;
+                    })
+                );
+
+                for (const transaction of transactions) {
+                    if (isVersionedTransaction(transaction)) {
+                        if (!this.supportedTransactionVersions)
+                            throw new WalletSignTransactionError(
+                                `Signing versioned transactions isn't supported by this wallet`
+                            );
+
+                        if (!this.supportedTransactionVersions.has(transaction.version))
+                            throw new WalletSignTransactionError(
+                                `Signing transaction version ${transaction.version} isn't supported by this wallet`
+                            );
+                    }
+                }
+
+                // Sign and send transactions in parallel
+                const sendPromises = transactions.map(async (transaction) => {
+                    const signedTransaction = await this.signTransaction(transaction);
+                    const rawTransaction = signedTransaction.serialize();
+                    return connection.sendRawTransaction(rawTransaction, options);
+                });
+
+                // Use Promise.allSettled to wait for all sendPromises to settle
+                const sendResults = await Promise.allSettled(sendPromises);
+
+                // Process results
+                const result = sendResults.map((result) => {
+                    if (result.status === 'fulfilled') return result.value;
+                    return new WalletSignAndSendAllTransactionsError(result.reason);
+                });
+
+                return result;
+            } catch (error: any) {
+                if (error instanceof WalletError) throw error;
+                throw new WalletSendTransactionError(error?.message, error);
+            }
+        } catch (error: any) {
+            this.emit('error', error);
+            throw error;
+        }
     }
 }

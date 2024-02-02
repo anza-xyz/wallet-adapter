@@ -6,7 +6,7 @@ import type { FC } from 'react';
 import React, { useCallback } from 'react';
 import { useNotify } from './notify';
 
-export const SendTransaction: FC = () => {
+export const SignAndSendTransaction: FC = () => {
     const { connection } = useConnection();
     const { publicKey, signAndSendTransaction } = useWallet();
     const notify = useNotify();
@@ -44,7 +44,7 @@ export const SendTransaction: FC = () => {
 
     return (
         <Button variant="contained" color="secondary" onClick={onClick} disabled={!publicKey}>
-            Send Transaction (devnet)
+            Sign and Send Transaction (devnet)
         </Button>
     );
 };
