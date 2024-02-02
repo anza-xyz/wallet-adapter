@@ -29,7 +29,7 @@ export const SignAndSendAllTransactions: FC = () => {
                     recentBlockhash: blockhash,
                 }).add(
                     new TransactionInstruction({
-                        data: Buffer.from('Hello, from the Solana Wallet Adapter example app!'),
+                        data: Buffer.from(`transaction number ${i}`),
                         keys: [],
                         programId: new PublicKey('MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr'),
                     })
@@ -38,17 +38,29 @@ export const SignAndSendAllTransactions: FC = () => {
             }
 
             const results = await signAndSendAllTransactions(transactions, connection, { minContextSlot });
-
+            console.log(results);
             // Iterate through the results
-            results.forEach((result, index) => {
-                if (result instanceof WalletSignAndSendAllTransactionsError) {
-                    // If the result is an instance of WalletSignAndSendAllTransactionsError, notify about the error
-                    notify('error', `Transaction failed: ${result.message}`);
-                } else {
-                    // If the result is a signature, notify about the successful transaction
-                    notify('info', 'Transaction sent:', result);
-                }
-            });
+            (async () => {
+                await Promise.all(
+                    results.map(async (result) => {
+                        if (result instanceof WalletSignAndSendAllTransactionsError) {
+                            // If the result is an instance of WalletSignAndSendAllTransactionsError, notify about the error
+                            notify('error', `Transaction failed: ${result.message}`);
+                        } else {
+                            try {
+                                await connection.confirmTransaction({
+                                    blockhash,
+                                    lastValidBlockHeight,
+                                    signature: result,
+                                });
+                                notify('success', 'Transaction successful!', result);
+                            } catch (error: any) {
+                                notify('error', `Transaction failed! ${error?.message}`, result);
+                            }
+                        }
+                    })
+                );
+            })();
         } catch (error: any) {
             notify('error', `Transactions failed! ${error?.message}`);
         }

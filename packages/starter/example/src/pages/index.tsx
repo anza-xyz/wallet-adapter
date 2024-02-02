@@ -203,6 +203,9 @@ const Index: NextPage = () => {
                             <SignAndSendTransactionDynamic />
                         </TableCell>
                         <TableCell>
+                            <SignAndSendAllTransactionsDynamic />
+                        </TableCell>
+                        <TableCell>
                             <SignAndSendLegacyTransactionDynamic />
                         </TableCell>
                         <TableCell>
