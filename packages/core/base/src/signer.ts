@@ -1,6 +1,5 @@
 import type { SolanaSignInInput, SolanaSignInOutput } from '@solana/wallet-standard-features';
 import type { Connection, TransactionSignature } from '@solana/web3.js';
-import type { SignAndSendAllTransactionsError } from './adapter.js';
 import {
     BaseWalletAdapter,
     type SignAndSendTransactionOptions,

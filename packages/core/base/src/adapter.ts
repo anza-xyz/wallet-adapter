@@ -1,6 +1,5 @@
 import type { Commitment, Connection, PublicKey, Signer, Transaction, TransactionSignature } from '@solana/web3.js';
 import EventEmitter from 'eventemitter3';
-import type { WalletSignAndSendAllTransactionsError } from './errors.js';
 import { WalletNotConnectedError, type WalletError } from './errors.js';
 import type { SupportedTransactionVersions, TransactionOrVersionedTransaction } from './transaction.js';
 import type { SolanaSignAndSendTransactionMode } from '@solana/wallet-standard-features';
@@ -32,12 +31,6 @@ export interface SendOptions {
 
 /** @deprecated Use `SignAndSendTransactionOptions` instead. */
 export type SendTransactionOptions = SignAndSendTransactionOptions;
-
-export interface SignAndSendAllTransactionsError {
-    type: string;
-    code: number;
-    message: string;
-}
 
 // WalletName is a nominal type that wallet adapters should use, e.g. `'MyCryptoWallet' as WalletName<'MyCryptoWallet'>`
 // https://medium.com/@KevinBGreene/surviving-the-typescript-ecosystem-branding-and-type-tagging-6cf6e516523d

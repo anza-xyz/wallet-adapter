@@ -91,7 +91,7 @@ export class WalletSignAndSendAllTransactionsError extends WalletError {
     constructor(error: any) {
         super(error?.reason?.message, error);
         this.error = error;
-        this.type = error.type || error.name;
-        this.code = error.code;
+        this.type = error?.type || error?.name;
+        this.code = error?.code;
     }
 }
