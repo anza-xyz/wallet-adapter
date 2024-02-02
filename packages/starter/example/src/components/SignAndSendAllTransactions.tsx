@@ -39,7 +39,8 @@ export const SignAndSendAllTransactions: FC = () => {
 
             const results = await signAndSendAllTransactions(transactions, connection, { minContextSlot });
             console.log(results);
-            // Iterate through the results
+
+            // Confirm all transactions
             (async () => {
                 await Promise.all(
                     results.map(async (result) => {
