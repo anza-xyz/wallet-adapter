@@ -31,20 +31,6 @@ export abstract class BaseSignerWalletAdapter<Name extends string = string>
     extends BaseWalletAdapter<Name>
     implements SignerWalletAdapter<Name>
 {
-    async signAndSendAllTransactions(
-        transactions: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>[],
-        connection: Connection,
-        options: SignAndSendTransactionOptions = {}
-    ): Promise<(TransactionSignature | WalletSignAndSendAllTransactionsError)[]> {
-        const results = await Promise.allSettled(
-            transactions.map((transaction) => this.signAndSendTransaction(transaction, connection, options))
-        );
-        return results.map((result) => {
-            if (result.status === 'fulfilled') return result.value;
-            return new WalletSignAndSendAllTransactionsError(result.reason);
-        });
-    }
-
     async signAndSendTransaction(
         transaction: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>,
         connection: Connection,
@@ -105,6 +91,20 @@ export abstract class BaseSignerWalletAdapter<Name extends string = string>
             }
             throw error;
         }
+    }
+
+    async signAndSendAllTransactions(
+        transactions: TransactionOrVersionedTransaction<this['supportedTransactionVersions']>[],
+        connection: Connection,
+        options: SignAndSendTransactionOptions = {}
+    ): Promise<(TransactionSignature | WalletSignAndSendAllTransactionsError)[]> {
+        const results = await Promise.allSettled(
+            transactions.map((transaction) => this.signAndSendTransaction(transaction, connection, options))
+        );
+        return results.map((result) => {
+            if (result.status === 'fulfilled') return result.value;
+            return new WalletSignAndSendAllTransactionsError(result.reason);
+        });
     }
 
     abstract signTransaction<T extends TransactionOrVersionedTransaction<this['supportedTransactionVersions']>>(

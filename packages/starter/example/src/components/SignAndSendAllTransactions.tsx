@@ -1,6 +1,5 @@
 import { Button } from '@mui/material';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import type { TransactionSignature } from '@solana/web3.js';
 import { PublicKey, Transaction, TransactionInstruction } from '@solana/web3.js';
 import type { FC } from 'react';
 import React, { useCallback } from 'react';
@@ -15,7 +14,7 @@ export const SignAndSendAllTransactions: FC = () => {
     const onClick = useCallback(async () => {
         try {
             if (!publicKey) throw new Error('Wallet not connected!');
-            if (!signAndSendAllTransactions) throw new Error('Wallet does not supoport signAndSendAllTransactions!');
+            if (!signAndSendAllTransactions) throw new Error('Wallet does not support signAndSendAllTransactions!');
 
             const {
                 context: { slot: minContextSlot },
