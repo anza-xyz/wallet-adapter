@@ -2,8 +2,8 @@
 
 Modular TypeScript wallet adapters and components for Solana applications.
 
-- [Demo](https://anza-xyz.github.io/wallet-adapter/)
-- [TypeScript Docs](https://solana-labs.github.io/wallet-adapter/)
+- [Demo](https://anza-xyz.github.io/wallet-adapter/example)
+- [TypeScript Docs](https://anza-xyz.github.io/wallet-adapter/)
 - [For Solana Apps](https://github.com/solana-labs/wallet-adapter/blob/master/APP.md)
 - [For Solana Wallets](https://github.com/solana-labs/wallet-adapter/blob/master/WALLET.md)
 - [Packages](https://github.com/solana-labs/wallet-adapter/blob/master/PACKAGES.md)
