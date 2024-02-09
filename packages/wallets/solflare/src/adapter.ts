@@ -1,4 +1,4 @@
-import type { WalletAdapterNetwork, WalletName } from '@solana/wallet-adapter-base';
+import type { ConnectionContext, WalletAdapterNetwork, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
     WalletConfigError,
@@ -20,7 +20,7 @@ import {
     type SendTransactionOptions,
 } from '@solana/wallet-adapter-base';
 import type { Transaction, TransactionVersion, VersionedTransaction } from '@solana/web3.js';
-import { PublicKey, type Connection, type TransactionSignature } from '@solana/web3.js';
+import { PublicKey, type TransactionSignature } from '@solana/web3.js';
 import type { default as Solflare } from '@solflare-wallet/sdk';
 import { detectAndRegisterSolflareMetaMaskWallet } from './metamask/detect.js';
 
@@ -183,7 +183,7 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
 
     async sendTransaction<T extends Transaction | VersionedTransaction>(
         transaction: T,
-        connection: Connection,
+        connectionContext: ConnectionContext,
         options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         try {
@@ -196,11 +196,11 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
                 if (isVersionedTransaction(transaction)) {
                     signers?.length && transaction.sign(signers);
                 } else {
-                    transaction = (await this.prepareTransaction(transaction, connection, sendOptions)) as T;
+                    transaction = (await this.prepareTransaction(transaction, connectionContext, sendOptions)) as T;
                     signers?.length && (transaction as Transaction).partialSign(...signers);
                 }
 
-                sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;
+                sendOptions.preflightCommitment = sendOptions.preflightCommitment || connectionContext.commitment;
 
                 return await wallet.signAndSendTransaction(transaction, sendOptions);
             } catch (error: any) {
