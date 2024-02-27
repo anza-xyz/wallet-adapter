@@ -1,6 +1,7 @@
 import type { EventEmitter, SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
+    isVersionedTransaction,
     scopePollingDetectionStrategy,
     WalletAccountError,
     WalletConnectionError,
@@ -166,9 +167,12 @@ export class CoinbaseWalletAdapter extends BaseMessageSignerWalletAdapter {
             try {
                 const { signers, ...sendOptions } = options;
 
-                transaction = await this.prepareTransaction(transaction, connection, sendOptions);
-
-                signers?.length && transaction.partialSign(...signers);
+                if (isVersionedTransaction(transaction)) {
+                    signers?.length && transaction.sign(signers);
+                } else {
+                    transaction = (await this.prepareTransaction(transaction, connection, sendOptions)) as T;
+                    signers?.length && (transaction as Transaction).partialSign(...signers);
+                }
 
                 sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;
 
