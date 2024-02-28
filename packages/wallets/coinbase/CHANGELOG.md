@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-coinbase
 
+## 0.1.19
+
+### Patch Changes
+
+-   3b38a73: Add support for versioned transactions to Coinbase Wallet adapter
+
 ## 0.1.18
 
 ### Patch Changes
