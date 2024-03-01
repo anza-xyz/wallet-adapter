@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-keystone
 
+## 0.1.13
+
+### Patch Changes
+
+-   f535bac: Add a pnpm override for ngraveio/bc-ur
+
 ## 0.1.12
 
 ### Patch Changes
