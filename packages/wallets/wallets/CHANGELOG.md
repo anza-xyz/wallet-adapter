@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-wallets
 
+## 0.19.29
+
+### Patch Changes
+
+-   Updated dependencies [84e2250]
+    -   @solana/wallet-adapter-keystone@0.1.14
+
 ## 0.19.28
 
 ### Patch Changes

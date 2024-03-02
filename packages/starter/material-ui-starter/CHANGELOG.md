@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-material-ui-starter
 
+## 0.13.29
+
+### Patch Changes
+
+-   @solana/wallet-adapter-wallets@0.19.29
+
 ## 0.13.28
 
 ### Patch Changes
