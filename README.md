@@ -8,7 +8,7 @@
 
   
 ## Key features and benefits of wallet-adapter include: 
-- Open Source and Anza Support: wallet-adapter is an open-source project actively supported by Solana Labs, ensuring continuous improvement and community-driven development.
+- Open Source and Anza Support: wallet-adapter is an open-source project actively supported by Anza, ensuring continuous improvement and community-driven development.
 - Multi-Wallet Support: With wallet-adapter, developers can effortlessly accommodate users utilizing various Solana wallets, eliminating the need to manage multiple integrations separately.
 - Customizable UI: wallet-adapter provides an off-the-shelf customizable user interface, enabling developers to tailor the wallet integration experience to align with the aesthetic and functional requirements of their dApps.
 - Anchor Integration: wallet-adapter seamlessly integrates with Anchor, a comprehensive development framework for building Solana dApps, offering enhanced functionality and compatibility.
@@ -17,18 +17,19 @@
 
 
 
+
 <!--PROJECT TABLE OF CONTENTS -->
 
 ## Useful Links
 <!--PROJECT USE LINKS -->
-[Demo](https://anza-xyz.github.io/wallet-adapter/example/)
-[Typescript Docs](https://anza-xyz.github.io/wallet-adapter/)
-[For Solana Apps](https://github.com/anza-xyz/wallet-adapter/blob/master/APP.md)
-[For Solana Wallets](https://github.com/anza-xyz/wallet-adapter/blob/master/WALLET.md)
-[Packages](https://github.com/anza-xyz/wallet-adapter/blob/master/PACKAGES.md)
-[Build from Source](https://github.com/anza-xyz/wallet-adapter/blob/master/BUILD.md)
-[Report bug](https://github.com/anza-xyz/wallet-adapter/issues)
-[Faq](https://github.com/anza-xyz/wallet-adapter/blob/master/FAQ.md)
+* [Demo](https://anza-xyz.github.io/wallet-adapter/example/)
+* [Typescript Docs](https://anza-xyz.github.io/wallet-adapter/)
+* [For Solana Apps](https://github.com/anza-xyz/wallet-adapter/blob/master/APP.md)
+* [For Solana Wallets](https://github.com/anza-xyz/wallet-adapter/blob/master/WALLET.md)
+* [Packages](https://github.com/anza-xyz/wallet-adapter/blob/master/PACKAGES.md)
+* [Build from Source](https://github.com/anza-xyz/wallet-adapter/blob/master/BUILD.md)
+* [Report bug](https://github.com/anza-xyz/wallet-adapter/issues)
+* [Faq](https://github.com/anza-xyz/wallet-adapter/blob/master/FAQ.md)
 
 
 ## Installation & Setup
