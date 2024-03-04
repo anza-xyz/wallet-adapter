@@ -3,18 +3,17 @@
 
 <!--PROJECT DESCRIPTION -->
 
- The Solana Wallet Adapter is a powerful toolkit designed to streamline the integration of Solana-based decentralized applications (dApps) with various wallet solutions. Developed and maintained by the Solana community, wallet-adapter offers a versatile set of modular TypeScript wallet adapters and components tailored specifically for Solana applications.
+ The Solana Wallet Adapter is a powerful toolkit designed to streamline the integration of Solana-based decentralized applications (dApps) with various wallet solutions. Developed and maintained by the Solana community and Anza, wallet-adapter offers a versatile set of modular TypeScript wallet adapters and components tailored specifically for Solana applications.
  At its core, wallet-adapter simplifies the process of connecting dApps with users' preferred wallets, offering seamless integration with over a dozen Solana wallets right out of the box. By leveraging wallet-adapter, developers can eliminate the complexities associated with individually supporting each wallet, thus enhancing accessibility and user experience. 
 
   
-## Key features and benefits of wallet-adapter include: 
+## Features and benefits of wallet-adapter: 
 - Open Source and Anza Support: wallet-adapter is an open-source project actively supported by Anza, ensuring continuous improvement and community-driven development.
 - Multi-Wallet Support: With wallet-adapter, developers can effortlessly accommodate users utilizing various Solana wallets, eliminating the need to manage multiple integrations separately.
 - Customizable UI: wallet-adapter provides an off-the-shelf customizable user interface, enabling developers to tailor the wallet integration experience to align with the aesthetic and functional requirements of their dApps.
 - Anchor Integration: wallet-adapter seamlessly integrates with Anchor, a comprehensive development framework for building Solana dApps, offering enhanced functionality and compatibility.
 - Key Functionality: wallet-adapter offers essential functionalities such as Connect, Disconnect, and Auto-connect, streamlining the interaction between dApps and users' wallets.
 - Support for Multiple Environment and Front-End Frameworks: wallet-adapter is designed to work seamlessly with various front-end frameworks and environment such as mobile and gaming development (unity), offering flexibility and compatibility across different development environments. 
-
 
 
 
@@ -36,7 +35,7 @@
 ### Create-react-app
 <p>This is a quick setup guide with examples of how to add Wallet Adapter to a React-based Solana app. </p>
 
-* Using NPM
+#### Using NPM
    ```tsx
  
     npm install --save  
@@ -47,7 +46,7 @@
     @solana/web3.js 
   ```
 
-* Using Yarn
+#### Using Yarn
    ```tsx 
 
     yarn add
@@ -58,7 +57,7 @@
     @solana/web3.js 
   ```
 
-* Setup
+#### Setup
   ```tsx
     import React, { FC, useMemo } from 'react';
     import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
@@ -115,8 +114,9 @@
     };
   ```
 
-* Usage
+#### Usage
   ```tsx
+
   import { WalletNotConnectedError } from '@solana/wallet-adapter-base';
     import { useConnection, useWallet } from '@solana/wallet-adapter-react';
     import { Keypair, SystemProgram, Transaction } from '@solana/web3.js';
@@ -165,6 +165,7 @@
 
 
  ```tsx
+ 
  // Install 
  npm i create-solana-dapp
 
