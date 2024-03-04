@@ -1,4 +1,4 @@
-#Solana Wallet Adapter
+# Solana Wallet Adapter
 ![Wallets](wallets.png)
 
 <!--PROJECT DESCRIPTION -->
@@ -7,7 +7,7 @@
  At its core, wallet-adapter simplifies the process of connecting dApps with users' preferred wallets, offering seamless integration with over a dozen Solana wallets right out of the box. By leveraging wallet-adapter, developers can eliminate the complexities associated with individually supporting each wallet, thus enhancing accessibility and user experience. 
 
   
-####Key features and benefits of wallet-adapter include: 
+## Key features and benefits of wallet-adapter include: 
 - Open Source and Anza Support: wallet-adapter is an open-source project actively supported by Solana Labs, ensuring continuous improvement and community-driven development.
 - Multi-Wallet Support: With wallet-adapter, developers can effortlessly accommodate users utilizing various Solana wallets, eliminating the need to manage multiple integrations separately.
 - Customizable UI: wallet-adapter provides an off-the-shelf customizable user interface, enabling developers to tailor the wallet integration experience to align with the aesthetic and functional requirements of their dApps.
@@ -19,7 +19,7 @@
 
 <!--PROJECT TABLE OF CONTENTS -->
 
-###Useful Links
+## Useful Links
 <!--PROJECT USE LINKS -->
 [Demo](https://anza-xyz.github.io/wallet-adapter/example/)
 [Typescript Docs](https://anza-xyz.github.io/wallet-adapter/)
@@ -31,7 +31,7 @@
 [Faq](https://github.com/anza-xyz/wallet-adapter/blob/master/FAQ.md)
 
 
-##Installation & Setup
+## Installation & Setup
 ### Create-react-app
 <p>This is a quick setup guide with examples of how to add Wallet Adapter to a React-based Solana app. </p>
 
@@ -159,7 +159,7 @@
 
   <br>
 
-###Create-Solana-Dapp  
+## Create-Solana-Dapp  
  Instead of manual setup you can use the create-solana-dapp command to create a solana-dapp boilerplate that comes with the solana-wallet-adapter installation and configuration for your project.
 
 
@@ -172,7 +172,7 @@
  ``` 
  [Learn more about create-solana-dapp](https://github.com/solana-developers/create-solana-dapp)
 
- ## Resource
+## Resource
 - [Solana Documentation](https://solana.com/docs)
 - [Solana Cookbook](https://solanacookbook.com/#contributing)
 - [Solana dev course](https://www.soldev.app/course)
