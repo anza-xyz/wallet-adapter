@@ -158,20 +158,70 @@
     };
   ```
 
-  <br>
 
-## Create-Solana-Dapp  
+### Create-Solana-Dapp  
  Instead of manual setup you can use the create-solana-dapp command to create a solana-dapp boilerplate that comes with the solana-wallet-adapter installation and configuration for your project.
 
 
  ```tsx
- 
+
  // Install 
  npm i create-solana-dapp
 
  // Create new solana-dapp project
  npx create-solana-dapp@latest
  ``` 
+### VueJs 
+Install and setup solana-wallet-adapter in your Vue3 projects.
+
+#### Using NPM
+
+```tsx
+npm install solana-wallets-vue @solana/wallet-adapter-wallets
+
+```
+#### Using Yarn
+
+```tsx
+yarn add solana-wallets-vue @solana/wallet-adapter-wallets
+
+```
+
+#### Setup
+```tsx 
+import { createApp } from "vue";
+import App from "./App.vue";
+import SolanaWallets from "solana-wallets-vue";
+
+// You can either import the default styles or create your own.
+import "solana-wallets-vue/styles.css";
+
+import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+
+import {
+  PhantomWalletAdapter,
+  SlopeWalletAdapter,
+  SolflareWalletAdapter,
+} from "@solana/wallet-adapter-wallets";
+
+const walletOptions = {
+  wallets: [
+    new PhantomWalletAdapter(),
+    new SlopeWalletAdapter(),
+    new SolflareWalletAdapter({ network: WalletAdapterNetwork.Devnet }),
+  ],
+  autoConnect: true,
+};
+
+createApp(App).use(SolanaWallets, walletOptions).mount("#app");
+```
+
+#### Usage
+
+Go to the official VueJs community docs
+[Learn more](https://github.com/lorisleiva/solana-wallets-vue)
+
+
  [Learn more about create-solana-dapp](https://github.com/solana-developers/create-solana-dapp)
 
 ## Resource
