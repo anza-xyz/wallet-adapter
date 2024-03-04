@@ -171,6 +171,11 @@
  // Create new solana-dapp project
  npx create-solana-dapp@latest
  ``` 
+
+ * [Learn more about create-solana-dapp](https://github.com/solana-developers/create-solana-dapp)
+
+
+
 ### VueJs 
 Install and setup solana-wallet-adapter in your Vue3 projects.
 
@@ -221,8 +226,6 @@ createApp(App).use(SolanaWallets, walletOptions).mount("#app");
 Go to the official VueJs community docs
 [Learn more](https://github.com/lorisleiva/solana-wallets-vue)
 
-
- [Learn more about create-solana-dapp](https://github.com/solana-developers/create-solana-dapp)
 
 ## Resource
 - [Solana Documentation](https://solana.com/docs)
