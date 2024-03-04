@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-keystone
 
+## 0.1.15
+
+### Patch Changes
+
+-   dc81bc9: Bump to ngraveio/bc-ur 1.1.12
+
 ## 0.1.14
 
 ### Patch Changes
