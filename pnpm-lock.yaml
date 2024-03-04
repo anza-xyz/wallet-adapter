@@ -11,7 +11,7 @@ overrides:
   '@solana/wallet-adapter-base': workspace:^
   '@types/web': npm:typescript@~4.7.4
   eslint: 8.22.0
-  '@ngraveio/bc-ur': 1.1.6
+  '@ngraveio/bc-ur': 1.1.12
 
 importers:
 
@@ -1363,10 +1363,6 @@ packages:
       json-schema: 0.4.0
       jsonpointer: 5.0.1
       leven: 3.1.0
-    dev: false
-
-  /@apocentre/alias-sampling@0.5.3:
-    resolution: {integrity: sha512-7UDWIIF9hIeJqfKXkNIzkVandlwLf1FWTSdrb9iXvOP8oF544JRXQjCbiTmCv2c9n44n/FIWtehhBfNuAx2CZA==}
     dev: false
 
   /@babel/code-frame@7.22.5:
@@ -3982,6 +3978,10 @@ packages:
       '@jridgewell/resolve-uri': 3.1.0
       '@jridgewell/sourcemap-codec': 1.4.14
 
+  /@keystonehq/alias-sampling@0.1.2:
+    resolution: {integrity: sha512-5ukLB3bcgltgaFfQfYKYwHDUbwHicekYo53fSEa7xhVkAEqsA74kxdIwoBIURmGUtXe3EVIRm4SYlgcrt2Ri0w==}
+    dev: false
+
   /@keystonehq/bc-ur-registry-sol@0.3.1:
     resolution: {integrity: sha512-Okr5hwPxBZxB4EKLK1GSC9vsrh/tFMQ5dvs3EQ9NCOmCn7CXdXIMSeafrpGCHk484Jf5c6X0Wq0yf0VqY2A/8Q==}
     dependencies:
@@ -3993,7 +3993,7 @@ packages:
   /@keystonehq/bc-ur-registry@0.5.5:
     resolution: {integrity: sha512-PoclPHf0OhpIKLfLwzymsu+CjkWf5ZKvaVjpkq3HUalcI4KW8wLk0m8qI2kBVv6F0BQ0ERPqW8OfjLTVqIgWLA==}
     dependencies:
-      '@ngraveio/bc-ur': 1.1.6
+      '@ngraveio/bc-ur': 1.1.12
       bs58check: 2.1.2
       tslib: 2.6.0
     dev: false
@@ -4001,7 +4001,7 @@ packages:
   /@keystonehq/sdk@0.13.1:
     resolution: {integrity: sha512-545l83TE5t1cyUZUaNqZOAh15ibWOg9QbK/YeLwnrxt+GOod+ATk3j9SpN6yTSLO8DNl2/x6dKRIFVtTEkZDAg==}
     dependencies:
-      '@ngraveio/bc-ur': 1.1.6
+      '@ngraveio/bc-ur': 1.1.12
       qrcode.react: 1.0.1(react@16.13.1)
       react: 16.13.1
       react-dom: 16.13.1(react@16.13.1)
@@ -4561,10 +4561,10 @@ packages:
     dev: false
     optional: true
 
-  /@ngraveio/bc-ur@1.1.6:
-    resolution: {integrity: sha512-G+2XgjXde2IOcEQeCwR250aS43/Swi7gw0FuETgJy2c3HqF8f88SXDMsIGgJlZ8jXd0GeHR4aX0MfjXf523UZg==}
+  /@ngraveio/bc-ur@1.1.12:
+    resolution: {integrity: sha512-gSaaBNoBD5LSfKVgNaesaKktOe6Cl0bPgA2q9zew0zD8R8jRCM+Pq6DFewh3T2VUt5Ey9tBTSUCpY64VUCH/bA==}
     dependencies:
-      '@apocentre/alias-sampling': 0.5.3
+      '@keystonehq/alias-sampling': 0.1.2
       assert: 2.0.0
       bignumber.js: 9.1.1
       cbor-sync: 1.0.4

@@ -54,7 +54,7 @@
         "@solana/wallet-adapter-base": "workspace:^",
         "@types/web": "npm:typescript@~4.7.4",
         "eslint": "8.22.0",
-        "@ngraveio/bc-ur": "1.1.6"
+        "@ngraveio/bc-ur": "1.1.12"
     },
     "resolutions": {
         "@ledgerhq/devices": "6.27.1",
@@ -63,6 +63,6 @@
         "@solana/wallet-adapter-base": "workspace:^",
         "@types/web": "npm:typescript@~4.7.4",
         "eslint": "8.22.0",
-        "@ngraveio/bc-ur": "1.1.6"
+        "@ngraveio/bc-ur": "1.1.12"
     }
 }
