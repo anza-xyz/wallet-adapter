@@ -18,7 +18,7 @@ corepack prepare pnpm@8.1.0 --activate
 
 ### 1. Clone the project:
 ```shell
-git clone https://github.com/solana-labs/wallet-adapter.git
+git clone https://github.com/anza-xyz/wallet-adapter.git
 ```
 
 ### 2. Install dependencies:

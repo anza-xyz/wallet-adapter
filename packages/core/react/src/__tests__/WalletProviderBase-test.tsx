@@ -294,7 +294,7 @@ describe('WalletProviderBase', () => {
                     renderTest({ adapter: fooWalletAdapter, onError: differentOnError });
                 });
                 it('does not cause state to be cleared when it changes', () => {
-                    // Regression test for https://github.com/solana-labs/wallet-adapter/issues/636
+                    // Regression test for https://github.com/anza-xyz/wallet-adapter/issues/636
                     expect(ref.current?.getWalletContextState()).toMatchObject({
                         connected: true,
                     });
