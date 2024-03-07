@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-wallets
 
+## 0.19.31
+
+### Patch Changes
+
+-   Updated dependencies [375e548]
+    -   @solana/wallet-adapter-trezor@0.1.1
+
 ## 0.19.30
 
 ### Patch Changes
