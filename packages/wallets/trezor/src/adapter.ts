@@ -45,10 +45,7 @@ export class TrezorWalletAdapter extends BaseSignerWalletAdapter {
     private _connecting: boolean;
     private _publicKey: PublicKey | null;
     private _readyState: WalletReadyState =
-        typeof window === 'undefined' ||
-        typeof document === 'undefined' ||
-        typeof navigator === 'undefined' ||
-        !navigator.hid
+        typeof window === 'undefined' || typeof document === 'undefined'
             ? WalletReadyState.Unsupported
             : WalletReadyState.Loadable;
 
