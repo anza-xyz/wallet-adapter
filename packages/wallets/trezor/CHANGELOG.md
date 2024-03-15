@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-trezor
 
+## 0.1.2
+
+### Patch Changes
+
+-   ba90b65: Fix Trezor adapter on Firefox browsers
+
 ## 0.1.1
 
 ### Patch Changes
