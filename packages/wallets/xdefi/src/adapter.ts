@@ -46,7 +46,7 @@ declare const window: XDEFIWalletWindow;
 
 export interface XDEFIWalletAdapterConfig {}
 
-export const XDEFIWalletName = 'XDEFI' as WalletName<'XDEFI'>;
+export const XDEFIWalletName = 'XDEFI Wallet' as WalletName<'XDEFI Wallet'>;
 
 export class XDEFIWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = XDEFIWalletName;
