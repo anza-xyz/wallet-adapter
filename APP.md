@@ -6,7 +6,7 @@ See the [packages](https://github.com/anza-xyz/wallet-adapter/blob/master/PACKAG
 
 ## Quick Setup (using React UI)
 
-There are also [material-ui](https://github.com/anza-xyz/wallet-adapter/tree/master/packages/ui/material-ui) and [ant-design](https://github.com/anza-xyz/wallet-adapter/tree/master/packages/ui/ant-design) or [Ant Design Web3](https://web3.ant.design/components/solana) packages if you use those UI component frameworks.
+There are also [material-ui](https://github.com/anza-xyz/wallet-adapter/tree/master/packages/ui/material-ui) and [ant-design](https://github.com/anza-xyz/wallet-adapter/tree/master/packages/ui/ant-design) packages if you use those UI component frameworks.
 
 ### Install
 
