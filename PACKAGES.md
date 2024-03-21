@@ -17,7 +17,7 @@ Several core packages are maintained by the community to support additional fron
 
 - [Vue](https://github.com/lorisleiva/solana-wallets-vue)
 - [Angular](https://github.com/heavy-duty/platform/tree/master/libs/wallet-adapter)
-- [Svelte](https://github.com/svelte-on-solana/wallet-adapter)
+- [Svelte](https://github.com/aztemi/svelte-on-solana-wallet-adapter)
 - [TypeScript](https://github.com/ronanyeah/solana-connect)
 
 ### UI Components
