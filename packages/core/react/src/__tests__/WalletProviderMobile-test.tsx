@@ -5,19 +5,19 @@
 'use strict';
 
 import {
-    SolanaMobileWalletAdapter,
-    SolanaMobileWalletAdapterWalletName,
     type AddressSelector,
     type AuthorizationResultCache,
+    SolanaMobileWalletAdapter,
+    SolanaMobileWalletAdapterWalletName,
 } from '@solana-mobile/wallet-adapter-mobile';
 import {
+    type Adapter,
     BaseWalletAdapter,
     WalletError,
-    WalletReadyState,
-    type Adapter,
     type WalletName,
+    WalletReadyState,
 } from '@solana/wallet-adapter-base';
-import { PublicKey, type Connection } from '@solana/web3.js';
+import { type Connection, PublicKey } from '@solana/web3.js';
 import 'jest-localstorage-mock';
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -118,6 +118,7 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
         });
         sendTransaction = jest.fn();
         supportedTransactionVersions = null;
+        autoConnect = jest.fn();
     }
     class FooWalletAdapter extends MockWalletAdapter {
         name = 'FooWallet' as WalletName<'FooWallet'>;
@@ -276,17 +277,17 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                 it('does not call `connect`', () => {
                     const adapter = ref.current?.getWalletContextState().wallet?.adapter as SolanaMobileWalletAdapter;
                     expect(adapter.connect).not.toHaveBeenCalled();
-                    expect(adapter.autoConnect_DO_NOT_USE_OR_YOU_WILL_BE_FIRED).not.toHaveBeenCalled();
+                    expect(adapter.autoConnect).not.toHaveBeenCalled();
                 });
             });
             describe('when autoConnect is enabled', () => {
                 beforeEach(() => {
                     renderTest({ autoConnect: true });
                 });
-                it('calls the special auto-connect method on the mobile wallet adapter', () => {
+                it('calls the connect method on the mobile wallet adapter', () => {
                     const adapter = ref.current?.getWalletContextState().wallet?.adapter as SolanaMobileWalletAdapter;
-                    expect(adapter.connect).not.toHaveBeenCalled();
-                    expect(adapter.autoConnect_DO_NOT_USE_OR_YOU_WILL_BE_FIRED).toHaveBeenCalled();
+                    expect(adapter.connect).toHaveBeenCalled();
+                    expect(adapter.autoConnect).not.toHaveBeenCalled();
                 });
             });
         });
@@ -302,9 +303,11 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                 beforeEach(() => {
                     renderTest({ autoConnect: false });
                 });
-                it('calls `connect`', () => {
-                    const adapter = ref.current?.getWalletContextState().wallet?.adapter as Adapter;
+                it('does not call `autoConnect`', () => {
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    const adapter = ref.current!.getWalletContextState().wallet!.adapter;
                     expect(adapter.connect).not.toHaveBeenCalled();
+                    expect(adapter.autoConnect).not.toHaveBeenCalled();
                 });
             });
             describe('when autoConnect is enabled', () => {
@@ -312,8 +315,10 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                     renderTest({ autoConnect: true });
                 });
                 it('calls `connect`', () => {
-                    const adapter = ref.current?.getWalletContextState().wallet?.adapter as Adapter;
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    const adapter = ref.current!.getWalletContextState().wallet!.adapter;
                     expect(adapter.connect).toHaveBeenCalled();
+                    expect(adapter.autoConnect).not.toHaveBeenCalled();
                 });
             });
         });
@@ -380,6 +385,17 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                 });
                 it('should disconnect the old wallet', () => {
                     expect(fooWalletAdapter.disconnect).toHaveBeenCalled();
+                });
+            });
+            describe('and you select the same wallet', () => {
+                beforeEach(async () => {
+                    await act(async () => {
+                        ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
+                        await Promise.resolve(); // Flush all promises in effects after calling `select()`.
+                    });
+                });
+                it('should not disconnect the old wallet', () => {
+                    expect(fooWalletAdapter.disconnect).not.toHaveBeenCalled();
                 });
             });
             describe('once disconnected', () => {

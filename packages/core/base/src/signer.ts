@@ -1,8 +1,13 @@
+import type { SolanaSignInInput, SolanaSignInOutput } from '@solana/wallet-standard-features';
 import type { Connection, TransactionSignature } from '@solana/web3.js';
-import type { SendTransactionOptions, WalletAdapter, WalletAdapterProps } from './adapter.js';
-import { BaseWalletAdapter } from './adapter.js';
+import {
+    BaseWalletAdapter,
+    type SendTransactionOptions,
+    type WalletAdapter,
+    type WalletAdapterProps,
+} from './adapter.js';
 import { WalletSendTransactionError, WalletSignTransactionError } from './errors.js';
-import type { TransactionOrVersionedTransaction } from './types.js';
+import { isVersionedTransaction, type TransactionOrVersionedTransaction } from './transaction.js';
 
 export interface SignerWalletAdapterProps<Name extends string = string> extends WalletAdapterProps<Name> {
     signTransaction<T extends TransactionOrVersionedTransaction<this['supportedTransactionVersions']>>(
@@ -26,7 +31,7 @@ export abstract class BaseSignerWalletAdapter<Name extends string = string>
     ): Promise<TransactionSignature> {
         let emit = true;
         try {
-            if ('version' in transaction) {
+            if (isVersionedTransaction(transaction)) {
                 if (!this.supportedTransactionVersions)
                     throw new WalletSendTransactionError(
                         `Sending versioned transactions isn't supported by this wallet`
@@ -89,7 +94,7 @@ export abstract class BaseSignerWalletAdapter<Name extends string = string>
         transactions: T[]
     ): Promise<T[]> {
         for (const transaction of transactions) {
-            if ('version' in transaction) {
+            if (isVersionedTransaction(transaction)) {
                 if (!this.supportedTransactionVersions)
                     throw new WalletSignTransactionError(
                         `Signing versioned transactions isn't supported by this wallet`
@@ -122,4 +127,18 @@ export abstract class BaseMessageSignerWalletAdapter<Name extends string = strin
     implements MessageSignerWalletAdapter<Name>
 {
     abstract signMessage(message: Uint8Array): Promise<Uint8Array>;
+}
+
+export interface SignInMessageSignerWalletAdapterProps<Name extends string = string> extends WalletAdapterProps<Name> {
+    signIn(input?: SolanaSignInInput): Promise<SolanaSignInOutput>;
+}
+
+export type SignInMessageSignerWalletAdapter<Name extends string = string> = WalletAdapter<Name> &
+    SignInMessageSignerWalletAdapterProps<Name>;
+
+export abstract class BaseSignInMessageSignerWalletAdapter<Name extends string = string>
+    extends BaseMessageSignerWalletAdapter<Name>
+    implements SignInMessageSignerWalletAdapter<Name>
+{
+    abstract signIn(input?: SolanaSignInInput): Promise<SolanaSignInOutput>;
 }

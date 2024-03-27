@@ -37,9 +37,9 @@ use-wallet-standard:
 
 
       Thanks for your contribution. We are no longer accepting PRs of adapters for this type of wallet. You can
-      [read about this policy here](https://github.com/solana-labs/wallet-adapter/blob/master/WALLET.md),
+      [read about this policy here](https://github.com/anza-xyz/wallet-adapter/blob/master/WALLET.md),
       but more importantly, please check out
-      [this guide for wallets](https://github.com/solana-labs/wallet-standard/blob/master/WALLET.md)
+      [this guide for wallets](https://github.com/anza-xyz/wallet-standard/blob/master/WALLET.md)
       to implement the Wallet Standard.
 
 
@@ -48,14 +48,14 @@ use-wallet-standard:
       and looking at the reference implementations, if you have questions on how to do this, please open an issue here:
 
 
-      https://github.com/solana-labs/wallet-standard
+      https://github.com/anza-xyz/wallet-standard
 
 
       ---
 
 
       _This
-      [automated message](https://github.com/solana-labs/solana/blob/master/.github/label-actions.yml)
+      [automated message](https://github.com/anza-xyz/wallet-adapter/blob/master/.github/label-actions.yml)
       is a result of having added the &lsquo;use-wallet-standard&rsquo; tag_.
 
     # Close the issue

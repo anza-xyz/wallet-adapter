@@ -1,4 +1,11 @@
-import { Close as CloseIcon, ExpandLess as CollapseIcon, ExpandMore as ExpandIcon } from '@mui/icons-material';
+import {
+    // FIXME(https://github.com/mui/material-ui/issues/35233)
+    Close as CloseIcon,
+    // FIXME(https://github.com/mui/material-ui/issues/35233)
+    ExpandLess as CollapseIcon,
+    // FIXME(https://github.com/mui/material-ui/issues/35233)
+    ExpandMore as ExpandIcon,
+} from '@mui/icons-material';
 import type { DialogProps, Theme } from '@mui/material';
 import {
     Button,
@@ -13,11 +20,11 @@ import {
 } from '@mui/material';
 import type { WalletName } from '@solana/wallet-adapter-base';
 import { WalletReadyState } from '@solana/wallet-adapter-base';
-import { useWallet } from '@solana/wallet-adapter-react';
+import { useWallet, type Wallet } from '@solana/wallet-adapter-react';
 import type { FC, ReactElement, SyntheticEvent } from 'react';
 import React, { useCallback, useMemo, useState } from 'react';
-import { useWalletDialog } from './useWalletDialog.js';
 import { WalletListItem } from './WalletListItem.js';
+import { useWalletDialog } from './useWalletDialog.js';
 
 const RootDialog = styled(Dialog)(({ theme }: { theme: Theme }) => ({
     '& .MuiDialog-paper': {
@@ -89,8 +96,19 @@ export const WalletDialog: FC<WalletDialogProps> = ({
     const [expanded, setExpanded] = useState(false);
 
     const [featured, more] = useMemo(() => {
-        const supportedWallets = wallets.filter((wallet) => wallet.readyState !== WalletReadyState.Unsupported);
-        return [supportedWallets.slice(0, featuredWallets), supportedWallets.slice(featuredWallets)];
+        const installed: Wallet[] = [];
+        const notInstalled: Wallet[] = [];
+
+        for (const wallet of wallets) {
+            if (wallet.readyState === WalletReadyState.Installed) {
+                installed.push(wallet);
+            } else {
+                notInstalled.push(wallet);
+            }
+        }
+
+        const orderedWallets = [...installed, ...notInstalled];
+        return [orderedWallets.slice(0, featuredWallets), orderedWallets.slice(featuredWallets)];
     }, [wallets, featuredWallets]);
 
     const handleClose = useCallback(

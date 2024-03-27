@@ -1,6 +1,7 @@
 import type { EventEmitter, SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
+    isVersionedTransaction,
     scopePollingDetectionStrategy,
     WalletAccountError,
     WalletConnectionError,
@@ -14,7 +15,14 @@ import {
     WalletSendTransactionError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import type { Connection, SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
+import type {
+    Connection,
+    SendOptions,
+    Transaction,
+    VersionedTransaction,
+    TransactionSignature,
+    TransactionVersion,
+} from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 
 interface CoinbaseWalletEvents {
@@ -24,10 +32,10 @@ interface CoinbaseWalletEvents {
 
 interface CoinbaseWallet extends EventEmitter<CoinbaseWalletEvents> {
     publicKey?: PublicKey;
-    signTransaction(transaction: Transaction): Promise<Transaction>;
-    signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
-    signAndSendTransaction(
-        transaction: Transaction,
+    signTransaction<T extends Transaction | VersionedTransaction>(transaction: T): Promise<T>;
+    signAllTransactions<T extends Transaction | VersionedTransaction>(transactions: T[]): Promise<T[]>;
+    signAndSendTransaction<T extends Transaction | VersionedTransaction>(
+        transaction: T,
         options?: SendOptions
     ): Promise<{ signature: TransactionSignature }>;
     signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
@@ -50,7 +58,7 @@ export class CoinbaseWalletAdapter extends BaseMessageSignerWalletAdapter {
     url = 'https://chrome.google.com/webstore/detail/coinbase-wallet-extension/hnfanknocfeofbddgcijnmhnfnkdnaad';
     icon =
         'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAyNCIgaGVpZ2h0PSIxMDI0IiB2aWV3Qm94PSIwIDAgMTAyNCAxMDI0IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8Y2lyY2xlIGN4PSI1MTIiIGN5PSI1MTIiIHI9IjUxMiIgZmlsbD0iIzAwNTJGRiIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTE1MiA1MTJDMTUyIDcxMC44MjMgMzEzLjE3NyA4NzIgNTEyIDg3MkM3MTAuODIzIDg3MiA4NzIgNzEwLjgyMyA4NzIgNTEyQzg3MiAzMTMuMTc3IDcxMC44MjMgMTUyIDUxMiAxNTJDMzEzLjE3NyAxNTIgMTUyIDMxMy4xNzcgMTUyIDUxMlpNNDIwIDM5NkM0MDYuNzQ1IDM5NiAzOTYgNDA2Ljc0NSAzOTYgNDIwVjYwNEMzOTYgNjE3LjI1NSA0MDYuNzQ1IDYyOCA0MjAgNjI4SDYwNEM2MTcuMjU1IDYyOCA2MjggNjE3LjI1NSA2MjggNjA0VjQyMEM2MjggNDA2Ljc0NSA2MTcuMjU1IDM5NiA2MDQgMzk2SDQyMFoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=';
-    readonly supportedTransactionVersions = null;
+    supportedTransactionVersions: ReadonlySet<TransactionVersion> = new Set(['legacy', 0]);
 
     private _connecting: boolean;
     private _wallet: CoinbaseWallet | null;
@@ -147,8 +155,8 @@ export class CoinbaseWalletAdapter extends BaseMessageSignerWalletAdapter {
         this.emit('disconnect');
     }
 
-    async sendTransaction(
-        transaction: Transaction,
+    async sendTransaction<T extends Transaction | VersionedTransaction>(
+        transaction: T,
         connection: Connection,
         options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
@@ -159,9 +167,12 @@ export class CoinbaseWalletAdapter extends BaseMessageSignerWalletAdapter {
             try {
                 const { signers, ...sendOptions } = options;
 
-                transaction = await this.prepareTransaction(transaction, connection, sendOptions);
-
-                signers?.length && transaction.partialSign(...signers);
+                if (isVersionedTransaction(transaction)) {
+                    signers?.length && transaction.sign(signers);
+                } else {
+                    transaction = (await this.prepareTransaction(transaction, connection, sendOptions)) as T;
+                    signers?.length && (transaction as Transaction).partialSign(...signers);
+                }
 
                 sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;
 
@@ -177,7 +188,7 @@ export class CoinbaseWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signTransaction<T extends Transaction>(transaction: T): Promise<T> {
+    async signTransaction<T extends Transaction | VersionedTransaction>(transaction: T): Promise<T> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
@@ -193,7 +204,7 @@ export class CoinbaseWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signAllTransactions<T extends Transaction>(transactions: T[]): Promise<T[]> {
+    async signAllTransactions<T extends Transaction | VersionedTransaction>(transactions: T[]): Promise<T[]> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();

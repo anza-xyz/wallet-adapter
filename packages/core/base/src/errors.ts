@@ -52,12 +52,16 @@ export class WalletSendTransactionError extends WalletError {
     name = 'WalletSendTransactionError';
 }
 
+export class WalletSignTransactionError extends WalletError {
+    name = 'WalletSignTransactionError';
+}
+
 export class WalletSignMessageError extends WalletError {
     name = 'WalletSignMessageError';
 }
 
-export class WalletSignTransactionError extends WalletError {
-    name = 'WalletSignTransactionError';
+export class WalletSignInError extends WalletError {
+    name = 'WalletSignInError';
 }
 
 export class WalletTimeoutError extends WalletError {

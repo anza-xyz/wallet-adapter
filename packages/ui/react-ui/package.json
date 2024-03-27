@@ -1,8 +1,8 @@
 {
     "name": "@solana/wallet-adapter-react-ui",
-    "version": "0.9.22",
+    "version": "0.9.35",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
-    "repository": "https://github.com/solana-labs/wallet-adapter",
+    "repository": "https://github.com/anza-xyz/wallet-adapter",
     "license": "Apache-2.0",
     "publishConfig": {
         "access": "public"
@@ -17,7 +17,9 @@
         "node": ">=16"
     },
     "type": "module",
-    "sideEffects": false,
+    "sideEffects": [
+        "styles.css"
+    ],
     "main": "./lib/cjs/index.js",
     "module": "./lib/esm/index.js",
     "types": "./lib/types/index.d.ts",
@@ -30,24 +32,27 @@
         "./styles.css": "./styles.css"
     },
     "scripts": {
+        "build": "tsc --build --verbose && pnpm run package",
         "clean": "shx mkdir -p lib && shx rm -rf lib",
+        "lint": "prettier --check 'src/{*,**/*}.{ts,tsx,js,jsx,json}' && eslint",
         "package": "shx mkdir -p lib/cjs && shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.58.0",
+        "@solana/web3.js": "^1.77.3",
         "react": "*",
         "react-dom": "*"
     },
     "dependencies": {
         "@solana/wallet-adapter-base": "workspace:^",
+        "@solana/wallet-adapter-base-ui": "workspace:^",
         "@solana/wallet-adapter-react": "workspace:^"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.58.0",
-        "@types/react": "^18.0.0",
-        "@types/react-dom": "^18.0.0",
-        "react": "^18.0.0",
-        "react-dom": "^18.0.0",
+        "@solana/web3.js": "^1.77.3",
+        "@types/react": "^18.2.13",
+        "@types/react-dom": "^18.2.6",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
         "shx": "^0.3.4"
     }
 }

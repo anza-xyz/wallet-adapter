@@ -5,12 +5,12 @@
 'use strict';
 
 import {
+    type Adapter,
     BaseWalletAdapter,
     WalletError,
+    type WalletName,
     WalletNotReadyError,
     WalletReadyState,
-    type Adapter,
-    type WalletName,
 } from '@solana/wallet-adapter-base';
 import { PublicKey } from '@solana/web3.js';
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
@@ -294,7 +294,7 @@ describe('WalletProviderBase', () => {
                     renderTest({ adapter: fooWalletAdapter, onError: differentOnError });
                 });
                 it('does not cause state to be cleared when it changes', () => {
-                    // Regression test for https://github.com/solana-labs/wallet-adapter/issues/636
+                    // Regression test for https://github.com/anza-xyz/wallet-adapter/issues/636
                     expect(ref.current?.getWalletContextState()).toMatchObject({
                         connected: true,
                     });

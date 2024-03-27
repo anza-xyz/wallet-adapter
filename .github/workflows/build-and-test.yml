@@ -1,0 +1,59 @@
+name: Build & Test
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    env:
+      # Enables Turborepo remote caching.
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v3
+
+      - name: Install pnpm
+        id: install-pnpm
+        uses: pnpm/action-setup@v2
+        with:
+            version: 8
+            run_install: false
+
+      - name: Install Node.js
+        id: install-node
+        uses: actions/setup-node@v3
+        with:
+            node-version: 16
+            cache: 'pnpm'
+
+      - name: Get pnpm store directory
+        id: pnpm-store
+        shell: bash
+        run: |
+            echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm cache
+        id: pnpm-cache
+        uses: actions/cache@v3
+        with:
+            path: ${{ steps.pnpm-store.outputs.STORE_PATH }}
+            key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+            restore-keys: |
+                ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        id: install-deps
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm run build
+
+      - name: Run tests
+        run: pnpm test

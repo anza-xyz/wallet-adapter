@@ -2,11 +2,11 @@
 
 This is a quick setup guide with examples of how to add Wallet Adapter to a React-based Solana app.
 
-See the [packages](https://github.com/solana-labs/wallet-adapter/blob/master/PACKAGES.md) and [FAQ](https://github.com/solana-labs/wallet-adapter/blob/master/FAQ.md) for other supported frontend frameworks.
+See the [packages](https://github.com/anza-xyz/wallet-adapter/blob/master/PACKAGES.md) and [FAQ](https://github.com/anza-xyz/wallet-adapter/blob/master/FAQ.md) for other supported frontend frameworks.
 
 ## Quick Setup (using React UI)
 
-There are also [material-ui](https://github.com/solana-labs/wallet-adapter/tree/master/packages/ui/material-ui) and [ant-design](https://github.com/solana-labs/wallet-adapter/tree/master/packages/ui/ant-design) packages if you use those UI component frameworks.
+There are also [material-ui](https://github.com/anza-xyz/wallet-adapter/tree/master/packages/ui/material-ui) and [ant-design](https://github.com/anza-xyz/wallet-adapter/tree/master/packages/ui/ant-design) packages if you use those UI component frameworks.
 
 ### Install
 
@@ -54,7 +54,7 @@ export const Wallet: FC = () => {
              *   - Solana Mobile Stack Mobile Wallet Adapter Protocol
              *     (https://github.com/solana-mobile/mobile-wallet-adapter)
              *   - Solana Wallet Standard
-             *     (https://github.com/solana-labs/wallet-standard)
+             *     (https://github.com/anza-xyz/wallet-standard)
              *
              * If you wish to support a wallet that supports neither of those standards,
              * instantiate its legacy wallet adapter here. Common legacy adapters can be found

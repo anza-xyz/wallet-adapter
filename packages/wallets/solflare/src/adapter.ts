@@ -1,22 +1,28 @@
 import type { WalletAdapterNetwork, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
-    scopePollingDetectionStrategy,
     WalletConfigError,
     WalletConnectionError,
     WalletDisconnectedError,
     WalletDisconnectionError,
+    WalletError,
     WalletLoadError,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSendTransactionError,
     WalletSignMessageError,
     WalletSignTransactionError,
+    isIosAndRedirectable,
+    isVersionedTransaction,
+    scopePollingDetectionStrategy,
+    type SendTransactionOptions,
 } from '@solana/wallet-adapter-base';
 import type { Transaction, TransactionVersion, VersionedTransaction } from '@solana/web3.js';
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey, type Connection, type TransactionSignature } from '@solana/web3.js';
 import type { default as Solflare } from '@solflare-wallet/sdk';
+import { detectAndRegisterSolflareMetaMaskWallet } from './metamask/detect.js';
 
 interface SolflareWindow extends Window {
     solflare?: {
@@ -65,6 +71,7 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
                 }
                 return false;
             });
+            detectAndRegisterSolflareMetaMaskWallet();
         }
     }
 
@@ -84,11 +91,28 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
         return this._readyState;
     }
 
+    async autoConnect(): Promise<void> {
+        // Skip autoconnect in the Loadable state on iOS
+        // We can't redirect to a universal link without user input
+        if (!(this.readyState === WalletReadyState.Loadable && isIosAndRedirectable())) {
+            await this.connect();
+        }
+    }
+
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
             if (this._readyState !== WalletReadyState.Loadable && this._readyState !== WalletReadyState.Installed)
                 throw new WalletNotReadyError();
+
+            // redirect to the Solflare /browse universal link
+            // this will open the current URL in the Solflare in-wallet browser
+            if (this.readyState === WalletReadyState.Loadable && isIosAndRedirectable()) {
+                const url = encodeURIComponent(window.location.href);
+                const ref = encodeURIComponent(window.location.origin);
+                window.location.href = `https://solflare.com/ul/v1/browse/${url}?ref=${ref}`;
+                return;
+            }
 
             let SolflareClass: typeof Solflare;
             try {
@@ -124,6 +148,7 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
             }
 
             wallet.on('disconnect', this._disconnected);
+            wallet.on('accountChanged', this._accountChanged);
 
             this._wallet = wallet;
             this._publicKey = publicKey;
@@ -141,6 +166,7 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
         const wallet = this._wallet;
         if (wallet) {
             wallet.off('disconnect', this._disconnected);
+            wallet.off('accountChanged', this._accountChanged);
 
             this._wallet = null;
             this._publicKey = null;
@@ -153,6 +179,38 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
 
         this.emit('disconnect');
+    }
+
+    async sendTransaction<T extends Transaction | VersionedTransaction>(
+        transaction: T,
+        connection: Connection,
+        options: SendTransactionOptions = {}
+    ): Promise<TransactionSignature> {
+        try {
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
+
+            try {
+                const { signers, ...sendOptions } = options;
+
+                if (isVersionedTransaction(transaction)) {
+                    signers?.length && transaction.sign(signers);
+                } else {
+                    transaction = (await this.prepareTransaction(transaction, connection, sendOptions)) as T;
+                    signers?.length && (transaction as Transaction).partialSign(...signers);
+                }
+
+                sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;
+
+                return await wallet.signAndSendTransaction(transaction, sendOptions);
+            } catch (error: any) {
+                if (error instanceof WalletError) throw error;
+                throw new WalletSendTransactionError(error?.message, error);
+            }
+        } catch (error: any) {
+            this.emit('error', error);
+            throw error;
+        }
     }
 
     async signTransaction<T extends Transaction | VersionedTransaction>(transaction: T): Promise<T> {
@@ -214,5 +272,24 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
             this.emit('error', new WalletDisconnectedError());
             this.emit('disconnect');
         }
+    };
+
+    private _accountChanged = (newPublicKey?: PublicKey) => {
+        if (!newPublicKey) return;
+
+        const publicKey = this._publicKey;
+        if (!publicKey) return;
+
+        try {
+            newPublicKey = new PublicKey(newPublicKey.toBytes());
+        } catch (error: any) {
+            this.emit('error', new WalletPublicKeyError(error?.message, error));
+            return;
+        }
+
+        if (publicKey.equals(newPublicKey)) return;
+
+        this._publicKey = newPublicKey;
+        this.emit('connect', newPublicKey);
     };
 }

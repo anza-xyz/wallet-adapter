@@ -1,10 +1,9 @@
-import type { Config, ParticleNetwork, SolanaWallet } from '@particle-network/solana-wallet';
+import type { ParticleNetwork, SolanaWallet } from '@particle-network/solana-wallet';
 import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
     WalletAccountError,
     WalletConfigError,
-    WalletConnectionError,
     WalletDisconnectionError,
     WalletLoadError,
     WalletNotConnectedError,
@@ -18,7 +17,8 @@ import type { Transaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 
 export interface ParticleAdapterConfig {
-    config?: Config;
+    config?: ConstructorParameters<typeof ParticleNetwork>[0];
+    login?: Parameters<SolanaWallet['connect']>[0];
 }
 
 export const ParticleName = 'Particle' as WalletName<'Particle'>;
@@ -37,12 +37,29 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
     private _readyState: WalletReadyState =
         typeof window === 'undefined' ? WalletReadyState.Unsupported : WalletReadyState.Loadable;
 
+    private _particle: ParticleNetwork | null = null;
+
     constructor(config: ParticleAdapterConfig = {}) {
         super();
         this._connecting = false;
         this._publicKey = null;
         this._wallet = null;
-        this._config = config;
+
+        this._config = {
+            config: {
+                projectId: '',
+                clientKey: '',
+                appId: '',
+                ...config.config,
+                chainId: config.config?.chainId ?? 101,
+                chainName: config.config?.chainName ?? 'solana',
+            },
+            login: config.login,
+        };
+    }
+
+    get particle(): ParticleNetwork | null {
+        return this._particle;
     }
 
     get publicKey() {
@@ -74,17 +91,21 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
                 throw new WalletLoadError(error?.message, error);
             }
 
-            let wallet: SolanaWallet;
+            let particle: ParticleNetwork;
             try {
-                wallet = new WalletClass(new ParticleClass(this._config?.config).auth);
+                particle = new ParticleClass(this._config.config);
+                if (!particle.auth.isLogin()) {
+                    await particle.auth.login(this._config.login);
+                }
             } catch (error: any) {
                 throw new WalletConfigError(error?.message, error);
             }
 
+            let wallet: SolanaWallet;
             try {
-                await wallet.connect();
+                wallet = new WalletClass(particle.auth);
             } catch (error: any) {
-                throw new WalletConnectionError(error?.message, error);
+                throw new WalletConfigError(error?.message, error);
             }
 
             const account = wallet.publicKey;
@@ -97,6 +118,7 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
                 throw new WalletPublicKeyError(error?.message, error);
             }
 
+            this._particle = particle;
             this._wallet = wallet;
             this._publicKey = publicKey;
 

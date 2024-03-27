@@ -1,0 +1,46 @@
+{
+    "name": "@solana/wallet-adapter-trezor",
+    "version": "0.1.2",
+    "author": "Solana Maintainers <maintainers@solana.foundation>",
+    "repository": "https://github.com/anza-xyz/wallet-adapter",
+    "license": "Apache-2.0",
+    "publishConfig": {
+        "access": "public"
+    },
+    "files": [
+        "lib",
+        "src",
+        "LICENSE"
+    ],
+    "engines": {
+        "node": ">=16"
+    },
+    "type": "module",
+    "sideEffects": false,
+    "main": "./lib/cjs/index.js",
+    "module": "./lib/esm/index.js",
+    "types": "./lib/types/index.d.ts",
+    "exports": {
+        "require": "./lib/cjs/index.js",
+        "import": "./lib/esm/index.js",
+        "types": "./lib/types/index.d.ts"
+    },
+    "scripts": {
+        "build": "tsc --build --verbose && pnpm run package",
+        "clean": "shx mkdir -p lib && shx rm -rf lib",
+        "lint": "prettier --check 'src/{*,**/*}.{ts,tsx,js,jsx,json}' && eslint",
+        "package": "shx mkdir -p lib/cjs && shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json"
+    },
+    "peerDependencies": {
+        "@solana/web3.js": "^1.77.3"
+    },
+    "dependencies": {
+        "@solana/wallet-adapter-base": "workspace:^",
+        "@trezor/connect-web": "^9.2.1",
+        "buffer": "^6.0.3"
+    },
+    "devDependencies": {
+        "@solana/web3.js": "^1.77.3",
+        "shx": "^0.3.4"
+    }
+}

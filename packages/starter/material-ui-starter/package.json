@@ -1,8 +1,8 @@
 {
     "name": "@solana/wallet-adapter-material-ui-starter",
-    "version": "0.13.15",
+    "version": "0.13.32",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
-    "repository": "https://github.com/solana-labs/wallet-adapter",
+    "repository": "https://github.com/anza-xyz/wallet-adapter",
     "license": "Apache-2.0",
     "publishConfig": {
         "access": "public"
@@ -19,29 +19,30 @@
         "tsconfig.json"
     ],
     "scripts": {
+        "build": "tsc --build --verbose && parcel build src/index.html",
         "clean": "shx mkdir -p .parcel-cache dist lib && shx rm -rf .parcel-cache dist lib",
-        "start": "parcel src/index.html",
-        "build": "parcel build src/index.html"
+        "lint": "prettier --check 'src/{*,**/*}.{ts,tsx,js,jsx,json}' && eslint",
+        "start": "parcel src/index.html"
     },
     "dependencies": {
-        "@emotion/react": "^11.10.0",
-        "@emotion/styled": "^11.10.0",
-        "@mui/icons-material": "^5.8.4",
-        "@mui/material": "^5.9.3",
-        "@solana/wallet-adapter-base": "^0.9.18",
-        "@solana/wallet-adapter-material-ui": "^0.16.18",
-        "@solana/wallet-adapter-react": "^0.15.22",
-        "@solana/wallet-adapter-wallets": "^0.19.5",
-        "@solana/web3.js": "^1.58.0",
-        "notistack": "^2.0.8",
-        "react": "^18.0.0",
-        "react-dom": "^18.0.0"
+        "@emotion/react": "^11.11.1",
+        "@emotion/styled": "^11.11.0",
+        "@mui/icons-material": "^5.11.16",
+        "@mui/material": "^5.13.5",
+        "@solana/wallet-adapter-base": "workspace:^",
+        "@solana/wallet-adapter-material-ui": "workspace:^",
+        "@solana/wallet-adapter-react": "workspace:^",
+        "@solana/wallet-adapter-wallets": "workspace:^",
+        "@solana/web3.js": "^1.77.3",
+        "notistack": "^3.0.1",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
     },
     "devDependencies": {
-        "@types/react": "^18.0.0",
-        "@types/react-dom": "^18.0.0",
-        "parcel": "^2.7.0",
-        "prettier": "^2.7.1",
+        "@types/react": "^18.2.13",
+        "@types/react-dom": "^18.2.6",
+        "parcel": "^2.9.2",
+        "prettier": "^2.8.8",
         "process": "^0.11.10",
         "shx": "^0.3.4",
         "typescript": "~4.7.4"

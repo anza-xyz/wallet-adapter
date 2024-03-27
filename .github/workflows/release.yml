@@ -2,8 +2,7 @@ name: Release
 
 on:
   push:
-    branches:
-      - master
+    branches: [master]
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
@@ -11,28 +10,53 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    env:
+      # Enables Turborepo remote caching.
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v2
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v3
 
-      - uses: pnpm/action-setup@v2.2.2
+      - name: Install pnpm
+        id: install-pnpm
+        uses: pnpm/action-setup@v2
         with:
-          version: 7
+            version: 8
+            run_install: false
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      - name: Install Node.js
+        id: install-node
+        uses: actions/setup-node@v3
         with:
-          node-version: 16.x
-          cache: 'pnpm'
+            node-version: 16
+            cache: 'pnpm'
 
-      - name: Install Dependencies
+      - name: Get pnpm store directory
+        id: pnpm-store
+        shell: bash
+        run: |
+            echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm cache
+        id: pnpm-cache
+        uses: actions/cache@v3
+        with:
+            path: ${{ steps.pnpm-store.outputs.STORE_PATH }}
+            key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+            restore-keys: |
+                ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        id: install-deps
         run: pnpm install --frozen-lockfile
 
-      - name: Create Release Pull Request or Publish to npm
+      - name: Create release pull request OR build, test, and publish to npm
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: pnpm release
+          publish: pnpm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
