@@ -73,6 +73,7 @@ export const Wallet: FC = () => {
                     <WalletMultiButton />
                     <WalletDisconnectButton />
                     { /* Your app's components go here, nested within the context providers. */ }
+                    { /* <SendSOLToRandomAddress /> */ }
                 </WalletModalProvider>
             </WalletProvider>
         </ConnectionProvider>
