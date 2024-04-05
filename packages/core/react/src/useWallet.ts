@@ -15,6 +15,10 @@ export interface Wallet {
     readyState: WalletReadyState;
 }
 
+type ConnectOptions = {
+    onlyIfTrusted?: boolean;
+}
+
 export interface WalletContextState {
     autoConnect: boolean;
     wallets: Wallet[];
@@ -25,7 +29,7 @@ export interface WalletContextState {
     disconnecting: boolean;
 
     select(walletName: WalletName | null): void;
-    connect(): Promise<void>;
+    connect: (options?: ConnectOptions) => Promise<{ publicKey: PublicKey }>;
     disconnect(): Promise<void>;
 
     sendTransaction: WalletAdapterProps['sendTransaction'];
