@@ -49,6 +49,7 @@
     },
     "overrides": {
         "@ledgerhq/devices": "6.27.1",
+        "@ledgerhq/errors": "6.16.3",
         "@ledgerhq/hw-transport": "6.27.1",
         "@ledgerhq/hw-transport-webhid": "6.27.1",
         "@solana/wallet-adapter-base": "workspace:^",
@@ -58,6 +59,7 @@
     },
     "resolutions": {
         "@ledgerhq/devices": "6.27.1",
+        "@ledgerhq/errors": "6.16.3",
         "@ledgerhq/hw-transport": "6.27.1",
         "@ledgerhq/hw-transport-webhid": "6.27.1",
         "@solana/wallet-adapter-base": "workspace:^",
