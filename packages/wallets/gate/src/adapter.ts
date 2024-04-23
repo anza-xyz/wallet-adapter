@@ -11,8 +11,9 @@ import {
     WalletReadyState,
     WalletSignMessageError,
     WalletSignTransactionError,
+    WalletSendTransactionError,
 } from '@solana/wallet-adapter-base';
-import type { Transaction } from '@solana/web3.js';
+import type { Transaction, TransactionSignature } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 
 interface GateWalletEvents {
@@ -20,22 +21,23 @@ interface GateWalletEvents {
     disconnect(...args: unknown[]): unknown;
 }
 
-interface GateWalletSolana {
+interface GateWallet extends EventEmitter<GateWalletEvents> {
     publicKey?: { toBytes(): Uint8Array };
     isConnected: boolean;
     signTransaction(transaction: Transaction): Promise<Transaction>;
     signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
+    signAndSendTransaction(
+        transaction: Transaction
+    ): Promise<{ signature: TransactionSignature }>;
     signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
 }
 
-interface GateWallet extends EventEmitter<GateWalletEvents> {
-    solana: GateWalletSolana
-}
-
 interface GateWindow extends Window {
-    gatewallet?: GateWallet;
+    gatewallet?: {
+        solana?: GateWallet
+    }
 }
 
 declare const window: GateWindow;
@@ -52,7 +54,7 @@ export class GateWalletAdapter extends BaseMessageSignerWalletAdapter {
     readonly supportedTransactionVersions = null;
 
     private _connecting: boolean;
-    private _wallet: GateWalletSolana | null;
+    private _wallet: GateWallet | null;
     private _publicKey: PublicKey | null;
     private _readyState: WalletReadyState =
         typeof window === 'undefined' || typeof document === 'undefined'
@@ -169,6 +171,26 @@ export class GateWalletAdapter extends BaseMessageSignerWalletAdapter {
                 return ((await wallet.signAllTransactions(transactions)) as T[]) || transactions;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
+            }
+        } catch (error: any) {
+            this.emit('error', error);
+            throw error;
+        }
+    }
+
+    async signAndSendTransaction(
+        transaction: Transaction
+    ): Promise<TransactionSignature> {
+        try {
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
+
+            try {
+                const { signature } = await wallet.signAndSendTransaction(transaction);
+                return signature;
+            } catch (error: any) {
+                if (error instanceof WalletError) throw error;
+                throw new WalletSendTransactionError(error?.message, error);
             }
         } catch (error: any) {
             this.emit('error', error);
