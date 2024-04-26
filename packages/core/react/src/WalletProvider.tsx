@@ -76,7 +76,12 @@ export function WalletProvider({
         }
         return [mobileWalletAdapter, ...adaptersWithStandardAdapters];
     }, [adaptersWithStandardAdapters, mobileWalletAdapter]);
-    const [walletName, setWalletName] = useLocalStorage<WalletName | null>(localStorageKey, null);
+    const [walletName, setWalletName] = useLocalStorage<WalletName | null>(
+        localStorageKey,
+        adaptersWithStandardAdapters.length === 0 && getIsMobile(adaptersWithStandardAdapters)
+            ? SolanaMobileWalletAdapterWalletName
+            : null
+    );
     const adapter = useMemo(
         () => adaptersWithMobileWalletAdapter.find((a) => a.name === walletName) ?? null,
         [adaptersWithMobileWalletAdapter, walletName]
