@@ -89,14 +89,7 @@ export function WalletProvider({
     const changeWallet = useCallback(
         (nextWalletName: WalletName<string> | null) => {
             if (walletName === nextWalletName) return;
-            if (
-                adapter &&
-                // Selecting a wallet other than the mobile wallet adapter is not
-                // sufficient reason to call `disconnect` on the mobile wallet adapter.
-                // Calling `disconnect` on the mobile wallet adapter causes the entire
-                // authorization store to be wiped.
-                adapter.name !== SolanaMobileWalletAdapterWalletName
-            ) {
+            if (adapter) {
                 adapter.disconnect();
             }
             setWalletName(nextWalletName);
