@@ -125,6 +125,10 @@ export function WalletProvider({
     }, [autoConnect, adapter]);
     const isUnloadingRef = useRef(false);
     useEffect(() => {
+        if (walletName === SolanaMobileWalletAdapterWalletName && getIsMobile(adaptersWithStandardAdapters)) {
+            isUnloadingRef.current = false;
+            return;
+        }
         function handleBeforeUnload() {
             isUnloadingRef.current = true;
         }
