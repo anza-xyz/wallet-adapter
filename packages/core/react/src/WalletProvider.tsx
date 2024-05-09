@@ -159,8 +159,7 @@ export function WalletProvider({
     const handleConnectError = useCallback(() => {
         if (
             adapter &&
-            adapter.name !== SolanaMobileWalletAdapterWalletName &&
-            adaptersWithStandardAdapters.length === 0
+            (adapter.name !== SolanaMobileWalletAdapterWalletName || adaptersWithStandardAdapters.length !== 0)
         ) {
             // If any error happens while connecting, unset the adapter.
             changeWallet(null);
