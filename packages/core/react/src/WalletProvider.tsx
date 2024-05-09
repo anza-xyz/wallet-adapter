@@ -89,7 +89,14 @@ export function WalletProvider({
     const changeWallet = useCallback(
         (nextWalletName: WalletName<string> | null) => {
             if (walletName === nextWalletName) return;
-            if (adapter) {
+            if (
+                adapter &&
+                // Selecting a wallet other than the mobile wallet adapter is not
+                // sufficient reason to call `disconnect` on the mobile wallet adapter.
+                // Calling `disconnect` on the mobile wallet adapter causes the entire
+                // authorization store to be wiped.
+                adapter.name !== SolanaMobileWalletAdapterWalletName
+            ) {
                 adapter.disconnect();
             }
             setWalletName(nextWalletName);
@@ -100,6 +107,13 @@ export function WalletProvider({
         if (!adapter) return;
         function handleDisconnect() {
             if (isUnloadingRef.current) return;
+            // Leave the adapter selected in the event of a disconnection.
+            if (
+                walletName === SolanaMobileWalletAdapterWalletName &&
+                adaptersWithStandardAdapters.length === 0 &&
+                getIsMobile(adaptersWithStandardAdapters)
+            )
+                return;
             setWalletName(null);
         }
         adapter.on('disconnect', handleDisconnect);
@@ -143,11 +157,15 @@ export function WalletProvider({
         };
     }, [adaptersWithStandardAdapters, walletName]);
     const handleConnectError = useCallback(() => {
-        if (adapter) {
+        if (
+            adapter &&
+            adapter.name !== SolanaMobileWalletAdapterWalletName &&
+            adaptersWithStandardAdapters.length === 0
+        ) {
             // If any error happens while connecting, unset the adapter.
             changeWallet(null);
         }
-    }, [adapter, changeWallet]);
+    }, [adapter, changeWallet, adaptersWithStandardAdapters]);
     const selectWallet = useCallback(
         (walletName: WalletName | null) => {
             hasUserSelectedAWallet.current = true;
