@@ -3,16 +3,17 @@
     "pipeline": {
         "build": {
             "dependsOn": ["^build"],
+            "inputs": ["$TURBO_DEFAULT$", "tsconfig.*", "src/**"],
             "outputs": [".next/**", "build/**", "dist/**", "lib/**"]
         },
         "lint": {
-            "outputs": [],
-            "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx"]
+            "inputs": ["$TURBO_DEFAULT$", "src/**", "test/**"],
+            "outputs": []
         },
         "test": {
             "dependsOn": ["build"],
-            "outputs": [],
-            "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx"]
+            "inputs": ["$TURBO_DEFAULT$", "src/**", "test/**"],
+            "outputs": []
         }
     }
 }
