@@ -40,7 +40,7 @@ import { clusterApiUrl } from '@solana/web3.js';
 require('@solana/wallet-adapter-react-ui/styles.css');
 
 export const Wallet: FC = () => {
-    // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
+    // The network can be set to 'devnet', 'testnet', or 'mainnet'.
     const network = WalletAdapterNetwork.Devnet;
 
     // You can also provide a custom RPC endpoint.
