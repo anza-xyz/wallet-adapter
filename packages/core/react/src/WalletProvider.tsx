@@ -76,12 +76,7 @@ export function WalletProvider({
         }
         return [mobileWalletAdapter, ...adaptersWithStandardAdapters];
     }, [adaptersWithStandardAdapters, mobileWalletAdapter]);
-    const [walletName, setWalletName] = useLocalStorage<WalletName | null>(
-        localStorageKey,
-        adaptersWithStandardAdapters.length === 0 && getIsMobile(adaptersWithStandardAdapters)
-            ? SolanaMobileWalletAdapterWalletName
-            : null
-    );
+    const [walletName, setWalletName] = useLocalStorage<WalletName | null>(localStorageKey, null);
     const adapter = useMemo(
         () => adaptersWithMobileWalletAdapter.find((a) => a.name === walletName) ?? null,
         [adaptersWithMobileWalletAdapter, walletName]
@@ -107,13 +102,6 @@ export function WalletProvider({
         if (!adapter) return;
         function handleDisconnect() {
             if (isUnloadingRef.current) return;
-            // Leave the adapter selected in the event of a disconnection.
-            if (
-                walletName === SolanaMobileWalletAdapterWalletName &&
-                adaptersWithStandardAdapters.length === 0 &&
-                getIsMobile(adaptersWithStandardAdapters)
-            )
-                return;
             setWalletName(null);
         }
         adapter.on('disconnect', handleDisconnect);
@@ -157,14 +145,11 @@ export function WalletProvider({
         };
     }, [adaptersWithStandardAdapters, walletName]);
     const handleConnectError = useCallback(() => {
-        if (
-            adapter &&
-            (adapter.name !== SolanaMobileWalletAdapterWalletName || adaptersWithStandardAdapters.length !== 0)
-        ) {
+        if (adapter) {
             // If any error happens while connecting, unset the adapter.
             changeWallet(null);
         }
-    }, [adapter, changeWallet, adaptersWithStandardAdapters]);
+    }, [adapter, changeWallet]);
     const selectWallet = useCallback(
         (walletName: WalletName | null) => {
             hasUserSelectedAWallet.current = true;
