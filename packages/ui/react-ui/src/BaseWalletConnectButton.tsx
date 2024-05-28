@@ -3,7 +3,7 @@ import React from 'react';
 import { BaseWalletConnectionButton } from './BaseWalletConnectionButton.js';
 import type { ButtonProps } from './Button.js';
 
-type Props = ButtonProps & {
+export type Props = ButtonProps & {
     labels: { [TButtonState in ReturnType<typeof useWalletConnectButton>['buttonState']]: string };
 };
 

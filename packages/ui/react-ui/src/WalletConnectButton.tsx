@@ -1,6 +1,7 @@
 import React from 'react';
-import { BaseWalletConnectButton } from './BaseWalletConnectButton.js';
-import type { ButtonProps } from './Button.js';
+import { BaseWalletConnectButton, Props as BaseProps } from './BaseWalletConnectButton.js';
+
+export type Props = Omit<BaseProps, 'labels'> & {labels?: Partial<BaseProps['labels']>};
 
 const LABELS = {
     connecting: 'Connecting ...',
@@ -9,6 +10,7 @@ const LABELS = {
     'no-wallet': 'Connect Wallet',
 } as const;
 
-export function WalletConnectButton(props: ButtonProps) {
-    return <BaseWalletConnectButton {...props} labels={LABELS} />;
+export function WalletConnectButton(props: Props) {
+    props.labels = { ...LABELS, ...props.labels };
+    return <BaseWalletConnectButton {...(props as BaseProps)} />;
 }
