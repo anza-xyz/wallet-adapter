@@ -1,4 +1,4 @@
-import type { SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
+import type { ConnectionContext, SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
     WalletAccountError,
@@ -15,7 +15,7 @@ import {
     WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import type { Connection, Transaction, TransactionSignature } from '@solana/web3.js';
+import type { Transaction, TransactionSignature } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import type { default as Torus, TorusParams } from '@toruslabs/solana-embed';
 
@@ -147,7 +147,7 @@ export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
 
     async sendTransaction(
         transaction: Transaction,
-        connection: Connection,
+        connectionContext: ConnectionContext,
         options: SendTransactionOptions = {}
     ): Promise<TransactionSignature> {
         try {
@@ -157,11 +157,11 @@ export class TorusWalletAdapter extends BaseMessageSignerWalletAdapter {
             try {
                 const { signers, ...sendOptions } = options;
 
-                transaction = await this.prepareTransaction(transaction, connection, sendOptions);
+                transaction = await this.prepareTransaction(transaction, connectionContext, sendOptions);
 
                 signers?.length && transaction.partialSign(...signers);
 
-                sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;
+                sendOptions.preflightCommitment = sendOptions.preflightCommitment || connectionContext.commitment;
 
                 const { signature } = await wallet.signAndSendTransaction(transaction, sendOptions);
                 return signature;
