@@ -1,5 +1,6 @@
 export * from './ConnectionProvider.js';
 export * from './errors.js';
+export * from './hooks.js';
 export * from './useAnchorWallet.js';
 export * from './useConnection.js';
 export * from './useLocalStorage.js';
