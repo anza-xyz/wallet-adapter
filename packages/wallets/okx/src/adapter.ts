@@ -38,6 +38,7 @@ interface OkxWallet extends EventEmitter<OkxWalletEvents> {
     publicKey?: { toBytes(): Uint8Array };
     isConnected: boolean;
     signTransaction<T extends Transaction | VersionedTransaction>(transaction: T): Promise<T>;
+    signAllTransactions<T extends Transaction | VersionedTransaction>(transactions: T[]): Promise<T[]>;
     signAndSendTransaction<T extends Transaction | VersionedTransaction>(
         transaction: T,
         options?: SendOptions
@@ -58,7 +59,7 @@ declare const window: OkxWindow;
 
 export interface OkxWalletAdapterConfig {}
 
-export const OkxWalletName = 'OkxWallet' as WalletName<'OkxWallet'>;
+export const OkxWalletName = 'OKX Wallet' as WalletName<'OKX Wallet'>;
 
 export class OkxWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = OkxWalletName;
@@ -231,6 +232,22 @@ export class OkxWalletAdapter extends BaseMessageSignerWalletAdapter {
 
             try {
                 return (await wallet.signTransaction(transaction)) || transaction;
+            } catch (error: any) {
+                throw new WalletSignTransactionError(error?.message, error);
+            }
+        } catch (error: any) {
+            this.emit('error', error);
+            throw error;
+        }
+    }
+
+    async signAllTransactions<T extends Transaction | VersionedTransaction>(transactions: T[]): Promise<T[]> {
+        try {
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
+
+            try {
+                return ((await wallet.signAllTransactions(transactions)) as T[]) || transactions;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
