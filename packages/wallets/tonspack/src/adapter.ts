@@ -561,7 +561,7 @@ export class TonspackWalletAdapter extends BaseMessageSignerWalletAdapter {
                 const txs = [];
                 for(let i = 0 ; i<transactions.length ; i++)
                 {
-                    if(transactions[i].constructor.name == "VersionedTransaction")
+                    if('message' in transactions[i])
                     {
                         //Versiontransaction
                         {
