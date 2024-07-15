@@ -251,9 +251,13 @@ class Tonspack{
         }
     }
 
-    async loopCheck() {
+    async loopCheck(pin : Window|null) {
         for(var i = 0 ; i < this.loopTimeout ; i++)
         {
+            if(pin == null)
+            {
+                return false;
+            }
             const ret = await this.check_request_action()
             if(ret.data)
             {
@@ -261,10 +265,7 @@ class Tonspack{
             }
             await this.sleep(this.loopInterval)
         }
-        return {
-            status:false,
-            reason:"user operation timeout"
-        }
+        return false;
     }
 
     async sleep (ms:number) {
@@ -297,8 +298,8 @@ class Tonspack{
                         r:redirect || null
                     }
 
-        window.open(this.actionUrl+encodeBase58(Buffer.from(JSON.stringify(d))),"newwindow","height=800, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
-        return await this.loopCheck()
+        const pin = window.open(this.actionUrl+encodeBase58(Buffer.from(JSON.stringify(d))),"newwindow","height=800, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
+        return await this.loopCheck(pin)
     }
 
     async sign(chian:any,sign:any,redirect:string,preconnect:any) {
@@ -325,8 +326,8 @@ class Tonspack{
                 p:1
             }
         }
-        window.open(this.actionUrl+encodeBase58(Buffer.from(JSON.stringify(d))),"newwindow","height=800, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
-        return await this.loopCheck()
+        const pin = window.open(this.actionUrl+encodeBase58(Buffer.from(JSON.stringify(d))),"newwindow","height=800, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
+        return await this.loopCheck(pin)
     }
 
     async send(chian:any,txs:any,redirect:string,preconnect:any) {
@@ -356,8 +357,8 @@ class Tonspack{
                 p:1
             }
         }
-        window.open(this.actionUrl+encodeBase58(Buffer.from(JSON.stringify(d))),"newwindow","height=800, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
-        return await this.loopCheck()
+        const pin = window.open(this.actionUrl+encodeBase58(Buffer.from(JSON.stringify(d))),"newwindow","height=800, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
+        return await this.loopCheck(pin)
     }
 }
 
@@ -382,7 +383,7 @@ interface TonspackWindow extends Window {
     tonspackSolWallet?: TonspackWallet;
 }
 
-declare const window: TonspackWindow;
+// declare const window: TonspackWindow;
 
 export interface TonspackWalletAdapterConfig {}
 
@@ -430,10 +431,14 @@ export class TonspackWalletAdapter extends BaseMessageSignerWalletAdapter {
         return this._readyState;
     }
 
+    async autoConnect(): Promise<void> {
+        await this.connect();
+    }
+
     async connect(): Promise<void> {
         try {
-            if (this.connected || this.connecting) return;
-            if (this._readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
+            // if (this.connected || this.connecting) return;
+            // if (this._readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
 
             this._connecting = true;
 
@@ -455,14 +460,15 @@ export class TonspackWalletAdapter extends BaseMessageSignerWalletAdapter {
                 
             }
             const tonspack_wallet = new Tonspack();
-
+            
             try {
                 wallet.address = await tonspack_wallet.connect(solChain,"");
             } catch (error: any) {
                 throw new WalletConnectionError(error?.message, error);
             }
 
-            if (!wallet.address) throw new WalletAccountError();
+            if (!wallet.address) {await this.disconnect();return ;};
+            // if (!wallet.address) throw new WalletAccountError();
 
 
             let publicKey: PublicKey;
