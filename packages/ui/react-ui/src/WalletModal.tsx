@@ -6,9 +6,9 @@ import type { FC, MouseEvent } from 'react';
 import React, { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Collapse } from './Collapse.js';
-import { useWalletModal } from './useWalletModal.js';
 import { WalletListItem } from './WalletListItem.js';
 import { WalletSVG } from './WalletSVG.js';
+import { useWalletModal } from './useWalletModal.js';
 
 export interface WalletModalProps {
     className?: string;
@@ -25,33 +25,17 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
 
     const [listedWallets, collapsedWallets] = useMemo(() => {
         const installed: Wallet[] = [];
-        const loadable: Wallet[] = [];
-        const notDetected: Wallet[] = [];
+        const notInstalled: Wallet[] = [];
 
         for (const wallet of wallets) {
-            if (wallet.readyState === WalletReadyState.NotDetected) {
-                notDetected.push(wallet);
-            } else if (wallet.readyState === WalletReadyState.Loadable) {
-                loadable.push(wallet);
-            } else if (wallet.readyState === WalletReadyState.Installed) {
+            if (wallet.readyState === WalletReadyState.Installed) {
                 installed.push(wallet);
+            } else {
+                notInstalled.push(wallet);
             }
         }
 
-        let listed: Wallet[] = [];
-        let collapsed: Wallet[] = [];
-
-        if (installed.length) {
-            listed = installed;
-            collapsed = [...loadable, ...notDetected];
-        } else if (loadable.length) {
-            listed = loadable;
-            collapsed = notDetected;
-        } else {
-            collapsed = notDetected;
-        }
-
-        return [listed, collapsed];
+        return installed.length ? [installed, notInstalled] : [notInstalled, []];
     }, [wallets]);
 
     const hideModal = useCallback(() => {

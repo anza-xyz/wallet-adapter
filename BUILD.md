@@ -2,8 +2,8 @@
 
 ### 0. Prerequisites
 
-* Node 16+
-* PNPM
+* Node 18+
+* PNPM 9+
 
 If you have Node 16+, you can [activate PNPM with Corepack](https://pnpm.io/installation#using-corepack):
 ```shell
@@ -13,12 +13,12 @@ corepack prepare pnpm@`npm info pnpm --json | jq -r .version` --activate
 
 Corepack requires a version to enable, so if you don't have [jq](https://stedolan.github.io/jq/) installed, you can [install it](https://formulae.brew.sh/formula/jq), or just manually get the current version of pnpm with `npm info pnpm` and use it like this:
 ```shell
-corepack prepare pnpm@8.1.0 --activate
+corepack prepare pnpm@9.1.0 --activate
 ```
 
 ### 1. Clone the project:
 ```shell
-git clone https://github.com/solana-labs/wallet-adapter.git
+git clone https://github.com/anza-xyz/wallet-adapter.git
 ```
 
 ### 2. Install dependencies:

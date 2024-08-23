@@ -1,5 +1,54 @@
 # @solana/wallet-adapter-wallets
 
+## 0.19.32
+
+### Patch Changes
+
+-   Updated dependencies [ba90b65]
+    -   @solana/wallet-adapter-trezor@0.1.2
+
+## 0.19.31
+
+### Patch Changes
+
+-   Updated dependencies [375e548]
+    -   @solana/wallet-adapter-trezor@0.1.1
+
+## 0.19.30
+
+### Patch Changes
+
+-   Updated dependencies [dc81bc9]
+    -   @solana/wallet-adapter-keystone@0.1.15
+
+## 0.19.29
+
+### Patch Changes
+
+-   Updated dependencies [84e2250]
+    -   @solana/wallet-adapter-keystone@0.1.14
+
+## 0.19.28
+
+### Patch Changes
+
+-   Updated dependencies [f535bac]
+    -   @solana/wallet-adapter-keystone@0.1.13
+
+## 0.19.27
+
+### Patch Changes
+
+-   Updated dependencies [3b38a73]
+    -   @solana/wallet-adapter-coinbase@0.1.19
+
+## 0.19.26
+
+### Patch Changes
+
+-   Updated dependencies [bef1cad]
+    -   @solana/wallet-adapter-particle@0.1.12
+
 ## 0.19.25
 
 ### Patch Changes

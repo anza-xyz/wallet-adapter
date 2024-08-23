@@ -1,5 +1,49 @@
 # @solana/wallet-adapter-material-ui-starter
 
+## 0.13.32
+
+### Patch Changes
+
+-   @solana/wallet-adapter-wallets@0.19.32
+
+## 0.13.31
+
+### Patch Changes
+
+-   @solana/wallet-adapter-wallets@0.19.31
+
+## 0.13.30
+
+### Patch Changes
+
+-   @solana/wallet-adapter-wallets@0.19.30
+
+## 0.13.29
+
+### Patch Changes
+
+-   @solana/wallet-adapter-wallets@0.19.29
+
+## 0.13.28
+
+### Patch Changes
+
+-   @solana/wallet-adapter-wallets@0.19.28
+
+## 0.13.27
+
+### Patch Changes
+
+-   @solana/wallet-adapter-wallets@0.19.27
+
+## 0.13.26
+
+### Patch Changes
+
+-   Updated dependencies [cb29215]
+    -   @solana/wallet-adapter-material-ui@0.16.34
+    -   @solana/wallet-adapter-wallets@0.19.26
+
 ## 0.13.25
 
 ### Patch Changes

@@ -16,7 +16,7 @@ const App = () => {
                   metadata: {
                       name: 'Example App',
                       description: 'Example App',
-                      url: 'https://github.com/solana-labs/wallet-adapter',
+                      url: 'https://github.com/anza-xyz/wallet-adapter',
                       icons: ['https://avatars.githubusercontent.com/u/35608259?s=200'],
                   },
               },

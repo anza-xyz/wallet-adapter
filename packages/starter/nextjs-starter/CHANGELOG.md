@@ -1,5 +1,49 @@
 # @solana/wallet-adapter-nextjs-starter
 
+## 0.8.32
+
+### Patch Changes
+
+-   @solana/wallet-adapter-wallets@0.19.32
+
+## 0.8.31
+
+### Patch Changes
+
+-   @solana/wallet-adapter-wallets@0.19.31
+
+## 0.8.30
+
+### Patch Changes
+
+-   @solana/wallet-adapter-wallets@0.19.30
+
+## 0.8.29
+
+### Patch Changes
+
+-   @solana/wallet-adapter-wallets@0.19.29
+
+## 0.8.28
+
+### Patch Changes
+
+-   @solana/wallet-adapter-wallets@0.19.28
+
+## 0.8.27
+
+### Patch Changes
+
+-   @solana/wallet-adapter-wallets@0.19.27
+
+## 0.8.26
+
+### Patch Changes
+
+-   Updated dependencies [cb29215]
+    -   @solana/wallet-adapter-react-ui@0.9.35
+    -   @solana/wallet-adapter-wallets@0.19.26
+
 ## 0.8.25
 
 ### Patch Changes
