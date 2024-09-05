@@ -201,7 +201,32 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
             expect(jest.mocked(SolanaMobileWalletAdapter).mock.calls[0][0].cluster).toBe('fake-cluster-for-test');
         });
     });
-
+    describe('when another wallet adapter is supplied in the adapters array', () => {
+        beforeEach(() => {
+            adapters.push(new FooWalletAdapter());
+        });
+        it('does not load the mobile wallet adapter into state as the default', () => {
+            renderTest({});
+            expect(ref.current?.getWalletContextState().wallet?.adapter.name).toBe(undefined);
+        });
+        it('loads no public key into state', () => {
+            renderTest({});
+            expect(ref.current?.getWalletContextState().publicKey).toBeNull();
+        });
+    });
+    describe('when no wallet adapter is supplied in the adapters array', () => {
+        beforeEach(() => {
+            adapters = [];
+        });
+        it('does load the mobile wallet adapter into state as the default', () => {
+            renderTest({});
+            expect(ref.current?.getWalletContextState().wallet?.adapter.name).toBe(SolanaMobileWalletAdapterWalletName);
+        });
+        it('loads no public key into state', () => {
+            renderTest({});
+            expect(ref.current?.getWalletContextState().publicKey).toBeNull();
+        });
+    });
     describe('when a custom mobile wallet adapter is supplied in the adapters array', () => {
         let customAdapter: Adapter;
         const CUSTOM_APP_IDENTITY = {
@@ -226,19 +251,6 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
         it('does not construct any further mobile wallet adapters', () => {
             renderTest({});
             expect(jest.mocked(SolanaMobileWalletAdapter).mock.calls.length).toBe(0);
-        });
-    });
-    describe('when there exists no stored wallet name', () => {
-        beforeEach(() => {
-            localStorage.removeItem(WALLET_NAME_CACHE_KEY);
-        });
-        it('does not load the mobile wallet adapter into state as the default', () => {
-            renderTest({});
-            expect(ref.current?.getWalletContextState().wallet?.adapter.name).toBe(undefined);
-        });
-        it('loads no public key into state', () => {
-            renderTest({});
-            expect(ref.current?.getWalletContextState().publicKey).toBeNull();
         });
     });
     describe('when there exists a stored wallet name', () => {
@@ -337,7 +349,7 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
         });
         describe('when the wallet emits an error', () => {
             let adapter: Adapter;
-            beforeEach(() => {
+            beforeEach(async () => {
                 act(() => {
                     adapter = ref.current?.getWalletContextState().wallet?.adapter as SolanaMobileWalletAdapter;
                     adapter.emit('error', errorThrown);
