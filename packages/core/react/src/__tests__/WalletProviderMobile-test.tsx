@@ -219,7 +219,7 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
             adapters.push(customAdapter);
             jest.clearAllMocks();
         });
-        it('loads the custom mobile wallet adapter into state as the default', () => {
+        it('does not load the custom mobile wallet adapter into state as the default', () => {
             renderTest({});
             expect(ref.current?.getWalletContextState().wallet?.adapter).toBe(undefined);
         });
@@ -232,7 +232,7 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
         beforeEach(() => {
             localStorage.removeItem(WALLET_NAME_CACHE_KEY);
         });
-        it('loads the mobile wallet adapter into state as the default', () => {
+        it('does not load the mobile wallet adapter into state as the default', () => {
             renderTest({});
             expect(ref.current?.getWalletContextState().wallet?.adapter.name).toBe(undefined);
         });
