@@ -421,8 +421,8 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                         mobileWalletAdapter.disconnect();
                     });
                 });
-                it('should not clear the stored wallet name', () => {
-                    expect(localStorage.removeItem).not.toHaveBeenCalled();
+                it('should clear the stored wallet name', () => {
+                    expect(localStorage.removeItem).toHaveBeenCalledWith(WALLET_NAME_CACHE_KEY);
                 });
             });
             describe('when window beforeunload event fires', () => {
@@ -439,8 +439,8 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                             mobileWalletAdapter.disconnect();
                         });
                     });
-                    it('should not clear the stored wallet name', () => {
-                        expect(localStorage.removeItem).not.toHaveBeenCalled();
+                    it('should clear the stored wallet name', () => {
+                        expect(localStorage.removeItem).toHaveBeenCalledWith(WALLET_NAME_CACHE_KEY);
                     });
                     it('should clear out the state', () => {
                         expect(ref.current?.getWalletContextState()).toMatchObject({
@@ -451,19 +451,6 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                     });
                 });
             });
-        });
-    });
-    describe('when a mobile wallet adapter is selected', () => {
-        beforeEach(async () => {
-            renderTest({});
-            await act(async () => {
-                ref.current?.getWalletContextState().select(SolanaMobileWalletAdapterWalletName);
-                await Promise.resolve(); // Flush all promises in effects after calling `select()`.
-            });
-        });
-        it('calls `connect`', () => {
-            const adapter = ref.current?.getWalletContextState().wallet?.adapter as SolanaMobileWalletAdapter;
-            expect(adapter.connect).toHaveBeenCalled();
         });
     });
 });

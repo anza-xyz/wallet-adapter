@@ -102,8 +102,6 @@ export function WalletProvider({
         if (!adapter) return;
         function handleDisconnect() {
             if (isUnloadingRef.current) return;
-            // Leave the adapter selected in the event of a disconnection.
-            if (walletName === SolanaMobileWalletAdapterWalletName && getIsMobile(adaptersWithStandardAdapters)) return;
             setWalletName(null);
         }
         adapter.on('disconnect', handleDisconnect);
