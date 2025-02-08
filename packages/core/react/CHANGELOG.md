@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-react
 
+## 0.15.36
+
+### Patch Changes
+
+-   e25e797: Update the default MWA selection behavior
+
 ## 0.15.35
 
 ### Patch Changes
