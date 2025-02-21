@@ -60,17 +60,20 @@ function CustomConnectButton() {
     const handleClick = useCallback(() => {
         switch (buttonState) {
             case 'connected':
-                return onDisconnect;
+                onDisconnect();
+                break;
             case 'connecting':
             case 'disconnecting':
                 break;
             case 'has-wallet':
-                return onConnect;
+                onConnect();
+                break;
             case 'no-wallet':
-                return onSelectWallet;
+                onSelectWallet();
                 break;
         }
     }, [buttonState, onDisconnect, onConnect, onSelectWallet]);
+
     return (
         <>
             <button disabled={buttonState === 'connecting' || buttonState === 'disconnecting'} onClick={handleClick}>
