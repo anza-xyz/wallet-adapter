@@ -60,16 +60,16 @@ function CustomConnectButton() {
     const handleClick = useCallback(() => {
         switch (buttonState) {
             case 'connected':
-                onDisconnect();
+                onDisconnect?.();
                 break;
             case 'connecting':
             case 'disconnecting':
                 break;
             case 'has-wallet':
-                onConnect();
+                onConnect?.();
                 break;
             case 'no-wallet':
-                onSelectWallet();
+                onSelectWallet?.();
                 break;
         }
     }, [buttonState, onDisconnect, onConnect, onSelectWallet]);
