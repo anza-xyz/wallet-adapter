@@ -57,23 +57,27 @@ function CustomConnectButton() {
             label = 'Select Wallet';
             break;
     }
-    const handleClick = useCallback(() => {
-        switch (buttonState) {
-            case 'connected':
-                return onDisconnect;
-            case 'connecting':
-            case 'disconnecting':
-                break;
-            case 'has-wallet':
-                return onConnect;
-            case 'no-wallet':
-                return onSelectWallet;
-                break;
-        }
-    }, [buttonState, onDisconnect, onConnect, onSelectWallet]);
     return (
         <>
-            <button disabled={buttonState === 'connecting' || buttonState === 'disconnecting'} onClick={handleClick}>
+            <button
+                disabled={buttonState === 'connecting' || buttonState === 'disconnecting'}
+                onClick={() => {
+                    switch (buttonState) {
+                        case 'connected':
+                            onDisconnect?.();
+                            break;
+                        case 'connecting':
+                        case 'disconnecting':
+                            break;
+                        case 'has-wallet':
+                            onConnect?.();
+                            break;
+                        case 'no-wallet':
+                            onSelectWallet?.();
+                            break;
+                    }
+                }}
+            >
                 {label}
             </button>
             {walletModalConfig ? (
