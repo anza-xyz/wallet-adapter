@@ -168,7 +168,7 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
         it('creates a new mobile wallet adapter with the appropriate cluster for the given endpoint', () => {
             renderTest({});
             expect(jest.mocked(SolanaMobileWalletAdapter).mock.instances).toHaveLength(1);
-            expect(jest.mocked(SolanaMobileWalletAdapter).mock.calls[0][0].cluster).toBe('fake-cluster-for-test');
+            expect(jest.mocked(SolanaMobileWalletAdapter).mock.calls[0][0].chain).toBe('fake-cluster-for-test');
         });
     });
     describe('when a custom mobile wallet adapter is supplied in the adapters array', () => {
@@ -182,7 +182,7 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                 addressSelector: jest.fn() as unknown as AddressSelector,
                 appIdentity: CUSTOM_APP_IDENTITY,
                 authorizationResultCache: jest.fn() as unknown as AuthorizationResultCache,
-                cluster: CUSTOM_CLUSTER,
+                chain: CUSTOM_CLUSTER,
                 onWalletNotFound: jest.fn(),
             });
             adapters.push(customAdapter);
