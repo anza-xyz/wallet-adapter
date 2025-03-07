@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-trezor
 
+## 0.1.3
+
+### Patch Changes
+
+-   e88d8749: bump @trezor/connect-web to version 9.5.0
+-   f3721882: Update Trezor icon
+
 ## 0.1.2
 
 ### Patch Changes
