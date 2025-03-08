@@ -23,7 +23,7 @@
         "tsconfig.json"
     ],
     "engines": {
-        "node": ">=18"
+        "node": ">=20"
     },
     "scripts": {
         "build": "tsc --build --verbose && next build",
@@ -49,6 +49,6 @@
         "eslint-config-next": "^12.3.4",
         "prettier": "^2.8.8",
         "shx": "^0.3.4",
-        "typescript": "~4.7.4"
+        "typescript": "~5"
     }
 }
