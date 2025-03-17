@@ -1,5 +1,14 @@
 # @solana/wallet-adapter-trust
 
+## 0.1.14
+
+### Patch Changes
+
+-   c96cae47: The base version of Node has been raised to v20
+-   b3797c26: Update TrustWallet icon
+-   Updated dependencies [c96cae47]
+    -   @solana/wallet-adapter-base@0.9.24
+
 ## 0.1.13
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @solana/wallet-adapter-base-ui
 
+## 0.1.3
+
+### Patch Changes
+
+-   c96cae47: The base version of Node has been raised to v20
+-   Updated dependencies [e25e7971]
+-   Updated dependencies [c96cae47]
+    -   @solana/wallet-adapter-react@0.15.36
+
 ## 0.1.2
 
 ### Patch Changes
