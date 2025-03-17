@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-phantom
 
+## 0.9.25
+
+### Patch Changes
+
+-   c96cae47: The base version of Node has been raised to v20
+-   Updated dependencies [c96cae47]
+    -   @solana/wallet-adapter-base@0.9.24
+
 ## 0.9.24
 
 ### Patch Changes

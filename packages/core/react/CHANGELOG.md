@@ -1,5 +1,14 @@
 # @solana/wallet-adapter-react
 
+## 0.15.36
+
+### Patch Changes
+
+-   e25e7971: Update the default MWA selection behavior
+-   c96cae47: The base version of Node has been raised to v20
+-   Updated dependencies [c96cae47]
+    -   @solana/wallet-adapter-base@0.9.24
+
 ## 0.15.35
 
 ### Patch Changes

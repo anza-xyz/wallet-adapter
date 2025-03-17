@@ -1,5 +1,53 @@
 # @solana/wallet-adapter-wallets
 
+## 0.19.33
+
+### Patch Changes
+
+-   c96cae47: The base version of Node has been raised to v20
+-   Updated dependencies [24780bcf]
+-   Updated dependencies [e88d8749]
+-   Updated dependencies [f3721882]
+-   Updated dependencies [c96cae47]
+-   Updated dependencies [b3797c26]
+-   Updated dependencies [f326fb92]
+    -   @solana/wallet-adapter-trezor@0.1.3
+    -   @solana/wallet-adapter-unsafe-burner@0.1.8
+    -   @solana/wallet-adapter-walletconnect@0.1.17
+    -   @solana/wallet-adapter-tokenpocket@0.4.20
+    -   @solana/wallet-adapter-mathwallet@0.9.19
+    -   @solana/wallet-adapter-coinbase@0.1.20
+    -   @solana/wallet-adapter-hyperpay@0.1.15
+    -   @solana/wallet-adapter-keystone@0.1.16
+    -   @solana/wallet-adapter-particle@0.1.13
+    -   @solana/wallet-adapter-solflare@0.6.29
+    -   @solana/wallet-adapter-tokenary@0.1.13
+    -   @solana/wallet-adapter-bitkeep@0.3.21
+    -   @solana/wallet-adapter-coinhub@0.3.19
+    -   @solana/wallet-adapter-fractal@0.1.9
+    -   @solana/wallet-adapter-krystal@0.1.13
+    -   @solana/wallet-adapter-nightly@0.1.17
+    -   @solana/wallet-adapter-phantom@0.9.25
+    -   @solana/wallet-adapter-safepal@0.5.19
+    -   @solana/wallet-adapter-bitpie@0.5.19
+    -   @solana/wallet-adapter-clover@0.4.20
+    -   @solana/wallet-adapter-coin98@0.5.21
+    -   @solana/wallet-adapter-ledger@0.9.26
+    -   @solana/wallet-adapter-salmon@0.1.15
+    -   @solana/wallet-adapter-solong@0.9.19
+    -   @solana/wallet-adapter-alpha@0.1.11
+    -   @solana/wallet-adapter-avana@0.1.14
+    -   @solana/wallet-adapter-huobi@0.1.16
+    -   @solana/wallet-adapter-saifu@0.1.16
+    -   @solana/wallet-adapter-torus@0.11.29
+    -   @solana/wallet-adapter-trust@0.1.14
+    -   @solana/wallet-adapter-xdefi@0.1.8
+    -   @solana/wallet-adapter-neko@0.2.13
+    -   @solana/wallet-adapter-nufi@0.1.18
+    -   @solana/wallet-adapter-onto@0.1.8
+    -   @solana/wallet-adapter-spot@0.1.16
+    -   @solana/wallet-adapter-sky@0.1.16
+
 ## 0.19.32
 
 ### Patch Changes

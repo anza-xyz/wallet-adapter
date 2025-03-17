@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-torus
 
+## 0.11.29
+
+### Patch Changes
+
+-   c96cae47: The base version of Node has been raised to v20
+-   Updated dependencies [c96cae47]
+    -   @solana/wallet-adapter-base@0.9.24
+
 ## 0.11.28
 
 ### Patch Changes

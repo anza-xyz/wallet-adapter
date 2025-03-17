@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-coin98
 
+## 0.5.21
+
+### Patch Changes
+
+-   c96cae47: The base version of Node has been raised to v20
+-   Updated dependencies [c96cae47]
+    -   @solana/wallet-adapter-base@0.9.24
+
 ## 0.5.20
 
 ### Patch Changes

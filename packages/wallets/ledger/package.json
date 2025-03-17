@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-ledger",
-    "version": "0.9.25",
+    "version": "0.9.26",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/anza-xyz/wallet-adapter",
     "license": "Apache-2.0",

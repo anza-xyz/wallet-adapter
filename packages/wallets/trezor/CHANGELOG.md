@@ -1,5 +1,16 @@
 # @solana/wallet-adapter-trezor
 
+## 0.1.3
+
+### Patch Changes
+
+-   24780bcf: bump @trezor/connect-web to version 9.5.2
+-   e88d8749: bump @trezor/connect-web to version 9.5.0
+-   f3721882: Update Trezor icon
+-   c96cae47: The base version of Node has been raised to v20
+-   Updated dependencies [c96cae47]
+    -   @solana/wallet-adapter-base@0.9.24
+
 ## 0.1.2
 
 ### Patch Changes
