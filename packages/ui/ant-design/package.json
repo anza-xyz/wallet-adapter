@@ -37,7 +37,7 @@
     },
     "peerDependencies": {
         "@ant-design/icons": "*",
-        "@solana/web3.js": "^1.77.3",
+        "@solana/web3.js": "^1.78.8",
         "antd": "*",
         "react": "*",
         "react-dom": "*"
@@ -49,7 +49,7 @@
     },
     "devDependencies": {
         "@ant-design/icons": "^4.8.0",
-        "@solana/web3.js": "^1.77.3",
+        "@solana/web3.js": "^1.78.8",
         "@types/react": "^18.2.13",
         "@types/react-dom": "^18.2.6",
         "antd": "^4.24.10",

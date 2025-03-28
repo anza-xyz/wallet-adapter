@@ -31,7 +31,7 @@
         "@solana/wallet-adapter-react": "workspace:^",
         "@solana/wallet-adapter-react-ui": "workspace:^",
         "@solana/wallet-adapter-wallets": "workspace:^",
-        "@solana/web3.js": "^1.77.3",
+        "@solana/web3.js": "^1.78.8",
         "react": "^18.2.0",
         "react-app-rewired": "^2.2.1",
         "react-dom": "^18.2.0",
@@ -56,7 +56,7 @@
         "stream-http": "^3.2.0",
         "typescript": "~5",
         "url": "^0.11.1",
-        "webpack": "^5.88.0"
+        "webpack": "^5.94.0"
     },
     "eslintConfig": {
         "extends": [
