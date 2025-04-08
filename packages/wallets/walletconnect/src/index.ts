@@ -1,1 +1,1 @@
-export { WalletConnectWalletAdapter } from '@walletconnect/solana-adapter';
+export * from '@walletconnect/solana-adapter';
