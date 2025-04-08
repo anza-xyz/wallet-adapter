@@ -1153,8 +1153,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/base
       '@walletconnect/solana-adapter':
-        specifier: 0.0.7-b89b86f11cf15e97908341e7d27e61f1b358f7af.0
-        version: 0.0.7-b89b86f11cf15e97908341e7d27e61f1b358f7af.0(@react-native-async-storage/async-storage@1.19.1(react-native@0.72.3(@babel/core@7.22.9)(@babel/preset-env@7.22.9(@babel/core@7.22.9))(bufferutil@4.0.7)(react@18.2.0)(utf-8-validate@5.0.10)))(@solana/wallet-adapter-base@packages+core+base)(@solana/web3.js@1.78.0(bufferutil@4.0.7)(utf-8-validate@5.0.10))(@types/react@18.2.15)(bufferutil@4.0.7)(react@18.2.0)(typescript@5.8.2)(utf-8-validate@5.0.10)(zod@3.22.4)
+        specifier: 0.0.7
+        version: 0.0.7(@react-native-async-storage/async-storage@1.19.1(react-native@0.72.3(@babel/core@7.22.9)(@babel/preset-env@7.22.9(@babel/core@7.22.9))(bufferutil@4.0.7)(react@18.2.0)(utf-8-validate@5.0.10)))(@solana/wallet-adapter-base@packages+core+base)(@solana/web3.js@1.78.0(bufferutil@4.0.7)(utf-8-validate@5.0.10))(@types/react@18.2.15)(bufferutil@4.0.7)(react@18.2.0)(typescript@5.8.2)(utf-8-validate@5.0.10)(zod@3.22.4)
     devDependencies:
       '@solana/web3.js':
         specifier: ^1.77.3
@@ -5091,8 +5091,8 @@ packages:
   '@walletconnect/sign-client@2.19.1':
     resolution: {integrity: sha512-OgBHRPo423S02ceN3lAzcZ3MYb1XuLyTTkKqLmKp/icYZCyRzm3/ynqJDKndiBLJ5LTic0y07LiZilnliYqlvw==}
 
-  '@walletconnect/solana-adapter@0.0.7-b89b86f11cf15e97908341e7d27e61f1b358f7af.0':
-    resolution: {integrity: sha512-RsiBmPY3gi+XiZluyFO8xkx9eIeS5TaoHio5W93xASy1EouldoJT9KqAw7EJsQufZwKk9OJ0Iqn83y6shIkidA==}
+  '@walletconnect/solana-adapter@0.0.7':
+    resolution: {integrity: sha512-78DXFfkenA0sQz1HEq8UfOTdSOP2rvOOZe0rM3G9cdFwgjw21zyy3K5R5ie/mAl7gx4iaA2ahTuO2yYtYX/BiQ==}
     peerDependencies:
       '@solana/wallet-adapter-base': workspace:^
       '@solana/web3.js': 1.x
@@ -19249,7 +19249,7 @@ snapshots:
 
   '@walletconnect/relay-api@1.0.11':
     dependencies:
-      '@walletconnect/jsonrpc-types': 1.0.3
+      '@walletconnect/jsonrpc-types': 1.0.4
 
   '@walletconnect/relay-auth@1.1.0':
     dependencies:
@@ -19333,7 +19333,7 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@walletconnect/solana-adapter@0.0.7-b89b86f11cf15e97908341e7d27e61f1b358f7af.0(@react-native-async-storage/async-storage@1.19.1(react-native@0.72.3(@babel/core@7.22.9)(@babel/preset-env@7.22.9(@babel/core@7.22.9))(bufferutil@4.0.7)(react@18.2.0)(utf-8-validate@5.0.10)))(@solana/wallet-adapter-base@packages+core+base)(@solana/web3.js@1.78.0(bufferutil@4.0.7)(utf-8-validate@5.0.10))(@types/react@18.2.15)(bufferutil@4.0.7)(react@18.2.0)(typescript@5.8.2)(utf-8-validate@5.0.10)(zod@3.22.4)':
+  '@walletconnect/solana-adapter@0.0.7(@react-native-async-storage/async-storage@1.19.1(react-native@0.72.3(@babel/core@7.22.9)(@babel/preset-env@7.22.9(@babel/core@7.22.9))(bufferutil@4.0.7)(react@18.2.0)(utf-8-validate@5.0.10)))(@solana/wallet-adapter-base@packages+core+base)(@solana/web3.js@1.78.0(bufferutil@4.0.7)(utf-8-validate@5.0.10))(@types/react@18.2.15)(bufferutil@4.0.7)(react@18.2.0)(typescript@5.8.2)(utf-8-validate@5.0.10)(zod@3.22.4)':
     dependencies:
       '@reown/appkit': 1.7.2(@react-native-async-storage/async-storage@1.19.1(react-native@0.72.3(@babel/core@7.22.9)(@babel/preset-env@7.22.9(@babel/core@7.22.9))(bufferutil@4.0.7)(react@18.2.0)(utf-8-validate@5.0.10)))(@types/react@18.2.15)(bufferutil@4.0.7)(react@18.2.0)(typescript@5.8.2)(utf-8-validate@5.0.10)(zod@3.22.4)
       '@solana/wallet-adapter-base': link:packages/core/base
