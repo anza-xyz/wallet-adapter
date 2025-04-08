@@ -1,1 +1,1 @@
-export * from './adapter.js';
+export { WalletConnectWalletAdapter } from '@walletconnect/solana-adapter';

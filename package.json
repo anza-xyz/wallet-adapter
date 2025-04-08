@@ -45,7 +45,8 @@
         "shx": "^0.3.4",
         "turbo": "^1.13.3",
         "typedoc": "^0.23.28",
-        "typescript": "~5"
+        "typescript": "~5",
+        "@parcel/resolver-default": "2.14.4"
     },
     "overrides": {
         "@ledgerhq/devices": "6.27.1",
@@ -66,5 +67,8 @@
         "@types/web": "npm:typescript@~4.7.4",
         "eslint": "8.22.0",
         "@ngraveio/bc-ur": "1.1.12"
+    },
+    "@parcel/resolver-default": {
+        "packageExports": true
     }
 }
