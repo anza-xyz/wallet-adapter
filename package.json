@@ -30,6 +30,7 @@
     },
     "devDependencies": {
         "@changesets/cli": "^2.26.1",
+        "@parcel/resolver-default": "2.14.4",
         "@types/node": "^20",
         "@typescript-eslint/eslint-plugin": "^5.60.0",
         "@typescript-eslint/parser": "^5.60.0",
@@ -45,8 +46,7 @@
         "shx": "^0.3.4",
         "turbo": "^1.13.3",
         "typedoc": "^0.23.28",
-        "typescript": "~5",
-        "@parcel/resolver-default": "2.14.4"
+        "typescript": "~5"
     },
     "overrides": {
         "@ledgerhq/devices": "6.27.1",
