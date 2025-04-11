@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-walletconnect
 
+## 0.1.18
+
+### Patch Changes
+
+-   e6058c2f: Update WalletConnect implementation to use package from Reown: @walletconnect/solana-adapter@0.0.7
+
 ## 0.1.17
 
 ### Patch Changes
