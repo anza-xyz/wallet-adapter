@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-wallets
 
+## 0.19.34
+
+### Patch Changes
+
+-   Updated dependencies [e6058c2f]
+    -   @solana/wallet-adapter-walletconnect@0.1.18
+
 ## 0.19.33
 
 ### Patch Changes
