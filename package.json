@@ -5,12 +5,13 @@
     "repository": "https://github.com/anza-xyz/wallet-adapter",
     "license": "Apache-2.0",
     "engines": {
-        "node": ">=20",
-        "pnpm": ">=9"
+        "node": "22",
+        "pnpm": "10.8.1"
     },
     "type": "module",
     "sideEffects": false,
     "scripts": {
+        "corepack": "corepack enable && corepack prepare pnpm@10.8.1 --activate && corepack use pnpm@10.8.1",
         "nuke": "shx rm -rf packages/*/*/node_modules node_modules pnpm-lock.yaml || true",
         "reinstall": "pnpm run nuke && pnpm install",
         "clean": "pnpm --recursive --workspace-concurrency=0 run clean && shx rm -rf **/*.tsbuildinfo",
@@ -41,7 +42,7 @@
         "eslint-plugin-react-hooks": "^4.6.0",
         "eslint-plugin-require-extensions": "^0.1.3",
         "gh-pages": "^4.0.0",
-        "pnpm": "^9",
+        "pnpm": "10.8.1",
         "prettier": "^2.8.8",
         "shx": "^0.3.4",
         "turbo": "^1.13.3",

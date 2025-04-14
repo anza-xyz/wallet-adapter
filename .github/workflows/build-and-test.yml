@@ -23,14 +23,14 @@ jobs:
         id: install-pnpm
         uses: pnpm/action-setup@v2
         with:
-            version: 9
+            version: 10.8.1
             run_install: false
 
       - name: Install Node.js
         id: install-node
         uses: actions/setup-node@v3
         with:
-            node-version: 18
+            node-version: 22
             cache: 'pnpm'
 
       - name: Get pnpm store directory
