@@ -9,8 +9,7 @@ import { type SolanaSignInInput } from '@solana/wallet-standard-features';
 import { verifySignIn } from '@solana/wallet-standard-util';
 import { clusterApiUrl } from '@solana/web3.js';
 import { SnackbarProvider, useSnackbar } from 'notistack';
-import type { FC, ReactNode } from 'react';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, type FC, type ReactNode } from 'react';
 import { AutoConnectProvider, useAutoConnect } from './AutoConnectProvider';
 
 const theme = createTheme({
