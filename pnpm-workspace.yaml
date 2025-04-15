@@ -1,2 +1,18 @@
 packages:
-  - 'packages/*/*'
+  - packages/*/*
+
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - '@swc/core'
+  - bigint-buffer
+  - blake-hash
+  - bufferutil
+  - core-js
+  - core-js-pure
+  - lmdb
+  - msgpackr-extract
+  - protobufjs
+  - sharp
+  - tiny-secp256k1
+  - usb
+  - utf-8-validate

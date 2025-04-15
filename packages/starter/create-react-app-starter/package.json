@@ -22,8 +22,6 @@
         "clean": "shx mkdir -p build lib && shx rm -rf build lib",
         "lint": "prettier --check 'src/{*,**/*}.{ts,tsx,js,jsx,json}' && eslint",
         "start": "react-app-rewired start",
-        "test": "CI=true react-app-rewired test --passWithNoTests",
-        "test:watch": "react-app-rewired test --passWithNoTests",
         "eject": "react-scripts eject"
     },
     "dependencies": {
@@ -31,32 +29,26 @@
         "@solana/wallet-adapter-react": "workspace:^",
         "@solana/wallet-adapter-react-ui": "workspace:^",
         "@solana/wallet-adapter-wallets": "workspace:^",
-        "@solana/web3.js": "^1.77.3",
-        "react": "^18.2.0",
+        "@solana/web3.js": "^1.98.0",
+        "react": "^18.3.1",
         "react-app-rewired": "^2.2.1",
-        "react-dom": "^18.2.0",
-        "react-scripts": "5.0.1",
-        "web-vitals": "^2.1.4"
+        "react-dom": "^18.3.1",
+        "react-scripts": "^5.0.1"
     },
     "devDependencies": {
-        "@testing-library/jest-dom": "^5.16.5",
-        "@testing-library/react": "^13.4.0",
-        "@testing-library/user-event": "^14.4.3",
-        "@types/jest": "^28.1.8",
-        "@types/react": "^18.2.13",
-        "@types/react-dom": "^18.2.6",
-        "@types/testing-library__jest-dom": "^5.14.6",
+        "@types/react": "^18.3.19",
+        "@types/react-dom": "^18.3.6",
         "browserify-zlib": "^0.2.0",
-        "crypto-browserify": "^3.12.0",
+        "crypto-browserify": "^3.12.1",
         "https-browserify": "^1.0.0",
         "process": "^0.11.10",
-        "shx": "^0.3.4",
-        "source-map-loader": "^4.0.1",
+        "shx": "^0.4.0",
+        "source-map-loader": "^5.0.0",
         "stream-browserify": "^3.0.0",
         "stream-http": "^3.2.0",
-        "typescript": "~5",
-        "url": "^0.11.1",
-        "webpack": "^5.88.0"
+        "typescript": "^5.8.3",
+        "url": "^0.11.4",
+        "webpack": "^5.99.5"
     },
     "eslintConfig": {
         "extends": [

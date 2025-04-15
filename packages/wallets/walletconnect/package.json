@@ -32,13 +32,13 @@
         "package": "shx mkdir -p lib/cjs && shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.77.3"
+        "@solana/web3.js": "^1.98.0"
     },
     "dependencies": {
         "@solana/wallet-adapter-base": "workspace:^",
-        "@walletconnect/solana-adapter": "^0.0.7"
+        "@walletconnect/solana-adapter": "^0.0.8"
     },
     "devDependencies": {
-        "shx": "^0.3.4"
+        "shx": "^0.4.0"
     }
 }

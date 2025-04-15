@@ -32,17 +32,17 @@
         "package": "shx mkdir -p lib/cjs && shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.77.3"
+        "@solana/web3.js": "^1.98.0"
     },
     "dependencies": {
-        "@solana/wallet-standard-features": "^1.1.0",
-        "@wallet-standard/base": "^1.0.1",
-        "@wallet-standard/features": "^1.0.3",
-        "eventemitter3": "^4.0.7"
+        "@solana/wallet-standard-features": "^1.3.0",
+        "@wallet-standard/base": "^1.1.0",
+        "@wallet-standard/features": "^1.1.0",
+        "eventemitter3": "^5.0.1"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.77.3",
-        "@types/node-fetch": "^2.6.4",
-        "shx": "^0.3.4"
+        "@solana/web3.js": "^1.98.0",
+        "@types/node-fetch": "^2.6.12",
+        "shx": "^0.4.0"
     }
 }

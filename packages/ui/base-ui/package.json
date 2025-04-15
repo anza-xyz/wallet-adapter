@@ -32,17 +32,17 @@
         "package": "shx mkdir -p lib/cjs && shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.77.3",
+        "@solana/web3.js": "^1.98.0",
         "react": "*"
     },
     "dependencies": {
         "@solana/wallet-adapter-react": "workspace:^"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.77.3",
-        "@types/react": "^18.2.13",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "shx": "^0.3.4"
+        "@solana/web3.js": "^1.98.0",
+        "@types/react": "^18.3.19",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "shx": "^0.4.0"
     }
 }

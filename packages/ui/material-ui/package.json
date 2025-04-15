@@ -34,7 +34,7 @@
     "peerDependencies": {
         "@mui/icons-material": "*",
         "@mui/material": "*",
-        "@solana/web3.js": "^1.77.3",
+        "@solana/web3.js": "^1.98.0",
         "react": "*",
         "react-dom": "*"
     },
@@ -44,15 +44,15 @@
         "@solana/wallet-adapter-react": "workspace:^"
     },
     "devDependencies": {
-        "@emotion/react": "^11.11.1",
-        "@emotion/styled": "^11.11.0",
-        "@mui/icons-material": "^5.11.16",
-        "@mui/material": "^5.13.5",
-        "@solana/web3.js": "^1.77.3",
-        "@types/react": "^18.2.13",
-        "@types/react-dom": "^18.2.6",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "shx": "^0.3.4"
+        "@emotion/react": "^11.14.0",
+        "@emotion/styled": "^11.14.0",
+        "@mui/icons-material": "^5.17.1",
+        "@mui/material": "^5.17.1",
+        "@solana/web3.js": "^1.98.0",
+        "@types/react": "^18.3.19",
+        "@types/react-dom": "^18.3.6",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "shx": "^0.4.0"
     }
 }
