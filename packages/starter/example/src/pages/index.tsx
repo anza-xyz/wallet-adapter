@@ -5,23 +5,6 @@ import React from 'react';
 import pkg from '../../package.json';
 import { useAutoConnect } from '../components/AutoConnectProvider';
 
-const AntDesignWalletConnectButtonDynamic = dynamic(
-    async () => (await import('@solana/wallet-adapter-ant-design')).WalletConnectButton,
-    { ssr: false }
-);
-const AntDesignWalletDisconnectButtonDynamic = dynamic(
-    async () => (await import('@solana/wallet-adapter-ant-design')).WalletDisconnectButton,
-    { ssr: false }
-);
-const AntDesignWalletMultiButtonDynamic = dynamic(
-    async () => (await import('@solana/wallet-adapter-ant-design')).WalletMultiButton,
-    { ssr: false }
-);
-const AntDesignWalletModalButtonDynamic = dynamic(
-    async () => (await import('@solana/wallet-adapter-ant-design')).WalletModalButton,
-    { ssr: false }
-);
-
 const MaterialUIWalletConnectButtonDynamic = dynamic(
     async () => (await import('@solana/wallet-adapter-material-ui')).WalletConnectButton,
     { ssr: false }
@@ -86,8 +69,8 @@ const Index: NextPage = () => {
                     <TableRow>
                         <TableCell width={240}>Component</TableCell>
                         <TableCell width={240}>Material UI</TableCell>
-                        <TableCell width={240}>Ant Design</TableCell>
                         <TableCell width={240}>React UI</TableCell>
+                        <TableCell width={240}></TableCell>
                         <TableCell></TableCell>
                     </TableRow>
                 </TableHead>
@@ -98,11 +81,9 @@ const Index: NextPage = () => {
                             <MaterialUIWalletConnectButtonDynamic />
                         </TableCell>
                         <TableCell>
-                            <AntDesignWalletConnectButtonDynamic />
-                        </TableCell>
-                        <TableCell>
                             <ReactUIWalletConnectButtonDynamic />
                         </TableCell>
+                        <TableCell></TableCell>
                         <TableCell></TableCell>
                     </TableRow>
                     <TableRow>
@@ -111,11 +92,9 @@ const Index: NextPage = () => {
                             <MaterialUIWalletDisconnectButtonDynamic />
                         </TableCell>
                         <TableCell>
-                            <AntDesignWalletDisconnectButtonDynamic />
-                        </TableCell>
-                        <TableCell>
                             <ReactUIWalletDisconnectButtonDynamic />
                         </TableCell>
+                        <TableCell></TableCell>
                         <TableCell></TableCell>
                     </TableRow>
                     <TableRow>
@@ -124,11 +103,9 @@ const Index: NextPage = () => {
                             <MaterialUIWalletDialogButtonDynamic />
                         </TableCell>
                         <TableCell>
-                            <AntDesignWalletModalButtonDynamic />
-                        </TableCell>
-                        <TableCell>
                             <ReactUIWalletModalButtonDynamic />
                         </TableCell>
+                        <TableCell></TableCell>
                         <TableCell></TableCell>
                     </TableRow>
                     <TableRow>
@@ -137,11 +114,9 @@ const Index: NextPage = () => {
                             <MaterialUIWalletMultiButtonDynamic />
                         </TableCell>
                         <TableCell>
-                            <AntDesignWalletMultiButtonDynamic />
-                        </TableCell>
-                        <TableCell>
                             <ReactUIWalletMultiButtonDynamic />
                         </TableCell>
+                        <TableCell></TableCell>
                         <TableCell></TableCell>
                     </TableRow>
                 </TableBody>

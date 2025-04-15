@@ -23,9 +23,6 @@
             "path": "./packages/starter/react-ui-starter/tsconfig.json"
         },
         {
-            "path": "./packages/ui/ant-design/tsconfig.json"
-        },
-        {
             "path": "./packages/ui/base-ui/tsconfig.json"
         },
         {
