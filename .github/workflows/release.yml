@@ -21,14 +21,14 @@ jobs:
 
       - name: Install pnpm
         id: install-pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
         with:
             version: 10.8.1
             run_install: false
 
       - name: Install Node.js
         id: install-node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
             node-version: 22
             cache: 'pnpm'
