@@ -14,6 +14,7 @@ import {
 import type { Transaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import bs58 from 'bs58';
+import './polyfills/index.js';
 
 interface Coin98Wallet {
     isCoin98?: boolean;
@@ -153,7 +154,7 @@ export class Coin98WalletAdapter extends BaseMessageSignerWalletAdapter {
                 const publicKey = new PublicKey(response.publicKey);
                 const signature = bs58.decode(response.signature);
 
-                transaction.addSignature(publicKey, signature);
+                transaction.addSignature(publicKey, Buffer.from(signature));
                 return transaction;
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
@@ -178,7 +179,7 @@ export class Coin98WalletAdapter extends BaseMessageSignerWalletAdapter {
                 return transactions.map((transaction, index) => {
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     const signature = bs58.decode(signatures[index]!);
-                    transaction.addSignature(publicKey, signature);
+                    transaction.addSignature(publicKey, Buffer.from(signature));
                     return transaction;
                 });
             } catch (error: any) {

@@ -13,6 +13,7 @@ import {
 } from '@solana/wallet-adapter-base';
 import type { Transaction, TransactionVersion, VersionedTransaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
+import './polyfills/index.js';
 
 export interface KeystoneWalletAdapterConfig {}
 
