@@ -1,6 +1,7 @@
 {
     "include": [],
     "compilerOptions": {
+        "lib": ["ES2022", "ES2022.Error"],
         "target": "ESNext",
         "module": "ESNext",
         "moduleResolution": "Node",
