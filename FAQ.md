@@ -5,7 +5,6 @@ Please search https://solana.stackexchange.com and the issues in the repo. Issue
 - [I am building an app, how do I use this?](#i-am-building-an-app-how-do-i-use-this)
 - [I am building a wallet, how do I use this?](#i-am-building-a-wallet-how-do-i-use-this)
 - [How can I get support?](#how-can-i-get-support)
-- [Can I use this with ___?](#can-i-use-this-with-___)
 - [What does this error mean?](#what-does-this-error-mean)
 - [How can I sign and verify messages?](#how-can-i-sign-and-verify-messages)
 
@@ -22,68 +21,6 @@ See the guide [Wallet Adapter for Solana Wallets](https://github.com/anza-xyz/wa
 Please ask questions on the [Solana Stack Exchange](https://solana.stackexchange.com).
 
 After reading this FAQ, if you've found a bug or if you'd like to request a feature, please [open an issue](https://github.com/anza-xyz/wallet-adapter/issues/new).
-
-## Can I use this with ___?
-
-### React
-Yes, see the [react-ui-starter](https://github.com/anza-xyz/wallet-adapter/tree/master/packages/starter/react-ui-starter) package.
-
-### Anchor
-Yes, use the [`useAnchorWallet()`](https://github.com/anza-xyz/wallet-adapter/blob/master/packages/core/react/src/useAnchorWallet.ts) hook in the React package to easily get an [Anchor-compatible Wallet interface](https://github.com/project-serum/anchor/blob/0faed886002a9b01ad0513c860e19d7570cb0221/ts/src/provider.ts#L220-L224).
-
-### Next.js (with React)
-Yes, see the [nextjs-starter](https://github.com/anza-xyz/wallet-adapter/tree/master/packages/starter/nextjs-starter) package for very basic configuration, or the [example](https://github.com/anza-xyz/wallet-adapter/tree/master/packages/starter/example) package for more complete configuration.
-
-If you're using one of the [react-ui](https://github.com/anza-xyz/wallet-adapter/tree/master/packages/ui/react-ui), [material-ui](https://github.com/anza-xyz/wallet-adapter/tree/master/packages/ui/material-ui), or [ant-design](https://github.com/anza-xyz/wallet-adapter/tree/master/packages/ui/ant-design) packages too, make sure to configure the `WalletModalProvider` or `WalletDialogProvider` context [as shown here](https://github.com/anza-xyz/wallet-adapter#setup).
-
-### Vue
-Yes, see the community-maintained [Vue](https://github.com/lorisleiva/solana-wallets-vue) package.
-
-### Angular / RxJS
-Yes, see the community-maintained [Angular](https://github.com/heavy-duty/platform/tree/master/libs/wallet-adapter) package.
-
-### Svelte
-Yes, see the community-maintained [Svelte](https://github.com/svelte-on-solana/wallet-adapter) package.
-
-### Unity
-Yes, see the community-maintained [Unity](https://github.com/magicblock-labs/Solana.Unity-SDK) package.
-
-### Webpack / Gatsby
-Yes, but you may need to set up polyfills for certain imported modules.
-
-For example, you may need to install `buffer`:
-```shell
-npm install --save buffer
-```
-
-And configure `webpack.config.js`:
-```js
-const webpack = require('webpack');
-
-module.exports = {
-    plugins: [
-        new webpack.ProvidePlugin({
-            Buffer: ['buffer', 'Buffer']
-        })
-    ],
-    resolve: {
-        fallback: {
-            crypto: false
-        }
-    }
-};
-```
-
-### Babel / Rollup / Vite / Snowpack / esbuild
-Yes, but you may need to provide custom build configuration.
-Most of the packages are built using the TypeScript compiler, which outputs modular ES6 with `import`/`export` statements.
-
-If you're using Create React App, craco, or one of the React-based starter projects using them, this should be handled automatically.
-
-If you're using Next.js, this requires configuration, which is provided in the [nextjs-starter](https://github.com/anza-xyz/wallet-adapter/tree/master/packages/starter/nextjs-starter) package.
-
-If you're using something else, you may have to configure your build tool to transpile the packages similarly to how it's done in the Next.js config.
-Please open an issue or pull request to document your solution!
 
 ## What does this error mean?
 
