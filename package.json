@@ -8,6 +8,7 @@
         "node": "22",
         "pnpm": "10.8.1"
     },
+    "packageManager": "pnpm@10.8.1",
     "type": "module",
     "sideEffects": false,
     "scripts": {
