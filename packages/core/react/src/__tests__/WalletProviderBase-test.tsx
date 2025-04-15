@@ -38,7 +38,7 @@ const TestComponent = forwardRef(function TestComponentImpl(_props, ref) {
 });
 
 describe('WalletProviderBase', () => {
-    let ref: React.RefObject<TestRefType>;
+    let ref: React.RefObject<TestRefType | null>;
     let root: ReturnType<typeof createRoot>;
     let container: HTMLElement;
     let fooWalletAdapter: MockWalletAdapter;

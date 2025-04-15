@@ -54,7 +54,7 @@ const WALLET_NAME_CACHE_KEY = 'cachedWallet';
  * a solution, please do send a PR.
  */
 describe('WalletProvider when the environment is `DESKTOP_WEB`', () => {
-    let ref: React.RefObject<TestRefType>;
+    let ref: React.RefObject<TestRefType | null>;
     let root: ReturnType<typeof createRoot>;
     let container: HTMLElement;
     let fooWalletAdapter: MockWalletAdapter;

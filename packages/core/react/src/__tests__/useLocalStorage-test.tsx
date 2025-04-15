@@ -59,7 +59,7 @@ const TestComponent = forwardRef(function TestComponentImpl(_props, ref) {
 describe('useLocalStorage', () => {
     let container: HTMLDivElement | null;
     let root: ReturnType<typeof createRoot>;
-    let ref: React.RefObject<TestRefType>;
+    let ref: React.RefObject<TestRefType | null>;
     function renderTest() {
         act(() => {
             root.render(<TestComponent ref={ref} />);
