@@ -40,7 +40,6 @@
         "@mui/material": "^5.13.5",
         "@noble/curves": "^1.8.1",
         "@solana/wallet-adapter-base": "workspace:^",
-        "@solana/wallet-adapter-material-ui": "workspace:^",
         "@solana/wallet-adapter-react": "workspace:^",
         "@solana/wallet-adapter-react-ui": "workspace:^",
         "@solana/wallet-adapter-wallets": "workspace:^",

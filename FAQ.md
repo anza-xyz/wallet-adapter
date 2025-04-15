@@ -36,12 +36,6 @@ Yes, see the [nextjs-starter](https://github.com/anza-xyz/wallet-adapter/tree/ma
 
 If you're using one of the [react-ui](https://github.com/anza-xyz/wallet-adapter/tree/master/packages/ui/react-ui), [material-ui](https://github.com/anza-xyz/wallet-adapter/tree/master/packages/ui/material-ui), or [ant-design](https://github.com/anza-xyz/wallet-adapter/tree/master/packages/ui/ant-design) packages too, make sure to configure the `WalletModalProvider` or `WalletDialogProvider` context [as shown here](https://github.com/anza-xyz/wallet-adapter#setup).
 
-### Material UI (with React)
-Yes, see the [material-ui-starter](https://github.com/anza-xyz/wallet-adapter/tree/master/packages/starter/material-ui-starter) package.
-
-### Ant Design (with React)
-Yes, see the [ant-design](https://github.com/anza-xyz/wallet-adapter/tree/master/packages/core/ant-design) package.
-
 ### Vue
 Yes, see the community-maintained [Vue](https://github.com/lorisleiva/solana-wallets-vue) package.
 
