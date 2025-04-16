@@ -164,7 +164,8 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
         it('creates a new mobile wallet adapter with the appropriate cluster for the given endpoint', () => {
             renderTest({});
             expect(jest.mocked(SolanaMobileWalletAdapter).mock.instances).toHaveLength(1);
-            expect(jest.mocked(SolanaMobileWalletAdapter).mock.calls[0][0].chain).toBe('fake-cluster-for-test');
+            // @ts-expect-error // HACK: SolanaMobileWalletAdapter has a `cluster` property but it's not declared.
+            expect(jest.mocked(SolanaMobileWalletAdapter).mock.calls[0][0].cluster).toBe('fake-cluster-for-test');
         });
     });
     describe('when a custom mobile wallet adapter is supplied in the adapters array', () => {
