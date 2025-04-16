@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-bitpie",
-    "version": "0.5.19",
+    "version": "0.5.20",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/anza-xyz/wallet-adapter",
     "license": "Apache-2.0",
