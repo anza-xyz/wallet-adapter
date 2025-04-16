@@ -3,9 +3,8 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import type { SolanaSignInInput } from '@solana/wallet-standard-features';
 import { verifySignIn } from '@solana/wallet-standard-util';
 import bs58 from 'bs58';
-import type { FC } from 'react';
-import React, { useCallback } from 'react';
-import { useNotify } from './notify';
+import React, { useCallback, type FC } from 'react';
+import { useNotify } from './useNotify';
 
 export const SignIn: FC = () => {
     const { signIn, publicKey } = useWallet();

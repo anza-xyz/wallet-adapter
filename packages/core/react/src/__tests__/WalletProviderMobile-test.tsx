@@ -10,21 +10,15 @@ import {
     SolanaMobileWalletAdapter,
     SolanaMobileWalletAdapterWalletName,
 } from '@solana-mobile/wallet-adapter-mobile';
-import {
-    type Adapter,
-    WalletError,
-    type WalletName,
-    WalletReadyState,
-} from '@solana/wallet-adapter-base';
+import { type Adapter, WalletError, type WalletName, WalletReadyState } from '@solana/wallet-adapter-base';
 import { type Connection, PublicKey } from '@solana/web3.js';
 import 'jest-localstorage-mock';
-import React, { createRef, forwardRef, useImperativeHandle } from 'react';
+import React, { act, createRef, forwardRef, useImperativeHandle } from 'react';
 import { createRoot } from 'react-dom/client';
-import { act } from 'react-dom/test-utils';
+import { MockWalletAdapter } from '../__mocks__/MockWalletAdapter.js';
 import { useConnection } from '../useConnection.js';
 import { useWallet, type WalletContextState } from '../useWallet.js';
 import { WalletProvider, type WalletProviderProps } from '../WalletProvider.js';
-import { MockWalletAdapter } from '../__mocks__/MockWalletAdapter.js';
 
 jest.mock('../getEnvironment.js', () => ({
     ...jest.requireActual('../getEnvironment.js'),
@@ -74,7 +68,7 @@ const WALLET_NAME_CACHE_KEY = 'cachedWallet';
  * a solution, please do send a PR.
  */
 describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
-    let ref: React.RefObject<TestRefType>;
+    let ref: React.RefObject<TestRefType | null>;
     let root: ReturnType<typeof createRoot>;
     let container: HTMLElement;
     let fooWalletAdapter: MockWalletAdapter;
@@ -114,7 +108,9 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
     });
     afterEach(() => {
         if (root) {
-            root.unmount();
+            act(() => {
+                root.unmount();
+            });
         }
     });
     describe('given a selected wallet', () => {
@@ -168,6 +164,7 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
         it('creates a new mobile wallet adapter with the appropriate cluster for the given endpoint', () => {
             renderTest({});
             expect(jest.mocked(SolanaMobileWalletAdapter).mock.instances).toHaveLength(1);
+            // @ts-expect-error // HACK: SolanaMobileWalletAdapter has a `cluster` property but it's not declared.
             expect(jest.mocked(SolanaMobileWalletAdapter).mock.calls[0][0].cluster).toBe('fake-cluster-for-test');
         });
     });
@@ -370,7 +367,9 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
             describe('once disconnected', () => {
                 beforeEach(async () => {
                     jest.clearAllMocks();
-                    ref.current?.getWalletContextState().disconnect();
+                    act(() => {
+                        ref.current?.getWalletContextState().disconnect();
+                    });
                     await Promise.resolve(); // Flush all promises in effects after calling `disconnect()`.
                 });
                 it('should clear the stored wallet name', () => {

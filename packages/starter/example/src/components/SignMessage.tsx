@@ -2,9 +2,8 @@ import { Button } from '@mui/material';
 import { ed25519 } from '@noble/curves/ed25519';
 import { useWallet } from '@solana/wallet-adapter-react';
 import bs58 from 'bs58';
-import type { FC } from 'react';
-import React, { useCallback } from 'react';
-import { useNotify } from './notify';
+import React, { useCallback, type FC } from 'react';
+import { useNotify } from './useNotify';
 
 export const SignMessage: FC = () => {
     const { publicKey, signMessage } = useWallet();

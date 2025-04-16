@@ -13,7 +13,7 @@
         "LICENSE"
     ],
     "engines": {
-        "node": ">=20"
+        "node": "22"
     },
     "type": "module",
     "sideEffects": false,
@@ -32,15 +32,16 @@
         "package": "shx mkdir -p lib/cjs && shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.77.3"
+        "@solana/web3.js": "^1.98.0"
     },
     "dependencies": {
         "@keystonehq/sol-keyring": "^0.20.0",
-        "@solana/wallet-adapter-base": "workspace:^"
+        "@solana/wallet-adapter-base": "workspace:^",
+        "buffer": "^6.0.3"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.77.3",
-        "shx": "^0.3.4"
+        "@solana/web3.js": "^1.98.0",
+        "shx": "^0.4.0"
     },
     "overrides": {
         "@ngraveio/bc-ur": "1.1.12"

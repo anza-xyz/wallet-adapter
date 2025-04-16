@@ -5,9 +5,8 @@
 'use strict';
 
 import 'jest-localstorage-mock';
-import React, { createRef, forwardRef, useImperativeHandle } from 'react';
+import React, { act, createRef, forwardRef, useImperativeHandle } from 'react';
 import { createRoot } from 'react-dom/client';
-import { act } from 'react-dom/test-utils';
 import { useLocalStorage } from '../useLocalStorage.js';
 
 type TestRefType = {
@@ -59,7 +58,7 @@ const TestComponent = forwardRef(function TestComponentImpl(_props, ref) {
 describe('useLocalStorage', () => {
     let container: HTMLDivElement | null;
     let root: ReturnType<typeof createRoot>;
-    let ref: React.RefObject<TestRefType>;
+    let ref: React.RefObject<TestRefType | null>;
     function renderTest() {
         act(() => {
             root.render(<TestComponent ref={ref} />);
@@ -75,7 +74,9 @@ describe('useLocalStorage', () => {
     });
     afterEach(() => {
         if (root) {
-            root.unmount();
+            act(() => {
+                root.unmount();
+            });
         }
     });
     describe('getting the persisted value', () => {

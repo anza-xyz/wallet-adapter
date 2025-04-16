@@ -13,7 +13,7 @@
         "LICENSE"
     ],
     "engines": {
-        "node": ">=20"
+        "node": "22"
     },
     "type": "module",
     "sideEffects": false,
@@ -32,19 +32,19 @@
         "package": "shx mkdir -p lib/cjs && shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json"
     },
     "peerDependencies": {
-        "@solana/web3.js": "^1.77.3"
+        "@solana/web3.js": "^1.98.0"
     },
     "dependencies": {
-        "@ledgerhq/devices": "6.27.1",
-        "@ledgerhq/hw-transport": "6.27.1",
-        "@ledgerhq/hw-transport-webhid": "6.27.1",
+        "@ledgerhq/devices": "^8.4.4",
+        "@ledgerhq/hw-transport": "^6.31.4",
+        "@ledgerhq/hw-transport-webhid": "^6.30.0",
         "@solana/wallet-adapter-base": "workspace:^",
         "buffer": "^6.0.3"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.77.3",
-        "@types/w3c-web-hid": "^1.0.3",
-        "shx": "^0.3.4"
+        "@solana/web3.js": "^1.98.0",
+        "@types/w3c-web-hid": "^1.0.6",
+        "shx": "^0.4.0"
     },
     "overrides": {
         "@ledgerhq/devices": {

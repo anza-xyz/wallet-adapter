@@ -4,9 +4,7 @@ This is a quick setup guide with examples of how to add Wallet Adapter to a Reac
 
 See the [packages](https://github.com/anza-xyz/wallet-adapter/blob/master/PACKAGES.md) and [FAQ](https://github.com/anza-xyz/wallet-adapter/blob/master/FAQ.md) for other supported frontend frameworks.
 
-## Quick Setup (using React UI)
-
-There are also [material-ui](https://github.com/anza-xyz/wallet-adapter/tree/master/packages/ui/material-ui) and [ant-design](https://github.com/anza-xyz/wallet-adapter/tree/master/packages/ui/ant-design) packages if you use those UI component frameworks.
+## Quick Setup (using React)
 
 ### Install
 

@@ -12,9 +12,8 @@ import {
 import { type Adapter, WalletError, type WalletName, WalletReadyState } from '@solana/wallet-adapter-base';
 import { PublicKey } from '@solana/web3.js';
 import 'jest-localstorage-mock';
-import React, { createRef, forwardRef, useImperativeHandle } from 'react';
+import React, { act, createRef, forwardRef, useImperativeHandle } from 'react';
 import { createRoot } from 'react-dom/client';
-import { act } from 'react-dom/test-utils';
 import { MockWalletAdapter } from '../__mocks__/MockWalletAdapter.js';
 import { useWallet, type WalletContextState } from '../useWallet.js';
 import { WalletProvider, type WalletProviderProps } from '../WalletProvider.js';
@@ -54,7 +53,7 @@ const WALLET_NAME_CACHE_KEY = 'cachedWallet';
  * a solution, please do send a PR.
  */
 describe('WalletProvider when the environment is `DESKTOP_WEB`', () => {
-    let ref: React.RefObject<TestRefType>;
+    let ref: React.RefObject<TestRefType | null>;
     let root: ReturnType<typeof createRoot>;
     let container: HTMLElement;
     let fooWalletAdapter: MockWalletAdapter;
@@ -89,7 +88,9 @@ describe('WalletProvider when the environment is `DESKTOP_WEB`', () => {
     });
     afterEach(() => {
         if (root) {
-            root.unmount();
+            act(() => {
+                root.unmount();
+            });
         }
     });
     describe('given a selected wallet', () => {
