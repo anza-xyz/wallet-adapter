@@ -13,9 +13,8 @@ import {
     WalletReadyState,
 } from '@solana/wallet-adapter-base';
 import { PublicKey } from '@solana/web3.js';
-import React, { createRef, forwardRef, useImperativeHandle } from 'react';
+import React, { act, createRef, forwardRef, useImperativeHandle } from 'react';
 import { createRoot } from 'react-dom/client';
-import { act } from 'react-dom/test-utils';
 import { useWallet, type WalletContextState } from '../useWallet.js';
 import { WalletProviderBase, type WalletProviderBaseProps } from '../WalletProviderBase.js';
 
@@ -138,7 +137,9 @@ describe('WalletProviderBase', () => {
     });
     afterEach(() => {
         if (root) {
-            root.unmount();
+            act(() => {
+                root.unmount();
+            });
         }
     });
     describe('given a selected wallet', () => {

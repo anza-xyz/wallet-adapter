@@ -13,9 +13,8 @@ import {
 import { type Adapter, WalletError, type WalletName, WalletReadyState } from '@solana/wallet-adapter-base';
 import { type Connection, PublicKey } from '@solana/web3.js';
 import 'jest-localstorage-mock';
-import React, { createRef, forwardRef, useImperativeHandle } from 'react';
+import React, { act, createRef, forwardRef, useImperativeHandle } from 'react';
 import { createRoot } from 'react-dom/client';
-import { act } from 'react-dom/test-utils';
 import { MockWalletAdapter } from '../__mocks__/MockWalletAdapter.js';
 import { useConnection } from '../useConnection.js';
 import { useWallet, type WalletContextState } from '../useWallet.js';
@@ -109,7 +108,9 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
     });
     afterEach(() => {
         if (root) {
-            root.unmount();
+            act(() => {
+                root.unmount();
+            });
         }
     });
     describe('given a selected wallet', () => {
@@ -365,7 +366,9 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
             describe('once disconnected', () => {
                 beforeEach(async () => {
                     jest.clearAllMocks();
-                    ref.current?.getWalletContextState().disconnect();
+                    act(() => {
+                        ref.current?.getWalletContextState().disconnect();
+                    });
                     await Promise.resolve(); // Flush all promises in effects after calling `disconnect()`.
                 });
                 it('should clear the stored wallet name', () => {
