@@ -1,18 +1,21 @@
-import type { EventEmitter, WalletName } from '@solana/wallet-adapter-base';
+import type { EventEmitter,SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
+    isVersionedTransaction,
     WalletAccountError,
     WalletConnectionError,
     WalletDisconnectedError,
+    WalletError,
     WalletNotConnectedError,
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSendTransactionError,
     WalletSignMessageError,
     WalletSignTransactionError,
 } from '@solana/wallet-adapter-base';
-import type { Transaction } from '@solana/web3.js';
+import type { Connection,Transaction, SendOptions, TransactionSignature, VersionedTransaction } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 
 interface TokenPocketWalletEvents {
@@ -24,8 +27,12 @@ interface TokenPocketWallet extends EventEmitter<TokenPocketWalletEvents> {
     isTokenPocket?: boolean;
     publicKey?: { toBytes(): Uint8Array };
     isConnected: boolean;
-    signTransaction(transaction: Transaction): Promise<Transaction>;
-    signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
+    signTransaction<T extends Transaction | VersionedTransaction>(transaction: T): Promise<T>;
+    signAllTransactions<T extends Transaction | VersionedTransaction>(transactions: T[]): Promise<T[]>;
+    signAndSendTransaction<T extends Transaction | VersionedTransaction>(
+        transaction: T,
+        options?: SendOptions
+    ): Promise<{ signature: TransactionSignature }>;
     signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
@@ -141,7 +148,40 @@ export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signTransaction<T extends Transaction>(transaction: T): Promise<T> {
+    async sendTransaction<T extends Transaction | VersionedTransaction>(
+        transaction: T,
+        connection: Connection,
+        options: SendTransactionOptions = {}
+    ): Promise<TransactionSignature> {
+        try {
+            const wallet = this._wallet;
+            if (!wallet) throw new WalletNotConnectedError();
+
+            try {
+                const { signers, ...sendOptions } = options;
+
+                if (isVersionedTransaction(transaction)) {
+                    signers?.length && transaction.sign(signers);
+                } else {
+                    transaction = (await this.prepareTransaction(transaction, connection, sendOptions)) as T;
+                    signers?.length && (transaction as Transaction).partialSign(...signers);
+                }
+
+                sendOptions.preflightCommitment = sendOptions.preflightCommitment || connection.commitment;
+
+                const { signature } = await wallet.signAndSendTransaction(transaction, sendOptions);
+                return signature;
+            } catch (error: any) {
+                if (error instanceof WalletError) throw error;
+                throw new WalletSendTransactionError(error?.message, error);
+            }
+        } catch (error: any) {
+            this.emit('error', error);
+            throw error;
+        }
+    }
+
+    async signTransaction<T extends Transaction | VersionedTransaction>(transaction: T): Promise<T> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
@@ -157,7 +197,7 @@ export class TokenPocketWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signAllTransactions<T extends Transaction>(transactions: T[]): Promise<T[]> {
+    async signAllTransactions<T extends Transaction | VersionedTransaction>(transactions: T[]): Promise<T[]> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
