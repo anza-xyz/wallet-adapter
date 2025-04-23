@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-base-ui
 
+## 0.1.5
+
+### Patch Changes
+
+- db923f1: Use Node 20+ rather than 22
+- Updated dependencies [db923f1]
+    - @solana/wallet-adapter-react@0.15.38
+
 ## 0.1.4
 
 ### Patch Changes

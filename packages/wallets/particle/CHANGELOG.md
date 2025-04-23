@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-particle
 
+## 0.1.15
+
+### Patch Changes
+
+- db923f1: Use Node 20+ rather than 22
+- Updated dependencies [db923f1]
+    - @solana/wallet-adapter-base@0.9.26
+
 ## 0.1.14
 
 ### Patch Changes
