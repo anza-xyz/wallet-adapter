@@ -13,7 +13,7 @@
         "LICENSE"
     ],
     "engines": {
-        "node": "22"
+        "node": ">=20"
     },
     "type": "module",
     "sideEffects": false,
