@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-base
 
+## 0.9.26
+
+### Patch Changes
+
+- db923f1: Use Node 20+ rather than 22
+
 ## 0.9.25
 
 ### Patch Changes
