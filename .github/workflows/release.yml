@@ -30,7 +30,7 @@ jobs:
         id: install-node
         uses: actions/setup-node@v4
         with:
-            node-version: 22
+            node-version: 20
             cache: 'pnpm'
 
       - name: Get pnpm store directory
