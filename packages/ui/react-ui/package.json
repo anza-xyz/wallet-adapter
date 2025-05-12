@@ -1,8 +1,8 @@
 {
-    "name": "@solana/wallet-adapter-react-ui",
+    "name": "@eclipse/wallet-adapter-react-ui",
     "version": "0.9.38",
-    "author": "Solana Maintainers <maintainers@solana.foundation>",
-    "repository": "https://github.com/anza-xyz/wallet-adapter",
+    "author": "Eclipse Laboratories Inc.",
+    "repository": "https://github.com/Eclipse-Laboratories-Inc/wallet-adapter",
     "license": "Apache-2.0",
     "publishConfig": {
         "access": "public"

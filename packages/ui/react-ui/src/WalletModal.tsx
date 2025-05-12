@@ -29,8 +29,10 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
 
         for (const wallet of wallets) {
             if (wallet.readyState === WalletReadyState.Installed) {
+                console.log('Installed wallet', wallet.adapter.name);
                 installed.push(wallet);
             } else {
+                console.log('Not installed wallet', wallet.adapter.name);
                 notInstalled.push(wallet);
             }
         }
@@ -136,7 +138,7 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
                         </button>
                         {listedWallets.length ? (
                             <>
-                                <h1 className="wallet-adapter-modal-title">Connect a wallet on Solana to continue</h1>
+                                <h1 className="wallet-adapter-modal-title">Connect an Eclipse wallet to continue</h1>
                                 <ul className="wallet-adapter-modal-list">
                                     {listedWallets.map((wallet) => (
                                         <WalletListItem
