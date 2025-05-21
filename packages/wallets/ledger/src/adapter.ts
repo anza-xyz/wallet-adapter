@@ -16,7 +16,7 @@ import {
 } from '@solana/wallet-adapter-base';
 import type { PublicKey, Transaction, TransactionVersion, VersionedTransaction } from '@solana/web3.js';
 import './polyfills/index.js';
-import { getDerivationPath, getPublicKey, signTransaction, signMessage, OffchainMessage } from './util.js';
+import { getDerivationPath, getPublicKey, getAppConfiguration, signTransaction, signMessage, OffchainMessage } from './util.js';
 
 export interface LedgerWalletAdapterConfig {
     derivationPath?: Buffer;
@@ -147,9 +147,15 @@ export class LedgerWalletAdapter extends BaseSignerWalletAdapter {
         try {
             try {
                 const transport = this._transport;
-                if (!transport) throw new WalletNotConnectedError();
+                const publicKey = this._publicKey;
+                if (!transport || !publicKey) throw new WalletNotConnectedError();
 
-                const offchainMessage = new OffchainMessage({ message: Buffer.from(message.buffer) });
+                const appConfig = await getAppConfiguration(transport);
+                if (appConfig.version < '1.8.0') throw new WalletSignMessageError('Signing off-chain messages requires Solana Ledger App 1.8.0 or later');
+
+                const offchainMessage = new OffchainMessage({ message: Buffer.from(message.buffer), signerAddress: publicKey });
+                if (!offchainMessage.isLedgerSupported(appConfig.blindSigningEnabled)) throw new WalletSignMessageError('Ledger does not support signing this message. Either the message body is not printable ASCII and blind signing needs to be enabled, or the message is too long to be signed on Ledger.');
+
                 const signature = await signMessage(transport, offchainMessage.serialize(), this._derivationPath);
                 return new Uint8Array(signature);
             } catch (error: any) {
