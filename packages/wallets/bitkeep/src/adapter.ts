@@ -33,7 +33,7 @@ declare const window: BitgetWindow;
 
 export interface BitgetWalletAdapterConfig {}
 
-export const BitgetWalletName = 'Bitget' as WalletName<'Bitget'>;
+export const BitgetWalletName = 'Bitget Wallet' as WalletName<'Bitget Wallet'>;
 
 export class BitgetWalletAdapter extends BaseMessageSignerWalletAdapter {
     name = BitgetWalletName;
