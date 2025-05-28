@@ -151,7 +151,10 @@ export class LedgerWalletAdapter extends BaseSignerWalletAdapter {
                 if (!transport || !publicKey) throw new WalletNotConnectedError();
 
                 const appConfig = await getAppConfiguration(transport);
-                if (appConfig.version < '1.8.0') throw new WalletSignMessageError('Signing off-chain messages requires Solana Ledger App 1.8.0 or later');
+                const [major, minor] = appConfig.version.split('.').map(Number);
+                if (major < 1 || (major === 1 && minor < 8)) {
+                    throw new WalletSignMessageError('Signing off-chain messages requires Solana Ledger App 1.8.0 or later');
+                }
 
                 const offchainMessage = new OffchainMessage({ message: Buffer.from(message.buffer), signerAddress: publicKey });
                 if (!offchainMessage.isLedgerSupported(appConfig.blindSigningEnabled)) throw new WalletSignMessageError('Ledger does not support signing this message. Either the message body is not printable ASCII and blind signing needs to be enabled, or the message is too long to be signed on Ledger.');
