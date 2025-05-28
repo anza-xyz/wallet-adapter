@@ -157,7 +157,17 @@ export class LedgerWalletAdapter extends BaseSignerWalletAdapter {
                 }
 
                 const offchainMessage = new OffchainMessage({ message: Buffer.from(message.buffer), signerAddress: publicKey });
-                if (!offchainMessage.isLedgerSupported(appConfig.blindSigningEnabled)) throw new WalletSignMessageError('Ledger does not support signing this message. Either the message body is not printable ASCII and blind signing needs to be enabled, or the message is too long to be signed on Ledger.');
+                if (!offchainMessage.isLedgerSupported(appConfig.blindSigningEnabled)) {
+                    if (!offchainMessage.isValid()) {
+                        throw new WalletSignMessageError('Message is not valid for signing.');
+                    } else if (offchainMessage.messageFormat === 1 && !appConfig.blindSigningEnabled) {
+                        throw new WalletSignMessageError('Message contains non-ASCII characters and requires blind signing to be enabled on your Ledger device.');
+                    } else if (offchainMessage.messageFormat === 2) {
+                        throw new WalletSignMessageError('Message is too long to be signed on Ledger device.');
+                    } else {
+                        throw new WalletSignMessageError('Message format is not supported by Ledger device.');
+                    }
+                }
 
                 const signature = await signMessage(transport, offchainMessage.serialize(), this._derivationPath);
                 return new Uint8Array(signature);
