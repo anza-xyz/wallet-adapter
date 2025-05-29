@@ -49,10 +49,10 @@
     },
     "devDependencies": {
         "@solana/web3.js": "^1.98.2",
-        "@types/react": "^18.3.23",
-        "@types/react-dom": "^18.3.7",
-        "react": "^18.3.1",
-        "react-dom": "^18.3.1",
+        "@types/react": "^19.1.6",
+        "@types/react-dom": "^19.1.5",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
         "shx": "^0.4.0"
     }
 }
