@@ -29,6 +29,7 @@ function harden(n: number): number {
     return (n | BIP32_HARDENED_BIT) >>> 0;
 }
 
+const INS_GET_VERSION = 0x04;
 const INS_GET_PUBKEY = 0x05;
 const INS_SIGN_MESSAGE = 0x06;
 const INS_SIGN_MESSAGE_OFFCHAIN = 0x07;
@@ -52,15 +53,17 @@ export class OffchainMessage {
     version: number;
     messageFormat: number | undefined;
     message: Buffer | undefined;
+    signerAddress: PublicKey;
 
     /**
      * Constructs a new OffchainMessage
      * @param {version: number, messageFormat: number, message: string | Buffer} opts - Constructor parameters
      */
-    constructor(opts: { version?: number; messageFormat?: number; message: Buffer }) {
+    constructor(opts: { version?: number; messageFormat?: number; message: Buffer, signerAddress: PublicKey }) {
         this.version = 0;
         this.messageFormat = undefined;
         this.message = undefined;
+        this.signerAddress = opts.signerAddress;
 
         if (!opts) {
             return;
@@ -103,13 +106,18 @@ export class OffchainMessage {
         return (
             buffer &&
             buffer.every((element) => {
-                return element >= 0x20 && element <= 0x7e;
+                return element == 0xa || (element >= 0x20 && element <= 0x7e);
             })
         );
     }
 
     static isUTF8(buffer: Buffer) {
-        return buffer && isValidUTF8(buffer);
+        try {
+            new TextDecoder("utf8", { fatal: true }).decode(buffer);
+            return true;
+        } catch {
+            return false;
+        }
     }
 
     isValid() {
@@ -131,11 +139,31 @@ export class OffchainMessage {
         if (!this.isValid()) {
             throw new Error(`Invalid OffchainMessage: ${JSON.stringify(this)}`);
         }
-        const buffer = Buffer.alloc(4);
-        let offset = buffer.writeUInt8(this.version);
-        offset = buffer.writeUInt8(this.messageFormat!, offset);
-        offset = buffer.writeUInt16LE(this.message!.length, offset);
-        return Buffer.concat([Buffer.from([255]), Buffer.from('solana offchain'), buffer, this.message!]);
+        const signingDomain = Buffer.concat([Buffer.from([255]), Buffer.from("solana offchain")]);
+        const headerVersion = Buffer.alloc(1);
+        const applicationDomain = Buffer.alloc(32);
+        const messageFormat = Buffer.alloc(1);
+        const signerCount = Buffer.alloc(1);
+        signerCount.writeUInt8(1);
+
+        const messageLength = Buffer.alloc(2);
+
+        const messageBuffer = Buffer.from(this.message!);
+        messageFormat.writeUInt8(this.messageFormat!);
+
+        const signers = this.signerAddress.toBuffer();
+        messageLength.writeUInt16LE(messageBuffer.length);
+
+        return Buffer.concat([
+            signingDomain,
+            headerVersion,
+            applicationDomain,
+            messageFormat,
+            signerCount,
+            signers,
+            messageLength,
+            messageBuffer
+        ]);
     }
 }
 
@@ -172,6 +200,33 @@ export async function signMessage(transport: Transport, message: Buffer, derivat
     return await send(transport, INS_SIGN_MESSAGE_OFFCHAIN, P1_CONFIRM, data);
 }
 
+/** @internal */
+export async function getAppConfiguration(transport: Transport): Promise<AppConfig> {
+    const [blindSigningEnabled, pubKeyDisplayMode, major, minor, patch] = await send(
+        transport,
+        INS_GET_VERSION,
+        P1_NON_CONFIRM,
+        Buffer.alloc(0),
+    );
+    return {
+      blindSigningEnabled: Boolean(blindSigningEnabled),
+      pubKeyDisplayMode,
+      version: `${major}.${minor}.${patch}`,
+    };
+  }
+
+  enum PubKeyDisplayMode {
+    LONG,
+    SHORT,
+  }
+
+  type AppConfig = {
+    blindSigningEnabled: boolean;
+    pubKeyDisplayMode: PubKeyDisplayMode;
+    version: string;
+  };
+
+
 async function send(transport: Transport, instruction: number, p1: number, data: Buffer): Promise<Buffer> {
     let p2 = 0;
     let offset = 0;
@@ -192,55 +247,4 @@ async function send(transport: Transport, instruction: number, p1: number, data:
     const response = await transport.send(LEDGER_CLA, instruction, p1, p2, buffer);
 
     return response.slice(0, response.length - 2);
-}
-
-function isValidUTF8(data: Uint8Array): boolean {
-    const length = data.length;
-    let i = 0;
-
-    while (i < length) {
-        if (data[i] < 0x80) {
-            /* 0xxxxxxx */
-            ++i;
-        } else if ((data[i] & 0xe0) === 0xc0) {
-            /* 110XXXXx 10xxxxxx */
-            if (i + 1 >= length || (data[i + 1] & 0xc0) != 0x80 || (data[i] & 0xfe) === 0xc0) {
-                /* overlong? */ return false;
-            } else {
-                i += 2;
-            }
-        } else if ((data[i] & 0xf0) === 0xe0) {
-            /* 1110XXXX 10Xxxxxx 10xxxxxx */
-            if (
-                i + 2 >= length ||
-                (data[i + 1] & 0xc0) !== 0x80 ||
-                (data[i + 2] & 0xc0) !== 0x80 ||
-                (data[i] === 0xe0 && (data[i + 1] & 0xe0) === 0x80) /* overlong? */ ||
-                (data[i] === 0xed && (data[i + 1] & 0xe0) === 0xa0) /* surrogate? */ ||
-                (data[i] === 0xef && data[i + 1] === 0xbf && (data[i + 2] & 0xfe) === 0xbe)
-            ) {
-                /* U+FFFE or U+FFFF? */ return false;
-            } else {
-                i += 3;
-            }
-        } else if ((data[i] & 0xf8) === 0xf0) {
-            /* 11110XXX 10XXxxxx 10xxxxxx 10xxxxxx */
-            if (
-                i + 3 >= length ||
-                (data[i + 1] & 0xc0) !== 0x80 ||
-                (data[i + 2] & 0xc0) !== 0x80 ||
-                (data[i + 3] & 0xc0) !== 0x80 ||
-                (data[i] === 0xf0 && (data[i + 1] & 0xf0) === 0x80) /* overlong? */ ||
-                (data[i] === 0xf4 && data[i + 1] > 0x8f) ||
-                data[i] > 0xf4
-            ) {
-                /* > U+10FFFF? */ return false;
-            } else {
-                i += 4;
-            }
-        } else {
-            return false;
-        }
-    }
-    return true;
 }
