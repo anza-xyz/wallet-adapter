@@ -1,5 +1,3 @@
-import type { WalletAdapterNetwork, WalletName } from '@solana/wallet-adapter-base';
-import type { SolanaSignMessageOutput } from '@solana/wallet-standard-features';
 import {
     BaseMessageSignerWalletAdapter,
     WalletConfigError,
@@ -19,9 +17,18 @@ import {
     isVersionedTransaction,
     scopePollingDetectionStrategy,
     type SendTransactionOptions,
+    type SignMessageOutput,
+    type WalletAdapterNetwork,
+    type WalletName,
 } from '@solana/wallet-adapter-base';
-import type { Transaction, TransactionVersion, VersionedTransaction } from '@solana/web3.js';
-import { PublicKey, type Connection, type TransactionSignature } from '@solana/web3.js';
+import {
+    PublicKey,
+    type Connection,
+    type Transaction,
+    type TransactionSignature,
+    type TransactionVersion,
+    type VersionedTransaction,
+} from '@solana/web3.js';
 import type { default as Solflare } from '@solflare-wallet/sdk';
 import { detectAndRegisterSolflareMetaMaskWallet } from './metamask/detect.js';
 
@@ -246,7 +253,7 @@ export class SolflareWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<SolanaSignMessageOutput> {
+    async signMessage(message: Uint8Array): Promise<SignMessageOutput> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();

@@ -1,13 +1,14 @@
 import { ed25519 } from '@noble/curves/ed25519';
-import type { SolanaSignMessageOutput } from '@solana/wallet-standard-features';
-import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseSignInMessageSignerWalletAdapter,
     isVersionedTransaction,
     WalletNotConnectedError,
     WalletReadyState,
+    type SignInInput,
+    type SignInOutput,
+    type SignMessageOutput,
+    type WalletName,
 } from '@solana/wallet-adapter-base';
-import { type SolanaSignInInput, type SolanaSignInOutput } from '@solana/wallet-standard-features';
 import { createSignInMessage } from '@solana/wallet-standard-util';
 import type { Transaction, TransactionVersion, VersionedTransaction } from '@solana/web3.js';
 import { Keypair } from '@solana/web3.js';
@@ -75,14 +76,14 @@ export class UnsafeBurnerWalletAdapter extends BaseSignInMessageSignerWalletAdap
         return transaction;
     }
 
-    async signMessage(message: Uint8Array): Promise<SolanaSignMessageOutput> {
+    async signMessage(message: Uint8Array): Promise<SignMessageOutput> {
         if (!this._keypair) throw new WalletNotConnectedError();
 
         const signature = ed25519.sign(message, this._keypair.secretKey.slice(0, 32));
         return { signature, signedMessage: message };
     }
 
-    async signIn(input: SolanaSignInInput = {}): Promise<SolanaSignInOutput> {
+    async signIn(input: SignInInput = {}): Promise<SignInOutput> {
         const { publicKey, secretKey } = (this._keypair ||= new Keypair());
         const domain = input.domain || window.location.host;
         const address = input.address || publicKey.toBase58();

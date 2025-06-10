@@ -1,6 +1,4 @@
 import type { ParticleNetwork, SolanaWallet } from '@particle-network/solana-wallet';
-import type { SolanaSignMessageOutput } from '@solana/wallet-standard-features';
-import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
     WalletAccountError,
@@ -13,9 +11,10 @@ import {
     WalletReadyState,
     WalletSignMessageError,
     WalletSignTransactionError,
+    type SignMessageOutput,
+    type WalletName,
 } from '@solana/wallet-adapter-base';
-import type { Transaction } from '@solana/web3.js';
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey, type Transaction } from '@solana/web3.js';
 
 export interface ParticleAdapterConfig {
     config?: ConstructorParameters<typeof ParticleNetwork>[0];
@@ -180,7 +179,7 @@ export class ParticleAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<SolanaSignMessageOutput> {
+    async signMessage(message: Uint8Array): Promise<SignMessageOutput> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();

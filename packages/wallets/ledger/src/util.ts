@@ -1,8 +1,6 @@
-import type { default as Transport } from '@ledgerhq/hw-transport';
-import { StatusCodes, TransportStatusError } from '@ledgerhq/hw-transport';
+import { StatusCodes, TransportStatusError, type default as Transport } from '@ledgerhq/hw-transport';
 import { isVersionedTransaction } from '@solana/wallet-adapter-base';
-import type { Transaction, VersionedTransaction } from '@solana/web3.js';
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey, type Transaction, type VersionedTransaction } from '@solana/web3.js';
 import './polyfills/index.js';
 
 export function getDerivationPath(account?: number, change?: number): Buffer {
@@ -59,7 +57,7 @@ export class OffchainMessage {
      * Constructs a new OffchainMessage
      * @param {version: number, messageFormat: number, message: string | Buffer} opts - Constructor parameters
      */
-    constructor(opts: { version?: number; messageFormat?: number; message: Buffer, signerAddress: PublicKey }) {
+    constructor(opts: { version?: number; messageFormat?: number; message: Buffer; signerAddress: PublicKey }) {
         this.version = 0;
         this.messageFormat = undefined;
         this.message = undefined;
@@ -113,7 +111,7 @@ export class OffchainMessage {
 
     static isUTF8(buffer: Buffer) {
         try {
-            new TextDecoder("utf8", { fatal: true }).decode(buffer);
+            new TextDecoder('utf8', { fatal: true }).decode(buffer);
             return true;
         } catch {
             return false;
@@ -139,7 +137,7 @@ export class OffchainMessage {
         if (!this.isValid()) {
             throw new Error(`Invalid OffchainMessage: ${JSON.stringify(this)}`);
         }
-        const signingDomain = Buffer.concat([Buffer.from([255]), Buffer.from("solana offchain")]);
+        const signingDomain = Buffer.concat([Buffer.from([255]), Buffer.from('solana offchain')]);
         const headerVersion = Buffer.alloc(1);
         const applicationDomain = Buffer.alloc(32);
         const messageFormat = Buffer.alloc(1);
@@ -162,7 +160,7 @@ export class OffchainMessage {
             signerCount,
             signers,
             messageLength,
-            messageBuffer
+            messageBuffer,
         ]);
     }
 }
@@ -206,26 +204,25 @@ export async function getAppConfiguration(transport: Transport): Promise<AppConf
         transport,
         INS_GET_VERSION,
         P1_NON_CONFIRM,
-        Buffer.alloc(0),
+        Buffer.alloc(0)
     );
     return {
-      blindSigningEnabled: Boolean(blindSigningEnabled),
-      pubKeyDisplayMode,
-      version: `${major}.${minor}.${patch}`,
+        blindSigningEnabled: Boolean(blindSigningEnabled),
+        pubKeyDisplayMode,
+        version: `${major}.${minor}.${patch}`,
     };
-  }
+}
 
-  enum PubKeyDisplayMode {
+enum PubKeyDisplayMode {
     LONG,
     SHORT,
-  }
+}
 
-  type AppConfig = {
+type AppConfig = {
     blindSigningEnabled: boolean;
     pubKeyDisplayMode: PubKeyDisplayMode;
     version: string;
-  };
-
+};
 
 async function send(transport: Transport, instruction: number, p1: number, data: Buffer): Promise<Buffer> {
     let p2 = 0;

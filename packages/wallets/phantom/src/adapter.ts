@@ -1,5 +1,3 @@
-import type { EventEmitter, SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
-import type { SolanaSignMessageOutput } from '@solana/wallet-standard-features';
 import {
     BaseMessageSignerWalletAdapter,
     isIosAndRedirectable,
@@ -17,16 +15,20 @@ import {
     WalletSendTransactionError,
     WalletSignMessageError,
     WalletSignTransactionError,
+    type EventEmitter,
+    type SendTransactionOptions,
+    type SignMessageOutput,
+    type WalletName,
 } from '@solana/wallet-adapter-base';
-import type {
-    Connection,
-    SendOptions,
-    Transaction,
-    TransactionSignature,
-    TransactionVersion,
-    VersionedTransaction,
+import {
+    PublicKey,
+    type Connection,
+    type SendOptions,
+    type Transaction,
+    type TransactionSignature,
+    type TransactionVersion,
+    type VersionedTransaction,
 } from '@solana/web3.js';
-import { PublicKey } from '@solana/web3.js';
 
 interface PhantomWalletEvents {
     connect(...args: unknown[]): unknown;
@@ -257,7 +259,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<SolanaSignMessageOutput> {
+    async signMessage(message: Uint8Array): Promise<SignMessageOutput> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
