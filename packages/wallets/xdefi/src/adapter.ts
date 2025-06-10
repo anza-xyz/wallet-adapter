@@ -1,5 +1,3 @@
-import type { EventEmitter, WalletName } from '@solana/wallet-adapter-base';
-import type { SolanaSignMessageOutput } from '@solana/wallet-standard-features';
 import {
     BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
@@ -13,9 +11,11 @@ import {
     WalletReadyState,
     WalletSignMessageError,
     WalletSignTransactionError,
+    type EventEmitter,
+    type SignMessageOutput,
+    type WalletName,
 } from '@solana/wallet-adapter-base';
-import type { SendOptions, Transaction, TransactionSignature } from '@solana/web3.js';
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey, type SendOptions, type Transaction, type TransactionSignature } from '@solana/web3.js';
 
 interface XDEFIWalletEvents {
     connect(...args: unknown[]): unknown;
@@ -189,7 +189,7 @@ export class XDEFIWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<SolanaSignMessageOutput> {
+    async signMessage(message: Uint8Array): Promise<SignMessageOutput> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();

@@ -1,5 +1,3 @@
-import type { WalletName } from '@solana/wallet-adapter-base';
-import type { SolanaSignMessageOutput } from '@solana/wallet-standard-features';
 import {
     BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
@@ -16,9 +14,10 @@ import {
     WalletReadyState,
     WalletSignMessageError,
     WalletSignTransactionError,
+    type SignMessageOutput,
+    type WalletName,
 } from '@solana/wallet-adapter-base';
-import type { Transaction } from '@solana/web3.js';
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey, type Transaction } from '@solana/web3.js';
 import type { default as Salmon, SalmonWallet } from 'salmon-adapter-sdk';
 
 interface SalmonWindow extends Window {
@@ -187,7 +186,7 @@ export class SalmonWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<SolanaSignMessageOutput> {
+    async signMessage(message: Uint8Array): Promise<SignMessageOutput> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
