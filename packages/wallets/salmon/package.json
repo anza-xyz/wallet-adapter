@@ -39,7 +39,7 @@
         "salmon-adapter-sdk": "^1.1.1"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.98.0",
+        "@solana/web3.js": "^1.98.2",
         "shx": "^0.4.0"
     }
 }
