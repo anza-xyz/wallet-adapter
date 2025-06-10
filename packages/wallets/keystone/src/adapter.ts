@@ -1,5 +1,6 @@
 import type { DefaultKeyring } from '@keystonehq/sol-keyring';
 import type { WalletName } from '@solana/wallet-adapter-base';
+import type { SolanaSignMessageOutput } from '@solana/wallet-standard-features';
 import {
     BaseMessageSignerWalletAdapter,
     isVersionedTransaction,
@@ -130,14 +131,15 @@ export class KeystoneWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+    async signMessage(message: Uint8Array): Promise<SolanaSignMessageOutput> {
         try {
             const keyring = this._keyring;
             const publicKey = this._publicKey?.toString();
             if (!keyring || !publicKey) throw new WalletNotConnectedError();
 
             try {
-                return keyring.signMessage(publicKey, message);
+                const signature = await keyring.signMessage(publicKey, message);
+                return { signature, signedMessage: message };
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
