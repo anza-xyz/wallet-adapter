@@ -1,4 +1,5 @@
 import type { EventEmitter, SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
+import type { SolanaSignMessageOutput } from '@solana/wallet-standard-features';
 import {
     BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
@@ -33,7 +34,7 @@ interface AlphaWallet extends EventEmitter<AlphaWalletEvents> {
         transaction: Transaction,
         options?: SendOptions
     ): Promise<{ signature: TransactionSignature }>;
-    signMessage(message: Uint8Array): Promise<Uint8Array>;
+    signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
 }
@@ -218,14 +219,14 @@ export class AlphaWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<{signature: Uint8Array, signedMessage: Uint8Array}> {
+    async signMessage(message: Uint8Array): Promise<SolanaSignMessageOutput> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                const signature = await wallet.signMessage(message);
-                return {signature: new Uint8Array(signature), signedMessage: message};
+                const { signature } = await wallet.signMessage(message);
+                return { signature, signedMessage: message };
             } catch (error: any) {
                 throw new WalletSignMessageError(error?.message, error);
             }

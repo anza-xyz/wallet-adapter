@@ -1,4 +1,4 @@
-import type { SolanaSignInInput, SolanaSignInOutput } from '@solana/wallet-standard-features';
+import type { SolanaSignInInput, SolanaSignInOutput, SolanaSignMessageOutput } from '@solana/wallet-standard-features';
 import type { Connection, TransactionSignature } from '@solana/web3.js';
 import {
     BaseWalletAdapter,
@@ -115,10 +115,8 @@ export abstract class BaseSignerWalletAdapter<Name extends string = string>
     }
 }
 
-export type SignedMessage = { signature: Uint8Array; signedMessage: Uint8Array } | Uint8Array;
-
 export interface MessageSignerWalletAdapterProps<Name extends string = string> extends WalletAdapterProps<Name> {
-    signMessage(message: Uint8Array): Promise<SignedMessage>;
+    signMessage(message: Uint8Array): Promise<SolanaSignMessageOutput>;
 }
 
 export type MessageSignerWalletAdapter<Name extends string = string> = WalletAdapter<Name> &
@@ -128,7 +126,7 @@ export abstract class BaseMessageSignerWalletAdapter<Name extends string = strin
     extends BaseSignerWalletAdapter<Name>
     implements MessageSignerWalletAdapter<Name>
 {
-    abstract signMessage(message: Uint8Array): Promise<SignedMessage>;
+    abstract signMessage(message: Uint8Array): Promise<SolanaSignMessageOutput>;
 }
 
 export interface SignInMessageSignerWalletAdapterProps<Name extends string = string> extends WalletAdapterProps<Name> {

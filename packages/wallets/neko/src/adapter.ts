@@ -1,4 +1,5 @@
 import type { EventEmitter, WalletName } from '@solana/wallet-adapter-base';
+import type { SolanaSignMessageOutput } from '@solana/wallet-standard-features';
 import {
     BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
@@ -27,7 +28,7 @@ interface NekoWallet extends EventEmitter<NekoWalletEvents> {
     isConnected: boolean;
     signTransaction(transaction: Transaction): Promise<Transaction>;
     signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
-    signMessage(message: Uint8Array): Promise<{ signature: Uint8Array; signedMessage: Uint8Array }>;
+    signMessage(message: Uint8Array): Promise<{ signature: Uint8Array }>;
     connect(): Promise<void>;
     disconnect(): Promise<void>;
 }
@@ -182,7 +183,7 @@ export class NekoWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<{ signature: Uint8Array; signedMessage: Uint8Array }> {
+    async signMessage(message: Uint8Array): Promise<SolanaSignMessageOutput> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();

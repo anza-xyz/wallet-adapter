@@ -1,6 +1,7 @@
 import type { default as Transport } from '@ledgerhq/hw-transport';
 import type { default as TransportWebHID } from '@ledgerhq/hw-transport-webhid';
 import type { WalletName } from '@solana/wallet-adapter-base';
+import type { SolanaSignMessageOutput } from '@solana/wallet-standard-features';
 import {
     BaseSignerWalletAdapter,
     WalletConnectionError,
@@ -143,7 +144,7 @@ export class LedgerWalletAdapter extends BaseSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<{signature: Uint8Array, signedMessage: Uint8Array}> {
+    async signMessage(message: Uint8Array): Promise<SolanaSignMessageOutput> {
         try {
             try {
                 const transport = this._transport;

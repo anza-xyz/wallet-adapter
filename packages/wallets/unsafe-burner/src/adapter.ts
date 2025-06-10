@@ -1,4 +1,5 @@
 import { ed25519 } from '@noble/curves/ed25519';
+import type { SolanaSignMessageOutput } from '@solana/wallet-standard-features';
 import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseSignInMessageSignerWalletAdapter,
@@ -74,7 +75,7 @@ export class UnsafeBurnerWalletAdapter extends BaseSignInMessageSignerWalletAdap
         return transaction;
     }
 
-    async signMessage(message: Uint8Array): Promise<{ signature: Uint8Array; signedMessage: Uint8Array }> {
+    async signMessage(message: Uint8Array): Promise<SolanaSignMessageOutput> {
         if (!this._keypair) throw new WalletNotConnectedError();
 
         const signature = ed25519.sign(message, this._keypair.secretKey.slice(0, 32));
