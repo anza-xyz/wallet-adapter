@@ -115,8 +115,10 @@ export abstract class BaseSignerWalletAdapter<Name extends string = string>
     }
 }
 
+export type SignMessageOutput = SolanaSignMessageOutput;
+
 export interface MessageSignerWalletAdapterProps<Name extends string = string> extends WalletAdapterProps<Name> {
-    signMessage(message: Uint8Array): Promise<SolanaSignMessageOutput>;
+    signMessage(message: Uint8Array): Promise<SignMessageOutput>;
 }
 
 export type MessageSignerWalletAdapter<Name extends string = string> = WalletAdapter<Name> &
@@ -126,11 +128,14 @@ export abstract class BaseMessageSignerWalletAdapter<Name extends string = strin
     extends BaseSignerWalletAdapter<Name>
     implements MessageSignerWalletAdapter<Name>
 {
-    abstract signMessage(message: Uint8Array): Promise<SolanaSignMessageOutput>;
+    abstract signMessage(message: Uint8Array): Promise<SignMessageOutput>;
 }
 
+export type SignInInput = SolanaSignInInput;
+export type SignInOutput = SolanaSignInOutput;
+
 export interface SignInMessageSignerWalletAdapterProps<Name extends string = string> extends WalletAdapterProps<Name> {
-    signIn(input?: SolanaSignInInput): Promise<SolanaSignInOutput>;
+    signIn(input?: SignInInput): Promise<SignInOutput>;
 }
 
 export type SignInMessageSignerWalletAdapter<Name extends string = string> = WalletAdapter<Name> &
@@ -140,5 +145,5 @@ export abstract class BaseSignInMessageSignerWalletAdapter<Name extends string =
     extends BaseMessageSignerWalletAdapter<Name>
     implements SignInMessageSignerWalletAdapter<Name>
 {
-    abstract signIn(input?: SolanaSignInInput): Promise<SolanaSignInOutput>;
+    abstract signIn(input?: SignInInput): Promise<SignInOutput>;
 }
