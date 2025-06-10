@@ -15,8 +15,7 @@ import {
     type SignMessageOutput,
     type WalletName,
 } from '@solana/wallet-adapter-base';
-import type { Transaction } from '@solana/web3.js';
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey, type Transaction } from '@solana/web3.js';
 
 interface SpotWalletEvents {
     connect(...args: unknown[]): unknown;
