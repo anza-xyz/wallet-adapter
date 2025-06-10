@@ -186,13 +186,14 @@ export class SalmonWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+    async signMessage(message: Uint8Array): Promise<{ signature: Uint8Array; signedMessage: Uint8Array }> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return await wallet.signMessage(message, 'utf8');
+                const signature = await wallet.signMessage(message, 'utf8');
+                return { signature, signedMessage: message };
             } catch (error: any) {
                 throw new WalletSignMessageError(error?.message, error);
             }

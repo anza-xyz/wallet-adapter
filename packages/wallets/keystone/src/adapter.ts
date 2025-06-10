@@ -130,14 +130,15 @@ export class KeystoneWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+    async signMessage(message: Uint8Array): Promise<{ signature: Uint8Array; signedMessage: Uint8Array }> {
         try {
             const keyring = this._keyring;
             const publicKey = this._publicKey?.toString();
             if (!keyring || !publicKey) throw new WalletNotConnectedError();
 
             try {
-                return keyring.signMessage(publicKey, message);
+                const signature = await keyring.signMessage(publicKey, message);
+                return { signature, signedMessage: message };
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }

@@ -191,14 +191,15 @@ export class Coin98WalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+    async signMessage(message: Uint8Array): Promise<{ signature: Uint8Array; signedMessage: Uint8Array }> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
             try {
                 const response = await wallet.request({ method: 'sol_signMessage', params: [message] });
 
-                return bs58.decode(response.signature);
+                const signature = bs58.decode(response.signature);
+                return { signature, signedMessage: message };
             } catch (error: any) {
                 throw new WalletSignMessageError(error?.message, error);
             }

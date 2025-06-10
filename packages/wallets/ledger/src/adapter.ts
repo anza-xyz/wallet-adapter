@@ -143,7 +143,7 @@ export class LedgerWalletAdapter extends BaseSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+    async signMessage(message: Uint8Array): Promise<{signature: Uint8Array, signedMessage: Uint8Array}> {
         try {
             try {
                 const transport = this._transport;
@@ -170,7 +170,7 @@ export class LedgerWalletAdapter extends BaseSignerWalletAdapter {
                 }
 
                 const signature = await signMessage(transport, offchainMessage.serialize(), this._derivationPath);
-                return new Uint8Array(signature);
+                return {signature: new Uint8Array(signature), signedMessage: offchainMessage.serialize()};
             } catch (error: any) {
                 throw new WalletSignMessageError(error?.message, error);
             }

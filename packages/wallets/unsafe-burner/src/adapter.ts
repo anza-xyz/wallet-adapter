@@ -74,10 +74,11 @@ export class UnsafeBurnerWalletAdapter extends BaseSignInMessageSignerWalletAdap
         return transaction;
     }
 
-    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+    async signMessage(message: Uint8Array): Promise<{ signature: Uint8Array; signedMessage: Uint8Array }> {
         if (!this._keypair) throw new WalletNotConnectedError();
 
-        return ed25519.sign(message, this._keypair.secretKey.slice(0, 32));
+        const signature = ed25519.sign(message, this._keypair.secretKey.slice(0, 32));
+        return { signature, signedMessage: message };
     }
 
     async signIn(input: SolanaSignInInput = {}): Promise<SolanaSignInOutput> {

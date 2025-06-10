@@ -152,13 +152,14 @@ export class FractalWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+    async signMessage(message: Uint8Array): Promise<{ signature: Uint8Array; signedMessage: Uint8Array }> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return wallet.signMessage(message);
+                const signature = await wallet.signMessage(message);
+                return { signature, signedMessage: message };
             } catch (error: any) {
                 throw new WalletSignMessageError(error?.message, error);
             }
