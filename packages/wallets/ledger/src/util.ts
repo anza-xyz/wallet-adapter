@@ -146,7 +146,12 @@ export class OffchainMessage {
 
         const messageLength = Buffer.alloc(2);
 
+        // isValid() checks message
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const messageBuffer = Buffer.from(this.message!);
+
+        // isValid() checks messageFormat
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         messageFormat.writeUInt8(this.messageFormat!);
 
         const signers = this.signerAddress.toBuffer();
