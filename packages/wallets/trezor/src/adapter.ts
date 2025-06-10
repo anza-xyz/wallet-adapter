@@ -28,6 +28,8 @@ import './polyfills/index.js';
 export interface TrezorWalletAdapterConfig {
     derivationPath?: string;
     connectUrl?: string;
+    appName?: string;
+    email?: string;
 }
 
 export const TrezorWalletName = 'Trezor' as WalletName<'Trezor'>;
@@ -44,6 +46,8 @@ export class TrezorWalletAdapter extends BaseSignerWalletAdapter {
     private _connectUrl: string | undefined;
     private _connecting: boolean;
     private _publicKey: PublicKey | null;
+    private _appName: string;
+    private _email: string;
     private _readyState: WalletReadyState =
         typeof window === 'undefined' || typeof document === 'undefined'
             ? WalletReadyState.Unsupported
@@ -56,6 +60,8 @@ export class TrezorWalletAdapter extends BaseSignerWalletAdapter {
         this._connectUrl = config.connectUrl?.replace(/\/*$/, '/');
         this._connecting = false;
         this._publicKey = null;
+        this._appName = config.appName || 'Wallet Adapter';
+        this._email = config.email || 'noreply@anza.xyz';
     }
 
     get publicKey() {
@@ -89,7 +95,8 @@ export class TrezorWalletAdapter extends BaseSignerWalletAdapter {
             try {
                 await wallet.init({
                     manifest: {
-                        email: 'gabriel.kerekes@vacuumlabs.com',
+                        appName: this._appName,
+                        email: this._email,
                         appUrl: window.location.href,
                     },
                     lazyLoad: true,
