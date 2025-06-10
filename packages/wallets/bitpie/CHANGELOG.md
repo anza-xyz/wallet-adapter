@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-bitpie
 
+## 0.5.22
+
+### Patch Changes
+
+- 75bf350: Update dependencies
+- Updated dependencies [75bf350]
+    - @solana/wallet-adapter-base@0.9.27
+
 ## 0.5.21
 
 ### Patch Changes

@@ -1,5 +1,54 @@
 # @solana/wallet-adapter-wallets
 
+## 0.19.37
+
+### Patch Changes
+
+- 75bf350: Update dependencies
+- Updated dependencies [4dad1a9]
+- Updated dependencies [1997b51]
+- Updated dependencies [fe81e05]
+- Updated dependencies [75bf350]
+- Updated dependencies [75bf350]
+- Updated dependencies [74f4482]
+- Updated dependencies [0ea1d39]
+    - @solana/wallet-adapter-solflare@0.6.32
+    - @solana/wallet-adapter-safepal@0.5.22
+    - @solana/wallet-adapter-alpha@0.1.14
+    - @solana/wallet-adapter-avana@0.1.17
+    - @solana/wallet-adapter-bitkeep@0.3.24
+    - @solana/wallet-adapter-bitpie@0.5.22
+    - @solana/wallet-adapter-clover@0.4.23
+    - @solana/wallet-adapter-coin98@0.5.24
+    - @solana/wallet-adapter-coinbase@0.1.23
+    - @solana/wallet-adapter-coinhub@0.3.22
+    - @solana/wallet-adapter-fractal@0.1.12
+    - @solana/wallet-adapter-huobi@0.1.19
+    - @solana/wallet-adapter-hyperpay@0.1.18
+    - @solana/wallet-adapter-keystone@0.1.19
+    - @solana/wallet-adapter-krystal@0.1.16
+    - @solana/wallet-adapter-ledger@0.9.29
+    - @solana/wallet-adapter-mathwallet@0.9.22
+    - @solana/wallet-adapter-neko@0.2.16
+    - @solana/wallet-adapter-nightly@0.1.20
+    - @solana/wallet-adapter-nufi@0.1.21
+    - @solana/wallet-adapter-onto@0.1.11
+    - @solana/wallet-adapter-particle@0.1.16
+    - @solana/wallet-adapter-phantom@0.9.28
+    - @solana/wallet-adapter-saifu@0.1.19
+    - @solana/wallet-adapter-salmon@0.1.18
+    - @solana/wallet-adapter-sky@0.1.19
+    - @solana/wallet-adapter-solong@0.9.22
+    - @solana/wallet-adapter-spot@0.1.19
+    - @solana/wallet-adapter-tokenary@0.1.16
+    - @solana/wallet-adapter-tokenpocket@0.4.23
+    - @solana/wallet-adapter-torus@0.11.32
+    - @solana/wallet-adapter-trust@0.1.17
+    - @solana/wallet-adapter-unsafe-burner@0.1.11
+    - @solana/wallet-adapter-walletconnect@0.1.21
+    - @solana/wallet-adapter-xdefi@0.1.11
+    - @solana/wallet-adapter-trezor@0.1.6
+
 ## 0.19.36
 
 ### Patch Changes

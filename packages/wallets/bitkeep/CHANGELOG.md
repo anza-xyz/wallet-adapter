@@ -1,5 +1,14 @@
 # @solana/wallet-adapter-bitkeep
 
+## 0.3.24
+
+### Patch Changes
+
+- 75bf350: Update dependencies
+- 74f4482: Update Bitget icon
+- Updated dependencies [75bf350]
+    - @solana/wallet-adapter-base@0.9.27
+
 ## 0.3.23
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @solana/wallet-adapter-tokenpocket
 
+## 0.4.23
+
+### Patch Changes
+
+- 75bf350: Update dependencies
+- 0ea1d39: Add signAndSendTransaction to TokenPocket adapter
+- Updated dependencies [75bf350]
+    - @solana/wallet-adapter-base@0.9.27
+
 ## 0.4.22
 
 ### Patch Changes
