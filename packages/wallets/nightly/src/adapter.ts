@@ -1,4 +1,5 @@
 import type { WalletName } from '@solana/wallet-adapter-base';
+import type { SolanaSignMessageOutput } from '@solana/wallet-standard-features';
 import {
     BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
@@ -163,13 +164,14 @@ export class NightlyWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+    async signMessage(message: Uint8Array): Promise<SolanaSignMessageOutput> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return wallet.signMessage(new TextDecoder().decode(message));
+                const signature = await wallet.signMessage(new TextDecoder().decode(message));
+                return { signature, signedMessage: message };
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
