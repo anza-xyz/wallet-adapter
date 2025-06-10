@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-trezor
 
+## 0.1.6
+
+### Patch Changes
+
+- 75bf350: Allow app to configure appName in Trezor adapter
+- Updated dependencies [75bf350]
+    - @solana/wallet-adapter-base@0.9.27
+
 ## 0.1.5
 
 ### Patch Changes

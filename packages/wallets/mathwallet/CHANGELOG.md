@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-mathwallet
 
+## 0.9.22
+
+### Patch Changes
+
+- 75bf350: Update dependencies
+- Updated dependencies [75bf350]
+    - @solana/wallet-adapter-base@0.9.27
+
 ## 0.9.21
 
 ### Patch Changes

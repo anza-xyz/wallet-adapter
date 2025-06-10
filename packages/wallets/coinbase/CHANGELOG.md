@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-coinbase
 
+## 0.1.23
+
+### Patch Changes
+
+- 75bf350: Update dependencies
+- Updated dependencies [75bf350]
+    - @solana/wallet-adapter-base@0.9.27
+
 ## 0.1.22
 
 ### Patch Changes

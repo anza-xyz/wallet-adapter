@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-neko
 
+## 0.2.16
+
+### Patch Changes
+
+- 75bf350: Update dependencies
+- Updated dependencies [75bf350]
+    - @solana/wallet-adapter-base@0.9.27
+
 ## 0.2.15
 
 ### Patch Changes
