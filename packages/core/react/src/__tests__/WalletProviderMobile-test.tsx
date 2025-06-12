@@ -4,12 +4,6 @@
 
 'use strict';
 
-import {
-    type AddressSelector,
-    type AuthorizationResultCache,
-    SolanaMobileWalletAdapter,
-    SolanaMobileWalletAdapterWalletName,
-} from '@solana-mobile/wallet-adapter-mobile';
 import { type Adapter, WalletError, type WalletName, WalletReadyState } from '@solana/wallet-adapter-base';
 import { type Connection, PublicKey } from '@solana/web3.js';
 import 'jest-localstorage-mock';
@@ -153,47 +147,6 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
             });
         });
     });
-    describe('when there is no mobile wallet adapter in the adapters array', () => {
-        it("creates a new mobile wallet adapter with the document's host as the uri of the `appIdentity`", () => {
-            renderTest({});
-            expect(jest.mocked(SolanaMobileWalletAdapter).mock.instances).toHaveLength(1);
-            expect(jest.mocked(SolanaMobileWalletAdapter).mock.calls[0][0].appIdentity.uri).toBe(
-                `${document.location.protocol}//${document.location.host}`
-            );
-        });
-        it('creates a new mobile wallet adapter with the appropriate cluster for the given endpoint', () => {
-            renderTest({});
-            expect(jest.mocked(SolanaMobileWalletAdapter).mock.instances).toHaveLength(1);
-            // @ts-expect-error // HACK: SolanaMobileWalletAdapter has a `cluster` property but it's not declared.
-            expect(jest.mocked(SolanaMobileWalletAdapter).mock.calls[0][0].cluster).toBe('fake-cluster-for-test');
-        });
-    });
-    describe('when a custom mobile wallet adapter is supplied in the adapters array', () => {
-        let customAdapter: Adapter;
-        const CUSTOM_APP_IDENTITY = {
-            uri: 'https://custom.com',
-        };
-        const CUSTOM_CLUSTER = 'devnet';
-        beforeEach(() => {
-            customAdapter = new SolanaMobileWalletAdapter({
-                addressSelector: jest.fn() as unknown as AddressSelector,
-                appIdentity: CUSTOM_APP_IDENTITY,
-                authorizationResultCache: jest.fn() as unknown as AuthorizationResultCache,
-                cluster: CUSTOM_CLUSTER,
-                onWalletNotFound: jest.fn(),
-            });
-            adapters.push(customAdapter);
-            jest.clearAllMocks();
-        });
-        it('does not load the custom mobile wallet adapter into state as the default', () => {
-            renderTest({});
-            expect(ref.current?.getWalletContextState().wallet?.adapter).not.toBe(customAdapter);
-        });
-        it('does not construct any further mobile wallet adapters', () => {
-            renderTest({});
-            expect(jest.mocked(SolanaMobileWalletAdapter).mock.calls.length).toBe(0);
-        });
-    });
     describe('when there exists no stored wallet name', () => {
         beforeEach(() => {
             (localStorage.getItem as jest.Mock).mockReturnValue(null);
@@ -228,35 +181,6 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
         });
     });
     describe('autoConnect', () => {
-        describe('given a mobile wallet adapter is connected', () => {
-            beforeEach(async () => {
-                renderTest({});
-                await act(async () => {
-                    ref.current?.getWalletContextState().select(SolanaMobileWalletAdapterWalletName);
-                    await Promise.resolve(); // Flush all promises in effects after calling `select()`.
-                });
-            });
-            describe('when autoConnect is disabled', () => {
-                beforeEach(() => {
-                    renderTest({ autoConnect: false });
-                });
-                it('does not call `connect`', () => {
-                    const adapter = ref.current?.getWalletContextState().wallet?.adapter as SolanaMobileWalletAdapter;
-                    expect(adapter.connect).not.toHaveBeenCalled();
-                    expect(adapter.autoConnect).not.toHaveBeenCalled();
-                });
-            });
-            describe('when autoConnect is enabled', () => {
-                beforeEach(() => {
-                    renderTest({ autoConnect: true });
-                });
-                it('calls the connect method on the mobile wallet adapter', () => {
-                    const adapter = ref.current?.getWalletContextState().wallet?.adapter as SolanaMobileWalletAdapter;
-                    expect(adapter.connect).toHaveBeenCalled();
-                    expect(adapter.autoConnect).not.toHaveBeenCalled();
-                });
-            });
-        });
         describe('given a non-mobile wallet adapter is connected', () => {
             beforeEach(async () => {
                 renderTest({});
@@ -292,16 +216,21 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
     describe('onError', () => {
         let onError: jest.Mock;
         let errorThrown: WalletError;
-        beforeEach(() => {
+        beforeEach(async () => {
             errorThrown = new WalletError('o no');
             onError = jest.fn();
             renderTest({ onError });
+            await act(async () => {
+                ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
+                await Promise.resolve(); // Flush all promises in effects after calling `select()`.
+            });
         });
         describe('when the wallet emits an error', () => {
             let adapter: Adapter;
             beforeEach(() => {
                 act(() => {
-                    adapter = ref.current?.getWalletContextState().wallet?.adapter as SolanaMobileWalletAdapter;
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion,@typescript-eslint/no-non-null-asserted-optional-chain
+                    adapter = ref.current?.getWalletContextState().wallet?.adapter!;
                     adapter.emit('error', errorThrown);
                 });
             });
@@ -319,7 +248,8 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                 let adapter: Adapter;
                 beforeEach(() => {
                     act(() => {
-                        adapter = ref.current?.getWalletContextState().wallet?.adapter as SolanaMobileWalletAdapter;
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion,@typescript-eslint/no-non-null-asserted-optional-chain
+                        adapter = ref.current?.getWalletContextState().wallet?.adapter!;
                         adapter.emit('error', errorThrown);
                     });
                 });
@@ -338,7 +268,7 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                     ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
                     await Promise.resolve(); // Flush all promises in effects after calling `select()`.
                 });
-                await act(() => {
+                act(() => {
                     ref.current?.getWalletContextState().connect();
                 });
             });
@@ -381,72 +311,6 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                         connected: false,
                         connecting: false,
                         publicKey: null,
-                    });
-                });
-            });
-        });
-        describe('given a mobile wallet adapter is connected', () => {
-            let mobileWalletAdapter: Adapter;
-            beforeEach(async () => {
-                renderTest({});
-                await act(async () => {
-                    ref.current?.getWalletContextState().select(SolanaMobileWalletAdapterWalletName);
-                    await Promise.resolve(); // Flush all promises in effects after calling `select()`.
-                });
-                mobileWalletAdapter = jest.mocked(SolanaMobileWalletAdapter).mock.results[0].value;
-                await act(() => {
-                    ref.current?.getWalletContextState().connect();
-                });
-            });
-            describe('then a non-mobile wallet adapter is selected', () => {
-                beforeEach(async () => {
-                    renderTest({});
-                    await act(async () => {
-                        ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
-                        await Promise.resolve(); // Flush all promises in effects after calling `select()`.
-                    });
-                });
-                it('does not call `disconnect` on the mobile wallet adapter', () => {
-                    expect(mobileWalletAdapter.disconnect).not.toHaveBeenCalled();
-                });
-                it('should not clear the stored wallet name', () => {
-                    expect(localStorage.removeItem).not.toHaveBeenCalled();
-                });
-            });
-            describe('when the wallet disconnects of its own accord', () => {
-                beforeEach(() => {
-                    jest.clearAllMocks();
-                    act(() => {
-                        mobileWalletAdapter.disconnect();
-                    });
-                });
-                it('should clear the stored wallet name', () => {
-                    expect(localStorage.removeItem).toHaveBeenCalledWith(WALLET_NAME_CACHE_KEY);
-                });
-            });
-            describe('when window beforeunload event fires', () => {
-                beforeEach(() => {
-                    jest.clearAllMocks();
-                    act(() => {
-                        window.dispatchEvent(new Event('beforeunload'));
-                    });
-                });
-                describe('then the wallet disconnects of its own accord', () => {
-                    beforeEach(() => {
-                        jest.clearAllMocks();
-                        act(() => {
-                            mobileWalletAdapter.disconnect();
-                        });
-                    });
-                    it('should clear the stored wallet name', () => {
-                        expect(localStorage.removeItem).toHaveBeenCalledWith(WALLET_NAME_CACHE_KEY);
-                    });
-                    it('should clear out the state', () => {
-                        expect(ref.current?.getWalletContextState()).toMatchObject({
-                            connected: false,
-                            connecting: false,
-                            publicKey: null,
-                        });
                     });
                 });
             });

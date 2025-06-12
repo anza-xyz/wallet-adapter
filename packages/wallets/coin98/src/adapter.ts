@@ -1,4 +1,3 @@
-import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
@@ -10,9 +9,10 @@ import {
     WalletReadyState,
     WalletSignMessageError,
     WalletSignTransactionError,
+    type SignMessageOutput,
+    type WalletName,
 } from '@solana/wallet-adapter-base';
-import type { Transaction } from '@solana/web3.js';
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey, type Transaction } from '@solana/web3.js';
 import bs58 from 'bs58';
 import './polyfills/index.js';
 
@@ -191,14 +191,15 @@ export class Coin98WalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+    async signMessage(message: Uint8Array): Promise<SignMessageOutput> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
             try {
                 const response = await wallet.request({ method: 'sol_signMessage', params: [message] });
 
-                return bs58.decode(response.signature);
+                const signature = bs58.decode(response.signature);
+                return { signature, signedMessage: message };
             } catch (error: any) {
                 throw new WalletSignMessageError(error?.message, error);
             }

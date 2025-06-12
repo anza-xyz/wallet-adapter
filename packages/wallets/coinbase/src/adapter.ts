@@ -1,4 +1,3 @@
-import type { EventEmitter, SendTransactionOptions, WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
     isVersionedTransaction,
@@ -14,16 +13,20 @@ import {
     WalletReadyState,
     WalletSendTransactionError,
     WalletSignTransactionError,
+    type EventEmitter,
+    type SendTransactionOptions,
+    type SignMessageOutput,
+    type WalletName,
 } from '@solana/wallet-adapter-base';
-import type {
-    Connection,
-    SendOptions,
-    Transaction,
-    VersionedTransaction,
-    TransactionSignature,
-    TransactionVersion,
+import {
+    PublicKey,
+    type Connection,
+    type SendOptions,
+    type Transaction,
+    type TransactionSignature,
+    type TransactionVersion,
+    type VersionedTransaction,
 } from '@solana/web3.js';
-import { PublicKey } from '@solana/web3.js';
 
 interface CoinbaseWalletEvents {
     connect(...args: unknown[]): unknown;
@@ -220,14 +223,14 @@ export class CoinbaseWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+    async signMessage(message: Uint8Array): Promise<SignMessageOutput> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
                 const { signature } = await wallet.signMessage(message);
-                return signature;
+                return { signature, signedMessage: message };
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
