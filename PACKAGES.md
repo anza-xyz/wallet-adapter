@@ -5,14 +5,16 @@ This library is organized into small packages with few dependencies.
 To add it to your app, you'll need core packages, some wallets, and UI components for your chosen framework.
 
 ### Core
+
 These packages are what most projects can use to support wallets on Solana.
 
 | package                                                                                | description                                           | npm                                                                                      |
-|----------------------------------------------------------------------------------------|-------------------------------------------------------|------------------------------------------------------------------------------------------|
+| -------------------------------------------------------------------------------------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------- |
 | [base](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/base)   | Adapter interfaces, error types, and common utilities | [`@solana/wallet-adapter-base`](https://npmjs.com/package/@solana/wallet-adapter-base)   |
 | [react](https://github.com/solana-labs/wallet-adapter/tree/master/packages/core/react) | Contexts and hooks for React apps                     | [`@solana/wallet-adapter-react`](https://npmjs.com/package/@solana/wallet-adapter-react) |
 
 ### Community
+
 Several core packages are maintained by the community to support additional frontend frameworks.
 
 - [Vue](https://github.com/lorisleiva/solana-wallets-vue)
@@ -22,18 +24,20 @@ Several core packages are maintained by the community to support additional fron
 - [Ant Design Web3](https://web3.ant.design/components/solana)
 
 ### UI Components
+
 These packages provide components for common UI frameworks.
 
-| package                                                                                                   | description                                                        | npm                                                                                                        |
-|-----------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
-| [react-ui](https://github.com/solana-labs/wallet-adapter/tree/master/packages/ui/react-ui)                | Components for React (no UI framework, just CSS)                   | [`@solana/wallet-adapter-react-ui`](https://npmjs.com/package/@solana/wallet-adapter-react-ui)             |
+| package                                                                                    | description                                      | npm                                                                                            |
+| ------------------------------------------------------------------------------------------ | ------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
+| [react-ui](https://github.com/solana-labs/wallet-adapter/tree/master/packages/ui/react-ui) | Components for React (no UI framework, just CSS) | [`@solana/wallet-adapter-react-ui`](https://npmjs.com/package/@solana/wallet-adapter-react-ui) |
 
 ### Wallets
+
 These packages provide adapters for each wallet.
 You can use the [wallets](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/wallets) package, or add the individual wallet packages you want.
 
 | package                                                                                                   | description                                                     | npm                                                                                                      |
-|-----------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
+| --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
 | [wallets](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/wallets)             | Includes all the wallets (with tree shaking)                    | [`@solana/wallet-adapter-wallets`](https://npmjs.com/package/@solana/wallet-adapter-wallets)             |
 | [alpha](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/alpha)                 | Adapter for [Alpha](https://github.com/alphabatem/alpha-wallet) | [`@solana/wallet-adapter-alpha`](https://npmjs.com/package/@solana/wallet-adapter-alpha)                 |
 | [avana](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/avana)                 | Adapter for [Avana](https://www.avanawallet.com)                | [`@solana/wallet-adapter-avana`](https://npmjs.com/package/@solana/wallet-adapter-avana)                 |
@@ -48,6 +52,7 @@ You can use the [wallets](https://github.com/solana-labs/wallet-adapter/tree/mas
 | [hyperpay](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/hyperpay)           | Adapter for [HyperPay](https://hyperpay.io)                     | [`@solana/wallet-adapter-hyperpay`](https://npmjs.com/package/@solana/wallet-adapter-hyperpay)           |
 | [keystone](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/keystone)           | Adapter for [keystone](https://keyst.one)                       | [`@solana/wallet-adapter-keystone`](https://npmjs.com/package/@solana/wallet-adapter-keystone)           |
 | [krystal](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/krystal)             | Adapter for [krystal](https://krystal.app)                      | [`@solana/wallet-adapter-krystal`](https://npmjs.com/package/@solana/wallet-adapter-krystal)             |
+| [leap](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/leap)                   | Adapter for [Leap](https://leapwallet.io)                       | [`@solana/wallet-adapter-nightly`](https://npmjs.com/package/@solana/wallet-adapter-leap)                |
 | [ledger](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/ledger)               | Adapter for [Ledger](https://ledger.com)                        | [`@solana/wallet-adapter-ledger`](https://npmjs.com/package/@solana/wallet-adapter-ledger)               |
 | [mathwallet](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/mathwallet)       | Adapter for [MathWallet](https://mathwallet.org)                | [`@solana/wallet-adapter-mathwallet`](https://npmjs.com/package/@solana/wallet-adapter-mathwallet)       |
 | [neko](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/neko)                   | Adapter for [Neko](https://nekowallet.com)                      | [`@solana/wallet-adapter-neko`](https://npmjs.com/package/@solana/wallet-adapter-neko)                   |
@@ -66,15 +71,16 @@ You can use the [wallets](https://github.com/solana-labs/wallet-adapter/tree/mas
 | [tokenary](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/tokenary)           | Adapter for [Tokenary](https://tokenary.io)                     | [`@solana/wallet-adapter-tokenary`](https://npmjs.com/package/@solana/wallet-adapter-tokenary)           |
 | [tokenpocket](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/tokenpocket)     | Adapter for [TokenPocket](https://tokenpocket.pro)              | [`@solana/wallet-adapter-tokenpocket`](https://npmjs.com/package/@solana/wallet-adapter-tokenpocket)     |
 | [torus](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/torus)                 | Adapter for [Torus](https://tor.us)                             | [`@solana/wallet-adapter-torus`](https://npmjs.com/package/@solana/wallet-adapter-torus)                 |
-| [trezor](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/trezor)               | Adapter for [Trezor](https://trezor.io)                         | [`@solana/wallet-adapter-trezor`](https://npmjs.com/package/@solana/wallet-adapter-trezor)                |
+| [trezor](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/trezor)               | Adapter for [Trezor](https://trezor.io)                         | [`@solana/wallet-adapter-trezor`](https://npmjs.com/package/@solana/wallet-adapter-trezor)               |
 | [trust](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/trust)                 | Adapter for [Trust Wallet](https://trustwallet.com)             | [`@solana/wallet-adapter-trust`](https://npmjs.com/package/@solana/wallet-adapter-trust)                 |
 | [walletconnect](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/walletconnect) | Adapter for [WalletConnect](https://walletconnect.com)          | [`@solana/wallet-adapter-walletconnect`](https://npmjs.com/package/@solana/wallet-adapter-walletconnect) |
 | [xdefi](https://github.com/solana-labs/wallet-adapter/tree/master/packages/wallets/xdefi)                 | Adapter for [XDEFI](https://xdefi.io)                           | [`@solana/wallet-adapter-xdefi`](https://npmjs.com/package/@solana/wallet-adapter-xdefi)                 |
 
 ### Starter Projects
+
 These packages provide projects that you can use to start building a app with built-in wallet support.
 
-| package                                                                                                                         | description                                                             | npm                                                                                                                            |
-|---------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
-| [example](https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/example)                                   | Demo of UI components and wallets                                       | [`@solana/wallet-adapter-example`](https://npmjs.com/package/@solana/wallet-adapter-example)                                   |
-| [react-ui-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/react-ui-starter)                 | [Parcel](https://parceljs.org) project using React UI                   | [`@solana/wallet-adapter-react-ui-starter`](https://npmjs.com/package/@solana/wallet-adapter-react-ui-starter)                 |
+| package                                                                                                         | description                                           | npm                                                                                                            |
+| --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| [example](https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/example)                   | Demo of UI components and wallets                     | [`@solana/wallet-adapter-example`](https://npmjs.com/package/@solana/wallet-adapter-example)                   |
+| [react-ui-starter](https://github.com/solana-labs/wallet-adapter/tree/master/packages/starter/react-ui-starter) | [Parcel](https://parceljs.org) project using React UI | [`@solana/wallet-adapter-react-ui-starter`](https://npmjs.com/package/@solana/wallet-adapter-react-ui-starter) |

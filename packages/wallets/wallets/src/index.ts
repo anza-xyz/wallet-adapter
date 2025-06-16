@@ -12,6 +12,7 @@ export * from '@solana/wallet-adapter-hyperpay';
 export * from '@solana/wallet-adapter-keystone';
 export * from '@solana/wallet-adapter-krystal';
 export * from '@solana/wallet-adapter-ledger';
+export * from '@solana/wallet-adapter-leap';
 export * from '@solana/wallet-adapter-mathwallet';
 export * from '@solana/wallet-adapter-neko';
 export * from '@solana/wallet-adapter-nightly';

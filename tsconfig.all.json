@@ -62,6 +62,9 @@
             "path": "./packages/wallets/ledger/tsconfig.json"
         },
         {
+            "path": "./packages/wallets/leapwallet/tsconfig.json"
+        },
+        {
             "path": "./packages/wallets/mathwallet/tsconfig.json"
         },
         {

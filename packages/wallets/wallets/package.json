@@ -1,6 +1,6 @@
 {
     "name": "@solana/wallet-adapter-wallets",
-    "version": "0.19.37",
+    "version": "0.19.38",
     "author": "Solana Maintainers <maintainers@solana.foundation>",
     "repository": "https://github.com/anza-xyz/wallet-adapter",
     "license": "Apache-2.0",
@@ -49,6 +49,7 @@
         "@solana/wallet-adapter-keystone": "workspace:^",
         "@solana/wallet-adapter-krystal": "workspace:^",
         "@solana/wallet-adapter-ledger": "workspace:^",
+        "@solana/wallet-adapter-leap": "workspace:^",
         "@solana/wallet-adapter-mathwallet": "workspace:^",
         "@solana/wallet-adapter-neko": "workspace:^",
         "@solana/wallet-adapter-nightly": "workspace:^",
