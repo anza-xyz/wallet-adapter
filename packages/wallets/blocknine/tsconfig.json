@@ -1,0 +1,109 @@
+{
+    "extends": "./tsconfig.base.json",
+    "include": [
+      "src/**/*",
+      "contents/**/*",
+      "background/**/*",
+      "popup/**/*",
+      "options/**/*",
+      "components/**/*",
+      "utils/**/*",
+      "types/**/*",
+      "hooks/**/*",
+      "store/**/*"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist",
+      "build",
+      ".plasmo",
+      "lib",
+      "**/*.test.ts",
+      "**/*.test.tsx",
+      "**/*.spec.ts",
+      "**/*.spec.tsx"
+    ],
+    "compilerOptions": {
+      "target": "ES2020",
+      "module": "ESNext",
+      "moduleResolution": "bundler",
+      "outDir": "dist",
+      "rootDir": ".",
+      "declaration": true,
+      "declarationDir": "lib/types",
+      "declarationMap": true,
+      "sourceMap": true,
+      "strict": true,
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+      "noEmit": false,
+      "incremental": true,
+      "tsBuildInfoFile": ".tsbuildinfo",
+      "lib": [
+        "DOM",
+        "DOM.Iterable",
+        "ES2020",
+        "WebWorker"
+      ],
+      "types": [
+        "chrome",
+        "node",
+        "react",
+        "react-dom",
+        "webextension-polyfill"
+      ],
+      "jsx": "react-jsx",
+      "allowJs": true,
+      "checkJs": false,
+      "noFallthroughCasesInSwitch": true,
+      "noImplicitReturns": true,
+      "noImplicitAny": true,
+      "noImplicitThis": true,
+      "noUnusedLocals": false,
+      "noUnusedParameters": false,
+      "exactOptionalPropertyTypes": false,
+      "useDefineForClassFields": true,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "paths": {
+        "~/*": ["./src/*"],
+        "@/*": ["./src/*"],
+        "@/components/*": ["./src/components/*"],
+        "@/utils/*": ["./src/utils/*"],
+        "@/types/*": ["./src/types/*"],
+        "@/hooks/*": ["./src/hooks/*"],
+        "@/store/*": ["./src/store/*"],
+        "@/constants/*": ["./src/constants/*"],
+        "@/services/*": ["./src/services/*"],
+        "~background/*": ["./background/*"],
+        "~contents/*": ["./contents/*"],
+        "~popup/*": ["./popup/*"],
+        "~options/*": ["./options/*"]
+      },
+      "baseUrl": ".",
+      "plugins": [
+        {
+          "name": "@plasmo/parcel-transformer-typescript"
+        }
+      ]
+    },
+    "ts-node": {
+      "esm": true,
+      "compilerOptions": {
+        "module": "ESNext",
+        "target": "ES2020"
+      }
+    },
+    "references": [
+      {
+        "path": "./tsconfig.cjs.json"
+      },
+      {
+        "path": "./tsconfig.esm.json"
+      }
+    ]
+}
