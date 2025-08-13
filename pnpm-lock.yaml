@@ -768,8 +768,8 @@ importers:
         specifier: workspace:^
         version: link:../../core/base
       '@toruslabs/solana-embed':
-        specifier: ^3.0.0
-        version: 3.0.0(@babel/runtime@7.27.6)(bufferutil@4.0.9)(color@5.0.0)(typescript@5.8.3)(utf-8-validate@5.0.10)
+        specifier: ^3.0.1
+        version: 3.0.1(@babel/runtime@7.27.6)(@solana/web3.js@1.98.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10))(bufferutil@4.0.9)(color@5.0.0)(utf-8-validate@5.0.10)
       process:
         specifier: ^0.11.10
         version: 0.11.10
@@ -3057,11 +3057,12 @@ packages:
     resolution: {integrity: sha512-26GflDkna9kDF4kd7+XmFAsI69CIz/ZSmsbQH6ehylaNDYcro/xuPQB2SnzyRMi4VMkLXYDwHapm2OBURmuMbQ==}
     engines: {node: '>=20.x', npm: '>=9.x'}
 
-  '@toruslabs/solana-embed@3.0.0':
-    resolution: {integrity: sha512-u+QNPrwSdlCisQBS4J2sSgn1JPheQ6LgN2cf/HAnmT6n50VMbm13ShABW2XN52XRRkOd1NM4ParOLlkQTwZ3Mw==}
+  '@toruslabs/solana-embed@3.0.1':
+    resolution: {integrity: sha512-HMUnhXQiARR4zfVJIF7/Nws1Ym4jqySx73zWee/Ec4qj+XdilelRse0QCm2Edom1/w2sprQh31TqL1u+kQ1BkA==}
     engines: {node: '>=20.x', npm: '>=9.x'}
     peerDependencies:
       '@babel/runtime': 7.x
+      '@solana/web3.js': ^1.x
 
   '@toruslabs/starkware-crypto@5.0.0':
     resolution: {integrity: sha512-CZjpkeuT0hBsX5dNGEekLcjR2n6UHzh682Pt/AheJYL4+zrupqPWZTfvOlo4K3Iihyv6FzRZmrbHLdQutkz5oQ==}
@@ -3490,8 +3491,8 @@ packages:
       '@babel/runtime': 7.x
       color: ^5.x
 
-  '@web3auth/ws-embed@5.0.17':
-    resolution: {integrity: sha512-HuPOYoW1I7QNVcbZ6otyhvLGfGWxvvCh5xdbwvi7z0PyT01jV0CAiwscAJ+2XEs8qoqh6RXp4v8MoJZAOhQikg==}
+  '@web3auth/ws-embed@5.0.22':
+    resolution: {integrity: sha512-1GkNq02z0fRESQdUaYuzgzK4LQdpBfHigE+0VfO2CVvAYaqx458Rn9SlnlI5clHDXZgb3OYa1co1pF16PzoLWQ==}
     engines: {node: '>=20.x', npm: '>=9.x'}
     peerDependencies:
       '@babel/runtime': 7.x
@@ -10552,18 +10553,16 @@ snapshots:
       - '@babel/runtime'
       - '@sentry/core'
 
-  '@toruslabs/solana-embed@3.0.0(@babel/runtime@7.27.6)(bufferutil@4.0.9)(color@5.0.0)(typescript@5.8.3)(utf-8-validate@5.0.10)':
+  '@toruslabs/solana-embed@3.0.1(@babel/runtime@7.27.6)(@solana/web3.js@1.98.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10))(bufferutil@4.0.9)(color@5.0.0)(utf-8-validate@5.0.10)':
     dependencies:
       '@babel/runtime': 7.27.6
       '@solana/web3.js': 1.98.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)
-      '@web3auth/ws-embed': 5.0.17(@babel/runtime@7.27.6)(bufferutil@4.0.9)(color@5.0.0)(utf-8-validate@5.0.10)
+      '@web3auth/ws-embed': 5.0.22(@babel/runtime@7.27.6)(bufferutil@4.0.9)(color@5.0.0)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
       - '@sentry/core'
       - bufferutil
       - color
-      - encoding
       - supports-color
-      - typescript
       - utf-8-validate
 
   '@toruslabs/starkware-crypto@5.0.0(@babel/runtime@7.27.6)':
@@ -11642,7 +11641,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@web3auth/ws-embed@5.0.17(@babel/runtime@7.27.6)(bufferutil@4.0.9)(color@5.0.0)(utf-8-validate@5.0.10)':
+  '@web3auth/ws-embed@5.0.22(@babel/runtime@7.27.6)(bufferutil@4.0.9)(color@5.0.0)(utf-8-validate@5.0.10)':
     dependencies:
       '@babel/runtime': 7.27.6
       '@toruslabs/base-controllers': 8.6.1(@babel/runtime@7.27.6)(bufferutil@4.0.9)(color@5.0.0)(utf-8-validate@5.0.10)
