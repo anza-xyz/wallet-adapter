@@ -11,8 +11,8 @@ type Props = React.ComponentProps<typeof Button> & {
 export function BaseWalletConnectionButton({ walletIcon, walletName, ...props }: Props) {
     return (
         <Button
-            {...props}
             className="wallet-adapter-button-trigger"
+            {...props}
             startIcon={
                 walletIcon && walletName ? (
                     <WalletIcon wallet={{ adapter: { icon: walletIcon, name: walletName } }} />
