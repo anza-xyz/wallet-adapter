@@ -1,6 +1,7 @@
 import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
+    isIosAndRedirectable,
     scopePollingDetectionStrategy,
     WalletAccountError,
     WalletConnectionError,
@@ -46,7 +47,7 @@ export class NightlyWalletAdapter extends BaseMessageSignerWalletAdapter {
     private _readyState: WalletReadyState =
         typeof window === 'undefined' || typeof document === 'undefined'
             ? WalletReadyState.Unsupported
-            : WalletReadyState.NotDetected;
+            : WalletReadyState.Loadable;
 
     constructor() {
         super();
@@ -55,14 +56,20 @@ export class NightlyWalletAdapter extends BaseMessageSignerWalletAdapter {
         this._wallet = null;
 
         if (this._readyState !== WalletReadyState.Unsupported) {
-            scopePollingDetectionStrategy(() => {
-                if (window?.nightly?.solana) {
-                    this._readyState = WalletReadyState.Installed;
-                    this.emit('readyStateChange', this._readyState);
-                    return true;
-                }
-                return false;
-            });
+            if (isIosAndRedirectable()) {
+                // when in iOS (not webview), keep Nightly as loadable
+                // it can be opened via deeplink
+            } else {
+                // try to detect if Nightly extension is installed
+                scopePollingDetectionStrategy(() => {
+                    if (window?.nightly?.solana) {
+                        this._readyState = WalletReadyState.Installed;
+                        this.emit('readyStateChange', this._readyState);
+                        return true;
+                    }
+                    return false;
+                });
+            }
         }
     }
 
@@ -78,9 +85,27 @@ export class NightlyWalletAdapter extends BaseMessageSignerWalletAdapter {
         return this._publicKey;
     }
 
+    async autoConnect(): Promise<void> {
+        // Skip autoconnect in the Loadable state
+        // We can't redirect to a deeplink without user input
+        if (!(this.readyState === WalletReadyState.Loadable && isIosAndRedirectable())) {
+            await this.connect();
+        }
+    }
+
     async connect(): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
+
+            if (this.readyState === WalletReadyState.Loadable) {
+                // redirect to the Nightly deeplink
+                // this will open the current URL in the Nightly in-app browser
+                const url = encodeURIComponent(window.location.href);
+                const deeplink = `nightly://v1?network=solana&cluster=mainnet&url=${url}`;
+                window.location.href = deeplink;
+                return;
+            }
+
             if (this._readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
 
             this._connecting = true;
