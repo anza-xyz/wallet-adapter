@@ -38,8 +38,8 @@ interface NightlyWindow extends Window {
  * @see {@link https://docs.nightly.app/docs/deeplinks}
  */
 export interface NightlyWalletAdapterConfig {
-    network: string;
-    cluster?: string;
+    network?: 'solana' | 'fogo' | 'sonic' | 'eclipse' | 'soon' | string;
+    cluster?: 'devnet' | 'testnet' | 'mainnet' | string;
 }
 
 export const NightlyWalletName = 'Nightly' as WalletName<'Nightly'>;
