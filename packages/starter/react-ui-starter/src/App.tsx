@@ -43,6 +43,13 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
 
     return (
         <ConnectionProvider endpoint={endpoint}>
+            
+            /*  
+              Avoid adding specific wallet adapters (e.g. PhantomWalletAdapter) to the `wallets` array.
+              Forcing adapters into the list can cause unexpected UI behavior—such as wallet button getting stuck on 
+              redirecting users to the wallet’s website and preventing proper disconnect particularly when the wallet extension is not installed.
+            */
+            
             <WalletProvider wallets={wallets} autoConnect>
                 <WalletModalProvider>{children}</WalletModalProvider>
             </WalletProvider>
