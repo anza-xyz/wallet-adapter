@@ -37,6 +37,7 @@
     "dependencies": {
         "@solana/wallet-adapter-alpha": "workspace:^",
         "@solana/wallet-adapter-avana": "workspace:^",
+        "@solana/wallet-adapter-binance": "workspace:^",
         "@solana/wallet-adapter-bitkeep": "workspace:^",
         "@solana/wallet-adapter-bitpie": "workspace:^",
         "@solana/wallet-adapter-clover": "workspace:^",

@@ -1,5 +1,6 @@
 export * from '@solana/wallet-adapter-alpha';
 export * from '@solana/wallet-adapter-avana';
+export * from '@solana/wallet-adapter-binance';
 export * from '@solana/wallet-adapter-bitkeep';
 export * from '@solana/wallet-adapter-bitpie';
 export * from '@solana/wallet-adapter-clover';
