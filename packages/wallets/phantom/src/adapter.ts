@@ -53,6 +53,7 @@ interface PhantomWindow extends Window {
         solana?: PhantomWallet;
     };
     solana?: PhantomWallet;
+    isPhantomInstalled?: boolean;
 }
 
 declare const window: PhantomWindow;
@@ -89,7 +90,7 @@ export class PhantomWalletAdapter extends BaseMessageSignerWalletAdapter {
                 this.emit('readyStateChange', this._readyState);
             } else {
                 scopePollingDetectionStrategy(() => {
-                    if (window.phantom?.solana?.isPhantom || window.solana?.isPhantom) {
+                    if (window?.isPhantomInstalled && (window.phantom?.solana?.isPhantom || window.solana?.isPhantom)) {
                         this._readyState = WalletReadyState.Installed;
                         this.emit('readyStateChange', this._readyState);
                         return true;
