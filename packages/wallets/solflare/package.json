@@ -36,10 +36,7 @@
     },
     "dependencies": {
         "@solana/wallet-adapter-base": "workspace:^",
-        "@solana/wallet-standard-chains": "^1.1.1",
-        "@solflare-wallet/metamask-sdk": "^1.0.3",
-        "@solflare-wallet/sdk": "^1.4.2",
-        "@wallet-standard/wallet": "^1.1.0"
+        "@solflare-wallet/sdk": "^1.4.2"
     },
     "devDependencies": {
         "@solana/web3.js": "^1.98.2",
