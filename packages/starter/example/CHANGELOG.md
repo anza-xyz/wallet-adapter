@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-example
 
+## 0.18.42
+
+### Patch Changes
+
+- @solana/wallet-adapter-wallets@0.19.38
+
 ## 0.18.41
 
 ### Patch Changes
