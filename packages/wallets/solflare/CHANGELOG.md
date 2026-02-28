@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-solflare
 
+## 0.6.33
+
+### Patch Changes
+
+- f30323d: Remove Metamask snap from wallet list
+
 ## 0.6.32
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-react-ui-starter
 
+## 0.9.39
+
+### Patch Changes
+
+- @solana/wallet-adapter-wallets@0.19.38
+
 ## 0.9.38
 
 ### Patch Changes

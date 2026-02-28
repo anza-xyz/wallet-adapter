@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-phantom
 
+## 0.9.29
+
+### Patch Changes
+
+- f30323d: Improve Phantom detection logic to avoid false positives
+
 ## 0.9.28
 
 ### Patch Changes
