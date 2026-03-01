@@ -78,8 +78,12 @@ export function WalletProvider({
     }, [adaptersWithStandardAdapters, mobileWalletAdapter]);
     const [walletName, setWalletName] = useLocalStorage<WalletName | null>(localStorageKey, null);
     const adapter = useMemo(
-        () => adaptersWithMobileWalletAdapter.find((a) => a.name === walletName) ?? null,
-        [adaptersWithMobileWalletAdapter, walletName]
+        () =>
+            adaptersWithMobileWalletAdapter.find((a) => a.name === walletName) ??
+            (adaptersWithMobileWalletAdapter.length === 1 && adaptersWithMobileWalletAdapter[0] === mobileWalletAdapter
+                ? mobileWalletAdapter
+                : null),
+        [adaptersWithMobileWalletAdapter, walletName, mobileWalletAdapter]
     );
     const changeWallet = useCallback(
         (nextWalletName: WalletName<string> | null) => {
