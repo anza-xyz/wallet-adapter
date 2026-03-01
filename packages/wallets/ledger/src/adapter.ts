@@ -1,6 +1,5 @@
 import type { default as Transport } from '@ledgerhq/hw-transport';
 import type { default as TransportWebHID } from '@ledgerhq/hw-transport-webhid';
-import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseSignerWalletAdapter,
     WalletConnectionError,
@@ -11,11 +10,21 @@ import {
     WalletNotReadyError,
     WalletPublicKeyError,
     WalletReadyState,
+    WalletSignMessageError,
     WalletSignTransactionError,
+    type SignMessageOutput,
+    type WalletName,
 } from '@solana/wallet-adapter-base';
 import type { PublicKey, Transaction, TransactionVersion, VersionedTransaction } from '@solana/web3.js';
 import './polyfills/index.js';
-import { getDerivationPath, getPublicKey, signTransaction } from './util.js';
+import {
+    getAppConfiguration,
+    getDerivationPath,
+    getPublicKey,
+    OffchainMessage,
+    signMessage,
+    signTransaction,
+} from './util.js';
 
 export interface LedgerWalletAdapterConfig {
     derivationPath?: Buffer;
@@ -136,6 +145,50 @@ export class LedgerWalletAdapter extends BaseSignerWalletAdapter {
             }
 
             return transaction;
+        } catch (error: any) {
+            this.emit('error', error);
+            throw error;
+        }
+    }
+
+    async signMessage(message: Uint8Array): Promise<SignMessageOutput> {
+        try {
+            try {
+                const transport = this._transport;
+                const publicKey = this._publicKey;
+                if (!transport || !publicKey) throw new WalletNotConnectedError();
+
+                const appConfig = await getAppConfiguration(transport);
+                const [major, minor] = appConfig.version.split('.').map(Number);
+                if (major < 1 || (major === 1 && minor < 8)) {
+                    throw new WalletSignMessageError(
+                        'Signing off-chain messages requires Solana Ledger App 1.8.0 or later'
+                    );
+                }
+
+                const offchainMessage = new OffchainMessage({
+                    message: Buffer.from(message.buffer),
+                    signerAddress: publicKey,
+                });
+                if (!offchainMessage.isLedgerSupported(appConfig.blindSigningEnabled)) {
+                    if (!offchainMessage.isValid()) {
+                        throw new WalletSignMessageError('Message is not valid for signing.');
+                    } else if (offchainMessage.messageFormat === 1 && !appConfig.blindSigningEnabled) {
+                        throw new WalletSignMessageError(
+                            'Message contains non-ASCII characters and requires blind signing to be enabled on your Ledger device.'
+                        );
+                    } else if (offchainMessage.messageFormat === 2) {
+                        throw new WalletSignMessageError('Message is too long to be signed on Ledger device.');
+                    } else {
+                        throw new WalletSignMessageError('Message format is not supported by Ledger device.');
+                    }
+                }
+
+                const signature = await signMessage(transport, offchainMessage.serialize(), this._derivationPath);
+                return { signature: new Uint8Array(signature), signedMessage: offchainMessage.serialize() };
+            } catch (error: any) {
+                throw new WalletSignMessageError(error?.message, error);
+            }
         } catch (error: any) {
             this.emit('error', error);
             throw error;

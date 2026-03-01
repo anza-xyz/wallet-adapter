@@ -23,7 +23,8 @@
         "deploy": "tsc --build --verbose && parcel build --public-url /wallet-adapter/example src/index.html",
         "clean": "shx mkdir -p .parcel-cache dist lib && shx rm -rf .parcel-cache dist lib",
         "lint": "prettier --check 'src/{*,**/*}.{ts,tsx,js,jsx,json}' && eslint",
-        "start": "parcel src/index.html"
+        "start": "parcel src/index.html",
+        "serve": "serve dist"
     },
     "dependencies": {
         "@emotion/react": "^11.14.0",
@@ -51,6 +52,7 @@
         "parcel": "^2.15.2",
         "prettier": "^3.5.3",
         "process": "^0.11.10",
+        "serve": "^14.2.4",
         "shx": "^0.4.0",
         "typescript": "^5.8.3"
     }

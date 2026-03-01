@@ -19,7 +19,8 @@ export const SignMessage: FC = () => {
                     window.location.host
                 } wants you to sign in with your Solana account:\n${publicKey.toBase58()}\n\nPlease sign in.`
             );
-            const signature = await signMessage(message);
+            const result = await signMessage(message);
+            const { signature } = result instanceof Uint8Array ? { signature: result } : result;
 
             if (!ed25519.verify(signature, message, publicKey.toBytes())) throw new Error('Message signature invalid!');
             notify('success', `Message signature: ${bs58.encode(signature)}`);

@@ -1,4 +1,3 @@
-import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseMessageSignerWalletAdapter,
     scopePollingDetectionStrategy,
@@ -10,9 +9,10 @@ import {
     WalletPublicKeyError,
     WalletReadyState,
     WalletSignTransactionError,
+    type SignMessageOutput,
+    type WalletName,
 } from '@solana/wallet-adapter-base';
-import type { Transaction, TransactionVersion, VersionedTransaction } from '@solana/web3.js';
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey, type Transaction, type TransactionVersion, type VersionedTransaction } from '@solana/web3.js';
 
 interface SolanaNightly {
     publicKey: PublicKey;
@@ -163,13 +163,14 @@ export class NightlyWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async signMessage(message: Uint8Array): Promise<Uint8Array> {
+    async signMessage(message: Uint8Array): Promise<SignMessageOutput> {
         try {
             const wallet = this._wallet;
             if (!wallet) throw new WalletNotConnectedError();
 
             try {
-                return wallet.signMessage(new TextDecoder().decode(message));
+                const signature = await wallet.signMessage(new TextDecoder().decode(message));
+                return { signature, signedMessage: message };
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }

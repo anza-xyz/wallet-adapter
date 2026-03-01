@@ -4,11 +4,6 @@
 
 'use strict';
 
-import {
-    type AddressSelector,
-    type AuthorizationResultCache,
-    SolanaMobileWalletAdapter,
-} from '@solana-mobile/wallet-adapter-mobile';
 import { type Adapter, WalletError, type WalletName, WalletReadyState } from '@solana/wallet-adapter-base';
 import { PublicKey } from '@solana/web3.js';
 import 'jest-localstorage-mock';
@@ -133,34 +128,6 @@ describe('WalletProvider when the environment is `DESKTOP_WEB`', () => {
             });
         });
     });
-    describe('when there is no mobile wallet adapter in the adapters array', () => {
-        it('does not create a new mobile wallet adapter', () => {
-            renderTest({});
-            expect(jest.mocked(SolanaMobileWalletAdapter).mock.instances).toHaveLength(0);
-        });
-    });
-    describe('when a custom mobile wallet adapter is supplied in the adapters array', () => {
-        let customAdapter: Adapter;
-        const CUSTOM_APP_IDENTITY = {
-            uri: 'https://custom.com',
-        };
-        const CUSTOM_CLUSTER = 'devnet';
-        beforeEach(() => {
-            customAdapter = new SolanaMobileWalletAdapter({
-                addressSelector: jest.fn() as unknown as AddressSelector,
-                appIdentity: CUSTOM_APP_IDENTITY,
-                authorizationResultCache: jest.fn() as unknown as AuthorizationResultCache,
-                cluster: CUSTOM_CLUSTER,
-                onWalletNotFound: jest.fn(),
-            });
-            adapters.push(customAdapter);
-            jest.clearAllMocks();
-        });
-        it('does not load the custom mobile wallet adapter into state as the default', () => {
-            renderTest({});
-            expect(ref.current?.getWalletContextState().wallet?.adapter).not.toBe(customAdapter);
-        });
-    });
     describe('when there exists no stored wallet name', () => {
         beforeEach(() => {
             (localStorage.getItem as jest.Mock).mockReturnValue(null);
@@ -273,7 +240,7 @@ describe('WalletProvider when the environment is `DESKTOP_WEB`', () => {
                     ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
                     await Promise.resolve(); // Flush all promises in effects after calling `select()`.
                 });
-                await act(() => {
+                act(() => {
                     ref.current?.getWalletContextState().connect();
                 });
             });
