@@ -2,10 +2,10 @@
 
 ### 0. Prerequisites
 
-* Node 18+
-* PNPM 9+
+* Node 20+
+* PNPM 10.12.1
 
-If you have Node 16+, you can [activate PNPM with Corepack](https://pnpm.io/installation#using-corepack):
+If you have Node 20+, you can [activate PNPM with Corepack](https://pnpm.io/installation#using-corepack):
 ```shell
 corepack enable
 corepack prepare pnpm@`npm info pnpm --json | jq -r .version` --activate
@@ -13,7 +13,7 @@ corepack prepare pnpm@`npm info pnpm --json | jq -r .version` --activate
 
 Corepack requires a version to enable, so if you don't have [jq](https://stedolan.github.io/jq/) installed, you can [install it](https://formulae.brew.sh/formula/jq), or just manually get the current version of pnpm with `npm info pnpm` and use it like this:
 ```shell
-corepack prepare pnpm@9.1.0 --activate
+corepack prepare pnpm@10.12.1 --activate
 ```
 
 ### 1. Clone the project:
