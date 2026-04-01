@@ -10,6 +10,10 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+      pull-requests: write
     env:
       # Enables Turborepo remote caching.
       TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
@@ -32,6 +36,7 @@ jobs:
         with:
             node-version: 20
             cache: 'pnpm'
+            registry-url: 'https://registry.npmjs.org'
 
       - name: Get pnpm store directory
         id: pnpm-store
@@ -59,4 +64,3 @@ jobs:
           publish: pnpm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
