@@ -34,9 +34,8 @@ jobs:
         id: install-node
         uses: actions/setup-node@v4
         with:
-            node-version: 20
+            node-version: 'lts/*'
             cache: 'pnpm'
-            registry-url: 'https://registry.npmjs.org'
 
       - name: Get pnpm store directory
         id: pnpm-store
