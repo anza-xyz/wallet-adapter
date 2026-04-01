@@ -1,9 +1,23 @@
 import { type Dispatch, type SetStateAction, useEffect, useRef, useState } from 'react';
 
+function getLocalStorage(): Storage | null {
+    try {
+        if (typeof globalThis === 'undefined') return null;
+        const storage = (globalThis as any).localStorage as Storage | undefined;
+        return storage ?? null;
+    } catch {
+        // e.g. private mode / restricted environments where accessing localStorage throws
+        return null;
+    }
+}
+
 export function useLocalStorage<T>(key: string, defaultState: T): [T, Dispatch<SetStateAction<T>>] {
     const state = useState<T>(() => {
+        const storage = getLocalStorage();
+        if (!storage) return defaultState;
+
         try {
-            const value = localStorage.getItem(key);
+            const value = storage.getItem(key);
             if (value) return JSON.parse(value) as T;
         } catch (error: any) {
             if (typeof window !== 'undefined') {
@@ -22,10 +36,13 @@ export function useLocalStorage<T>(key: string, defaultState: T): [T, Dispatch<S
             return;
         }
         try {
+            const storage = getLocalStorage();
+            if (!storage) return;
+
             if (value === null) {
-                localStorage.removeItem(key);
+                storage.removeItem(key);
             } else {
-                localStorage.setItem(key, JSON.stringify(value));
+                storage.setItem(key, JSON.stringify(value));
             }
         } catch (error: any) {
             if (typeof window !== 'undefined') {
