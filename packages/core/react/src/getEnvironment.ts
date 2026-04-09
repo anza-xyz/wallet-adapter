@@ -1,4 +1,3 @@
-import { SolanaMobileWalletAdapterWalletName } from '@solana-mobile/wallet-adapter-mobile';
 import { type Adapter, WalletReadyState } from '@solana/wallet-adapter-base';
 
 export enum Environment {
@@ -20,9 +19,7 @@ function isWebView(userAgentString: string) {
 export default function getEnvironment({ adapters, userAgentString }: Config): Environment {
     if (
         adapters.some(
-            (adapter) =>
-                adapter.name !== SolanaMobileWalletAdapterWalletName &&
-                adapter.readyState === WalletReadyState.Installed
+            (adapter) => adapter.name !== 'Solana Mobile Wallet' && adapter.readyState === WalletReadyState.Installed
         )
     ) {
         /**

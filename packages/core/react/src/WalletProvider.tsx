@@ -1,16 +1,7 @@
-import {
-    createDefaultAddressSelector,
-    createDefaultAuthorizationResultCache,
-    createDefaultWalletNotFoundHandler,
-    SolanaMobileWalletAdapter,
-    SolanaMobileWalletAdapterWalletName,
-} from '@solana-mobile/wallet-adapter-mobile';
 import { type Adapter, type WalletError, type WalletName } from '@solana/wallet-adapter-base';
 import { useStandardWalletAdapters } from '@solana/wallet-standard-wallet-adapter-react';
 import React, { type ReactNode, useCallback, useEffect, useMemo, useRef } from 'react';
 import getEnvironment, { Environment } from './getEnvironment.js';
-import getInferredClusterFromEndpoint from './getInferredClusterFromEndpoint.js';
-import { useConnection } from './useConnection.js';
 import { useLocalStorage } from './useLocalStorage.js';
 import { WalletProviderBase } from './WalletProviderBase.js';
 
@@ -35,12 +26,6 @@ function getIsMobile(adapters: Adapter[]) {
     return getEnvironment({ adapters, userAgentString }) === Environment.MOBILE_WEB;
 }
 
-function getUriForAppIdentity() {
-    const location = globalThis.location;
-    if (!location) return;
-    return `${location.protocol}//${location.host}`;
-}
-
 export function WalletProvider({
     children,
     wallets: adapters,
@@ -48,38 +33,11 @@ export function WalletProvider({
     localStorageKey = 'walletName',
     onError,
 }: WalletProviderProps) {
-    const { connection } = useConnection();
     const adaptersWithStandardAdapters = useStandardWalletAdapters(adapters);
-    const mobileWalletAdapter = useMemo(() => {
-        if (!getIsMobile(adaptersWithStandardAdapters)) {
-            return null;
-        }
-        const existingMobileWalletAdapter = adaptersWithStandardAdapters.find(
-            (adapter) => adapter.name === SolanaMobileWalletAdapterWalletName
-        );
-        if (existingMobileWalletAdapter) {
-            return existingMobileWalletAdapter;
-        }
-        return new SolanaMobileWalletAdapter({
-            addressSelector: createDefaultAddressSelector(),
-            appIdentity: {
-                uri: getUriForAppIdentity(),
-            },
-            authorizationResultCache: createDefaultAuthorizationResultCache(),
-            cluster: getInferredClusterFromEndpoint(connection?.rpcEndpoint),
-            onWalletNotFound: createDefaultWalletNotFoundHandler(),
-        });
-    }, [adaptersWithStandardAdapters, connection?.rpcEndpoint]);
-    const adaptersWithMobileWalletAdapter = useMemo(() => {
-        if (mobileWalletAdapter == null || adaptersWithStandardAdapters.indexOf(mobileWalletAdapter) !== -1) {
-            return adaptersWithStandardAdapters;
-        }
-        return [mobileWalletAdapter, ...adaptersWithStandardAdapters];
-    }, [adaptersWithStandardAdapters, mobileWalletAdapter]);
     const [walletName, setWalletName] = useLocalStorage<WalletName | null>(localStorageKey, null);
     const adapter = useMemo(
-        () => adaptersWithMobileWalletAdapter.find((a) => a.name === walletName) ?? null,
-        [adaptersWithMobileWalletAdapter, walletName]
+        () => adaptersWithStandardAdapters.find((a) => a.name === walletName) ?? null,
+        [adaptersWithStandardAdapters, walletName]
     );
     const changeWallet = useCallback(
         (nextWalletName: WalletName<string> | null) => {
@@ -90,7 +48,7 @@ export function WalletProvider({
                 // sufficient reason to call `disconnect` on the mobile wallet adapter.
                 // Calling `disconnect` on the mobile wallet adapter causes the entire
                 // authorization store to be wiped.
-                adapter.name !== SolanaMobileWalletAdapterWalletName
+                adapter.name !== 'Solana Mobile Wallet'
             ) {
                 adapter.disconnect();
             }
@@ -125,7 +83,7 @@ export function WalletProvider({
     }, [autoConnect, adapter]);
     const isUnloadingRef = useRef(false);
     useEffect(() => {
-        if (walletName === SolanaMobileWalletAdapterWalletName && getIsMobile(adaptersWithStandardAdapters)) {
+        if (walletName === 'Solana Mobile Wallet' && getIsMobile(adaptersWithStandardAdapters)) {
             isUnloadingRef.current = false;
             return;
         }
@@ -159,7 +117,7 @@ export function WalletProvider({
     );
     return (
         <WalletProviderBase
-            wallets={adaptersWithMobileWalletAdapter}
+            wallets={adaptersWithStandardAdapters}
             adapter={adapter}
             isUnloadingRef={isUnloadingRef}
             onAutoConnectRequest={handleAutoConnectRequest}

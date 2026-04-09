@@ -281,8 +281,8 @@ describe('WalletProviderBase', () => {
             expect(onError).not.toBeCalled();
         });
         describe('when a wallet is connected', () => {
-            beforeEach(async () => {
-                await act(() => {
+            beforeEach(() => {
+                act(() => {
                     ref.current?.getWalletContextState().connect();
                 });
                 expect(ref.current?.getWalletContextState()).toMatchObject({
@@ -330,7 +330,7 @@ describe('WalletProviderBase', () => {
                 fooWalletAdapter.connectionPromise = new Promise<void>((resolve) => {
                     commitConnection = resolve;
                 });
-                await act(() => {
+                act(() => {
                     ref.current?.getWalletContextState().connect();
                 });
             });
@@ -344,8 +344,8 @@ describe('WalletProviderBase', () => {
                 });
             });
             describe('once connected', () => {
-                beforeEach(async () => {
-                    await act(() => {
+                beforeEach(() => {
+                    act(() => {
                         commitConnection();
                     });
                 });
@@ -364,13 +364,13 @@ describe('WalletProviderBase', () => {
             beforeEach(async () => {
                 window.open = jest.fn();
                 renderTest({ adapter: fooWalletAdapter });
-                await act(() => {
+                act(() => {
                     ref.current?.getWalletContextState().connect();
                 });
                 fooWalletAdapter.disconnectionPromise = new Promise<void>((resolve) => {
                     commitDisconnection = resolve;
                 });
-                await act(() => {
+                act(() => {
                     ref.current?.getWalletContextState().disconnect();
                 });
             });
@@ -380,8 +380,8 @@ describe('WalletProviderBase', () => {
                 });
             });
             describe('once disconnected', () => {
-                beforeEach(async () => {
-                    await act(() => {
+                beforeEach(() => {
+                    act(() => {
                         commitDisconnection();
                     });
                 });
