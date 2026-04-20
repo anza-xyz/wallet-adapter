@@ -36,11 +36,8 @@
     },
     "dependencies": {
         "@solana/wallet-adapter-base": "workspace:^",
-        "@toruslabs/solana-embed": "^2.1.0",
-        "assert": "^2.1.0",
-        "crypto-browserify": "^3.12.1",
-        "process": "^0.11.10",
-        "stream-browserify": "^3.0.0"
+        "@toruslabs/solana-embed": "^3.0.1",
+        "process": "^0.11.10"
     },
     "devDependencies": {
         "@solana/web3.js": "^1.98.2",
@@ -49,10 +46,7 @@
     },
     "overrides": {
         "@toruslabs/solana-embed": {
-            "assert": "npm:assert@^2.1.0",
-            "crypto": "npm:crypto-browserify@^3.12.1",
-            "process": "npm:process@^0.11.10",
-            "stream": "npm:stream-browserify@^3.0.0"
+            "process": "npm:process@^0.11.10"
         }
     }
 }
