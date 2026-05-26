@@ -17,18 +17,18 @@ jobs:
     steps:
       - name: Checkout
         id: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
 
       - name: Install pnpm
         id: install-pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@eae0cfeb286e66ffb5155f1a79b90583a127a68b # v2
         with:
             version: 10.12.1
             run_install: false
 
       - name: Install Node.js
         id: install-node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
             node-version: 'lts/*'
             cache: 'pnpm'
@@ -41,7 +41,7 @@ jobs:
 
       - name: Setup pnpm cache
         id: pnpm-cache
-        uses: actions/cache@v3
+        uses: actions/cache@6f8efc29b200d32929f49075959781ed54ec270c # v3
         with:
             path: ${{ steps.pnpm-store.outputs.STORE_PATH }}
             key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
