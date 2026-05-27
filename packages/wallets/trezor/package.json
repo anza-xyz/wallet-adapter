@@ -36,7 +36,7 @@
     },
     "dependencies": {
         "@solana/wallet-adapter-base": "workspace:^",
-        "@trezor/connect-web": "^9.5.5",
+        "@trezor/connect-web": "^9.6.3",
         "buffer": "^6.0.3"
     },
     "devDependencies": {
