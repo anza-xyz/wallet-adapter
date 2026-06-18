@@ -14,6 +14,7 @@ import { SendTransaction } from '../components/SendTransaction';
 import { SendV0Transaction } from '../components/SendV0Transaction';
 import { SignIn } from '../components/SignIn';
 import { SignMessage } from '../components/SignMessage';
+import { SignOffchainMessage } from '../components/SignOffchainMessage';
 import { SignTransaction } from '../components/SignTransaction';
 import { useAutoConnect } from './AutoConnectProvider';
 import { RequestAirdrop } from './RequestAirdrop';
@@ -98,7 +99,9 @@ export const Tables: FC = () => {
                         <TableCell>
                             <SignTransaction />
                         </TableCell>
-                        <TableCell></TableCell>
+                        <TableCell>
+                            <SignOffchainMessage />
+                        </TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell>
