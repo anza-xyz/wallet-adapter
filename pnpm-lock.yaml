@@ -173,8 +173,8 @@ importers:
         specifier: workspace:^
         version: link:../../wallets/wallets
       '@solana/wallet-standard-features':
-        specifier: ^1.3.0
-        version: 1.3.0
+        specifier: ^1.4.0
+        version: 1.4.0
       '@solana/wallet-standard-util':
         specifier: ^1.1.2
         version: 1.1.2
@@ -2825,6 +2825,10 @@ packages:
     resolution: {integrity: sha512-ZhpZtD+4VArf6RPitsVExvgkF+nGghd1rzPjd97GmBximpnt1rsUxMOEyoIEuH3XBxPyNB6Us7ha7RHWQR+abg==}
     engines: {node: '>=16'}
 
+  '@solana/wallet-standard-features@1.4.0':
+    resolution: {integrity: sha512-f0tAdqwM2aL6CiFbIgt9h5zKFp+mgY/iNGwoxPMTj9VSTeQj7d1GGSmWhZw0XWoZ4N/1tnKTKmYFq+Dyq08jRw==}
+    engines: {node: '>=22'}
+
   '@solana/wallet-standard-util@1.1.2':
     resolution: {integrity: sha512-rUXFNP4OY81Ddq7qOjQV4Kmkozx4wjYAxljvyrqPx8Ycz0FYChG/hQVWqvgpK3sPsEaO/7ABG1NOACsyAKWNOA==}
     engines: {node: '>=16'}
@@ -3006,6 +3010,7 @@ packages:
   '@toruslabs/solana-embed@2.1.0':
     resolution: {integrity: sha512-rgZniKy+yuqJp8/Z/RcqzhTL4iCH+4nP55XD5T2nEIajAClsmonsGp24AUqYwEqu+7x2hjumZEh+12rUv+Ippw==}
     engines: {node: '>=18.x', npm: '>=9.x'}
+    deprecated: This sdk is now deprecated. Please use @web3auth/ws-embed instead
     peerDependencies:
       '@babel/runtime': 7.x
 
@@ -3377,9 +3382,11 @@ packages:
 
   '@walletconnect/sign-client@2.19.0':
     resolution: {integrity: sha512-+GkuJzPK9SPq+RZgdKHNOvgRagxh/hhYWFHOeSiGh3DyAQofWuFTq4UrN/MPjKOYswSSBKfIa+iqKYsi4t8zLQ==}
+    deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
 
   '@walletconnect/sign-client@2.19.1':
     resolution: {integrity: sha512-OgBHRPo423S02ceN3lAzcZ3MYb1XuLyTTkKqLmKp/icYZCyRzm3/ynqJDKndiBLJ5LTic0y07LiZilnliYqlvw==}
+    deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
 
   '@walletconnect/solana-adapter@0.0.8':
     resolution: {integrity: sha512-Qb7MT8SdkeBldfUCmF+rYW6vL98mxPuT1yAwww5X2vpx7xEPZvFCoAKnyT5fXu0v56rMxhW3MGejnHyyYdDY7Q==}
@@ -3398,9 +3405,11 @@ packages:
 
   '@walletconnect/universal-provider@2.19.0':
     resolution: {integrity: sha512-e9JvadT5F8QwdLmd7qBrmACq04MT7LQEe1m3X2Fzvs3DWo8dzY8QbacnJy4XSv5PCdxMWnua+2EavBk8nrI9QA==}
+    deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
 
   '@walletconnect/universal-provider@2.19.1':
     resolution: {integrity: sha512-4rdLvJ2TGDIieNWW3sZw2MXlX65iHpTuKb5vyvUHQtjIVNLj+7X/09iUAI/poswhtspBK0ytwbH+AIT/nbGpjg==}
+    deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
 
   '@walletconnect/utils@2.19.0':
     resolution: {integrity: sha512-LZ0D8kevknKfrfA0Sq3Hf3PpmM8oWyNfsyWwFR51t//2LBgtN2Amz5xyoDDJcjLibIbKAxpuo/i0JYAQxz+aPA==}
@@ -4726,7 +4735,7 @@ packages:
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   globals@11.12.0:
     resolution: {integrity: sha512-WOBp/EEGUiIsJSp7wcv/y6MO+lV9UoncWqxuFfm8eBwzWNgyfBd6Gz+IeKQ9jCmyhoH99g15M3T+QaVHFjizVA==}
@@ -5719,6 +5728,7 @@ packages:
   next@15.3.3:
     resolution: {integrity: sha512-JqNj29hHNmCLtNvd090SyRbXJiivQ+58XjCcrC50Crb5g5u2zi7Y2YivbsEfzk6AtVI80akdOQbaMZwWB1Hthw==}
     engines: {node: ^18.18.0 || ^19.8.0 || >= 20.0.0}
+    deprecated: This version has a security vulnerability. Please upgrade to a patched version. See https://nextjs.org/blog/CVE-2025-66478 for more details.
     hasBin: true
     peerDependencies:
       '@opentelemetry/api': ^1.1.0
@@ -7159,6 +7169,7 @@ packages:
   whatwg-encoding@2.0.0:
     resolution: {integrity: sha512-p41ogyeMUrw3jWclHWTQg1k05DSVXPLcVxRTYsXUk+ZooOCZLcoYgPZ/HL/D/N+uQPOtcp1me1WhBEaX02mhWg==}
     engines: {node: '>=12'}
+    deprecated: Use @exodus/bytes instead for a more spec-conformant and faster implementation
 
   whatwg-fetch@3.6.20:
     resolution: {integrity: sha512-EqhiFU6daOA8kpjOWTL0olhVOF3i7OrFzSYiGsEMB8GcXS+RrzauAERX65xMeNWVqxA6HXH2m69Z9LaKKdisfg==}
@@ -9757,7 +9768,7 @@ snapshots:
       '@solana-mobile/mobile-wallet-adapter-protocol-web3js': 2.2.0(@solana/wallet-adapter-base@packages+core+base)(@solana/web3.js@1.98.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10))(react-native@0.79.1(@babel/core@7.26.10)(@types/react@19.1.7)(bufferutil@4.0.9)(react@19.1.0)(utf-8-validate@5.0.10))(react@19.1.0)
       '@solana-mobile/wallet-standard-mobile': 0.2.0(@solana/wallet-adapter-base@packages+core+base)(@solana/web3.js@1.98.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10))(react-native@0.79.1(@babel/core@7.26.10)(@types/react@19.1.7)(bufferutil@4.0.9)(react@19.1.0)(utf-8-validate@5.0.10))(react@19.1.0)
       '@solana/wallet-adapter-base': link:packages/core/base
-      '@solana/wallet-standard-features': 1.3.0
+      '@solana/wallet-standard-features': 1.4.0
       '@solana/web3.js': 1.98.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)
       js-base64: 3.7.7
     optionalDependencies:
@@ -9770,7 +9781,7 @@ snapshots:
     dependencies:
       '@solana-mobile/mobile-wallet-adapter-protocol-web3js': 2.2.0(@solana/wallet-adapter-base@packages+core+base)(@solana/web3.js@1.98.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10))(react-native@0.79.1(@babel/core@7.26.10)(@types/react@19.1.7)(bufferutil@4.0.9)(react@19.1.0)(utf-8-validate@5.0.10))(react@19.1.0)
       '@solana/wallet-standard-chains': 1.1.1
-      '@solana/wallet-standard-features': 1.3.0
+      '@solana/wallet-standard-features': 1.4.0
       '@solana/web3.js': 1.98.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)
       '@wallet-standard/base': 1.1.0
       '@wallet-standard/features': 1.1.0
@@ -10183,10 +10194,15 @@ snapshots:
   '@solana/wallet-standard-core@1.1.2':
     dependencies:
       '@solana/wallet-standard-chains': 1.1.1
-      '@solana/wallet-standard-features': 1.3.0
+      '@solana/wallet-standard-features': 1.4.0
       '@solana/wallet-standard-util': 1.1.2
 
   '@solana/wallet-standard-features@1.3.0':
+    dependencies:
+      '@wallet-standard/base': 1.1.0
+      '@wallet-standard/features': 1.1.0
+
+  '@solana/wallet-standard-features@1.4.0':
     dependencies:
       '@wallet-standard/base': 1.1.0
       '@wallet-standard/features': 1.1.0
@@ -10195,13 +10211,13 @@ snapshots:
     dependencies:
       '@noble/curves': 1.9.2
       '@solana/wallet-standard-chains': 1.1.1
-      '@solana/wallet-standard-features': 1.3.0
+      '@solana/wallet-standard-features': 1.4.0
 
   '@solana/wallet-standard-wallet-adapter-base@1.1.4(@solana/web3.js@1.98.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10))(bs58@5.0.0)':
     dependencies:
       '@solana/wallet-adapter-base': link:packages/core/base
       '@solana/wallet-standard-chains': 1.1.1
-      '@solana/wallet-standard-features': 1.3.0
+      '@solana/wallet-standard-features': 1.4.0
       '@solana/wallet-standard-util': 1.1.2
       '@solana/web3.js': 1.98.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)
       '@wallet-standard/app': 1.1.0
