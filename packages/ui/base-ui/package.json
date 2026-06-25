@@ -39,10 +39,10 @@
         "@solana/wallet-adapter-react": "workspace:^"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.98.2",
-        "@types/react": "^19.1.6",
-        "react": "^19.1.0",
-        "react-dom": "^19.1.0",
+        "@solana/web3.js": "^1.98.4",
+        "@types/react": "^19.2.17",
+        "react": "^19.2.7",
+        "react-dom": "^19.2.7",
         "shx": "^0.4.0"
     }
 }

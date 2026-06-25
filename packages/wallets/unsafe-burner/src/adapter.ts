@@ -1,4 +1,4 @@
-import { ed25519 } from '@noble/curves/ed25519';
+import { ed25519 } from '@noble/curves/ed25519.js';
 import type { WalletName } from '@solana/wallet-adapter-base';
 import {
     BaseSignInMessageSignerWalletAdapter,
@@ -8,7 +8,7 @@ import {
 } from '@solana/wallet-adapter-base';
 import { type SolanaSignInInput, type SolanaSignInOutput } from '@solana/wallet-standard-features';
 import { createSignInMessage } from '@solana/wallet-standard-util';
-import type { Transaction, TransactionVersion, VersionedTransaction } from '@solana/web3.js';
+import type { PublicKey, Transaction, TransactionVersion, VersionedTransaction } from '@solana/web3.js';
 import { Keypair } from '@solana/web3.js';
 
 export const UnsafeBurnerWalletName = 'Burner Wallet' as WalletName<'Burner Wallet'>;
@@ -44,7 +44,7 @@ export class UnsafeBurnerWalletAdapter extends BaseSignInMessageSignerWalletAdap
         return false;
     }
 
-    get publicKey() {
+    get publicKey(): PublicKey | null {
         return this._keypair && this._keypair.publicKey;
     }
 

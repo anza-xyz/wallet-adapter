@@ -1,8 +1,26 @@
 packages:
   - packages/*/*
 
+allowBuilds:
+  '@parcel/watcher': true
+  '@reown/appkit': true
+  '@stellar/stellar-sdk': true
+  '@swc/core': true
+  blake-hash: true
+  bufferutil: true
+  lmdb: true
+  msgpackr-extract: true
+  protobufjs: true
+  sharp: true
+  tiny-secp256k1: true
+  unrs-resolver: true
+  usb: true
+  utf-8-validate: true
+
 onlyBuiltDependencies:
   - '@parcel/watcher'
+  - '@reown/appkit'
+  - '@stellar/stellar-sdk'
   - '@swc/core'
   - bigint-buffer
   - blake-hash
@@ -14,5 +32,6 @@ onlyBuiltDependencies:
   - protobufjs
   - sharp
   - tiny-secp256k1
+  - unrs-resolver
   - usb
   - utf-8-validate

@@ -110,10 +110,10 @@ describe('WalletProvider when the environment is `DESKTOP_WEB`', () => {
             );
         });
         describe('when the wallet disconnects of its own accord', () => {
-            beforeEach(() => {
+            beforeEach(async () => {
                 jest.clearAllMocks();
-                act(() => {
-                    fooWalletAdapter.disconnect();
+                await act(async () => {
+                    await fooWalletAdapter.disconnect();
                 });
             });
             it('should clear the stored wallet name', () => {
@@ -121,11 +121,11 @@ describe('WalletProvider when the environment is `DESKTOP_WEB`', () => {
             });
         });
         describe('when the wallet disconnects as a consequence of the window unloading', () => {
-            beforeEach(() => {
+            beforeEach(async () => {
                 jest.clearAllMocks();
-                act(() => {
+                await act(async () => {
                     window.dispatchEvent(new Event('beforeunload'));
-                    fooWalletAdapter.disconnect();
+                    await fooWalletAdapter.disconnect();
                 });
             });
             it('should not clear the stored wallet name', () => {
@@ -214,8 +214,11 @@ describe('WalletProvider when the environment is `DESKTOP_WEB`', () => {
             });
         });
         describe('when autoConnect is enabled', () => {
-            beforeEach(() => {
+            beforeEach(async () => {
                 renderTest({ autoConnect: true });
+                await act(async () => {
+                    await Promise.resolve();
+                });
             });
             it('calls `connect`', () => {
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -273,8 +276,8 @@ describe('WalletProvider when the environment is `DESKTOP_WEB`', () => {
                     ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
                     await Promise.resolve(); // Flush all promises in effects after calling `select()`.
                 });
-                await act(() => {
-                    ref.current?.getWalletContextState().connect();
+                await act(async () => {
+                    await ref.current?.getWalletContextState().connect();
                 });
             });
             describe('and you select a different wallet', () => {
@@ -302,8 +305,9 @@ describe('WalletProvider when the environment is `DESKTOP_WEB`', () => {
             describe('once disconnected', () => {
                 beforeEach(async () => {
                     jest.clearAllMocks();
-                    ref.current?.getWalletContextState().disconnect();
-                    await Promise.resolve(); // Flush all promises in effects after calling `disconnect()`.
+                    await act(async () => {
+                        await ref.current?.getWalletContextState().disconnect();
+                    });
                 });
                 it('should clear the stored wallet name', () => {
                     expect(localStorage.removeItem).toHaveBeenCalledWith(WALLET_NAME_CACHE_KEY);

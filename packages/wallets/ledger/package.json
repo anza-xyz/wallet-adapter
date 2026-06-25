@@ -35,15 +35,15 @@
         "@solana/web3.js": "^1.98.0"
     },
     "dependencies": {
-        "@ledgerhq/devices": "^8.4.5",
-        "@ledgerhq/hw-transport": "^6.31.5",
-        "@ledgerhq/hw-transport-webhid": "^6.30.1",
+        "@ledgerhq/devices": "^8.15.1",
+        "@ledgerhq/hw-transport": "^6.35.4",
+        "@ledgerhq/hw-transport-webhid": "^6.35.4",
         "@solana/wallet-adapter-base": "workspace:^",
         "buffer": "^6.0.3"
     },
     "devDependencies": {
-        "@solana/web3.js": "^1.98.2",
-        "@types/w3c-web-hid": "^1.0.6",
+        "@solana/web3.js": "^1.98.4",
+        "@types/w3c-web-hid": "^1.0.7",
         "shx": "^0.4.0"
     },
     "overrides": {

@@ -12,10 +12,11 @@ export default {
     resolver: `${__dirname}/jest.resolver.cjs`,
     globals: {
         IS_REACT_ACT_ENVIRONMENT: true,
-        'ts-jest': {
-            tsconfig: './tsconfig.tests.json',
-        },
     },
+    setupFiles: ['./jest.setup.cjs'],
     testEnvironment: 'node',
+    transform: {
+        '^.+\\.tsx?$': ['ts-jest', { tsconfig: './tsconfig.tests.json', useESM: true }],
+    },
     transformIgnorePatterns: ['/node_modules/(?!(uuid))'],
 };

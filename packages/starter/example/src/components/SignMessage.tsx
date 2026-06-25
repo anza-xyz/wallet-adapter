@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import { ed25519 } from '@noble/curves/ed25519';
+import { ed25519 } from '@noble/curves/ed25519.js';
 import { useWallet } from '@solana/wallet-adapter-react';
 import bs58 from 'bs58';
 import React, { useCallback, type FC } from 'react';

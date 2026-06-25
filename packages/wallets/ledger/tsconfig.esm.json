@@ -2,7 +2,9 @@
     "extends": "../../../tsconfig.esm.json",
     "include": ["src"],
     "compilerOptions": {
+        "rootDir": "src",
         "outDir": "lib/esm",
-        "declarationDir": "lib/types"
+        "declarationDir": "lib/types",
+        "types": ["node", "w3c-web-hid"]
     }
 }

@@ -59,6 +59,7 @@ describe('useLocalStorage', () => {
     let container: HTMLDivElement | null;
     let root: ReturnType<typeof createRoot>;
     let ref: React.RefObject<TestRefType | null>;
+    let consoleErrorSpy: jest.SpyInstance | null;
     function renderTest() {
         act(() => {
             root.render(<TestComponent ref={ref} />);
@@ -71,14 +72,19 @@ describe('useLocalStorage', () => {
         document.body.appendChild(container);
         root = createRoot(container);
         ref = createRef();
+        consoleErrorSpy = null;
     });
     afterEach(() => {
+        consoleErrorSpy?.mockRestore();
         if (root) {
             act(() => {
                 root.unmount();
             });
         }
     });
+    function suppressExpectedConsoleError() {
+        consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    }
     describe('getting the persisted value', () => {
         describe('when local storage has a value for the storage key', () => {
             const PERSISTED_VALUE = 'value';
@@ -120,6 +126,7 @@ describe('useLocalStorage', () => {
         });
         describe('when local storage fatals on read', () => {
             beforeEach(() => {
+                suppressExpectedConsoleError();
                 (localStorage.getItem as jest.Mock).mockImplementation(() => {
                     throw new Error('Local storage derped');
                 });
@@ -230,6 +237,7 @@ describe('useLocalStorage', () => {
         describe('when local storage fatals on write', () => {
             const NEW_VALUE = 'new value';
             beforeEach(() => {
+                suppressExpectedConsoleError();
                 (localStorage.setItem as jest.Mock).mockImplementation(() => {
                     throw new Error('Local storage derped');
                 });

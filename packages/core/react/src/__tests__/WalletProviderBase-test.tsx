@@ -67,6 +67,10 @@ describe('WalletProviderBase', () => {
         });
     }
 
+    function suppressExpectedConsoleError() {
+        return jest.spyOn(console, 'error').mockImplementation(() => {});
+    }
+
     abstract class MockWalletAdapter extends BaseWalletAdapter {
         connectionPromise: null | Promise<void> = null;
         disconnectionPromise: null | Promise<void> = null;
@@ -86,10 +90,8 @@ describe('WalletProviderBase', () => {
             }
             this.connecting = false;
             this.connectedValue = true;
-            act(() => {
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                this.emit('connect', this.publicKey!);
-            });
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            this.emit('connect', this.publicKey!);
         });
         disconnect = jest.fn(async () => {
             this.connecting = false;
@@ -97,9 +99,7 @@ describe('WalletProviderBase', () => {
                 await this.disconnectionPromise;
             }
             this.connectedValue = false;
-            act(() => {
-                this.emit('disconnect');
-            });
+            this.emit('disconnect');
         });
         sendTransaction = jest.fn();
         supportedTransactionVersions = null;
@@ -160,9 +160,9 @@ describe('WalletProviderBase', () => {
             });
         });
         describe('when the wallet disconnects of its own accord', () => {
-            beforeEach(() => {
-                act(() => {
-                    fooWalletAdapter.disconnect();
+            beforeEach(async () => {
+                await act(async () => {
+                    await fooWalletAdapter.disconnect();
                 });
             });
             it('clears out the state', () => {
@@ -174,10 +174,10 @@ describe('WalletProviderBase', () => {
             });
         });
         describe('when the wallet disconnects as a consequence of the window unloading', () => {
-            beforeEach(() => {
-                act(() => {
+            beforeEach(async () => {
+                await act(async () => {
                     isUnloading.current = true;
-                    fooWalletAdapter.disconnect();
+                    await fooWalletAdapter.disconnect();
                 });
             });
             it('should not clear out the state', () => {
@@ -224,6 +224,7 @@ describe('WalletProviderBase', () => {
                         fooWalletAdapter.readyStateValue = WalletReadyState.Installed;
                         fooWalletAdapter.emit('readyStateChange', WalletReadyState.Installed);
                         await Promise.resolve(); // Flush all promises in effects after calling `select()`.
+                        await Promise.resolve(); // Flush the auto-connect request completion.
                     });
                 });
                 it('calls `onAutoConnectRequest`', () => {
@@ -233,6 +234,9 @@ describe('WalletProviderBase', () => {
                     beforeEach(async () => {
                         jest.clearAllMocks();
                         renderTest({ adapter: barWalletAdapter, onAutoConnectRequest });
+                        await act(async () => {
+                            await Promise.resolve();
+                        });
                     });
                     it('calls `onAutoConnectRequest` despite having called it once before on the old adapter', () => {
                         expect(onAutoConnectRequest).toHaveBeenCalledTimes(1);
@@ -270,7 +274,7 @@ describe('WalletProviderBase', () => {
             act(() => {
                 fooWalletAdapter.emit('error', errorToEmit);
             });
-            expect(onError).toBeCalledWith(errorToEmit, fooWalletAdapter);
+            expect(onError).toHaveBeenCalledWith(errorToEmit, fooWalletAdapter);
         });
         it('does not get called if the window is unloading', () => {
             const errorToEmit = new WalletError();
@@ -278,12 +282,12 @@ describe('WalletProviderBase', () => {
                 isUnloading.current = true;
                 fooWalletAdapter.emit('error', errorToEmit);
             });
-            expect(onError).not.toBeCalled();
+            expect(onError).not.toHaveBeenCalled();
         });
         describe('when a wallet is connected', () => {
             beforeEach(async () => {
-                await act(() => {
-                    ref.current?.getWalletContextState().connect();
+                await act(async () => {
+                    await ref.current?.getWalletContextState().connect();
                 });
                 expect(ref.current?.getWalletContextState()).toMatchObject({
                     connected: true,
@@ -307,19 +311,23 @@ describe('WalletProviderBase', () => {
         describe('given an adapter that is not ready', () => {
             beforeEach(async () => {
                 window.open = jest.fn();
+                suppressExpectedConsoleError();
                 fooWalletAdapter.readyStateValue = WalletReadyState.NotDetected;
                 renderTest({ adapter: fooWalletAdapter });
                 expect(ref.current?.getWalletContextState().wallet?.readyState).toBe(WalletReadyState.NotDetected);
-                act(() => {
-                    expect(ref.current?.getWalletContextState().connect()).rejects.toThrow();
+                await act(async () => {
+                    await expect(ref.current?.getWalletContextState().connect()).rejects.toThrow();
                 });
             });
             it("opens the wallet's URL in a new window", () => {
-                expect(window.open).toBeCalledWith('https://foowallet.com', '_blank');
+                expect(window.open).toHaveBeenCalledWith('https://foowallet.com', '_blank');
             });
-            it('throws a `WalletNotReady` error', () => {
-                act(() => {
-                    expect(ref.current?.getWalletContextState().connect()).rejects.toThrow(new WalletNotReadyError());
+            it('throws a `WalletNotReady` error', async () => {
+                suppressExpectedConsoleError();
+                await act(async () => {
+                    await expect(ref.current?.getWalletContextState().connect()).rejects.toThrow(
+                        new WalletNotReadyError()
+                    );
                 });
             });
         });
@@ -330,8 +338,9 @@ describe('WalletProviderBase', () => {
                 fooWalletAdapter.connectionPromise = new Promise<void>((resolve) => {
                     commitConnection = resolve;
                 });
-                await act(() => {
+                await act(async () => {
                     ref.current?.getWalletContextState().connect();
+                    await Promise.resolve();
                 });
             });
             it('calls connect on the adapter', () => {
@@ -345,9 +354,10 @@ describe('WalletProviderBase', () => {
             });
             describe('once connected', () => {
                 beforeEach(async () => {
-                    await act(() => {
-                        commitConnection();
-                    });
+                await act(async () => {
+                    commitConnection();
+                    await fooWalletAdapter.connectionPromise;
+                });
                 });
                 it('updates state tracking variables appropriately', () => {
                     expect(ref.current?.getWalletContextState()).toMatchObject({
@@ -364,13 +374,13 @@ describe('WalletProviderBase', () => {
             beforeEach(async () => {
                 window.open = jest.fn();
                 renderTest({ adapter: fooWalletAdapter });
-                await act(() => {
-                    ref.current?.getWalletContextState().connect();
+                await act(async () => {
+                    await ref.current?.getWalletContextState().connect();
                 });
                 fooWalletAdapter.disconnectionPromise = new Promise<void>((resolve) => {
                     commitDisconnection = resolve;
                 });
-                await act(() => {
+                act(() => {
                     ref.current?.getWalletContextState().disconnect();
                 });
             });
@@ -381,8 +391,9 @@ describe('WalletProviderBase', () => {
             });
             describe('once disconnected', () => {
                 beforeEach(async () => {
-                    await act(() => {
+                    await act(async () => {
                         commitDisconnection();
+                        await fooWalletAdapter.disconnectionPromise;
                     });
                 });
                 it('clears out the state', () => {
@@ -449,8 +460,9 @@ describe('WalletProviderBase', () => {
             describe('then a different one becomes supplied before the first one has disconnected', () => {
                 beforeEach(async () => {
                     renderTest({ adapter: bazWalletAdapter });
-                    act(() => {
+                    await act(async () => {
                         commitFooWalletDisconnection();
+                        await fooWalletAdapter.disconnectionPromise;
                     });
                 });
                 it('the wallet you selected last should be set in state', () => {

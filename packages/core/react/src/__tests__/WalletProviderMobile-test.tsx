@@ -130,10 +130,10 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
             );
         });
         describe('when the wallet disconnects of its own accord', () => {
-            beforeEach(() => {
+            beforeEach(async () => {
                 jest.clearAllMocks();
-                act(() => {
-                    fooWalletAdapter.disconnect();
+                await act(async () => {
+                    await fooWalletAdapter.disconnect();
                 });
             });
             it('should clear the stored wallet name', () => {
@@ -141,11 +141,11 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
             });
         });
         describe('when the wallet disconnects as a consequence of the window unloading', () => {
-            beforeEach(() => {
+            beforeEach(async () => {
                 jest.clearAllMocks();
-                act(() => {
+                await act(async () => {
                     window.dispatchEvent(new Event('beforeunload'));
-                    fooWalletAdapter.disconnect();
+                    await fooWalletAdapter.disconnect();
                 });
             });
             it('should not clear the stored wallet name', () => {
@@ -247,8 +247,11 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                 });
             });
             describe('when autoConnect is enabled', () => {
-                beforeEach(() => {
+                beforeEach(async () => {
                     renderTest({ autoConnect: true });
+                    await act(async () => {
+                        await Promise.resolve();
+                    });
                 });
                 it('calls the connect method on the mobile wallet adapter', () => {
                     const adapter = ref.current?.getWalletContextState().wallet?.adapter as SolanaMobileWalletAdapter;
@@ -277,8 +280,11 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                 });
             });
             describe('when autoConnect is enabled', () => {
-                beforeEach(() => {
+                beforeEach(async () => {
                     renderTest({ autoConnect: true });
+                    await act(async () => {
+                        await Promise.resolve();
+                    });
                 });
                 it('calls `connect`', () => {
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -338,8 +344,8 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                     ref.current?.getWalletContextState().select('FooWallet' as WalletName<'FooWallet'>);
                     await Promise.resolve(); // Flush all promises in effects after calling `select()`.
                 });
-                await act(() => {
-                    ref.current?.getWalletContextState().connect();
+                await act(async () => {
+                    await ref.current?.getWalletContextState().connect();
                 });
             });
             describe('and you select a different wallet', () => {
@@ -367,10 +373,9 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
             describe('once disconnected', () => {
                 beforeEach(async () => {
                     jest.clearAllMocks();
-                    act(() => {
-                        ref.current?.getWalletContextState().disconnect();
+                    await act(async () => {
+                        await ref.current?.getWalletContextState().disconnect();
                     });
-                    await Promise.resolve(); // Flush all promises in effects after calling `disconnect()`.
                 });
                 it('should clear the stored wallet name', () => {
                     expect(localStorage.removeItem).toHaveBeenCalledWith(WALLET_NAME_CACHE_KEY);
@@ -394,8 +399,8 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                     await Promise.resolve(); // Flush all promises in effects after calling `select()`.
                 });
                 mobileWalletAdapter = jest.mocked(SolanaMobileWalletAdapter).mock.results[0].value;
-                await act(() => {
-                    ref.current?.getWalletContextState().connect();
+                await act(async () => {
+                    await ref.current?.getWalletContextState().connect();
                 });
             });
             describe('then a non-mobile wallet adapter is selected', () => {
@@ -414,10 +419,10 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                 });
             });
             describe('when the wallet disconnects of its own accord', () => {
-                beforeEach(() => {
+                beforeEach(async () => {
                     jest.clearAllMocks();
-                    act(() => {
-                        mobileWalletAdapter.disconnect();
+                    await act(async () => {
+                        await mobileWalletAdapter.disconnect();
                     });
                 });
                 it('should clear the stored wallet name', () => {
@@ -432,10 +437,10 @@ describe('WalletProvider when the environment is `MOBILE_WEB`', () => {
                     });
                 });
                 describe('then the wallet disconnects of its own accord', () => {
-                    beforeEach(() => {
+                    beforeEach(async () => {
                         jest.clearAllMocks();
-                        act(() => {
-                            mobileWalletAdapter.disconnect();
+                        await act(async () => {
+                            await mobileWalletAdapter.disconnect();
                         });
                     });
                     it('should clear the stored wallet name', () => {

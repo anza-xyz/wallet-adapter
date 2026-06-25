@@ -29,17 +29,17 @@
         "@solana/wallet-adapter-react": "workspace:^",
         "@solana/wallet-adapter-react-ui": "workspace:^",
         "@solana/wallet-adapter-wallets": "workspace:^",
-        "@solana/web3.js": "^1.98.2",
-        "react": "^19.1.0",
-        "react-dom": "^19.1.0"
+        "@solana/web3.js": "^1.98.4",
+        "react": "^19.2.7",
+        "react-dom": "^19.2.7"
     },
     "devDependencies": {
-        "@types/react": "^19.1.6",
-        "@types/react-dom": "^19.1.5",
-        "parcel": "^2.15.2",
-        "prettier": "^3.5.3",
+        "@types/react": "^19.2.17",
+        "@types/react-dom": "^19.2.3",
+        "parcel": "^2.16.4",
+        "prettier": "^3.8.4",
         "process": "^0.11.10",
         "shx": "^0.4.0",
-        "typescript": "^5.8.3"
+        "typescript": "^6.0.3"
     }
 }
