@@ -29,7 +29,7 @@
         "@solana/wallet-adapter-react": "workspace:^",
         "@solana/wallet-adapter-react-ui": "workspace:^",
         "@solana/wallet-adapter-wallets": "workspace:^",
-        "@solana/web3.js": "^1.98.2",
+        "@solana/web3.js": "^1.99.0",
         "react": "^19.1.0",
         "react-dom": "^19.1.0"
     },

@@ -10,6 +10,7 @@ export default {
         '^(\\.{1,2}/.*)\\.js$': '$1',
     },
     resolver: `${__dirname}/jest.resolver.cjs`,
+    setupFiles: [`${__dirname}/jest.setup.cjs`],
     globals: {
         IS_REACT_ACT_ENVIRONMENT: true,
         'ts-jest': {
