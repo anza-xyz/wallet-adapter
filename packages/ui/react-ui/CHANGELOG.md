@@ -1,5 +1,15 @@
 # @solana/wallet-adapter-react-ui
 
+## 0.9.40
+
+### Patch Changes
+
+- 6708a2e: Require `@solana/web3.js` `^1.99.0`, which widens `TransactionVersion` to include `1`, so dapps can check `adapter.supportedTransactionVersions.has(1)` in a type-checked way.
+- Updated dependencies [6708a2e]
+    - @solana/wallet-adapter-base@0.9.28
+    - @solana/wallet-adapter-react@0.15.40
+    - @solana/wallet-adapter-base-ui@0.1.7
+
 ## 0.9.39
 
 ### Patch Changes

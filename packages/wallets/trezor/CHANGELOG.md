@@ -1,5 +1,13 @@
 # @solana/wallet-adapter-trezor
 
+## 0.1.7
+
+### Patch Changes
+
+- 6708a2e: Require `@solana/web3.js` `^1.99.0`, which widens `TransactionVersion` to include `1`, so dapps can check `adapter.supportedTransactionVersions.has(1)` in a type-checked way.
+- Updated dependencies [6708a2e]
+    - @solana/wallet-adapter-base@0.9.28
+
 ## 0.1.6
 
 ### Patch Changes
