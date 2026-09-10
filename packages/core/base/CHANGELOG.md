@@ -1,5 +1,11 @@
 # @solana/wallet-adapter-base
 
+## 0.9.28
+
+### Patch Changes
+
+- 6708a2e: Require `@solana/web3.js` `^1.99.0`, which widens `TransactionVersion` to include `1`, so dapps can check `adapter.supportedTransactionVersions.has(1)` in a type-checked way.
+
 ## 0.9.27
 
 ### Patch Changes
