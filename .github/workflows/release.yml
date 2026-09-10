@@ -21,18 +21,18 @@ jobs:
     steps:
       - name: Checkout
         id: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
 
       - name: Install pnpm
         id: install-pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
         with:
             version: 10.12.1
             run_install: false
 
       - name: Install Node.js
         id: install-node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
             node-version: 'lts/*'
             cache: 'pnpm'
@@ -45,7 +45,7 @@ jobs:
 
       - name: Setup pnpm cache
         id: pnpm-cache
-        uses: actions/cache@v3
+        uses: actions/cache@6f8efc29b200d32929f49075959781ed54ec270c # v3.5.0
         with:
             path: ${{ steps.pnpm-store.outputs.STORE_PATH }}
             key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -58,7 +58,7 @@ jobs:
 
       - name: Create release pull request OR build, test, and publish to npm
         id: changesets
-        uses: changesets/action@v1
+        uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
         with:
           publish: pnpm run release
         env:
