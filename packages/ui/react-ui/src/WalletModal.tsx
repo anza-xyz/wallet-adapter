@@ -53,10 +53,18 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
 
     const handleWalletClick = useCallback(
         (event: MouseEvent, walletName: WalletName) => {
+            const wallet = wallets.find((w) => w.adapter.name === walletName);
+            if (wallet && wallet.readyState === WalletReadyState.NotDetected) {
+                if (typeof window !== 'undefined' && wallet.adapter.url) {
+                    window.open(wallet.adapter.url, '_blank');
+                }
+                handleClose(event);
+                return;
+            }
             select(walletName);
             handleClose(event);
         },
-        [select, handleClose]
+        [wallets, select, handleClose]
     );
 
     const handleCollapseClick = useCallback(() => setExpanded(!expanded), [expanded]);
