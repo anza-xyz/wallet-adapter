@@ -1,0 +1,157 @@
+{
+  "name": "block-nine",
+  "displayName": "Block Nine",
+  "version": "0.0.7",
+  "description": "Block Nine - The Ultimate Crypto Wallet for Solana Ecosystem",
+  "author": "Jasim",
+  "license": "MIT",
+  "homepage": "https://blocknine.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BlockNineWallet/block-nine-wallet"
+  },
+  "bugs": {
+    "url": "https://github.com/BlockNineWallet/block-nine-wallet"
+  },
+  "keywords": [
+    "solana",
+    "Bitcoin",
+    "Etheureme",
+    "BNB",
+    "Bitcoin Cash",
+    "Base",
+    "Litecoin",
+    "XRP",
+    "wallet",
+    "crypto",
+    "blockchain",
+    "defi",
+    "nft",
+    "browser-extension",
+    "web3"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "scripts": {
+    "dev": "plasmo dev",
+    "build": "plasmo build",
+    "package": "plasmo package",
+    "clean": "rimraf build dist .plasmo",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write src/**/*.{ts,tsx,json}",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "@solana/web3.js": "^1.98.0",
+    "@solana/spl-token": "^0.4.13",
+    "@metaplex-foundation/js": "^0.18.0",
+    "@metaplex-foundation/mpl-auction-house": "^2.5.1",
+    "@metaplex-foundation/mpl-token-metadata": "^3.4.0",
+    "@jup-ag/core": "4.0.0-beta.21",
+    "bip39": "^3.1.0",
+    "ed25519-hd-key": "^1.3.0",
+    "tweetnacl": "^1.0.3",
+    "crypto-js": "^4.2.0",
+    "bs58": "^6.0.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "plasmo": "0.90.3",
+    "@reduxjs/toolkit": "^2.7.0",
+    "react-redux": "^9.2.0",
+    "react-router-dom": "^7.3.0",
+    "@headlessui/react": "^2.2.1",
+    "lucide-react": "^0.479.0",
+    "recharts": "^2.15.1",
+    "react-toastify": "^11.0.5",
+    "axios": "^1.8.4",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "@types/bip39": "^3.0.4",
+    "@types/bs58": "^4.0.4",
+    "@types/chrome": "0.0.258",
+    "@types/node": "^22.13.13",
+    "@types/react": "18.2.48",
+    "@types/react-dom": "18.2.18",
+    "@ianvs/prettier-plugin-sort-imports": "4.1.1",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "tailwindcss": "3",
+    "typescript": "5.3.3",
+    "prettier": "3.2.4",
+    "eslint": "^8.57.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "rimraf": "^5.0.0",
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0"
+  },
+  "manifest": {
+    "manifest_version": 3,
+    "name": "Block Nine",
+    "description": "The Ultimate Crypto Wallet for Solana Ecosystem",
+    "version": "0.0.2",
+    "permissions": [
+      "storage",
+      "activeTab",
+      "scripting"
+    ],
+    "host_permissions": [
+      "https://api.blockchain.info/*",
+      "https://api.coingecko.com/*",
+      "https://api.mainnet-beta.solana.com/*",
+      "https://api.devnet.solana.com/*",
+      "https://quote-api.jup.ag/*"
+    ],
+    "action": {
+      "default_popup": "popup.html",
+      "default_title": "Block Nine Wallet"
+    },
+    "icons": {
+      "16": "assets/icon-16.png",
+      "32": "assets/icon-32.png",
+      "48": "assets/icon-48.png",
+      "128": "assets/icon-128.png"
+    },
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"],
+        "run_at": "document_start"
+      }
+    ],
+    "web_accessible_resources": [
+      {
+        "resources": ["injected.js"],
+        "matches": ["<all_urls>"]
+      }
+    ]
+  },
+  "plasmo": {
+    "manifest": {
+      "host_permissions": [
+        "https://api.blockchain.info/*",
+        "https://api.coingecko.com/*",
+        "https://api.mainnet-beta.solana.com/*",
+        "https://api.devnet.solana.com/*",
+        "https://quote-api.jup.ag/*"
+      ]
+    }
+  },
+  "browserslist": [
+    "defaults",
+    "not IE 11"
+  ],
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/BlockNineWallet/block-nine-wallet"
+  }
+}
