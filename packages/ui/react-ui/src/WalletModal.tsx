@@ -51,13 +51,22 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
         [hideModal]
     );
 
-    const handleWalletClick = useCallback(
-        (event: MouseEvent, walletName: WalletName) => {
-            select(walletName);
-            handleClose(event);
-        },
-        [select, handleClose]
-    );
+const handleWalletClick = useCallback(
+  (event: MouseEvent, wallet: Wallet) => {
+    event.preventDefault();
+
+    if (wallet.readyState !== WalletReadyState.Installed) {
+      console.warn(`Wallet ${wallet.adapter.name} is not installed`);
+      return; // modal stays open
+    }
+
+    select(wallet.adapter.name);
+    handleClose(event);
+  },
+  [select, handleClose]
+);
+
+
 
     const handleCollapseClick = useCallback(() => setExpanded(!expanded), [expanded]);
 
@@ -235,3 +244,7 @@ export const WalletModal: FC<WalletModalProps> = ({ className = '', container = 
         )
     );
 };
+function alert(arg0: string) {
+    throw new Error('Function not implemented.');
+}
+
