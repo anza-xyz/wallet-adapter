@@ -21,7 +21,7 @@ export const SignMessage: FC = () => {
             );
             const signature = await signMessage(message);
 
-            if (!ed25519.verify(signature, message, publicKey.toBytes())) throw new Error('Message signature invalid!');
+            if (!ed25519.verify(signature, message, publicKey.toBytes(), { zip215: false })) throw new Error('Message signature invalid!');
             notify('success', `Message signature: ${bs58.encode(signature)}`);
         } catch (error: any) {
             notify('error', `Sign Message failed: ${error?.message}`);
