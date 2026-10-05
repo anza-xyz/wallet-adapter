@@ -1,5 +1,12 @@
 # @solana/wallet-adapter-example
 
+## 0.18.44
+
+### Patch Changes
+
+- 3391602: Update `@solana/wallet-standard-util` to 1.2.0 and use strict (non-ZIP-215) ed25519 signature verification in the example
+    - @solana/wallet-adapter-wallets@0.19.40
+
 ## 0.18.43
 
 ### Patch Changes
