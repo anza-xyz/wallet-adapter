@@ -29,7 +29,8 @@
         "build": "tsc --build --verbose && pnpm run package",
         "clean": "shx mkdir -p lib && shx rm -rf lib",
         "lint": "prettier --check 'src/{*,**/*}.{ts,tsx,js,jsx,json}' && eslint",
-        "package": "shx mkdir -p lib/cjs && shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json"
+        "package": "shx mkdir -p lib/cjs && shx echo '{ \"type\": \"commonjs\" }' > lib/cjs/package.json",
+        "test": "node --test test/*.test.js"
     },
     "peerDependencies": {
         "@solana/web3.js": "^1.99.0"

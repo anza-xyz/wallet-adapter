@@ -176,7 +176,7 @@ export function scopePollingDetectionStrategy(detect: () => boolean): void {
  */
 export function isIosAndRedirectable() {
     // SSR: return false
-    if (!navigator) return false;
+    if (typeof navigator === 'undefined' || !navigator) return false;
 
     const userAgent = navigator.userAgent.toLowerCase();
 
